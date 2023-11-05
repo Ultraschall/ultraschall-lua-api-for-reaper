@@ -8,6 +8,8 @@ TODO:
   - Slider: disappears when scrolling upwards/leftwards: because of the "only draw neccessary gui-elements"-code, which is buggy for some reason
   - Slider: draw a line where the default-value shall be
   - reagirl.UI_Element_NextX_Default=10 - changing it only offsets the second line ff, not the first line
+  - filedropzone - get/set sticky-functions missing
+  - contextmenu - get/set sticky-functions missing
 --]]
 --XX,YY=reaper.GetMousePosition()
 --gfx.ext_retina = 0
@@ -4765,11 +4767,33 @@ function reagirl.FileDropZone_CheckForDroppedFiles()
   end
 end
 
-function reagirl.FileDropZone_SetVisibility(dropzone_id, visibility)
+function reagirl.FileDropZone_SetHiddenState(dropzone_id, hidden)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>FileDropZone_SetHiddenState</slug>
+  <requires>
+    ReaGirl=1.0
+    Reaper=7
+    Lua=5.4
+  </requires>
+  <functioncall>reagirl.FileDropZone_SetHiddenState(string dropzone_id, boolean hidden)</functioncall>
+  <description>
+    Set a file-drop-zone to hidden/not hidden. If it's hidden, dropped files will not be recognized.
+  </description>
+  <parameters>
+    string dropzone_id - the guid of the file-drop-zone whose hidden-state you want to set
+    boolean hidden - true, the file-drop-zone is hidden; false, the file-drop-zone is not hidden
+  </parameters>
+  <chapter_context>
+    FileDropZone
+  </chapter_context>
+  <tags>file drop zone, set, hidden, visibility</tags>
+</US_DocBloc>
+--]]
   -- DOCS!
-  if type(dropzone_id)~="string" then error("FileDropZone_SetVisibility: #1 - must be a string", 2) end
-  if reagirl.IsValidGuid(dropzone_id, true)==false then error("FileDropZone_SetVisibility: #1 - must be a valid guid", 2) end
-  if type(visibility)~="boolean" then error("FileDropZone_SetVisibility: #2 - must be a boolean", 2) end
+  if type(dropzone_id)~="string" then error("FileDropZone_SetHiddenState: #1 - must be a string", 2) end
+  if reagirl.IsValidGuid(dropzone_id, true)==false then error("FileDropZone_SetHiddenState: #1 - must be a valid guid", 2) end
+  if type(hidden)~="boolean" then error("FileDropZone_SetHiddenState: #2 - must be a boolean", 2) end
   local count=-1
   for i=1, #reagirl.DropZone do
     if reagirl.DropZone[i]["Guid"]==dropzone_id then
@@ -4777,14 +4801,37 @@ function reagirl.FileDropZone_SetVisibility(dropzone_id, visibility)
       break
     end
   end
-  if count==-1 then error("FileDropZone_SetVisibility: #1 - no such drop-zone", 2) end
-  if visibility==true then reagirl.DropZone[count]["hidden"]=true else reagirl.DropZone[count]["hidden"]=nil end
+  if count==-1 then error("FileDropZone_SetHiddenState: #1 - no such drop-zone", 2) end
+  if hidden==true then reagirl.DropZone[count]["hidden"]=true else reagirl.DropZone[count]["hidden"]=nil end
 end
 
-function reagirl.FileDropZone_GetVisibility(dropzone_id)
-  -- DOCS!
-  if type(dropzone_id)~="string" then error("FileDropZone_GetVisibility: #1 - must be a string", 2) end
-  if reagirl.IsValidGuid(dropzone_id, true)==false then error("FileDropZone_GetVisibility: #1 - must be a valid guid", 2) end
+function reagirl.FileDropZone_GetHiddenState(dropzone_id)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>FileDropZone_GetHiddenState</slug>
+  <requires>
+    ReaGirl=1.0
+    Reaper=7
+    Lua=5.4
+  </requires>
+  <functioncall>boolean hidden = reagirl.FileDropZone_GetHiddenState(string dropzone_id)</functioncall>
+  <description>
+    Gets a file-drop-zone's hidden-state. If it's hidden, dropped files will not be recognized.
+  </description>
+  <parameters>
+    string dropzone_id - the guid of the file-drop-zone whose hidden-state you want to get
+  </parameters>
+  <retvals>
+    boolean hidden - true, the file-drop-zone is hidden; false, the file-drop-zone is not hidden
+  </retvals>
+  <chapter_context>
+    FileDropZone
+  </chapter_context>
+  <tags>file drop zone, get, hidden, visibility</tags>
+</US_DocBloc>
+--]]
+  if type(dropzone_id)~="string" then error("FileDropZone_GetHiddenState: #1 - must be a string", 2) end
+  if reagirl.IsValidGuid(dropzone_id, true)==false then error("FileDropZone_GetHiddenState: #1 - must be a valid guid", 2) end
   local count=-1
   for i=1, #reagirl.DropZone do
     if reagirl.DropZone[i]["Guid"]==dropzone_id then
@@ -4792,11 +4839,41 @@ function reagirl.FileDropZone_GetVisibility(dropzone_id)
       break
     end
   end
-  if count==-1 then error("FileDropZone_GetVisibility: #1 - no such drop-zone", 2) end
+  if count==-1 then error("FileDropZone_GetHiddenState: #1 - no such drop-zone", 2) end
   return reagirl.DropZone[count]["hidden"]==true
 end
 
 function reagirl.FileDropZone_Add(x,y,w,h,func)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>FileDropZone_Add</slug>
+  <requires>
+    ReaGirl=1.0
+    Reaper=7
+    Lua=5.4
+  </requires>
+  <functioncall>string dropzone_id = reagirl.FileDropZone_Add(integer x, integer y, integer w, integer h, function func)</functioncall>
+  <description>
+    Adds a filedrop-zone, where files can be dragged and dropped to.
+  </description>
+  <parameters>
+    integer x - the x-position in pixels of the file-drop-zone; negative means anchored to the right window-edge
+    integer y - the y-position in pixels of the file-drop-zone; negative means anchored to the bottom window-edge
+    integer w - the width in pixels of the file-drop-zone; negative means anchored to the right window-edge
+    integer h - the height in pixels of the file-drop-zone; negative means anchored to the bottom window-edge
+    function func - the function that shall be called, when a file is dropped into this file-drop-zone
+  </parameters>
+  <chapter_context>
+    FileDropZone
+  </chapter_context>
+  <tags>file drop zone, add</tags>
+</US_DocBloc>
+--]]
+  if math.type(x)~="integer" then error("FileDropZone_Add: #1 - must be an integer", 2) end
+  if math.type(y)~="integer" then error("FileDropZone_Add: #2 - must be an integer", 2) end
+  if math.type(w)~="integer" then error("FileDropZone_Add: #3 - must be an integer", 2) end
+  if math.type(h)~="integer" then error("FileDropZone_Add: #4 - must be an integer", 2) end
+  if type(func)~="function" then error("FileDropZone_Add: #5 - must be an function", 2) end
   if reagirl.DropZone==nil then reagirl.DropZone={} end
   reagirl.DropZone[#reagirl.DropZone+1]={}
   reagirl.DropZone[#reagirl.DropZone]["Guid"]=reaper.genGuid("")
@@ -4811,7 +4888,29 @@ function reagirl.FileDropZone_Add(x,y,w,h,func)
 end
 
 function reagirl.FileDropZone_Remove(dropzone_id)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>FileDropZone_Remove</slug>
+  <requires>
+    ReaGirl=1.0
+    Reaper=7
+    Lua=5.4
+  </requires>
+  <functioncall>reagirl.FileDropZone_Remove(string dropzone_id)</functioncall>
+  <description>
+    Removes a file-drop-zone.
+  </description>
+  <parameters>
+    string dropzone_id - the id of the file-drop-zone that you want to remove
+  </parameters>
+  <chapter_context>
+    FileDropZone
+  </chapter_context>
+  <tags>file drop zone, remove</tags>
+</US_DocBloc>
+--]]
   if type(dropzone_id)~="string" then error("FileDropZone_Remove: #1 - must be a guid as string", 2) end
+  if reagirl.IsValidGuid(dropzone_id, true)==false then error("FileDropZone_Remove: #1 - must be a valid guid", 2) end
 
   for i=1, #reagirl.DropZone do
     if reagirl.DropZone[i]["Guid"]==dropzone_id then table.remove(reagirl.DropZone[i], i) return true end
@@ -4863,10 +4962,32 @@ function reagirl.ContextMenuZone_ManageMenu(mouse_cap)
   end
 end
 
-function reagirl.ContextMenuZone_SetVisibility(contextmenu_id, visibility)
-  if type(contextmenu_id)~="string" then error("ContextMenuZone_SetVisibility: #1 - must be a string", 2) end
-  if reagirl.IsValidGuid(contextmenu_id, true)==false then error("ContextMenuZone_SetVisibility: #1 - must be a valid guid", 2) end
-  if type(visibility)~="boolean" then error("ContextMenuZone_SetVisibility: #2 - must be a boolean", 2) end
+function reagirl.ContextMenuZone_SetHiddenState(contextmenu_id, hidden)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>ContextMenuZone_SetHiddenState</slug>
+  <requires>
+    ReaGirl=1.0
+    Reaper=7
+    Lua=5.4
+  </requires>
+  <functioncall>reagirl.ContextMenuZone_SetHiddenState(string contextmenu_id, boolean hidden)</functioncall>
+  <description>
+    Sets a context-menu-zone's hidden-state. If it's hidden, right clicking will not show a context-menu in the zone.
+  </description>
+  <parameters>
+    string contextmenu_id - the guid of the context-menu-zone whose hidden-state you want to set
+    boolean hidden - true, the context-menu-zone is hidden; false, the context-menu-zone is not hidden
+  </parameters>
+  <chapter_context>
+    ContextMenu
+  </chapter_context>
+  <tags>context menu, set, hidden, visibility</tags>
+</US_DocBloc>
+--]]
+  if type(contextmenu_id)~="string" then error("ContextMenuZone_SetHiddenState: #1 - must be a string", 2) end
+  if reagirl.IsValidGuid(contextmenu_id, true)==false then error("ContextMenuZone_SetHiddenState: #1 - must be a valid guid", 2) end
+  if type(hidden)~="boolean" then error("ContextMenuZone_SetHiddenState: #2 - must be a boolean", 2) end
   local count=-1
   for i=1, #reagirl.ContextMenu do
     if reagirl.ContextMenu[i]["Guid"]==contextmenu_id then
@@ -4874,13 +4995,37 @@ function reagirl.ContextMenuZone_SetVisibility(contextmenu_id, visibility)
       break
     end
   end
-  if count==-1 then error("ContextMenuZone_SetVisibility: #1 - no such drop-zone", 2) end
-  if visibility==true then reagirl.ContextMenu[count]["hidden"]=true else reagirl.ContextMenu[count]["hidden"]=nil end
+  if count==-1 then error("ContextMenuZone_SetHiddenState: #1 - no such context-menu-zone", 2) end
+  if hidden==true then reagirl.ContextMenu[count]["hidden"]=true else reagirl.ContextMenu[count]["hidden"]=nil end
 end
 
-function reagirl.ContextMenuZone_GetVisibility(contextmenu_id)
-  if type(contextmenu_id)~="string" then error("ContextMenuZone_GetVisibility: #1 - must be a string", 2) end
-  if reagirl.IsValidGuid(contextmenu_id, true)==false then error("ContextMenuZone_GetVisibility: #1 - must be a valid guid", 2) end
+function reagirl.ContextMenuZone_GetHiddenState(contextmenu_id)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>ContextMenuZone_GetHiddenState</slug>
+  <requires>
+    ReaGirl=1.0
+    Reaper=7
+    Lua=5.4
+  </requires>
+  <functioncall>boolean hidden = reagirl.ContextMenuZone_GetHiddenState(string contextmenu_id)</functioncall>
+  <description>
+    Gets a context-menu-zone's hidden-state. If it's hidden, right clicking the zone will not show a context-menu.
+  </description>
+  <parameters>
+    string contextmenu_id - the guid of the context-menu-zone whose hidden-state you want to get
+  </parameters>
+  <retvals>
+    boolean hidden - true, the context-menu-zone is hidden; false, the context-menu-zone is not hidden
+  </retvals>
+  <chapter_context>
+    ContextMenu
+  </chapter_context>
+  <tags>context menu, get, hidden, visibility</tags>
+</US_DocBloc>
+--]]
+  if type(contextmenu_id)~="string" then error("ContextMenuZone_GetHiddenState: #1 - must be a string", 2) end
+  if reagirl.IsValidGuid(contextmenu_id, true)==false then error("ContextMenuZone_GetHiddenState: #1 - must be a valid guid", 2) end
   local count=-1
   for i=1, #reagirl.ContextMenu do
     if reagirl.ContextMenu[i]["Guid"]==contextmenu_id then
@@ -4888,11 +5033,48 @@ function reagirl.ContextMenuZone_GetVisibility(contextmenu_id)
       break
     end
   end
-  if count==-1 then error("ContextMenuZone_GetVisibility: #1 - no such drop-zone", 2) end
+  if count==-1 then error("ContextMenuZone_GetHiddenState: #1 - no such context-menu-zone", 2) end
   return reagirl.ContextMenu[count]["hidden"]==true
 end
 
-function reagirl.ContextMenuZone_Add(x,y,w,h,menu, func)
+function reagirl.ContextMenuZone_Add(x, y, w, h, menu, func)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>ContextMenuZone_Add</slug>
+  <requires>
+    ReaGirl=1.0
+    Reaper=7
+    Lua=5.4
+  </requires>
+  <functioncall>string contextmenu_id = reagirl.ContextMenuZone_Add(integer x, integer y, integer w, integer h, string menu, function func)</functioncall>
+  <description>
+    Adds a contextmenu-zone, where rightclicking opens a context-menu.
+  </description>
+  <parameters>
+    integer x - the x-position in pixels of the context-menu-zone; negative means anchored to the right window-edge
+    integer y - the y-position in pixels of the context-menu-zone; negative means anchored to the bottom window-edge
+    integer w - the width in pixels of the context-menu-zone; negative means anchored to the right window-edge
+    integer h - the height in pixels of the context-menu-zone; negative means anchored to the bottom window-edge
+    string menu - the menu for this zone, each menu separated with a |
+                - you can influence the display of a menu-entry if an entry starts with a special character, like
+                - # : grayed out
+                - ! : checked
+                - > : this menu item shows a submenu
+                - < : last item in the current submenu
+    function func - the function that shall be called, when an entry has been selected in this context-menu-zone
+  </parameters>
+  <chapter_context>
+    ContextMenu
+  </chapter_context>
+  <tags>context menu, add</tags>
+</US_DocBloc>
+--]]
+  if math.type(x)~="integer" then error("ContextMenuZone_Add: #1 - must be an integer", 2) end
+  if math.type(y)~="integer" then error("ContextMenuZone_Add: #2 - must be an integer", 2) end
+  if math.type(w)~="integer" then error("ContextMenuZone_Add: #3 - must be an integer", 2) end
+  if math.type(h)~="integer" then error("ContextMenuZone_Add: #4 - must be an integer", 2) end
+  if type(menu)~="string" then error("ContextMenuZone_Add: #5 - must be a string", 2) end
+  if type(func)~="function" then error("ContextMenuZone_Add: #6 - must be an function", 2) end
   if reagirl.ContextMenu==nil then reagirl.ContextMenu={} end
   reagirl.ContextMenu[#reagirl.ContextMenu+1]={}
   reagirl.ContextMenu[#reagirl.ContextMenu]["Guid"]=reaper.genGuid()
@@ -4908,10 +5090,32 @@ function reagirl.ContextMenuZone_Add(x,y,w,h,menu, func)
   return reagirl.ContextMenu[#reagirl.ContextMenu]["Guid"]
 end
 
-function reagirl.ContextMenuZone_Remove(context_menuzone_id)
-  if type(context_menuzone_id)~="string" then error("ContextMenuZone_Remove: #1 - must be a guid as string", 2) end
+function reagirl.ContextMenuZone_Remove(contextmenu_id)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>ContextMenuZone_Add</slug>
+  <requires>
+    ReaGirl=1.0
+    Reaper=7
+    Lua=5.4
+  </requires>
+  <functioncall>reagirl.ContextMenuZone_Add(string contextmenu_id)</functioncall>
+  <description>
+    Removes a contextmenu-zone.
+  </description>
+  <parameters>
+    string contextmenu_id - the id of the contextmenu-zone that you want to remove
+  </parameters>
+  <chapter_context>
+    ContextMenu
+  </chapter_context>
+  <tags>context menu, remove</tags>
+</US_DocBloc>
+--]]
+  if type(contextmenu_id)~="string" then error("ContextMenuZone_Remove: #1 - must be a guid as string", 2) end
+  if reagirl.IsValidGuid(contextmenu_id, true)==false then error("ContextMenuZone_Remove: #1 - must be a valid guid", 2) end
   for i=1, #reagirl.ContextMenu do
-    if reagirl.ContextMenu[i]["Guid"]==context_menuzone_id then table.remove(reagirl.ContextMenu[i], i) return true end
+    if reagirl.ContextMenu[i]["Guid"]==contextmenu_id then table.remove(reagirl.ContextMenu[i], i) return true end
   end
   return false
 end
@@ -4941,18 +5145,84 @@ function reagirl.Window_ForceMaxSize()
 end
 
 function reagirl.Gui_ForceRefresh(place)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Gui_ForceRefresh</slug>
+  <requires>
+    ReaGirl=1.0
+    Reaper=7
+    Lua=5.4
+  </requires>
+  <functioncall>reagirl.Gui_ForceRefresh()</functioncall>
+  <description>
+    Forces a refresh of the gui.
+  </description>
+  <chapter_context>
+    Gui
+  </chapter_context>
+  <tags>gui, force, refresh</tags>
+</US_DocBloc>
+--]]
   reagirl.Gui_ForceRefreshState=true
   reagirl.Gui_ForceRefresh_place=place
   reagirl.Gui_ForceRefresh_time=reaper.time_precise()
 end
 
 function reagirl.Window_ForceSize_Minimum(MinW, MinH)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Window_ForceSize_Minimum</slug>
+  <requires>
+    ReaGirl=1.0
+    Reaper=7
+    Lua=5.4
+  </requires>
+  <functioncall>reagirl.Window_ForceSize_Minimum(integer MinW, integer MinH)</functioncall>
+  <description>
+    Sets a minimum window size that will be enforced by ReaGirl.
+  </description>
+  <parameters>
+    integer MinW - the minimum window-width in pixels
+    integer MinH - the minimum window-height in pixels
+  </parameters>
+  <chapter_context>
+    Window
+  </chapter_context>
+  <tags>window, set, force size, minimum</tags>
+</US_DocBloc>
+--]]
+  if math.type(MinW)~="integer" then error("Window_ForceSize_Minimum: MinW - must be an integer", 2) end
+  if math.type(MinH)~="integer" then error("Window_ForceSize_Minimum: MinH - must be an integer", 2) end
   reagirl.Window_ForceMinSize_Toggle=true
   reagirl.Window_MinW=MinW
   reagirl.Window_MinH=MinH
 end
 
 function reagirl.Window_ForceSize_Maximum(MaxW, MaxH)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Window_ForceSize_Maximum</slug>
+  <requires>
+    ReaGirl=1.0
+    Reaper=7
+    Lua=5.4
+  </requires>
+  <functioncall>reagirl.Window_ForceSize_Maximum(integer MaxW, integer MaxH)</functioncall>
+  <description>
+    Sets a maximum window size that will be enforced by ReaGirl.
+  </description>
+  <parameters>
+    integer MaxW - the maximum window-width in pixels
+    integer MaxH - the maximum window-height in pixels
+  </parameters>
+  <chapter_context>
+    Window
+  </chapter_context>
+  <tags>window, set, force size, minimum</tags>
+</US_DocBloc>
+--]]
+  if math.type(MaxW)~="integer" then error("Window_ForceSize_Maximum: MinW - must be an integer", 2) end
+  if math.type(MaxH)~="integer" then error("Window_ForceSize_Maximum: MinH - must be an integer", 2) end
   reagirl.Window_ForceMaxSize_Toggle=true
   reagirl.Window_MaxW=MaxW
   reagirl.Window_MaxH=MaxH
@@ -6560,7 +6830,7 @@ function CheckMe(tudelu, checkstate)
   --print2(tudelu, checkstate)
   reagirl.FileDropZone_SetVisibility(dropzone_id, checkstate)
   reagirl.ContextMenuZone_SetVisibility(contextmenu_id, checkstate)
-  print(reagirl.UI_Element_GetSetHidden(LAB, true, checkstate))
+  --print(reagirl.UI_Element_GetSetHidden(LAB, true, checkstate))
   if checkstate==false then
     --reagirl.Window_SetCurrentScale(1)
     reagirl.Button_SetDisabled(BBB, true)
@@ -6611,7 +6881,7 @@ function click_button(test)
 end
 
 function CMenu(A,B)
-  --print2(A,B)
+  print2(A,B)
 end
 
 function input1(text)
@@ -6768,8 +7038,8 @@ function main()
   --reagirl.Gui_ForceRefresh()
   --reagirl.Elements[2]["hidden"]=true
   --reagirl.ContextMenu[1]["hidden"]=true
-  print_update(reagirl.ContextMenuZone_GetVisibility(contextmenu_id))
-  print(reagirl.FileDropZone_GetVisibility(dropzone_id))
+  --print_update(reagirl.ContextMenuZone_GetVisibility(contextmenu_id))
+  --print(reagirl.FileDropZone_GetVisibility(dropzone_id))
   gfx.update()
   
   if reagirl.Gui_IsOpen()==true then reaper.defer(main) end
