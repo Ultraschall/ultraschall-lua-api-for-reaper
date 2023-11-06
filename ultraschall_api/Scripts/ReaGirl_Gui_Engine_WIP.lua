@@ -10,6 +10,7 @@ TODO:
   - reagirl.UI_Element_NextX_Default=10 - changing it only offsets the second line ff, not the first line
   - filedropzone - get/set sticky-functions missing
   - contextmenu - get/set sticky-functions missing
+  - Background_GetSetImage - check, if the background image works properly with scaling and scrolling
 --]]
 --XX,YY=reaper.GetMousePosition()
 --gfx.ext_retina = 0
@@ -645,6 +646,7 @@ function reagirl.Window_Open(...)
 end
 
 function reagirl.Window_RescaleIfNeeded()
+  -- rescales window and gui, if the scaling changes
   local scale
   
   if reagirl.Window_CurrentScale_Override==nil then
@@ -697,7 +699,7 @@ function reagirl.Window_RescaleIfNeeded()
     reagirl.MoveItAllRight=0
     for i=1, #reagirl.Elements do 
       if reagirl.Elements[i]["GUI_Element_Type"]=="Image" then
-        reagirl.Image_ReloadImage_Scaled(i)
+        reagirl.Image_ReloadImage_Scaled(reagirl.Elements[i]["Guid"])
       end
     end
     reagirl.Gui_ForceRefresh()
@@ -1660,7 +1662,7 @@ function reagirl.UI_Element_SetFocusRect(override, x, y, w, h)
   </chapter_context>
   <target_document>ReaGirl_Docs</target_document>
   <source_document>reagirl_GuiEngine.lua</source_document>
-  <tags>gfx, functions, set, focus rectangle, ui-elements</tags>
+  <tags>ui-elements, set, focus rectangle</tags>
 </US_DocBloc>
 ]]
   if override==nil then override=false end
@@ -1721,7 +1723,7 @@ function reagirl.UI_Element_GetFocusRect()
   </chapter_context>
   <target_document>ReaGirl_Docs</target_document>
   <source_document>reagirl_GuiEngine.lua</source_document>
-  <tags>gfx, functions, get, focus rectangle, ui-elements</tags>
+  <tags>ui-elements, get, focus rectangle</tags>
 </US_DocBloc>
 ]]
   if reagirl.Elements["Focused_x"]==nil then 
@@ -1776,7 +1778,7 @@ function reagirl.UI_Elements_OutsideWindow()
   </chapter_context>
   <target_document>ReaGirl_Docs</target_document>
   <source_document>reagirl_GuiEngine.lua</source_document>
-  <tags>gfx, functions, is outside window, ui-elements</tags>
+  <tags>ui-elements, is outside window</tags>
 </US_DocBloc>
 ]]
   local vert=0
@@ -1867,7 +1869,7 @@ function reagirl.UI_Element_GetType(element_id)
   </chapter_context>
   <target_document>ReaGirl_Docs</target_document>
   <source_document>reagirl_GuiEngine.lua</source_document>
-  <tags>gfx, functions, get, type, ui-elements</tags>
+  <tags>ui-elements, get, type</tags>
 </US_DocBloc>
 ]]
   if type(element_id)~="string" then error("UI_Element_GetType: #1 - must be a guid as string", 2) end
@@ -1905,7 +1907,7 @@ function reagirl.UI_Element_GetSetDescription(element_id, is_set, description)
   </chapter_context>
   <target_document>ReaGirl_Docs</target_document>
   <source_document>reagirl_GuiEngine.lua</source_document>
-  <tags>gfx, functions, set, get, description, ui-elements</tags>
+  <tags>ui-elements, set, get, description</tags>
 </US_DocBloc>
 ]]
   if type(element_id)~="string" then error("UI_Element_GetSetDescription: #1 - must be a guid as string", 2) end
@@ -1947,7 +1949,7 @@ function reagirl.UI_Element_GetSetName(element_id, is_set, name)
   </chapter_context>
   <target_document>ReaGirl_Docs</target_document>
   <source_document>reagirl_GuiEngine.lua</source_document>
-  <tags>gfx, functions, set, get, name, ui-elements</tags>
+  <tags>ui-elements, set, get, name</tags>
 </US_DocBloc>
 ]]
   if type(element_id)~="string" then error("UI_Element_GetSetName: #1 - must be a guid as string", 2) end
@@ -1989,7 +1991,7 @@ function reagirl.UI_Element_GetSetHidden(element_id, is_set, hidden)
   </chapter_context>
   <target_document>ReaGirl_Docs</target_document>
   <source_document>reagirl_GuiEngine.lua</source_document>
-  <tags>gfx, functions, set, get, hidden, visibility, ui-elements</tags>
+  <tags>ui-elements, set, get, hidden, visibility</tags>
 </US_DocBloc>
 ]]
   if type(element_id)~="string" then error("UI_Element_GetSetHidden: #1 - must be a guid as string", 2) end
@@ -2039,7 +2041,7 @@ function reagirl.UI_Element_GetSetSticky(element_id, is_set, sticky_x, sticky_y)
   </chapter_context>
   <target_document>ReaGirl_Docs</target_document>
   <source_document>reagirl_GuiEngine.lua</source_document>
-  <tags>gfx, functions, set, get, sticky, ui-elements</tags>
+  <tags>ui-elements, set, get, sticky</tags>
 </US_DocBloc>
 ]]
   if type(element_id)~="string" then error("UI_Element_GetSetSticky: #1 - must be a guid as string", 2) end
@@ -2083,7 +2085,7 @@ function reagirl.UI_Element_GetSetAccessibilityHint(element_id, is_set, accessib
   </chapter_context>
   <target_document>ReaGirl_Docs</target_document>
   <source_document>reagirl_GuiEngine.lua</source_document>
-  <tags>gfx, functions, set, get, accessibility_hint, ui-elements</tags>
+  <tags>ui-elements, set, get, accessibility_hint</tags>
 </US_DocBloc>
 ]]
   if type(element_id)~="string" then error("UI_Element_GetSetAccessibilityHint: #1 - must be a guid as string", 2) end
@@ -2129,7 +2131,7 @@ function reagirl.UI_Element_GetSetPosition(element_id, is_set, x, y)
   </chapter_context>
   <target_document>ReaGirl_Docs</target_document>
   <source_document>reagirl_GuiEngine.lua</source_document>
-  <tags>gfx, functions, set, get, position, ui-elements</tags>
+  <tags>ui-elements, set, get, position</tags>
 </US_DocBloc>
 ]]
   if type(element_id)~="string" then error("UI_Element_GetSetPosition: #1 - must be a guid as string", 2) end
@@ -2181,7 +2183,7 @@ function reagirl.UI_Element_GetSetDimension(element_id, is_set, w, h)
   </chapter_context>
   <target_document>ReaGirl_Docs</target_document>
   <source_document>reagirl_GuiEngine.lua</source_document>
-  <tags>gfx, functions, set, get, dimension, ui-elements</tags>
+  <tags>ui-elements, set, get, dimension</tags>
 </US_DocBloc>
 ]]
   if type(element_id)~="string" then error("UI_Element_GetSetDimension: #1 - must be a guid as string", 2) end
@@ -2232,7 +2234,7 @@ function reagirl.UI_Element_GetSetAllHorizontalOffset(is_set, x_offset)
   </chapter_context>
   <target_document>ReaGirl_Docs</target_document>
   <source_document>reagirl_GuiEngine.lua</source_document>
-  <tags>gfx, functions, set, get, horizontal offset, ui-elements</tags>
+  <tags>ui-elements, set, get, horizontal offset</tags>
 </US_DocBloc>
 ]]
   if type(is_set)~="boolean" then error("UI_Element_GetSetAllHorizontalOffset: #2 - must be a boolean", 2) end
@@ -2267,7 +2269,7 @@ function reagirl.UI_Element_GetSetAllVerticalOffset(is_set, y_offset)
   </chapter_context>
   <target_document>ReaGirl_Docs</target_document>
   <source_document>reagirl_GuiEngine.lua</source_document>
-  <tags>gfx, functions, set, get, vertical offset, ui-elements</tags>
+  <tags>ui-elements, set, get, vertical offset</tags>
 </US_DocBloc>
 ]]
   if type(is_set)~="boolean" then error("UI_Element_GetSetAllVerticalOffset: #2 - must be a boolean", 2) end
@@ -2303,7 +2305,7 @@ function reagirl.UI_Element_GetSetRunFunction(element_id, is_set, run_function)
   </chapter_context>
   <target_document>ReaGirl_Docs</target_document>
   <source_document>reagirl_GuiEngine.lua</source_document>
-  <tags>gfx, functions, set, get, run function, ui-elements</tags>
+  <tags>ui-elements, set, get, run function</tags>
 </US_DocBloc>
 ]]
   if type(element_id)~="string" then error("UI_Element_GetSetRunFunction: #1 - must be a guid as string", 2) end
@@ -2320,6 +2322,35 @@ function reagirl.UI_Element_GetSetRunFunction(element_id, is_set, run_function)
 end
 
 function reagirl.UI_Element_Move(element_id, x, y, w, h)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>UI_Element_Move</slug>
+  <requires>
+    ReaGirl=1.0
+    Reaper=7
+    Lua=5.4
+  </requires>
+  <functioncall>reagirl.UI_Element_Move(string element_id, optional integer x, optional integer y, optional integer w, optional integer h)</functioncall>
+  <description>
+    moves a ui-element to a new position
+    
+    You can omit the parameters, that you want to keep at the same position/dimension
+  </description>
+  <parameters>
+    string element_id - the id of the element that you want to move
+    optional integer x - the new x-position of the ui-element
+    optional integer y - the new y-position of the ui-element
+    optional integer w - the new width of the ui-element
+    optional integer h - the new width of the ui-element
+  </parameters>
+  <chapter_context>
+    UI Elements
+  </chapter_context>
+  <target_document>ReaGirl_Docs</target_document>
+  <source_document>reagirl_GuiEngine.lua</source_document>
+  <tags>ui-elements, set, move</tags>
+</US_DocBloc>
+]]
   if type(element_id)~="string" then error("UI_Element_Move: #1 - must be a guid as string", 2) end
   element_id=reagirl.UI_Element_GetIDFromGuid(element_id)
   if element_id==nil then error("UI_Element_Move: #1 - no such ui-element", 2) end
@@ -2339,6 +2370,29 @@ function reagirl.UI_Element_Move(element_id, x, y, w, h)
 end
 
 function reagirl.UI_Element_SetSelected(element_id)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>UI_Element_SetSelected</slug>
+  <requires>
+    ReaGirl=1.0
+    Reaper=7
+    Lua=5.4
+  </requires>
+  <functioncall>reagirl.UI_Element_SetSelected(string element_id)</functioncall>
+  <description>
+    Sets a ui-element selected. It will have a focus-rectangle around it.
+  </description>
+  <parameters>
+    string element_id - the id of the element that you want to set to selected
+  </parameters>
+  <chapter_context>
+    UI Elements
+  </chapter_context>
+  <target_document>ReaGirl_Docs</target_document>
+  <source_document>reagirl_GuiEngine.lua</source_document>
+  <tags>ui-elements, set, selected</tags>
+</US_DocBloc>
+]]
   if type(element_id)~="string" then error("UI_Element_SetSelected: #1 - must be a guid as string", 2) end
   element_id=reagirl.UI_Element_GetIDFromGuid(element_id)
   if element_id==nil then error("UI_Element_SetSelected: #1 - no such ui-element", 2) end
@@ -2348,6 +2402,29 @@ function reagirl.UI_Element_SetSelected(element_id)
 end
 
 function reagirl.UI_Element_Remove(element_id)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>UI_Element_Remove</slug>
+  <requires>
+    ReaGirl=1.0
+    Reaper=7
+    Lua=5.4
+  </requires>
+  <functioncall>reagirl.UI_Element_Remove(string element_id)</functioncall>
+  <description>
+    Removes a ui-element.
+  </description>
+  <parameters>
+    string element_id - the id of the element that you want to remove
+  </parameters>
+  <chapter_context>
+    UI Elements
+  </chapter_context>
+  <target_document>ReaGirl_Docs</target_document>
+  <source_document>reagirl_GuiEngine.lua</source_document>
+  <tags>ui-elements, set, remove</tags>
+</US_DocBloc>
+]]
   if type(element_id)~="string" then error("UI_Element_SetSelected: #1 - must be a guid as string", 2) end
   element_id=reagirl.UI_Element_GetIDFromGuid(element_id)
   if element_id==nil then error("UI_Element_SetSelected: #1 - no such ui-element", 2) end
@@ -2912,7 +2989,7 @@ function reagirl.UI_Element_Current_Position()
   <chapter_context>
     UI Elements
   </chapter_context>
-  <tags>ui-elements, get, last position, width, height</tags>
+  <tags>ui-elements, get, current position, width, height</tags>
 </US_DocBloc>
 --]]
   local slot=reagirl.UI_Element_GetNextFreeSlot()
@@ -4529,7 +4606,34 @@ function reagirl.Image_Add(image_filename, x, y, w, h, name, meaningOfUI_Element
   return reagirl.Elements[slot]["Guid"]
 end
 
-function reagirl.Image_ReloadImage_Scaled(slot)
+function reagirl.Image_ReloadImage_Scaled(element_id)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Image_ReloadImage_Scaled</slug>
+  <requires>
+    ReaGirl=1.0
+    Reaper=7
+    Lua=5.4
+  </requires>
+  <functioncall>boolean loading_success = reagirl.Image_ReloadImage_Scaled(string element_id)</functioncall>
+  <description>
+    Realoads an image. 
+  </description>
+  <parameters>
+    string element_id - the image-element, whose image you want to reload
+  </parameters>
+  <retvals>
+    boolean loading_success - true, loading was successful; false, loading was unsuccessful(missing file, etc)
+  </retvals>
+  <chapter_context>
+    Image
+  </chapter_context>
+  <tags>image, reload</tags>
+</US_DocBloc>
+--]]
+  if type(element_id)~="string" then error("Image_ReloadImage_Scaled: #1 - must be a string", 2) end
+  if reagirl.IsValidGuid(element_id, true)==false then error("Image_ReloadImage_Scaled: #1 - must be a valid guid", 2) end
+  local slot=reagirl.UI_Element_GetIDFromGuid(element_id)
   image_filename=reagirl.Elements[slot]["Image_Filename"]
   local scale=reagirl.Window_CurrentScale
   if reaper.file_exists(image_filename:match("(.*)%.").."-"..scale.."x"..image_filename:match(".*(%..*)"))==true then
@@ -4543,9 +4647,10 @@ function reagirl.Image_ReloadImage_Scaled(slot)
   gfx.rect(0,0,8192,8192,1)
   gfx.set(r,g,b,a)
   local AImage=gfx.loadimg(image, image_filename )
+  if AImage==-1 then return false end
 
   gfx.dest=-1
-  return reagirl.Elements[slot]["Guid"]
+  return true
 end
 
 function reagirl.Image_Manage(element_id, selected, hovered, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
@@ -4594,16 +4699,16 @@ function reagirl.Image_Draw(element_id, selected, hovered, clicked, mouse_cap, m
   gfx.dest=olddest
 end
 
-function reagirl.Image_Update(element_id, image_filename)
+function reagirl.Image_Load(element_id, image_filename)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>Image_Update</slug>
+  <slug>Image_Load</slug>
   <requires>
     ReaGirl=1.0
     Reaper=7
     Lua=5.4
   </requires>
-  <functioncall>string image_guid = reagirl.Image_Update(string element_id, string image_filename)</functioncall>
+  <functioncall>reagirl.Image_Load(string element_id, string image_filename)</functioncall>
   <description>
     Loads a new image-file of an existing image in the gui. 
     
@@ -4629,13 +4734,13 @@ function reagirl.Image_Update(element_id, image_filename)
   <tags>image, load new image</tags>
 </US_DocBloc>
 --]]  
-  if type(element_id)~="string" then error("Image_Update: param #1 - must be a string", 2) end
-  if type(image_filename)~="string" then error("Image_Add: param #2 - must be a string", 2) end
-  if reagirl.IsValidGuid(element_id, true)==nil then error("Image_Update: param #1 - must be a valid guid", 2) end
+  if type(element_id)~="string" then error("Image_Load: param #1 - must be a string", 2) end
+  if type(image_filename)~="string" then error("Image_Load: param #2 - must be a string", 2) end
+  if reagirl.IsValidGuid(element_id, true)==nil then error("Image_Load: param #1 - must be a valid guid", 2) end
   element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
-  if element_id==-1 then error("Image_Update: param #1 - no such ui-element", 2) end
+  if element_id==-1 then error("Image_Load: param #1 - no such ui-element", 2) end
   if reagirl.Elements[element_id]["GUI_Element_Type"]~="Image" then
-    error("Rect_GetColors: param #1 - ui-element is not a rectangle", 2)
+    error("Image_Load: param #1 - ui-element is not an image", 2)
   else
     reagirl.Elements[element_id]["Image_Filename"]=image_filename
     reagirl.Image_ReloadImage_Scaled(element_id)
@@ -4646,14 +4751,38 @@ end
 
 
 function reagirl.Background_GetSetColor(is_set, r, g, b)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Background_GetSetColor</slug>
+  <requires>
+    ReaGirl=1.0
+    Reaper=7
+    Lua=5.4
+  </requires>
+  <functioncall>integer red, integer green, integer blue = reagirl.Background_GetSetColor(boolean is_set, integer red, integer green, integer blue)</functioncall>
+  <description>
+    Gets/Sets the color if the background.
+  </description>
+  <parameters>
+    boolean is_set - true, set the new background-color; false, only get the current background-color
+    integer red - the new red-color; 0-255
+    integer green - the new green-color; 0-255
+    integer blue - the new blue-color; 0-255
+  </parameters>
+  <chapter_context>
+    Background
+  </chapter_context>
+  <tags>background, set, get, color, red, gree, blue</tags>
+</US_DocBloc>
+--]]
   if type(is_set)~="boolean" then error("GetSetBackgroundColor: param #1 - must be a boolean", 2) end
-  if math.type(r)~="integer" then error("GetSetBackgroundColor: param #2 - must be an integer", 2) end
+  if r~=nil and math.type(r)~="integer" then error("GetSetBackgroundColor: param #2 - must be an integer", 2) end
   if g~=nil and math.type(g)~="integer" then error("GetSetBackgroundColor: param #3 - must be an integer", 2) end
   if b~=nil and math.type(b)~="integer" then error("GetSetBackgroundColor: param #4 - must be an integer", 2) end
   if g==nil then g=r end
   if b==nil then b=r end
   if reagirl.Elements==nil then reagirl.Elements={} end
-  if is_set==true then
+  if is_set==true and r~=nil and g~=nil and b~=nil then
     reagirl["WindowBackgroundColorR"],reagirl["WindowBackgroundColorG"],reagirl["WindowBackgroundColorB"]=r/255, g/255, b/255
   else
     return math.floor(reagirl["WindowBackgroundColorR"]*255), math.floor(reagirl["WindowBackgroundColorG"]*255), math.floor(reagirl["WindowBackgroundColorB"]*255)
@@ -4662,17 +4791,47 @@ end
 
 
 function reagirl.Background_GetSetImage(filename, x, y, scaled, fixed_x, fixed_y)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Background_GetSetImage</slug>
+  <requires>
+    ReaGirl=1.0
+    Reaper=7
+    Lua=5.4
+  </requires>
+  <functioncall>boolean imageload_success = reagirl.Background_GetSetImage(string filename, integer x, integer y, boolean scaled, boolean fixed_x, boolean fixed_y)</functioncall>
+  <description>
+    Gets/Sets the background-image.
+  </description>
+  <parameters>
+    string filename - the filename of the new background-image
+    integer x - the x-position of the background-image
+    integer y - the y-position of the background-image
+    boolean scaled - true, scale the image to the window-size; false, don't scale image
+    boolean fixed_x - true, don't scroll the image on x-axis; false, scroll background-image on x-axis
+    boolean fixed_y - true, don't scroll the image on y-axix; false, scroll background-image on y-axis
+  </parameters>
+  <retvals>
+    boolean imageload_success - true, loading of the image was successful; false, loading of the image was unsuccessful
+  </retvals>
+  <chapter_context>
+    Background
+  </chapter_context>
+  <tags>background, set, background image</tags>
+</US_DocBloc>
+--]]
   if type(filename)~="string" then error("Background_GetSetImage: param #1 - must be a boolean", 2) end
-  if math.type(x)~="integer" then error("Background_GetSetImage: param #2 - must be an integer", 2) end
-  if math.type(y)~="integer" then error("Background_GetSetImage: param #3 - must be an integer", 2) end
-  if type(scaled)~="boolean" then error("Background_GetSetImage: param #4 - must be a boolean", 2) end
+  if math.type(x)~="integer"  then error("Background_GetSetImage: param #2 - must be an integer", 2) end
+  if math.type(y)~="integer"  then error("Background_GetSetImage: param #3 - must be an integer", 2) end
+  if type(scaled)~="boolean"  then error("Background_GetSetImage: param #4 - must be a boolean", 2) end
   if type(fixed_x)~="boolean" then error("Background_GetSetImage: param #5 - must be an boolean", 2) end
   if type(fixed_y)~="boolean" then error("Background_GetSetImage: param #6 - must be an boolean", 2) end
   if reagirl.MaxImage==nil then reagirl.MaxImage=1 end
   reagirl.Background_FixedX=fixed_x
   reagirl.Background_FixedY=fixed_y
   reagirl.MaxImage=reagirl.MaxImage+1
-  gfx.loadimg(reagirl.MaxImage, filename)
+  local AImage=gfx.loadimg(reagirl.MaxImage, filename)
+  if AImage==-1 then return false end
   local se={reaper.my_getViewport(0,0,0,0, 0,0,0,0, false)}
   reagirl.ResizeImageKeepAspectRatio(reagirl.MaxImage, se[3], se[4], bg_r, bg_g, bg_b)
   if reagirl.DecorativeImages==nil then
@@ -4683,28 +4842,10 @@ function reagirl.Background_GetSetImage(filename, x, y, scaled, fixed_x, fixed_y
     reagirl.DecorativeImages["Background_x"]=x
     reagirl.DecorativeImages["Background_y"]=y
   end
+  return true
 end
 
-function reagirl.GetHoveredUIElement()
-  for i=#reagirl.Elements, 1, -1 do
-    local x2, y2, w2, h2
-    if reagirl.Elements[i]["x"]<0 then x2=gfx.w+reagirl.Elements[i]["x"] else x2=reagirl.Elements[i]["x"] end
-    if reagirl.Elements[i]["y"]<0 then y2=gfx.h+reagirl.Elements[i]["y"] else y2=reagirl.Elements[i]["y"] end
-    if reagirl.Elements[i]["w"]<0 then w2=gfx.w-x2+reagirl.Elements[i]["w"] else w2=reagirl.Elements[i]["w"] end
-    if reagirl.Elements[i]["h"]<0 then h2=gfx.h-h2+reagirl.Elements[i]["h"] else h2=reagirl.Elements[i]["h"] end
-    
-    if gfx.mouse_x>=x2 and gfx.mouse_y>=y2 and
-       gfx.mouse_x<=x2+w2 and gfx.mouse_y<=y2+h2 then
-      if i~=reagirl.Elements["old_hovered_element"] then
-        --reaper.osara_outputMessage(""..reagirl.Elements[i]["Name"].." ")
-        reagirl.Elements["old_hovered_element"]=i
-        return i
-      end
-    end
-  end
-  
-  return reagirl.Elements["old_hovered_element"]
-end
+
 
 function reagirl.Background_DrawImage()
   if reagirl.DecorativeImages==nil then return end
@@ -5317,7 +5458,7 @@ function UpdateImage2(element_id)
   --if gfx.mouse_cap==1 then
     retval, filename = reaper.GetUserFileNameForRead("", "", "")
     if retval==true then
-      reagirl.Image_Update(element_id, filename)
+      reagirl.Image_Load(element_id, filename)
     end
   --end
   --]]
@@ -5325,7 +5466,7 @@ end
 
 function GetFileList(element_id, filelist)
   print2(element_id)
-  reagirl.Image_Update(B, filelist[1])
+  reagirl.Image_Load(B, filelist[1])
   AFile=filelist
   list=""
   for i=1, 1000 do
@@ -6905,6 +7046,7 @@ function DebugRect()
 end
 
 function CheckMe(tudelu, checkstate)
+  
   --reagirl.UI_Element_SetFocused(LAB)
   --print2(tudelu, checkstate)
   
@@ -7121,7 +7263,7 @@ function main()
   --print_update(reagirl.ContextMenuZone_GetVisibility(contextmenu_id))
   --print(reagirl.FileDropZone_GetVisibility(dropzone_id))
   gfx.update()
-  
+  print_update(reagirl.UI_Element_GetHovered())
   if reagirl.Gui_IsOpen()==true then reaper.defer(main) end
 end
 
