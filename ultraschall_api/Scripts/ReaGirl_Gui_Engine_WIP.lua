@@ -7,8 +7,6 @@ TODO:
   - Slider: disappears when scrolling upwards/leftwards: because of the "only draw neccessary gui-elements"-code, which is buggy for some reason
   - Slider: draw a line where the default-value shall be
   - reagirl.UI_Element_NextX_Default=10 - changing it only offsets the second line ff, not the first line
-  - filedropzone - get/set sticky-functions missing
-  - contextmenu - get/set sticky-functions missing
   - Background_GetSetImage - check, if the background image works properly with scaling and scrolling
   - Labels: ACCHoverMessage should hold the text of the paragraph the mouse is hovering above only
             That way, not everything is read out as message to TTS, only the hovered paragraph.
