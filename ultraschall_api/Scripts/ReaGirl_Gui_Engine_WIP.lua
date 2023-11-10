@@ -6804,7 +6804,7 @@ function reagirl.Tabs_Add(x, y, w_backdrop, h_backdrop, caption, meaningOfUI_Ele
     Reaper=7
     Lua=5.4
   </requires>
-  <functioncall>string tab_guid = reagirl.Tabs_Add(integer x, integer y, integer w, string caption, string meaningOfUI_Element, optional string unit, number start, number stop, number step, number default, function run_function)</functioncall>
+  <functioncall>string tabs_guid = reagirl.Tabs_Add(integer x, integer y, integer w, integer w_backdrop, integer h_backdrop, string caption, string meaningOfUI_Element, table tab_names, integer selected_tab, function run_function)</functioncall>
   <description>
     Adds a tab to a gui.
     
@@ -6813,25 +6813,26 @@ function reagirl.Tabs_Add(x, y, w_backdrop, h_backdrop, caption, meaningOfUI_Ele
     
     You can also have a background drawn by the tab, which could be set to a specific size or set to autosize.
     When set to autosize, it will enclose ui-elements currently visible in the gui.
+    If you don't want a background, set w_background or h_background to 0.
     
-    If you don't want 
+    Keep in mind, that using auto-sizing of the background might lead to smaller backgrounds than the tabs themselves!
   </description>
   <parameters>
-    optional integer x - the x position of the slider in pixels; negative anchors the slider to the right window-side; nil, autoposition after the last ui-element(see description)
-    optional integer y - the y position of the slider in pixels; negative anchors the slider to the bottom window-side; nil, autoposition after the last ui-element(see description)
-    optional integer w_backdrop - the width of the tab's backdrop; nil, autosize the backdrop to the gui-elements currently shown
-    optional integer h_backdrop - the height of the tab's backdrop; nil, autosize the backdrop to the gui-elements currently shown
-    string caption - the caption of the slider
+    optional integer x - the x position of the tab in pixels; negative anchors the tab to the right window-side; nil, autoposition after the last ui-element(see description)
+    optional integer y - the y position of the tab in pixels; negative anchors the tab to the bottom window-side; nil, autoposition after the last ui-element(see description)
+    optional integer w_backdrop - the width of the tab's backdrop; negative, anchor it to the right window-edge; nil, autosize the backdrop to the gui-elements currently shown
+    optional integer h_backdrop - the height of the tab's backdrop; negative, anchor it to the bottom window-edge; nil, autosize the backdrop to the gui-elements currently shown
+    string caption - the caption of the tab
     string meaningOfUI_Element - a description for accessibility users
-    optional string unit - the unit shown next to the number the slider is currently set to
-    number start - the minimum value of the slider
-    number stop - the maximum value of the slider
-    number step - the stepsize until the next value within the slider
-    number default - the default value of the slider(also the initial value)
-    function run_function - a function that shall be run when the slider is clicked; will get passed over the slider-element_id as first and the new slider-value as second parameter
+    table tab_names - an indexed table with all tab-names 
+    integer selected_tab - the index of the currently selected tab; 1-based
+    function run_function - a function that shall be run when a tab is clicked/selected via keys; 
+                          - will get passed over the tab-element_id as first and 
+                          - the new selected tab as second parameter as well as 
+                          - the selected tab-name as third parameter
   </parameters>
   <retvals>
-    string checkbox_guid - a guid that can be used for altering the slider-attributes
+    string tabs_guid - a guid that can be used for altering the tab-attributes
   </retvals>
   <chapter_context>
     Tabs
@@ -6882,7 +6883,7 @@ function reagirl.Tabs_Add(x, y, w_backdrop, h_backdrop, caption, meaningOfUI_Ele
   reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0, 1)
   local tx, ty =gfx.measurestr(caption.."")
 
-  reagirl.UI_Element_NextX_Default=x+5
+  reagirl.UI_Element_NextX_Default=x
   
   local slot=reagirl.UI_Element_GetNextFreeSlot()
   table.insert(reagirl.Elements, slot, {})
@@ -7172,8 +7173,10 @@ function UpdateUI()
     end
   end
 
-reagirl.Tabs_Add(5, 10, -5, -5, "TUDELU", "Tabs", {"HUCH", "TUDELU", "Dune", "Ach Gotterl", "Leileileilei"}, 1, sliderme)
+reagirl.Tabs_Add(nil, nil, nil, nil, "TUDELU", "Tabs", {"HUCH", "TUDELU", "Dune", "Ach Gotterl", "Leileileilei"}, 1, sliderme)
 reagirl.NextLine()
+--reagirl.Tabs_Add(nil, nil, 0, 0, "TUDELU", "Tabs", {"HUCH", "TUDELU", "Dune", "Ach Gotterl", "Leileileilei"}, 1, sliderme)
+--reagirl.NextLine()
   --reagirl.AddDummyElement()  
   LAB=reagirl.Label_Add(nil, nil, "Export Podcast as:", "Label 1", 0, false, label_click)
   LAB2=reagirl.Label_Add(nil, nil, "Link to Docs", "clickable label", 0, true, label_click)
