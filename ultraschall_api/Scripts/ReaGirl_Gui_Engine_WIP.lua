@@ -3,7 +3,6 @@ dofile(reaper.GetResourcePath().."/UserPlugins/ultraschall_api.lua")
 TODO: 
   - jumping to ui-elements outside window(means autoscroll to them) doesn't always work
     - ui-elements might still be out of view when jumping to them(x-coordinate outside of window for instance)
-  - Slider: unit must be limited to 3 digits, rounded properly
   - Slider: doubleclick on the edges doesn't revert to default-value
   - Slider: disappears when scrolling upwards/leftwards: because of the "only draw neccessary gui-elements"-code, which is buggy for some reason
   - Slider: draw a line where the default-value shall be
@@ -1636,7 +1635,7 @@ function reagirl.Gui_Draw(Key, Key_utf, clickstate, specific_clickstate, mouse_c
   end
   reagirl.Gui_ForceRefreshState=false
   reagirl.Scroll_Override_ScrollButtons=nil
-  --DebugRect()
+  DebugRect()
 end
 
 function reagirl.Dummy()
@@ -4742,13 +4741,14 @@ function reagirl.Image_Load(element_id, image_filename)
   if type(element_id)~="string" then error("Image_Load: param #1 - must be a string", 2) end
   if type(image_filename)~="string" then error("Image_Load: param #2 - must be a string", 2) end
   if reagirl.IsValidGuid(element_id, true)==nil then error("Image_Load: param #1 - must be a valid guid", 2) end
+  local el_id=element_id
   element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
   if element_id==-1 then error("Image_Load: param #1 - no such ui-element", 2) end
   if reagirl.Elements[element_id]["GUI_Element_Type"]~="Image" then
     error("Image_Load: param #1 - ui-element is not an image", 2)
   else
     reagirl.Elements[element_id]["Image_Filename"]=image_filename
-    reagirl.Image_ReloadImage_Scaled(element_id)
+    reagirl.Image_ReloadImage_Scaled(el_id)
     reagirl.Gui_ForceRefresh(12)
   end
 end
@@ -4879,10 +4879,20 @@ function reagirl.FileDropZone_CheckForDroppedFiles()
   if reagirl.DropZone~=nil then
     for i=1, #reagirl.DropZone do
       if reagirl.DropZone[i]["hidden"]~=true then
-        if reagirl.DropZone[i]["DropZoneX"]<0 then x=gfx.w+reagirl.DropZone[i]["DropZoneX"]+reagirl.MoveItAllRight else x=reagirl.DropZone[i]["DropZoneX"]+reagirl.MoveItAllRight end
-        if reagirl.DropZone[i]["DropZoneY"]<0 then y=gfx.h+reagirl.DropZone[i]["DropZoneY"]+reagirl.MoveItAllUp else y=reagirl.DropZone[i]["DropZoneY"]+reagirl.MoveItAllUp end
-        if reagirl.DropZone[i]["DropZoneW"]<0 then w=gfx.w-x+reagirl.DropZone[i]["DropZoneW"] else w=reagirl.DropZone[i]["DropZoneW"] end
-        if reagirl.DropZone[i]["DropZoneH"]<0 then h=gfx.h-y+reagirl.DropZone[i]["DropZoneH"] else h=reagirl.DropZone[i]["DropZoneH"] end
+        if reagirl.DropZone[i]["sticky_x"]==false then
+          if reagirl.DropZone[i]["DropZoneX"]<0 then x=gfx.w+reagirl.DropZone[i]["DropZoneX"]+reagirl.MoveItAllRight else x=reagirl.DropZone[i]["DropZoneX"]+reagirl.MoveItAllRight end
+          if reagirl.DropZone[i]["DropZoneW"]<0 then w=gfx.w-x+reagirl.DropZone[i]["DropZoneW"] else w=reagirl.DropZone[i]["DropZoneW"] end
+        else
+          if reagirl.DropZone[i]["DropZoneX"]<0 then x=gfx.w+reagirl.DropZone[i]["DropZoneX"] else x=reagirl.DropZone[i]["DropZoneX"] end
+          if reagirl.DropZone[i]["DropZoneW"]<0 then w=gfx.w-x+reagirl.DropZone[i]["DropZoneW"] else w=reagirl.DropZone[i]["DropZoneW"] end
+        end
+        if reagirl.DropZone[i]["sticky_x"]==false then
+          if reagirl.DropZone[i]["DropZoneY"]<0 then y=gfx.h+reagirl.DropZone[i]["DropZoneY"]+reagirl.MoveItAllUp else y=reagirl.DropZone[i]["DropZoneY"]+reagirl.MoveItAllUp end
+          if reagirl.DropZone[i]["DropZoneH"]<0 then h=gfx.h-y+reagirl.DropZone[i]["DropZoneH"] else h=reagirl.DropZone[i]["DropZoneH"] end
+        else
+          if reagirl.DropZone[i]["DropZoneY"]<0 then y=gfx.h+reagirl.DropZone[i]["DropZoneY"] else y=reagirl.DropZone[i]["DropZoneY"] end
+          if reagirl.DropZone[i]["DropZoneH"]<0 then h=gfx.h-y+reagirl.DropZone[i]["DropZoneH"] else h=reagirl.DropZone[i]["DropZoneH"] end
+        end
         x=x*scale
         y=y*scale
         w=w*scale
@@ -5032,6 +5042,62 @@ function reagirl.FileDropZone_Add(x,y,w,h,func)
   return reagirl.DropZone[#reagirl.DropZone]["Guid"]
 end
 
+function reagirl.FileDropZone_GetSetSticky(dropzone_id, is_set, sticky_x, sticky_y)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>FileDropZone_GetSetSticky</slug>
+  <requires>
+    ReaGirl=1.0
+    Reaper=7
+    Lua=5.4
+  </requires>
+  <functioncall>boolean sticky_x, boolean sticky_y = reagirl.FileDropZone_GetSetSticky(string dropzone_id, boolean is_set, boolean sticky_x, boolean sticky_y)</functioncall>
+  <description>
+    gets/sets the stickyness of the ui-element.
+    
+    Sticky-elements will not be moved by the global scrollbar-scrolling.
+  </description>
+  <retvals>
+    boolean sticky_x - true, x-movement is sticky; false, x-movement isn't sticky
+    boolean sticky_y - true, y-movement is sticky; false, y-movement isn't sticky
+  </retvals>
+  <parameters>
+    string contextmenu_id - the id of the element, whose stickiness you want to get/set
+    boolean is_set - true, set the name; false, don't set the stickiness
+    boolean sticky_x - true, x-movement is sticky; false, x-movement isn't sticky
+    boolean sticky_y - true, y-movement is sticky; false, y-movement isn't sticky
+  </parameters>
+  <chapter_context>
+    UI Elements
+  </chapter_context>
+  <target_document>ReaGirl_Docs</target_document>
+  <source_document>reagirl_GuiEngine.lua</source_document>
+  <tags>ui-elements, set, get, sticky</tags>
+</US_DocBloc>
+]]
+  if type(dropzone_id)~="string" then error("FileDropZone_GetSetSticky: #1 - must be a guid as string", 2) end
+  --element_id=reagirl.UI_Element_GetIDFromGuid(element_id)
+  local count=-1
+  for i=1, #reagirl.DropZone do
+    if reagirl.DropZone[i]["Guid"]==dropzone_id then
+      count=i
+      break
+    end
+  end
+  if count==-1 then error("FileDropZone_GetSetSticky: #1 - no such ui-element", 2) end
+  
+  if type(is_set)~="boolean" then error("FileDropZone_GetSetSticky: #2 - must be a boolean", 2) end
+  if type(sticky_x)~="boolean" then error("FileDropZone_GetSetSticky: #3 - must be a boolean", 2) end
+  if type(sticky_y)~="boolean" then error("FileDropZone_GetSetSticky: #4 - must be a boolean", 2) end
+  
+  if is_set==true then
+    reagirl.DropZone[count]["sticky_x"]=sticky_x
+    reagirl.DropZone[count]["sticky_y"]=sticky_y
+  end
+  return reagirl.DropZone[count]["sticky_x"], reagirl.DropZone[count]["sticky_y"]
+end
+
+
 function reagirl.FileDropZone_Remove(dropzone_id)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
@@ -5080,9 +5146,12 @@ function reagirl.ContextMenuZone_ManageMenu(mouse_cap)
         w=w*scale
         h=h*scale
         -- debug dropzone-rectangle, for checking, if it works
-        --[[
-          gfx.set(1)
-          gfx.rect(x, y, w, h, 1)
+          --gfx.set(1)
+          --gfx.rect(x, y, w, h, 1)
+          --dx=x
+          --dy=y
+          --dw=w
+          --dh=h
         --]]
         local files={}
         local retval
@@ -7076,7 +7145,12 @@ end
 
 function DebugRect()
   gfx.set(1,0,0)
-  gfx.rect(dx,dy,dw,dh)
+  
+  if dx~=nil then
+    
+    gfx.rect(dx,dy,dw,dh,1)
+    gfx.line(dx,dy,dx+dw,dy+dh)
+  end
 end
 
 function CheckMe(tudelu, checkstate)
@@ -7202,9 +7276,11 @@ reagirl.NextLine()
   --reagirl.FileDropZone_Add(-230,175,100,100, GetFileList)
   reagirl.NextLine()
   B=reagirl.Image_Add(Images[3], nil, nil, 100, 100, "Mespotine", "Mespotine: A Podcast Empress", sliderme)
-  B=reagirl.Image_Add(Images[3], nil, nil, 100, 100, "Mespotine", "Mespotine: A Podcast Empress", sliderme)
+  B=reagirl.Image_Add(Images[3], 100, 100, 100, 100, "Mespotine", "Mespotine: A Podcast Empress", sliderme)
   dropzone_id=reagirl.FileDropZone_Add(100,100,100,100, GetFileList)
+  dropzone_id2=reagirl.FileDropZone_Add(200,200,100,100, GetFileList)
   
+  reagirl.FileDropZone_GetSetSticky(dropzone_id, true, true, true)
   --reagirl.Label_Add("Stonehenge\nWhere the demons dwell\nwhere the banshees live\nand they do live well:", 31, 15, 0, "everything under control")
   --reagirl.InputBox_Add(10,10,100,"Inputbox Deloxe", "Se descrizzione", "TExt", input1, input2)
   --reagirl.NextLine_SetMargin(10, 100)
