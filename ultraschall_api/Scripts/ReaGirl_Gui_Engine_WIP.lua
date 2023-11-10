@@ -6806,15 +6806,15 @@ function reagirl.Tabs_Add(x, y, w_backdrop, h_backdrop, caption, meaningOfUI_Ele
   </requires>
   <functioncall>string tab_guid = reagirl.Tabs_Add(integer x, integer y, integer w, string caption, string meaningOfUI_Element, optional string unit, number start, number stop, number step, number default, function run_function)</functioncall>
   <description>
-    Adds a slider to a gui.
+    Adds a tab to a gui.
     
-    You can autoposition the slider by setting x and/or y to nil, which will position the new slider after the last ui-element.
+    You can autoposition the tab by setting x and/or y to nil, which will position the new tab after the last ui-element.
     To autoposition into the next line, use reagirl.NextLine()
     
-    The caption will be shown before, the unit will be shown after the slider.
-    Note: when setting the unit to nil, no unit and number will be shown at the end of the slider.
+    You can also have a background drawn by the tab, which could be set to a specific size or set to autosize.
+    When set to autosize, it will enclose ui-elements currently visible in the gui.
     
-    Also note: when the number of steps is too many to be shown in a narrow slider, step-values may be skipped.
+    If you don't want 
   </description>
   <parameters>
     optional integer x - the x position of the slider in pixels; negative anchors the slider to the right window-side; nil, autoposition after the last ui-element(see description)
@@ -6910,8 +6910,9 @@ function reagirl.Tabs_Add(x, y, w_backdrop, h_backdrop, caption, meaningOfUI_Ele
   --if w_backdrop==0 then reagirl.Elements[slot]["w_background"]="zero" else reagirl.Elements[slot]["w_background"]=w_backdrop-x end
   --if h_backdrop==0 then reagirl.Elements[slot]["h_background"]="zero" else reagirl.Elements[slot]["h_background"]=h_backdrop-reagirl.Elements[slot]["h"] end
   
-  reagirl.Elements[slot]["w_background"]=w_backdrop
-  reagirl.Elements[slot]["h_background"]=h_backdrop
+  if w_backdrop==0 then reagirl.Elements[slot]["w_background"]="zero" else reagirl.Elements[slot]["w_background"]=w_backdrop end
+  if h_backdrop==0 then reagirl.Elements[slot]["h_background"]="zero" else reagirl.Elements[slot]["h_background"]=h_backdrop end
+  
   reagirl.Elements[slot]["sticky_x"]=false
   reagirl.Elements[slot]["sticky_y"]=false
 
