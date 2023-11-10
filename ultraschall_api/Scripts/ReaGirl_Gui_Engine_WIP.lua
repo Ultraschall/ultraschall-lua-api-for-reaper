@@ -11,6 +11,11 @@ TODO:
   - filedropzone - get/set sticky-functions missing
   - contextmenu - get/set sticky-functions missing
   - Background_GetSetImage - check, if the background image works properly with scaling and scrolling
+  - Labels: ACCHoverMessage should hold the text of the paragraph the mouse is hovering above only
+            That way, not everything is read out as message to TTS, only the hovered paragraph.
+            This makes reading longer label-texts much easier.
+            Needs this Osara-Issue to be done, if this is possible in the first place:
+              https://github.com/jcsteh/osara/issues/961
 --]]
 --XX,YY=reaper.GetMousePosition()
 --gfx.ext_retina = 0
@@ -1421,7 +1426,7 @@ function reagirl.Gui_Manage()
           if Window_State&2==2 then
             reaper.TrackCtl_SetToolTip(reagirl.Elements[i]["Description"], XX+15, YY+10, true)
           end
-          reaper.osara_outputMessage(Window_State)
+          reaper.osara_outputMessage(reagirl.Elements[i]["AccHoverMessage"])
           --if reaper.osara_outputMessage~=nil then reaper.osara_outputMessage(reagirl.Elements[i]["Text"],2--[[:utf8_sub(1,20)]]) end
          end
          
@@ -4931,7 +4936,6 @@ function reagirl.FileDropZone_SetHiddenState(dropzone_id, hidden)
   <tags>file drop zone, set, hidden, visibility</tags>
 </US_DocBloc>
 --]]
-  -- DOCS!
   if type(dropzone_id)~="string" then error("FileDropZone_SetHiddenState: #1 - must be a string", 2) end
   if reagirl.IsValidGuid(dropzone_id, true)==false then error("FileDropZone_SetHiddenState: #1 - must be a valid guid", 2) end
   if type(hidden)~="boolean" then error("FileDropZone_SetHiddenState: #2 - must be a boolean", 2) end
@@ -6878,7 +6882,7 @@ function reagirl.Tabs_Add(x, y, w_backdrop, h_backdrop, caption, meaningOfUI_Ele
   reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0, 1)
   local tx, ty =gfx.measurestr(caption.."")
 
-  
+  reagirl.UI_Element_NextX_Default=x+5
   
   local slot=reagirl.UI_Element_GetNextFreeSlot()
   table.insert(reagirl.Elements, slot, {})
@@ -6903,8 +6907,11 @@ function reagirl.Tabs_Add(x, y, w_backdrop, h_backdrop, caption, meaningOfUI_Ele
   reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0)
   reagirl.Elements[slot]["w"]=math.tointeger(width)
   reagirl.Elements[slot]["h"]=math.tointeger(ty)+15
-  reagirl.Elements[slot]["w_background"]=w
-  reagirl.Elements[slot]["h_background"]=h
+  --if w_backdrop==0 then reagirl.Elements[slot]["w_background"]="zero" else reagirl.Elements[slot]["w_background"]=w_backdrop-x end
+  --if h_backdrop==0 then reagirl.Elements[slot]["h_background"]="zero" else reagirl.Elements[slot]["h_background"]=h_backdrop-reagirl.Elements[slot]["h"] end
+  
+  reagirl.Elements[slot]["w_background"]=w_backdrop
+  reagirl.Elements[slot]["h_background"]=h_backdrop
   reagirl.Elements[slot]["sticky_x"]=false
   reagirl.Elements[slot]["sticky_y"]=false
 
@@ -6958,7 +6965,14 @@ function reagirl.Tabs_Manage(element_id, selected, hovered, clicked, mouse_cap, 
   -- hover management for the tabs
   if hovered==true then
     -- to be done
-    element_storage["AccHoverMessage"]=element_storage["Name"].." "..element_storage["TabNames"][element_storage["TabSelected"]]
+    for i=1, #element_storage["Tabs_Pos"] do
+      if gfx.mouse_y>=y and gfx.mouse_y<=element_storage["Tabs_Pos"][i]["h"]+y then
+        if gfx.mouse_x>=element_storage["Tabs_Pos"][i]["x"] and gfx.mouse_x<=element_storage["Tabs_Pos"][i]["x"]+element_storage["Tabs_Pos"][i]["w"] then
+          element_storage["AccHoverMessage"]=element_storage["TabNames"][i]
+        end
+      end
+    end
+    --element_storage["AccHoverMessage"]=element_storage["Name"].." "..element_storage["TabNames"][element_storage["TabSelected"]]
   end
   if refresh==true then 
     reagirl.Gui_ForceRefresh() 
@@ -6993,7 +7007,7 @@ function reagirl.Tabs_Draw(element_id, selected, hovered, clicked, mouse_cap, mo
     ty=math.tointeger(ty)
     element_storage["Tabs_Pos"][i]["x"]=x+text_offset_x
     element_storage["Tabs_Pos"][i]["w"]=x_offset+text_offset_x+tx+text_offset_x
-
+    
     if i==element_storage["TabSelected"] then offset=dpi_scale gfx.set(0.253921568627451) else offset=0 gfx.set(0.153921568627451) end
     reagirl.RoundRect(math.tointeger(x+x_offset-text_offset_x), y, math.tointeger(tx+text_offset_x+text_offset_x), tab_height+ty, 4*dpi_scale, 1, 1, false, true, false, true)
     
@@ -7020,13 +7034,31 @@ function reagirl.Tabs_Draw(element_id, selected, hovered, clicked, mouse_cap, mo
   end
   --element_storage["w"]=x_offset-x_offset_factor
   -- backdrop
+  if element_storage["w_background"]~="zero" and element_storage["h_background"]~="zero" then
+    local offset_x=0
+    local offset_y=0
+    if x>0 then offset_x=x end
+    if y>0 then offset_y=element_storage["Tabs_Pos"][element_storage["TabSelected"] ]["h"]+y end
+    
+    if element_storage["w_background"]==nil then 
+      bg_w=reagirl.BoundaryX_Max-20*dpi_scale 
+    else 
+      if element_storage["w_background"]>0 then bg_w=element_storage["w_background"]*dpi_scale else bg_w=gfx.w+element_storage["w_background"]*dpi_scale-offset_x end
+    end
+    
+    if element_storage["h_background"]==nil then 
+      bg_h=reagirl.BoundaryX_Max-20*dpi_scale 
+    else 
+      if element_storage["h_background"]>0 then bg_h=element_storage["h_background"]*dpi_scale else bg_h=gfx.h+element_storage["h_background"]*dpi_scale-offset_y end
+    end
   
-  gfx.set(0.253921568627451)
-  gfx.rect(x,y+element_storage["Tabs_Pos"][element_storage["TabSelected"] ]["h"],reagirl.BoundaryX_Max-20*dpi_scale, reagirl.BoundaryY_Max-45*dpi_scale, 1)
-  gfx.rect(x,y+element_storage["Tabs_Pos"][element_storage["TabSelected"] ]["h"],reagirl.BoundaryX_Max-20*dpi_scale, reagirl.BoundaryY_Max-45*dpi_scale, 1)
-  gfx.set(0.403921568627451)
-  gfx.rect(x,y+element_storage["Tabs_Pos"][element_storage["TabSelected"] ]["h"],reagirl.BoundaryX_Max-20*dpi_scale, reagirl.BoundaryY_Max-45*dpi_scale, 0)
-  gfx.set(0.253921568627451)
+    gfx.set(0.253921568627451)
+    --gfx.rect(x,y+element_storage["Tabs_Pos"][element_storage["TabSelected"] ]["h"],reagirl.BoundaryX_Max-20*dpi_scale, reagirl.BoundaryY_Max-45*dpi_scale, 1)
+    gfx.rect(x, y+element_storage["Tabs_Pos"][element_storage["TabSelected"] ]["h"], bg_w, bg_h, 1)
+    gfx.set(0.403921568627451)
+    --gfx.rect(x,y+element_storage["Tabs_Pos"][element_storage["TabSelected"] ]["h"],reagirl.BoundaryX_Max-20*dpi_scale, reagirl.BoundaryY_Max-45*dpi_scale, 0)
+    gfx.rect(x, y+element_storage["Tabs_Pos"][element_storage["TabSelected"] ]["h"], bg_w, bg_h, 0)
+  end
   gfx.set(0.253921568627451)
   gfx.rect(element_storage["Tabs_Pos"][element_storage["TabSelected"] ]["x"]+1, 
            y+element_storage["Tabs_Pos"][element_storage["TabSelected"] ]["h"],
@@ -7139,7 +7171,7 @@ function UpdateUI()
     end
   end
 
-reagirl.Tabs_Add(10, 10, 100, 200, "TUDELU", "Tabs", {"HUCH", "TUDELU", "Dune", "Ach Gotterl", "Leileileilei"}, 1, sliderme)
+reagirl.Tabs_Add(5, 10, -5, -5, "TUDELU", "Tabs", {"HUCH", "TUDELU", "Dune", "Ach Gotterl", "Leileileilei"}, 1, sliderme)
 reagirl.NextLine()
   --reagirl.AddDummyElement()  
   LAB=reagirl.Label_Add(nil, nil, "Export Podcast as:", "Label 1", 0, false, label_click)
@@ -7263,7 +7295,7 @@ function main()
   --print_update(reagirl.ContextMenuZone_GetVisibility(contextmenu_id))
   --print(reagirl.FileDropZone_GetVisibility(dropzone_id))
   gfx.update()
-  print_update(reagirl.UI_Element_GetHovered())
+ -- print_update(reagirl.UI_Element_GetHovered())
   if reagirl.Gui_IsOpen()==true then reaper.defer(main) end
 end
 
