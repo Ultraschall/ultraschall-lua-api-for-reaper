@@ -4886,7 +4886,7 @@ function reagirl.FileDropZone_CheckForDroppedFiles()
           if reagirl.DropZone[i]["DropZoneX"]<0 then x=gfx.w+reagirl.DropZone[i]["DropZoneX"] else x=reagirl.DropZone[i]["DropZoneX"] end
           if reagirl.DropZone[i]["DropZoneW"]<0 then w=gfx.w-x+reagirl.DropZone[i]["DropZoneW"] else w=reagirl.DropZone[i]["DropZoneW"] end
         end
-        if reagirl.DropZone[i]["sticky_x"]==false then
+        if reagirl.DropZone[i]["sticky_y"]==false then
           if reagirl.DropZone[i]["DropZoneY"]<0 then y=gfx.h+reagirl.DropZone[i]["DropZoneY"]+reagirl.MoveItAllUp else y=reagirl.DropZone[i]["DropZoneY"]+reagirl.MoveItAllUp end
           if reagirl.DropZone[i]["DropZoneH"]<0 then h=gfx.h-y+reagirl.DropZone[i]["DropZoneH"] else h=reagirl.DropZone[i]["DropZoneH"] end
         else
@@ -5042,18 +5042,18 @@ function reagirl.FileDropZone_Add(x,y,w,h,func)
   return reagirl.DropZone[#reagirl.DropZone]["Guid"]
 end
 
-function reagirl.FileDropZone_GetSetSticky(dropzone_id, is_set, sticky_x, sticky_y)
+function reagirl.FileDropZone_GetSticky(dropzone_id)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>FileDropZone_GetSetSticky</slug>
+  <slug>FileDropZone_GetSticky</slug>
   <requires>
     ReaGirl=1.0
     Reaper=7
     Lua=5.4
   </requires>
-  <functioncall>boolean sticky_x, boolean sticky_y = reagirl.FileDropZone_GetSetSticky(string dropzone_id, boolean is_set, boolean sticky_x, boolean sticky_y)</functioncall>
+  <functioncall>boolean sticky_x, boolean sticky_y = reagirl.FileDropZone_GetSticky(string dropzone_id)</functioncall>
   <description>
-    gets/sets the stickyness of the ui-element.
+    gets the stickyness of the file-dropzone.
     
     Sticky-elements will not be moved by the global scrollbar-scrolling.
   </description>
@@ -5062,20 +5062,18 @@ function reagirl.FileDropZone_GetSetSticky(dropzone_id, is_set, sticky_x, sticky
     boolean sticky_y - true, y-movement is sticky; false, y-movement isn't sticky
   </retvals>
   <parameters>
-    string contextmenu_id - the id of the element, whose stickiness you want to get/set
-    boolean is_set - true, set the name; false, don't set the stickiness
-    boolean sticky_x - true, x-movement is sticky; false, x-movement isn't sticky
-    boolean sticky_y - true, y-movement is sticky; false, y-movement isn't sticky
+    string dropzone_id - the dropzone, whose sticky-ness you want to retrieve
   </parameters>
   <chapter_context>
-    UI Elements
+    FileDropZone
   </chapter_context>
   <target_document>ReaGirl_Docs</target_document>
   <source_document>reagirl_GuiEngine.lua</source_document>
-  <tags>ui-elements, set, get, sticky</tags>
+  <tags>file dropzone, get, sticky</tags>
 </US_DocBloc>
 ]]
-  if type(dropzone_id)~="string" then error("FileDropZone_GetSetSticky: #1 - must be a guid as string", 2) end
+  local is_set=false
+  if type(dropzone_id)~="string" then error("FileDropZone_GetSticky: #1 - must be a guid as string", 2) end
   --element_id=reagirl.UI_Element_GetIDFromGuid(element_id)
   local count=-1
   for i=1, #reagirl.DropZone do
@@ -5084,19 +5082,60 @@ function reagirl.FileDropZone_GetSetSticky(dropzone_id, is_set, sticky_x, sticky
       break
     end
   end
-  if count==-1 then error("FileDropZone_GetSetSticky: #1 - no such ui-element", 2) end
+  if count==-1 then error("FileDropZone_GetSticky: #1 - no such ui-element", 2) end
+
+  return reagirl.DropZone[count]["sticky_x"], reagirl.DropZone[count]["sticky_y"]
+end
+
+function reagirl.FileDropZone_SetSticky(dropzone_id, sticky_x, sticky_y)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>FileDropZone_SetSticky</slug>
+  <requires>
+    ReaGirl=1.0
+    Reaper=7
+    Lua=5.4
+  </requires>
+  <functioncall>reagirl.FileDropZone_SetSticky(string dropzone_id, boolean sticky_x, boolean sticky_y)</functioncall>
+  <description>
+    sets the stickyness of the ui-element.
+    
+    Sticky-elements will not be moved by the global scrollbar-scrolling.
+  </description>
+  <parameters>
+    string dropzone_id - the id of the drop-zone, whose sticky-ness you want to set
+    boolean sticky_x - true, x-movement is sticky; false, x-movement isn't sticky
+    boolean sticky_y - true, y-movement is sticky; false, y-movement isn't sticky
+  </parameters>
+  <chapter_context>
+    FileDropZone
+  </chapter_context>
+  <target_document>ReaGirl_Docs</target_document>
+  <source_document>reagirl_GuiEngine.lua</source_document>
+  <tags>file drop zone, set, sticky</tags>
+</US_DocBloc>
+]]
+  local is_set=true
+  if type(dropzone_id)~="string" then error("FileDropZone_SetSticky: #1 - must be a guid as string", 2) end
   
-  if type(is_set)~="boolean" then error("FileDropZone_GetSetSticky: #2 - must be a boolean", 2) end
-  if type(sticky_x)~="boolean" then error("FileDropZone_GetSetSticky: #3 - must be a boolean", 2) end
-  if type(sticky_y)~="boolean" then error("FileDropZone_GetSetSticky: #4 - must be a boolean", 2) end
+  local count=-1
+  for i=1, #reagirl.DropZone do
+    if reagirl.DropZone[i]["Guid"]==dropzone_id then
+      count=i
+      break
+    end
+  end
+  if count==-1 then error("FileDropZone_SetSticky: #1 - no such ui-element", 2) end
+  
+  if type(is_set)~="boolean" then error("FileDropZone_SetSticky: #2 - must be a boolean", 2) end
+  if type(sticky_x)~="boolean" then error("FileDropZone_SetSticky: #3 - must be a boolean", 2) end
+  if type(sticky_y)~="boolean" then error("FileDropZone_SetSticky: #4 - must be a boolean", 2) end
   
   if is_set==true then
     reagirl.DropZone[count]["sticky_x"]=sticky_x
     reagirl.DropZone[count]["sticky_y"]=sticky_y
   end
-  return reagirl.DropZone[count]["sticky_x"], reagirl.DropZone[count]["sticky_y"]
 end
-
 
 function reagirl.FileDropZone_Remove(dropzone_id)
 --[[
@@ -5130,6 +5169,8 @@ function reagirl.FileDropZone_Remove(dropzone_id)
   return false
 end
 
+
+
 function reagirl.ContextMenuZone_ManageMenu(mouse_cap)
   local x, y, w, h 
   local scale=reagirl.Window_GetCurrentScale()
@@ -5137,17 +5178,33 @@ function reagirl.ContextMenuZone_ManageMenu(mouse_cap)
   if reagirl.ContextMenu~=nil then
     for i=1, #reagirl.ContextMenu do
       if reagirl.ContextMenu[i]["hidden"]~=true then
+        if reagirl.ContextMenu[i]["sticky_x"]==false then
+          if reagirl.ContextMenu[i]["ContextMenuX"]<0 then x=gfx.w+reagirl.ContextMenu[i]["ContextMenuX"]+reagirl.MoveItAllRight else x=reagirl.ContextMenu[i]["ContextMenuX"]+reagirl.MoveItAllRight end
+          if reagirl.ContextMenu[i]["ContextMenuW"]<0 then w=gfx.w-x+reagirl.ContextMenu[i]["ContextMenuW"] else w=reagirl.ContextMenu[i]["ContextMenuW"] end
+        else
+          if reagirl.ContextMenu[i]["ContextMenuX"]<0 then x=gfx.w+reagirl.ContextMenu[i]["ContextMenuX"] else x=reagirl.ContextMenu[i]["ContextMenuX"] end
+          if reagirl.ContextMenu[i]["ContextMenuW"]<0 then w=gfx.w-x+reagirl.ContextMenu[i]["ContextMenuW"] else w=reagirl.ContextMenu[i]["ContextMenuW"] end
+        end
+        if reagirl.DropZone[i]["sticky_y"]==false then
+          if reagirl.ContextMenu[i]["ContextMenuY"]<0 then y=gfx.h+reagirl.ContextMenu[i]["ContextMenuY"]+reagirl.MoveItAllUp else y=reagirl.ContextMenu[i]["ContextMenuY"]+reagirl.MoveItAllUp end
+          if reagirl.ContextMenu[i]["ContextMenuH"]<0 then h=gfx.h-y+reagirl.ContextMenu[i]["ContextMenuH"] else h=reagirl.ContextMenu[i]["ContextMenuH"] end
+        else
+          if reagirl.ContextMenu[i]["ContextMenuY"]<0 then y=gfx.h+reagirl.ContextMenu[i]["ContextMenuY"] else y=reagirl.ContextMenu[i]["ContextMenuY"] end
+          if reagirl.ContextMenu[i]["ContextMenuH"]<0 then h=gfx.h-y+reagirl.ContextMenu[i]["ContextMenuH"] else h=reagirl.ContextMenu[i]["ContextMenuH"] end
+        end
+      --[[
         if reagirl.ContextMenu[i]["ContextMenuX"]<0 then x=gfx.w+reagirl.ContextMenu[i]["ContextMenuX"]+reagirl.MoveItAllRight else x=reagirl.ContextMenu[i]["ContextMenuX"]+reagirl.MoveItAllRight end
         if reagirl.ContextMenu[i]["ContextMenuY"]<0 then y=gfx.h+reagirl.ContextMenu[i]["ContextMenuY"]+reagirl.MoveItAllUp else y=reagirl.ContextMenu[i]["ContextMenuY"]+reagirl.MoveItAllUp end
         if reagirl.ContextMenu[i]["ContextMenuW"]<0 then w=gfx.w-x+reagirl.ContextMenu[i]["ContextMenuW"] else w=reagirl.ContextMenu[i]["ContextMenuW"] end
         if reagirl.ContextMenu[i]["ContextMenuH"]<0 then h=gfx.h-y+reagirl.ContextMenu[i]["ContextMenuH"] else h=reagirl.ContextMenu[i]["ContextMenuH"] end
+        --]]
         x=x*scale
         y=y*scale
         w=w*scale
         h=h*scale
         -- debug dropzone-rectangle, for checking, if it works
-          --gfx.set(1)
-          --gfx.rect(x, y, w, h, 1)
+          gfx.set(1)
+          gfx.rect(x, y, w, h, 1)
           --dx=x
           --dy=y
           --dw=w
@@ -5173,6 +5230,101 @@ function reagirl.ContextMenuZone_ManageMenu(mouse_cap)
       end
       reagirl.Gui_ForceRefresh(15)
     end
+  end
+end
+
+function reagirl.ContextMenuZone_GetSticky(contextmenu_id)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>ContextMenuZone_GetSticky</slug>
+  <requires>
+    ReaGirl=1.0
+    Reaper=7
+    Lua=5.4
+  </requires>
+  <functioncall>boolean sticky_x, boolean sticky_y = reagirl.ContextMenuZone_GetSticky(string contextmenu_id)</functioncall>
+  <description>
+    gets the stickyness of contextmenu.
+    
+    Sticky-elements will not be moved by the global scrollbar-scrolling.
+  </description>
+  <retvals>
+    boolean sticky_x - true, x-movement is sticky; false, x-movement isn't sticky
+    boolean sticky_y - true, y-movement is sticky; false, y-movement isn't sticky
+  </retvals>
+  <parameters>
+    string contextmenu_id - the contextmenu, whose sticky-ness you want to retrieve
+  </parameters>
+  <chapter_context>
+    ContextMenu
+  </chapter_context>
+  <target_document>ReaGirl_Docs</target_document>
+  <source_document>reagirl_GuiEngine.lua</source_document>
+  <tags>context menu, get, sticky</tags>
+</US_DocBloc>
+]]
+  local is_set=false
+  if type(contextmenu_id)~="string" then error("ContextMenuZone_GetSticky: #1 - must be a guid as string", 2) end
+  --element_id=reagirl.UI_Element_GetIDFromGuid(element_id)
+  local count=-1
+  for i=1, #reagirl.ContextMenu do
+    if reagirl.ContextMenu[i]["Guid"]==contextmenu_id then
+      count=i
+      break
+    end
+  end
+  if count==-1 then error("ContextMenuZone_GetSticky: #1 - no such ui-element", 2) end
+
+  return reagirl.ContextMenu[count]["sticky_x"], reagirl.ContextMenu[count]["sticky_y"]
+end
+
+function reagirl.ContextMenuZone_SetSticky(contextmenu_id, sticky_x, sticky_y)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>FileDropZone_SetSticky</slug>
+  <requires>
+    ReaGirl=1.0
+    Reaper=7
+    Lua=5.4
+  </requires>
+  <functioncall>reagirl.FileDropZone_SetSticky(string contextmenu_id, boolean sticky_x, boolean sticky_y)</functioncall>
+  <description>
+    sets the stickyness of a context-menu.
+    
+    Sticky-elements will not be moved by the global scrollbar-scrolling.
+  </description>
+  <parameters>
+    string contextmenu_id - the id of the drop-zone, whose sticky-ness you want to set
+    boolean sticky_x - true, x-movement is sticky; false, x-movement isn't sticky
+    boolean sticky_y - true, y-movement is sticky; false, y-movement isn't sticky
+  </parameters>
+  <chapter_context>
+    FileDropZone
+  </chapter_context>
+  <target_document>ReaGirl_Docs</target_document>
+  <source_document>reagirl_GuiEngine.lua</source_document>
+  <tags>file drop zone, set, sticky</tags>
+</US_DocBloc>
+]]
+  local is_set=true
+  if type(contextmenu_id)~="string" then error("FileDropZone_SetSticky: #1 - must be a guid as string", 2) end
+  
+  local count=-1
+  for i=1, #reagirl.ContextMenu do
+    if reagirl.ContextMenu[i]["Guid"]==contextmenu_id then
+      count=i
+      break
+    end
+  end
+  if count==-1 then error("FileDropZone_SetSticky: #1 - no such ui-element", 2) end
+  
+  if type(is_set)~="boolean" then error("FileDropZone_SetSticky: #2 - must be a boolean", 2) end
+  if type(sticky_x)~="boolean" then error("FileDropZone_SetSticky: #3 - must be a boolean", 2) end
+  if type(sticky_y)~="boolean" then error("FileDropZone_SetSticky: #4 - must be a boolean", 2) end
+  
+  if is_set==true then
+    reagirl.ContextMenu[count]["sticky_x"]=sticky_x
+    reagirl.ContextMenu[count]["sticky_y"]=sticky_y
   end
 end
 
@@ -7280,7 +7432,8 @@ reagirl.NextLine()
   dropzone_id=reagirl.FileDropZone_Add(100,100,100,100, GetFileList)
   dropzone_id2=reagirl.FileDropZone_Add(200,200,100,100, GetFileList)
   
-  reagirl.FileDropZone_GetSetSticky(dropzone_id, true, true, true)
+  reagirl.FileDropZone_SetSticky(dropzone_id, false, false)
+  --print2(reagirl.FileDropZone_GetSticky(dropzone_id, true, true))
   --reagirl.Label_Add("Stonehenge\nWhere the demons dwell\nwhere the banshees live\nand they do live well:", 31, 15, 0, "everything under control")
   --reagirl.InputBox_Add(10,10,100,"Inputbox Deloxe", "Se descrizzione", "TExt", input1, input2)
   --reagirl.NextLine_SetMargin(10, 100)
@@ -7342,6 +7495,8 @@ reagirl.NextLine()
   end
   --reagirl.ContextMenuZone_Add(10,10,120,120,"Hula|Hoop", CMenu)
   contextmenu_id=reagirl.ContextMenuZone_Add(100,100,100,100,"Menu|Two|>And a|half", CMenu)
+  reagirl.ContextMenuZone_SetSticky(contextmenu_id, false, false)
+  
   --]]
 end
 
