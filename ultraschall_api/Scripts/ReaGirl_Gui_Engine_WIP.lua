@@ -1420,7 +1420,7 @@ function reagirl.Gui_Manage()
          -- tooltip management
          if reagirl.TooltipWaitCounter==14 then
           local XX,YY=reaper.GetMousePosition()
-          if Window_State&2==2 then
+          if Window_State&8==8 then
             reaper.TrackCtl_SetToolTip(reagirl.Elements[i]["Description"], XX+15, YY+10, true)
           end
           reaper.osara_outputMessage(reagirl.Elements[i]["AccHoverMessage"])
@@ -6387,9 +6387,14 @@ end
 function reagirl.Slider_Manage(element_id, selected, hovered, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
   local refresh=false
   if w<element_storage["cap_w"]+element_storage["unit_w"]+20 then w=element_storage["cap_w"]+element_storage["unit_w"]+20 end
+  local offset_cap=element_storage["cap_w"]
+  local offset_unit=element_storage["unit_w"]
   element_storage["slider_w"]=math.tointeger(w-element_storage["cap_w"]-element_storage["unit_w"]-10)
   local dpi_scale=reagirl.Window_GetCurrentScale()
-  if gfx.mouse_x>=x and gfx.mouse_x<=x+w and gfx.mouse_y>=y and gfx.mouse_y<=y+h then
+  if gfx.mouse_x>=x+offset_cap and 
+     gfx.mouse_x<=x+w-offset_unit and --x+w and 
+     gfx.mouse_y>=y and 
+     gfx.mouse_y<=y+h then
     reagirl.Scroll_Override_MouseWheel=true
     if reagirl.MoveItAllRight_Delta==0 and reagirl.MoveItAllUp_Delta==0 then
       if mouse_attributes[5]<0 or mouse_attributes[6]>0 then 
@@ -7440,7 +7445,7 @@ reagirl.NextLine()
   E = reagirl.DropDownMenu_Add(nil, nil, -100, "DropDownMenu:", "Desc of DDM", {"The", "Death", "Of", "A", "Party123456789012345678Hardy Hard Scooter Hyper Hyper How Much Is The Fish",2,3,4,5}, 5, sliderme)
   --F = reagirl.Slider_Add(10, 340, 200, "Sliders Das Tor", "I am a slider", "%", 1, 100, 5.001, 1, sliderme)
   reagirl.NextLine()
-  F = reagirl.Slider_Add(nil, nil, -20, "Sliders Das Tor", "I am a slider", "%", 1, 1001, 5.001, 1, sliderme)
+  F = reagirl.Slider_Add(nil, nil, -20, "Sliders Das Tor", "I am a slider", "%", 1, 1000, 5.001, 10, sliderme)
   
   --reagirl.Elements[8].IsDecorative=true
   --reagirl.Line_Add(10, 135, 60, 150,1,1,0,1)
