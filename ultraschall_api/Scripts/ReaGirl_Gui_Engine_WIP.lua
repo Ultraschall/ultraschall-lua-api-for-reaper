@@ -3628,7 +3628,7 @@ function reagirl.DropDownMenu_Manage(element_id, selected, hovered, clicked, mou
   local cap_w=element_storage["cap_w"]*reagirl.Window_GetCurrentScale()
   if w<50 then w=50 end
   local refresh=false
-  if gfx.mouse_x>=x and gfx.mouse_x<=x+w and gfx.mouse_y>=y and gfx.mouse_y<=y+h then
+  if gfx.mouse_x>=x+cap_w and gfx.mouse_x<=x+w and gfx.mouse_y>=y and gfx.mouse_y<=y+h then
     reagirl.Scroll_Override_MouseWheel=true
     if reagirl.MoveItAllRight_Delta==0 and reagirl.MoveItAllUp_Delta==0 then
       if mouse_attributes[5]<0 then element_storage["menuSelectedItem"]=element_storage["menuSelectedItem"]+1 refresh=true end
