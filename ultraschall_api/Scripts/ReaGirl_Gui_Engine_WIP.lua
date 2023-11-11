@@ -3,7 +3,6 @@ dofile(reaper.GetResourcePath().."/UserPlugins/ultraschall_api.lua")
 TODO: 
   - jumping to ui-elements outside window(means autoscroll to them) doesn't always work
     - ui-elements might still be out of view when jumping to them(x-coordinate outside of window for instance)
-  - Slider: doubleclick on the edges doesn't revert to default-value
   - Slider: disappears when scrolling upwards/leftwards: because of the "only draw neccessary gui-elements"-code, which is buggy for some reason
   - Slider: draw a line where the default-value shall be
   - reagirl.UI_Element_NextX_Default=10 - changing it only offsets the second line ff, not the first line
@@ -6391,26 +6390,6 @@ function reagirl.Slider_Manage(element_id, selected, hovered, clicked, mouse_cap
   local offset_unit=element_storage["unit_w"]
   element_storage["slider_w"]=math.tointeger(w-element_storage["cap_w"]-element_storage["unit_w"]-10)
   local dpi_scale=reagirl.Window_GetCurrentScale()
-  if gfx.mouse_x>=x+offset_cap and 
-     gfx.mouse_x<=x+w-offset_unit and --x+w and 
-     gfx.mouse_y>=y and 
-     gfx.mouse_y<=y+h then
-    reagirl.Scroll_Override_MouseWheel=true
-    if reagirl.MoveItAllRight_Delta==0 and reagirl.MoveItAllUp_Delta==0 then
-      if mouse_attributes[5]<0 or mouse_attributes[6]>0 then 
-        element_storage["CurValue"]=element_storage["CurValue"]+element_storage["Step"] 
-        refresh=true 
-      end
-      if mouse_attributes[5]>0 or mouse_attributes[6]<0 then element_storage["CurValue"]=element_storage["CurValue"]-element_storage["Step"] refresh=true end
-      if element_storage["CurValue"]>element_storage["Stop"] then
-        --element_storage["CurValue"]=element_storage["Stop"]
-        --refresh=false
-      elseif element_storage["CurValue"]<element_storage["Start"] then
-        --element_storage["CurValue"]=element_storage["Start"]
-        --refresh=false
-      end
-    end
-  end
   if selected==true then
     reagirl.Scroll_Override=true
     if Key==1919379572.0 or Key==1685026670.0 then element_storage["CurValue"]=element_storage["CurValue"]+element_storage["Step"] refresh=true reagirl.Scroll_Override=true end
@@ -6443,13 +6422,14 @@ function reagirl.Slider_Manage(element_id, selected, hovered, clicked, mouse_cap
       dw=10
       dh=10
       --]]
+      if clicked~="" then print_alt(clicked) end
       element_storage["TempValue"]=element_storage["CurValue"]      
       if slider_x2>=0 and slider_x2<=element_storage["slider_w"] then
         if clicked=="DBLCLK" then
-          element_storage["CurValue"]=element_storage["Default"]
-          refresh=true
+        --  element_storage["CurValue"]=element_storage["Default"]
+        --  refresh=true
         else
-          if mouse_cap==1 and clicked=="FirstCLK" or clicked=="DRAG" then
+          if clicked=="FirstCLK" or clicked=="DRAG" then
             --step_size=(rect_w/(element_storage["Stop"]+1-element_storage["Start"])/(element_storage["Step"]))
             step_size=(rect_w/(element_storage["Stop"]+1-element_storage["Start"])/1)
             slider4=slider_x2/step_size
@@ -6468,8 +6448,8 @@ function reagirl.Slider_Manage(element_id, selected, hovered, clicked, mouse_cap
             element_storage["OldMouseY"]=gfx.mouse_y 
           end
         end
-      elseif slider_x2<0 and slider_x2>=-15 and mouse_cap==1 then element_storage["CurValue"]=element_storage["Start"] 
-      elseif slider_x2>element_storage["slider_w"] and mouse_cap==1 then 
+      elseif slider_x2<0 and slider_x2>=-15 and clicked=="FirstCLK" then element_storage["CurValue"]=element_storage["Start"] 
+      elseif slider_x2>element_storage["slider_w"] and clicked=="FirstCLK" then 
         element_storage["CurValue"]=element_storage["Stop"] 
       end
       if element_storage["TempValue"]~=element_storage["CurValue"] then --element_storage["OldMouseX"]~=gfx.mouse_x or element_storage["OldMouseY"]~=gfx.mouse_y then
@@ -6480,6 +6460,31 @@ function reagirl.Slider_Manage(element_id, selected, hovered, clicked, mouse_cap
       end
     end
   end
+  if gfx.mouse_x>=x+offset_cap-5*dpi_scale and 
+     gfx.mouse_x<=x+w-offset_unit+5*dpi_scale and --x+w and 
+     gfx.mouse_y>=y and 
+     gfx.mouse_y<=y+h then
+    if clicked=="DBLCLK" then
+      element_storage["CurValue"]=element_storage["Default"]
+      refresh=true
+    end
+    reagirl.Scroll_Override_MouseWheel=true
+    if reagirl.MoveItAllRight_Delta==0 and reagirl.MoveItAllUp_Delta==0 then
+      if mouse_attributes[5]<0 or mouse_attributes[6]>0 then 
+        element_storage["CurValue"]=element_storage["CurValue"]+element_storage["Step"] 
+        refresh=true 
+      end
+      if mouse_attributes[5]>0 or mouse_attributes[6]<0 then element_storage["CurValue"]=element_storage["CurValue"]-element_storage["Step"] refresh=true end
+      if element_storage["CurValue"]>element_storage["Stop"] then
+        --element_storage["CurValue"]=element_storage["Stop"]
+        --refresh=false
+      elseif element_storage["CurValue"]<element_storage["Start"] then
+        --element_storage["CurValue"]=element_storage["Start"]
+        --refresh=false
+      end
+    end
+  end
+  
   local skip_func
   if element_storage["CurValue"]<element_storage["Start"] then element_storage["CurValue"]=element_storage["Start"] skip_func=true end
   if element_storage["CurValue"]>element_storage["Stop"] then element_storage["CurValue"]=element_storage["Stop"] skip_func=true end
@@ -7385,7 +7390,7 @@ function sliderme(element_id, val, val2)
   --print("slider"..element_id..reaper.time_precise(), val, reagirl.Slider_GetValue(element_id))
   --print(reagirl.Slider_GetMinimum(element_id), reagirl.Slider_GetMaximum(element_id))
   --print(reagirl.Slider_GetDefaultValue(F))
-  print(element_id, val, val2)
+--  print(element_id, val, val2)
 end
 
 function UpdateUI()
