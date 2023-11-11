@@ -7066,7 +7066,7 @@ function reagirl.Tabs_Add(x, y, w_backdrop, h_backdrop, caption, meaningOfUI_Ele
   <chapter_context>
     Tabs
   </chapter_context>
-  <tags>slider, add</tags>
+  <tags>tabs, add</tags>
 </US_DocBloc>
 --]]
 
@@ -7153,6 +7153,79 @@ function reagirl.Tabs_Add(x, y, w_backdrop, h_backdrop, caption, meaningOfUI_Ele
   reagirl.UI_Element_NextX_Default=reagirl.UI_Element_NextX_Default+10
   return reagirl.Elements[slot]["Guid"]
 end
+
+function reagirl.Tabs_SetValue(element_id, selected_tab)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Tabs_SetValue</slug>
+  <requires>
+    ReaGirl=1.0
+    Reaper=7
+    Lua=5.4
+  </requires>
+  <functioncall>reagirl.Tabs_SetValue(string element_id, integer selected_tab)</functioncall>
+  <description>
+    Sets the selected tab of a tabs-element.
+  </description>
+  <parameters>
+    string element_id - the guid of the tabs, whose selected tab you want to set
+    integer selected_tab - the new selected tab
+  </parameters>
+  <chapter_context>
+    Tabs
+  </chapter_context>
+  <tags>tabs, set, selected tab</tags>
+</US_DocBloc>
+--]]
+  if type(element_id)~="string" then error("Tabs_SetValue: param #1 - must be a string", 2) end
+  if reagirl.IsValidGuid(element_id, true)==nil then error("Tabs_SetValue: param #1 - must be a valid guid", 2) end
+  if math.type(selected_tab)~="integer" then error("Tabs_SetValue: param #2 - must be a number", 2) end
+  element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
+  if element_id==-1 then error("Tabs_SetValue: param #1 - no such ui-element", 2) end
+  if reagirl.Elements[element_id]["GUI_Element_Type"]~="Tabs" then
+    error("Tabs_SetValue: param #1 - ui-element is not a tab", 2)
+  else
+    if selected_tab<1 or selected_tab>#reagirl.Elements[element_id]["TabNames"] then error("Tabs_SetValue: param #2 - no such tab", 2) end
+    reagirl.Elements[element_id]["TabSelected"]=selected_tab
+    reagirl.Gui_ForceRefresh()
+  end
+end
+
+function reagirl.Tabs_GetValue(element_id)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Tabs_GetValue</slug>
+  <requires>
+    ReaGirl=1.0
+    Reaper=7
+    Lua=5.4
+  </requires>
+  <functioncall>number value = reagirl.Tabs_GetValue(string element_id)</functioncall>
+  <description>
+    Gets the selected tab of a tabs-element.
+  </description>
+  <parameters>
+    string element_id - the guid of the tabs, whose selected tab you want to set
+  </parameters>
+  <retvals>
+    integer selected_tab - the selected tab
+  </retvals>
+  <chapter_context>
+    Tabs
+  </chapter_context>
+  <tags>tabs, get, selected tab</tags>
+</US_DocBloc>
+--]]
+  if type(element_id)~="string" then error("Tabs_GetValue: param #1 - must be a string", 2) end
+  if reagirl.IsValidGuid(element_id, true)==nil then error("Tabs_GetValue: param #1 - must be a valid guid", 2) end
+  element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
+  if reagirl.Elements[element_id]["GUI_Element_Type"]~="Tabs" then
+    error("Tabs_GetValue: param #1 - ui-element is not tabs", 2)
+  else
+    return reagirl.Elements[element_id]["TabSelected"]
+  end
+end
+
 
 function reagirl.Tabs_Manage(element_id, selected, hovered, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
   if Key~=0 then ABBA=Key end
@@ -7390,7 +7463,10 @@ function sliderme(element_id, val, val2)
   --print("slider"..element_id..reaper.time_precise(), val, reagirl.Slider_GetValue(element_id))
   --print(reagirl.Slider_GetMinimum(element_id), reagirl.Slider_GetMaximum(element_id))
   --print(reagirl.Slider_GetDefaultValue(F))
---  print(element_id, val, val2)
+  print(element_id, val, val2)
+  --print2(reagirl.Tabs_GetValue(tabs_id))
+  --reagirl.Tabs_SetValue(tabs_id, 4)
+  
 end
 
 function UpdateUI()
@@ -7407,7 +7483,7 @@ function UpdateUI()
     end
   end
 
-reagirl.Tabs_Add(nil, nil, nil, nil, "TUDELU", "Tabs", {"HUCH", "TUDELU", "Dune", "Ach Gotterl", "Leileileilei"}, 1, sliderme)
+tabs_id=reagirl.Tabs_Add(nil, nil, nil, nil, "TUDELU", "Tabs", {"HUCH", "TUDELU", "Dune", "Ach Gotterl", "Leileileilei"}, 1, sliderme)
 reagirl.NextLine()
 --reagirl.Tabs_Add(nil, nil, 0, 0, "TUDELU", "Tabs", {"HUCH", "TUDELU", "Dune", "Ach Gotterl", "Leileileilei"}, 1, sliderme)
 --reagirl.NextLine()
