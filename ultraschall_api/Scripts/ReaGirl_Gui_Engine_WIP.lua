@@ -871,14 +871,14 @@ function reagirl.Gui_AtExit(run_func)
     Reaper=7
     Lua=5.4
   </requires>
-  <functioncall>reagirl.Gui_AtExit(function run_func)</functioncall>
+  <functioncall>reagirl.Gui_AtExit(optional function run_func)</functioncall>
   <description>
     Adds a function that shall be run when the gui is closed with reagirl.Gui_Close()
     
     Good to do clean up or committing of settings.
   </description>
   <parameters>
-    function run_func - a function, that shall be run when the gui closes
+    optional function run_func - a function, that shall be run when the gui closes; nil to remove the function
   </parameters>
   <chapter_context>
     Gui
@@ -888,8 +888,36 @@ function reagirl.Gui_AtExit(run_func)
   <tags>gfx, functions, atexit, gui, function</tags>
 </US_DocBloc>
 ]]
-  if type(run_func)~="function" then error("AtExit: param #1 - must be a function", -2) return end
+  if run_func~=nil and type(run_func)~="function" then error("AtExit: param #1 - must be a function", -2) return end
   reagirl.AtExit_RunFunc=run_func
+end
+
+function reagirl.AtEnter(run_func)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>AtEnter</slug>
+  <requires>
+    ReaGirl=1.0
+    Reaper=7
+    Lua=5.4
+  </requires>
+  <functioncall>reagirl.AtEnter(optional function run_func)</functioncall>
+  <description>
+    Adds a function that shall be run when someone hits Enter while the gui is opened.
+  </description>
+  <parameters>
+    function run_func - a function, that shall be run when the user hits enter while gui is open; nil, removes the function
+  </parameters>
+  <chapter_context>
+    Gui
+  </chapter_context>
+  <target_document>ReaGirl_Docs</target_document>
+  <source_document>reagirl_GuiEngine.lua</source_document>
+  <tags>gfx, functions, atenter, gui, function</tags>
+</US_DocBloc>
+]]
+  if run_func~=nil and type(run_func)~="function" then error("AtEnter: param #1 - must be a function", -2) return end
+  reagirl.AtEnter_RunFunc=run_func
 end
 
 function reagirl.Gui_New()
@@ -1320,6 +1348,13 @@ function reagirl.Gui_Manage()
     reagirl.IsWindowOpen_attribute_Old=false
     if reagirl.AtExit_RunFunc~=nil then reagirl.AtExit_RunFunc() end
   end
+  
+  if reagirl.Gui_PreventCloseViaEscForOneCycle_State~=true then
+    if Key==13 then 
+      if reagirl.AtEnter_RunFunc~=nil then reagirl.AtEnter_RunFunc() end
+    end -- esc closes window
+  end 
+  
   if Key==26161 and reaper.osara_outputMessage~=nil then reaper.osara_outputMessage(reagirl.Elements[reagirl.Elements["FocusedElement"]]["Description"],1) end -- F1 help message for osara
   
   -- if mouse has been moved, reset wait-counter for displaying tooltip
@@ -7620,7 +7655,11 @@ end
 
 main()
 
+function ABBALA()
+  print2("Mister Ed")
+end
 
+reagirl.AtEnter(ABBALA)
 --Element1={reagirl.UI_Element_GetSetRunFunction(4, true, print2)}
 --Element1={reagirl.UI_Element_GetSetAllVerticalOffset(true, 100)}
 --print2("Pudeldu")
