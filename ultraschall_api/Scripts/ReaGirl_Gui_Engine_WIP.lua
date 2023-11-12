@@ -7,6 +7,10 @@ TODO:
   - Slider: draw a line where the default-value shall be
   - reagirl.UI_Element_NextX_Default=10 - changing it only offsets the second line ff, not the first line
   - Background_GetSetImage - check, if the background image works properly with scaling and scrolling
+  - ContextMenu and DropZones - link them to a ui-element. Needs to be completely reimplemented.
+                                - Context Menu: check, if the clicked ui-element has been right-clicked and if there's a menu available. If yes, run a managemenet function for the context menu.
+                                  - Need a global Context-Menu for clicks somewhere outside of ui-elements.
+                                - DropZones: check, if a hovered ui-element has dropped files. If yes, run the DropZone-management function for this ui-element.
   - Labels: ACCHoverMessage should hold the text of the paragraph the mouse is hovering above only
             That way, not everything is read out as message to TTS, only the hovered paragraph.
             This makes reading longer label-texts much easier.
@@ -1288,6 +1292,7 @@ function reagirl.Gui_Manage()
   if reagirl.NewUI==true then reagirl.NewUI=false reagirl.Elements.FocusedElement=1 end
   if #reagirl.Elements==0 then error("Gui_Manage: no ui-element available", -2) end
   if #reagirl.Elements<reagirl.Elements.FocusedElement then reagirl.Elements.FocusedElement=1 end
+  
   reagirl.UI_Element_MinX=gfx.w
   reagirl.UI_Element_MinY=gfx.h
   reagirl.UI_Element_MaxW=0
@@ -5235,6 +5240,7 @@ end
 
 
 function reagirl.ContextMenuZone_ManageMenu(mouse_cap)
+
   local x, y, w, h 
   local scale=reagirl.Window_GetCurrentScale()
   if mouse_cap&2==0 then return end
@@ -5248,7 +5254,7 @@ function reagirl.ContextMenuZone_ManageMenu(mouse_cap)
           if reagirl.ContextMenu[i]["ContextMenuX"]<0 then x=gfx.w+reagirl.ContextMenu[i]["ContextMenuX"] else x=reagirl.ContextMenu[i]["ContextMenuX"] end
           if reagirl.ContextMenu[i]["ContextMenuW"]<0 then w=gfx.w-x+reagirl.ContextMenu[i]["ContextMenuW"] else w=reagirl.ContextMenu[i]["ContextMenuW"] end
         end
-        if reagirl.DropZone[i]["sticky_y"]==false then
+        if reagirl.ContextMenu[i]["sticky_y"]==false then
           if reagirl.ContextMenu[i]["ContextMenuY"]<0 then y=gfx.h+reagirl.ContextMenu[i]["ContextMenuY"]+reagirl.MoveItAllUp else y=reagirl.ContextMenu[i]["ContextMenuY"]+reagirl.MoveItAllUp end
           if reagirl.ContextMenu[i]["ContextMenuH"]<0 then h=gfx.h-y+reagirl.ContextMenu[i]["ContextMenuH"] else h=reagirl.ContextMenu[i]["ContextMenuH"] end
         else
@@ -5266,6 +5272,7 @@ function reagirl.ContextMenuZone_ManageMenu(mouse_cap)
         w=w*scale
         h=h*scale
         -- debug dropzone-rectangle, for checking, if it works
+        --[[
           gfx.set(1)
           gfx.rect(x, y, w, h, 1)
           --dx=x
@@ -5289,6 +5296,7 @@ function reagirl.ContextMenuZone_ManageMenu(mouse_cap)
           end
           gfx.x=oldx
           gfx.y=oldy
+          break
         end
       end
       reagirl.Gui_ForceRefresh(15)
@@ -7556,11 +7564,12 @@ function UpdateUI()
     end
   end
 
-tabs_id=reagirl.Tabs_Add(nil, nil, nil, nil, "TUDELU", "Tabs", {"HUCH", "TUDELU", "Dune", "Ach Gotterl", "Leileileilei"}, 1, sliderme)
+--tabs_id=reagirl.Tabs_Add(nil, nil, nil, nil, "TUDELU", "Tabs", {"HUCH", "TUDELU", "Dune", "Ach Gotterl", "Leileileilei"}, 1, sliderme)
 reagirl.NextLine()
 --reagirl.Tabs_Add(nil, nil, 0, 0, "TUDELU", "Tabs", {"HUCH", "TUDELU", "Dune", "Ach Gotterl", "Leileileilei"}, 1, sliderme)
 --reagirl.NextLine()
   --reagirl.AddDummyElement()  
+  --[[
   LAB=reagirl.Label_Add(nil, nil, "Export Podcast as:", "Label 1", 0, false, label_click)
   LAB2=reagirl.Label_Add(nil, nil, "Link to Docs", "clickable label", 0, true, label_click)
   reagirl.NextLine()
@@ -7572,34 +7581,37 @@ reagirl.NextLine()
   A1 = reagirl.CheckBox_Add(nil, nil, "People on Streets", "People on Streets TUDELU", true, CheckMe)
   reagirl.Checkbox_SetTopBottom(A1, true, true)
   reagirl.NextLine()
+  --]]
   --A2= reagirl.CheckBox_Add(1300, nil, "De de dep", "Export file as MP3", true, CheckMe)
   --reagirl.Checkbox_SetTopBottom(A2, true, false)
-  A3 = reagirl.CheckBox_Add(nil, nil, "AAC", "AAC TUDELU", true, CheckMe)
-  reagirl.Checkbox_SetTopBottom(A3, true, false)
-  reagirl.Checkbox_GetCheckState(A1)
+  --A3 = reagirl.CheckBox_Add(nil, nil, "AAC", "AAC TUDELU", true, CheckMe)
+  --reagirl.Checkbox_SetTopBottom(A3, true, false)
+  --reagirl.Checkbox_GetCheckState(A1)
   
   --A1=reagirl.CheckBox_Add(-280, 110, "AAC", "Export file as AAC", true, CheckMe)
   --A2=reagirl.CheckBox_Add(-280, 130, "OPUS", "Export file as OPUS", true, CheckMe)
 --  xxx,yyy=reagirl.NextLine_GetMargin()
 --reagirl.NextLine_SetMargin(xxx+100, yyy+100)
   --reagirl.FileDropZone_Add(-230,175,100,100, GetFileList)
-  reagirl.NextLine()
-  B=reagirl.Image_Add(Images[3], nil, nil, 100, 100, "Mespotine", "Mespotine: A Podcast Empress", sliderme)
-  B=reagirl.Image_Add(Images[3], 100, 100, 100, 100, "Mespotine", "Mespotine: A Podcast Empress", sliderme)
-  dropzone_id=reagirl.FileDropZone_Add(100,100,100,100, GetFileList)
-  dropzone_id2=reagirl.FileDropZone_Add(200,200,100,100, GetFileList)
+  --reagirl.NextLine()
+  --B=reagirl.Image_Add(Images[3], nil, nil, 100, 100, "Mespotine", "Mespotine: A Podcast Empress", sliderme)
   
-  reagirl.FileDropZone_SetSticky(dropzone_id, false, false)
+  B=reagirl.Image_Add(Images[3], 100, 100, 100, 100, "Mespotine", "Mespotine: A Podcast Empress", sliderme)
+  reagirl.Rect_Add(80, 80, 100, 100, 255,255,255,255,1)
+  --dropzone_id=reagirl.FileDropZone_Add(100,100,100,100, GetFileList)
+  --dropzone_id2=reagirl.FileDropZone_Add(200,200,100,100, GetFileList)
+  
+  --reagirl.FileDropZone_SetSticky(dropzone_id, false, false)
   --print2(reagirl.FileDropZone_GetSticky(dropzone_id, true, true))
   --reagirl.Label_Add("Stonehenge\nWhere the demons dwell\nwhere the banshees live\nand they do live well:", 31, 15, 0, "everything under control")
   --reagirl.InputBox_Add(10,10,100,"Inputbox Deloxe", "Se descrizzione", "TExt", input1, input2)
   --reagirl.NextLine_SetMargin(10, 100)
   reagirl.NextLine()
   --A3 = reagirl.CheckBox_Add(nil, nil, "AAC", "Export file as MP3", true, CheckMe)
-  E = reagirl.DropDownMenu_Add(nil, nil, -100, "DropDownMenu:", "Desc of DDM", {"The", "Death", "Of", "A", "Party123456789012345678Hardy Hard Scooter Hyper Hyper How Much Is The Fish",2,3,4,5}, 5, sliderme)
+  --E = reagirl.DropDownMenu_Add(nil, nil, -100, "DropDownMenu:", "Desc of DDM", {"The", "Death", "Of", "A", "Party123456789012345678Hardy Hard Scooter Hyper Hyper How Much Is The Fish",2,3,4,5}, 5, sliderme)
   --F = reagirl.Slider_Add(10, 340, 200, "Sliders Das Tor", "I am a slider", "%", 1, 100, 5.001, 1, sliderme)
   reagirl.NextLine()
-  F = reagirl.Slider_Add(nil, nil, -20, "Sliders Das Tor", "I am a slider", "%", 1, 1000, 5.001, 10, sliderme)
+  --F = reagirl.Slider_Add(nil, nil, -20, "Sliders Das Tor", "I am a slider", "%", 1, 1000, 5.001, 10, sliderme)
   
   --reagirl.Elements[8].IsDecorative=true
   --reagirl.Line_Add(10, 135, 60, 150,1,1,0,1)
@@ -7652,7 +7664,8 @@ reagirl.NextLine()
   end
   --reagirl.ContextMenuZone_Add(10,10,120,120,"Hula|Hoop", CMenu)
   contextmenu_id=reagirl.ContextMenuZone_Add(100,100,100,100,"Menu|Two|>And a|half", CMenu)
-  reagirl.ContextMenuZone_SetSticky(contextmenu_id, false, false)
+  contextmenu_id=reagirl.ContextMenuZone_Add(100,100,100,100,"HUUU|Menu|Two|>And a|half", CMenu)
+  --reagirl.ContextMenuZone_SetSticky(contextmenu_id, false, false)
   
   --]]
 end
