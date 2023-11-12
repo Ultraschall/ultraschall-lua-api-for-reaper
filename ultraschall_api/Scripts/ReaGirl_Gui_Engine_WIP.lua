@@ -2671,6 +2671,7 @@ function reagirl.CheckBox_Add(x, y, caption, meaningOfUI_Element, default, run_f
   reagirl.Elements[slot]["AccHint"]="Change checkstate with space or left mouse-click."
   reagirl.Elements[slot]["x"]=x
   reagirl.Elements[slot]["y"]=y
+  reagirl.Elements[slot]["z_buffer"]=128
   reagirl.Elements[slot]["w"]=math.tointeger(ty+tx+4)+6
   reagirl.Elements[slot]["h"]=math.tointeger(ty)+5
   reagirl.Elements[slot]["sticky_x"]=false
@@ -3190,6 +3191,7 @@ function reagirl.Button_Add(x, y, w_margin, h_margin, caption, meaningOfUI_Eleme
   reagirl.Elements[slot]["sticky_y"]=false
   reagirl.Elements[slot]["Description"]=meaningOfUI_Element
   reagirl.Elements[slot]["AccHint"]="click with space or left mouseclick"
+  reagirl.Elements[slot]["z_buffer"]=128
   reagirl.Elements[slot]["x"]=x
   reagirl.Elements[slot]["y"]=y
   reagirl.Elements[slot]["w"]=math.tointeger(tx+15+w_margin)
@@ -3489,6 +3491,7 @@ function reagirl.InputBox_Add(x, y, w, Name, MeaningOfUI_Element, Default, run_f
   reagirl.Elements[slot]["Description"]=MeaningOfUI_Element
   reagirl.Elements[slot]["IsDecorative"]=false
   reagirl.Elements[slot]["AccHint"]="Hit Enter to type text."
+  reagirl.Elements[slot]["z_buffer"]=128
   reagirl.Elements[slot]["x"]=x
   reagirl.Elements[slot]["y"]=y
   reagirl.Elements[slot]["w"]=w
@@ -3658,6 +3661,7 @@ function reagirl.DropDownMenu_Add(x, y, w, caption, meaningOfUI_Element, menuIte
   reagirl.Elements[slot]["IsDecorative"]=false
   reagirl.Elements[slot]["AccHint"]="Select via arrow-keys."
   reagirl.Elements[slot]["cap_w"]=math.tointeger(tx1)+5
+  reagirl.Elements[slot]["z_buffer"]=128
   reagirl.Elements[slot]["x"]=x
   reagirl.Elements[slot]["y"]=y
   reagirl.Elements[slot]["w"]=w
@@ -4190,6 +4194,7 @@ function reagirl.Label_Add(x, y, label, meaningOfUI_Element, align, clickable, r
   reagirl.Elements[slot]["Description"]=meaningOfUI_Element
   reagirl.Elements[slot]["IsDecorative"]=false
   reagirl.Elements[slot]["AccHint"]=acc_clickable.."Ctrl+C to copy text into clipboard"
+  reagirl.Elements[slot]["z_buffer"]=128
   reagirl.Elements[slot]["x"]=x
   reagirl.Elements[slot]["y"]=y
   reagirl.Elements[slot]["clickable"]=clickable
@@ -4341,6 +4346,7 @@ function reagirl.Rect_Add(x,y,w,h,r,g,b,a,filled)
   reagirl.Elements[slot]["Description"]=""
   reagirl.Elements[slot]["Text"]=""
   reagirl.Elements[slot]["Name"]=""
+  reagirl.Elements[slot]["z_buffer"]=128
   reagirl.Elements[slot]["x"]=x
   reagirl.Elements[slot]["y"]=y
   reagirl.Elements[slot]["w"]=w
@@ -4501,6 +4507,7 @@ function reagirl.Line_Add(x,y,x2,y2,r,g,b,a)
   reagirl.Elements[slot]["Description"]=""
   reagirl.Elements[slot]["Text"]=""
   reagirl.Elements[slot]["Name"]=""
+  reagirl.Elements[slot]["z_buffer"]=128
   reagirl.Elements[slot]["x"]=x
   reagirl.Elements[slot]["y"]=y
   reagirl.Elements[slot]["x2"]=x2
@@ -4626,6 +4633,7 @@ function reagirl.Image_Add(image_filename, x, y, w, h, name, meaningOfUI_Element
   reagirl.Elements[slot]["Text"]=name
   reagirl.Elements[slot]["IsDecorative"]=false
   reagirl.Elements[slot]["AccHint"]="Use Space or left mouse-click to select it."
+  reagirl.Elements[slot]["z_buffer"]=128
   reagirl.Elements[slot]["x"]=x
   reagirl.Elements[slot]["y"]=y
   reagirl.Elements[slot]["w"]=w
@@ -5087,6 +5095,7 @@ function reagirl.FileDropZone_Add(x,y,w,h,func)
   reagirl.DropZone[#reagirl.DropZone+1]={}
   reagirl.DropZone[#reagirl.DropZone]["Guid"]=reaper.genGuid("")
   reagirl.DropZone[#reagirl.DropZone]["DropZoneFunc"]=func
+  reagirl.DropZone[#reagirl.DropZone]["z_buffer"]=128
   reagirl.DropZone[#reagirl.DropZone]["DropZoneX"]=x
   reagirl.DropZone[#reagirl.DropZone]["DropZoneY"]=y
   reagirl.DropZone[#reagirl.DropZone]["DropZoneW"]=w
@@ -5574,6 +5583,7 @@ function reagirl.ContextMenuZone_Add(x, y, w, h, menu, func)
   reagirl.ContextMenu[#reagirl.ContextMenu+1]={}
   reagirl.ContextMenu[#reagirl.ContextMenu]["Guid"]=reaper.genGuid()
   reagirl.ContextMenu[#reagirl.ContextMenu]["ContextMenuFunc"]=func
+  reagirl.ContextMenu[#reagirl.ContextMenu]["z_buffer"]=128
   reagirl.ContextMenu[#reagirl.ContextMenu]["ContextMenuX"]=x
   reagirl.ContextMenu[#reagirl.ContextMenu]["ContextMenuY"]=y
   reagirl.ContextMenu[#reagirl.ContextMenu]["ContextMenuW"]=w
@@ -5588,13 +5598,13 @@ end
 function reagirl.ContextMenuZone_Remove(contextmenu_id)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>ContextMenuZone_Add</slug>
+  <slug>ContextMenuZone_Remove</slug>
   <requires>
     ReaGirl=1.0
     Reaper=7
     Lua=5.4
   </requires>
-  <functioncall>reagirl.ContextMenuZone_Add(string contextmenu_id)</functioncall>
+  <functioncall>reagirl.ContextMenuZone_Remove(string contextmenu_id)</functioncall>
   <description>
     Removes a contextmenu-zone.
   </description>
@@ -5969,6 +5979,7 @@ function reagirl.ScrollButton_Right_Add()
   reagirl.Elements[#reagirl.Elements]["IsDecorative"]=false
   reagirl.Elements[#reagirl.Elements]["Description"]="Scroll Right"
   reagirl.Elements[#reagirl.Elements]["AccHint"]="Scrolls the user interface to the right"
+  reagirl.Elements[#reagirl.Elements]["z_buffer"]=256
   reagirl.Elements[#reagirl.Elements]["x"]=-30
   reagirl.Elements[#reagirl.Elements]["y"]=-15
   reagirl.Elements[#reagirl.Elements]["w"]=15
@@ -6030,6 +6041,7 @@ function reagirl.ScrollButton_Left_Add()
   reagirl.Elements[#reagirl.Elements]["IsDecorative"]=false
   reagirl.Elements[#reagirl.Elements]["Description"]="Scroll left"
   reagirl.Elements[#reagirl.Elements]["AccHint"]="Scrolls the user interface to the left"
+  reagirl.Elements[#reagirl.Elements]["z_buffer"]=256
   reagirl.Elements[#reagirl.Elements]["x"]=1
   reagirl.Elements[#reagirl.Elements]["y"]=-15
   reagirl.Elements[#reagirl.Elements]["w"]=15
@@ -6091,6 +6103,7 @@ function reagirl.ScrollButton_Up_Add()
   reagirl.Elements[#reagirl.Elements]["IsDecorative"]=false
   reagirl.Elements[#reagirl.Elements]["Description"]="Scroll up"
   reagirl.Elements[#reagirl.Elements]["AccHint"]="Scrolls the user interface upwards"
+  reagirl.Elements[#reagirl.Elements]["z_buffer"]=256
   reagirl.Elements[#reagirl.Elements]["x"]=-15
   reagirl.Elements[#reagirl.Elements]["y"]=0
   reagirl.Elements[#reagirl.Elements]["w"]=15
@@ -6152,6 +6165,7 @@ function reagirl.ScrollButton_Down_Add()
   reagirl.Elements[#reagirl.Elements]["IsDecorative"]=false
   reagirl.Elements[#reagirl.Elements]["Description"]="Scroll Down"
   reagirl.Elements[#reagirl.Elements]["AccHint"]="Scrolls the user interface downwards"
+  reagirl.Elements[#reagirl.Elements]["z_buffer"]=256
   reagirl.Elements[#reagirl.Elements]["x"]=-15
   reagirl.Elements[#reagirl.Elements]["y"]=-30
   reagirl.Elements[#reagirl.Elements]["w"]=15
@@ -6423,6 +6437,7 @@ function reagirl.Slider_Add(x, y, w, caption, meaningOfUI_Element, unit, start, 
   reagirl.Elements[slot]["IsDecorative"]=false
   reagirl.Elements[slot]["Description"]=meaningOfUI_Element
   reagirl.Elements[slot]["AccHint"]="Change via arrowkeys, home, end, pageup, pagedown."
+  reagirl.Elements[slot]["z_buffer"]=128
   reagirl.Elements[slot]["x"]=x
   reagirl.Elements[slot]["y"]=y
   reagirl.Elements[slot]["w"]=math.tointeger(w)--math.tointeger(ty+tx+4)
@@ -7182,6 +7197,7 @@ function reagirl.Tabs_Add(x, y, w_backdrop, h_backdrop, caption, meaningOfUI_Ele
   reagirl.Elements[slot]["IsDecorative"]=false
   reagirl.Elements[slot]["Description"]=meaningOfUI_Element
   reagirl.Elements[slot]["AccHint"]="Switch tab using left/right arrow-keys"
+  reagirl.Elements[slot]["z_buffer"]=128
   reagirl.Elements[slot]["x"]=x
   reagirl.Elements[slot]["y"]=y
   reagirl.Elements[slot]["text_offset_x"]=20
