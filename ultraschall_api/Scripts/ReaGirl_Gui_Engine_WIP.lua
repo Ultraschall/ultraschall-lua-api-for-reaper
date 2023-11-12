@@ -203,6 +203,28 @@ function reagirl.Gui_PreventCloseViaEscForOneCycle()
   reagirl.Gui_PreventCloseViaEscForOneCycle_State=true
 end
 
+function reagirl.Gui_PreventEnterForOneCycle()
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Gui_PreventEnterForOneCycle</slug>
+  <requires>
+    ReaGirl=1.0
+    Reaper=7
+    Lua=5.4
+  </requires>
+  <functioncall>reagirl.Gui_PreventEnterForOneCycle()</functioncall>
+  <description>
+    Prevents the user from hitting the enter-key for one cycle.
+  </description>
+  <chapter_context>
+    UI Elements
+  </chapter_context>
+  <tags>gui, set, override, prevent, enter key, escape</tags>
+</US_DocBloc>
+--]]
+  reagirl.Gui_PreventEnterForOneCycle_State=true
+end
+
 function reagirl.IsValidGuid(guid, strict)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
@@ -1349,7 +1371,7 @@ function reagirl.Gui_Manage()
     if reagirl.AtExit_RunFunc~=nil then reagirl.AtExit_RunFunc() end
   end
   
-  if reagirl.Gui_PreventCloseViaEscForOneCycle_State~=true then
+  if reagirl.Gui_PreventEnterForOneCycle_State~=true then
     if Key==13 then 
       if reagirl.AtEnter_RunFunc~=nil then reagirl.AtEnter_RunFunc() end
     end -- esc closes window
@@ -7650,6 +7672,7 @@ function main()
   --print(reagirl.FileDropZone_GetVisibility(dropzone_id))
   gfx.update()
  -- print_update(reagirl.UI_Element_GetHovered())
+  --reagirl.Gui_PreventEnterForOneCycle()
   if reagirl.Gui_IsOpen()==true then reaper.defer(main) end
 end
 
