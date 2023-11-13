@@ -1484,6 +1484,7 @@ function reagirl.Gui_Manage()
           if Window_State&8==8 then
             reaper.TrackCtl_SetToolTip(reagirl.Elements[i]["Description"], XX+15, YY+10, true)
           end
+          
           reaper.osara_outputMessage(reagirl.Elements[i]["AccHoverMessage"])
           --if reaper.osara_outputMessage~=nil then reaper.osara_outputMessage(reagirl.Elements[i]["Text"],2--[[:utf8_sub(1,20)]]) end
          end
@@ -1515,6 +1516,28 @@ function reagirl.Gui_Manage()
         reaper.osara_outputMessage(reagirl.Elements[reagirl.UI_Elements_HoveredElement]["Name"])
       end
     end
+  end
+  
+  --[[context menu]]
+  -- show context-menu if the last defer-loop had a right-click onto a ui-element
+  local ContextShow
+  if reagirl.UI_Elements_HoveredElement~=-1 and reagirl.ContextMenuClicked==true then
+    gfx.x=gfx.mouse_x
+    gfx.y=gfx.mouse_y
+    if reagirl.Elements[reagirl.UI_Elements_HoveredElement]["ContextMenu"]~=nil then
+      local selection=gfx.showmenu(reagirl.Elements[reagirl.UI_Elements_HoveredElement]["ContextMenu"])
+      
+      if selection>0 then
+        reagirl.Elements[reagirl.UI_Elements_HoveredElement]["ContextMenuFunction"](reagirl.Elements[reagirl.UI_Elements_HoveredElement]["Guid"], selection)
+      end
+    end
+    -- workaround to prevent, that the menu is shown twice in a row
+    ContextShow=true
+  end
+  reagirl.ContextMenuClicked=nil
+  -- if rightclicked on a ui-element, signal that the next defer-loop(after gui-refresh) shall show a context-menu
+  if ContextShow~=true and reagirl.ContextMenuClicked~=true and reagirl.UI_Elements_HoveredElement~=-1 and gfx.mouse_cap==2 then
+    reagirl.ContextMenuClicked=true
   end
   reagirl.UI_Elements_HoveredElement_Old=reagirl.UI_Elements_HoveredElement
   
@@ -2688,6 +2711,8 @@ function reagirl.CheckBox_Add(x, y, caption, meaningOfUI_Element, default, run_f
   reagirl.Elements[slot]["func_draw"]=reagirl.CheckBox_Draw
   reagirl.Elements[slot]["run_function"]=run_function
   reagirl.Elements[slot]["userspace"]={}
+  reagirl.Elements[slot]["ContextMenu"]=caption
+  reagirl.Elements[slot]["ContextMenuFunction"]=sliderme
   return reagirl.Elements[slot]["Guid"]
 end
 
@@ -5239,399 +5264,6 @@ end
 
 
 
-function reagirl.ContextMenuZone_ManageMenu(mouse_cap)
-
-  local x, y, w, h 
-  local scale=reagirl.Window_GetCurrentScale()
-  if mouse_cap&2==0 then return end
-  if reagirl.ContextMenu~=nil then
-    for i=1, #reagirl.ContextMenu do
-      if reagirl.ContextMenu[i]["hidden"]~=true then
-        if reagirl.ContextMenu[i]["sticky_x"]==false then
-          if reagirl.ContextMenu[i]["ContextMenuX"]<0 then x=gfx.w+reagirl.ContextMenu[i]["ContextMenuX"]+reagirl.MoveItAllRight else x=reagirl.ContextMenu[i]["ContextMenuX"]+reagirl.MoveItAllRight end
-          if reagirl.ContextMenu[i]["ContextMenuW"]<0 then w=gfx.w-x+reagirl.ContextMenu[i]["ContextMenuW"] else w=reagirl.ContextMenu[i]["ContextMenuW"] end
-        else
-          if reagirl.ContextMenu[i]["ContextMenuX"]<0 then x=gfx.w+reagirl.ContextMenu[i]["ContextMenuX"] else x=reagirl.ContextMenu[i]["ContextMenuX"] end
-          if reagirl.ContextMenu[i]["ContextMenuW"]<0 then w=gfx.w-x+reagirl.ContextMenu[i]["ContextMenuW"] else w=reagirl.ContextMenu[i]["ContextMenuW"] end
-        end
-        if reagirl.ContextMenu[i]["sticky_y"]==false then
-          if reagirl.ContextMenu[i]["ContextMenuY"]<0 then y=gfx.h+reagirl.ContextMenu[i]["ContextMenuY"]+reagirl.MoveItAllUp else y=reagirl.ContextMenu[i]["ContextMenuY"]+reagirl.MoveItAllUp end
-          if reagirl.ContextMenu[i]["ContextMenuH"]<0 then h=gfx.h-y+reagirl.ContextMenu[i]["ContextMenuH"] else h=reagirl.ContextMenu[i]["ContextMenuH"] end
-        else
-          if reagirl.ContextMenu[i]["ContextMenuY"]<0 then y=gfx.h+reagirl.ContextMenu[i]["ContextMenuY"] else y=reagirl.ContextMenu[i]["ContextMenuY"] end
-          if reagirl.ContextMenu[i]["ContextMenuH"]<0 then h=gfx.h-y+reagirl.ContextMenu[i]["ContextMenuH"] else h=reagirl.ContextMenu[i]["ContextMenuH"] end
-        end
-      --[[
-        if reagirl.ContextMenu[i]["ContextMenuX"]<0 then x=gfx.w+reagirl.ContextMenu[i]["ContextMenuX"]+reagirl.MoveItAllRight else x=reagirl.ContextMenu[i]["ContextMenuX"]+reagirl.MoveItAllRight end
-        if reagirl.ContextMenu[i]["ContextMenuY"]<0 then y=gfx.h+reagirl.ContextMenu[i]["ContextMenuY"]+reagirl.MoveItAllUp else y=reagirl.ContextMenu[i]["ContextMenuY"]+reagirl.MoveItAllUp end
-        if reagirl.ContextMenu[i]["ContextMenuW"]<0 then w=gfx.w-x+reagirl.ContextMenu[i]["ContextMenuW"] else w=reagirl.ContextMenu[i]["ContextMenuW"] end
-        if reagirl.ContextMenu[i]["ContextMenuH"]<0 then h=gfx.h-y+reagirl.ContextMenu[i]["ContextMenuH"] else h=reagirl.ContextMenu[i]["ContextMenuH"] end
-        --]]
-        x=x*scale
-        y=y*scale
-        w=w*scale
-        h=h*scale
-        -- debug dropzone-rectangle, for checking, if it works
-        --[[
-          gfx.set(1)
-          gfx.rect(x, y, w, h, 1)
-          --dx=x
-          --dy=y
-          --dw=w
-          --dh=h
-        --]]
-        local files={}
-        local retval
-        if gfx.mouse_x>=x and
-           gfx.mouse_y>=y and
-           gfx.mouse_x<=x+w and
-           gfx.mouse_y<=y+h then
-           local oldx=gfx.x
-           local oldy=gfx.y
-           gfx.x=gfx.mouse_x
-           gfx.y=gfx.mouse_y
-          local retval=gfx.showmenu(reagirl.ContextMenu[i]["ContextMenu"])
-          if retval>0 then
-            reagirl.ContextMenu[i]["ContextMenuFunc"](i, retval)
-          end
-          gfx.x=oldx
-          gfx.y=oldy
-          break
-        end
-      end
-      reagirl.Gui_ForceRefresh(15)
-    end
-  end
-end
-
-function reagirl.ContextMenuZone_GetSticky(contextmenu_id)
---[[
-<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>ContextMenuZone_GetSticky</slug>
-  <requires>
-    ReaGirl=1.0
-    Reaper=7
-    Lua=5.4
-  </requires>
-  <functioncall>boolean sticky_x, boolean sticky_y = reagirl.ContextMenuZone_GetSticky(string contextmenu_id)</functioncall>
-  <description>
-    gets the stickyness of contextmenu.
-    
-    Sticky-elements will not be moved by the global scrollbar-scrolling.
-  </description>
-  <retvals>
-    boolean sticky_x - true, x-movement is sticky; false, x-movement isn't sticky
-    boolean sticky_y - true, y-movement is sticky; false, y-movement isn't sticky
-  </retvals>
-  <parameters>
-    string contextmenu_id - the contextmenu, whose sticky-ness you want to retrieve
-  </parameters>
-  <chapter_context>
-    ContextMenu
-  </chapter_context>
-  <target_document>ReaGirl_Docs</target_document>
-  <source_document>reagirl_GuiEngine.lua</source_document>
-  <tags>context menu, get, sticky</tags>
-</US_DocBloc>
-]]
-  local is_set=false
-  if type(contextmenu_id)~="string" then error("ContextMenuZone_GetSticky: #1 - must be a guid as string", 2) end
-  --element_id=reagirl.UI_Element_GetIDFromGuid(element_id)
-  local count=-1
-  for i=1, #reagirl.ContextMenu do
-    if reagirl.ContextMenu[i]["Guid"]==contextmenu_id then
-      count=i
-      break
-    end
-  end
-  if count==-1 then error("ContextMenuZone_GetSticky: #1 - no such ui-element", 2) end
-
-  return reagirl.ContextMenu[count]["sticky_x"], reagirl.ContextMenu[count]["sticky_y"]
-end
-
-function reagirl.ContextMenuZone_SetSticky(contextmenu_id, sticky_x, sticky_y)
---[[
-<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>FileDropZone_SetSticky</slug>
-  <requires>
-    ReaGirl=1.0
-    Reaper=7
-    Lua=5.4
-  </requires>
-  <functioncall>reagirl.FileDropZone_SetSticky(string contextmenu_id, boolean sticky_x, boolean sticky_y)</functioncall>
-  <description>
-    sets the stickyness of a context-menu.
-    
-    Sticky-elements will not be moved by the global scrollbar-scrolling.
-  </description>
-  <parameters>
-    string contextmenu_id - the id of the drop-zone, whose sticky-ness you want to set
-    boolean sticky_x - true, x-movement is sticky; false, x-movement isn't sticky
-    boolean sticky_y - true, y-movement is sticky; false, y-movement isn't sticky
-  </parameters>
-  <chapter_context>
-    FileDropZone
-  </chapter_context>
-  <target_document>ReaGirl_Docs</target_document>
-  <source_document>reagirl_GuiEngine.lua</source_document>
-  <tags>file drop zone, set, sticky</tags>
-</US_DocBloc>
-]]
-  local is_set=true
-  if type(contextmenu_id)~="string" then error("FileDropZone_SetSticky: #1 - must be a guid as string", 2) end
-  
-  local count=-1
-  for i=1, #reagirl.ContextMenu do
-    if reagirl.ContextMenu[i]["Guid"]==contextmenu_id then
-      count=i
-      break
-    end
-  end
-  if count==-1 then error("FileDropZone_SetSticky: #1 - no such ui-element", 2) end
-  
-  if type(is_set)~="boolean" then error("FileDropZone_SetSticky: #2 - must be a boolean", 2) end
-  if type(sticky_x)~="boolean" then error("FileDropZone_SetSticky: #3 - must be a boolean", 2) end
-  if type(sticky_y)~="boolean" then error("FileDropZone_SetSticky: #4 - must be a boolean", 2) end
-  
-  if is_set==true then
-    reagirl.ContextMenu[count]["sticky_x"]=sticky_x
-    reagirl.ContextMenu[count]["sticky_y"]=sticky_y
-  end
-end
-
-function reagirl.ContextMenuZone_SetHiddenState(contextmenu_id, hidden)
---[[
-<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>ContextMenuZone_SetHiddenState</slug>
-  <requires>
-    ReaGirl=1.0
-    Reaper=7
-    Lua=5.4
-  </requires>
-  <functioncall>reagirl.ContextMenuZone_SetHiddenState(string contextmenu_id, boolean hidden)</functioncall>
-  <description>
-    Sets a context-menu-zone's hidden-state. If it's hidden, right clicking will not show a context-menu in the zone.
-  </description>
-  <parameters>
-    string contextmenu_id - the guid of the context-menu-zone whose hidden-state you want to set
-    boolean hidden - true, the context-menu-zone is hidden; false, the context-menu-zone is not hidden
-  </parameters>
-  <chapter_context>
-    ContextMenu
-  </chapter_context>
-  <tags>context menu, set, hidden, visibility</tags>
-</US_DocBloc>
---]]
-  if type(contextmenu_id)~="string" then error("ContextMenuZone_SetHiddenState: #1 - must be a string", 2) end
-  if reagirl.IsValidGuid(contextmenu_id, true)==false then error("ContextMenuZone_SetHiddenState: #1 - must be a valid guid", 2) end
-  if type(hidden)~="boolean" then error("ContextMenuZone_SetHiddenState: #2 - must be a boolean", 2) end
-  local count=-1
-  for i=1, #reagirl.ContextMenu do
-    if reagirl.ContextMenu[i]["Guid"]==contextmenu_id then
-      count=i
-      break
-    end
-  end
-  if count==-1 then error("ContextMenuZone_SetHiddenState: #1 - no such context-menu-zone", 2) end
-  if hidden==true then reagirl.ContextMenu[count]["hidden"]=true else reagirl.ContextMenu[count]["hidden"]=nil end
-end
-
-function reagirl.ContextMenuZone_GetHiddenState(contextmenu_id)
---[[
-<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>ContextMenuZone_GetHiddenState</slug>
-  <requires>
-    ReaGirl=1.0
-    Reaper=7
-    Lua=5.4
-  </requires>
-  <functioncall>boolean hidden = reagirl.ContextMenuZone_GetHiddenState(string contextmenu_id)</functioncall>
-  <description>
-    Gets a context-menu-zone's hidden-state. If it's hidden, right clicking the zone will not show a context-menu.
-  </description>
-  <parameters>
-    string contextmenu_id - the guid of the context-menu-zone whose hidden-state you want to get
-  </parameters>
-  <retvals>
-    boolean hidden - true, the context-menu-zone is hidden; false, the context-menu-zone is not hidden
-  </retvals>
-  <chapter_context>
-    ContextMenu
-  </chapter_context>
-  <tags>context menu, get, hidden, visibility</tags>
-</US_DocBloc>
---]]
-  if type(contextmenu_id)~="string" then error("ContextMenuZone_GetHiddenState: #1 - must be a string", 2) end
-  if reagirl.IsValidGuid(contextmenu_id, true)==false then error("ContextMenuZone_GetHiddenState: #1 - must be a valid guid", 2) end
-  local count=-1
-  for i=1, #reagirl.ContextMenu do
-    if reagirl.ContextMenu[i]["Guid"]==contextmenu_id then
-      count=i
-      break
-    end
-  end
-  if count==-1 then error("ContextMenuZone_GetHiddenState: #1 - no such context-menu-zone", 2) end
-  return reagirl.ContextMenu[count]["hidden"]==true
-end
-
-function reagirl.ContextMenuZone_SetMenu(contextmenu_id, menu)
---[[
-<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>ContextMenuZone_SetMenu</slug>
-  <requires>
-    ReaGirl=1.0
-    Reaper=7
-    Lua=5.4
-  </requires>
-  <functioncall>reagirl.ContextMenuZone_SetMenu(string contextmenu_id, string menu)</functioncall>
-  <description>
-    Sets a menu in a context-menu-zone.
-  </description>
-  <parameters>
-    string contextmenu_id - the guid of the context-menu-zone whose menu you want to set
-    string menu - the new menu for this context-menu-zone
-  </parameters>
-  <chapter_context>
-    ContextMenu
-  </chapter_context>
-  <tags>context menu, set, menu</tags>
-</US_DocBloc>
---]]
-  if type(contextmenu_id)~="string" then error("ContextMenuZone_SetMenu: #1 - must be a string", 2) end
-  if reagirl.IsValidGuid(contextmenu_id, true)==false then error("ContextMenuZone_SetMenu: #1 - must be a valid guid", 2) end
-  if type(menu)~="string" then error("ContextMenuZone_SetMenu: #2 - must be a string", 2) end
-  local count=-1
-  for i=1, #reagirl.ContextMenu do
-    if reagirl.ContextMenu[i]["Guid"]==contextmenu_id then
-      count=i
-      break
-    end
-  end
-  if count==-1 then error("ContextMenuZone_SetMenu: #1 - no such context-menu-zone", 2) end
-  reagirl.ContextMenu[count]["ContextMenu"]=menu
-end
-
-function reagirl.ContextMenuZone_GetMenu(contextmenu_id)
---[[
-<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>ContextMenuZone_GetMenu</slug>
-  <requires>
-    ReaGirl=1.0
-    Reaper=7
-    Lua=5.4
-  </requires>
-  <functioncall>string menu = reagirl.ContextMenuZone_GetMenu(string contextmenu_id)</functioncall>
-  <description>
-    Gets the menu of a context-menu-zone.
-  </description>
-  <parameters>
-    string contextmenu_id - the guid of the context-menu-zone whose menu you want to get
-  </parameters>
-  <retvals>
-    string menu - the current menu for this context-menu-zone
-  </retvals>
-  <chapter_context>
-    ContextMenu
-  </chapter_context>
-  <tags>context menu, get, menu</tags>
-</US_DocBloc>
---]]
-  if type(contextmenu_id)~="string" then error("ContextMenuZone_GetMenu: #1 - must be a string", 2) end
-  if reagirl.IsValidGuid(contextmenu_id, true)==false then error("ContextMenuZone_GetMenu: #1 - must be a valid guid", 2) end
-  local count=-1
-  for i=1, #reagirl.ContextMenu do
-    if reagirl.ContextMenu[i]["Guid"]==contextmenu_id then
-      count=i
-      break
-    end
-  end
-  if count==-1 then error("ContextMenuZone_GetMenu: #1 - no such context-menu-zone", 2) end
-  return reagirl.ContextMenu[count]["ContextMenu"]
-end
-
-function reagirl.ContextMenuZone_Add(x, y, w, h, menu, func)
---[[
-<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>ContextMenuZone_Add</slug>
-  <requires>
-    ReaGirl=1.0
-    Reaper=7
-    Lua=5.4
-  </requires>
-  <functioncall>string contextmenu_id = reagirl.ContextMenuZone_Add(integer x, integer y, integer w, integer h, string menu, function func)</functioncall>
-  <description>
-    Adds a contextmenu-zone, where rightclicking opens a context-menu.
-  </description>
-  <parameters>
-    integer x - the x-position in pixels of the context-menu-zone; negative means anchored to the right window-edge
-    integer y - the y-position in pixels of the context-menu-zone; negative means anchored to the bottom window-edge
-    integer w - the width in pixels of the context-menu-zone; negative means anchored to the right window-edge
-    integer h - the height in pixels of the context-menu-zone; negative means anchored to the bottom window-edge
-    string menu - the menu for this zone, each menu separated with a |
-                - you can influence the display of a menu-entry if an entry starts with a special character, like
-                - # : grayed out
-                - ! : checked
-                - > : this menu item shows a submenu
-                - < : last item in the current submenu
-    function func - the function that shall be called, when an entry has been selected in this context-menu-zone
-  </parameters>
-  <chapter_context>
-    ContextMenu
-  </chapter_context>
-  <tags>context menu, add</tags>
-</US_DocBloc>
---]]
-  if math.type(x)~="integer" then error("ContextMenuZone_Add: #1 - must be an integer", 2) end
-  if math.type(y)~="integer" then error("ContextMenuZone_Add: #2 - must be an integer", 2) end
-  if math.type(w)~="integer" then error("ContextMenuZone_Add: #3 - must be an integer", 2) end
-  if math.type(h)~="integer" then error("ContextMenuZone_Add: #4 - must be an integer", 2) end
-  if type(menu)~="string" then error("ContextMenuZone_Add: #5 - must be a string", 2) end
-  if type(func)~="function" then error("ContextMenuZone_Add: #6 - must be an function", 2) end
-  if reagirl.ContextMenu==nil then reagirl.ContextMenu={} end
-  reagirl.ContextMenu[#reagirl.ContextMenu+1]={}
-  reagirl.ContextMenu[#reagirl.ContextMenu]["Guid"]=reaper.genGuid()
-  reagirl.ContextMenu[#reagirl.ContextMenu]["ContextMenuFunc"]=func
-  reagirl.ContextMenu[#reagirl.ContextMenu]["z_buffer"]=128
-  reagirl.ContextMenu[#reagirl.ContextMenu]["ContextMenuX"]=x
-  reagirl.ContextMenu[#reagirl.ContextMenu]["ContextMenuY"]=y
-  reagirl.ContextMenu[#reagirl.ContextMenu]["ContextMenuW"]=w
-  reagirl.ContextMenu[#reagirl.ContextMenu]["ContextMenuH"]=h
-  reagirl.ContextMenu[#reagirl.ContextMenu]["sticky_x"]=false
-  reagirl.ContextMenu[#reagirl.ContextMenu]["sticky_y"]=false
-  reagirl.ContextMenu[#reagirl.ContextMenu]["ContextMenu"]=menu
-  
-  return reagirl.ContextMenu[#reagirl.ContextMenu]["Guid"]
-end
-
-function reagirl.ContextMenuZone_Remove(contextmenu_id)
---[[
-<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>ContextMenuZone_Remove</slug>
-  <requires>
-    ReaGirl=1.0
-    Reaper=7
-    Lua=5.4
-  </requires>
-  <functioncall>reagirl.ContextMenuZone_Remove(string contextmenu_id)</functioncall>
-  <description>
-    Removes a contextmenu-zone.
-  </description>
-  <parameters>
-    string contextmenu_id - the id of the contextmenu-zone that you want to remove
-  </parameters>
-  <chapter_context>
-    ContextMenu
-  </chapter_context>
-  <tags>context menu, remove</tags>
-</US_DocBloc>
---]]
-  if type(contextmenu_id)~="string" then error("ContextMenuZone_Remove: #1 - must be a guid as string", 2) end
-  if reagirl.IsValidGuid(contextmenu_id, true)==false then error("ContextMenuZone_Remove: #1 - must be a valid guid", 2) end
-  for i=1, #reagirl.ContextMenu do
-    if reagirl.ContextMenu[i]["Guid"]==contextmenu_id then table.remove(reagirl.ContextMenu[i], i) return true end
-  end
-  return false
-end
 
 function reagirl.Window_ForceMinSize()
   if reagirl.Window_ForceMinSize_Toggle~=true then return end
@@ -7474,7 +7106,7 @@ function CheckMe(tudelu, checkstate)
   
   --reagirl.ContextMenuZone_SetMenu(contextmenu_id, tostring(checkstate))
   --print2(reagirl.ContextMenuZone_GetMenu(contextmenu_id))
-  print(reagirl.UI_Element_GetSetHidden(BBBlol, true, checkstate))
+  --print(reagirl.UI_Element_GetSetHidden(BBBlol, true, checkstate))
   if checkstate==false then
     --reagirl.Window_SetCurrentScale(1)
     reagirl.Button_SetDisabled(BBB, true)
@@ -7483,11 +7115,11 @@ function CheckMe(tudelu, checkstate)
     --reagirl.Slider_SetMinimum(F, 10)
     --reagirl.Slider_SetMaximum(F, 50)
     --reagirl.Slider_SetDefaultValue(F, 10)
-    reagirl.Slider_SetDisabled(F, true)
+  --  reagirl.Slider_SetDisabled(F, true)
   else
     --reagirl.Window_SetCurrentScale()
     reagirl.Button_SetDisabled(BBB, false)
-    reagirl.Slider_SetDisabled(F, false)
+--    reagirl.Slider_SetDisabled(F, false)
   end
 end
 
@@ -7569,7 +7201,7 @@ reagirl.NextLine()
 --reagirl.Tabs_Add(nil, nil, 0, 0, "TUDELU", "Tabs", {"HUCH", "TUDELU", "Dune", "Ach Gotterl", "Leileileilei"}, 1, sliderme)
 --reagirl.NextLine()
   --reagirl.AddDummyElement()  
-  --[[
+  
   LAB=reagirl.Label_Add(nil, nil, "Export Podcast as:", "Label 1", 0, false, label_click)
   LAB2=reagirl.Label_Add(nil, nil, "Link to Docs", "clickable label", 0, true, label_click)
   reagirl.NextLine()
