@@ -1322,7 +1322,6 @@ function reagirl.Gui_Manage()
   
   -- keine Ahnung
   reagirl.FileDropZone_CheckForDroppedFiles()
-  reagirl.ContextMenuZone_ManageMenu(gfx.mouse_cap)
   
   -- reset clicked state
   for i=1, #reagirl.Elements do reagirl.Elements[i]["clicked"]=false end
@@ -1528,7 +1527,7 @@ function reagirl.Gui_Manage()
       local selection=gfx.showmenu(reagirl.Elements[reagirl.UI_Elements_HoveredElement]["ContextMenu"])
       
       if selection>0 then
-        reagirl.Elements[reagirl.UI_Elements_HoveredElement]["ContextMenuFunction"](reagirl.Elements[reagirl.UI_Elements_HoveredElement]["Guid"], selection)
+        reagirl.Elements[reagirl.UI_Elements_HoveredElement]["ContextMenuFunction"](reagirl.Elements[reagirl.UI_Elements_HoveredElement]["Guid"], math.tointeger(selection))
       end
     end
     -- workaround to prevent, that the menu is shown twice in a row
@@ -1976,7 +1975,7 @@ function reagirl.UI_Element_GetSetDescription(element_id, is_set, description)
     Reaper=7
     Lua=5.4
   </requires>
-  <functioncall>string ui_type = reagirl.UI_Element_GetSetDescription(string element_id, boolean is_set, string description)</functioncall>
+  <functioncall>string description = reagirl.UI_Element_GetSetDescription(string element_id, boolean is_set, string description)</functioncall>
   <description>
     gets/sets the description of the ui-element
   </description>
@@ -2007,6 +2006,59 @@ function reagirl.UI_Element_GetSetDescription(element_id, is_set, description)
     reagirl.Elements[element_id]["Description"]=description
   end
   return reagirl.Elements[element_id]["Description"]
+end
+
+function reagirl.UI_Element_GetSet_ContextMenu(element_id, is_set, menu, menu_function)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>UI_Element_GetSet_ContextMenu</slug>
+  <requires>
+    ReaGirl=1.0
+    Reaper=7
+    Lua=5.4
+  </requires>
+  <functioncall>string menu, function run_function = reagirl.UI_Element_GetSet_ContextMenu(string element_id, boolean is_set, string description)</functioncall>
+  <description>
+    gets/sets the context-menu and context-menu-run-function of a ui-element.
+    
+    Setting this will show a context-menu, when the user rightclicks the ui-element.
+    Drop a hint in the accessibility-hint of the ui-element, so blind users know, a context-menu exists.
+    
+    The menu_function will be called with two parameters: 
+      string element_id - the guid of the ui-element, whose context-menu has been used
+      integer selection - the index of the menu-item selected by the user
+  </description>
+  <retvals>
+    string menu - the currently set menu for this ui-element
+    function run_function - a function that is called, after the user made a context-menu-selection
+  </retvals>
+  <parameters>
+    string element_id - the id of the element, whose description you want to get/set
+    boolean is_set - true, set the description; false, don't set the description
+    string menu - sets a menu for this ui-element
+    function run_function - sets a function that is called, after the user made a context-menu-selection
+  </parameters>
+  <chapter_context>
+    UI Elements
+  </chapter_context>
+  <target_document>ReaGirl_Docs</target_document>
+  <source_document>reagirl_GuiEngine.lua</source_document>
+  <tags>ui-elements, set, get, context menu</tags>
+</US_DocBloc>
+]]
+  if type(element_id)~="string" then error("UI_Element_GetSet_ContextMenu: #1 - must be a guid as string", 2) end
+  element_id=reagirl.UI_Element_GetIDFromGuid(element_id)
+  if element_id==nil then error("UI_Element_GetSet_ContextMenu: #1 - no such ui-element", 2) end
+  if reagirl.Elements[element_id]==nil then error("UI_Element_GetSet_ContextMenu: #1 - no such ui-element", 2) end
+  if type(is_set)~="boolean" then error("UI_Element_GetSet_ContextMenu: #2 - must be a boolean", 2) end
+  if is_set==true and type(menu)~="string" then error("UI_Element_GetSet_ContextMenu: #3 - must be a string when #2==true", 2) end
+  if is_set==true and type(menu_function)~="function" then error("UI_Element_GetSet_ContextMenu: #4 - must be a string when #2==true", 2) end
+  
+  if is_set==true then
+    reagirl.Elements[element_id]["ContextMenu"]=menu
+    reagirl.Elements[element_id]["ContextMenuFunction"]=menu_function
+  end
+  return reagirl.Elements[element_id]["ContextMenu"], reagirl.Elements[element_id]["ContextMenuFunction"]
 end
 
 function reagirl.UI_Element_GetSetName(element_id, is_set, name)
@@ -2711,8 +2763,6 @@ function reagirl.CheckBox_Add(x, y, caption, meaningOfUI_Element, default, run_f
   reagirl.Elements[slot]["func_draw"]=reagirl.CheckBox_Draw
   reagirl.Elements[slot]["run_function"]=run_function
   reagirl.Elements[slot]["userspace"]={}
-  reagirl.Elements[slot]["ContextMenu"]=caption
-  reagirl.Elements[slot]["ContextMenuFunction"]=sliderme
   return reagirl.Elements[slot]["Guid"]
 end
 
@@ -7203,10 +7253,13 @@ reagirl.NextLine()
   --reagirl.AddDummyElement()  
   
   LAB=reagirl.Label_Add(nil, nil, "Export Podcast as:", "Label 1", 0, false, label_click)
+  reagirl.UI_Element_GetSet_ContextMenu(LAB, true, "LABEL|BABEL", sliderme)
   LAB2=reagirl.Label_Add(nil, nil, "Link to Docs", "clickable label", 0, true, label_click)
+  reagirl.UI_Element_GetSet_ContextMenu(LAB2, true, "LABEL TOO|BABEL", sliderme)
   reagirl.NextLine()
   A = reagirl.CheckBox_Add(nil, nil, "Under Pressure", "Under Pressure TUDELU", true, CheckMe)
   reagirl.Checkbox_SetTopBottom(A, false, true)
+  reagirl.UI_Element_GetSet_ContextMenu(A, true, "Under|>Pressure", sliderme)
   A = reagirl.CheckBox_Add(nil, nil, "Under Pressure", "Under Pressure TUDELU", true, sliderme)
   reagirl.Checkbox_SetTopBottom(A, false, true)
   reagirl.NextLine()
@@ -7295,8 +7348,6 @@ reagirl.NextLine()
     reagirl.NextLine()
   end
   --reagirl.ContextMenuZone_Add(10,10,120,120,"Hula|Hoop", CMenu)
-  contextmenu_id=reagirl.ContextMenuZone_Add(100,100,100,100,"Menu|Two|>And a|half", CMenu)
-  contextmenu_id=reagirl.ContextMenuZone_Add(100,100,100,100,"HUUU|Menu|Two|>And a|half", CMenu)
   --reagirl.ContextMenuZone_SetSticky(contextmenu_id, false, false)
   
   --]]
