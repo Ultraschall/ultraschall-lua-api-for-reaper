@@ -1320,9 +1320,6 @@ function reagirl.Gui_Manage()
     end
   end
   
-  -- keine Ahnung
-  --reagirl.FileDropZone_CheckForDroppedFiles()
-  
   -- reset clicked state
   for i=1, #reagirl.Elements do reagirl.Elements[i]["clicked"]=false end
   
@@ -5080,307 +5077,6 @@ function reagirl.Background_DrawImage()
   gfx.blit(reagirl.DecorativeImages["Background"], scale, 0)
 end
 
-function reagirl.FileDropZone_CheckForDroppedFiles()
-  local x, y, w, h
-  local scale=reagirl.Window_GetCurrentScale()
-  local i=1
-  if reagirl.DropZone~=nil then
-    for i=1, #reagirl.DropZone do
-      if reagirl.DropZone[i]["hidden"]~=true then
-        if reagirl.DropZone[i]["sticky_x"]==false then
-          if reagirl.DropZone[i]["DropZoneX"]<0 then x=gfx.w+reagirl.DropZone[i]["DropZoneX"]+reagirl.MoveItAllRight else x=reagirl.DropZone[i]["DropZoneX"]+reagirl.MoveItAllRight end
-          if reagirl.DropZone[i]["DropZoneW"]<0 then w=gfx.w-x+reagirl.DropZone[i]["DropZoneW"] else w=reagirl.DropZone[i]["DropZoneW"] end
-        else
-          if reagirl.DropZone[i]["DropZoneX"]<0 then x=gfx.w+reagirl.DropZone[i]["DropZoneX"] else x=reagirl.DropZone[i]["DropZoneX"] end
-          if reagirl.DropZone[i]["DropZoneW"]<0 then w=gfx.w-x+reagirl.DropZone[i]["DropZoneW"] else w=reagirl.DropZone[i]["DropZoneW"] end
-        end
-        if reagirl.DropZone[i]["sticky_y"]==false then
-          if reagirl.DropZone[i]["DropZoneY"]<0 then y=gfx.h+reagirl.DropZone[i]["DropZoneY"]+reagirl.MoveItAllUp else y=reagirl.DropZone[i]["DropZoneY"]+reagirl.MoveItAllUp end
-          if reagirl.DropZone[i]["DropZoneH"]<0 then h=gfx.h-y+reagirl.DropZone[i]["DropZoneH"] else h=reagirl.DropZone[i]["DropZoneH"] end
-        else
-          if reagirl.DropZone[i]["DropZoneY"]<0 then y=gfx.h+reagirl.DropZone[i]["DropZoneY"] else y=reagirl.DropZone[i]["DropZoneY"] end
-          if reagirl.DropZone[i]["DropZoneH"]<0 then h=gfx.h-y+reagirl.DropZone[i]["DropZoneH"] else h=reagirl.DropZone[i]["DropZoneH"] end
-        end
-        x=x*scale
-        y=y*scale
-        w=w*scale
-        h=h*scale
-        -- debug dropzone-rectangle, for checking, if it works
-        --[[
-          gfx.set(1)
-          gfx.rect(x, y, w, h, 0)
-        --]]
-        local files={}
-        local retval
-        if gfx.mouse_x>=x and
-           gfx.mouse_y>=y and
-           gfx.mouse_x<=x+w and
-           gfx.mouse_y<=y+h then
-           for i=0, 65555 do
-             retval, files[i+1]=gfx.getdropfile(i)
-             if retval==0 then break end
-           end
-           if #files>0 then
-            reagirl.DropZone[i]["DropZoneFunc"](reagirl.DropZone[i]["Guid"], files)
-            reagirl.Gui_ForceRefresh(14)
-           end
-        end
-      end
-    end
-    gfx.getdropfile(-1)
-  end
-end
-
-function reagirl.FileDropZone_SetHiddenState(dropzone_id, hidden)
---[[
-<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>FileDropZone_SetHiddenState</slug>
-  <requires>
-    ReaGirl=1.0
-    Reaper=7
-    Lua=5.4
-  </requires>
-  <functioncall>reagirl.FileDropZone_SetHiddenState(string dropzone_id, boolean hidden)</functioncall>
-  <description>
-    Set a file-drop-zone to hidden/not hidden. If it's hidden, dropped files will not be recognized.
-  </description>
-  <parameters>
-    string dropzone_id - the guid of the file-drop-zone whose hidden-state you want to set
-    boolean hidden - true, the file-drop-zone is hidden; false, the file-drop-zone is not hidden
-  </parameters>
-  <chapter_context>
-    FileDropZone
-  </chapter_context>
-  <tags>file drop zone, set, hidden, visibility</tags>
-</US_DocBloc>
---]]
-  if type(dropzone_id)~="string" then error("FileDropZone_SetHiddenState: #1 - must be a string", 2) end
-  if reagirl.IsValidGuid(dropzone_id, true)==false then error("FileDropZone_SetHiddenState: #1 - must be a valid guid", 2) end
-  if type(hidden)~="boolean" then error("FileDropZone_SetHiddenState: #2 - must be a boolean", 2) end
-  local count=-1
-  for i=1, #reagirl.DropZone do
-    if reagirl.DropZone[i]["Guid"]==dropzone_id then
-      count=i
-      break
-    end
-  end
-  if count==-1 then error("FileDropZone_SetHiddenState: #1 - no such drop-zone", 2) end
-  if hidden==true then reagirl.DropZone[count]["hidden"]=true else reagirl.DropZone[count]["hidden"]=nil end
-end
-
-function reagirl.FileDropZone_GetHiddenState(dropzone_id)
---[[
-<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>FileDropZone_GetHiddenState</slug>
-  <requires>
-    ReaGirl=1.0
-    Reaper=7
-    Lua=5.4
-  </requires>
-  <functioncall>boolean hidden = reagirl.FileDropZone_GetHiddenState(string dropzone_id)</functioncall>
-  <description>
-    Gets a file-drop-zone's hidden-state. If it's hidden, dropped files will not be recognized.
-  </description>
-  <parameters>
-    string dropzone_id - the guid of the file-drop-zone whose hidden-state you want to get
-  </parameters>
-  <retvals>
-    boolean hidden - true, the file-drop-zone is hidden; false, the file-drop-zone is not hidden
-  </retvals>
-  <chapter_context>
-    FileDropZone
-  </chapter_context>
-  <tags>file drop zone, get, hidden, visibility</tags>
-</US_DocBloc>
---]]
-  if type(dropzone_id)~="string" then error("FileDropZone_GetHiddenState: #1 - must be a string", 2) end
-  if reagirl.IsValidGuid(dropzone_id, true)==false then error("FileDropZone_GetHiddenState: #1 - must be a valid guid", 2) end
-  local count=-1
-  for i=1, #reagirl.DropZone do
-    if reagirl.DropZone[i]["Guid"]==dropzone_id then
-      count=i
-      break
-    end
-  end
-  if count==-1 then error("FileDropZone_GetHiddenState: #1 - no such drop-zone", 2) end
-  return reagirl.DropZone[count]["hidden"]==true
-end
-
-function reagirl.FileDropZone_Add(x,y,w,h,func)
---[[
-<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>FileDropZone_Add</slug>
-  <requires>
-    ReaGirl=1.0
-    Reaper=7
-    Lua=5.4
-  </requires>
-  <functioncall>string dropzone_id = reagirl.FileDropZone_Add(integer x, integer y, integer w, integer h, function func)</functioncall>
-  <description>
-    Adds a filedrop-zone, where files can be dragged and dropped to.
-  </description>
-  <parameters>
-    integer x - the x-position in pixels of the file-drop-zone; negative means anchored to the right window-edge
-    integer y - the y-position in pixels of the file-drop-zone; negative means anchored to the bottom window-edge
-    integer w - the width in pixels of the file-drop-zone; negative means anchored to the right window-edge
-    integer h - the height in pixels of the file-drop-zone; negative means anchored to the bottom window-edge
-    function func - the function that shall be called, when a file is dropped into this file-drop-zone
-  </parameters>
-  <chapter_context>
-    FileDropZone
-  </chapter_context>
-  <tags>file drop zone, add</tags>
-</US_DocBloc>
---]]
-  if math.type(x)~="integer" then error("FileDropZone_Add: #1 - must be an integer", 2) end
-  if math.type(y)~="integer" then error("FileDropZone_Add: #2 - must be an integer", 2) end
-  if math.type(w)~="integer" then error("FileDropZone_Add: #3 - must be an integer", 2) end
-  if math.type(h)~="integer" then error("FileDropZone_Add: #4 - must be an integer", 2) end
-  if type(func)~="function" then error("FileDropZone_Add: #5 - must be an function", 2) end
-  if reagirl.DropZone==nil then reagirl.DropZone={} end
-  reagirl.DropZone[#reagirl.DropZone+1]={}
-  reagirl.DropZone[#reagirl.DropZone]["Guid"]=reaper.genGuid("")
-  reagirl.DropZone[#reagirl.DropZone]["DropZoneFunc"]=func
-  reagirl.DropZone[#reagirl.DropZone]["z_buffer"]=128
-  reagirl.DropZone[#reagirl.DropZone]["DropZoneX"]=x
-  reagirl.DropZone[#reagirl.DropZone]["DropZoneY"]=y
-  reagirl.DropZone[#reagirl.DropZone]["DropZoneW"]=w
-  reagirl.DropZone[#reagirl.DropZone]["DropZoneH"]=h
-  reagirl.DropZone[#reagirl.DropZone]["sticky_x"]=false
-  reagirl.DropZone[#reagirl.DropZone]["sticky_y"]=false
-  return reagirl.DropZone[#reagirl.DropZone]["Guid"]
-end
-
-function reagirl.FileDropZone_GetSticky(dropzone_id)
---[[
-<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>FileDropZone_GetSticky</slug>
-  <requires>
-    ReaGirl=1.0
-    Reaper=7
-    Lua=5.4
-  </requires>
-  <functioncall>boolean sticky_x, boolean sticky_y = reagirl.FileDropZone_GetSticky(string dropzone_id)</functioncall>
-  <description>
-    gets the stickyness of the file-dropzone.
-    
-    Sticky-elements will not be moved by the global scrollbar-scrolling.
-  </description>
-  <retvals>
-    boolean sticky_x - true, x-movement is sticky; false, x-movement isn't sticky
-    boolean sticky_y - true, y-movement is sticky; false, y-movement isn't sticky
-  </retvals>
-  <parameters>
-    string dropzone_id - the dropzone, whose sticky-ness you want to retrieve
-  </parameters>
-  <chapter_context>
-    FileDropZone
-  </chapter_context>
-  <target_document>ReaGirl_Docs</target_document>
-  <source_document>reagirl_GuiEngine.lua</source_document>
-  <tags>file dropzone, get, sticky</tags>
-</US_DocBloc>
-]]
-  local is_set=false
-  if type(dropzone_id)~="string" then error("FileDropZone_GetSticky: #1 - must be a guid as string", 2) end
-  --element_id=reagirl.UI_Element_GetIDFromGuid(element_id)
-  local count=-1
-  for i=1, #reagirl.DropZone do
-    if reagirl.DropZone[i]["Guid"]==dropzone_id then
-      count=i
-      break
-    end
-  end
-  if count==-1 then error("FileDropZone_GetSticky: #1 - no such ui-element", 2) end
-
-  return reagirl.DropZone[count]["sticky_x"], reagirl.DropZone[count]["sticky_y"]
-end
-
-function reagirl.FileDropZone_SetSticky(dropzone_id, sticky_x, sticky_y)
---[[
-<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>FileDropZone_SetSticky</slug>
-  <requires>
-    ReaGirl=1.0
-    Reaper=7
-    Lua=5.4
-  </requires>
-  <functioncall>reagirl.FileDropZone_SetSticky(string dropzone_id, boolean sticky_x, boolean sticky_y)</functioncall>
-  <description>
-    sets the stickyness of the ui-element.
-    
-    Sticky-elements will not be moved by the global scrollbar-scrolling.
-  </description>
-  <parameters>
-    string dropzone_id - the id of the drop-zone, whose sticky-ness you want to set
-    boolean sticky_x - true, x-movement is sticky; false, x-movement isn't sticky
-    boolean sticky_y - true, y-movement is sticky; false, y-movement isn't sticky
-  </parameters>
-  <chapter_context>
-    FileDropZone
-  </chapter_context>
-  <target_document>ReaGirl_Docs</target_document>
-  <source_document>reagirl_GuiEngine.lua</source_document>
-  <tags>file drop zone, set, sticky</tags>
-</US_DocBloc>
-]]
-  local is_set=true
-  if type(dropzone_id)~="string" then error("FileDropZone_SetSticky: #1 - must be a guid as string", 2) end
-  
-  local count=-1
-  for i=1, #reagirl.DropZone do
-    if reagirl.DropZone[i]["Guid"]==dropzone_id then
-      count=i
-      break
-    end
-  end
-  if count==-1 then error("FileDropZone_SetSticky: #1 - no such ui-element", 2) end
-  
-  if type(is_set)~="boolean" then error("FileDropZone_SetSticky: #2 - must be a boolean", 2) end
-  if type(sticky_x)~="boolean" then error("FileDropZone_SetSticky: #3 - must be a boolean", 2) end
-  if type(sticky_y)~="boolean" then error("FileDropZone_SetSticky: #4 - must be a boolean", 2) end
-  
-  if is_set==true then
-    reagirl.DropZone[count]["sticky_x"]=sticky_x
-    reagirl.DropZone[count]["sticky_y"]=sticky_y
-  end
-end
-
-function reagirl.FileDropZone_Remove(dropzone_id)
---[[
-<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>FileDropZone_Remove</slug>
-  <requires>
-    ReaGirl=1.0
-    Reaper=7
-    Lua=5.4
-  </requires>
-  <functioncall>reagirl.FileDropZone_Remove(string dropzone_id)</functioncall>
-  <description>
-    Removes a file-drop-zone.
-  </description>
-  <parameters>
-    string dropzone_id - the id of the file-drop-zone that you want to remove
-  </parameters>
-  <chapter_context>
-    FileDropZone
-  </chapter_context>
-  <tags>file drop zone, remove</tags>
-</US_DocBloc>
---]]
-  if type(dropzone_id)~="string" then error("FileDropZone_Remove: #1 - must be a guid as string", 2) end
-  if reagirl.IsValidGuid(dropzone_id, true)==false then error("FileDropZone_Remove: #1 - must be a valid guid", 2) end
-
-  for i=1, #reagirl.DropZone do
-    if reagirl.DropZone[i]["Guid"]==dropzone_id then table.remove(reagirl.DropZone[i], i) return true end
-  end
-  
-  return false
-end
-
-
-
-
 function reagirl.Window_ForceMinSize()
   if reagirl.Window_ForceMinSize_Toggle~=true then return end
   local scale=reagirl.Window_CurrentScale
@@ -7293,9 +6989,9 @@ function sliderme(element_id, val, val2)
   --print(reagirl.Slider_GetMinimum(element_id), reagirl.Slider_GetMaximum(element_id))
   --print(reagirl.Slider_GetDefaultValue(F))
   print_update(element_id, reagirl.UI_Element_GetSetCaption(element_id, false), val, val2)
-  for i=1, #val do
+  --for i=1, #val do
     --print(val[i])
-  end
+  --end
   --print2(reagirl.Tabs_GetValue(tabs_id))
   --reagirl.Tabs_SetValue(tabs_id, 4)
   
@@ -7323,6 +7019,7 @@ reagirl.NextLine()
   
   LAB=reagirl.Label_Add(nil, nil, "Export Podcast as:", "Label 1", 0, false, label_click)
   reagirl.UI_Element_GetSet_ContextMenu(LAB, true, "LABEL|BABEL", sliderme)
+  reagirl.UI_Element_GetSet_DropZoneFunction(LAB, true, sliderme)
   LAB2=reagirl.Label_Add(nil, nil, "Link to Docs", "clickable label", 0, true, label_click)
   reagirl.UI_Element_GetSet_ContextMenu(LAB2, true, "LABEL TOO|BABEL", sliderme)
   reagirl.NextLine()
@@ -7353,6 +7050,7 @@ reagirl.NextLine()
   B=reagirl.Image_Add(Images[3], 100, 100, 100, 100, "Mespotine", "Mespotine: A Podcast Empress", sliderme)
   reagirl.Rect_Add(80, 80, 100, 100, 255,255,255,255,1)
   reagirl.UI_Element_GetSet_ContextMenu(B, true, "IMAGE|VOYAGE|Under|>Pressure", sliderme)
+  reagirl.UI_Element_GetSet_DropZoneFunction(B, true, sliderme)
   --dropzone_id=reagirl.FileDropZone_Add(100,100,100,100, GetFileList)
   --dropzone_id2=reagirl.FileDropZone_Add(200,200,100,100, GetFileList)
   
@@ -7455,7 +7153,7 @@ function main()
   gfx.update()
  -- print_update(reagirl.UI_Element_GetHovered())
   --reagirl.Gui_PreventEnterForOneCycle()
-  print_update(reagirl.UI_Element_GetSetPosition(LAB, false, x, y))
+  --print_update(reagirl.UI_Element_GetSetPosition(LAB, false, x, y))
   if reagirl.Gui_IsOpen()==true then reaper.defer(main) end
 end
 
