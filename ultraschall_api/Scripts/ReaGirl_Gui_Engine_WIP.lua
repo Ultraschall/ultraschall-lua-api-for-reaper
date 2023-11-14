@@ -1321,7 +1321,7 @@ function reagirl.Gui_Manage()
   end
   
   -- keine Ahnung
-  reagirl.FileDropZone_CheckForDroppedFiles()
+  --reagirl.FileDropZone_CheckForDroppedFiles()
   
   -- reset clicked state
   for i=1, #reagirl.Elements do reagirl.Elements[i]["clicked"]=false end
@@ -1539,6 +1539,21 @@ function reagirl.Gui_Manage()
     reagirl.ContextMenuClicked=true
   end
   reagirl.UI_Elements_HoveredElement_Old=reagirl.UI_Elements_HoveredElement
+  
+  --[[dropdown-menu]]
+  local retval=gfx.getdropfile(0)
+  local count=0
+  local files={}
+  if retval>0 then
+    while gfx.getdropfile(count)==1 do
+      retval, files[count+1]=gfx.getdropfile(count)
+      count=count+1
+    end
+    gfx.getdropfile(-1)
+  end
+  if #files>0 and reagirl.UI_Elements_HoveredElement~=-1 and reagirl.Elements[reagirl.UI_Elements_HoveredElement]["DropZoneFunction"]~=nil then 
+    reagirl.Elements[reagirl.UI_Elements_HoveredElement]["DropZoneFunction"](reagirl.Elements[reagirl.UI_Elements_HoveredElement]["Guid"], files)
+  end
   
   -- run all gui-element-management functions once. They shall decide, if a refresh is needed, provide the osara-screenreader-message and everything
   -- this is also the code, where a clickstate of a selected ui-element is interpreted
@@ -1984,7 +1999,7 @@ function reagirl.UI_Element_GetSetDescription(element_id, is_set, description)
   </retvals>
   <parameters>
     string element_id - the id of the element, whose description you want to get/set
-    boolean is_set - true, set the description; false, don't set the description
+    boolean is_set - true, set the description; false, only retrieve description
     string description - the description of the ui-element
   </parameters>
   <chapter_context>
@@ -2017,7 +2032,7 @@ function reagirl.UI_Element_GetSet_ContextMenu(element_id, is_set, menu, menu_fu
     Reaper=7
     Lua=5.4
   </requires>
-  <functioncall>string menu, function run_function = reagirl.UI_Element_GetSet_ContextMenu(string element_id, boolean is_set, string description)</functioncall>
+  <functioncall>string menu, function menu_function = reagirl.UI_Element_GetSet_ContextMenu(string element_id, boolean is_set, string menu, function menu_function)</functioncall>
   <description>
     gets/sets the context-menu and context-menu-run-function of a ui-element.
     
@@ -2029,14 +2044,14 @@ function reagirl.UI_Element_GetSet_ContextMenu(element_id, is_set, menu, menu_fu
       integer selection - the index of the menu-item selected by the user
   </description>
   <retvals>
-    string menu - the currently set menu for this ui-element
-    function run_function - a function that is called, after the user made a context-menu-selection
+    optional string menu - the currently set menu for this ui-element; nil, no menu is available
+    optional function menu_function - a function that is called, after the user made a context-menu-selection; nil, no such function added to this ui-element
   </retvals>
   <parameters>
-    string element_id - the id of the element, whose description you want to get/set
-    boolean is_set - true, set the description; false, don't set the description
+    string element_id - the id of the element, whose context-menu you want to get/set
+    boolean is_set - true, set the menu; false, only retrieve the current menu
     string menu - sets a menu for this ui-element
-    function run_function - sets a function that is called, after the user made a context-menu-selection
+    function menu_function - sets a function that is called, after the user made a context-menu-selection
   </parameters>
   <chapter_context>
     UI Elements
@@ -2061,33 +2076,82 @@ function reagirl.UI_Element_GetSet_ContextMenu(element_id, is_set, menu, menu_fu
   return reagirl.Elements[element_id]["ContextMenu"], reagirl.Elements[element_id]["ContextMenuFunction"]
 end
 
-function reagirl.UI_Element_GetSetName(element_id, is_set, name)
+function reagirl.UI_Element_GetSet_DropZoneFunction(element_id, is_set, dropzone_function)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>UI_Element_GetSetName</slug>
+  <slug>UI_Element_GetSet_DropZoneFunction</slug>
   <requires>
     ReaGirl=1.0
     Reaper=7
     Lua=5.4
   </requires>
-  <functioncall>string name = reagirl.UI_Element_GetSetName(string element_id, boolean is_set, string name)</functioncall>
+  <functioncall>function dropzone_function = reagirl.UI_Element_GetSet_DropZoneFunction(string element_id, boolean is_set, string dropzone_function)</functioncall>
   <description>
-    gets/sets the name of the ui-element
+    gets/sets the dropzone-run-function of a ui-element.
+    
+    This will be called, when the user drag'n'drops files onto this ui-element.
+    Drop a hint in the accessibility-hint of the ui-element, so blind users know, a dropzone exists.
+    
+    The dropzone_function will be called with two parameters: 
+      string element_id - the guid of the ui-element, whose context-menu has been used
+      table filenames - a table with all dropped filenames
   </description>
   <retvals>
-    string name - the name of the ui-element
+    function dropzone_function - a function that is called, after the drag'n'dropped files onto this ui-element
   </retvals>
   <parameters>
-    string element_id - the id of the element, whose name you want to get/set
-    boolean is_set - true, set the name; false, don't set the name
-    string name - the name of the ui-element
+    string element_id - the id of the element, whose description you want to get/set
+    boolean is_set - true, set the dropzone-function; false, only retrieve the dropzone-function
+    function dropzone_function - sets a function that is called, after the drag'n'dropped files onto this ui-element
   </parameters>
   <chapter_context>
     UI Elements
   </chapter_context>
   <target_document>ReaGirl_Docs</target_document>
   <source_document>reagirl_GuiEngine.lua</source_document>
-  <tags>ui-elements, set, get, name</tags>
+  <tags>ui-elements, set, get, dropzone</tags>
+</US_DocBloc>
+]]
+  if type(element_id)~="string" then error("UI_Element_GetSet_DropZoneFunction: #1 - must be a guid as string", 2) end
+  element_id=reagirl.UI_Element_GetIDFromGuid(element_id)
+  if element_id==nil then error("UI_Element_GetSet_DropZoneFunction: #1 - no such ui-element", 2) end
+  if reagirl.Elements[element_id]==nil then error("UI_Element_GetSet_DropZoneFunction: #1 - no such ui-element", 2) end
+  if type(is_set)~="boolean" then error("UI_Element_GetSet_DropZoneFunction: #2 - must be a boolean", 2) end
+  if is_set==true and type(dropzone_function)~="function" then error("UI_Element_GetSet_DropZoneFunction: #3 - must be a string when #2==true", 2) end
+  
+  if is_set==true then
+    reagirl.Elements[element_id]["DropZoneFunction"]=dropzone_function
+  end
+  return reagirl.Elements[element_id]["DropZoneFunction"]
+end
+
+function reagirl.UI_Element_GetSetCaption(element_id, is_set, name)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>UI_Element_GetSetCaption</slug>
+  <requires>
+    ReaGirl=1.0
+    Reaper=7
+    Lua=5.4
+  </requires>
+  <functioncall>string caption = reagirl.UI_Element_GetSetCaption(string element_id, boolean is_set, string caption)</functioncall>
+  <description>
+    gets/sets the caption of the ui-element
+  </description>
+  <retvals>
+    string caption - the caption of the ui-element
+  </retvals>
+  <parameters>
+    string element_id - the id of the element, whose caption you want to get/set
+    boolean is_set - true, set the caption; false, only retrieve the current caption
+    string caption - the caption of the ui-element
+  </parameters>
+  <chapter_context>
+    UI Elements
+  </chapter_context>
+  <target_document>ReaGirl_Docs</target_document>
+  <source_document>reagirl_GuiEngine.lua</source_document>
+  <tags>ui-elements, set, get, caption</tags>
 </US_DocBloc>
 ]]
   if type(element_id)~="string" then error("UI_Element_GetSetName: #1 - must be a guid as string", 2) end
@@ -2121,7 +2185,7 @@ function reagirl.UI_Element_GetSetHidden(element_id, is_set, hidden)
   </retvals>
   <parameters>
     string element_id - the id of the element, whose name you want to get/set
-    boolean is_set - true, set the hidden-state; false, don't set the hidden-state
+    boolean is_set - true, set the hidden-state; false, only retrieve current hidde-state
     boolean hidden - true, set to hidden; false, set to visible
   </parameters>
   <chapter_context>
@@ -2170,7 +2234,7 @@ function reagirl.UI_Element_GetSetSticky(element_id, is_set, sticky_x, sticky_y)
   </retvals>
   <parameters>
     string element_id - the id of the element, whose stickiness you want to get/set
-    boolean is_set - true, set the name; false, don't set the stickiness
+    boolean is_set - true, set the name; false, only retrieve current stickyness of the ui-element
     boolean sticky_x - true, x-movement is sticky; false, x-movement isn't sticky
     boolean sticky_y - true, y-movement is sticky; false, y-movement isn't sticky
   </parameters>
@@ -2215,7 +2279,7 @@ function reagirl.UI_Element_GetSetAccessibilityHint(element_id, is_set, accessib
   </retvals>
   <parameters>
     string element_id - the id of the element, whose accessibility_hint you want to get/set
-    boolean is_set - true, set the accessibility_hint; false, don't set the accessibility-hint
+    boolean is_set - true, set the accessibility_hint; false, only retrieve the current accessibility-message
     string accessibility_hint - the accessibility_hint of the ui-element
   </parameters>
   <chapter_context>
@@ -2248,19 +2312,19 @@ function reagirl.UI_Element_GetSetPosition(element_id, is_set, x, y)
     Reaper=7
     Lua=5.4
   </requires>
-  <functioncall>integer x, integer y, integer true_x, integer true_y = reagirl.UI_Element_GetSetPosition(string element_id, boolean is_set, integer x, integer y)</functioncall>
+  <functioncall>integer x, integer y, integer actual_x, integer actual_y = reagirl.UI_Element_GetSetPosition(string element_id, boolean is_set, integer x, integer y)</functioncall>
   <description>
     gets/sets the position of the ui-element
   </description>
   <retvals>
     integer x - the x-position of the ui-element
     integer y - the y-position of the ui-element
-    integer true_x - the true current x-position resolved to the anchor-position
-    integer true_y - the true current y-position resolved to the anchor-position
+    integer actual_x - the actual current x-position resolved to the anchor-position including scaling and scroll-offset
+    integer actual_y - the actual current y-position resolved to the anchor-position including scaling and scroll-offset
   </retvals>
   <parameters>
     string element_id - the id of the element, whose position you want to get/set
-    boolean is_set - true, set the position; false, don't set the position
+    boolean is_set - true, set the position; false, only retrieve the current position
     integer x - the x-position of the ui-element
     integer y - the y-position of the ui-element
   </parameters>
@@ -2285,10 +2349,11 @@ function reagirl.UI_Element_GetSetPosition(element_id, is_set, x, y)
     reagirl.Elements[element_id]["y"]=y
   end
   local x2, y2
-  if reagirl.Elements[element_id]["x"]<0 then x2=gfx.w+reagirl.Elements[element_id]["x"] else x2=reagirl.Elements[element_id]["x"] end
-  if reagirl.Elements[element_id]["y"]<0 then y2=gfx.h+reagirl.Elements[element_id]["y"] else y2=reagirl.Elements[element_id]["y"] end
+  local scale=reagirl.Window_GetCurrentScale()
+  if reagirl.Elements[element_id]["x"]<0 then x2=gfx.w+reagirl.Elements[element_id]["x"]*scale else x2=reagirl.Elements[element_id]["x"]*scale end
+  if reagirl.Elements[element_id]["y"]<0 then y2=gfx.h+reagirl.Elements[element_id]["y"]*scale else y2=reagirl.Elements[element_id]["y"]*scale end
   
-  return reagirl.Elements[element_id]["x"], reagirl.Elements[element_id]["y"], x2, y2
+  return reagirl.Elements[element_id]["x"], reagirl.Elements[element_id]["y"], x2+reagirl.MoveItAllRight, y2+reagirl.MoveItAllUp
 end
 
 function reagirl.UI_Element_GetSetDimension(element_id, is_set, w, h)
@@ -2307,12 +2372,12 @@ function reagirl.UI_Element_GetSetDimension(element_id, is_set, w, h)
   <retvals>
     integer w - the w-size of the ui-element
     integer h - the h-size of the ui-element
-    integer true_w - the true current w-size resolved to the anchor-position
-    integer true_h - the true current h-size resolved to the anchor-position
+    integer actual_w - the actual current w-size resolved to the anchor-position including scaling
+    integer actual_h - the actual current h-size resolved to the anchor-position including scaling
   </retvals>
   <parameters>
     string element_id - the id of the element, whose dimension you want to get/set
-    boolean is_set - true, set the dimension; false, don't set the dimension
+    boolean is_set - true, set the dimension; false, only retrieve current dimensions
     integer w - the w-size of the ui-element
     integer h - the h-size of the ui-element
   </parameters>
@@ -2333,10 +2398,11 @@ function reagirl.UI_Element_GetSetDimension(element_id, is_set, w, h)
   if is_set==true and math.type(h)~="integer" then error("UI_Element_GetSetDimension: #4 - must be an integer when is_set==true", 2) end
   
   local w2, h2, x2, y2
-  if reagirl.Elements[element_id]["x"]<0 then x2=gfx.w+reagirl.Elements[element_id]["x"] else x2=reagirl.Elements[element_id]["x"] end
-  if reagirl.Elements[element_id]["y"]<0 then y2=gfx.h+reagirl.Elements[element_id]["y"] else y2=reagirl.Elements[element_id]["y"] end
-  if reagirl.Elements[element_id]["w"]<0 then w2=gfx.w-x2+reagirl.Elements[element_id]["w"] else w2=w end
-  if reagirl.Elements[element_id]["h"]<0 then h2=gfx.h-y2+reagirl.Elements[element_id]["h"] else h2=h end
+  local scale=reagirl.Window_GetCurrentScale()
+  if reagirl.Elements[element_id]["x"]<0 then x2=gfx.w+reagirl.Elements[element_id]["x"]*scale else x2=reagirl.Elements[element_id]["x"]*scale end
+  if reagirl.Elements[element_id]["y"]<0 then y2=gfx.h+reagirl.Elements[element_id]["y"]*scale else y2=reagirl.Elements[element_id]["y"]*scale end
+  if reagirl.Elements[element_id]["w"]<0 then w2=gfx.w-x2+reagirl.Elements[element_id]["w"]*scale else w2=w*scale end
+  if reagirl.Elements[element_id]["h"]<0 then h2=gfx.h-y2+reagirl.Elements[element_id]["h"]*scale else h2=h*scale end
   
   if is_set==true then
     reagirl.Elements[element_id]["w"]=w
@@ -2364,7 +2430,7 @@ function reagirl.UI_Element_GetSetAllHorizontalOffset(is_set, x_offset)
     integer x_offset - the current horizontal offset of all ui-elements
   </retvals>
   <parameters>
-    boolean is_set - true, set the horizontal-offset; false, don't set the horizontal-offset
+    boolean is_set - true, set the horizontal-offset; false, only retrieve current horizontal offset
     integer x_offset - the x-offset of all ui-elements
   </parameters>
   <chapter_context>
@@ -2399,7 +2465,7 @@ function reagirl.UI_Element_GetSetAllVerticalOffset(is_set, y_offset)
     integer y_offset - the current vertical offset of all non-sticky ui-elements
   </retvals>
   <parameters>
-    boolean is_set - true, set the vertical-offset; false, don't set the vertical-offset
+    boolean is_set - true, set the vertical-offset; false, only retrieve current vertical offset
     integer y_offset - the y-offset of all ui-elements
   </parameters>
   <chapter_context>
@@ -2435,7 +2501,7 @@ function reagirl.UI_Element_GetSetRunFunction(element_id, is_set, run_function)
   </retvals>
   <parameters>
     string element_id - the id of the element, whose run_function you want to get/set
-    boolean is_set - true, set the run_function; false, don't set the name
+    boolean is_set - true, set the run_function; false, only retrieve the current run_function
     func run_function - the run function of the ui-element
   </parameters>
   <chapter_context>
@@ -4911,7 +4977,7 @@ function reagirl.Background_GetSetColor(is_set, r, g, b)
     Gets/Sets the color if the background.
   </description>
   <parameters>
-    boolean is_set - true, set the new background-color; false, only get the current background-color
+    boolean is_set - true, set the new background-color; false, only retrieve the current background-color
     integer red - the new red-color; 0-255
     integer green - the new green-color; 0-255
     integer blue - the new blue-color; 0-255
@@ -5052,7 +5118,7 @@ function reagirl.FileDropZone_CheckForDroppedFiles()
            gfx.mouse_y<=y+h then
            for i=0, 65555 do
              retval, files[i+1]=gfx.getdropfile(i)
-             if retval==false then break end
+             if retval==0 then break end
            end
            if #files>0 then
             reagirl.DropZone[i]["DropZoneFunc"](reagirl.DropZone[i]["Guid"], files)
@@ -7226,7 +7292,10 @@ function sliderme(element_id, val, val2)
   --print("slider"..element_id..reaper.time_precise(), val, reagirl.Slider_GetValue(element_id))
   --print(reagirl.Slider_GetMinimum(element_id), reagirl.Slider_GetMaximum(element_id))
   --print(reagirl.Slider_GetDefaultValue(F))
-  print(element_id, val, val2)
+  print_update(element_id, reagirl.UI_Element_GetSetCaption(element_id, false), val, val2)
+  for i=1, #val do
+    --print(val[i])
+  end
   --print2(reagirl.Tabs_GetValue(tabs_id))
   --reagirl.Tabs_SetValue(tabs_id, 4)
   
@@ -7283,6 +7352,7 @@ reagirl.NextLine()
   
   B=reagirl.Image_Add(Images[3], 100, 100, 100, 100, "Mespotine", "Mespotine: A Podcast Empress", sliderme)
   reagirl.Rect_Add(80, 80, 100, 100, 255,255,255,255,1)
+  reagirl.UI_Element_GetSet_ContextMenu(B, true, "IMAGE|VOYAGE|Under|>Pressure", sliderme)
   --dropzone_id=reagirl.FileDropZone_Add(100,100,100,100, GetFileList)
   --dropzone_id2=reagirl.FileDropZone_Add(200,200,100,100, GetFileList)
   
@@ -7385,6 +7455,7 @@ function main()
   gfx.update()
  -- print_update(reagirl.UI_Element_GetHovered())
   --reagirl.Gui_PreventEnterForOneCycle()
+  print_update(reagirl.UI_Element_GetSetPosition(LAB, false, x, y))
   if reagirl.Gui_IsOpen()==true then reaper.defer(main) end
 end
 
