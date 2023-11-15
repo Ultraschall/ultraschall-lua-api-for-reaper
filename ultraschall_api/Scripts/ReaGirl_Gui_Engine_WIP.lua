@@ -16,6 +16,15 @@ TODO:
             This makes reading longer label-texts much easier.
             Needs this Osara-Issue to be done, if this is possible in the first place:
               https://github.com/jcsteh/osara/issues/961
+  
+!!For 10k-UI-Elements(already been tested)!!  
+  - Gui_Manage
+    -- check for y-coordinates first, then for x-coordinates
+    -- only run manage-function of focused and hovered ui-element
+  - Gui_Draw
+    -- optimize drawing of only visible ui-elements
+    
+    
 --]]
 --XX,YY=reaper.GetMousePosition()
 --gfx.ext_retina = 0
@@ -2300,6 +2309,38 @@ function reagirl.UI_Element_GetSetAccessibilityHint(element_id, is_set, accessib
   return reagirl.Elements[element_id]["AccHint"]
 end
 
+function reagirl.UI_Element_IsElementAtMousePosition(element_id)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>UI_Element_IsElementAtMousePosition</slug>
+  <requires>
+    ReaGirl=1.0
+    Reaper=7
+    Lua=5.4
+  </requires>
+  <functioncall>boolean element_is_at_position = reagirl.UI_Element_IsElementAtMousePosition(string element_id)</functioncall>
+  <description>
+    returns, if ui-element with element_id is at mouse-position
+  </description>
+  <retvals>
+    boolean element_is_at_position - true, ui-element is at mouse-position; false, ui-element is not at mouse-position
+  </retvals>
+  <parameters>
+    string element_id - the id of the element, of which you want to know, if it's at mouse-position
+  </parameters>
+  <chapter_context>
+    UI Elements
+  </chapter_context>
+  <target_document>ReaGirl_Docs</target_document>
+  <source_document>reagirl_GuiEngine.lua</source_document>
+  <tags>ui-elements, get, is at position</tags>
+</US_DocBloc>
+]]
+  local x, y, real_x, real_y = reagirl.UI_Element_GetSetPosition(element_id, false)
+  local w, h, real_w, real_h =reagirl.UI_Element_GetSetDimension(element_id, false)
+  return gfx.mouse_x>=real_x and gfx.mouse_x<=real_x+real_w and gfx.mouse_y>=real_y and gfx.mouse_y<=real_y+real_h
+end
+
 function reagirl.UI_Element_GetSetPosition(element_id, is_set, x, y)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
@@ -2398,8 +2439,8 @@ function reagirl.UI_Element_GetSetDimension(element_id, is_set, w, h)
   local scale=reagirl.Window_GetCurrentScale()
   if reagirl.Elements[element_id]["x"]<0 then x2=gfx.w+reagirl.Elements[element_id]["x"]*scale else x2=reagirl.Elements[element_id]["x"]*scale end
   if reagirl.Elements[element_id]["y"]<0 then y2=gfx.h+reagirl.Elements[element_id]["y"]*scale else y2=reagirl.Elements[element_id]["y"]*scale end
-  if reagirl.Elements[element_id]["w"]<0 then w2=gfx.w-x2+reagirl.Elements[element_id]["w"]*scale else w2=w*scale end
-  if reagirl.Elements[element_id]["h"]<0 then h2=gfx.h-y2+reagirl.Elements[element_id]["h"]*scale else h2=h*scale end
+  if reagirl.Elements[element_id]["w"]<0 then w2=gfx.w-x2+reagirl.Elements[element_id]["w"]*scale else w2=reagirl.Elements[element_id]["w"]*scale end
+  if reagirl.Elements[element_id]["h"]<0 then h2=gfx.h-y2+reagirl.Elements[element_id]["h"]*scale else h2=reagirl.Elements[element_id]["h"]*scale end
   
   if is_set==true then
     reagirl.Elements[element_id]["w"]=w
@@ -7084,7 +7125,7 @@ reagirl.NextLine()
 --  BT1=reagirl.Button_Add(nil, nil, 0, 0, "Export Podcast", "Will open the Render to File-dialog, which allows you to export the file as MP3", click_button)
   
 --  BT2=reagirl.Button_Add(885, 550, 0, 0, "Close Gui", "Description of the button", click_button)
-  --BT2=reagirl.Button_Add(285, 50, 0, 0, "✏", "Edit Marker", click_button)
+  --BT2=reagirl.Button_Add(285, 50, 0, 0, "âœ", "Edit Marker", click_button)
   --reagirl.NextLine()
   BBBlol=reagirl.Button_Add(720, 770, 20, 0, "Help1", "Description of the button", click_button)
   --reagirl.Button_SetRadius(BBB, 18)
@@ -7151,6 +7192,7 @@ function main()
   --print_update(reagirl.ContextMenuZone_GetVisibility(contextmenu_id))
   --print(reagirl.FileDropZone_GetVisibility(dropzone_id))
   gfx.update()
+  print_update(reagirl.UI_Element_IsElementAtMousePosition(LAB2))
  -- print_update(reagirl.UI_Element_GetHovered())
   --reagirl.Gui_PreventEnterForOneCycle()
   --print_update(reagirl.UI_Element_GetSetPosition(LAB, false, x, y))
@@ -7171,4 +7213,5 @@ reagirl.AtEnter(ABBALA)
 --reagirl.UI_Element_GetFocusedRect()
 
 --reagirl.Label_SetLabelText(LAB, "Prime Time Of Your\nLife")
+
 
