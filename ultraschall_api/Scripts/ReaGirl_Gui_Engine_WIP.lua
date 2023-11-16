@@ -1735,10 +1735,18 @@ function reagirl.Gui_Draw(Key, Key_utf, clickstate, specific_clickstate, mouse_c
       end
     end
   end
+  
   if reagirl.Draggable_Element~=nil then
-    local imgw, imgh = gfx.getimgdim(reagirl.Elements[reagirl.Draggable_Element]["Image_Storage"])
-    DRAGGABLE=reaper.time_precise()
-    gfx.blit(reagirl.Elements[reagirl.Draggable_Element]["Image_Storage"],1,0,0,0,imgw,imgh,gfx.mouse_x,gfx.mouse_y,50,50)
+    if gfx.mouse_x~=reagirl.Elements[reagirl.Draggable_Element]["mouse_x"] or
+       gfx.mouse_y~=reagirl.Elements[reagirl.Draggable_Element]["mouse_y"] then
+      local imgw, imgh = gfx.getimgdim(reagirl.Elements[reagirl.Draggable_Element]["Image_Storage"])
+      local oldgfxa=gfx.a
+      gfx.a=0.7
+      gfx.blit(reagirl.Elements[reagirl.Draggable_Element]["Image_Storage"],1,0,0,0,imgw,imgh,gfx.mouse_x,gfx.mouse_y,50,50)
+      gfx.a=oldgfxa
+      reagirl.Elements[reagirl.Draggable_Element]["mouse_x"]=-1
+      reagirl.Elements[reagirl.Draggable_Element]["mouse_y"]=-1
+    end
   else
     reagirl.Gui_ForceRefreshState=false
   end
@@ -4993,6 +5001,8 @@ function reagirl.Image_Manage(element_id, selected, hovered, clicked, mouse_cap,
       element_storage["clickstate"]="clicked"
       if element_storage["Draggable"]==true then
         reagirl.Draggable_Element=element_id
+        element_storage["mouse_x"]=gfx.mouse_x
+        element_storage["mouse_y"]=gfx.mouse_y
       end
   end
   if element_storage["clickstate"]=="clicked" and mouse_cap&1==0 then
