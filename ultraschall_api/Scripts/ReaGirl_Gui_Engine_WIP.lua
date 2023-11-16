@@ -4888,6 +4888,9 @@ function reagirl.Image_GetDraggable(element_id)
     if the dragged image has been dragged to a certain other ui-element.
     If yes, do all the things, if no then the image had been dragged somewhere else.
     
+    Add a note in the accessibility-hint and the name of the image/caption of the ui-element, which clarifies, which ui-element is a source 
+    and which is a target for dragging operations, so blind users know, which image can be dragged and whereto.
+    Otherwise, blind users will not know what to do!
   </description>
   <parameters>
     string element_id - the image-element, whose dragable state you want toe retrieve
@@ -4925,6 +4928,9 @@ function reagirl.Image_SetDraggable(element_id, draggable)
     if the dragged image has been dragged to a certain other ui-element.
     If yes, do all the things, if no then the image had been dragged somewhere else.
     
+    Add a note in the accessibility-hint and the name of the image/caption of the ui-element, which clarifies, which ui-element is a source 
+    and which is a target for dragging operations, so blind users know, which image can be dragged and whereto.
+    Otherwise, blind users will not know what to do!
   </description>
   <parameters>
     string element_id - the image-element, whose dragable state you want toe retrieve
@@ -7130,8 +7136,8 @@ function label_click(element_id)
 end
 
 function sliderme(element_id, val, val2)
-  if reagirl.UI_Element_IsElementAtMousePosition(LAB)==true then
-    print2("Hoorray, it works!")
+  if reagirl.UI_Element_IsElementAtMousePosition(B2)==true then
+    reagirl.Image_Load(B2, val)
   end
   --print("slider"..element_id..reaper.time_precise(), val, reagirl.Slider_GetValue(element_id))
   --print(reagirl.Slider_GetMinimum(element_id), reagirl.Slider_GetMaximum(element_id))
@@ -7200,7 +7206,8 @@ reagirl.NextLine()
   --reagirl.NextLine()
   --B=reagirl.Image_Add(Images[3], nil, nil, 100, 100, "Mespotine", "Mespotine: A Podcast Empress", sliderme)
   
-  B=reagirl.Image_Add(Images[3], 100, 100, 100, 100, "Mespotine", "Mespotine: A Podcast Empress", sliderme)
+  B=reagirl.Image_Add(Images[3], 50, 100, 100, 100, "Source", "Mespotine: A Podcast Empress", sliderme)
+  B2=reagirl.Image_Add(Images[2], 200, 100, 100, 100, "Target", "Target", sliderme)
   reagirl.Rect_Add(80, 80, 100, 100, 255,255,255,255,1)
   reagirl.UI_Element_GetSet_ContextMenu(B, true, "IMAGE|VOYAGE|Under|>Pressure", sliderme)
   reagirl.UI_Element_GetSet_DropZoneFunction(B, true, change_image)
