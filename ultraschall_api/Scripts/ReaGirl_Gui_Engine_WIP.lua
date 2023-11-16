@@ -1735,9 +1735,16 @@ function reagirl.Gui_Draw(Key, Key_utf, clickstate, specific_clickstate, mouse_c
       end
     end
   end
-  reagirl.Gui_ForceRefreshState=false
+  if reagirl.Draggable_Element~=nil then
+    local imgw, imgh = gfx.getimgdim(reagirl.Elements[reagirl.Draggable_Element]["Image_Storage"])
+    DRAGGABLE=reaper.time_precise()
+    gfx.blit(reagirl.Elements[reagirl.Draggable_Element]["Image_Storage"],1,0,0,0,imgw,imgh,gfx.mouse_x,gfx.mouse_y,50,50)
+  else
+    reagirl.Gui_ForceRefreshState=false
+  end
+  
   reagirl.Scroll_Override_ScrollButtons=nil
-  DebugRect()
+  --DebugRect()
 end
 
 function reagirl.Dummy()
@@ -4856,6 +4863,79 @@ function reagirl.Image_Add(image_filename, x, y, w, h, name, meaningOfUI_Element
   return reagirl.Elements[slot]["Guid"]
 end
 
+function reagirl.Image_GetDraggable(element_id)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Image_GetDraggable</slug>
+  <requires>
+    ReaGirl=1.0
+    Reaper=7
+    Lua=5.4
+  </requires>
+  <functioncall>boolean draggable = reagirl.Image_GetDraggable(string element_id)</functioncall>
+  <description>
+    Gets the current draggable state of an image.
+    
+    Use reagirl.UI_Element_IsElementAtMousePosition() in the run_function of the image to get, 
+    if the dragged image has been dragged to a certain other ui-element.
+    If yes, do all the things, if no then the image had been dragged somewhere else.
+    
+  </description>
+  <parameters>
+    string element_id - the image-element, whose dragable state you want toe retrieve
+  </parameters>
+  <retvals>
+    boolean draggable - true, image is draggable; false, image is not draggable
+  </retvals>
+  <chapter_context>
+    Image
+  </chapter_context>
+  <tags>image, get, draggable</tags>
+</US_DocBloc>
+--]]
+  if type(element_id)~="string" then error("Image_GetDraggable: #1 - must be a string", 2) end
+  if reagirl.IsValidGuid(element_id, true)==false then error("Image_GetDraggable: #1 - must be a valid guid", 2) end
+  if reagirl.UI_Element_GetType(element_id)~="Image" then error("Image_GetDraggable: #1 - UI-element is not an image", 2) end
+  local slot=reagirl.UI_Element_GetIDFromGuid(element_id)
+  return reagirl.Elements[slot]["Draggable"]
+end
+
+function reagirl.Image_SetDraggable(element_id, draggable)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Image_SetDraggable</slug>
+  <requires>
+    ReaGirl=1.0
+    Reaper=7
+    Lua=5.4
+  </requires>
+  <functioncall>reagirl.Image_SetDraggable(string element_id, boolean draggable)</functioncall>
+  <description>
+    Sets the current draggable state of an image.
+    
+    Use reagirl.UI_Element_IsElementAtMousePosition() in the run_function of the image to get, 
+    if the dragged image has been dragged to a certain other ui-element.
+    If yes, do all the things, if no then the image had been dragged somewhere else.
+    
+  </description>
+  <parameters>
+    string element_id - the image-element, whose dragable state you want toe retrieve
+    boolean draggable - true, image is draggable; false, image is not draggable
+  </parameters>
+  <chapter_context>
+    Image
+  </chapter_context>
+  <tags>image, set, draggable</tags>
+</US_DocBloc>
+--]]
+  if type(element_id)~="string" then error("Image_SetDraggable: #1 - must be a string", 2) end
+  if reagirl.IsValidGuid(element_id, true)==false then error("Image_SetDraggable: #1 - must be a valid guid", 2) end
+  if reagirl.UI_Element_GetType(element_id)~="Image" then error("Image_SetDraggable: #1 - UI-element is not an image", 2) end
+  if type(draggable)~="boolean" then error("Image_SetDraggable: #2 - must be a boolean", 2) end
+  local slot=reagirl.UI_Element_GetIDFromGuid(element_id)
+  reagirl.Elements[slot]["Draggable"]=draggable
+end
+
 function reagirl.Image_ReloadImage_Scaled(element_id)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
@@ -4884,14 +4964,15 @@ function reagirl.Image_ReloadImage_Scaled(element_id)
   if type(element_id)~="string" then error("Image_ReloadImage_Scaled: #1 - must be a string", 2) end
   if reagirl.IsValidGuid(element_id, true)==false then error("Image_ReloadImage_Scaled: #1 - must be a valid guid", 2) end
   local slot=reagirl.UI_Element_GetIDFromGuid(element_id)
-  image_filename=reagirl.Elements[slot]["Image_Filename"]
+  if reagirl.UI_Element_GetType(element_id)~="Image" then error("Image_ReloadImage_Scaled: #1 - UI-element is not an image", 2) end
+  local image_filename=reagirl.Elements[slot]["Image_Filename"]
   local scale=reagirl.Window_CurrentScale
   if reaper.file_exists(image_filename:match("(.*)%.").."-"..scale.."x"..image_filename:match(".*(%..*)"))==true then
     image_filename=image_filename:match("(.*)%.").."-"..scale.."x"..image_filename:match(".*(%..*)")
   end
   gfx.dest=reagirl.Elements[slot]["Image_Storage"]
   
-  image=reagirl.Elements[slot]["Image_Storage"]
+  local image=reagirl.Elements[slot]["Image_Storage"]
   local r,g,b,a=gfx.r,gfx.g,gfx.b,gfx.a
   gfx.set(0)
   gfx.rect(0,0,8192,8192,1)
@@ -4909,7 +4990,18 @@ function reagirl.Image_Manage(element_id, selected, hovered, clicked, mouse_cap,
     (gfx.mouse_x>=x and gfx.mouse_x<=x+w and gfx.mouse_y>=y and gfx.mouse_y<=y+h) 
     and clicked=="FirstCLK" and
     element_storage["run_function"]~=nil then 
-      element_storage["run_function"](element_storage["Guid"], element_storage["Image_Filename"]) 
+      element_storage["clickstate"]="clicked"
+      if element_storage["Draggable"]==true then
+        reagirl.Draggable_Element=element_id
+      end
+  end
+  if element_storage["clickstate"]=="clicked" and mouse_cap&1==0 then
+    element_storage["clickstate"]=nil
+    element_storage["run_function"](element_storage["Guid"], element_storage["Image_Filename"]) 
+    reagirl.Draggable_Element=nil
+  end
+  if element_storage["Draggable"]==true then
+  
   end
   if selected==true then
     message=" "
@@ -4948,6 +5040,8 @@ function reagirl.Image_Draw(element_id, selected, hovered, clicked, mouse_cap, m
   gfx.y=oldy
   gfx.dest=olddest
 end
+
+
 
 function reagirl.Image_Load(element_id, image_filename)
 --[[
@@ -7026,6 +7120,9 @@ function label_click(element_id)
 end
 
 function sliderme(element_id, val, val2)
+  if reagirl.UI_Element_IsElementAtMousePosition(LAB)==true then
+    print2("Hoorray, it works!")
+  end
   --print("slider"..element_id..reaper.time_precise(), val, reagirl.Slider_GetValue(element_id))
   --print(reagirl.Slider_GetMinimum(element_id), reagirl.Slider_GetMaximum(element_id))
   --print(reagirl.Slider_GetDefaultValue(F))
@@ -7036,6 +7133,11 @@ function sliderme(element_id, val, val2)
   --print2(reagirl.Tabs_GetValue(tabs_id))
   --reagirl.Tabs_SetValue(tabs_id, 4)
   
+end
+
+function change_image(element_id, filenames)
+  reagirl.Image_Load(element_id, filenames[1])
+  --reagirl.Image_ReloadImage_Scaled(element_id)
 end
 
 function UpdateUI()
@@ -7091,7 +7193,8 @@ reagirl.NextLine()
   B=reagirl.Image_Add(Images[3], 100, 100, 100, 100, "Mespotine", "Mespotine: A Podcast Empress", sliderme)
   reagirl.Rect_Add(80, 80, 100, 100, 255,255,255,255,1)
   reagirl.UI_Element_GetSet_ContextMenu(B, true, "IMAGE|VOYAGE|Under|>Pressure", sliderme)
-  reagirl.UI_Element_GetSet_DropZoneFunction(B, true, sliderme)
+  reagirl.UI_Element_GetSet_DropZoneFunction(B, true, change_image)
+  reagirl.Image_SetDraggable(B, true)
   --dropzone_id=reagirl.FileDropZone_Add(100,100,100,100, GetFileList)
   --dropzone_id2=reagirl.FileDropZone_Add(200,200,100,100, GetFileList)
   
@@ -7192,7 +7295,7 @@ function main()
   --print_update(reagirl.ContextMenuZone_GetVisibility(contextmenu_id))
   --print(reagirl.FileDropZone_GetVisibility(dropzone_id))
   gfx.update()
-  print_update(reagirl.UI_Element_IsElementAtMousePosition(LAB2))
+  --print_update(reagirl.UI_Element_IsElementAtMousePosition(LAB2))
  -- print_update(reagirl.UI_Element_GetHovered())
   --reagirl.Gui_PreventEnterForOneCycle()
   --print_update(reagirl.UI_Element_GetSetPosition(LAB, false, x, y))
