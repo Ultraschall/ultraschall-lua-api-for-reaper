@@ -4911,7 +4911,7 @@ function reagirl.Image_GetDraggable(element_id)
   return reagirl.Elements[slot]["Draggable"]
 end
 
-function reagirl.Image_SetDraggable(element_id, draggable)
+function reagirl.Image_SetDraggable(element_id, draggable, target_element_ids)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>Image_SetDraggable</slug>
@@ -4920,7 +4920,7 @@ function reagirl.Image_SetDraggable(element_id, draggable)
     Reaper=7
     Lua=5.4
   </requires>
-  <functioncall>reagirl.Image_SetDraggable(string element_id, boolean draggable)</functioncall>
+  <functioncall>reagirl.Image_SetDraggable(string element_id, boolean draggable, )</functioncall>
   <description>
     Sets the current draggable state of an image.
     
@@ -5005,7 +5005,7 @@ function reagirl.Image_Manage(element_id, selected, hovered, clicked, mouse_cap,
     and clicked=="FirstCLK" and
     element_storage["run_function"]~=nil then 
       element_storage["clickstate"]="clicked"
-      if element_storage["Draggable"]==true then
+      if element_storage["Draggable"]==true and hovered==true then
         reagirl.Draggable_Element=element_id
         element_storage["mouse_x"]=gfx.mouse_x
         element_storage["mouse_y"]=gfx.mouse_y
@@ -7212,6 +7212,7 @@ reagirl.NextLine()
   reagirl.UI_Element_GetSet_ContextMenu(B, true, "IMAGE|VOYAGE|Under|>Pressure", sliderme)
   reagirl.UI_Element_GetSet_DropZoneFunction(B, true, change_image)
   reagirl.Image_SetDraggable(B, true)
+  reagirl.Image_SetDraggable(B2, true)
   --dropzone_id=reagirl.FileDropZone_Add(100,100,100,100, GetFileList)
   --dropzone_id2=reagirl.FileDropZone_Add(200,200,100,100, GetFileList)
   
