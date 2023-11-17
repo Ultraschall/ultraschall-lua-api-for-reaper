@@ -4770,6 +4770,11 @@ function reagirl.Image_Add(image_filename, x, y, w, h, name, meaningOfUI_Element
     
     If a filename doesn't exist, it reverts to the default one for 1x-scaling.
     
+    The run_function will get three parameters: the guid of the image, the filename of the image 
+    and an optional third parameter, the element_id of the destination, whereto the image has been 
+    dragged to(if dragging is enabled, see Image_GetDraggable and Image_SetDraggable for enabling 
+    dragging of the image to a destination ui-element).
+    
     You can autoposition the checkbox by setting x and/or y to nil, which will position the new checkbox after the last ui-element.
     To autoposition into the next line, use reagirl.NextLine()
   </description>
@@ -4884,9 +4889,9 @@ function reagirl.Image_GetDraggable(element_id)
   <description>
     Gets the current draggable state of an image.
     
-    Use reagirl.UI_Element_IsElementAtMousePosition() in the run_function of the image to get, 
-    if the dragged image has been dragged to a certain other ui-element.
-    If yes, do all the things, if no then the image had been dragged somewhere else.
+    When draggable==true: if the user drags the image onto a different ui-element, the run_function of 
+    the image will get a third parameter, holding the element_id of the destination-ui-element of the dragging. 
+    Otherwise this third parameter will be nil.
     
     Add a note in the accessibility-hint and the name of the image/caption of the ui-element, which clarifies, which ui-element is a source 
     and which is a target for dragging operations, so blind users know, which image can be dragged and whereto.
@@ -4911,7 +4916,7 @@ function reagirl.Image_GetDraggable(element_id)
   return reagirl.Elements[slot]["Draggable"]
 end
 
-function reagirl.Image_SetDraggable(element_id, draggable, target_element_ids)
+function reagirl.Image_SetDraggable(element_id, draggable, destination_element_ids)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>Image_SetDraggable</slug>
@@ -4920,13 +4925,13 @@ function reagirl.Image_SetDraggable(element_id, draggable, target_element_ids)
     Reaper=7
     Lua=5.4
   </requires>
-  <functioncall>reagirl.Image_SetDraggable(string element_id, boolean draggable, )</functioncall>
+  <functioncall>reagirl.Image_SetDraggable(string element_id, boolean draggable, table destination_element_ids)</functioncall>
   <description>
     Sets the current draggable state of an image.
     
-    Use reagirl.UI_Element_IsElementAtMousePosition() in the run_function of the image to get, 
-    if the dragged image has been dragged to a certain other ui-element.
-    If yes, do all the things, if no then the image had been dragged somewhere else.
+    When draggable==true: if the user drags the image onto a different ui-element, the run_function of 
+    the image will get a third parameter, holding the element_id of the destination-ui-element of the dragging. 
+    Otherwise this third parameter will be nil.
     
     Add a note in the accessibility-hint and the name of the image/caption of the ui-element, which clarifies, which ui-element is a source 
     and which is a target for dragging operations, so blind users know, which image can be dragged and whereto.
@@ -4935,6 +4940,7 @@ function reagirl.Image_SetDraggable(element_id, draggable, target_element_ids)
   <parameters>
     string element_id - the image-element, whose dragable state you want toe retrieve
     boolean draggable - true, image is draggable; false, image is not draggable
+    table destination_element_ids - a table with all guids of the ui-elements, where the image can be dragged to
   </parameters>
   <chapter_context>
     Image
@@ -4946,8 +4952,15 @@ function reagirl.Image_SetDraggable(element_id, draggable, target_element_ids)
   if reagirl.IsValidGuid(element_id, true)==false then error("Image_SetDraggable: #1 - must be a valid guid", 2) end
   if reagirl.UI_Element_GetType(element_id)~="Image" then error("Image_SetDraggable: #1 - UI-element is not an image", 2) end
   if type(draggable)~="boolean" then error("Image_SetDraggable: #2 - must be a boolean", 2) end
+  if type(destination_element_ids)~="table" then error("Image_SetDraggable: #2 - must be a table", 2) end
+  for i=1, #destination_element_ids do
+    if reagirl.IsValidGuid(destination_element_ids[i], true)==false then
+      error("Image_SetDraggable: #2 - all entries in the table must be a valid guid", 2)
+    end
+  end
   local slot=reagirl.UI_Element_GetIDFromGuid(element_id)
   reagirl.Elements[slot]["Draggable"]=draggable
+  reagirl.Elements[slot]["DraggableDestinations"]=destination_element_ids
 end
 
 function reagirl.Image_ReloadImage_Scaled(element_id)
@@ -4998,6 +5011,7 @@ function reagirl.Image_ReloadImage_Scaled(element_id)
   return true
 end
 
+
 function reagirl.Image_Manage(element_id, selected, hovered, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
   if selected==true and 
     (Key==32 or mouse_cap==1) and 
@@ -5013,7 +5027,15 @@ function reagirl.Image_Manage(element_id, selected, hovered, clicked, mouse_cap,
   end
   if element_storage["clickstate"]=="clicked" and mouse_cap&1==0 then
     element_storage["clickstate"]=nil
-    element_storage["run_function"](element_storage["Guid"], element_storage["Image_Filename"]) 
+    if element_storage["Draggable"]==true and (element_storage["mouse_x"]~=gfx.mouse_x or element_storage["mouse_y"]~=gfx.mouse_y) then
+      for i=1, #element_storage["DraggableDestinations"] do
+        if reagirl.UI_Element_IsElementAtMousePosition(element_storage["DraggableDestinations"][i])==true then
+          element_storage["run_function"](element_storage["Guid"], element_storage["Image_Filename"], element_storage["DraggableDestinations"][i]) 
+        end
+      end
+    else
+      element_storage["run_function"](element_storage["Guid"], element_storage["Image_Filename"]) 
+    end
     reagirl.Draggable_Element=nil
   end
   if element_storage["Draggable"]==true then
@@ -7136,13 +7158,14 @@ function label_click(element_id)
 end
 
 function sliderme(element_id, val, val2)
-  if reagirl.UI_Element_IsElementAtMousePosition(B2)==true then
+  if val2==B2 then
     reagirl.Image_Load(B2, val)
   end
   --print("slider"..element_id..reaper.time_precise(), val, reagirl.Slider_GetValue(element_id))
   --print(reagirl.Slider_GetMinimum(element_id), reagirl.Slider_GetMaximum(element_id))
   --print(reagirl.Slider_GetDefaultValue(F))
-  print_update(element_id, reagirl.UI_Element_GetSetCaption(element_id, false), val, val2)
+  if val2==nil then val2=element_id end
+  print_update(element_id, reagirl.UI_Element_GetSetCaption(element_id, false), val, val2, reagirl.UI_Element_GetSetCaption(val2, false))
   --for i=1, #val do
     --print(val[i])
   --end
@@ -7211,8 +7234,8 @@ reagirl.NextLine()
   reagirl.Rect_Add(80, 80, 100, 100, 255,255,255,255,1)
   reagirl.UI_Element_GetSet_ContextMenu(B, true, "IMAGE|VOYAGE|Under|>Pressure", sliderme)
   reagirl.UI_Element_GetSet_DropZoneFunction(B, true, change_image)
-  reagirl.Image_SetDraggable(B, true)
-  reagirl.Image_SetDraggable(B2, true)
+  reagirl.Image_SetDraggable(B, true, {B2, LAB})
+  --reagirl.Image_SetDraggable(B2, true, {B2})
   --dropzone_id=reagirl.FileDropZone_Add(100,100,100,100, GetFileList)
   --dropzone_id2=reagirl.FileDropZone_Add(200,200,100,100, GetFileList)
   
