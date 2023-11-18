@@ -7,15 +7,13 @@ TODO:
   - Slider: draw a line where the default-value shall be
   - reagirl.UI_Element_NextX_Default=10 - changing it only offsets the second line ff, not the first line
   - Background_GetSetImage - check, if the background image works properly with scaling and scrolling
-  - ContextMenu and DropZones - link them to a ui-element. Needs to be completely reimplemented.
-                                - Context Menu: check, if the clicked ui-element has been right-clicked and if there's a menu available. If yes, run a managemenet function for the context menu.
-                                  - Need a global Context-Menu for clicks somewhere outside of ui-elements.
-                                - DropZones: check, if a hovered ui-element has dropped files. If yes, run the DropZone-management function for this ui-element.
   - Labels: ACCHoverMessage should hold the text of the paragraph the mouse is hovering above only
             That way, not everything is read out as message to TTS, only the hovered paragraph.
             This makes reading longer label-texts much easier.
             Needs this Osara-Issue to be done, if this is possible in the first place:
               https://github.com/jcsteh/osara/issues/961
+  - Hovered-ACC-Message: when doing tabbing, the entire message will be read AND the one from hovering.
+                        the one from hovering should only be read, if the mouse moved onto a ui-element
   
 !!For 10k-UI-Elements(already been tested)!!  
   - Gui_Manage
@@ -1490,7 +1488,14 @@ function reagirl.Gui_Manage()
             reaper.TrackCtl_SetToolTip(reagirl.Elements[i]["Description"], XX+15, YY+10, true)
           end
           
-          reaper.osara_outputMessage(reagirl.Elements[i]["AccHoverMessage"])
+          if reagirl.SetPosition_MousePositionY~=gfx.mouse_y 
+          and reagirl.SetPosition_MousePositionY~=gfx.mouse_x 
+          and reagirl.Elements[i]["AccHoverMessage"]~=nil then
+            --reaper.osara_outputMessage(reagirl.Elements[i]["AccHoverMessage"])
+            --reagirl.SetPosition_MousePositionX=-1
+            --reagirl.SetPosition_MousePositionY=-1
+          end
+          
           --if reaper.osara_outputMessage~=nil then reaper.osara_outputMessage(reagirl.Elements[i]["Text"],2--[[:utf8_sub(1,20)]]) end
          end
          
@@ -1512,13 +1517,14 @@ function reagirl.Gui_Manage()
       end
     end
   end
-  
-  if reagirl.UI_Elements_HoveredElement~=-1 and reagirl.UI_Elements_HoveredElement~=reagirl.UI_Elements_HoveredElement_Old then
-    if reaper.osara_outputMessage~=nil then
-      if reagirl.Elements[reagirl.UI_Elements_HoveredElement]["AccHoverMessage"]~=nil then
-        reaper.osara_outputMessage(reagirl.Elements[reagirl.UI_Elements_HoveredElement]["AccHoverMessage"])
-      else
-        reaper.osara_outputMessage(reagirl.Elements[reagirl.UI_Elements_HoveredElement]["Name"])
+  if reagirl.SetPosition_MousePositionY~=gfx.mouse_y and reagirl.SetPosition_MousePositionY~=gfx.mouse_x then
+    if reagirl.UI_Elements_HoveredElement~=-1 and reagirl.UI_Elements_HoveredElement~=reagirl.UI_Elements_HoveredElement_Old then
+      if reaper.osara_outputMessage~=nil then
+        if reagirl.Elements[reagirl.UI_Elements_HoveredElement]["AccHoverMessage"]~=nil then
+          reaper.osara_outputMessage(reagirl.Elements[reagirl.UI_Elements_HoveredElement]["AccHoverMessage"])
+        else
+          reaper.osara_outputMessage(reagirl.Elements[reagirl.UI_Elements_HoveredElement]["Name"])
+        end
       end
     end
   end
@@ -1728,6 +1734,8 @@ function reagirl.Gui_Draw(Key, Key_utf, clickstate, specific_clickstate, mouse_c
                 --local tempx, tempy=gfx.clienttoscreen(x2+MoveItAllRight+4,y2+MoveItAllUp+4)
                 --if tempx<0 then tempx=-tempx end
                 reaper.JS_Mouse_SetPosition(gfx.clienttoscreen(x2+MoveItAllRight+4,y2+MoveItAllUp+4)) 
+                reagirl.SetPosition_MousePositionX=gfx.mouse_x
+                reagirl.SetPosition_MousePositionY=gfx.mouse_y
               end
             end
           end
@@ -5043,8 +5051,12 @@ function reagirl.Image_Manage(element_id, selected, hovered, clicked, mouse_cap,
   end
   if selected==true then
     message=" "
+  else
+    message=""
   end
-  return message
+  local draggable
+  if element_storage["Draggable"]==true then draggable="Draggable " draggable2=" Use Ctrl plus alt plus Tab and Ctrl plus alt plus Tab to select the dragging-destinations and ctrl plus alt plus enter to drop the image into the dragging-destination." else draggable="" end
+  return draggable..message
 end
 
 function reagirl.Image_Draw(element_id, selected, hovered, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
@@ -7284,7 +7296,7 @@ reagirl.NextLine()
   
 --  reagirl.Button_Add(55, 30, 0, 0, " HUCH", "Description of the button", click_button)
   
-  for i=1, 0, 1 do
+  for i=1, 2500, 1 do
     --A3= reagirl.CheckBox_Add(10, i*10+135, "AAC", "Export file as MP3", true, CheckMe)
     reagirl.Button_Add(nil, nil, 0, 0, i.." HUCH", "Description of the button", click_button)
     reagirl.NextLine()
