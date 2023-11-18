@@ -2188,12 +2188,12 @@ function reagirl.UI_Element_GetSetCaption(element_id, is_set, name)
   <tags>ui-elements, set, get, caption</tags>
 </US_DocBloc>
 ]]
-  if type(element_id)~="string" then error("UI_Element_GetSetName: #1 - must be a guid as string", 2) end
+  if type(element_id)~="string" then error("UI_Element_GetSetCaption: #1 - must be a guid as string", 2) end
   element_id=reagirl.UI_Element_GetIDFromGuid(element_id)
-  if element_id==nil then error("UI_Element_GetSetName: #1 - no such ui-element", 2) end
-  if reagirl.Elements[element_id]==nil then error("UI_Element_GetSetName: #1 - no such ui-element", 2) end
-  if type(is_set)~="boolean" then error("UI_Element_GetSetName: #2 - must be a boolean", 2) end
-  if is_set==true and type(name)~="string" then error("UI_Element_GetSetName: #3 - must be a string when #2==true", 2) end
+  if element_id==nil then error("UI_Element_GetSetCaption: #1 - no such ui-element", 2) end
+  if reagirl.Elements[element_id]==nil then error("UI_Element_GetSetCaption: #1 - no such ui-element", 2) end
+  if type(is_set)~="boolean" then error("UI_Element_GetSetCaption: #2 - must be a boolean", 2) end
+  if is_set==true and type(name)~="string" then error("UI_Element_GetSetCaption: #3 - must be a string when #2==true", 2) end
   
   if is_set==true then
     reagirl.Elements[element_id]["Name"]=name
@@ -7183,7 +7183,7 @@ function sliderme(element_id, val, val2)
   --print(reagirl.Slider_GetMinimum(element_id), reagirl.Slider_GetMaximum(element_id))
   --print(reagirl.Slider_GetDefaultValue(F))
   if val2==nil then val2=element_id end
-  print_update(element_id, reagirl.UI_Element_GetSetCaption(element_id, false), val, val2, reagirl.UI_Element_GetSetCaption(val2, false))
+  print_update(element_id, reagirl.UI_Element_GetSetCaption(element_id, false))--, val, val2, reagirl.UI_Element_GetSetCaption(val2, false))
   --for i=1, #val do
     --print(val[i])
   --end
@@ -7264,7 +7264,7 @@ reagirl.NextLine()
   --reagirl.NextLine_SetMargin(10, 100)
   reagirl.NextLine()
   --A3 = reagirl.CheckBox_Add(nil, nil, "AAC", "Export file as MP3", true, CheckMe)
-  --E = reagirl.DropDownMenu_Add(nil, nil, -100, "DropDownMenu:", "Desc of DDM", {"The", "Death", "Of", "A", "Party123456789012345678Hardy Hard Scooter Hyper Hyper How Much Is The Fish",2,3,4,5}, 5, sliderme)
+  E = reagirl.DropDownMenu_Add(nil, nil, -100, "DropDownMenu:", "Desc of DDM", {"The", "Death", "Of", "A", "Party123456789012345678Hardy Hard Scooter Hyper Hyper How Much Is The Fish",2,3,4,5}, 5, sliderme)
   F = reagirl.Slider_Add(10, 340, 200, "Sliders Das Tor", "I am a slider", "%", 1, 100, 5.001, 1, sliderme)
   reagirl.NextLine()
   F = reagirl.Slider_Add(nil, nil, -20, "Sliders Das Tor", "I am a slider", "%", 1, 1000, 5.001, 10, sliderme)
@@ -7302,7 +7302,7 @@ reagirl.NextLine()
   
 --  reagirl.Button_Add(55, 30, 0, 0, " HUCH", "Description of the button", click_button)
   
-  for i=1, 2500, 1 do
+  for i=1, 10000, 1 do
     --A3= reagirl.CheckBox_Add(10, i*10+135, "AAC", "Export file as MP3", true, CheckMe)
     reagirl.Button_Add(nil, nil, 0, 0, i.." HUCH", "Description of the button", click_button)
     reagirl.NextLine()
