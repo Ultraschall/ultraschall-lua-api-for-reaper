@@ -14,6 +14,11 @@ TODO:
               https://github.com/jcsteh/osara/issues/961
   - Hovered-ACC-Message: when doing tabbing, the entire message will be read AND the one from hovering.
                         the one from hovering should only be read, if the mouse moved onto a ui-element
+  - UI_Element_ScrollToUIElement - buggy, doesn't scroll properly to ui-elements all the time.
+  
+  FOR WHATEVER FUCKING REASON!
+  
+  IT ALL WORKED ALREADY AND OUT OF A SUDDEN! IT DOESN'T! FUCK THIS SHIT!
   
 !!For 10k-UI-Elements(already been tested)!!  
   - Gui_Manage
@@ -1521,9 +1526,9 @@ function reagirl.Gui_Manage()
     if reagirl.UI_Elements_HoveredElement~=-1 and reagirl.UI_Elements_HoveredElement~=reagirl.UI_Elements_HoveredElement_Old then
       if reaper.osara_outputMessage~=nil then
         if reagirl.Elements[reagirl.UI_Elements_HoveredElement]["AccHoverMessage"]~=nil then
-          reaper.osara_outputMessage(reagirl.Elements[reagirl.UI_Elements_HoveredElement]["AccHoverMessage"])
+          --reaper.osara_outputMessage(reagirl.Elements[reagirl.UI_Elements_HoveredElement]["AccHoverMessage"])
         else
-          reaper.osara_outputMessage(reagirl.Elements[reagirl.UI_Elements_HoveredElement]["Name"])
+          --reaper.osara_outputMessage(reagirl.Elements[reagirl.UI_Elements_HoveredElement]["Name"])
         end
       end
     end
@@ -1682,7 +1687,7 @@ function reagirl.Gui_Draw(Key, Key_utf, clickstate, specific_clickstate, mouse_c
         --if (x2+MoveItAllRight>=0 and x2+MoveItAllRight<=gfx.w)       and (y2+MoveItAllUp>=0    and y2+MoveItAllUp<=gfx.h) 
         --or (x2+MoveItAllRight+w2>=0 and x2+MoveItAllRight+w2<=gfx.w) and (y2+MoveItAllUp+h2>=0 and y2+MoveItAllUp+h2<=gfx.h) then
         
-        --[[if (((x2+reagirl.MoveItAllRight>0 and x2+reagirl.MoveItAllRight<=gfx.w) 
+        if (((x2+reagirl.MoveItAllRight>0 and x2+reagirl.MoveItAllRight<=gfx.w) 
         or (x2+w2+reagirl.MoveItAllRight>0 and x2+w2+reagirl.MoveItAllRight<=gfx.w) 
         or (x2+reagirl.MoveItAllRight<=0 and x2+w2+reagirl.MoveItAllRight>=gfx.w))
         and ((y2+reagirl.MoveItAllUp>=0 and y2+reagirl.MoveItAllUp<=gfx.h)
@@ -1707,7 +1712,7 @@ function reagirl.Gui_Draw(Key, Key_utf, clickstate, specific_clickstate, mouse_c
             Key_utf,
             reagirl.Elements[i]
           )
-        --end -- draw_only_necessary-elements
+        end -- draw_only_necessary-elements
         if reagirl.Elements["FocusedElement"]~=-1 and reagirl.Elements["FocusedElement"]==i then
           --if reagirl.Elements[i]["GUI_Element_Type"]=="DropDownMenu" then --  if w2<20 then w2=20 end end
           local r,g,b,a=gfx.r,gfx.g,gfx.b,gfx.a
@@ -5868,12 +5873,13 @@ function reagirl.UI_Element_ScrollToUIElement(element_id, x_offset, y_offset)
   if y_offset==nil then y_offset=10 end
   local found=-1
   local x2,y2,w2,h2
+  local scale=reagirl.Window_GetCurrentScale()
   for i=1, #reagirl.Elements do
     if element_id==reagirl.Elements[i].Guid then
-      if reagirl.Elements[i]["x"]<0 then x2=gfx.w+reagirl.Elements[i]["x"] else x2=reagirl.Elements[i]["x"] end
-      if reagirl.Elements[i]["y"]<0 then y2=gfx.h+reagirl.Elements[i]["y"] else y2=reagirl.Elements[i]["y"] end
-      if reagirl.Elements[i]["w"]<0 then w2=gfx.w-x2+reagirl.Elements[i]["w"] else w2=reagirl.Elements[i]["w"] end
-      if reagirl.Elements[i]["h"]<0 then h2=gfx.h-y2+reagirl.Elements[i]["h"] else h2=reagirl.Elements[i]["h"] end
+      if reagirl.Elements[i]["x"]<0 then x2=gfx.w+reagirl.Elements[i]["x"]*scale else x2=reagirl.Elements[i]["x"]*scale end
+      if reagirl.Elements[i]["y"]<0 then y2=gfx.h+reagirl.Elements[i]["y"]*scale else y2=reagirl.Elements[i]["y"]*scale end
+      if reagirl.Elements[i]["w"]<0 then w2=gfx.w-x2+reagirl.Elements[i]["w"]*scale else w2=reagirl.Elements[i]["w"]*scale end
+      if reagirl.Elements[i]["h"]<0 then h2=gfx.h-y2+reagirl.Elements[i]["h"]*scale else h2=reagirl.Elements[i]["h"]*scale end
       
       if x2+reagirl.MoveItAllRight<0 or x2+reagirl.MoveItAllRight>gfx.w or y2+reagirl.MoveItAllUp<0 or y2+reagirl.MoveItAllUp>gfx.h or
          x2+w2+reagirl.MoveItAllRight<0 or x2+w2+reagirl.MoveItAllRight>gfx.w or y2+h2+reagirl.MoveItAllUp<0 or y2+h2+reagirl.MoveItAllUp>gfx.h 
@@ -7259,9 +7265,9 @@ reagirl.NextLine()
   reagirl.NextLine()
   --A3 = reagirl.CheckBox_Add(nil, nil, "AAC", "Export file as MP3", true, CheckMe)
   --E = reagirl.DropDownMenu_Add(nil, nil, -100, "DropDownMenu:", "Desc of DDM", {"The", "Death", "Of", "A", "Party123456789012345678Hardy Hard Scooter Hyper Hyper How Much Is The Fish",2,3,4,5}, 5, sliderme)
-  --F = reagirl.Slider_Add(10, 340, 200, "Sliders Das Tor", "I am a slider", "%", 1, 100, 5.001, 1, sliderme)
+  F = reagirl.Slider_Add(10, 340, 200, "Sliders Das Tor", "I am a slider", "%", 1, 100, 5.001, 1, sliderme)
   reagirl.NextLine()
-  --F = reagirl.Slider_Add(nil, nil, -20, "Sliders Das Tor", "I am a slider", "%", 1, 1000, 5.001, 10, sliderme)
+  F = reagirl.Slider_Add(nil, nil, -20, "Sliders Das Tor", "I am a slider", "%", 1, 1000, 5.001, 10, sliderme)
   
   --reagirl.Elements[8].IsDecorative=true
   --reagirl.Line_Add(10, 135, 60, 150,1,1,0,1)
@@ -7281,7 +7287,7 @@ reagirl.NextLine()
 --  BT1=reagirl.Button_Add(nil, nil, 0, 0, "Export Podcast", "Will open the Render to File-dialog, which allows you to export the file as MP3", click_button)
   
 --  BT2=reagirl.Button_Add(885, 550, 0, 0, "Close Gui", "Description of the button", click_button)
-  --BT2=reagirl.Button_Add(285, 50, 0, 0, "âœ", "Edit Marker", click_button)
+  --BT2=reagirl.Button_Add(285, 50, 0, 0, "Ã¢Å“Â", "Edit Marker", click_button)
   --reagirl.NextLine()
   BBBlol=reagirl.Button_Add(720, 770, 20, 0, "Help1", "Description of the button", click_button)
   --reagirl.Button_SetRadius(BBB, 18)
@@ -7369,5 +7375,6 @@ reagirl.AtEnter(ABBALA)
 --reagirl.UI_Element_GetFocusedRect()
 
 --reagirl.Label_SetLabelText(LAB, "Prime Time Of Your\nLife")
+
 
 
