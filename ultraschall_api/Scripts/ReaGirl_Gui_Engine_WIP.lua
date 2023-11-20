@@ -3186,16 +3186,13 @@ function reagirl.CheckBox_Draw(element_id, selected, hovered, clicked, mouse_cap
   elseif scale==8 then offset=20
   end
   
-  gfx.set(0.3)
-  gfx.x=x+h+3+6--+12
-  gfx.y=y+1+offset
+  gfx.x=1+x+h+2+6
+  gfx.y=1+y+2+offset
+  gfx.set(0.2)
   gfx.drawstr(name)
-  if element_storage["IsDecorative"]==false then
-    gfx.set(0.8)
-  else
-    gfx.set(0.6)
-  end
-  gfx.x=x+h+2+6--+12
+  
+  if element_storage["IsDecorative"]==false then gfx.set(0.8) else gfx.set(0.6) end
+  gfx.x=x+h+2+6
   gfx.y=y+2+offset
   gfx.drawstr(name)
   reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0)
@@ -4026,9 +4023,13 @@ function reagirl.DropDownMenu_Draw(element_id, selected, hovered, clicked, mouse
   local scale=1
   local dpi_scale=reagirl.Window_CurrentScale
   offset=1+math.floor(dpi_scale)
+  gfx.x=x+1
+  gfx.y=y+1+(h-sh)/2+offset-1
+  gfx.set(0.2)
+  gfx.drawstr(element_storage["Name"])
+  
   gfx.x=x
   gfx.y=y+(h-sh)/2+offset-1
-  
   if element_storage["IsDecorative"]==true then gfx.set(0.6) else gfx.set(0.8) end
   gfx.drawstr(element_storage["Name"])
   
@@ -4096,14 +4097,7 @@ function reagirl.DropDownMenu_Draw(element_id, selected, hovered, clicked, mouse
       gfx.drawstr(menuentry,0,x+w-21*dpi_scale, gfx.y+gfx.texth)
     end
   end
-  gfx.set(0.3)
-  gfx.x=x+h+3
-  gfx.y=y+1
-  --gfx.drawstr(name)
-  gfx.set(1)
-  gfx.x=x+h+2
-  gfx.y=y
-  --gfx.drawstr(name)
+
 end
 
 function reagirl.DropDownMenu_SetDisabled(element_id, state)
@@ -6233,8 +6227,6 @@ function reagirl.Slider_Draw(element_id, selected, hovered, clicked, mouse_cap, 
   
   local dpi_scale=reagirl.Window_GetCurrentScale()
   
-  gfx.x=x
-  gfx.y=y
   reagirl.SetFont(1, "Arial", reagirl.Font_Size-1, 0)
   local offset_cap=gfx.measurestr(name.." ")+5*dpi_scale
   local offset_unit=gfx.measurestr(element_storage["Unit"].."8888888")
@@ -6242,19 +6234,38 @@ function reagirl.Slider_Draw(element_id, selected, hovered, clicked, mouse_cap, 
   element_storage["cap_w"]=offset_cap--gfx.measurestr(name.." ")+5*dpi_scale
   element_storage["unit_w"]=offset_unit
   element_storage["slider_w"]=w-offset_cap-offset_unit
+  gfx.x=x+1
+  gfx.y=y+1
+  gfx.set(0.2)
+  gfx.drawstr(element_storage["Name"])
   
+  gfx.x=x
+  gfx.y=y
   if element_storage["IsDecorative"]==true then gfx.set(0.6) else gfx.set(0.8) end
   -- draw caption
   gfx.drawstr(element_storage["Name"])
   
   -- draw unit
-  gfx.x=x+w-offset_unit+5*dpi_scale
-  gfx.y=y
   local unit=reagirl.FormatNumber(element_storage["CurValue"], 3)
-  if element_storage["Unit"]~=nil then gfx.set(0.8) gfx.drawstr(" "..unit..element_storage["Unit"]) end
+  if element_storage["Unit"]~=nil then 
+    gfx.x=x+1+w-offset_unit+5*dpi_scale
+    gfx.y=y+1
+    gfx.set(0.2)
+    gfx.drawstr(" "..unit..element_storage["Unit"])
+    
+    gfx.x=x+w-offset_unit+5*dpi_scale
+    gfx.y=y
+  
+    gfx.set(0.8) 
+    gfx.drawstr(" "..unit..element_storage["Unit"]) 
+  end
 
   if element_storage["IsDecorative"]==true then gfx.set(0.5) else gfx.set(0.7) end
   -- draw slider-area
+  gfx.set(0.5)
+  gfx.rect(x+1+offset_cap, y+1+(gfx.texth>>1)-1, w-offset_cap-offset_unit, 4, 1)
+  
+  if element_storage["IsDecorative"]==true then gfx.set(0.6) else gfx.set(0.8) end
   gfx.rect(x+offset_cap, y+(gfx.texth>>1)-1, w-offset_cap-offset_unit, 4, 1)
   
   --local rect_stop=w-offset_unit
@@ -7274,7 +7285,12 @@ reagirl.NextLine()
   reagirl.NextLine()
   --A3 = reagirl.CheckBox_Add(nil, nil, "AAC", "Export file as MP3", true, CheckMe)
   E = reagirl.DropDownMenu_Add(nil, nil, -100, "DropDownMenu:", "Desc of DDM", {"The", "Death", "Of", "A", "Party123456789012345678Hardy Hard Scooter Hyper Hyper How Much Is The Fish",2,3,4,5}, 5, sliderme)
-  F = reagirl.Slider_Add(10, 340, 200, "Sliders Das Tor", "I am a slider", "%", 1, 100, 5.001, 1, sliderme)
+  reagirl.NextLine()
+  A3 = reagirl.CheckBox_Add(nil, nil, "AAC", "Export file as MP3", true, CheckMe) A3 = reagirl.CheckBox_Add(nil, nil, "AAC", "Export file as MP3", true, CheckMe)
+  F = reagirl.Slider_Add(nil, nil, 200, "Sliders Das Tor", "I am a slider", "%", 1, 100, 5.001, 1, sliderme)
+  reagirl.NextLine()
+  F = reagirl.Slider_Add(nil, nil, -20, "Sliders Das Tor", "I am a slider", "%", 1, 1000, 5.001, 10, sliderme)
+  reagirl.NextLine()
   reagirl.NextLine()
   F = reagirl.Slider_Add(nil, nil, -20, "Sliders Das Tor", "I am a slider", "%", 1, 1000, 5.001, 10, sliderme)
   
