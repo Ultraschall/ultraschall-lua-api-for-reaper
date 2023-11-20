@@ -15,7 +15,7 @@ TODO:
   - Hovered-ACC-Message: when doing tabbing, the entire message will be read AND the one from hovering.
                         the one from hovering should only be read, if the mouse moved onto a ui-element
   - Images: dragging for accessibility, let the dragging-destination be chosen via Ctrl+Tab and Ctrl+Shift+Tab and Ctrl+Enter to drop it into the destination ui-element
-  
+  - General: acc-messages returned by the manage-functions are not sent to the screenreader for some reasons, like "pressed" in buttons
 !!For 10k-UI-Elements(already been tested)!!  
   - Gui_Manage
     -- check for y-coordinates first, then for x-coordinates
@@ -1401,6 +1401,7 @@ function reagirl.Gui_Manage()
   if reagirl.Windows_OldH~=gfx.h then reagirl.Windows_OldH=gfx.h reagirl.Gui_ForceRefresh(2) end
   if reagirl.Windows_OldW~=gfx.w then reagirl.Windows_OldW=gfx.w reagirl.Gui_ForceRefresh(3) end
   
+  local ui_element_selected=0
   -- Tab-key - next ui-element
   if gfx.mouse_cap&8==0 and Key==9 then 
     reagirl.Elements["FocusedElement"]=reagirl.UI_Element_GetNext(reagirl.Elements["FocusedElement"])
@@ -1415,6 +1416,7 @@ function reagirl.Gui_Manage()
       reagirl.UI_Element_SetFocusRect()
       reagirl.old_osara_message=""
       reagirl.Gui_ForceRefresh(4) 
+      ui_element_selected=2
     end
   end
   if reagirl.Elements["FocusedElement"]>#reagirl.Elements then reagirl.Elements["FocusedElement"]=1 end
@@ -1433,6 +1435,7 @@ function reagirl.Gui_Manage()
       end
       reagirl.UI_Element_SetFocusRect()
       reagirl.Gui_ForceRefresh(5) 
+      ui_element_selected=2
     end
   end
   if reagirl.Elements["FocusedElement"]<1 then reagirl.Elements["FocusedElement"]=#reagirl.Elements end
@@ -1509,6 +1512,7 @@ function reagirl.Gui_Manage()
            
            -- set found ui-element as focused and clicked
            reagirl.Elements["FocusedElement"]=i
+           ui_element_selected=2
            reagirl.Elements[i]["clicked"]=true
            reagirl.UI_Element_SetFocusRect()
            reagirl.Gui_ForceRefresh(6) 
@@ -1522,9 +1526,9 @@ function reagirl.Gui_Manage()
     if reagirl.UI_Elements_HoveredElement~=-1 and reagirl.UI_Elements_HoveredElement~=reagirl.UI_Elements_HoveredElement_Old then
       if reaper.osara_outputMessage~=nil then
         if reagirl.Elements[reagirl.UI_Elements_HoveredElement]["AccHoverMessage"]~=nil then
-          --reaper.osara_outputMessage(reagirl.Elements[reagirl.UI_Elements_HoveredElement]["AccHoverMessage"])
+          reaper.osara_outputMessage(reagirl.Elements[reagirl.UI_Elements_HoveredElement]["AccHoverMessage"])
         else
-          --reaper.osara_outputMessage(reagirl.Elements[reagirl.UI_Elements_HoveredElement]["Name"])
+          reaper.osara_outputMessage(reagirl.Elements[reagirl.UI_Elements_HoveredElement]["Name"])
         end
       end
     end
@@ -1601,7 +1605,16 @@ function reagirl.Gui_Manage()
         or (y2+reagirl.MoveItAllUp<=0 and y2+h2+reagirl.MoveItAllUp>=gfx.h))) or i>#reagirl.Elements-4)
         then--]]  
           -- run manage-function of ui-element
-          local cur_message, refresh=reagirl.Elements[i]["func_manage"](i, reagirl.Elements["FocusedElement"]==i,
+          
+          if reagirl.Elements.FocusedElement==i and ui_element_selected==2 then 
+            ui_element_selected2=2
+          elseif reagirl.Elements.FocusedElement==i then 
+            ui_element_selected2=1
+          elseif reagirl.Elements.FocusedElement~=i then 
+            ui_element_selected2=0 
+          end
+          reagirl.Elements[i]["specific_selected"]=ui_element_selected2
+          local cur_message, refresh=reagirl.Elements[i]["func_manage"](i, reagirl.Elements.FocusedElement==i,
             reagirl.UI_Elements_HoveredElement==i,
             specific_clickstate,
             gfx.mouse_cap,
@@ -1625,7 +1638,7 @@ function reagirl.Gui_Manage()
         if reagirl.Elements["FocusedElement"]==i and reagirl.Elements[reagirl.Elements["FocusedElement"]]["IsDecorative"]==false and reagirl.old_osara_message~=message and reaper.osara_outputMessage~=nil then
           --reaper.osara_outputMessage(reagirl.osara_init_message..message)
           if message==nil then message="" end
-          
+          --print("MASSAGE: "..message)
           reaper.osara_outputMessage(reagirl.osara_init_message..""..init_message.." "..message.." "..helptext,3)
           reagirl.old_osara_message=message
           reagirl.osara_init_message=""
@@ -3563,10 +3576,10 @@ end
 
 function reagirl.Button_Manage(element_id, selected, hovered, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
   local message=" "
-  if element_storage["old_selected"]~=true and selected==true then 
+  if element_storage["specific_selected"]==2 then 
     message=" "
   end
-  element_storage["old_selected"]=selected
+
   local refresh=false
   local oldpressed=element_storage["pressed"]
 
@@ -3589,7 +3602,7 @@ function reagirl.Button_Manage(element_id, selected, hovered, clicked, mouse_cap
     end
   end
   if oldpressed==true and element_storage["pressed"]==false and (mouse_cap&1==0 and Key~=32) then
-    if element_storage["run_function"]~=nil then element_storage["run_function"](element_storage["Guid"]) end
+    if element_storage["run_function"]~=nil then element_storage["run_function"](element_storage["Guid"]) message="pressed" end
   end
 
   return message, oldpressed~=element_storage["pressed"]
@@ -6133,7 +6146,7 @@ function reagirl.Slider_Manage(element_id, selected, hovered, clicked, mouse_cap
       dw=10
       dh=10
       --]]
-      if clicked~="" then print_alt(clicked) end
+      
       element_storage["TempValue"]=element_storage["CurValue"]      
       if slider_x2>=0 and slider_x2<=element_storage["slider_w"] then
         if clicked=="DBLCLK" then
@@ -7138,9 +7151,9 @@ function click_button(test)
     --reaper.Main_OnCommand(40015, 0)
     reagirl.UI_Element_ScrollToUIElement(BT1)
     
-    if reagirl.Checkbox_GetCheckState(A3)==true then timmy=false else timmy=true end
-    print2(timmy)
-    reagirl.Checkbox_SetCheckState(A3, timmy)
+    --if reagirl.Checkbox_GetCheckState(A3)==true then timmy=false else timmy=true end
+    --print2(timmy)
+    --reagirl.Checkbox_SetCheckState(A3, timmy)
   elseif test==BT2 then
     reagirl.Gui_Close()
   --reagirl.UI_Element_Remove(EID)
@@ -7179,7 +7192,7 @@ function sliderme(element_id, val, val2)
   --print(reagirl.Slider_GetMinimum(element_id), reagirl.Slider_GetMaximum(element_id))
   --print(reagirl.Slider_GetDefaultValue(F))
   if val2==nil then val2=element_id end
-  print_update(element_id, reagirl.UI_Element_GetSetCaption(element_id, false))--, val, val2, reagirl.UI_Element_GetSetCaption(val2, false))
+  --print_update(element_id, reagirl.UI_Element_GetSetCaption(element_id, false))--, val, val2, reagirl.UI_Element_GetSetCaption(val2, false))
   --for i=1, #val do
     --print(val[i])
   --end
@@ -7280,7 +7293,7 @@ reagirl.NextLine()
   --reagirl.Line_Add(0,43,-1,43,1,1,1,0.7)
   
   reagirl.NextLine()
---  BT1=reagirl.Button_Add(nil, nil, 0, 0, "Export Podcast", "Will open the Render to File-dialog, which allows you to export the file as MP3", click_button)
+  BT1=reagirl.Button_Add(nil, nil, 0, 0, "Export Podcast", "Will open the Render to File-dialog, which allows you to export the file as MP3", click_button)
   
 --  BT2=reagirl.Button_Add(885, 550, 0, 0, "Close Gui", "Description of the button", click_button)
   --BT2=reagirl.Button_Add(285, 50, 0, 0, "Ã¢Å“Â", "Edit Marker", click_button)
@@ -7298,7 +7311,7 @@ reagirl.NextLine()
   
 --  reagirl.Button_Add(55, 30, 0, 0, " HUCH", "Description of the button", click_button)
   
-  for i=1, 10000, 1 do
+  for i=1, 100, 1 do
     --A3= reagirl.CheckBox_Add(10, i*10+135, "AAC", "Export file as MP3", true, CheckMe)
     reagirl.Button_Add(nil, nil, 0, 0, i.." HUCH", "Description of the button", click_button)
     reagirl.NextLine()
