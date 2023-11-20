@@ -4049,7 +4049,7 @@ function reagirl.DropDownMenu_Draw(element_id, selected, hovered, clicked, mouse
     gfx.rect(cap_w+x+w-h+offset+1*(dpi_scale-1), y+offset+2+1*(dpi_scale-2), dpi_scale-cap_w, h-dpi_scale, 1)
     
     if element_storage["IsDecorative"]==false then
-      gfx.x=x+7+offset+cap_w
+      gfx.x=x+(7*dpi_scale)+offset+cap_w
     
       if reaper.GetOS():match("OS")~=nil then offset=1 end
       gfx.y=y+(h-sh)/2+1+offset
@@ -4077,7 +4077,7 @@ function reagirl.DropDownMenu_Draw(element_id, selected, hovered, clicked, mouse
     
     local offset=0
     if element_storage["IsDecorative"]==false then
-      gfx.x=x+7+offset+cap_w--+(w-sw)/2+1
+      gfx.x=x+(7*dpi_scale)+offset+cap_w--+(w-sw)/2+1
       if reaper.GetOS():match("OS")~=nil then offset=1 end
       --gfx.y=(y*scale)+(h-element_storage["h"])/2+offset
       gfx.y=y+(h-sh)/2+offset
@@ -4086,12 +4086,12 @@ function reagirl.DropDownMenu_Draw(element_id, selected, hovered, clicked, mouse
     else
       if reaper.GetOS():match("OS")~=nil then offset=1 end
       
-      gfx.x=x+7+offset+cap_w--+(w-sw)/2+1
+      gfx.x=x+(7*dpi_scale)+offset+cap_w--+(w-sw)/2+1
       gfx.y=y+(h-sh)/2+1+offset-1
       gfx.set(0.09)
       gfx.drawstr(menuentry,0,x+w-21*dpi_scale, gfx.y+gfx.texth)
       
-      gfx.x=x+7+offset+cap_w--+(w-sw)/2+1
+      gfx.x=x+15+offset+cap_w--+(w-sw)/2+1
       gfx.y=y+(h-sh)/2+offset
       gfx.set(0.55)
       gfx.drawstr(menuentry,0,x+w-21*dpi_scale, gfx.y+gfx.texth)
