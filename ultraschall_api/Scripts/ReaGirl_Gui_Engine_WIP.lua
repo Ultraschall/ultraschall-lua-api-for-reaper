@@ -14,11 +14,7 @@ TODO:
               https://github.com/jcsteh/osara/issues/961
   - Hovered-ACC-Message: when doing tabbing, the entire message will be read AND the one from hovering.
                         the one from hovering should only be read, if the mouse moved onto a ui-element
-  - UI_Element_ScrollToUIElement - buggy, doesn't scroll properly to ui-elements all the time.
-  
-  FOR WHATEVER FUCKING REASON!
-  
-  IT ALL WORKED ALREADY AND OUT OF A SUDDEN! IT DOESN'T! FUCK THIS SHIT!
+  - Images: dragging for accessibility, let the dragging-destination be chosen via Ctrl+Tab and Ctrl+Shift+Tab and Ctrl+Enter to drop it into the destination ui-element
   
 !!For 10k-UI-Elements(already been tested)!!  
   - Gui_Manage
