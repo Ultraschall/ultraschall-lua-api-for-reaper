@@ -3975,6 +3975,8 @@ end
 
 function reagirl.InputBox_OnTyping(Key, Key_UTF, mouse_cap, element_storage)
   if Key_UTF~=0 then Key=Key_UTF end
+  local refresh=false
+  if Key>0 then refresh=true end
   if Key==8 then
     -- Backspace
     if element_storage.cursor_offset>=0 then
@@ -4107,7 +4109,7 @@ function reagirl.InputBox_OnTyping(Key, Key_UTF, mouse_cap, element_storage)
     --if element_storage.cursor_offset==offset_e-1 then element_storage.draw_offset=element_storage.draw_offset+1 end
     reagirl.InputBox_ConsolidateCursorPos(element_storage)
   end
-  
+  return refresh
 end
 
 function reagirl.InputBox_Manage(element_id, selected, hovered, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
@@ -4116,22 +4118,32 @@ function reagirl.InputBox_Manage(element_id, selected, hovered, clicked, mouse_c
   element_storage.y2=y
   element_storage.w2=w
   element_storage.h2=h
-  if mouse_cap&1==1 then 
+  local refresh=false
+  if selected==true and mouse_cap&1==1 then 
     if reagirl.mouse.down==false then
       reagirl.InputBox_OnMouseDown(mouse_cap, element_storage) 
       if os.clock()-reagirl.mouse.downtime<0.25 then
         reagirl.InputBox_OnMouseDoubleClick(mouse_cap, element_storage)
       end
+      refresh=true
     elseif gfx.mouse_x~=reagirl.mouse.x or gfx.mouse_y~= reagirl.mouse.y then
       reagirl.InputBox_OnMouseMove(mouse_cap, element_storage)
+      print_update(reaper.time_precise())
+      refresh=true
     end
   elseif reagirl.mouse.down==true then
     reagirl.InputBox_OnMouseUp(mouse_cap, element_storage)
+    refresh=true
   end
   if element_storage.hasfocus==true then
-    reagirl.InputBox_OnTyping(Key, Key_UTF, mouse_cap, element_storage)
+    local refresh2=reagirl.InputBox_OnTyping(Key, Key_UTF, mouse_cap, element_storage)
+    if refresh~=true and refresh2==true then
+      refresh=true
+    end
   end
-  reagirl.Gui_ForceRefresh()
+  if refresh==true then
+    reagirl.Gui_ForceRefresh()
+  end
 end
 --reagirl.Checkbox_Manage(element_id, selected, hovered, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
 --function reagirl.InputBox_Draw(mouse_cap, element_storage, c, c2)
