@@ -4119,6 +4119,23 @@ function reagirl.InputBox_Manage(element_id, selected, hovered, clicked, mouse_c
   element_storage.w2=w
   element_storage.h2=h
   local refresh=false
+  refreshme=clicked
+  if selected==true and clicked=="FirstCLK" then 
+    if reagirl.mouse.down==false then
+      reagirl.InputBox_OnMouseDown(mouse_cap, element_storage) 
+      refresh=true
+    end
+  elseif clicked=="DBLCLK" then
+    reagirl.InputBox_OnMouseDoubleClick(mouse_cap, element_storage)
+    refresh=true
+  elseif clicked=="DRAG" then --reagirl.mouse.down==true and clicked=="DRAG" then gfx.mouse_x~=reagirl.mouse.x or gfx.mouse_y~=reagirl.mouse.y then
+    reagirl.InputBox_OnMouseMove(mouse_cap, element_storage)
+    refresh=true
+  elseif reagirl.mouse.down==true then
+    reagirl.InputBox_OnMouseUp(mouse_cap, element_storage)
+    refresh=true
+  end
+  --[[
   if selected==true and mouse_cap&1==1 then 
     if reagirl.mouse.down==false then
       reagirl.InputBox_OnMouseDown(mouse_cap, element_storage) 
@@ -4135,6 +4152,7 @@ function reagirl.InputBox_Manage(element_id, selected, hovered, clicked, mouse_c
     reagirl.InputBox_OnMouseUp(mouse_cap, element_storage)
     refresh=true
   end
+  --]]
   if element_storage.hasfocus==true then
     local refresh2=reagirl.InputBox_OnTyping(Key, Key_UTF, mouse_cap, element_storage)
     if refresh~=true and refresh2==true then
