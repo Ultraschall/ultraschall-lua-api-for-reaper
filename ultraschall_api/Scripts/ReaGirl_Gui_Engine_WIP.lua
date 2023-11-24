@@ -3821,13 +3821,13 @@ function reagirl.InputBox_GetTextOffset(x,y,element_storage)
   -- Offset is off
   local startoffs=element_storage.x2
   local cursoffs=element_storage.draw_offset
-  local textw=gfx.measurechar(65)/0.9
+  local textw=gfx.measurechar(65)
   
   if x<startoffs then return -1, element_storage.draw_offset, element_storage.draw_offset+math.floor(element_storage.w2/textw) end
   
   for i=element_storage.draw_offset, element_storage.draw_offset+math.floor(element_storage.w2/textw) do
     --gfx.rect((i*textw),0,(i*textw),10,1)
-    --local textw=gfx.measurestr(element_storage.Text:utf8_sub(i,i))
+    local textw=gfx.measurestr(element_storage.Text:utf8_sub(i,i))
     --print_update(textw)
     if x>=startoffs and x<=startoffs+textw then
       return cursoffs-1, element_storage.draw_offset, element_storage.draw_offset+math.floor(element_storage.w2/textw)
@@ -4114,6 +4114,8 @@ end
 
 function reagirl.InputBox_Manage(element_id, selected, hovered, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
 --function reagirl.InputBox_Manage(mouse_cap, element_storage, Key, Key_UTF)
+  gfx.setfont(1, "Arial", 20, 0)
+  
   element_storage.x2=x
   element_storage.y2=y
   element_storage.w2=w
@@ -4167,7 +4169,7 @@ end
 --function reagirl.InputBox_Draw(mouse_cap, element_storage, c, c2)
 function reagirl.InputBox_Draw(element_id, selected, hovered, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
   
-  gfx.setfont(1, "Consolas", 20, 0)
+  gfx.setfont(1, "Arial", 20, 0)
   local textw=gfx.measurechar("65")-1
   
   -- draw rectangle around text
@@ -4180,9 +4182,9 @@ function reagirl.InputBox_Draw(element_id, selected, hovered, clicked, mouse_cap
   
   for i=element_storage.draw_offset, element_storage.draw_offset+math.floor(w/textw)-1 do
     if i>=element_storage.selection_startoffset+1 and i<=element_storage.selection_endoffset then
-      gfx.setfont(1, "Consolas", 20, 86) 
+      gfx.setfont(1, "Arial", 20, 86) 
     else
-      gfx.setfont(1, "Consolas", 20, 0) 
+      gfx.setfont(1, "Arial", 20, 0) 
     end
     element_storage.draw_max=i-element_storage.draw_offset
     
