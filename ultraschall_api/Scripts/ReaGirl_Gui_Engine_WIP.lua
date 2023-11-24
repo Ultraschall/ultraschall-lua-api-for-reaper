@@ -16,6 +16,10 @@ TODO:
                         the one from hovering should only be read, if the mouse moved onto a ui-element
   - Images: dragging for accessibility, let the dragging-destination be chosen via Ctrl+Tab and Ctrl+Shift+Tab and Ctrl+Enter to drop it into the destination ui-element
   - General: acc-messages returned by the manage-functions are not sent to the screenreader for some reasons, like "pressed" in buttons
+  - InputBox:
+    - Length of visible text isn't properly calculated for non-mono-fonts
+    - arrow-keys left and right: go beyond the edges of the text!
+  
 !!For 10k-UI-Elements(already been tested)!!  
   - Gui_Manage
     -- check for y-coordinates first, then for x-coordinates
@@ -3994,30 +3998,37 @@ function reagirl.InputBox_OnTyping(Key, Key_UTF, mouse_cap, element_storage)
   elseif Key==1919379572.0 then
     -- right arrow key
     element_storage.cursor_offset=element_storage.cursor_offset+1
-    if mouse_cap&8==8 then
-      if element_storage.selection_endoffset==element_storage.cursor_offset-1 then
-        element_storage.selection_endoffset=element_storage.selection_endoffset+1
-      elseif element_storage.selection_endoffset>element_storage.cursor_offset-1 then
-        element_storage.selection_startoffset=element_storage.selection_startoffset+1
-      end
+    if element_storage.cursor_offset>element_storage.Text:utf8_len() then 
+      element_storage.cursor_offset=element_storage.Text:utf8_len()
     else
-      element_storage.selection_startoffset=element_storage.cursor_offset
-      element_storage.selection_endoffset=element_storage.cursor_offset
+      if mouse_cap&8==8 then
+        if element_storage.selection_endoffset==element_storage.cursor_offset-1 then
+          element_storage.selection_endoffset=element_storage.selection_endoffset+1
+        elseif element_storage.selection_endoffset>element_storage.cursor_offset-1 then
+          element_storage.selection_startoffset=element_storage.selection_startoffset+1
+        end
+      else
+        element_storage.selection_startoffset=element_storage.cursor_offset
+        element_storage.selection_endoffset=element_storage.cursor_offset
+      end
     end
-    
     reagirl.InputBox_ConsolidateCursorPos(element_storage)
   elseif Key==1818584692.0 then
     -- left arrow key
     element_storage.cursor_offset=element_storage.cursor_offset-1
-    if mouse_cap&8==8 then
-      if element_storage.selection_startoffset==element_storage.cursor_offset+1 then
-        element_storage.selection_startoffset=element_storage.selection_startoffset-1
-      elseif element_storage.selection_startoffset<element_storage.cursor_offset+1 then
-        element_storage.selection_endoffset=element_storage.selection_endoffset-1
-      end
+    if element_storage.cursor_offset<0 then 
+      element_storage.cursor_offset=0 
     else
-      element_storage.selection_startoffset=element_storage.cursor_offset
-      element_storage.selection_endoffset=element_storage.cursor_offset
+      if mouse_cap&8==8 then
+        if element_storage.selection_startoffset==element_storage.cursor_offset+1 then
+          element_storage.selection_startoffset=element_storage.selection_startoffset-1
+        elseif element_storage.selection_startoffset<element_storage.cursor_offset+1 then
+          element_storage.selection_endoffset=element_storage.selection_endoffset-1
+        end
+      else
+        element_storage.selection_startoffset=element_storage.cursor_offset
+        element_storage.selection_endoffset=element_storage.cursor_offset
+      end
     end
     reagirl.InputBox_ConsolidateCursorPos(element_storage)
   elseif Key==30064 then
@@ -4115,6 +4126,10 @@ end
 function reagirl.InputBox_Manage(element_id, selected, hovered, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
 --function reagirl.InputBox_Manage(mouse_cap, element_storage, Key, Key_UTF)
   gfx.setfont(1, "Arial", 20, 0)
+  -- mousewheel scroll the text inside the input-box via hmousewheel(doesn't work properly, yet)
+  --print_update(mouse_attributes[6])
+  --if mouse_attributes[6]<0 then element_storage["draw_offset"]=element_storage["draw_offset"]-mouse_attributes[6]>>2 if element_storage["draw_offset"]<1 then element_storage["draw_offset"]=1 end reagirl.Gui_PreventScrollingForOneCycle(true, true, false) end
+  --if mouse_attributes[6]>0 then element_storage["draw_offset"]=element_storage["draw_offset"]+mouse_attributes[6]>>2 if element_storage["draw_offset"]>element_storage["Text"]:utf8_len()-element_storage["draw_max"] then element_storage["draw_offset"]=1 end reagirl.Gui_PreventScrollingForOneCycle(true, true, false) end
   
   element_storage.x2=x
   element_storage.y2=y
@@ -7633,7 +7648,7 @@ function UpdateUI()
       Images[1]=filename
     end
   end
-reagirl.InputBox_Add(1,50,900,"Inputbox Deloxe", "Se descrizzione", FromClip(), input1, input2)
+reagirl.InputBox_Add(1,50,100,"Inputbox Deloxe", "Se descrizzione", "ABCDEFGHIJKLMNOPQRSTUVWXYZacdefghijklmnopqrstuvwxyz0123456789", input1, input2)
 --tabs_id=reagirl.Tabs_Add(nil, nil, nil, nil, "TUDELU", "Tabs", {"HUCH", "TUDELU", "Dune", "Ach Gotterl", "Leileileilei"}, 1, sliderme)
 reagirl.NextLine()
 --reagirl.Tabs_Add(nil, nil, 0, 0, "TUDELU", "Tabs", {"HUCH", "TUDELU", "Dune", "Ach Gotterl", "Leileileilei"}, 1, sliderme)
