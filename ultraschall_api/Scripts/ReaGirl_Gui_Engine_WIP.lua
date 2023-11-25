@@ -17,8 +17,12 @@ TODO:
   - Images: dragging for accessibility, let the dragging-destination be chosen via Ctrl+Tab and Ctrl+Shift+Tab and Ctrl+Enter to drop it into the destination ui-element
   - General: acc-messages returned by the manage-functions are not sent to the screenreader for some reasons, like "pressed" in buttons
   - InputBox:
-    - Length of visible text isn't properly calculated for non-mono-fonts
-    - arrow-keys left and right: go beyond the edges of the text!
+    - #1 Length of visible text isn't properly calculated for non-mono-fonts, especially when typing jjjj and iiii a lot
+    - #2 Fast moving the mouse over the middle of the textselection(the point, where it springs from)
+          while text selection offsets the text-selection by one or more characters
+    - #3 Redraw it in more pretty
+    - #4 Caption still missing
+    - #5 Scaling must be done
   
 !!For 10k-UI-Elements(already been tested)!!  
   - Gui_Manage
@@ -3826,10 +3830,14 @@ function reagirl.InputBox_GetTextOffset(x,y,element_storage)
   local startoffs=element_storage.x2
   local cursoffs=element_storage.draw_offset
   local textw=gfx.measurechar(65)
+  if element_storage["w"]<0 then w2=gfx.w-x2+element_storage["w"] else w2=element_storage["w"] end
   
+  -- if click==outside of left edge of the inputbox
   if x<startoffs then return -1, element_storage.draw_offset, element_storage.draw_offset+math.floor(element_storage.w2/textw) end
   
-  for i=element_storage.draw_offset, element_storage.draw_offset+math.floor(element_storage.w2/textw) do
+  local draw_offset=0
+  for i=element_storage.draw_offset, element_storage.Text:utf8_len() do --draw_offset+math.floor(element_storage.w2/textw) do
+    if draw_offset+textw>w2 then break end
     --gfx.rect((i*textw),0,(i*textw),10,1)
     local textw=gfx.measurestr(element_storage.Text:utf8_sub(i,i))
     --print_update(textw)
@@ -3838,8 +3846,11 @@ function reagirl.InputBox_GetTextOffset(x,y,element_storage)
     end
     cursoffs=cursoffs+1
     startoffs=startoffs+textw
+    draw_offset=draw_offset+textw
   end
+  --]]
   
+  -- if click==outside of right edge of the inputbox
   return -2, element_storage.draw_offset, element_storage.draw_offset+math.floor(element_storage.w/textw)
 end
 
@@ -3906,10 +3917,12 @@ function reagirl.InputBox_OnMouseMove(mouse_cap, element_storage)
       element_storage.selection_startoffset=newoffs
     end
   elseif newoffs==-1 then
+    -- when dragging is outside of 
     element_storage.selection_startoffset=startoffs-1
     if element_storage.selection_startoffset<0 then element_storage.selection_startoffset=0 end
     element_storage.draw_offset=element_storage.selection_startoffset
   elseif newoffs==-2 then
+    -- when dragging is outside the right edge
     element_storage.selection_endoffset=endoffs+1
     if element_storage.selection_endoffset>element_storage.Text:utf8_len() then 
       element_storage.selection_endoffset=element_storage.Text:utf8_len() 
@@ -4135,7 +4148,7 @@ function reagirl.InputBox_Manage(element_id, selected, hovered, clicked, mouse_c
   element_storage.y2=y
   element_storage.w2=w
   element_storage.h2=h
-  local refresh=false
+  local refresh=false 
   refreshme=clicked
   if selected==true and clicked=="FirstCLK" then 
     if reagirl.mouse.down==false then
@@ -4194,7 +4207,24 @@ function reagirl.InputBox_Draw(element_id, selected, hovered, clicked, mouse_cap
   -- draw text
   gfx.x=x
   gfx.y=y
-  
+  local draw_offset=0
+  for i=element_storage.draw_offset, element_storage.Text:utf8_len() do
+    local textw=gfx.measurestr(element_storage.Text:utf8_sub(i,i))
+    if draw_offset+textw>w then break end
+    if i>=element_storage.selection_startoffset+1 and i<=element_storage.selection_endoffset then
+      gfx.setfont(1, "Arial", 20, 86) 
+    else
+      gfx.setfont(1, "Arial", 20, 0) 
+    end
+    gfx.drawstr(element_storage.Text:utf8_sub(i,i))
+    if element_storage.hasfocus==true and element_storage.cursor_offset==i then 
+      gfx.set(1,0,0) 
+      gfx.line(gfx.x, y, gfx.x, y+gfx.texth) 
+      if element_storage.hasfocus==true then gfx.set(1) else gfx.set(0.5) end
+    end
+    draw_offset=draw_offset+textw
+  end
+  --[[
   for i=element_storage.draw_offset, element_storage.draw_offset+math.floor(w/textw)-1 do
     if i>=element_storage.selection_startoffset+1 and i<=element_storage.selection_endoffset then
       gfx.setfont(1, "Arial", 20, 86) 
@@ -4208,9 +4238,11 @@ function reagirl.InputBox_Draw(element_id, selected, hovered, clicked, mouse_cap
       gfx.set(1,0,0) 
       gfx.line(gfx.x, y, gfx.x, y+gfx.texth) 
 
-    if element_storage.hasfocus==true then gfx.set(1) else gfx.set(0.5) end
+      if element_storage.hasfocus==true then gfx.set(1) else gfx.set(0.5) end
     end
   end
+  --]]
+  
 end
 
 function reagirl.DropDownMenu_Add(x, y, w, caption, meaningOfUI_Element, menuItems, menuSelectedItem, run_function)
@@ -7648,7 +7680,7 @@ function UpdateUI()
       Images[1]=filename
     end
   end
-reagirl.InputBox_Add(1,50,100,"Inputbox Deloxe", "Se descrizzione", "ABCDEFGHIJKLMNOPQRSTUVWXYZacdefghijklmnopqrstuvwxyz0123456789", input1, input2)
+reagirl.InputBox_Add(1,50,400,"Inputbox Deloxe", "Se descrizzione", "ABCDEFGHIJKLMNOPQRSTUVWXYZacdefghijklmnopqrstuvwxyz0123456789", input1, input2)
 --tabs_id=reagirl.Tabs_Add(nil, nil, nil, nil, "TUDELU", "Tabs", {"HUCH", "TUDELU", "Dune", "Ach Gotterl", "Leileileilei"}, 1, sliderme)
 reagirl.NextLine()
 --reagirl.Tabs_Add(nil, nil, 0, 0, "TUDELU", "Tabs", {"HUCH", "TUDELU", "Dune", "Ach Gotterl", "Leileileilei"}, 1, sliderme)
