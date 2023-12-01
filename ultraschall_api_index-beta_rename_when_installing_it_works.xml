@@ -1467,70 +1467,90 @@
 	<source main="true" file="/ultraschall_developertool_gfx_deltablit_displayer.lua" type="script">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.9//ultraschall_api/Scripts//Tools/DeveloperScripts//ultraschall_developertool_gfx_deltablit_displayer.lua</source>
 <changelog><![CDATA[Ultraschall Framework - Changelog
 
-5 - “City - Am Fenster” - 1st of November 2023
+4.9 - “Depeche Mode - Everything Counts” - 30th of June 2023
 
-Has now 1663 functions, with XX new ones
+Has now 1663 functions, with 13 new ones and two fewer ones(!)
 
 new in this release:
 
--   Bla
-    Bla
+-   ReaSpaghetti
+    Features bugfixes and additions that will make Ultraschall API
+    compatible with Sexan’s ReaSpaghetti coding-tool in the future.
+    Keep checking for ReaSpaghetti-updates for more details.
 
-New features in 5
+-   Razor Edit
+    You can now set and resize RazorEdits. The resizing is possible by
+    setting a new length or resizing by a factor, like 0.5 for half or 2
+    for double the size.
 
--   HelperFunctions: SplitReaperString - splits a string that separates
-    by spaces AND " (usually used in statechunks)
--   ItemLanes: ItemLane_Count - gets the number of fixed item-lanes in a
+New features in 4.9
+
+-   Docs: links and code-examples - added links to related functions as
+    well as some first code-examples; can now add more very easily
+-   DocEngine: Docs_GetAllUSDocBlocsFromFile - loads all USDocBlocs from
+    a file
+-   DocEngine: Docs_GetReaperApiFunction_Categories - returns the
+    index-categories of a Reaper-function(including extensions)
+-   DocEngine: Docs_GetUSDocBloc_Examples - retrieves the
+    code-example-attributes stored in a USDocBloc
+-   DocEngine: Docs_GetUltraschallApiFunction_Categories - returns the
+    index-categories of an Ultraschall-function
+-   Envelopes: DeleteTrackEnvelopePointsBetween - removes all
+    envelope-points between start and endposition
+-   RazorEdit: RazorEdit_GetBetween_Envelope - get all razor-edits of an
+    envelope between start and endposition one or all razor-edits in a
     track
--   ItemLanes: ItemLane_GetAllMediaItems - gets the MediaItems from an
-    item-lane between start and endposition
--   ItemLanes: ItemLane_GetFromPoint - gets the fixed lane from a
-    coordinate
--   ItemLanes: ItemLane_GetPositionAndHeight - returns the y-position
-    and height of a fixed track-lane
--   MediaItems: GetYPosInLanes - get the y-pos and height of the item
-    within lanes
--   MediaItemTakes: MediaItem_GetAllVisibleTransients_ActiveTake - gets
-    position of all visible transients of an active take
--   Navigation: GetClosestNextMarker - didn’t return -1 when next marker
-    wasn’t existing
--   Rendering: CreateRenderCFG_RAW - creates a render-cfg-string for
-    RAW-PCM-format
--   Rendering: GetRenderCFG_Settings_RAW - gets the render-settings for
-    RAW-PCM-format
--   TrackStates: GetFixedLanesState - gets the lanes-state of a track
--   TrackStates: GetLaneNameState - gets the lane-names-state of a track
--   TrackStates: GetLaneRecState - gets the lanes-rec-state of a track
--   TrackStates: GetLaneSoloState - gets the lanes-solo-state of a track
+-   RazorEdit: RazorEdit_GetBetween_Track - get all razor-edits of a
+    track between start and endposition
+-   RazorEdit: RazorEdit_Resize_Envelope - resizes one or all
+    razor-edits in an envelope
+-   RazorEdit: RazorEdit_ResizeByFactor_Envelope - resizes one or all
+    razor-edits in an envelope by a factor(requested by Daniel Lumertz)
+-   RazorEdit: RazorEdit_Resize_Track - resizes one or all razor-edits
+    in a track
+-   RazorEdit: RazorEdit_ResizeByFactor_Track - resizes one or all
+    razor-edits in a track by a factor(requested by Daniel Lumertz)
+-   RazorEdit: RazorEdit_Set_Envelope - sets start/endposition of a
+    razor-edit in an envelope
+-   RazorEdit: RazorEdit_Set_Track - sets start/endposition of a
+    razor-edit in a track
 
-Changes from 4.9 to 5
+Changes from 4.8 to 4.9
 
--   Clipboard Management: PutMediaItemsToClipboard_MediaItemArray - had
-    edgecase, where it added one item too many -> fixed
--   DeveloperTools: Theme Parameter Monitor - improved scrolling; can
-    now show more than just 100 theme-parameters; Ctrl+Arrowkeys changes
-    values in steps of 10; font-resize removed
--   DocEngine: Docs_GetReaperApiFunction_Params - didn’t correctly
-    resolve datatypes when param was optional
--   DocEngine: Docs_GetReaperApiFunction_Retvals - didn’t correctly
-    resolve datatypes when param was optional
--   DocEngine: Docs_GetUltraschallApiFunction_Params - didn’t correctly
-    resolve datatypes when param was optional; had inner variable
-    exposed -> fixed
--   DocEngine: Docs_GetUltraschallApiFunction_Retvals - didn’t correctly
-    resolve datatypes when param was optional
--   FXManagement: ScanVSTPlugins - removed, as changes in Reaper prevent
-    this from working entirely
--   MediaItem Management: RippleCut - removed obey_crossfade-option
-    because it introduces too many issues; didn’t close the gap under
-    certain cirumstances -> fixed now
--   MediaItem Management: RippleCut_Reverse - didn’t close the gap under
-    certain cirumstances -> fixed now
--   Rendering: ApplyRenderTable_Project - did not properly apply
-    render-settings when render to file-dialog was opened due Reaper bug
-    -> fixed now (thanks to 80icio)
--   Rendering: GetRenderTable_ProjectFile - didn’t return a valid
-    Rendertable, when normalize-settings weren’t in the project-file
+-   Helper Functions: SFEM - crashed, when the occurred error happened
+    not within a function -> fixed now
+-   DocEngine: Docs_GetAllUSDocBlocsFromString - returned nil in case of
+    an error which was wrong; returns -1 now -> fixed now
+-   Docs: Reaper Internals - updated to Reaper 6.80
+-   Envelopes: MoveTrackEnvelopePointsBy - didn’t properly move and cut
+    envelope-points -> fixed
+-   MediaItems: RippleCut - didn’t properly move and cut
+    envelope-points; cut env-points in all tracks, not just the ones
+    from trackstring -> fixed
+-   MediaItems: RippleCut_Reverse - didn’t properly move and cut
+    envelope-points; cut env-points in all tracks, not just the ones
+    from trackstring -> fixed
+-   MediaItem_Takes: GetProjectPosByTakeSourcePos - removed from
+    release, due a Reaper bug that might remove take-markers; will
+    return when bug is fixed
+-   MediaItem_Takes: GetTakeSourcePosByProjectPos - removed from
+    release, due a Reaper bug that might remove take-markers; will
+    return when bug is fixed
+-   PodcastMetadata: GetPodcastContributorAttributesAsJSON - fix due fix
+    in GetSetContributor_Attributes
+-   PodcastMetadata: GetSetContributor_Attributes - had wrong
+    undocumented parameter in the function which is removed now; added
+    “ctrb_role”
+-   PodcastMetadata: GetSetPodcastEpisode_Attributes - removed
+    “epsd_tagline” and “epsd_author”
+-   PodcastMetadata: GetSetPodcast_Attributes - added “podc_tagline” and
+    “podc_feed”
+-   PodcastMetadata: GetShownoteAttributesAsJSON - timestamp is now in
+    hh:mm:ss:mss
+-   PodcastMetadata: PodcastMetadata_CreateJSON_Entry - did only do the
+    first chapter, ignoring the rest; improved layout of JSON -> fixed
+-   RazorEdit: RazorEdit_Nudge_Track - index didn’t count properly, when
+    envelopes had razor-edits -> fixed now
 ]]>
 </changelog>
       </version>
@@ -1560,7 +1580,7 @@ Ultraschall API}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b\ab\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
-a 1687 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 55906 from 25.11.2023 15:51:23).}
+a 1687 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 55906 from 01.12.2023 18:31:15).}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3

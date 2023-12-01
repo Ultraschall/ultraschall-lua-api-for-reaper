@@ -104,7 +104,10 @@
       TODO!!  - GetAllTakesFromMediaItem - returns an array with all takes from an item, objects as well as info_values
       TODO!!  - Envelope-StateChunk-functions
 
-		
+		  TODO!! - preview/send midi-note through track
+                - temporarily set track-input to midi-virtual midi keyboard
+                - send the midi-note via StuffMidiMessage
+                - reset input
 		
 #### readded from earlier development-builds
    - Developer: SetReaScriptConsole_FontStyle - sets the style of the font in the ReaConsole
@@ -312,51 +315,9 @@ ToDo Marker Menu:
       to see, where in Lokasenna's ui-Lib gfx.getchar is used to debug it with the new UTF8-fixes.
       
       todo: vzoom3 (double) missing in configvar-docs - vzoom2 is math.floor(vzoom3). When settin, vzoom2 and vzoom3 must be set or it can cause issues.
-      
-      Docs: There are parameters, where a comma is missing. Those have two spaces in their name. Look for them and add the missing commas.
 </TODO>
 
 ## Ultraschall Framework - Changelog
-
-### 5 - "City - Am Fenster" - 1st of November 2023
-
-Has now 1663 functions, with XX new ones
-
-**new in this release:**  
-
-  - **Bla**  
-  Bla
-    
-#### New features in 5  
-  - HelperFunctions: SplitReaperString - splits a string that separates by spaces AND " (usually used in statechunks)
-  - ItemLanes: ItemLane\_Count - gets the number of fixed item-lanes in a track
-  - ItemLanes: ItemLane\_GetAllMediaItems - gets the MediaItems from an item-lane between start and endposition
-  - ItemLanes: ItemLane\_GetFromPoint - gets the fixed lane from a coordinate
-  - ItemLanes: ItemLane\_GetPositionAndHeight - returns the y-position and height of a fixed track-lane
-  - MediaItems: GetYPosInLanes - get the y-pos and height of the item within lanes
-  - MediaItemTakes: MediaItem\_GetAllVisibleTransients\_ActiveTake - gets position of all visible transients of an active take
-  - Navigation: GetClosestNextMarker - didn't return -1 when next marker wasn't existing
-  - Rendering: CreateRenderCFG\_RAW - creates a render-cfg-string for RAW-PCM-format
-  - Rendering: GetRenderCFG\_Settings\_RAW - gets the render-settings for RAW-PCM-format
-  - TrackStates: GetFixedLanesState - gets the lanes-state of a track
-  - TrackStates: GetLaneNameState - gets the lane-names-state of a track
-  - TrackStates: GetLaneRecState - gets the lanes-rec-state of a track
-  - TrackStates: GetLaneSoloState - gets the lanes-solo-state of a track
-  
-#### Changes from 4.9 to 5
-  - Clipboard Management: PutMediaItemsToClipboard\_MediaItemArray - had edgecase, where it added one item too many -> fixed
-  - DeveloperTools: Theme Parameter Monitor - improved scrolling; can now show more than just 100 theme-parameters; Ctrl+Arrowkeys changes values in steps of 10; font-resize removed
-  - DocEngine: Docs\_GetReaperApiFunction\_Params - didn't correctly resolve datatypes when param was optional
-  - DocEngine: Docs\_GetReaperApiFunction\_Retvals - didn't correctly resolve datatypes when param was optional
-  - DocEngine: Docs\_GetUltraschallApiFunction\_Params - didn't correctly resolve datatypes when param was optional; had inner variable exposed -> fixed
-  - DocEngine: Docs\_GetUltraschallApiFunction\_Retvals - didn't correctly resolve datatypes when param was optional
-  - FXManagement: ScanVSTPlugins - removed, as changes in Reaper prevent this from working entirely
-  - MediaItem Management: RippleCut - removed obey_crossfade-option because it introduces too many issues; didn't close the gap under certain cirumstances -> fixed now
-  - MediaItem Management: RippleCut\_Reverse - didn't close the gap under certain cirumstances -> fixed now
-  - Rendering: ApplyRenderTable\_Project - did not properly apply render-settings when render to file-dialog was opened due Reaper bug -> fixed now (thanks to 80icio)
-  - Rendering: GetRenderTable\_ProjectFile - didn't return a valid Rendertable, when normalize-settings weren't in the project-file  
-
----
 
 ### 4.9 - "Depeche Mode - Everything Counts" - 30th of June 2023
 
@@ -381,9 +342,9 @@ Has now 1663 functions, with 13 new ones and two fewer ones(!)
   - RazorEdit: RazorEdit\_GetBetween\_Envelope - get all razor-edits of an envelope between start and endposition one or all razor-edits in a track
   - RazorEdit: RazorEdit\_GetBetween\_Track - get all razor-edits of a track between start and endposition
   - RazorEdit: RazorEdit\_Resize\_Envelope - resizes one or all razor-edits in an envelope
-  - RazorEdit: RazorEdit\_ResizeByFactor\_Envelope - resizes one or all razor-edits in an envelope by a factor(requested by Daniel Lumertz)
+  - RazorEdit: RazorEdit\_ResizeByFactor_Envelope - resizes one or all razor-edits in an envelope by a factor(requested by Daniel Lumertz)
   - RazorEdit: RazorEdit\_Resize\_Track - resizes one or all razor-edits in a track
-  - RazorEdit: RazorEdit\_ResizeByFactor\_Track - resizes one or all razor-edits in a track by a factor(requested by Daniel Lumertz)
+  - RazorEdit: RazorEdit\_ResizeByFactor_Track - resizes one or all razor-edits in a track by a factor(requested by Daniel Lumertz)
   - RazorEdit: RazorEdit\_Set\_Envelope - sets start/endposition of a razor-edit in an envelope
   - RazorEdit: RazorEdit\_Set\_Track - sets start/endposition of a razor-edit in a track
 

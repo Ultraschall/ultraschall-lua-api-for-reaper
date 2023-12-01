@@ -3803,6 +3803,7 @@ function reagirl.InputBox_Add(x, y, w, Name, MeaningOfUI_Element, Default, run_f
   reagirl.Elements[slot]["Text"]=Default
   reagirl.Elements[slot]["draw_range_max"]=10
   reagirl.Elements[slot]["draw_offset"]=0
+  reagirl.Elements[slot]["draw_offset_end"]=10
   reagirl.Elements[slot]["cursor_offset"]=0
   reagirl.Elements[slot]["selection_start"]=1
   reagirl.Elements[slot]["selection_end"]=1
@@ -3820,6 +3821,7 @@ function reagirl.InputBox_Add(x, y, w, Name, MeaningOfUI_Element, Default, run_f
   reagirl.Elements[slot]["run_function"]=run_function_enter
   reagirl.Elements[slot]["run_function_type"]=run_function_type
   reagirl.Elements[slot]["userspace"]={}
+  reagirl.InputBox_Calculate_DrawOffset(true, reagirl.Elements[slot])
   return reagirl.Elements[slot]["Guid"]
 end
 
@@ -3982,19 +3984,35 @@ function reagirl.InputBox_GetShownTextoffsets(x,y,element_storage)
 end
 
 function reagirl.InputBox_ConsolidateCursorPos(element_storage)
-  if element_storage.cursor_offset>element_storage.draw_offset+element_storage.draw_max then
-    element_storage.draw_offset=element_storage.cursor_offset-element_storage.draw_max+1
+  if element_storage.cursor_offset>=element_storage.draw_offset_end-3 then
+    element_storage.draw_offset_end=element_storage.cursor_offset+3
+    reagirl.InputBox_Calculate_DrawOffset(false, element_storage)
+  elseif element_storage.cursor_offset<element_storage.draw_offset-1 then
+    element_storage.draw_offset=element_storage.cursor_offset-3
+    if element_storage.draw_offset<0 then element_storage.draw_offset=0 end
+    reagirl.InputBox_Calculate_DrawOffset(true, element_storage)
+  end
+  --[[
+  if element_storage.cursor_offset>element_storage.draw_offset+element_storage.draw_offset_end then
+    element_storage.draw_offset=element_storage.cursor_offset-element_storage.draw_offset_end+1
     if element_storage.draw_offset<0 then element_storage.draw_offset=0 end
   elseif element_storage.cursor_offset<element_storage.draw_offset then
     element_storage.draw_offset=element_storage.cursor_offset
   end
+  --]]
 end
 
 function reagirl.InputBox_OnTyping(Key, Key_UTF, mouse_cap, element_storage)
+  DRAW_OF_ME=Key
   if Key_UTF~=0 then Key=Key_UTF end
   local refresh=false
   if Key>0 then refresh=true end
-  if Key==8 then
+  if Key==-1 then
+  elseif Key==1885824110.0 then
+    -- Pg down
+  elseif Key==1885828464.0 then
+    -- Pg up
+  elseif Key==8 then
     -- Backspace
     if element_storage.cursor_offset>=0 then
       if element_storage.selection_startoffset~=element_storage.selection_endoffset then
@@ -4132,6 +4150,7 @@ function reagirl.InputBox_OnTyping(Key, Key_UTF, mouse_cap, element_storage)
     --offset_s,offset_e=reagirl.InputBox_GetShownTextoffsets(x,y,element_storage)
     --if element_storage.cursor_offset==offset_e-1 then element_storage.draw_offset=element_storage.draw_offset+1 end
     reagirl.InputBox_ConsolidateCursorPos(element_storage)
+    reagirl.InputBox_Calculate_DrawOffset(true, element_storage)
   end
   return refresh
 end
@@ -4195,6 +4214,26 @@ function reagirl.InputBox_Manage(element_id, selected, hovered, clicked, mouse_c
 end
 --reagirl.Checkbox_Manage(element_id, selected, hovered, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
 --function reagirl.InputBox_Draw(mouse_cap, element_storage, c, c2)
+
+function reagirl.InputBox_Calculate_DrawOffset(forward, element_storage)
+  local dpi_scale = reagirl.Window_GetCurrentScale()
+  if element_storage["w"]<0 then w2=gfx.w-x2+element_storage["w"] else w2=element_storage["w"] end
+  local offset_me=10*dpi_scale
+  if forward==true then
+    for i=element_storage.draw_offset, element_storage.Text:utf8_len() do
+      local x,y=gfx.measurestr(element_storage.Text:utf8_sub(i,i))
+      offset_me=offset_me+x
+      if offset_me>w2 then break else element_storage.draw_offset_end=i end
+    end
+  elseif forward==false then
+    for i=element_storage.draw_offset_end, 1, -1 do
+      local x,y=gfx.measurestr(element_storage.Text:utf8_sub(i,i))
+      offset_me=offset_me+x
+      if offset_me>w2 then break else element_storage.draw_offset=i end
+    end
+  end
+end
+
 function reagirl.InputBox_Draw(element_id, selected, hovered, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
   
   gfx.setfont(1, "Arial", 20, 0)
@@ -4208,7 +4247,7 @@ function reagirl.InputBox_Draw(element_id, selected, hovered, clicked, mouse_cap
   gfx.x=x
   gfx.y=y
   local draw_offset=0
-  for i=element_storage.draw_offset, element_storage.Text:utf8_len() do
+  for i=element_storage.draw_offset, element_storage.draw_offset_end do
     local textw=gfx.measurestr(element_storage.Text:utf8_sub(i,i))
     if draw_offset+textw>w then break end
     if i>=element_storage.selection_startoffset+1 and i<=element_storage.selection_endoffset then
@@ -7680,7 +7719,7 @@ function UpdateUI()
       Images[1]=filename
     end
   end
-reagirl.InputBox_Add(1,50,400,"Inputbox Deloxe", "Se descrizzione", "ABCDEFGHIJKLMNOPQRSTUVWXYZacdefghijklmnopqrstuvwxyz0123456789", input1, input2)
+reagirl.InputBox_Add(1,50,200,"Inputbox Deloxe", "Se descrizzione", "ABCDEFGHIJKLMNOPQRSTUVWXYZacdefghijklmnopqrstuvwxyz0123456789", input1, input2)
 --tabs_id=reagirl.Tabs_Add(nil, nil, nil, nil, "TUDELU", "Tabs", {"HUCH", "TUDELU", "Dune", "Ach Gotterl", "Leileileilei"}, 1, sliderme)
 reagirl.NextLine()
 --reagirl.Tabs_Add(nil, nil, 0, 0, "TUDELU", "Tabs", {"HUCH", "TUDELU", "Dune", "Ach Gotterl", "Leileileilei"}, 1, sliderme)
