@@ -17,9 +17,9 @@ TODO:
   - Images: dragging for accessibility, let the dragging-destination be chosen via Ctrl+Tab and Ctrl+Shift+Tab and Ctrl+Enter to drop it into the destination ui-element
   - General: acc-messages returned by the manage-functions are not sent to the screenreader for some reasons, like "pressed" in buttons
   - InputBox:
-    - #1 Length of visible text isn't properly calculated for non-mono-fonts, especially when typing jjjj and iiii a lot
-    - #2 Fast moving the mouse over the middle of the textselection(the point, where it springs from)
-          while text selection offsets the text-selection by one or more characters
+    - Done: #1 Length of visible text isn't properly calculated for non-mono-fonts, especially when typing jjjj and iiii a lot
+    - Done: #2 Fast moving the mouse over the middle of the textselection(the point, where it springs from)
+               while text selection offsets the text-selection by one or more characters
     - #3 Redraw it in more pretty
     - #4 Caption still missing
     - #5 Scaling must be done
@@ -3909,20 +3909,25 @@ end
 function reagirl.InputBox_OnMouseMove(mouse_cap, element_storage)
   if element_storage.hasfocus==false then return end
   local newoffs, startoffs, endoffs=reagirl.InputBox_GetTextOffset(gfx.mouse_x, gfx.mouse_y, element_storage)
+  --print_update(newoffs, element_storage.cursor_offset, startoffs, endoffs)
   if newoffs>0 then
     if newoffs<element_storage.cursor_offset then
       element_storage.selection_startoffset=newoffs
+      element_storage.selection_endoffset=element_storage.cursor_offset
     elseif newoffs>element_storage.cursor_offset then
+      element_storage.selection_startoffset=element_storage.cursor_offset
       element_storage.selection_endoffset=newoffs
     elseif newoffs==element_storage.cursor_offset then
       element_storage.selection_endoffset=newoffs
       element_storage.selection_startoffset=newoffs
     end
   elseif newoffs==-1 then
-    -- when dragging is outside of 
+    -- when dragging is outside of left edge
     element_storage.selection_startoffset=startoffs-1
     if element_storage.selection_startoffset<0 then element_storage.selection_startoffset=0 end
     element_storage.draw_offset=element_storage.selection_startoffset
+    element_storage.selection_endoffset=element_storage.cursor_offset
+    reagirl.InputBox_Calculate_DrawOffset(true, element_storage)
   elseif newoffs==-2 then
     -- when dragging is outside the right edge
     element_storage.selection_endoffset=endoffs+1
@@ -3932,6 +3937,8 @@ function reagirl.InputBox_OnMouseMove(mouse_cap, element_storage)
     if endoffs<element_storage.Text:utf8_len()+1 then
       element_storage.draw_offset=element_storage.draw_offset+1
     end
+    element_storage.selection_startoffset=element_storage.cursor_offset
+    reagirl.InputBox_Calculate_DrawOffset(true, element_storage)
   end
   reagirl.mouse.dragged=true
 end
