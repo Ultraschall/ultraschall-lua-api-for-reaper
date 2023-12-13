@@ -4241,7 +4241,7 @@ end
 function reagirl.InputBox_Calculate_DrawOffset(forward, element_storage)
   reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0)
   local dpi_scale = reagirl.Window_GetCurrentScale()
-  local cap_w=element_storage["cap_w"]--+20*dpi_scale
+  local cap_w=element_storage["cap_w"]-10*dpi_scale
   if element_storage["w"]<0 then w2=gfx.w-x2+element_storage["w"] else w2=element_storage["w"] end
   local w2=w2-cap_w
   local offset_me=10*dpi_scale
@@ -4282,13 +4282,13 @@ function reagirl.InputBox_Draw(element_id, selected, hovered, clicked, mouse_cap
   -- draw rectangle around text
   gfx.set(0.274)
   --gfx.rect(x+cap_w, y, w-cap_w, gfx.texth, 0)
-  reagirl.RoundRect(x+cap_w, y, w-cap_w, math.tointeger(gfx.texth), 4, 0, 1)
+  reagirl.RoundRect(x+cap_w-2, y, w-cap_w+4, math.tointeger(gfx.texth), 4, 0, 1)
   gfx.set(0.39)
   reagirl.RoundRect(x+cap_w-2, y, w-cap_w+4, math.tointeger(gfx.texth), 4, 0, 0)
   
   -- draw text
   gfx.set(0.8)
-  gfx.x=x+cap_w
+  gfx.x=x+cap_w+dpi_scale
   gfx.y=y+dpi_scale
   local draw_offset=0
   for i=element_storage.draw_offset, element_storage.draw_offset_end do
@@ -4301,7 +4301,7 @@ function reagirl.InputBox_Draw(element_id, selected, hovered, clicked, mouse_cap
     end
     gfx.drawstr(element_storage.Text:utf8_sub(i,i))
     if element_storage.hasfocus==true and element_storage.cursor_offset==i then 
-      gfx.set(1,0,0) 
+      gfx.set(0.9843137254901961, 0.8156862745098039, 0)
       gfx.line(gfx.x, y, gfx.x, y+gfx.texth) 
       if element_storage.hasfocus==true then gfx.set(1) else gfx.set(0.5) end
     end
