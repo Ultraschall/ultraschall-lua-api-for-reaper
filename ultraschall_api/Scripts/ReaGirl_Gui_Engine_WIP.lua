@@ -3798,7 +3798,7 @@ function reagirl.InputBox_Add(x, y, w, Caption, MeaningOfUI_Element, Default, ru
   reagirl.Elements[slot]["Guid"]=reaper.genGuid("")
   reagirl.Elements[slot]["GUI_Element_Type"]="Edit"
   reagirl.Elements[slot]["Name"]=Caption
-  reagirl.Elements[slot]["cap_w"]=math.tointeger(tx)+10*reagirl.Window_GetCurrentScale()
+  reagirl.Elements[slot]["cap_w"]=math.tointeger(tx)+10
   reagirl.Elements[slot]["Description"]=MeaningOfUI_Element
   reagirl.Elements[slot]["IsDecorative"]=false
   reagirl.Elements[slot]["AccHint"]="Hit Enter to type text."
@@ -3806,7 +3806,7 @@ function reagirl.InputBox_Add(x, y, w, Caption, MeaningOfUI_Element, Default, ru
   reagirl.Elements[slot]["x"]=x
   reagirl.Elements[slot]["y"]=y
   reagirl.Elements[slot]["w"]=w
-  reagirl.Elements[slot]["h"]=math.tointeger(gfx.texth)+4*reagirl.Window_GetCurrentScale()
+  reagirl.Elements[slot]["h"]=math.tointeger(ty)+4
   reagirl.Elements[slot]["sticky_x"]=false
   reagirl.Elements[slot]["sticky_y"]=false
   reagirl.Elements[slot]["Text"]=Default
@@ -3839,13 +3839,16 @@ end
 function reagirl.InputBox_GetTextOffset(x,y,element_storage)
   -- BUGGY!
   -- Offset is off
-  local cap_w=element_storage["cap_w"]
+  local dpi_scale = reagirl.Window_GetCurrentScale()
+  local cap_w=element_storage["cap_w"]*dpi_scale
   local startoffs=element_storage.x2+cap_w
   local cursoffs=element_storage.draw_offset
   
   local textw=gfx.measurechar(65)
+  local x2, w2
+  if element_storage["x"]<0 then x2=gfx.w+element_storage["x"]*dpi_scale else x2=element_storage["x"]*dpi_scale end
   if element_storage["w"]<0 then w2=gfx.w-x2+element_storage["w"] else w2=element_storage["w"] end
-  w2=w2-cap_w
+  w2=w2*dpi_scale-cap_w
   
   -- if click==outside of left edge of the inputbox
   if x<startoffs then return -1, element_storage.draw_offset, element_storage.draw_offset+math.floor(element_storage.w2/textw) end
@@ -3994,7 +3997,6 @@ end
 
 function reagirl.InputBox_OnMouseDoubleClick(mouse_cap, element_storage)
   if element_storage.hasfocus==true then
-    print("Doppelclick")
     element_storage.selection_startoffset=reagirl.InputBox_GetPreviousPOI(element_storage)
     element_storage.selection_endoffset=reagirl.InputBox_GetNextPOI(element_storage)
   end
@@ -4242,20 +4244,21 @@ function reagirl.InputBox_Calculate_DrawOffset(forward, element_storage)
   reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0)
   local dpi_scale = reagirl.Window_GetCurrentScale()
   local cap_w=element_storage["cap_w"]-10*dpi_scale
+  if element_storage["x"]<0 then x2=gfx.w+element_storage["x"]*dpi_scale else x2=element_storage["x"]*dpi_scale end
   if element_storage["w"]<0 then w2=gfx.w-x2+element_storage["w"] else w2=element_storage["w"] end
-  local w2=w2-cap_w
-  local offset_me=10*dpi_scale
+  local w2=w2*dpi_scale-cap_w*dpi_scale
+  local offset_me=20*dpi_scale
   if forward==true then
     for i=element_storage.draw_offset, element_storage.Text:utf8_len() do
       local x,y=gfx.measurestr(element_storage.Text:utf8_sub(i,i))
       offset_me=offset_me+x
-      if offset_me>w2 then break else element_storage.draw_offset_end=i end
+      if offset_me>w2 then break else element_storage.draw_offset_end=i-1 end
     end
   elseif forward==false then
     for i=element_storage.draw_offset_end, 1, -1 do
       local x,y=gfx.measurestr(element_storage.Text:utf8_sub(i,i))
       offset_me=offset_me+x
-      if offset_me>w2 then break else element_storage.draw_offset=i end
+      if offset_me>w2 then break else element_storage.draw_offset=i+1 end
     end
   end
 end
@@ -4263,10 +4266,10 @@ end
 function reagirl.InputBox_Draw(element_id, selected, hovered, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
   local dpi_scale=reagirl.Window_GetCurrentScale()
   reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0)
-  local cap_w=element_storage["cap_w"]
+  local cap_w=element_storage["cap_w"]*dpi_scale
   
   -- draw caption
-  gfx.x=1+x
+  gfx.x=x
   gfx.y=y
   gfx.set(0.2)
   gfx.drawstr(name)
@@ -4276,34 +4279,33 @@ function reagirl.InputBox_Draw(element_id, selected, hovered, clicked, mouse_cap
   gfx.y=y+1
   gfx.drawstr(name)
   
-  gfx.setfont(1, "Arial", 20, 0)
   local textw=gfx.measurechar("65")-1
   
   -- draw rectangle around text
   gfx.set(0.274)
   --gfx.rect(x+cap_w, y, w-cap_w, gfx.texth, 0)
-  reagirl.RoundRect(x+cap_w-2, y, w-cap_w+4, math.tointeger(gfx.texth), 4, 0, 1)
+  reagirl.RoundRect(x+dpi_scale+cap_w-2*dpi_scale, y, w-cap_w+4*dpi_scale, math.tointeger(gfx.texth), 4, 0, 1)
   gfx.set(0.39)
-  reagirl.RoundRect(x+cap_w-2, y, w-cap_w+4, math.tointeger(gfx.texth), 4, 0, 0)
+  reagirl.RoundRect(x+dpi_scale+cap_w-2*dpi_scale, y, w-cap_w+4*dpi_scale, math.tointeger(gfx.texth), 4, 0, 0)
   
   -- draw text
   gfx.set(0.8)
-  gfx.x=x+cap_w+dpi_scale
+  gfx.x=x+cap_w+dpi_scale-2
   gfx.y=y+dpi_scale
   local draw_offset=0
   for i=element_storage.draw_offset, element_storage.draw_offset_end do
     local textw=gfx.measurestr(element_storage.Text:utf8_sub(i,i))
     if draw_offset+textw>w then break end
     if i>=element_storage.selection_startoffset+1 and i<=element_storage.selection_endoffset then
-      gfx.setfont(1, "Arial", reagirl.Font_Size, 86) 
+      reagirl.SetFont(1, "Arial", reagirl.Font_Size, 86)
     else
-      gfx.setfont(1, "Arial", reagirl.Font_Size, 0) 
+      reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0)
     end
     gfx.drawstr(element_storage.Text:utf8_sub(i,i))
     if element_storage.hasfocus==true and element_storage.cursor_offset==i then 
       gfx.set(0.9843137254901961, 0.8156862745098039, 0)
       gfx.line(gfx.x, y, gfx.x, y+gfx.texth) 
-      if element_storage.hasfocus==true then gfx.set(1) else gfx.set(0.5) end
+      if element_storage.hasfocus==true then gfx.set(0.8) else gfx.set(0.5) end
     end
     draw_offset=draw_offset+textw
   end
