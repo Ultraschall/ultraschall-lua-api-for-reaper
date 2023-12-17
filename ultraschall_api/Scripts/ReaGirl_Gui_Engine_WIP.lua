@@ -21,8 +21,10 @@ TODO:
     - Done: #2 Fast moving the mouse over the middle of the textselection(the point, where it springs from)
                while text selection offsets the text-selection by one or more characters
     - #3 Redraw it in more pretty
-    - #4 Caption still missing
-    - #5 Scaling must be done
+    - Done #4 Caption still missing
+    - Done #5 Scaling must be done
+    - #6 hasfocus isn't working
+    - #7 cursor isn't drawn when at the left edge of the boundary-box
   
 !!For 10k-UI-Elements(already been tested)!!  
   - Gui_Manage
