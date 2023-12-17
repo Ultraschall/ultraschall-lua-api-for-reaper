@@ -3840,7 +3840,9 @@ function reagirl.InputBox_GetTextOffset(x,y,element_storage)
   -- BUGGY!
   -- Offset is off
   local dpi_scale = reagirl.Window_GetCurrentScale()
-  local cap_w=element_storage["cap_w"]*dpi_scale
+  --local cap_w=element_storage["cap_w"]*dpi_scale
+  local cap_w=gfx.measurestr(element_storage["Name"])
+  cap_w=math.tointeger(cap_w)+dpi_scale*5
   local startoffs=element_storage.x2+cap_w
   local cursoffs=element_storage.draw_offset
   
@@ -3853,7 +3855,7 @@ function reagirl.InputBox_GetTextOffset(x,y,element_storage)
   -- if click==outside of left edge of the inputbox
   if x<startoffs then return -1, element_storage.draw_offset, element_storage.draw_offset+math.floor(element_storage.w2/textw) end
   
-  local draw_offset=0
+  local draw_offset=dpi_scale*5
   for i=element_storage.draw_offset, element_storage.Text:utf8_len() do --draw_offset+math.floor(element_storage.w2/textw) do
     if draw_offset+textw>w2 then break end
     --gfx.rect((i*textw),0,(i*textw),10,1)
@@ -4103,7 +4105,7 @@ function reagirl.InputBox_OnTyping(Key, Key_UTF, mouse_cap, element_storage)
   elseif Key==1752132965.0 then
     -- Home Key
     element_storage.cursor_offset=0
-    element_storage.draw_offset=element_storage.cursor_offset
+    element_storage.draw_offset=element_storage.cursor_offset+1
     if mouse_cap&8==0 then
       element_storage.selection_startoffset=0
       element_storage.selection_endoffset=0
@@ -4243,22 +4245,22 @@ end
 function reagirl.InputBox_Calculate_DrawOffset(forward, element_storage)
   reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0)
   local dpi_scale = reagirl.Window_GetCurrentScale()
-  local cap_w=element_storage["cap_w"]-10*dpi_scale
+  local cap_w=element_storage["cap_w"]
   if element_storage["x"]<0 then x2=gfx.w+element_storage["x"]*dpi_scale else x2=element_storage["x"]*dpi_scale end
   if element_storage["w"]<0 then w2=gfx.w-x2+element_storage["w"] else w2=element_storage["w"] end
   local w2=w2*dpi_scale-cap_w*dpi_scale
-  local offset_me=20*dpi_scale
+  local offset_me=dpi_scale
   if forward==true then
     for i=element_storage.draw_offset, element_storage.Text:utf8_len() do
       local x,y=gfx.measurestr(element_storage.Text:utf8_sub(i,i))
       offset_me=offset_me+x
-      if offset_me>w2 then break else element_storage.draw_offset_end=i-1 end
+      if offset_me>w2 then break else element_storage.draw_offset_end=i end
     end
   elseif forward==false then
     for i=element_storage.draw_offset_end, 1, -1 do
       local x,y=gfx.measurestr(element_storage.Text:utf8_sub(i,i))
       offset_me=offset_me+x
-      if offset_me>w2 then break else element_storage.draw_offset=i+1 end
+      if offset_me>w2 then break else element_storage.draw_offset=i end
     end
   end
 end
@@ -4266,7 +4268,8 @@ end
 function reagirl.InputBox_Draw(element_id, selected, hovered, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
   local dpi_scale=reagirl.Window_GetCurrentScale()
   reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0)
-  local cap_w=element_storage["cap_w"]*dpi_scale
+  local cap_w=gfx.measurestr(element_storage["Name"])
+  cap_w=math.tointeger(cap_w)+dpi_scale*5
   
   -- draw caption
   gfx.x=x
@@ -4284,9 +4287,9 @@ function reagirl.InputBox_Draw(element_id, selected, hovered, clicked, mouse_cap
   -- draw rectangle around text
   gfx.set(0.274)
   --gfx.rect(x+cap_w, y, w-cap_w, gfx.texth, 0)
-  reagirl.RoundRect(x+dpi_scale+cap_w-2*dpi_scale, y, w-cap_w+4*dpi_scale, math.tointeger(gfx.texth), 4, 0, 1)
+  reagirl.RoundRect(x+cap_w-2*dpi_scale, y, w-cap_w, math.tointeger(gfx.texth), 4, 0, 1)
   gfx.set(0.39)
-  reagirl.RoundRect(x+dpi_scale+cap_w-2*dpi_scale, y, w-cap_w+4*dpi_scale, math.tointeger(gfx.texth), 4, 0, 0)
+  reagirl.RoundRect(x+cap_w-2*dpi_scale, y, w-cap_w, math.tointeger(gfx.texth), 4, 0, 0)
   
   -- draw text
   gfx.set(0.8)
@@ -7765,7 +7768,7 @@ function UpdateUI()
       Images[1]=filename
     end
   end
-reagirl.InputBox_Add(10,50,200,"Inputbox Deloxe", "Se descrizzione", "ABCDEFGHIJKLMNOPQRSTUVWXYZacdefghijklmnopqrstuvwxyz0123456789", input1, input2)
+reagirl.InputBox_Add(10,50,200,"Inputbox Deloxe:___", "Se descrizzione", "ABCDEFGHIJKLMNOPQRSTUVWXYZacdefghijklmnopqrstuvwxyz0123456789", input1, input2)
 --tabs_id=reagirl.Tabs_Add(nil, nil, nil, nil, "TUDELU", "Tabs", {"HUCH", "TUDELU", "Dune", "Ach Gotterl", "Leileileilei"}, 1, sliderme)
 reagirl.NextLine()
 --reagirl.Tabs_Add(nil, nil, 0, 0, "TUDELU", "Tabs", {"HUCH", "TUDELU", "Dune", "Ach Gotterl", "Leileileilei"}, 1, sliderme)
