@@ -7,6 +7,7 @@ TODO:
   - Slider: draw a line where the default-value shall be
   - reagirl.UI_Element_NextX_Default=10 - changing it only offsets the second line ff, not the first line
   - Background_GetSetImage - check, if the background image works properly with scaling and scrolling
+  - Image: reload of scaled image-override; if override==true then it loads only the image.png, not image-2x.png
   - Labels: ACCHoverMessage should hold the text of the paragraph the mouse is hovering above only
             That way, not everything is read out as message to TTS, only the hovered paragraph.
             This makes reading longer label-texts much easier.
@@ -16,6 +17,7 @@ TODO:
                         the one from hovering should only be read, if the mouse moved onto a ui-element
   - Images: dragging for accessibility, let the dragging-destination be chosen via Ctrl+Tab and Ctrl+Shift+Tab and Ctrl+Enter to drop it into the destination ui-element
   - General: acc-messages returned by the manage-functions are not sent to the screenreader for some reasons, like "pressed" in buttons
+  - DropZones: the target should be notified, which ui-element had been dragged to it
   - InputBox:
     - Done: #1 Length of visible text isn't properly calculated for non-mono-fonts, especially when typing jjjj and iiii a lot
     - Done: #2 Fast moving the mouse over the middle of the textselection(the point, where it springs from)
@@ -4031,7 +4033,6 @@ function reagirl.InputBox_ConsolidateCursorPos(element_storage)
 end
 
 function reagirl.InputBox_OnTyping(Key, Key_UTF, mouse_cap, element_storage)
-  DRAW_OF_ME=Key
   if Key_UTF~=0 then Key=Key_UTF end
   local refresh=false
   if Key>0 then refresh=true end
@@ -4199,19 +4200,23 @@ function reagirl.InputBox_Manage(element_id, selected, hovered, clicked, mouse_c
   local refresh=false 
   refreshme=clicked
   if selected==true and clicked=="FirstCLK" then 
+    element_storage["hasfocus"]=true
     if reagirl.mouse.down==false then
       reagirl.InputBox_OnMouseDown(mouse_cap, element_storage) 
       refresh=true
     end
-  elseif clicked=="DBLCLK" then
+  elseif selected==true and clicked=="DBLCLK" then
     reagirl.InputBox_OnMouseDoubleClick(mouse_cap, element_storage)
     refresh=true
-  elseif clicked=="DRAG" then --reagirl.mouse.down==true and clicked=="DRAG" then gfx.mouse_x~=reagirl.mouse.x or gfx.mouse_y~=reagirl.mouse.y then
+    element_storage["hasfocus"]=true
+  elseif selected==true and clicked=="DRAG" then --reagirl.mouse.down==true and clicked=="DRAG" then gfx.mouse_x~=reagirl.mouse.x or gfx.mouse_y~=reagirl.mouse.y then
     reagirl.InputBox_OnMouseMove(mouse_cap, element_storage)
     refresh=true
-  elseif reagirl.mouse.down==true then
+    element_storage["hasfocus"]=true
+  elseif selected==true and reagirl.mouse.down==true then
     reagirl.InputBox_OnMouseUp(mouse_cap, element_storage)
     refresh=true
+    element_storage["hasfocus"]=true
   end
   --[[
   if selected==true and mouse_cap&1==1 then 
@@ -4309,10 +4314,14 @@ function reagirl.InputBox_Draw(element_id, selected, hovered, clicked, mouse_cap
     gfx.drawstr(element_storage.Text:utf8_sub(i,i))
     if element_storage.hasfocus==true and element_storage.cursor_offset==i then 
       gfx.set(0.9843137254901961, 0.8156862745098039, 0)
-      gfx.line(gfx.x, y, gfx.x, y+gfx.texth) 
+      gfx.line(gfx.x, y+dpi_scale, gfx.x, y+gfx.texth-dpi_scale) 
       if element_storage.hasfocus==true then gfx.set(0.8) else gfx.set(0.5) end
     end
     draw_offset=draw_offset+textw
+  end
+  if element_storage.cursor_offset<element_storage.draw_offset then
+    gfx.set(0.9843137254901961, 0.8156862745098039, 0)
+    gfx.line(x+cap_w+dpi_scale, y+dpi_scale, x+cap_w+dpi_scale, y+gfx.texth) 
   end
   --[[
   for i=element_storage.draw_offset, element_storage.draw_offset+math.floor(w/textw)-1 do
