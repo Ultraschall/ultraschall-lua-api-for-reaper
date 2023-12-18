@@ -3820,6 +3820,8 @@ function reagirl.InputBox_Add(x, y, w, Caption, MeaningOfUI_Element, Default, ru
   reagirl.Elements[slot]["h"]=math.tointeger(ty)+4
   reagirl.Elements[slot]["sticky_x"]=false
   reagirl.Elements[slot]["sticky_y"]=false
+  Default=string.gsub(Default, "\n", "")
+  Default=string.gsub(Default, "\r", "")
   reagirl.Elements[slot]["Text"]=Default
   reagirl.Elements[slot]["draw_range_max"]=10
   reagirl.Elements[slot]["draw_offset"]=0
@@ -4178,7 +4180,8 @@ function reagirl.InputBox_OnTyping(Key, Key_UTF, mouse_cap, element_storage)
   elseif Key==22 then
     -- Paste Cmd+V
     if reaper.CF_GetClipboard~=nil then
-      local text=reaper.CF_GetClipboard()
+      local text=string.gsub(reaper.CF_GetClipboard(), "\n", "")
+      text=string.gsub(text, "\r", "")
       --print2(text..1)
       element_storage.Text=element_storage.Text:utf8_sub(1, element_storage.selection_startoffset)..text..element_storage.Text:utf8_sub(element_storage.selection_endoffset+1, -1)
       element_storage.cursor_offset=element_storage.cursor_offset+text:utf8_len()
@@ -7809,7 +7812,7 @@ function UpdateUI()
       Images[1]=filename
     end
   end
-reagirl.InputBox_Add(10,50,200,"Inputbox Deloxe:___", "Se descrizzione", "ABCDEFGHIJKLMNOPQRSTUVWXYZacdefghijklmnopqrstuvwxyz0123456789", input1, input2)
+reagirl.InputBox_Add(10,50,200,"Inputbox Deloxe:___", "Se descrizzione", "ABCDEF\nGHIJKLMNOPQRSTUVWXYZacdefghijklmnopqrstuvwxyz0123456789", input1, input2)
 --tabs_id=reagirl.Tabs_Add(nil, nil, nil, nil, "TUDELU", "Tabs", {"HUCH", "TUDELU", "Dune", "Ach Gotterl", "Leileileilei"}, 1, sliderme)
 reagirl.NextLine()
 --reagirl.Tabs_Add(nil, nil, 0, 0, "TUDELU", "Tabs", {"HUCH", "TUDELU", "Dune", "Ach Gotterl", "Leileileilei"}, 1, sliderme)
