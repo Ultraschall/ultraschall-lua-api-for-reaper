@@ -4317,24 +4317,28 @@ end
 --function reagirl.InputBox_Draw(mouse_cap, element_storage, c, c2)
 
 function reagirl.InputBox_Calculate_DrawOffset(forward, element_storage)
+  -- rewrite this, it doesn't work on different scaling....for some fucking reason
+  -- it's probably because of x2 and w2 calculation
   reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0)
   local dpi_scale = reagirl.Window_GetCurrentScale()
   local cap_w=element_storage["cap_w"]
+  cap_w=gfx.measurestr(element_storage["Name"])
   if element_storage["x"]<0 then x2=gfx.w+element_storage["x"]*dpi_scale else x2=element_storage["x"]*dpi_scale end
-  if element_storage["w"]<0 then w2=gfx.w-x2+element_storage["w"] else w2=element_storage["w"] end
-  local w2=w2*dpi_scale-cap_w*dpi_scale
-  local offset_me=dpi_scale
+  if element_storage["w"]<0 then w2=gfx.w-x2+element_storage["w"]*dpi_scale else w2=element_storage["w"]*dpi_scale end
+  local w2=w2-cap_w
+  local offset_me=dpi_scale*5
+  print_update(cap_w)
   if forward==true then
     for i=element_storage.draw_offset, element_storage.Text:utf8_len() do
       local x,y=gfx.measurestr(element_storage.Text:utf8_sub(i,i))
       offset_me=offset_me+x
-      if offset_me>w2 then break else element_storage.draw_offset_end=i end
+      if offset_me>w2 then break else element_storage.draw_offset_end=i-1 end
     end
   elseif forward==false then
     for i=element_storage.draw_offset_end, 1, -1 do
       local x,y=gfx.measurestr(element_storage.Text:utf8_sub(i,i))
       offset_me=offset_me+x
-      if offset_me>w2 then break else element_storage.draw_offset=i end
+      if offset_me>w2 then break else element_storage.draw_offset=i-1 end
     end
   end
 end
