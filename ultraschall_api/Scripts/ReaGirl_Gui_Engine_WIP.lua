@@ -3827,8 +3827,8 @@ function reagirl.InputBox_Add(x, y, w, Caption, MeaningOfUI_Element, Default, ru
   reagirl.Elements[slot]["draw_offset"]=0
   reagirl.Elements[slot]["draw_offset_end"]=10
   reagirl.Elements[slot]["cursor_offset"]=0
-  reagirl.Elements[slot]["selection_start"]=1
-  reagirl.Elements[slot]["selection_end"]=1
+  reagirl.Elements[slot]["selection_startoffset"]=1
+  reagirl.Elements[slot]["selection_endoffset"]=1
   
   reagirl.Elements[slot].hasfocus=false
   reagirl.Elements[slot].hasfocus_old=false
@@ -4079,16 +4079,23 @@ function reagirl.InputBox_OnTyping(Key, Key_UTF, mouse_cap, element_storage)
             break
           end
         end
-        element_storage.cursor_offset=found-1
+        if mouse_cap&8==8 then
+          if element_storage.selection_endoffset+1==element_storage.cursor_offset then
+            element_storage.selection_endoffset=found
+          else
+            element_storage.selection_startoffset=found
+          end
+        end
+        element_storage.cursor_offset=found
       end
-      if mouse_cap&8==8 then
+      if mouse_cap==8 then
         -- Shift+Right
         if element_storage.selection_endoffset==element_storage.cursor_offset-1 then
           element_storage.selection_endoffset=element_storage.selection_endoffset+1
         elseif element_storage.selection_endoffset>element_storage.cursor_offset-1 then
           element_storage.selection_startoffset=element_storage.selection_startoffset+1
         end
-      else
+      elseif mouse_cap==0 then
         element_storage.selection_startoffset=element_storage.cursor_offset
         element_storage.selection_endoffset=element_storage.cursor_offset
       end
@@ -4096,33 +4103,39 @@ function reagirl.InputBox_OnTyping(Key, Key_UTF, mouse_cap, element_storage)
     reagirl.InputBox_ConsolidateCursorPos(element_storage)
   elseif Key==1818584692.0 then
     -- left arrow key
-    element_storage.cursor_offset=element_storage.cursor_offset-1
-    if element_storage.cursor_offset<0 then 
-      element_storage.cursor_offset=0 
-    else
-      if mouse_cap&4==4 then
-        -- Ctrl+left
-        local found=0
-        for i=element_storage.cursor_offset, 1, -1 do
-          if element_storage.Text:utf8_sub(i,i):has_alphanumeric()==false then
-            found=i
-            break
-          end
-        end
-        element_storage.cursor_offset=found
+    if mouse_cap&4==0 then
+      element_storage.cursor_offset=element_storage.cursor_offset-1
+      if element_storage.cursor_offset<0 then element_storage.cursor_offset=0 
+      elseif element_storage.cursor_offset>element_storage.Text:utf8_len() then
+        element_storage.cursor_offset=element_storage.Text:utf8_len()
       end
       if mouse_cap&8==8 then
-        -- Shift+left
-        if element_storage.selection_startoffset==element_storage.cursor_offset+1 then
-          element_storage.selection_startoffset=element_storage.selection_startoffset-1
-        elseif element_storage.selection_startoffset<element_storage.cursor_offset+1 then
-          element_storage.selection_endoffset=element_storage.selection_endoffset-1
+        if element_storage.selection_startoffset>=element_storage.cursor_offset then
+          element_storage.selection_startoffset=element_storage.cursor_offset
+        else
+          element_storage.selection_endoffset=element_storage.cursor_offset
         end
-      else
+      elseif element_storage.cursor_offset>0 then
         element_storage.selection_startoffset=element_storage.cursor_offset
         element_storage.selection_endoffset=element_storage.cursor_offset
       end
+    elseif mouse_cap&4==4 then
+      local found=0
+      for i=element_storage.cursor_offset-1, 0, -1 do
+        if element_storage.Text:utf8_sub(i,i):has_alphanumeric_plus_underscore()==false or element_storage.Text:utf8_sub(i,i):has_alphanumeric_plus_underscore()~=element_storage.Text:utf8_sub(i+1,i+1):has_alphanumeric_plus_underscore() then
+          found=i
+          break
+        end
+      end
+      if mouse_cap&8==8 then
+        if element_storage.cursor_offset<=element_storage.selection_startoffset then
+          element_storage.selection_startoffset=found
+        else
+        end
+      end
+      element_storage.cursor_offset=found
     end
+
     reagirl.InputBox_ConsolidateCursorPos(element_storage)
   elseif Key==30064 then
     -- up arrow key
@@ -4156,6 +4169,7 @@ function reagirl.InputBox_OnTyping(Key, Key_UTF, mouse_cap, element_storage)
     
     if mouse_cap&8==0 then
       element_storage.selection_startoffset=element_storage.cursor_offset
+      element_storage.selection_endoffset=element_storage.Text:utf8_len()
     elseif mouse_cap&8==8 then
       element_storage.selection_startoffset=element_storage.selection_endoffset
       element_storage.selection_endoffset=element_storage.Text:utf8_len()
@@ -4221,35 +4235,54 @@ end
 function reagirl.InputBox_Manage(element_id, selected, hovered, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
 --function reagirl.InputBox_Manage(mouse_cap, element_storage, Key, Key_UTF)
   gfx.setfont(1, "Arial", 20, 0)
-  -- mousewheel scroll the text inside the input-box via hmousewheel(doesn't work properly, yet)
-  --print_update(mouse_attributes[6])
-  --if mouse_attributes[6]<0 then element_storage["draw_offset"]=element_storage["draw_offset"]-mouse_attributes[6]>>2 if element_storage["draw_offset"]<1 then element_storage["draw_offset"]=1 end reagirl.Gui_PreventScrollingForOneCycle(true, true, false) end
-  --if mouse_attributes[6]>0 then element_storage["draw_offset"]=element_storage["draw_offset"]+mouse_attributes[6]>>2 if element_storage["draw_offset"]>element_storage["Text"]:utf8_len()-element_storage["draw_max"] then element_storage["draw_offset"]=1 end reagirl.Gui_PreventScrollingForOneCycle(true, true, false) end
-  
-  element_storage.x2=x
-  element_storage.y2=y
-  element_storage.w2=w
-  element_storage.h2=h
-  local refresh=false 
-  refreshme=clicked
-  if selected==true and clicked=="FirstCLK" then 
-    element_storage["hasfocus"]=true
-    if reagirl.mouse.down==false then
-      reagirl.InputBox_OnMouseDown(mouse_cap, element_storage) 
-      refresh=true
+
+  local refresh=false
+  if (gfx.mouse_x>=x and gfx.mouse_y>=y and gfx.mouse_x<=x+w and gfx.mouse_y<=y+h) then 
+    -- mousewheel scroll the text inside the input-box via hmousewheel(doesn't work properly, yet)
+    reagirl.Gui_PreventScrollingForOneCycle(true, true, false)
+    if mouse_attributes[6]<0 then 
+      if mouse_attributes[6]<-300 then factor=10 else factor=1 end  
+      element_storage["draw_offset"]=element_storage["draw_offset"]-factor
+      if element_storage["draw_offset"]<1 then 
+        element_storage["draw_offset"]=1 
+      end 
+      refresh=true 
+      reagirl.InputBox_Calculate_DrawOffset(true, element_storage)
     end
-  elseif selected==true and clicked=="DBLCLK" then
-    reagirl.InputBox_OnMouseDoubleClick(mouse_cap, element_storage)
-    refresh=true
-    element_storage["hasfocus"]=true
-  elseif selected==true and clicked=="DRAG" then --reagirl.mouse.down==true and clicked=="DRAG" then gfx.mouse_x~=reagirl.mouse.x or gfx.mouse_y~=reagirl.mouse.y then
-    reagirl.InputBox_OnMouseMove(mouse_cap, element_storage)
-    refresh=true
-    element_storage["hasfocus"]=true
-  elseif selected==true and reagirl.mouse.down==true then
-    reagirl.InputBox_OnMouseUp(mouse_cap, element_storage)
-    refresh=true
-    element_storage["hasfocus"]=true
+    if mouse_attributes[6]>0 then 
+      if mouse_attributes[6]>300 then factor=10 else factor=1 end
+      element_storage["draw_offset"]=element_storage["draw_offset"]+factor
+      if element_storage["draw_offset"]>element_storage["Text"]:utf8_len() then 
+        element_storage["draw_offset"]=element_storage["Text"]:utf8_len()
+      end 
+      refresh=true 
+      reagirl.InputBox_Calculate_DrawOffset(true, element_storage)
+    end
+    element_storage.x2=x
+    element_storage.y2=y
+    element_storage.w2=w
+    element_storage.h2=h
+    refreshme=clicked
+    -- mouse management
+    if selected==true and clicked=="FirstCLK" then 
+      element_storage["hasfocus"]=true
+      if reagirl.mouse.down==false then
+        reagirl.InputBox_OnMouseDown(mouse_cap, element_storage) 
+        refresh=true
+      end
+    elseif selected==true and clicked=="DBLCLK" then
+      reagirl.InputBox_OnMouseDoubleClick(mouse_cap, element_storage)
+      refresh=true
+      element_storage["hasfocus"]=true
+    elseif selected==true and clicked=="DRAG" then --reagirl.mouse.down==true and clicked=="DRAG" then gfx.mouse_x~=reagirl.mouse.x or gfx.mouse_y~=reagirl.mouse.y then
+      reagirl.InputBox_OnMouseMove(mouse_cap, element_storage)
+      refresh=true
+      element_storage["hasfocus"]=true
+    elseif selected==true and reagirl.mouse.down==true then
+      reagirl.InputBox_OnMouseUp(mouse_cap, element_storage)
+      refresh=true
+      element_storage["hasfocus"]=true
+    end
   end
   --[[
   if selected==true and mouse_cap&1==1 then 
@@ -4269,6 +4302,7 @@ function reagirl.InputBox_Manage(element_id, selected, hovered, clicked, mouse_c
     refresh=true
   end
   --]]
+  -- keyboard management
   if element_storage.hasfocus==true then
     local refresh2=reagirl.InputBox_OnTyping(Key, Key_UTF, mouse_cap, element_storage)
     if refresh~=true and refresh2==true then
@@ -4352,7 +4386,7 @@ function reagirl.InputBox_Draw(element_id, selected, hovered, clicked, mouse_cap
     end
     draw_offset=draw_offset+textw
   end
-  if element_storage.cursor_offset<element_storage.draw_offset then
+  if element_storage.cursor_offset==element_storage.draw_offset-1 then
     gfx.set(0.9843137254901961, 0.8156862745098039, 0)
     gfx.line(x+cap_w+dpi_scale, y+dpi_scale, x+cap_w+dpi_scale, y+gfx.texth) 
   end
@@ -7812,7 +7846,7 @@ function UpdateUI()
       Images[1]=filename
     end
   end
-reagirl.InputBox_Add(10,50,200,"Inputbox Deloxe:___", "Se descrizzione", "ABCDEF\nGHIJKLMNOPQRSTUVWXYZacdefghijklmnopqrstuvwxyz0123456789", input1, input2)
+reagirl.InputBox_Add(10,50,200,"Inputbox Deloxe:___", "Se descrizzione", "ABCD..EF\nGHIJKLMNOPQRSTUVWXYZacdefghijklmnopqrstuvwxyz0123456789", input1, input2)
 --tabs_id=reagirl.Tabs_Add(nil, nil, nil, nil, "TUDELU", "Tabs", {"HUCH", "TUDELU", "Dune", "Ach Gotterl", "Leileileilei"}, 1, sliderme)
 reagirl.NextLine()
 --reagirl.Tabs_Add(nil, nil, 0, 0, "TUDELU", "Tabs", {"HUCH", "TUDELU", "Dune", "Ach Gotterl", "Leileileilei"}, 1, sliderme)
