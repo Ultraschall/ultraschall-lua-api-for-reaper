@@ -26,7 +26,9 @@ TODO:
     - Done #4 Caption still missing
     - Done #5 Scaling must be done
     - #6 hasfocus isn't working
-    - #7 cursor isn't drawn when at the left edge of the boundary-box
+    - Done #7 cursor isn't drawn when at the left edge of the boundary-box
+    - #8 Ctrl+left/right only jumps to non-alphanumeric characters, not to switches between alphanumeric and non-alphanumeric characters
+    - #9 Ctrl+Shift+left/Ctrl+Shift+right doesn't work yet
   
 !!For 10k-UI-Elements(already been tested)!!  
   - Gui_Manage
@@ -90,6 +92,11 @@ end
 function string.has_alphanumeric(String)
   if type(String)~="string" then error("bad argument #1, to 'has_alphanumeric' (string expected, got "..type(source_string)..")", 2) end
   return String:match("%w")~=nil
+end
+
+function string.has_non_alphanumeric(String)
+  if type(String)~="string" then error("bad argument #1, to 'has_non_alphanumeric' (string expected, got "..type(source_string)..")", 2) end
+  return String:match("%w")==nil
 end
 
 function string.has_letter(String)
@@ -4061,7 +4068,19 @@ function reagirl.InputBox_OnTyping(Key, Key_UTF, mouse_cap, element_storage)
     if element_storage.cursor_offset>element_storage.Text:utf8_len() then 
       element_storage.cursor_offset=element_storage.Text:utf8_len()
     else
+      if mouse_cap&4==4 then
+        -- Ctrl+right
+        local found=element_storage.Text:utf8_len()
+        for i=element_storage.cursor_offset+1, element_storage.Text:utf8_len()-1 do
+          if element_storage.Text:utf8_sub(i,i):has_alphanumeric()==false then
+            found=i
+            break
+          end
+        end
+        element_storage.cursor_offset=found-1
+      end
       if mouse_cap&8==8 then
+        -- Shift+Right
         if element_storage.selection_endoffset==element_storage.cursor_offset-1 then
           element_storage.selection_endoffset=element_storage.selection_endoffset+1
         elseif element_storage.selection_endoffset>element_storage.cursor_offset-1 then
@@ -4079,7 +4098,19 @@ function reagirl.InputBox_OnTyping(Key, Key_UTF, mouse_cap, element_storage)
     if element_storage.cursor_offset<0 then 
       element_storage.cursor_offset=0 
     else
+      if mouse_cap&4==4 then
+        -- Ctrl+left
+        local found=0
+        for i=element_storage.cursor_offset, 1, -1 do
+          if element_storage.Text:utf8_sub(i,i):has_alphanumeric()==false then
+            found=i
+            break
+          end
+        end
+        element_storage.cursor_offset=found
+      end
       if mouse_cap&8==8 then
+        -- Shift+left
         if element_storage.selection_startoffset==element_storage.cursor_offset+1 then
           element_storage.selection_startoffset=element_storage.selection_startoffset-1
         elseif element_storage.selection_startoffset<element_storage.cursor_offset+1 then
@@ -4120,7 +4151,6 @@ function reagirl.InputBox_OnTyping(Key, Key_UTF, mouse_cap, element_storage)
   elseif Key==6647396.0 then
     -- End Key
     element_storage.cursor_offset=element_storage.Text:utf8_len()
-    
     
     if mouse_cap&8==0 then
       element_storage.selection_startoffset=element_storage.cursor_offset
