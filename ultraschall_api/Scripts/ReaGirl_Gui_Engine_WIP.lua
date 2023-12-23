@@ -3823,7 +3823,6 @@ function reagirl.InputBox_Add(x, y, w, Caption, MeaningOfUI_Element, Default, ru
   Default=string.gsub(Default, "\n", "")
   Default=string.gsub(Default, "\r", "")
   reagirl.Elements[slot]["Text"]=Default
-  reagirl.Elements[slot]["draw_range_max"]=10
   reagirl.Elements[slot]["draw_offset"]=0
   reagirl.Elements[slot]["draw_offset_end"]=10
   reagirl.Elements[slot]["cursor_offset"]=0
@@ -4066,41 +4065,44 @@ function reagirl.InputBox_OnTyping(Key, Key_UTF, mouse_cap, element_storage)
     end
   elseif Key==1919379572.0 then
     -- right arrow key
-    element_storage.cursor_offset=element_storage.cursor_offset+1
-    if element_storage.cursor_offset>element_storage.Text:utf8_len() then 
-      element_storage.cursor_offset=element_storage.Text:utf8_len()
-    else
-      if mouse_cap&4==4 then
-        -- Ctrl+right
-        local found=element_storage.Text:utf8_len()
-        for i=element_storage.cursor_offset+1, element_storage.Text:utf8_len()-1 do
-          if element_storage.Text:utf8_sub(i,i):has_alphanumeric()==false then
-            found=i
-            break
-          end
-        end
-        if mouse_cap&8==8 then
-          if element_storage.selection_endoffset+1==element_storage.cursor_offset then
-            element_storage.selection_endoffset=found
-          else
-            element_storage.selection_startoffset=found
-          end
-        end
-        element_storage.cursor_offset=found
+    if mouse_cap&4==0 then
+      element_storage.cursor_offset=element_storage.cursor_offset+1
+      if element_storage.cursor_offset<0 then element_storage.cursor_offset=0 
+      elseif element_storage.cursor_offset>element_storage.Text:utf8_len() then
+        element_storage.cursor_offset=element_storage.Text:utf8_len()
       end
-      if mouse_cap==8 then
-        -- Shift+Right
-        if element_storage.selection_endoffset==element_storage.cursor_offset-1 then
-          element_storage.selection_endoffset=element_storage.selection_endoffset+1
-        elseif element_storage.selection_endoffset>element_storage.cursor_offset-1 then
-          element_storage.selection_startoffset=element_storage.selection_startoffset+1
+      if mouse_cap&8==8 then
+        if element_storage.selection_startoffset>=element_storage.cursor_offset then
+          element_storage.selection_startoffset=element_storage.cursor_offset
+        else
+          element_storage.selection_endoffset=element_storage.cursor_offset
         end
-      elseif mouse_cap==0 then
+      elseif element_storage.cursor_offset>0 then
         element_storage.selection_startoffset=element_storage.cursor_offset
         element_storage.selection_endoffset=element_storage.cursor_offset
       end
+    elseif mouse_cap&4==4 then
+      local found=0
+      for i=element_storage.cursor_offset-1, 0, -1 do
+        if element_storage.Text:utf8_sub(i,i):has_alphanumeric_plus_underscore()==false or element_storage.Text:utf8_sub(i,i):has_alphanumeric_plus_underscore()~=element_storage.Text:utf8_sub(i+1,i+1):has_alphanumeric_plus_underscore() then
+          found=i
+          break
+        end
+      end
+      if mouse_cap&8==8 then
+        if element_storage.cursor_offset<=element_storage.selection_startoffset then
+          element_storage.selection_startoffset=found
+        else
+        end
+      end
+      element_storage.cursor_offset=found
     end
-    reagirl.InputBox_ConsolidateCursorPos(element_storage)
+
+    --reagirl.InputBox_ConsolidateCursorPos(element_storage)
+    if element_storage.draw_offset_end<=element_storage.cursor_offset then
+      element_storage.draw_offset_end=element_storage.cursor_offset+3
+      reagirl.InputBox_Calculate_DrawOffset(false, element_storage)
+    end
   elseif Key==1818584692.0 then
     -- left arrow key
     if mouse_cap&4==0 then
@@ -4136,7 +4138,12 @@ function reagirl.InputBox_OnTyping(Key, Key_UTF, mouse_cap, element_storage)
       element_storage.cursor_offset=found
     end
 
-    reagirl.InputBox_ConsolidateCursorPos(element_storage)
+    --reagirl.InputBox_ConsolidateCursorPos(element_storage)
+    if element_storage.draw_offset>element_storage.cursor_offset then
+      element_storage.draw_offset=element_storage.cursor_offset
+      reagirl.InputBox_Calculate_DrawOffset(true, element_storage)
+    end
+    
   elseif Key==30064 then
     -- up arrow key
     
@@ -4317,28 +4324,34 @@ end
 --function reagirl.InputBox_Draw(mouse_cap, element_storage, c, c2)
 
 function reagirl.InputBox_Calculate_DrawOffset(forward, element_storage)
-  -- rewrite this, it doesn't work on different scaling....for some fucking reason
+  -- rewrite this, it doesn't work on different scaling....for some fucking reasoninputbox_onyping(
+  
   -- it's probably because of x2 and w2 calculation
+  -- maybe fixed now(?)
+  -- no it's not...end isn't working properly
   reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0)
   local dpi_scale = reagirl.Window_GetCurrentScale()
-  local cap_w=element_storage["cap_w"]
-  cap_w=gfx.measurestr(element_storage["Name"])
+  --local cap_w=element_storage["cap_w"]
+  local cap_w=gfx.measurestr(element_storage["Name"])+dpi_scale*5
   if element_storage["x"]<0 then x2=gfx.w+element_storage["x"]*dpi_scale else x2=element_storage["x"]*dpi_scale end
   if element_storage["w"]<0 then w2=gfx.w-x2+element_storage["w"]*dpi_scale else w2=element_storage["w"]*dpi_scale end
   local w2=w2-cap_w
   local offset_me=dpi_scale*5
-  print_update(cap_w)
+  --print_update(cap_w)
   if forward==true then
+    -- forward calculation from offset
     for i=element_storage.draw_offset, element_storage.Text:utf8_len() do
       local x,y=gfx.measurestr(element_storage.Text:utf8_sub(i,i))
       offset_me=offset_me+x
-      if offset_me>w2 then break else element_storage.draw_offset_end=i-1 end
+      if offset_me>w2 then break else element_storage.draw_offset_end=i end
     end
   elseif forward==false then
+    -- backwards calculation from offset_end
     for i=element_storage.draw_offset_end, 1, -1 do
+      --offset_me=offset_me+dpi_scale*2
       local x,y=gfx.measurestr(element_storage.Text:utf8_sub(i,i))
       offset_me=offset_me+x
-      if offset_me>w2 then break else element_storage.draw_offset=i-1 end
+      if offset_me>w2 then break else element_storage.draw_offset=i end
     end
   end
 end
@@ -4365,9 +4378,9 @@ function reagirl.InputBox_Draw(element_id, selected, hovered, clicked, mouse_cap
   -- draw rectangle around text
   gfx.set(0.274)
   --gfx.rect(x+cap_w, y, w-cap_w, gfx.texth, 0)
-  reagirl.RoundRect(x+cap_w-2*dpi_scale, y, w-cap_w, math.tointeger(gfx.texth), 4, 0, 1)
+  reagirl.RoundRect(x+cap_w-2*dpi_scale, y, w-cap_w, math.tointeger(gfx.texth)+dpi_scale*2, 4, 0, 1)
   gfx.set(0.39)
-  reagirl.RoundRect(x+cap_w-2*dpi_scale, y, w-cap_w, math.tointeger(gfx.texth), 4, 0, 0)
+  reagirl.RoundRect(x+cap_w-2*dpi_scale, y, w-cap_w, math.tointeger(gfx.texth)+dpi_scale*2, 4, 0, 0)
   
   -- draw text
   gfx.set(0.8)
