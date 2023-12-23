@@ -4336,7 +4336,7 @@ function reagirl.InputBox_Calculate_DrawOffset(forward, element_storage)
   if element_storage["x"]<0 then x2=gfx.w+element_storage["x"]*dpi_scale else x2=element_storage["x"]*dpi_scale end
   if element_storage["w"]<0 then w2=gfx.w-x2+element_storage["w"]*dpi_scale else w2=element_storage["w"]*dpi_scale end
   local w2=w2-cap_w
-  local offset_me=dpi_scale*5
+  local offset_me=dpi_scale*2
   --print_update(cap_w)
   if forward==true then
     -- forward calculation from offset
@@ -4384,7 +4384,7 @@ function reagirl.InputBox_Draw(element_id, selected, hovered, clicked, mouse_cap
   
   -- draw text
   gfx.set(0.8)
-  gfx.x=x+cap_w+dpi_scale-2
+  gfx.x=x+cap_w-dpi_scale
   gfx.y=y+dpi_scale
   local draw_offset=0
   for i=element_storage.draw_offset, element_storage.draw_offset_end do
@@ -4405,7 +4405,7 @@ function reagirl.InputBox_Draw(element_id, selected, hovered, clicked, mouse_cap
   end
   if element_storage.cursor_offset==element_storage.draw_offset-1 then
     gfx.set(0.9843137254901961, 0.8156862745098039, 0)
-    gfx.line(x+cap_w+dpi_scale, y+dpi_scale, x+cap_w+dpi_scale, y+gfx.texth) 
+    gfx.line(x+cap_w-dpi_scale, y+dpi_scale, x+cap_w-dpi_scale, y+gfx.texth) 
   end
   --[[
   for i=element_storage.draw_offset, element_storage.draw_offset+math.floor(w/textw)-1 do
@@ -7863,7 +7863,7 @@ function UpdateUI()
       Images[1]=filename
     end
   end
-reagirl.InputBox_Add(10,50,200,"Inputbox Deloxe:___", "Se descrizzione", "ABCD..EF\nGHIJKLMNOPQRSTUVWXYZacdefghijklmnopqrstuvwxyz0123456789", input1, input2)
+reagirl.InputBox_Add(10,50,200,"Inputbox Deloxe:___", "Se descrizzione", "ABCD..EF\nGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789", input1, input2)
 --tabs_id=reagirl.Tabs_Add(nil, nil, nil, nil, "TUDELU", "Tabs", {"HUCH", "TUDELU", "Dune", "Ach Gotterl", "Leileileilei"}, 1, sliderme)
 reagirl.NextLine()
 --reagirl.Tabs_Add(nil, nil, 0, 0, "TUDELU", "Tabs", {"HUCH", "TUDELU", "Dune", "Ach Gotterl", "Leileileilei"}, 1, sliderme)
