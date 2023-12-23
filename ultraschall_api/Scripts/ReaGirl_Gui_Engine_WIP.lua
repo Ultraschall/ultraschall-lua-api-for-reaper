@@ -4072,10 +4072,10 @@ function reagirl.InputBox_OnTyping(Key, Key_UTF, mouse_cap, element_storage)
         element_storage.cursor_offset=element_storage.Text:utf8_len()
       end
       if mouse_cap&8==8 then
-        if element_storage.selection_startoffset>=element_storage.cursor_offset then
-          element_storage.selection_startoffset=element_storage.cursor_offset
-        else
+        if element_storage.selection_endoffset<element_storage.cursor_offset then
           element_storage.selection_endoffset=element_storage.cursor_offset
+        else
+          element_storage.selection_startoffset=element_storage.cursor_offset
         end
       elseif element_storage.cursor_offset>0 then
         element_storage.selection_startoffset=element_storage.cursor_offset
@@ -4083,16 +4083,17 @@ function reagirl.InputBox_OnTyping(Key, Key_UTF, mouse_cap, element_storage)
       end
     elseif mouse_cap&4==4 then
       local found=0
-      for i=element_storage.cursor_offset-1, 0, -1 do
+      for i=element_storage.cursor_offset+1, element_storage.Text:utf8_len() do
         if element_storage.Text:utf8_sub(i,i):has_alphanumeric_plus_underscore()==false or element_storage.Text:utf8_sub(i,i):has_alphanumeric_plus_underscore()~=element_storage.Text:utf8_sub(i+1,i+1):has_alphanumeric_plus_underscore() then
           found=i
           break
         end
       end
       if mouse_cap&8==8 then
-        if element_storage.cursor_offset<=element_storage.selection_startoffset then
+        if element_storage.selection_endoffset<found then
+          element_storage.selection_endoffset=found
+        elseif element_storage.selection_startoffset<found then
           element_storage.selection_startoffset=found
-        else
         end
       end
       element_storage.cursor_offset=found
@@ -4112,7 +4113,7 @@ function reagirl.InputBox_OnTyping(Key, Key_UTF, mouse_cap, element_storage)
         element_storage.cursor_offset=element_storage.Text:utf8_len()
       end
       if mouse_cap&8==8 then
-        if element_storage.selection_startoffset>=element_storage.cursor_offset then
+        if element_storage.selection_startoffset>element_storage.cursor_offset then
           element_storage.selection_startoffset=element_storage.cursor_offset
         else
           element_storage.selection_endoffset=element_storage.cursor_offset
@@ -4130,9 +4131,10 @@ function reagirl.InputBox_OnTyping(Key, Key_UTF, mouse_cap, element_storage)
         end
       end
       if mouse_cap&8==8 then
-        if element_storage.cursor_offset<=element_storage.selection_startoffset then
+        if element_storage.selection_startoffset>found then
           element_storage.selection_startoffset=found
-        else
+        elseif element_storage.selection_endoffset>found then
+          element_storage.selection_endoffset=found
         end
       end
       element_storage.cursor_offset=found
