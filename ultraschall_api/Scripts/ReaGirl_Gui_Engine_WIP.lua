@@ -3880,6 +3880,7 @@ function reagirl.InputBox_OnMouseDown(mouse_cap, element_storage)
     if mouse_cap&8==0 then
       element_storage.cursor_offset=reagirl.InputBox_GetTextOffset(gfx.mouse_x,gfx.mouse_y, element_storage)
       element_storage.cursor_startoffset=element_storage.cursor_offset
+      element_storage.clicked1=true
       if element_storage.cursor_offset==-2 then 
         element_storage.cursor_offset=element_storage.Text:utf8_len() 
         element_storage.selection_startoffset=element_storage.cursor_offset
@@ -3923,7 +3924,7 @@ function reagirl.InputBox_GetTextOffset(x,y,element_storage)
   -- Offset is off
   local dpi_scale = reagirl.Window_GetCurrentScale()
   local cap_w=gfx.measurestr(element_storage["Name"])
-  cap_w=math.tointeger(cap_w)+dpi_scale*5
+  cap_w=math.tointeger(cap_w)+dpi_scale*5+5*dpi_scale
   local startoffs=element_storage.x2+cap_w
   local cursoffs=element_storage.draw_offset
   
@@ -3953,7 +3954,7 @@ function reagirl.InputBox_GetTextOffset(x,y,element_storage)
   --]]
   
   -- if click==outside of right edge of the inputbox
-  return -2, element_storage.draw_offset, element_storage.draw_offset_end--element_storage.draw_offset+math.floor(element_storage.w/textw)
+  return -2, element_storage.draw_offset, element_storage.draw_offset_end+1--element_storage.draw_offset+math.floor(element_storage.w/textw)
 end
 
 function reagirl.InputBox_OnMouseMove(mouse_cap, element_storage)
@@ -3981,8 +3982,13 @@ function reagirl.InputBox_OnMouseMove(mouse_cap, element_storage)
       element_storage.draw_offset=0
     end
     
+    if startoffs<element_storage.cursor_startoffset then
+      element_storage.selection_startoffset=element_storage.draw_offset
+    end
+    
     reagirl.InputBox_Calculate_DrawOffset(true, element_storage)
   elseif newoffs==-2 then
+    --print_update("HUCH"..reaper.time_precise())
     -- when dragging is outside the right edge
     element_storage.cursor_offset=endoffs+1
     if element_storage.cursor_offset>element_storage.Text:utf8_len() then element_storage.cursor_offset=element_storage.Text:utf8_len() end
@@ -3992,6 +3998,12 @@ function reagirl.InputBox_OnMouseMove(mouse_cap, element_storage)
       element_storage.draw_offset_end=element_storage.Text:utf8_len()
     end
 
+    if endoffs>element_storage.cursor_startoffset then
+      --element_storage.selection_endoffset=element_storage.draw_offset_end
+    end
+    
+    
+    
     reagirl.InputBox_Calculate_DrawOffset(false, element_storage)
   end
   reagirl.mouse.dragged=true
@@ -4267,7 +4279,7 @@ end
 
 function reagirl.InputBox_Manage(element_id, selected, hovered, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
   local refresh=false
-  
+
   if reaper.osara_outputMessage~=nil then
     refresh=true
     reagirl.Gui_PreventEnterForOneCycle()
@@ -4304,6 +4316,7 @@ function reagirl.InputBox_Manage(element_id, selected, hovered, clicked, mouse_c
         refresh=true 
         reagirl.InputBox_Calculate_DrawOffset(true, element_storage)
       end
+      
       if mouse_attributes[6]>0 then 
         if mouse_attributes[6]>300 then factor=10 else factor=1 end
         element_storage["draw_offset"]=element_storage["draw_offset"]+factor
@@ -4329,10 +4342,6 @@ function reagirl.InputBox_Manage(element_id, selected, hovered, clicked, mouse_c
         reagirl.InputBox_OnMouseDoubleClick(mouse_cap, element_storage)
         refresh=true
         element_storage["hasfocus"]=true
-      elseif selected~="not selected" and clicked=="DRAG" then --reagirl.mouse.down==true and clicked=="DRAG" then gfx.mouse_x~=reagirl.mouse.x or gfx.mouse_y~=reagirl.mouse.y then
-        reagirl.InputBox_OnMouseMove(mouse_cap, element_storage)
-        refresh=true
-        element_storage["hasfocus"]=true
       elseif selected~="not selected" and reagirl.mouse.down==true then
         reagirl.InputBox_OnMouseUp(mouse_cap, element_storage)
         refresh=true
@@ -4346,6 +4355,15 @@ function reagirl.InputBox_Manage(element_id, selected, hovered, clicked, mouse_c
         refresh=true
       end
     end
+  end
+  if selected~="not selected" and element_storage.clicked1==true and clicked=="DRAG" then --reagirl.mouse.down==true and clicked=="DRAG" then gfx.mouse_x~=reagirl.mouse.x or gfx.mouse_y~=reagirl.mouse.y then
+    reagirl.InputBox_OnMouseMove(mouse_cap, element_storage)
+    refresh=true
+    element_storage["hasfocus"]=true
+  end
+  
+  if mouse_cap==0 then
+    element_storage.clicked1=nil
   end
   
   if element_storage.w2_old~=w then
