@@ -4574,7 +4574,7 @@ function reagirl.InputBox_GetText(element_id)
     string element_id - the guid of the inputbox, whose text you want to get
   </parameters>
   <retvals>
-    stirng text - the text currently in the inputbox
+    string text - the text currently in the inputbox
   </retvals>
   <chapter_context>
     InputBox
@@ -4589,6 +4589,93 @@ function reagirl.InputBox_GetText(element_id)
     error("InputBox_GetDisabled: param #1 - ui-element is not a dropdown-menu", 2)
   else
     return reagirl.Elements[element_id]["Text"]
+  end
+end
+
+function reagirl.InputBox_SetText(element_id, new_text)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>InputBox_SetText</slug>
+  <requires>
+    ReaGirl=1.0
+    Reaper=7
+    Lua=5.4
+  </requires>
+  <functioncall>reagirl.InputBox_SetText(string element_id, string new_text)</functioncall>
+  <description>
+    Sets a new text of an inputbox.
+    
+    Will remove newlines from it.
+  </description>
+  <parameters>
+    string element_id - the guid of the inputbox, whose disability-state you want to set
+    string new_text - the new text for the inputbox
+  </parameters>
+  <chapter_context>
+    InputBox
+  </chapter_context>
+  <tags>inputbox, set, text</tags>
+</US_DocBloc>
+--]]
+  if type(element_id)~="string" then error("InputBox_SetText: param #1 - must be a string", 2) end
+  if reagirl.IsValidGuid(element_id, true)==nil then error("InputBox_SetText: param #1 - must be a valid guid", 2) end
+  if type(new_text)~="string" then error("InputBox_SetText: param #2 - must be a string", 2) end
+  element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
+  if element_id==-1 then error("InputBox_SetText: param #1 - no such ui-element", 2) end
+  if reagirl.Elements[element_id]["GUI_Element_Type"]~="Edit" then
+    error("InputBox_SetText: param #1 - ui-element is not an inputbox", 2)
+  else
+    new_text=string.gsub(new_text, "\n", "")
+    new_text=string.gsub(new_text, "\r", "")
+    reagirl.Elements[element_id]["Text"]=new_text
+    reagirl.Elements[element_id]["cursor_offset"]=reagirl.Elements[element_id]["Text"]:utf8_len()
+    reagirl.Elements[element_id]["draw_offset_end"]=reagirl.Elements[element_id]["cursor_offset"]
+    reagirl.InputBox_Calculate_DrawOffset(false, reagirl.Elements[element_id])
+    
+    reagirl.Elements[element_id]["selection_endoffset"]=reagirl.Elements[element_id]["cursor_offset"]
+    reagirl.Elements[element_id]["selection_startoffset"]=reagirl.Elements[element_id]["cursor_offset"]
+    reagirl.Gui_ForceRefresh()
+  end
+end
+
+function reagirl.InputBox_GetSelectedText(element_id)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>InputBox_GetSelectedText</slug>
+  <requires>
+    ReaGirl=1.0
+    Reaper=7
+    Lua=5.4
+  </requires>
+  <functioncall>string text = reagirl.InputBox_GetSelectedText(string element_id)</functioncall>
+  <description>
+    Gets an inputbox's currently selected text.
+  </description>
+  <parameters>
+    string element_id - the guid of the inputbox, whose selected text you want to get
+  </parameters>
+  <retvals>
+    string text - the text currently selected in the inputbox
+    integer selection_startoffset - the startoffset of the text-selection; -1, no text is selected
+    integer selection_endoffset - the endoffset of the text-selection; -1, no text is selected
+  </retvals>
+  <chapter_context>
+    InputBox
+  </chapter_context>
+  <tags>inputbox, get, selected, text</tags>
+</US_DocBloc>
+--]]
+  if type(element_id)~="string" then error("InputBox_GetSelectedText: param #1 - must be a string", 2) end
+  if reagirl.IsValidGuid(element_id, true)==nil then error("InputBox_GetSelectedText: param #1 - must be a valid guid", 2) end
+  element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
+  if reagirl.Elements[element_id]["GUI_Element_Type"]~="Edit" then
+    error("InputBox_GetSelectedText: param #1 - ui-element is not a dropdown-menu", 2)
+  else
+    if reagirl.Elements[element_id]["selection_startoffset"]~=reagirl.Elements[element_id]["selection_endoffset"] then
+      return reagirl.Elements[element_id]["Text"]:utf8_sub(reagirl.Elements[element_id]["selection_startoffset"]+1, reagirl.Elements[element_id]["selection_endoffset"]), reagirl.Elements[element_id]["selection_startoffset"], reagirl.Elements[element_id]["selection_endoffset"]
+    else
+      return "", -1, -1
+    end
   end
 end
 
@@ -7972,7 +8059,7 @@ function click_button(test)
     --reagirl.InputBox_SetDisabled(E, true)
     local retval, text = reaper.GetUserInputs("", 1, "", "")
     reagirl.InputBox_SetText(E, tostring(text))
-    print2(reagirl.InputBox_GetText(E))
+    
   end
 end
 
@@ -8175,11 +8262,12 @@ function main()
   --reagirl.ContextMenu[1]["hidden"]=true
   --print_update(reagirl.ContextMenuZone_GetVisibility(contextmenu_id))
   --print(reagirl.FileDropZone_GetVisibility(dropzone_id))
-  gfx.update()
+  --gfx.update()
   --print_update(reagirl.UI_Element_IsElementAtMousePosition(LAB2))
  -- print_update(reagirl.UI_Element_GetHovered())
   --reagirl.Gui_PreventEnterForOneCycle()
   --print_update(reagirl.UI_Element_GetSetPosition(LAB, false, x, y))
+  print_update(reagirl.InputBox_GetSelectedText(E))
   if reagirl.Gui_IsOpen()==true then reaper.defer(main) end
 end
 
