@@ -4254,99 +4254,119 @@ function reagirl.InputBox_OnTyping(Key, Key_UTF, mouse_cap, element_storage)
 end
 
 function reagirl.InputBox_Manage(element_id, selected, hovered, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
---function reagirl.InputBox_Manage(mouse_cap, element_storage, Key, Key_UTF)
-  if selected=="first selected" then
-    element_storage["cursor_offset"]=element_storage["Text"]:utf8_len()
-    element_storage["draw_offset_end"]=element_storage["Text"]:utf8_len()
-    element_storage["selection_endoffset"]=element_storage["Text"]:utf8_len()
-    element_storage["selection_startoffset"]=1
-    reagirl.InputBox_Calculate_DrawOffset(false, element_storage)
-    element_storage.hasfocus=true
-  elseif selected=="not selected" then
-    element_storage["selection_endoffset"]=element_storage["cursor_offset"]
-    element_storage["selection_startoffset"]=element_storage["cursor_offset"]
-  end
-  gfx.setfont(1, "Arial", 20, 0)
-
   local refresh=false
-  if (gfx.mouse_x>=x and gfx.mouse_y>=y and gfx.mouse_x<=x+w and gfx.mouse_y<=y+h) then 
-    -- mousewheel scroll the text inside the input-box via hmousewheel(doesn't work properly, yet)
-    reagirl.Gui_PreventScrollingForOneCycle(true, true, false)
-    if mouse_attributes[6]<0 then 
-      if mouse_attributes[6]<-300 then factor=10 else factor=1 end  
-      element_storage["draw_offset"]=element_storage["draw_offset"]-factor
-      if element_storage["draw_offset"]<1 then 
-        element_storage["draw_offset"]=1 
-      end 
-      refresh=true 
-      reagirl.InputBox_Calculate_DrawOffset(true, element_storage)
+  
+  if reaper.osara_outputMessage==nil then
+    refresh=true
+    reagirl.Gui_PreventEnterForOneCycle()
+    if selected~="non_selected" and (Key==13 or mouse_cap&1==1) then
+      local retval, text = reaper.GetUserInputs("Enter or edit the text", 1, ",extrawidth=150", element_storage.Text)
+      if retval==true then
+        element_storage.Text=text
+      end
     end
-    if mouse_attributes[6]>0 then 
-      if mouse_attributes[6]>300 then factor=10 else factor=1 end
-      element_storage["draw_offset"]=element_storage["draw_offset"]+factor
-      if element_storage["draw_offset"]>element_storage["Text"]:utf8_len() then 
-        element_storage["draw_offset"]=element_storage["Text"]:utf8_len()
-      end 
-      refresh=true 
-      reagirl.InputBox_Calculate_DrawOffset(true, element_storage)
+  else
+    if selected=="first selected" then
+      element_storage["cursor_offset"]=element_storage["Text"]:utf8_len()
+      element_storage["draw_offset_end"]=element_storage["Text"]:utf8_len()
+      element_storage["selection_endoffset"]=element_storage["Text"]:utf8_len()
+      element_storage["selection_startoffset"]=0
+      reagirl.InputBox_Calculate_DrawOffset(false, element_storage)
+      element_storage.hasfocus=true
+    elseif selected=="not selected" then
+      element_storage["selection_endoffset"]=element_storage["cursor_offset"]
+      element_storage["selection_startoffset"]=element_storage["cursor_offset"]
     end
-    element_storage.x2=x
-    element_storage.y2=y
-    element_storage.w2=w
-    element_storage.h2=h
-    refreshme=clicked
-    -- mouse management
-    if selected~="not selected" and clicked=="FirstCLK" then 
-      element_storage["hasfocus"]=true
+    gfx.setfont(1, "Arial", 20, 0)
+  
+    
+    if (gfx.mouse_x>=x and gfx.mouse_y>=y and gfx.mouse_x<=x+w and gfx.mouse_y<=y+h) then 
+      -- mousewheel scroll the text inside the input-box via hmousewheel(doesn't work properly, yet)
+      reagirl.Gui_PreventScrollingForOneCycle(true, true, false)
+      if mouse_attributes[6]<0 then 
+        if mouse_attributes[6]<-300 then factor=10 else factor=1 end  
+        element_storage["draw_offset"]=element_storage["draw_offset"]-factor
+        if element_storage["draw_offset"]<1 then 
+          element_storage["draw_offset"]=1 
+        end 
+        refresh=true 
+        reagirl.InputBox_Calculate_DrawOffset(true, element_storage)
+      end
+      if mouse_attributes[6]>0 then 
+        if mouse_attributes[6]>300 then factor=10 else factor=1 end
+        element_storage["draw_offset"]=element_storage["draw_offset"]+factor
+        if element_storage["draw_offset"]>element_storage["Text"]:utf8_len() then 
+          element_storage["draw_offset"]=element_storage["Text"]:utf8_len()
+        end 
+        refresh=true 
+        reagirl.InputBox_Calculate_DrawOffset(true, element_storage)
+      end
+      element_storage.x2=x
+      element_storage.y2=y
+      element_storage.w2=w
+      element_storage.h2=h
+      refreshme=clicked
+      -- mouse management
+      if selected~="not selected" and clicked=="FirstCLK" then 
+        element_storage["hasfocus"]=true
+        if reagirl.mouse.down==false then
+          reagirl.InputBox_OnMouseDown(mouse_cap, element_storage) 
+          refresh=true
+        end
+      elseif selected~="not selected" and clicked=="DBLCLK" then
+        reagirl.InputBox_OnMouseDoubleClick(mouse_cap, element_storage)
+        refresh=true
+        element_storage["hasfocus"]=true
+      elseif selected~="not selected" and clicked=="DRAG" then --reagirl.mouse.down==true and clicked=="DRAG" then gfx.mouse_x~=reagirl.mouse.x or gfx.mouse_y~=reagirl.mouse.y then
+        reagirl.InputBox_OnMouseMove(mouse_cap, element_storage)
+        refresh=true
+        element_storage["hasfocus"]=true
+      elseif selected~="not selected" and reagirl.mouse.down==true then
+        reagirl.InputBox_OnMouseUp(mouse_cap, element_storage)
+        refresh=true
+        element_storage["hasfocus"]=true
+      end
+    end
+    --[[
+    if selected==true and mouse_cap&1==1 then 
       if reagirl.mouse.down==false then
         reagirl.InputBox_OnMouseDown(mouse_cap, element_storage) 
+        if os.clock()-reagirl.mouse.downtime<0.25 then
+          reagirl.InputBox_OnMouseDoubleClick(mouse_cap, element_storage)
+        end
+        refresh=true
+      elseif gfx.mouse_x~=reagirl.mouse.x or gfx.mouse_y~= reagirl.mouse.y then
+        reagirl.InputBox_OnMouseMove(mouse_cap, element_storage)
+        print_update(reaper.time_precise())
         refresh=true
       end
-    elseif selected~="not selected" and clicked=="DBLCLK" then
-      reagirl.InputBox_OnMouseDoubleClick(mouse_cap, element_storage)
-      refresh=true
-      element_storage["hasfocus"]=true
-    elseif selected~="not selected" and clicked=="DRAG" then --reagirl.mouse.down==true and clicked=="DRAG" then gfx.mouse_x~=reagirl.mouse.x or gfx.mouse_y~=reagirl.mouse.y then
-      reagirl.InputBox_OnMouseMove(mouse_cap, element_storage)
-      refresh=true
-      element_storage["hasfocus"]=true
-    elseif selected~="not selected" and reagirl.mouse.down==true then
+    elseif reagirl.mouse.down==true then
       reagirl.InputBox_OnMouseUp(mouse_cap, element_storage)
       refresh=true
-      element_storage["hasfocus"]=true
+    end
+    --]]
+    -- keyboard management
+    if element_storage.hasfocus==true then
+      local refresh2=reagirl.InputBox_OnTyping(Key, Key_UTF, mouse_cap, element_storage)
+      if refresh~=true and refresh2==true then
+        refresh=true
+      end
     end
   end
-  --[[
-  if selected==true and mouse_cap&1==1 then 
-    if reagirl.mouse.down==false then
-      reagirl.InputBox_OnMouseDown(mouse_cap, element_storage) 
-      if os.clock()-reagirl.mouse.downtime<0.25 then
-        reagirl.InputBox_OnMouseDoubleClick(mouse_cap, element_storage)
-      end
-      refresh=true
-    elseif gfx.mouse_x~=reagirl.mouse.x or gfx.mouse_y~= reagirl.mouse.y then
-      reagirl.InputBox_OnMouseMove(mouse_cap, element_storage)
-      print_update(reaper.time_precise())
-      refresh=true
-    end
-  elseif reagirl.mouse.down==true then
-    reagirl.InputBox_OnMouseUp(mouse_cap, element_storage)
+  
+  if element_storage.w2_old~=w then
+    reagirl.InputBox_Calculate_DrawOffset(false, element_storage)
     refresh=true
   end
-  --]]
-  -- keyboard management
-  if element_storage.hasfocus==true then
-    local refresh2=reagirl.InputBox_OnTyping(Key, Key_UTF, mouse_cap, element_storage)
-    if refresh~=true and refresh2==true then
-      refresh=true
-    end
-  end
+  element_storage.w2_old=w
   if refresh==true then
     reagirl.Gui_ForceRefresh()
   end
 end
 --reagirl.Checkbox_Manage(element_id, selected, hovered, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
 --function reagirl.InputBox_Draw(mouse_cap, element_storage, c, c2)
+
+
 
 function reagirl.InputBox_Calculate_DrawOffset(forward, element_storage)
   -- rewrite this, it doesn't work on different scaling....for some fucking reasoninputbox_onyping(
@@ -7884,7 +7904,7 @@ function UpdateUI()
       Images[1]=filename
     end
   end
-reagirl.InputBox_Add(10,50,200,"Inputbox Deloxe:___", "Se descrizzione", "ABCD..EF\nGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789", input1, input2)
+reagirl.InputBox_Add(10,50,-10,"Inputbox Deloxe:___", "Se descrizzione", "ABCD..EF\nGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789", input1, input2)
 --tabs_id=reagirl.Tabs_Add(nil, nil, nil, nil, "TUDELU", "Tabs", {"HUCH", "TUDELU", "Dune", "Ach Gotterl", "Leileileilei"}, 1, sliderme)
 reagirl.NextLine()
 --reagirl.Tabs_Add(nil, nil, 0, 0, "TUDELU", "Tabs", {"HUCH", "TUDELU", "Dune", "Ach Gotterl", "Leileileilei"}, 1, sliderme)
