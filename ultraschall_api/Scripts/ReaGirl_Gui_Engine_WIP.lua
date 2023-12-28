@@ -5,6 +5,9 @@ reaper.osara_outputMessage=nil
 
 --[[
 TODO: 
+  - Tabs: cursor-selection is triggered when moving cursor in the inputbox
+  - InputBox: text scrolls out the boundary box when dragging to the right(should stop)
+  - InputBox: text doesn't scroll to the left during dragging outside of right, when text is at the beginning
   - jumping to ui-elements outside window(means autoscroll to them) doesn't always work
     - ui-elements might still be out of view when jumping to them(x-coordinate outside of window for instance)
   - Slider: disappears when scrolling upwards/leftwards: because of the "only draw neccessary gui-elements"-code, which is buggy for some reason
@@ -3863,43 +3866,6 @@ function reagirl.InputBox_Add(x, y, w, Caption, MeaningOfUI_Element, Default, ru
 end
 
 
-function reagirl.InputBox_GetTextOffset(x,y,element_storage)
-  -- BUGGY!
-  -- Offset is off
-  local dpi_scale = reagirl.Window_GetCurrentScale()
-  --local cap_w=element_storage["cap_w"]*dpi_scale
-  local cap_w=gfx.measurestr(element_storage["Name"])
-  cap_w=math.tointeger(cap_w)+dpi_scale*5
-  local startoffs=element_storage.x2+cap_w
-  local cursoffs=element_storage.draw_offset
-  
-  local textw=gfx.measurechar(65)
-  local x2, w2
-  if element_storage["x"]<0 then x2=gfx.w+element_storage["x"]*dpi_scale else x2=element_storage["x"]*dpi_scale end
-  if element_storage["w"]<0 then w2=gfx.w-x2+element_storage["w"] else w2=element_storage["w"] end
-  w2=w2*dpi_scale-cap_w
-  
-  -- if click==outside of left edge of the inputbox
-  if x<startoffs then return -1, element_storage.draw_offset, element_storage.draw_offset+math.floor(element_storage.w2/textw) end
-  
-  local draw_offset=dpi_scale*5
-  for i=element_storage.draw_offset, element_storage.Text:utf8_len() do --draw_offset+math.floor(element_storage.w2/textw) do
-    if draw_offset+textw>w2 then break end
-    --gfx.rect((i*textw),0,(i*textw),10,1)
-    local textw=gfx.measurestr(element_storage.Text:utf8_sub(i,i))
-    --print_update(textw)
-    if x>=startoffs and x<=startoffs+textw then
-      return cursoffs-1, element_storage.draw_offset, element_storage.draw_offset+math.floor(element_storage.w2/textw)
-    end
-    cursoffs=cursoffs+1
-    startoffs=startoffs+textw
-    draw_offset=draw_offset+textw
-  end
-  --]]
-  
-  -- if click==outside of right edge of the inputbox
-  return -2, element_storage.draw_offset, element_storage.draw_offset+math.floor(element_storage.w/textw)
-end
 
 function reagirl.InputBox_OnMouseDown(mouse_cap, element_storage)
   reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0)
@@ -3913,6 +3879,7 @@ function reagirl.InputBox_OnMouseDown(mouse_cap, element_storage)
   if element_storage.hasfocus==true then
     if mouse_cap&8==0 then
       element_storage.cursor_offset=reagirl.InputBox_GetTextOffset(gfx.mouse_x,gfx.mouse_y, element_storage)
+      element_storage.cursor_startoffset=element_storage.cursor_offset
       if element_storage.cursor_offset==-2 then 
         element_storage.cursor_offset=element_storage.Text:utf8_len() 
         element_storage.selection_startoffset=element_storage.cursor_offset
@@ -3949,43 +3916,83 @@ function reagirl.InputBox_OnMouseDown(mouse_cap, element_storage)
       end
     end
   end
+end
+
+function reagirl.InputBox_GetTextOffset(x,y,element_storage)
+  -- BUGGY!
+  -- Offset is off
+  local dpi_scale = reagirl.Window_GetCurrentScale()
+  local cap_w=gfx.measurestr(element_storage["Name"])
+  cap_w=math.tointeger(cap_w)+dpi_scale*5
+  local startoffs=element_storage.x2+cap_w
+  local cursoffs=element_storage.draw_offset
   
+  local textw=gfx.measurechar(65)
+  local x2, w2
+  if element_storage["x"]<0 then x2=gfx.w+element_storage["x"]*dpi_scale else x2=element_storage["x"]*dpi_scale end
+  if element_storage["w"]<0 then w2=gfx.w-x2+element_storage["w"]*dpi_scale else w2=element_storage["w"]*dpi_scale end
+  w2=w2-cap_w
+  
+  -- if click==outside of left edge of the inputbox
+  if x<startoffs then return -1, element_storage.draw_offset, element_storage.draw_offset+math.floor(element_storage.w2/textw) end
+  
+  local draw_offset=dpi_scale*5
+  for i=element_storage.draw_offset, element_storage.Text:utf8_len() do --draw_offset+math.floor(element_storage.w2/textw) do
+    --gfx.rect((i*textw),0,(i*textw),10,1)
+    if draw_offset+textw>w2 then break end -- this line is buggy, it doesn't go off, when auto-width is set and the user tries to move selection outside the right edge of the boundary box
+    local textw=gfx.measurestr(element_storage.Text:utf8_sub(i,i))
+    
+    --print_update(textw)
+    if x>=startoffs and x<=startoffs+textw then
+      return cursoffs, element_storage.draw_offset, element_storage.draw_offset+math.floor(element_storage.w2/textw)
+    end
+    cursoffs=cursoffs+1
+    startoffs=startoffs+textw
+    draw_offset=draw_offset+textw
+  end
+  --]]
+  
+  -- if click==outside of right edge of the inputbox
+  return -2, element_storage.draw_offset, element_storage.draw_offset_end--element_storage.draw_offset+math.floor(element_storage.w/textw)
 end
 
 function reagirl.InputBox_OnMouseMove(mouse_cap, element_storage)
   reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0)
   if element_storage.hasfocus==false then return end
   local newoffs, startoffs, endoffs=reagirl.InputBox_GetTextOffset(gfx.mouse_x, gfx.mouse_y, element_storage)
-  --print_update(newoffs, element_storage.cursor_offset, startoffs, endoffs)
-  if newoffs>0 then
-    if newoffs<element_storage.cursor_offset then
+  --print_update(newoffs, startoffs, endoffs)
+  if newoffs>0 then -- buggy, resettet die Selection, wenn man "zurück" geht nach scrolling am Ende der Boundary Box
+    if newoffs<element_storage.cursor_startoffset then
       element_storage.selection_startoffset=newoffs
-      element_storage.selection_endoffset=element_storage.cursor_offset
-    elseif newoffs>element_storage.cursor_offset then
-      element_storage.selection_startoffset=element_storage.cursor_offset
+      element_storage.selection_endoffset=element_storage.cursor_startoffset
+    elseif newoffs>element_storage.cursor_startoffset then
       element_storage.selection_endoffset=newoffs
-    elseif newoffs==element_storage.cursor_offset then
-      element_storage.selection_endoffset=newoffs
-      element_storage.selection_startoffset=newoffs
+      element_storage.selection_startoffset=element_storage.cursor_startoffset
     end
+    
+    element_storage.cursor_offset=newoffs
   elseif newoffs==-1 then
     -- when dragging is outside of left edge
-    element_storage.selection_startoffset=startoffs-1
-    if element_storage.selection_startoffset<0 then element_storage.selection_startoffset=0 end
-    element_storage.draw_offset=element_storage.selection_startoffset
-    element_storage.selection_endoffset=element_storage.cursor_offset
+    element_storage.cursor_offset=startoffs-1
+    if element_storage.cursor_offset<0 then element_storage.cursor_offset=0 end
+    
+    element_storage.draw_offset=element_storage.draw_offset-1
+    if element_storage.draw_offset<0 then 
+      element_storage.draw_offset=0
+    end
+    
     reagirl.InputBox_Calculate_DrawOffset(true, element_storage)
   elseif newoffs==-2 then
     -- when dragging is outside the right edge
-    element_storage.selection_endoffset=endoffs+1
-    if element_storage.selection_endoffset>element_storage.Text:utf8_len() then 
-      element_storage.selection_endoffset=element_storage.Text:utf8_len() 
+    element_storage.cursor_offset=endoffs+1
+    if element_storage.cursor_offset>element_storage.Text:utf8_len() then element_storage.cursor_offset=element_storage.Text:utf8_len() end
+    
+    element_storage.draw_offset_end=element_storage.draw_offset_end+1
+    if element_storage.draw_offset_end>element_storage.Text:utf8_len() then 
+      element_storage.draw_offset_end=element_storage.Text:utf8_len()
     end
-    if endoffs<element_storage.Text:utf8_len()+1 then
-      element_storage.draw_offset=element_storage.draw_offset+1
-    end
-    element_storage.selection_startoffset=element_storage.cursor_offset
-    reagirl.InputBox_Calculate_DrawOffset(true, element_storage)
+
+    reagirl.InputBox_Calculate_DrawOffset(false, element_storage)
   end
   reagirl.mouse.dragged=true
 end
@@ -4342,7 +4349,13 @@ function reagirl.InputBox_Manage(element_id, selected, hovered, clicked, mouse_c
   end
   
   if element_storage.w2_old~=w then
-    reagirl.InputBox_Calculate_DrawOffset(false, element_storage)
+    --reagirl.InputBox_Calculate_DrawOffset(false, element_storage)
+    if element_storage.draw_offset<element_storage.cursor_offset then
+      reagirl.InputBox_Calculate_DrawOffset(false, element_storage)
+    else
+      --element_storage.draw_offset=element_storage.cursor_offset
+      reagirl.InputBox_Calculate_DrawOffset(true, element_storage)
+    end
     refresh=true
   end
   element_storage.w2_old=w
@@ -4408,14 +4421,13 @@ function reagirl.InputBox_Draw(element_id, selected, hovered, clicked, mouse_cap
   
   -- draw rectangle around text
   gfx.set(0.274)
-  --gfx.rect(x+cap_w, y, w-cap_w, gfx.texth, 0)
-  reagirl.RoundRect(x+cap_w-2*dpi_scale, y, w-cap_w, math.tointeger(gfx.texth)+dpi_scale*2, 4, 0, 1)
-  gfx.set(0.39)
-  reagirl.RoundRect(x+cap_w-2*dpi_scale, y, w-cap_w, math.tointeger(gfx.texth)+dpi_scale*2, 4, 0, 0)
+  reagirl.RoundRect(x+cap_w-2*dpi_scale, y, w-cap_w, math.tointeger(gfx.texth)+dpi_scale*2, 3*dpi_scale, 0, 1)
+  gfx.set(0.59)
+  reagirl.RoundRect(x+cap_w-2*dpi_scale, y, w-cap_w, math.tointeger(gfx.texth)+dpi_scale*2, 3*dpi_scale, 0, 0)
   
   -- draw text
   if element_storage["IsDecorative"]==false then gfx.set(0.8) else gfx.set(0.6) end
-  gfx.x=x+cap_w-dpi_scale
+  gfx.x=x+cap_w+dpi_scale
   gfx.y=y+dpi_scale
   local draw_offset=0
   for i=element_storage.draw_offset, element_storage.draw_offset_end do
@@ -4469,7 +4481,7 @@ function reagirl.InputBox_SetDisabled(element_id, state)
   element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
   if element_id==-1 then error("InputBox_SetDisabled: param #1 - no such ui-element", 2) end
   if reagirl.Elements[element_id]["GUI_Element_Type"]~="Edit" then
-    error("InputBox_SetDisabled: param #1 - ui-element is not an inputbox", 2)
+    error("InputBox_SetDisabled: param #1 - ui-element is not an input-box", 2)
   else
     reagirl.Elements[element_id]["IsDecorative"]=state
     reagirl.Gui_ForceRefresh()
@@ -4505,7 +4517,7 @@ function reagirl.InputBox_GetDisabled(element_id)
   if reagirl.IsValidGuid(element_id, true)==nil then error("InputBox_GetDisabled: param #1 - must be a valid guid", 2) end
   element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
   if reagirl.Elements[element_id]["GUI_Element_Type"]~="Edit" then
-    error("InputBox_GetDisabled: param #1 - ui-element is not a dropdown-menu", 2)
+    error("InputBox_GetDisabled: param #1 - ui-element is not an input-box", 2)
   else
     return reagirl.Elements[element_id]["IsDecorative"]
   end
@@ -4542,7 +4554,7 @@ function reagirl.InputBox_SetText(element_id, new_text)
   element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
   if element_id==-1 then error("InputBox_SetText: param #1 - no such ui-element", 2) end
   if reagirl.Elements[element_id]["GUI_Element_Type"]~="Edit" then
-    error("InputBox_SetText: param #1 - ui-element is not an inputbox", 2)
+    error("InputBox_SetText: param #1 - ui-element is not an input-box", 2)
   else
     new_text=string.gsub(new_text, "\n", "")
     new_text=string.gsub(new_text, "\r", "")
@@ -4586,57 +4598,12 @@ function reagirl.InputBox_GetText(element_id)
   if reagirl.IsValidGuid(element_id, true)==nil then error("InputBox_GetDisabled: param #1 - must be a valid guid", 2) end
   element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
   if reagirl.Elements[element_id]["GUI_Element_Type"]~="Edit" then
-    error("InputBox_GetDisabled: param #1 - ui-element is not a dropdown-menu", 2)
+    error("InputBox_GetDisabled: param #1 - ui-element is not an input-box", 2)
   else
     return reagirl.Elements[element_id]["Text"]
   end
 end
 
-function reagirl.InputBox_SetText(element_id, new_text)
---[[
-<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>InputBox_SetText</slug>
-  <requires>
-    ReaGirl=1.0
-    Reaper=7
-    Lua=5.4
-  </requires>
-  <functioncall>reagirl.InputBox_SetText(string element_id, string new_text)</functioncall>
-  <description>
-    Sets a new text of an inputbox.
-    
-    Will remove newlines from it.
-  </description>
-  <parameters>
-    string element_id - the guid of the inputbox, whose disability-state you want to set
-    string new_text - the new text for the inputbox
-  </parameters>
-  <chapter_context>
-    InputBox
-  </chapter_context>
-  <tags>inputbox, set, text</tags>
-</US_DocBloc>
---]]
-  if type(element_id)~="string" then error("InputBox_SetText: param #1 - must be a string", 2) end
-  if reagirl.IsValidGuid(element_id, true)==nil then error("InputBox_SetText: param #1 - must be a valid guid", 2) end
-  if type(new_text)~="string" then error("InputBox_SetText: param #2 - must be a string", 2) end
-  element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
-  if element_id==-1 then error("InputBox_SetText: param #1 - no such ui-element", 2) end
-  if reagirl.Elements[element_id]["GUI_Element_Type"]~="Edit" then
-    error("InputBox_SetText: param #1 - ui-element is not an inputbox", 2)
-  else
-    new_text=string.gsub(new_text, "\n", "")
-    new_text=string.gsub(new_text, "\r", "")
-    reagirl.Elements[element_id]["Text"]=new_text
-    reagirl.Elements[element_id]["cursor_offset"]=reagirl.Elements[element_id]["Text"]:utf8_len()
-    reagirl.Elements[element_id]["draw_offset_end"]=reagirl.Elements[element_id]["cursor_offset"]
-    reagirl.InputBox_Calculate_DrawOffset(false, reagirl.Elements[element_id])
-    
-    reagirl.Elements[element_id]["selection_endoffset"]=reagirl.Elements[element_id]["cursor_offset"]
-    reagirl.Elements[element_id]["selection_startoffset"]=reagirl.Elements[element_id]["cursor_offset"]
-    reagirl.Gui_ForceRefresh()
-  end
-end
 
 function reagirl.InputBox_GetSelectedText(element_id)
 --[[
@@ -4669,13 +4636,48 @@ function reagirl.InputBox_GetSelectedText(element_id)
   if reagirl.IsValidGuid(element_id, true)==nil then error("InputBox_GetSelectedText: param #1 - must be a valid guid", 2) end
   element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
   if reagirl.Elements[element_id]["GUI_Element_Type"]~="Edit" then
-    error("InputBox_GetSelectedText: param #1 - ui-element is not a dropdown-menu", 2)
+    error("InputBox_GetSelectedText: param #1 - ui-element is not an input-box", 2)
   else
     if reagirl.Elements[element_id]["selection_startoffset"]~=reagirl.Elements[element_id]["selection_endoffset"] then
       return reagirl.Elements[element_id]["Text"]:utf8_sub(reagirl.Elements[element_id]["selection_startoffset"]+1, reagirl.Elements[element_id]["selection_endoffset"]), reagirl.Elements[element_id]["selection_startoffset"], reagirl.Elements[element_id]["selection_endoffset"]
     else
       return "", -1, -1
     end
+  end
+end
+
+function reagirl.InputBox_GetCursorOffset(element_id)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>InputBox_GetCursorOffset</slug>
+  <requires>
+    ReaGirl=1.0
+    Reaper=7
+    Lua=5.4
+  </requires>
+  <functioncall>string text = reagirl.InputBox_GetCursorOffset(string element_id)</functioncall>
+  <description>
+    Gets an inputbox's current cursor offset.
+  </description>
+  <parameters>
+    string element_id - the guid of the inputbox, whose cursor offset you want to get
+  </parameters>
+  <retvals>
+    integer cursor_offset - the offset the cursor has in the current text in the inputbox
+  </retvals>
+  <chapter_context>
+    InputBox
+  </chapter_context>
+  <tags>inputbox, get, selected, text</tags>
+</US_DocBloc>
+--]]
+  if type(element_id)~="string" then error("InputBox_GetCursorOffset: param #1 - must be a string", 2) end
+  if reagirl.IsValidGuid(element_id, true)==nil then error("InputBox_GetCursorOffset: param #1 - must be a valid guid", 2) end
+  element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
+  if reagirl.Elements[element_id]["GUI_Element_Type"]~="Edit" then
+    error("InputBox_GetCursorOffset: param #1 - ui-element is not an input-box", 2)
+  else
+    return reagirl.Elements[element_id]["cursor_offset"]
   end
 end
 
@@ -8114,7 +8116,7 @@ function UpdateUI()
       Images[1]=filename
     end
   end
-E=reagirl.InputBox_Add(10,50,-10,"Inputbox Deloxe:___", "Se descrizzione", "ABCD..EF\nGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789", input1, input2)
+E=reagirl.InputBox_Add(10,50,-30,"Inputbox Deloxe:___", "Se descrizzione", "ABCD..EF\nGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789", input1, input2)
 --tabs_id=reagirl.Tabs_Add(nil, nil, nil, nil, "TUDELU", "Tabs", {"HUCH", "TUDELU", "Dune", "Ach Gotterl", "Leileileilei"}, 1, sliderme)
 reagirl.NextLine()
 reagirl.Tabs_Add(nil, nil, 0, 0, "TUDELU", "Tabs", {"HUCH", "TUDELU", "Dune", "Ach Gotterl", "Leileileilei"}, 1, sliderme)
@@ -8267,7 +8269,7 @@ function main()
  -- print_update(reagirl.UI_Element_GetHovered())
   --reagirl.Gui_PreventEnterForOneCycle()
   --print_update(reagirl.UI_Element_GetSetPosition(LAB, false, x, y))
-  print_update(reagirl.InputBox_GetSelectedText(E))
+--print_update(reagirl.InputBox_GetSelectedText(E))
   if reagirl.Gui_IsOpen()==true then reaper.defer(main) end
 end
 
