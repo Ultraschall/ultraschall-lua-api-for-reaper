@@ -7883,13 +7883,13 @@ function reagirl.Tabs_Manage(element_id, selected, hovered, clicked, mouse_cap, 
     end
   end
   
-  if Key==1919379572.0 then 
+  if selected~="not selected" and Key==1919379572.0 then 
     if element_storage["TabSelected"]+1~=#element_storage["TabNames"]+1 then
       element_storage["TabSelected"]=element_storage["TabSelected"]+1
       refresh=true
     end
   end
-  if Key==1818584692.0 then
+  if selected~="not selected" and Key==1818584692.0 then
     if element_storage["TabSelected"]-1~=0 then
       element_storage["TabSelected"]=element_storage["TabSelected"]-1
       refresh=true
