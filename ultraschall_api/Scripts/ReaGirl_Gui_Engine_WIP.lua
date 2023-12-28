@@ -1,4 +1,8 @@
 dofile(reaper.GetResourcePath().."/UserPlugins/ultraschall_api.lua")
+
+-- DEBUG:
+reaper.osara_outputMessage=nil
+
 --[[
 TODO: 
   - jumping to ui-elements outside window(means autoscroll to them) doesn't always work
@@ -66,11 +70,11 @@ reagirl.mouse.x=gfx.mouse_x
 reagirl.mouse.y=gfx.mouse_y
 reagirl.mouse.dragged=false
 
-reagirl.OSARA=reaper.osara_outputMessage
-function reaper.osara_outputMessage(message, a)
+--reagirl.OSARA=reaper.osara_outputMessage
+--function reaper.osara_outputMessage(message, a)
   --if message~="" then print_update(message,a) end
-  reagirl.OSARA(message)
-end
+  --reagirl.OSARA(message)
+--end
 --]]
 
 function reagirl.FormatNumber(n, p)
@@ -4506,6 +4510,87 @@ function reagirl.InputBox_GetDisabled(element_id)
   end
 end
 
+function reagirl.InputBox_SetText(element_id, new_text)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>InputBox_SetText</slug>
+  <requires>
+    ReaGirl=1.0
+    Reaper=7
+    Lua=5.4
+  </requires>
+  <functioncall>reagirl.InputBox_SetText(string element_id, string new_text)</functioncall>
+  <description>
+    Sets a new text of an inputbox.
+    
+    Will remove newlines from it.
+  </description>
+  <parameters>
+    string element_id - the guid of the inputbox, whose disability-state you want to set
+    string new_text - the new text for the inputbox
+  </parameters>
+  <chapter_context>
+    InputBox
+  </chapter_context>
+  <tags>inputbox, set, text</tags>
+</US_DocBloc>
+--]]
+  if type(element_id)~="string" then error("InputBox_SetText: param #1 - must be a string", 2) end
+  if reagirl.IsValidGuid(element_id, true)==nil then error("InputBox_SetText: param #1 - must be a valid guid", 2) end
+  if type(new_text)~="string" then error("InputBox_SetText: param #2 - must be a string", 2) end
+  element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
+  if element_id==-1 then error("InputBox_SetText: param #1 - no such ui-element", 2) end
+  if reagirl.Elements[element_id]["GUI_Element_Type"]~="Edit" then
+    error("InputBox_SetText: param #1 - ui-element is not an inputbox", 2)
+  else
+    new_text=string.gsub(new_text, "\n", "")
+    new_text=string.gsub(new_text, "\r", "")
+    reagirl.Elements[element_id]["Text"]=new_text
+    reagirl.Elements[element_id]["cursor_offset"]=reagirl.Elements[element_id]["Text"]:utf8_len()
+    reagirl.Elements[element_id]["draw_offset_end"]=reagirl.Elements[element_id]["cursor_offset"]
+    reagirl.InputBox_Calculate_DrawOffset(false, reagirl.Elements[element_id])
+    
+    reagirl.Elements[element_id]["selection_endoffset"]=reagirl.Elements[element_id]["cursor_offset"]
+    reagirl.Elements[element_id]["selection_startoffset"]=reagirl.Elements[element_id]["cursor_offset"]
+    reagirl.Gui_ForceRefresh()
+  end
+end
+
+function reagirl.InputBox_GetText(element_id)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>InputBox_GetText</slug>
+  <requires>
+    ReaGirl=1.0
+    Reaper=7
+    Lua=5.4
+  </requires>
+  <functioncall>string text = reagirl.InputBox_GetText(string element_id)</functioncall>
+  <description>
+    Gets an inputbox's current text.
+  </description>
+  <parameters>
+    string element_id - the guid of the inputbox, whose text you want to get
+  </parameters>
+  <retvals>
+    stirng text - the text currently in the inputbox
+  </retvals>
+  <chapter_context>
+    InputBox
+  </chapter_context>
+  <tags>inputbox, get, text</tags>
+</US_DocBloc>
+--]]
+  if type(element_id)~="string" then error("InputBox_GetDisabled: param #1 - must be a string", 2) end
+  if reagirl.IsValidGuid(element_id, true)==nil then error("InputBox_GetDisabled: param #1 - must be a valid guid", 2) end
+  element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
+  if reagirl.Elements[element_id]["GUI_Element_Type"]~="Edit" then
+    error("InputBox_GetDisabled: param #1 - ui-element is not a dropdown-menu", 2)
+  else
+    return reagirl.Elements[element_id]["Text"]
+  end
+end
+
 function reagirl.DropDownMenu_Add(x, y, w, caption, meaningOfUI_Element, menuItems, menuSelectedItem, run_function)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
@@ -7879,12 +7964,14 @@ function click_button(test)
   --print(reagirl.Checkbox_GetTopBottom(A))
   if reagirl.Checkbox_GetDisabled(A)==true then
     reagirl.Checkbox_SetDisabled(A, false)
-    reagirl.InputBox_SetDisabled(E, false)
+    --reagirl.InputBox_SetDisabled(E, false)
     --print2(reagirl.InputBox_GetDisabled(E, true))
   else
     reagirl.Checkbox_SetDisabled(A, true)
-    reagirl.InputBox_SetDisabled(E, true)
-    --print2(reagirl.InputBox_GetDisabled(E, true))
+    --reagirl.InputBox_SetDisabled(E, true)
+    local retval, text = reaper.GetUserInputs("", 1, "", "")
+    reagirl.InputBox_SetText(E, tostring(text))
+    print2(reagirl.InputBox_GetText(E))
   end
 end
 
