@@ -1496,7 +1496,11 @@ function reagirl.Gui_Manage()
   if reagirl.Windows_OldH~=gfx.h then reagirl.Windows_OldH=gfx.h reagirl.Gui_ForceRefresh(2) end
   if reagirl.Windows_OldW~=gfx.w then reagirl.Windows_OldW=gfx.w reagirl.Gui_ForceRefresh(3) end
   
-  reagirl.ui_element_selected="selected"
+  if reagirl.ui_element_selected==nil then 
+    reagirl.ui_element_selected="first selected"
+  else
+    reagirl.ui_element_selected="selected"
+  end
   -- Tab-key - next ui-element
   if gfx.mouse_cap&8==0 and Key==9 then 
     local old_selection=reagirl.Elements.FocusedElement
@@ -4249,6 +4253,17 @@ end
 
 function reagirl.InputBox_Manage(element_id, selected, hovered, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
 --function reagirl.InputBox_Manage(mouse_cap, element_storage, Key, Key_UTF)
+  if selected=="first selected" then
+    element_storage["cursor_offset"]=element_storage["Text"]:utf8_len()
+    element_storage["draw_offset_end"]=element_storage["Text"]:utf8_len()
+    element_storage["selection_endoffset"]=element_storage["Text"]:utf8_len()
+    element_storage["selection_startoffset"]=1
+    reagirl.InputBox_Calculate_DrawOffset(false, element_storage)
+    element_storage.hasfocus=true
+  elseif selected=="not selected" then
+    element_storage["selection_endoffset"]=element_storage["cursor_offset"]
+    element_storage["selection_startoffset"]=element_storage["cursor_offset"]
+  end
   gfx.setfont(1, "Arial", 20, 0)
 
   local refresh=false
@@ -4404,14 +4419,14 @@ function reagirl.InputBox_Draw(element_id, selected, hovered, clicked, mouse_cap
       reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0)
     end
     gfx.drawstr(element_storage.Text:utf8_sub(i,i))
-    if element_storage.hasfocus==true and element_storage.cursor_offset==i then 
+    if selected~="not selected" and element_storage.hasfocus==true and element_storage.cursor_offset==i then 
       gfx.set(0.9843137254901961, 0.8156862745098039, 0)
       gfx.line(gfx.x, y+dpi_scale, gfx.x, y+gfx.texth-dpi_scale) 
       if element_storage.hasfocus==true then gfx.set(0.8) else gfx.set(0.5) end
     end
     draw_offset=draw_offset+textw
   end
-  if element_storage.cursor_offset==element_storage.draw_offset-1 then
+  if selected~="not selected" and element_storage.cursor_offset==element_storage.draw_offset-1 then
     gfx.set(0.9843137254901961, 0.8156862745098039, 0)
     gfx.line(x+cap_w-dpi_scale, y+dpi_scale, x+cap_w-dpi_scale, y+gfx.texth) 
   end
