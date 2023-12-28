@@ -9,6 +9,7 @@ TODO:
     - ui-elements might still be out of view when jumping to them(x-coordinate outside of window for instance)
   - Slider: disappears when scrolling upwards/leftwards: because of the "only draw neccessary gui-elements"-code, which is buggy for some reason
   - Slider: draw a line where the default-value shall be
+  - Slider: when width is too small, drawing bugs appear(i.e. autowidth plus window is too small)
   - reagirl.UI_Element_NextX_Default=10 - changing it only offsets the second line ff, not the first line
   - Background_GetSetImage - check, if the background image works properly with scaling and scrolling
   - Image: reload of scaled image-override; if override==true then it loads only the image.png, not image-2x.png
@@ -7055,10 +7056,10 @@ function reagirl.Slider_Draw(element_id, selected, hovered, clicked, mouse_cap, 
   if element_storage["IsDecorative"]==true then gfx.set(0.5) else gfx.set(0.7) end
   -- draw slider-area
   gfx.set(0.5)
-  gfx.rect(x+1+offset_cap, y+1+(gfx.texth>>1)-1, w-offset_cap-offset_unit, 4, 1)
+  gfx.rect(x+offset_cap-dpi_scale, y-dpi_scale-dpi_scale+(gfx.texth>>1), w-offset_cap-offset_unit+dpi_scale+dpi_scale, dpi_scale*5, 1)
   
   if element_storage["IsDecorative"]==true then gfx.set(0.6) else gfx.set(0.8) end
-  gfx.rect(x+offset_cap, y+(gfx.texth>>1)-1, w-offset_cap-offset_unit, 4, 1)
+  gfx.rect(x+offset_cap, y+(gfx.texth>>1)-dpi_scale, w-offset_cap-offset_unit, dpi_scale*3, 1)
   
   --local rect_stop=w-offset_unit
   --gfx.x=rect_stop
@@ -8029,7 +8030,7 @@ function UpdateUI()
 E=reagirl.InputBox_Add(10,50,-10,"Inputbox Deloxe:___", "Se descrizzione", "ABCD..EF\nGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789", input1, input2)
 --tabs_id=reagirl.Tabs_Add(nil, nil, nil, nil, "TUDELU", "Tabs", {"HUCH", "TUDELU", "Dune", "Ach Gotterl", "Leileileilei"}, 1, sliderme)
 reagirl.NextLine()
---reagirl.Tabs_Add(nil, nil, 0, 0, "TUDELU", "Tabs", {"HUCH", "TUDELU", "Dune", "Ach Gotterl", "Leileileilei"}, 1, sliderme)
+reagirl.Tabs_Add(nil, nil, 0, 0, "TUDELU", "Tabs", {"HUCH", "TUDELU", "Dune", "Ach Gotterl", "Leileileilei"}, 1, sliderme)
 --reagirl.NextLine()
   --reagirl.AddDummyElement()  
   
