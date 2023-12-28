@@ -4256,10 +4256,10 @@ end
 function reagirl.InputBox_Manage(element_id, selected, hovered, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
   local refresh=false
   
-  if reaper.osara_outputMessage==nil then
+  if reaper.osara_outputMessage~=nil then
     refresh=true
     reagirl.Gui_PreventEnterForOneCycle()
-    if selected~="non_selected" and (Key==13 or mouse_cap&1==1) then
+    if Key==13 or (mouse_cap&1==1 and gfx.mouse_x>=x and gfx.mouse_x<=x+w and gfx.mouse_y>=y and gfx.mouse_y<=y+h) then
       local retval, text = reaper.GetUserInputs("Enter or edit the text", 1, ",extrawidth=150", element_storage.Text)
       if retval==true then
         element_storage.Text=text
@@ -4327,24 +4327,6 @@ function reagirl.InputBox_Manage(element_id, selected, hovered, clicked, mouse_c
         element_storage["hasfocus"]=true
       end
     end
-    --[[
-    if selected==true and mouse_cap&1==1 then 
-      if reagirl.mouse.down==false then
-        reagirl.InputBox_OnMouseDown(mouse_cap, element_storage) 
-        if os.clock()-reagirl.mouse.downtime<0.25 then
-          reagirl.InputBox_OnMouseDoubleClick(mouse_cap, element_storage)
-        end
-        refresh=true
-      elseif gfx.mouse_x~=reagirl.mouse.x or gfx.mouse_y~= reagirl.mouse.y then
-        reagirl.InputBox_OnMouseMove(mouse_cap, element_storage)
-        print_update(reaper.time_precise())
-        refresh=true
-      end
-    elseif reagirl.mouse.down==true then
-      reagirl.InputBox_OnMouseUp(mouse_cap, element_storage)
-      refresh=true
-    end
-    --]]
     -- keyboard management
     if element_storage.hasfocus==true then
       local refresh2=reagirl.InputBox_OnTyping(Key, Key_UTF, mouse_cap, element_storage)
@@ -4363,8 +4345,7 @@ function reagirl.InputBox_Manage(element_id, selected, hovered, clicked, mouse_c
     reagirl.Gui_ForceRefresh()
   end
 end
---reagirl.Checkbox_Manage(element_id, selected, hovered, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
---function reagirl.InputBox_Draw(mouse_cap, element_storage, c, c2)
+
 
 
 
@@ -4428,7 +4409,7 @@ function reagirl.InputBox_Draw(element_id, selected, hovered, clicked, mouse_cap
   reagirl.RoundRect(x+cap_w-2*dpi_scale, y, w-cap_w, math.tointeger(gfx.texth)+dpi_scale*2, 4, 0, 0)
   
   -- draw text
-  gfx.set(0.8)
+  if element_storage["IsDecorative"]==false then gfx.set(0.8) else gfx.set(0.6) end
   gfx.x=x+cap_w-dpi_scale
   gfx.y=y+dpi_scale
   local draw_offset=0
@@ -4452,25 +4433,77 @@ function reagirl.InputBox_Draw(element_id, selected, hovered, clicked, mouse_cap
     gfx.set(0.9843137254901961, 0.8156862745098039, 0)
     gfx.line(x+cap_w-dpi_scale, y+dpi_scale, x+cap_w-dpi_scale, y+gfx.texth) 
   end
-  --[[
-  for i=element_storage.draw_offset, element_storage.draw_offset+math.floor(w/textw)-1 do
-    if i>=element_storage.selection_startoffset+1 and i<=element_storage.selection_endoffset then
-      gfx.setfont(1, "Arial", 20, 86) 
-    else
-      gfx.setfont(1, "Arial", 20, 0) 
-    end
-    element_storage.draw_max=i-element_storage.draw_offset
-    
-    gfx.drawstr(element_storage.Text:utf8_sub(i,i))
-    if element_storage.hasfocus==true and element_storage.cursor_offset==i then 
-      gfx.set(1,0,0) 
-      gfx.line(gfx.x, y, gfx.x, y+gfx.texth) 
+end
 
-      if element_storage.hasfocus==true then gfx.set(1) else gfx.set(0.5) end
-    end
+function reagirl.InputBox_SetDisabled(element_id, state)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>InputBox_SetDisabled</slug>
+  <requires>
+    ReaGirl=1.0
+    Reaper=7
+    Lua=5.4
+  </requires>
+  <functioncall>reagirl.InputBox_SetDisabled(string element_id, boolean state)</functioncall>
+  <description>
+    Sets an inputbox as disabled(non clickable).
+  </description>
+  <parameters>
+    string element_id - the guid of the inputbox, whose disability-state you want to set
+    boolean state - true, the inputbox is disabled; false, the inputbox is not disabled.
+  </parameters>
+  <chapter_context>
+    InputBox
+  </chapter_context>
+  <tags>inputbox, set, disabled</tags>
+</US_DocBloc>
+--]]
+  if type(element_id)~="string" then error("InputBox_SetDisabled: param #1 - must be a string", 2) end
+  if reagirl.IsValidGuid(element_id, true)==nil then error("InputBox_SetDisabled: param #1 - must be a valid guid", 2) end
+  if type(state)~="boolean" then error("InputBox_SetDisabled: param #2 - must be a boolean", 2) end
+  element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
+  if element_id==-1 then error("InputBox_SetDisabled: param #1 - no such ui-element", 2) end
+  if reagirl.Elements[element_id]["GUI_Element_Type"]~="Edit" then
+    error("InputBox_SetDisabled: param #1 - ui-element is not an inputbox", 2)
+  else
+    reagirl.Elements[element_id]["IsDecorative"]=state
+    reagirl.Gui_ForceRefresh()
   end
-  --]]
-  
+end
+
+function reagirl.InputBox_GetDisabled(element_id)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>InputBox_GetDisabled</slug>
+  <requires>
+    ReaGirl=1.0
+    Reaper=7
+    Lua=5.4
+  </requires>
+  <functioncall>boolean retval = reagirl.InputBox_GetDisabled(string element_id)</functioncall>
+  <description>
+    Gets an inputbox's disabled(non clickable)-state.
+  </description>
+  <parameters>
+    string element_id - the guid of the inputbox, whose disability-state you want to get
+  </parameters>
+  <retvals>
+    boolean state - true, the inputbox is disabled; false, the inputbox is not disabled.
+  </retvals>
+  <chapter_context>
+    InputBox
+  </chapter_context>
+  <tags>inputbox, get, disabled</tags>
+</US_DocBloc>
+--]]
+  if type(element_id)~="string" then error("InputBox_GetDisabled: param #1 - must be a string", 2) end
+  if reagirl.IsValidGuid(element_id, true)==nil then error("InputBox_GetDisabled: param #1 - must be a valid guid", 2) end
+  element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
+  if reagirl.Elements[element_id]["GUI_Element_Type"]~="Edit" then
+    error("InputBox_GetDisabled: param #1 - ui-element is not a dropdown-menu", 2)
+  else
+    return reagirl.Elements[element_id]["IsDecorative"]
+  end
 end
 
 function reagirl.DropDownMenu_Add(x, y, w, caption, meaningOfUI_Element, menuItems, menuSelectedItem, run_function)
@@ -7846,10 +7879,12 @@ function click_button(test)
   --print(reagirl.Checkbox_GetTopBottom(A))
   if reagirl.Checkbox_GetDisabled(A)==true then
     reagirl.Checkbox_SetDisabled(A, false)
-    reagirl.DropDownMenu_SetDisabled(E, false)
+    reagirl.InputBox_SetDisabled(E, false)
+    --print2(reagirl.InputBox_GetDisabled(E, true))
   else
     reagirl.Checkbox_SetDisabled(A, true)
-    reagirl.DropDownMenu_SetDisabled(E, true)
+    reagirl.InputBox_SetDisabled(E, true)
+    --print2(reagirl.InputBox_GetDisabled(E, true))
   end
 end
 
@@ -7904,7 +7939,7 @@ function UpdateUI()
       Images[1]=filename
     end
   end
-reagirl.InputBox_Add(10,50,-10,"Inputbox Deloxe:___", "Se descrizzione", "ABCD..EF\nGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789", input1, input2)
+E=reagirl.InputBox_Add(10,50,-10,"Inputbox Deloxe:___", "Se descrizzione", "ABCD..EF\nGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789", input1, input2)
 --tabs_id=reagirl.Tabs_Add(nil, nil, nil, nil, "TUDELU", "Tabs", {"HUCH", "TUDELU", "Dune", "Ach Gotterl", "Leileileilei"}, 1, sliderme)
 reagirl.NextLine()
 --reagirl.Tabs_Add(nil, nil, 0, 0, "TUDELU", "Tabs", {"HUCH", "TUDELU", "Dune", "Ach Gotterl", "Leileileilei"}, 1, sliderme)
@@ -7958,7 +7993,7 @@ reagirl.NextLine()
   --reagirl.NextLine_SetMargin(10, 100)
   reagirl.NextLine()
   --A3 = reagirl.CheckBox_Add(nil, nil, "AAC", "Export file as MP3", true, CheckMe)
-  E = reagirl.DropDownMenu_Add(nil, nil, -100, "DropDownMenu:", "Desc of DDM", {"The", "Death", "Of", "A", "Party123456789012345678Hardy Hard Scooter Hyper Hyper How Much Is The Fish",2,3,4,5}, 5, sliderme)
+  E1 = reagirl.DropDownMenu_Add(nil, nil, -100, "DropDownMenu:", "Desc of DDM", {"The", "Death", "Of", "A", "Party123456789012345678Hardy Hard Scooter Hyper Hyper How Much Is The Fish",2,3,4,5}, 5, sliderme)
   reagirl.NextLine()
   A3 = reagirl.CheckBox_Add(nil, nil, "AAC", "Export file as MP3", true, CheckMe) A3 = reagirl.CheckBox_Add(nil, nil, "AAC", "Export file as MP3", true, CheckMe)
   F = reagirl.Slider_Add(nil, nil, 200, "Sliders Das Tor", "I am a slider", "%", 1, 100, 5.001, 1, sliderme)
