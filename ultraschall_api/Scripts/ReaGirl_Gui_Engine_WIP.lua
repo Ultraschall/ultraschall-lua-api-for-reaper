@@ -4092,13 +4092,15 @@ function reagirl.InputBox_OnTyping(Key, Key_UTF, mouse_cap, element_storage)
         element_storage.selection_endoffset=element_storage.cursor_offset
       end
     elseif mouse_cap&4==4 then
-      local found=0
+      -- ctrl+right
+      local found=element_storage.cursor_offset
       for i=element_storage.cursor_offset+1, element_storage.Text:utf8_len() do
         if element_storage.Text:utf8_sub(i,i):has_alphanumeric_plus_underscore()==false or element_storage.Text:utf8_sub(i,i):has_alphanumeric_plus_underscore()~=element_storage.Text:utf8_sub(i+1,i+1):has_alphanumeric_plus_underscore() then
           found=i
           break
         end
       end
+
       if mouse_cap&8==8 then
         if element_storage.selection_endoffset<found then
           element_storage.selection_endoffset=found
@@ -4133,7 +4135,7 @@ function reagirl.InputBox_OnTyping(Key, Key_UTF, mouse_cap, element_storage)
         element_storage.selection_endoffset=element_storage.cursor_offset
       end
     elseif mouse_cap&4==4 then
-      local found=0
+      local found=element_storage.cursor_offset
       for i=element_storage.cursor_offset-1, 0, -1 do
         if element_storage.Text:utf8_sub(i,i):has_alphanumeric_plus_underscore()==false or element_storage.Text:utf8_sub(i,i):has_alphanumeric_plus_underscore()~=element_storage.Text:utf8_sub(i+1,i+1):has_alphanumeric_plus_underscore() then
           found=i
