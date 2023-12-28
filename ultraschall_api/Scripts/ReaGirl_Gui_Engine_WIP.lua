@@ -1496,9 +1496,10 @@ function reagirl.Gui_Manage()
   if reagirl.Windows_OldH~=gfx.h then reagirl.Windows_OldH=gfx.h reagirl.Gui_ForceRefresh(2) end
   if reagirl.Windows_OldW~=gfx.w then reagirl.Windows_OldW=gfx.w reagirl.Gui_ForceRefresh(3) end
   
-  local ui_element_selected=0
+  reagirl.ui_element_selected="selected"
   -- Tab-key - next ui-element
   if gfx.mouse_cap&8==0 and Key==9 then 
+    local old_selection=reagirl.Elements.FocusedElement
     reagirl.Elements["FocusedElement"]=reagirl.UI_Element_GetNext(reagirl.Elements["FocusedElement"])
     --reagirl.Elements["FocusedElement"]=reagirl.Elements["FocusedElement"]+1 
     if reagirl.Elements["FocusedElement"]~=-1 then
@@ -1511,13 +1512,18 @@ function reagirl.Gui_Manage()
       reagirl.UI_Element_SetFocusRect()
       reagirl.old_osara_message=""
       reagirl.Gui_ForceRefresh(4) 
-      ui_element_selected=2
+      if old_selection~=reagirl.Elements.FocusedElement then
+        reagirl.ui_element_selected="first selected"
+      else
+        reagirl.ui_element_selected="selected"
+      end
     end
   end
   if reagirl.Elements["FocusedElement"]>#reagirl.Elements then reagirl.Elements["FocusedElement"]=1 end
   
   -- Shift+Tab-key - previous ui-element
   if gfx.mouse_cap&8==8 and Key==9 then 
+    local old_selection=reagirl.Elements.FocusedElement
     reagirl.Elements["FocusedElement"]=reagirl.UI_Element_GetPrevious(reagirl.Elements["FocusedElement"])
     if reagirl.Elements["FocusedElement"]~=-1 then
       if reagirl.Elements["FocusedElement"]<1 then reagirl.Elements["FocusedElement"]=#reagirl.Elements end
@@ -1530,7 +1536,11 @@ function reagirl.Gui_Manage()
       end
       reagirl.UI_Element_SetFocusRect()
       reagirl.Gui_ForceRefresh(5) 
-      ui_element_selected=2
+      if old_selection~=reagirl.Elements.FocusedElement then
+        reagirl.ui_element_selected="first selected"
+      else
+        reagirl.ui_element_selected="selected"
+      end
     end
   end
   if reagirl.Elements["FocusedElement"]<1 then reagirl.Elements["FocusedElement"]=#reagirl.Elements end
@@ -1606,8 +1616,13 @@ function reagirl.Gui_Manage()
            end
            
            -- set found ui-element as focused and clicked
-           reagirl.Elements["FocusedElement"]=i
-           ui_element_selected=2
+           local old_selection=reagirl.Elements.FocusedElement
+             reagirl.Elements["FocusedElement"]=i
+           if old_selection~=reagirl.Elements.FocusedElement then
+             reagirl.ui_element_selected="first selected"
+           else
+             reagirl.ui_element_selected="selected"
+           end
            reagirl.Elements[i]["clicked"]=true
            reagirl.UI_Element_SetFocusRect()
            reagirl.Gui_ForceRefresh(6) 
@@ -1700,16 +1715,9 @@ function reagirl.Gui_Manage()
         or (y2+reagirl.MoveItAllUp<=0 and y2+h2+reagirl.MoveItAllUp>=gfx.h))) or i>#reagirl.Elements-4)
         then--]]  
           -- run manage-function of ui-element
-          
-          if reagirl.Elements.FocusedElement==i and ui_element_selected==2 then 
-            ui_element_selected2=2
-          elseif reagirl.Elements.FocusedElement==i then 
-            ui_element_selected2=1
-          elseif reagirl.Elements.FocusedElement~=i then 
-            ui_element_selected2=0 
-          end
-          reagirl.Elements[i]["specific_selected"]=ui_element_selected2
-          local cur_message, refresh=reagirl.Elements[i]["func_manage"](i, reagirl.Elements.FocusedElement==i,
+          local selected="not selected"
+          if reagirl.Elements.FocusedElement==i then selected=reagirl.ui_element_selected end
+          local cur_message, refresh=reagirl.Elements[i]["func_manage"](i, selected,
             reagirl.UI_Elements_HoveredElement==i,
             specific_clickstate,
             gfx.mouse_cap,
@@ -1801,7 +1809,9 @@ function reagirl.Gui_Draw(Key, Key_utf, clickstate, specific_clickstate, mouse_c
         --]]
    --     print_update((x2+reagirl.MoveItAllRight>=0 and x2+reagirl.MoveItAllRight<=gfx.w), x2+MoveItAllRight, (x2+reagirl.MoveItAllRight+w2>=0 and x2+reagirl.MoveItAllRight+w2<=gfx.w))
         --AAAAA=AAAAA+1
-          local message=reagirl.Elements[i]["func_draw"](i, reagirl.Elements["FocusedElement"]==i,
+          local selected="not selected"
+          if reagirl.Elements.FocusedElement==i then selected=reagirl.ui_element_selected end
+          local message=reagirl.Elements[i]["func_draw"](i, selected,
             reagirl.UI_Elements_HoveredElement==i,
             specific_clickstate,
             gfx.mouse_cap,
@@ -3011,7 +3021,7 @@ end
 function reagirl.Checkbox_Manage(element_id, selected, hovered, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
   local refresh=false
 
-  if selected==true and ((clicked=="FirstCLK" and mouse_cap&1==1) or Key==32) then 
+  if selected~="not selected" and ((clicked=="FirstCLK" and mouse_cap&1==1) or Key==32) then 
     if (gfx.mouse_x>=x 
       and gfx.mouse_x<=x+w 
       and gfx.mouse_y>=y 
@@ -3674,18 +3684,14 @@ end
 
 function reagirl.Button_Manage(element_id, selected, hovered, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
   local message=" "
-  if element_storage["specific_selected"]==2 then 
-    message=" "
-  end
-
   local refresh=false
   local oldpressed=element_storage["pressed"]
-
-  if selected==true and Key==32 then 
+  
+  if selected~="not selected" and Key==32 then 
     element_storage["pressed"]=true
     message=""
     reagirl.Gui_ForceRefresh(12347)
-  elseif selected==true and mouse_cap&1~=0 and gfx.mouse_x>x and gfx.mouse_y>y and gfx.mouse_x<x+w and gfx.mouse_y<y+h then
+  elseif selected~="not selected" and mouse_cap&1~=0 and gfx.mouse_x>x and gfx.mouse_y>y and gfx.mouse_x<x+w and gfx.mouse_y<y+h then
     local oldstate=element_storage["pressed"]
     element_storage["pressed"]=true
     if oldstate~=element_storage["pressed"] then
@@ -4273,21 +4279,21 @@ function reagirl.InputBox_Manage(element_id, selected, hovered, clicked, mouse_c
     element_storage.h2=h
     refreshme=clicked
     -- mouse management
-    if selected==true and clicked=="FirstCLK" then 
+    if selected~="not selected" and clicked=="FirstCLK" then 
       element_storage["hasfocus"]=true
       if reagirl.mouse.down==false then
         reagirl.InputBox_OnMouseDown(mouse_cap, element_storage) 
         refresh=true
       end
-    elseif selected==true and clicked=="DBLCLK" then
+    elseif selected~="not selected" and clicked=="DBLCLK" then
       reagirl.InputBox_OnMouseDoubleClick(mouse_cap, element_storage)
       refresh=true
       element_storage["hasfocus"]=true
-    elseif selected==true and clicked=="DRAG" then --reagirl.mouse.down==true and clicked=="DRAG" then gfx.mouse_x~=reagirl.mouse.x or gfx.mouse_y~=reagirl.mouse.y then
+    elseif selected~="not selected" and clicked=="DRAG" then --reagirl.mouse.down==true and clicked=="DRAG" then gfx.mouse_x~=reagirl.mouse.x or gfx.mouse_y~=reagirl.mouse.y then
       reagirl.InputBox_OnMouseMove(mouse_cap, element_storage)
       refresh=true
       element_storage["hasfocus"]=true
-    elseif selected==true and reagirl.mouse.down==true then
+    elseif selected~="not selected" and reagirl.mouse.down==true then
       reagirl.InputBox_OnMouseUp(mouse_cap, element_storage)
       refresh=true
       element_storage["hasfocus"]=true
@@ -4563,7 +4569,7 @@ function reagirl.DropDownMenu_Manage(element_id, selected, hovered, clicked, mou
   end
   
   if w<20 then w=20 end
-  if selected==true then
+  if selected~="not selected" then
     reagirl.Scroll_Override=true
   end
   
@@ -4582,12 +4588,8 @@ function reagirl.DropDownMenu_Manage(element_id, selected, hovered, clicked, mou
       --reagirl.Gui_ForceRefresh()
     --end
   end
-  if element_storage["selected_old"]~=selected then
-    collapsed=""
-    element_storage["selected_old"]=selected
-  end
 
-  if selected==true then
+  if selected~="not selected" then
     if Key==32 or Key==13 then 
       element_storage["pressed"]=true
       collapsed=""
@@ -4617,7 +4619,7 @@ function reagirl.DropDownMenu_Manage(element_id, selected, hovered, clicked, mou
         element_storage["menuSelectedItem"]=element_storage["MenuCount"] 
         refresh=true
       end
-    elseif selected==true and (clicked=="FirstCLK" and mouse_cap&1==1) and (gfx.mouse_x>=x+cap_w and gfx.mouse_x<=x+w and gfx.mouse_y>=y and gfx.mouse_y<=y+h) then
+    elseif selected~="not selected" and (clicked=="FirstCLK" and mouse_cap&1==1) and (gfx.mouse_x>=x+cap_w and gfx.mouse_x<=x+w and gfx.mouse_y>=y and gfx.mouse_y<=y+h) then
       element_storage["pressed"]=true
       collapsed=""
       --refresh=true
@@ -4726,7 +4728,7 @@ function reagirl.DropDownMenu_Draw(element_id, selected, hovered, clicked, mouse
       gfx.set(0.09)
       gfx.drawstr(menuentry,0,x+w-21*dpi_scale, gfx.y+gfx.texth)
       
-      gfx.x=x+15+offset+cap_w--+(w-sw)/2+1
+      gfx.x=x+(7*dpi_scale)+offset+cap_w--+(w-sw)/2+1
       gfx.y=y+(h-sh)/2+offset
       gfx.set(0.55)
       gfx.drawstr(menuentry,0,x+w-21*dpi_scale, gfx.y+gfx.texth)
@@ -4863,8 +4865,8 @@ function reagirl.DropDownMenu_SetMenuItems(element_id, menuItems, menuSelectedIt
     string element_id - the guid of the dropdown-menu, whose menuitems/default you want to get
   </parameters>
   <retvals>
-    table menuItems - 
-    integer menuSelectedItem - 
+    table menuItems - an indexed table with all the menu-items
+    integer menuSelectedItem - the index of the pre-selected menu-item
   </retvals>
   <chapter_context>
     DropDown Menu
@@ -5062,7 +5064,7 @@ end
 
 function reagirl.Label_Manage(element_id, selected, hovered, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
   --if Key==3 and selected==true then reaper.CF_SetClipboard(name) end
-  if gfx.mouse_cap&2==2 and selected==true and gfx.mouse_x>=x and gfx.mouse_x<=x+w and gfx.mouse_y>=y and gfx.mouse_y<=y+h then
+  if gfx.mouse_cap&2==2 and selected~="not selected" and gfx.mouse_x>=x and gfx.mouse_x<=x+w and gfx.mouse_y>=y and gfx.mouse_y<=y+h then
     local oldx, oldy=gfx.x, gfx.y
     gfx.x=gfx.mouse_x
     gfx.y=gfx.mouse_y
@@ -5071,7 +5073,7 @@ function reagirl.Label_Manage(element_id, selected, hovered, clicked, mouse_cap,
     gfx.y=oldy
     --if selection==1 then reaper.CF_SetClipboard(name) end
   end
-  if element_storage["clickable"]==true and (Key==13 or gfx.mouse_cap&1==1) and selected==true and gfx.mouse_x>=x and gfx.mouse_x<=x+w and gfx.mouse_y>=y and gfx.mouse_y<=y+h then
+  if element_storage["clickable"]==true and (Key==13 or gfx.mouse_cap&1==1) and selected~="not selected" and gfx.mouse_x>=x and gfx.mouse_x<=x+w and gfx.mouse_y>=y and gfx.mouse_y<=y+h then
     if element_storage["run_function"]~=nil then reagirl.Elements[element_id]["run_function"](element_storage["Guid"]) end
   end
   return " ", false
@@ -5664,7 +5666,7 @@ end
 
 
 function reagirl.Image_Manage(element_id, selected, hovered, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
-  if selected==true and 
+  if selected~="not selected" and 
     (Key==32 or mouse_cap==1) and 
     (gfx.mouse_x>=x and gfx.mouse_x<=x+w and gfx.mouse_y>=y and gfx.mouse_y<=y+h) 
     and clicked=="FirstCLK" and
@@ -5692,7 +5694,7 @@ function reagirl.Image_Manage(element_id, selected, hovered, clicked, mouse_cap,
   if element_storage["Draggable"]==true then
   
   end
-  if selected==true then
+  if selected~="not selected" then
     message=" "
   else
     message=""
@@ -6276,9 +6278,9 @@ end
 function reagirl.ScrollButton_Right_Manage(element_id, selected, hovered, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
   if reagirl.Scroll_Override_ScrollButtons==true then return "" end
   if element_storage.IsDecorative==false and element_storage.a<=0.75 then element_storage.a=element_storage.a+.1 reagirl.Gui_ForceRefresh(99.3) end
-  if mouse_cap&1==1 and selected==true and gfx.mouse_x>=x and gfx.mouse_x<=x+w and gfx.mouse_y>=y and gfx.mouse_y<=y+h then
+  if mouse_cap&1==1 and selected~="not selected" and gfx.mouse_x>=x and gfx.mouse_x<=x+w and gfx.mouse_y>=y and gfx.mouse_y<=y+h then
     reagirl.UI_Element_ScrollX(-2)
-  elseif selected==true and Key==32 then
+  elseif selected~="not selected" and Key==32 then
     reagirl.UI_Element_ScrollX(-15)
   end
   return ""
@@ -6300,7 +6302,7 @@ function reagirl.ScrollButton_Right_Draw(element_id, selected, hovered, clicked,
   local oldr, oldg, oldb, olda = gfx.r, gfx.g, gfx.b, gfx.a
   gfx.set(reagirl["WindowBackgroundColorR"], reagirl["WindowBackgroundColorG"], reagirl["WindowBackgroundColorB"], element_storage.a)
   gfx.rect(gfx.w-15*scale+x_offset, gfx.h-15*scale, 15*scale, 15*scale, 1)
-  if mouse_cap==1 and selected==true then
+  if mouse_cap==1 and selected~="not selected" then
     gfx.set(0.59, 0.59, 0.59, element_storage.a)
   else
     gfx.set(0.39, 0.39, 0.39, element_storage.a)
@@ -6338,9 +6340,9 @@ end
 function reagirl.ScrollButton_Left_Manage(element_id, selected, hovered, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
   if reagirl.Scroll_Override_ScrollButtons==true then return "" end
   if element_storage.IsDecorative==false and element_storage.a<=0.75 then element_storage.a=element_storage.a+.1 reagirl.Gui_ForceRefresh(99.2) end
-  if mouse_cap&1==1 and selected==true and gfx.mouse_x>=x and gfx.mouse_x<=x+w and gfx.mouse_y>=y and gfx.mouse_y<=y+h then
+  if mouse_cap&1==1 and selected~="not selected" and gfx.mouse_x>=x and gfx.mouse_x<=x+w and gfx.mouse_y>=y and gfx.mouse_y<=y+h then
     reagirl.UI_Element_ScrollX(2)
-  elseif selected==true and Key==32 then
+  elseif selected~="not selected" and Key==32 then
     reagirl.UI_Element_ScrollX(15)
   end
   return ""
@@ -6362,7 +6364,7 @@ function reagirl.ScrollButton_Left_Draw(element_id, selected, hovered, clicked, 
   local oldr, oldg, oldb, olda = gfx.r, gfx.g, gfx.b, gfx.a
   gfx.set(reagirl["WindowBackgroundColorR"], reagirl["WindowBackgroundColorG"], reagirl["WindowBackgroundColorB"], element_storage.a)
   gfx.rect(0, gfx.h-15*scale, 15*scale, 15*scale, 1)
-  if mouse_cap==1 and selected==true then
+  if mouse_cap==1 and selected~="not selected" then
     gfx.set(0.59, 0.59, 0.59, element_storage.a)
   else
     gfx.set(0.39, 0.39, 0.39, element_storage.a)
@@ -6400,9 +6402,9 @@ end
 function reagirl.ScrollButton_Up_Manage(element_id, selected, hovered, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
   if reagirl.Scroll_Override_ScrollButtons==true then return "" end
   if element_storage.IsDecorative==false and element_storage.a<=0.75 then element_storage.a=element_storage.a+.1 reagirl.Gui_ForceRefresh(99.5) end
-  if mouse_cap&1==1 and selected==true and gfx.mouse_x>=x and gfx.mouse_x<=x+w and gfx.mouse_y>=y and gfx.mouse_y<=y+h then
+  if mouse_cap&1==1 and selected~="not selected" and gfx.mouse_x>=x and gfx.mouse_x<=x+w and gfx.mouse_y>=y and gfx.mouse_y<=y+h then
     reagirl.UI_Element_ScrollY(2)
-  elseif selected==true and Key==32 then
+  elseif selected~="not selected" and Key==32 then
     reagirl.UI_Element_ScrollY(15)
   end
   return ""
@@ -6424,7 +6426,7 @@ function reagirl.ScrollButton_Up_Draw(element_id, selected, hovered, clicked, mo
   local oldr, oldg, oldb, olda = gfx.r, gfx.g, gfx.b, gfx.a
   gfx.set(reagirl["WindowBackgroundColorR"], reagirl["WindowBackgroundColorG"], reagirl["WindowBackgroundColorB"], element_storage.a)
   gfx.rect(gfx.w-15*scale, 0, 15*scale, 15*scale, 1)
-  if mouse_cap==1 and selected==true then
+  if mouse_cap==1 and selected~="not selected" then
     gfx.set(0.59, 0.59, 0.59, element_storage.a)
   else
     gfx.set(0.39, 0.39, 0.39, element_storage.a)
@@ -6464,9 +6466,9 @@ function reagirl.ScrollButton_Down_Manage(element_id, selected, hovered, clicked
   
   if element_storage.IsDecorative==false and element_storage.a<=0.75 then element_storage.a=element_storage.a+.1 reagirl.Gui_ForceRefresh(99.5) end
   refresh_1=clicked
-  if mouse_cap&1==1 and selected==true and gfx.mouse_x>=x and gfx.mouse_x<=x+w and gfx.mouse_y>=y and gfx.mouse_y<=y+h then
+  if mouse_cap&1==1 and selected~="not selected" and gfx.mouse_x>=x and gfx.mouse_x<=x+w and gfx.mouse_y>=y and gfx.mouse_y<=y+h then
     reagirl.UI_Element_ScrollY(-2)
-  elseif selected==true and Key==32 then
+  elseif selected~="not selected" and Key==32 then
     reagirl.UI_Element_ScrollY(-15)
   end
   return ""
@@ -6489,7 +6491,7 @@ function reagirl.ScrollButton_Down_Draw(element_id, selected, hovered, clicked, 
   local oldr, oldg, oldb, olda = gfx.r, gfx.g, gfx.b, gfx.a
   gfx.set(reagirl["WindowBackgroundColorR"], reagirl["WindowBackgroundColorG"], reagirl["WindowBackgroundColorB"], element_storage.a)
   gfx.rect(gfx.w-15*scale, gfx.h-30*scale, 15*scale, 15*scale, 1)
-  if mouse_cap==1 and selected==true then
+  if mouse_cap==1 and selected~="not selected" then
     gfx.set(0.59, 0.59, 0.59, element_storage.a)
   else
     gfx.set(0.39, 0.39, 0.39, element_storage.a)
@@ -6743,7 +6745,7 @@ function reagirl.Slider_Manage(element_id, selected, hovered, clicked, mouse_cap
   local offset_unit=element_storage["unit_w"]
   element_storage["slider_w"]=math.tointeger(w-element_storage["cap_w"]-element_storage["unit_w"]-10)
   local dpi_scale=reagirl.Window_GetCurrentScale()
-  if selected==true then
+  if selected~="not selected" then
     reagirl.Scroll_Override=true
     if Key==1919379572.0 or Key==1685026670.0 then element_storage["CurValue"]=element_storage["CurValue"]+element_storage["Step"] refresh=true reagirl.Scroll_Override=true end
     if Key==1818584692.0 or Key==30064.0 then element_storage["CurValue"]=element_storage["CurValue"]-element_storage["Step"] refresh=true reagirl.Scroll_Override=true end
@@ -7630,7 +7632,7 @@ function reagirl.Tabs_Manage(element_id, selected, hovered, clicked, mouse_cap, 
   end
   
   -- click management for the tabs
-  if selected==true and element_storage["Tabs_Pos"]~=nil then
+  if selected~="not selected" and element_storage["Tabs_Pos"]~=nil then
     reagirl.Gui_PreventScrollingForOneCycle(true, false)
     for i=1, #element_storage["Tabs_Pos"] do
       --if gfx.mouse_x>=x+element_storage["Tabs_Pos"]
@@ -7700,7 +7702,7 @@ function reagirl.Tabs_Draw(element_id, selected, hovered, clicked, mouse_cap, mo
     element_storage["Tabs_Pos"][i]["h"]=tab_height+ty
     
     x_offset=x_offset+math.tointeger(tx)+text_offset_x+text_offset_x+dpi_scale*2
-    if selected==true and i==element_storage["TabSelected"] then
+    if selected~="not selected" and i==element_storage["TabSelected"] then
       reagirl.UI_Element_SetFocusRect(true, math.tointeger(gfx.x), y+text_offset_y, math.tointeger(tx), math.tointeger(ty))
     end
     
@@ -7740,7 +7742,7 @@ function reagirl.Tabs_Draw(element_id, selected, hovered, clicked, mouse_cap, mo
            element_storage["Tabs_Pos"][element_storage["TabSelected"] ]["w"],--+element_storage["Tabs_Pos"][element_storage["TabSelected"] ]["w"], 
            dpi_scale, 0)
   
-  if selected==true then
+  if selected~="not selected" then
     --reagirl.UI_Element_SetFocusRect(true, x, y, math.tointeger(tx), math.tointeger(ty))
   end
   
