@@ -3984,6 +3984,7 @@ function reagirl.InputBox_OnMouseMove(mouse_cap, element_storage)
     
     if startoffs<element_storage.cursor_startoffset then
       element_storage.selection_startoffset=element_storage.draw_offset
+      element_storage.selection_endoffset=element_storage.cursor_startoffset
     end
     
     reagirl.InputBox_Calculate_DrawOffset(true, element_storage)
@@ -3999,7 +4000,8 @@ function reagirl.InputBox_OnMouseMove(mouse_cap, element_storage)
     end
 
     if endoffs>element_storage.cursor_startoffset then
-      --element_storage.selection_endoffset=element_storage.draw_offset_end
+      element_storage.selection_startoffset=element_storage.cursor_startoffset
+      element_storage.selection_endoffset=element_storage.draw_offset_end
     end
     
     
