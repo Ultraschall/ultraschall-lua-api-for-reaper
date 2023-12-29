@@ -5,9 +5,9 @@ dofile(reaper.GetResourcePath().."/UserPlugins/ultraschall_api.lua")
 
 --[[
 TODO: 
-  - Tabs: cursor-selection is triggered when moving cursor in the inputbox
   - InputBox: autopositioning doesn't work yet
   - InputBox: runfunctions not yet implemented...oops
+              
   - jumping to ui-elements outside window(means autoscroll to them) doesn't always work
     - ui-elements might still be out of view when jumping to them(x-coordinate outside of window for instance)
   - Slider: disappears when scrolling upwards/leftwards: because of the "only draw neccessary gui-elements"-code, which is buggy for some reason
@@ -16,6 +16,7 @@ TODO:
   - reagirl.UI_Element_NextX_Default=10 - changing it only offsets the second line ff, not the first line
   - Background_GetSetImage - check, if the background image works properly with scaling and scrolling
   - Image: reload of scaled image-override; if override==true then it loads only the image.png, not image-2x.png
+  - Labels: style like underlined, highlighted, italic, etc
   - Labels: ACCHoverMessage should hold the text of the paragraph the mouse is hovering above only
             That way, not everything is read out as message to TTS, only the hovered paragraph.
             This makes reading longer label-texts much easier.
@@ -3816,7 +3817,7 @@ end
 
 
 
-function reagirl.InputBox_Add(x, y, w, Caption, MeaningOfUI_Element, Default, run_function_enter, run_function_type)
+function reagirl.InputBox_Add(x, y, w, Caption, Cap_width, MeaningOfUI_Element, Default, run_function_enter, run_function_type)
   reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0, 1)
   local tx,ty=gfx.measurestr(Caption)
   reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0)
@@ -3831,6 +3832,7 @@ function reagirl.InputBox_Add(x, y, w, Caption, MeaningOfUI_Element, Default, ru
   reagirl.Elements[slot]["IsDecorative"]=false
   reagirl.Elements[slot]["AccHint"]="Hit Enter to type text."
   reagirl.Elements[slot]["z_buffer"]=128
+  reagirl.Elements[slot]["Cap_width"]=Cap_width
   reagirl.Elements[slot]["x"]=x
   reagirl.Elements[slot]["y"]=y
   reagirl.Elements[slot]["w"]=w
@@ -3922,8 +3924,14 @@ function reagirl.InputBox_GetTextOffset(x,y,element_storage)
   -- BUGGY!
   -- Offset is off
   local dpi_scale = reagirl.Window_GetCurrentScale()
-  local cap_w=gfx.measurestr(element_storage["Name"])
-  cap_w=math.tointeger(cap_w)+dpi_scale*5+5*dpi_scale
+  local cap_w
+  if element_storage["Cap_width"]==nil then
+    cap_w=gfx.measurestr(element_storage["Name"])
+    cap_w=math.tointeger(cap_w)+dpi_scale*5+5*dpi_scale
+  else
+    cap_w=element_storage["Cap_width"]*dpi_scale
+  end
+  
   local startoffs=element_storage.x2+cap_w
   local cursoffs=element_storage.draw_offset
   
@@ -4396,7 +4404,13 @@ function reagirl.InputBox_Calculate_DrawOffset(forward, element_storage)
   reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0)
   local dpi_scale = reagirl.Window_GetCurrentScale()
   --local cap_w=element_storage["cap_w"]
-  local cap_w=gfx.measurestr(element_storage["Name"])+dpi_scale*5
+  local cap_w
+  if element_storage["Cap_width"]==nil then
+    cap_w=gfx.measurestr(element_storage["Name"])+dpi_scale*5
+  else
+    cap_w=element_storage["Cap_width"]*dpi_scale
+  end
+  
   if element_storage["x"]<0 then x2=gfx.w+element_storage["x"]*dpi_scale else x2=element_storage["x"]*dpi_scale end
   if element_storage["w"]<0 then w2=gfx.w-x2+element_storage["w"]*dpi_scale else w2=element_storage["w"]*dpi_scale end
   local w2=w2-cap_w
@@ -4423,8 +4437,14 @@ end
 function reagirl.InputBox_Draw(element_id, selected, hovered, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
   local dpi_scale=reagirl.Window_GetCurrentScale()
   reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0)
-  local cap_w=gfx.measurestr(element_storage["Name"])
-  cap_w=math.tointeger(cap_w)+dpi_scale*5
+  
+  local cap_w
+  if element_storage["Cap_width"]==nil then
+    cap_w=gfx.measurestr(element_storage["Name"])
+    cap_w=math.tointeger(cap_w)+dpi_scale*5
+  else
+    cap_w=element_storage["Cap_width"]*dpi_scale
+  end
   
   -- draw caption
   gfx.x=x
@@ -8053,24 +8073,25 @@ function UpdateUI()
   reagirl.Tabs_Add(10, 10, -10, 420, "Add Shownote", "", {"General", "Advanced"}, 1, tabme)
   reagirl.NextLine()
   reagirl.Label_Add(nil, nil, "General Attributes:", "", 0, false, nil)
-  reagirl.InputBox_Add(50, 70, -20, "Title:          ", "", "Malik testet Hackintoshis", nil, nil)
-  reagirl.InputBox_Add(50, 92, -20, "Description:", "", "Neue Hackintoshs braucht das Land", nil, nil)
-  reagirl.InputBox_Add(50, 114, -20, "Tags:         ", "", "Hackies, und, so", nil, nil)
+  reagirl.InputBox_Add(50, 70, -20, "Title:", 100, "", "Malik testet Hackintoshis", nil, nil)
+  reagirl.InputBox_Add(50, 92, -20, "Description:", 100, "","Neue Hackintoshs braucht das Land", nil, nil)
+  reagirl.InputBox_Add(50, 114, -20, "Tags:", 100, "", "Hackies, und, so", nil, nil)
   
-  reagirl.CheckBox_Add(120, 138, "Spoiler Warning", "", true, tabme)
-  reagirl.CheckBox_Add(120, 160, "Is Advertisement", "", true, tabme)
-  reagirl.InputBox_Add(50, 182, -20, "CN:           ", "", "Hackies, und, so", nil, nil)
+  reagirl.CheckBox_Add(148, 138, "Spoiler Warning", "", true, tabme)
+  reagirl.CheckBox_Add(148, 160, "Is Advertisement", "", true, tabme)
+  reagirl.InputBox_Add(50, 182, -20, "CN:           ", 100, "", "Hackies, und, so", nil, nil)
   
   reagirl.Label_Add(40, 210, "URL-Attributes:", "", 0, false, nil)
-  reagirl.InputBox_Add(50, 228, -20, "Url:                 ", "", "hbbs:/audiodump.de", nil, nil)
-  reagirl.InputBox_Add(50, 250, -20, "Url description:", "", "Der besteste Audiodnmps auf se welt", nil, nil)
+  reagirl.InputBox_Add(50, 228, -20, "Url:", 100, "", "hbbs:/audiodump.de", nil, nil)
+  reagirl.InputBox_Add(50, 250, -20, "Url description:", 100, "", "Der besteste Audiodnmps auf se welt", nil, nil)
   
   reagirl.Label_Add(40, 315, "Chapter Image:", "", 0, false, nil)
   reagirl.Image_Add("c:\\c.png", 50, 340, 100, 100, "Chapter Image", "", tabme)
-  reagirl.InputBox_Add(160, 340, -20, "Description: ", "", "Cover of DFVA", nil, nil)
-  reagirl.InputBox_Add(160, 365, -20, "License:      ", "", "CC-By-NC", nil, nil)
-  reagirl.InputBox_Add(160, 390, -20, "Origin:         ", "", "Wikipedia", nil, nil)
-  reagirl.InputBox_Add(160, 415, -20, "Origin-URL:  ", "", "https://www.wikipedia.com/dfva", nil, nil)
+  reagirl.InputBox_Add(160, 340, -20, "Description: ", 100, "", "Cover of DFVA", nil, nil)
+  reagirl.InputBox_Add(160, 365, -20, "License:      ", 100, "", "CC-By-NC", nil, nil)
+  reagirl.InputBox_Add(160, 390, -20, "Origin:         ", 100, "", "Wikipedia", nil, nil)
+  reagirl.InputBox_Add(160, 415, -20, "Origin-URL:  ", 100, "", "https://www.wikipedia.com/dfva", nil, nil)
+  --]]
 end
 
 
