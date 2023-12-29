@@ -1794,12 +1794,16 @@ function reagirl.Gui_Draw(Key, Key_utf, clickstate, specific_clickstate, mouse_c
     for i=1, #reagirl.Elements, 1 do
       if reagirl.Elements[i]["hidden"]~=true then
         local x2, y2, w2, h2
+        local w_add=0
+        if reagirl.Elements[i]["GUI_Element_Type"]=="Tabs" then
+          w_add=reagirl.Elements[i]["h_background"]
+        end
         if reagirl.Elements[i]["x"]<0 then x2=gfx.w+(reagirl.Elements[i]["x"]*scale) else x2=reagirl.Elements[i]["x"]*scale end
         if reagirl.Elements[i]["y"]<0 then y2=gfx.h+(reagirl.Elements[i]["y"]*scale) else y2=reagirl.Elements[i]["y"]*scale end
         
         --if reagirl.Elements[i]["w"]<0 then w2=gfx.w-(x2+reagirl.Elements[i]["w"]*scale) else w2=reagirl.Elements[i]["w"]*scale end
         if reagirl.Elements[i]["w"]<0 then w2=gfx.w+(-x2+reagirl.Elements[i]["w"]*scale) else w2=reagirl.Elements[i]["w"]*scale end
-        if reagirl.Elements[i]["h"]<0 then h2=gfx.h+(-y2+reagirl.Elements[i]["h"]*scale) else h2=reagirl.Elements[i]["h"]*scale end
+        if reagirl.Elements[i]["h"]<0 then h2=gfx.h+(-y2+(reagirl.Elements[i]["h"]+w_add)*scale) else h2=(reagirl.Elements[i]["h"]+w_add)*scale end
 
   
         local MoveItAllUp=reagirl.MoveItAllUp  
