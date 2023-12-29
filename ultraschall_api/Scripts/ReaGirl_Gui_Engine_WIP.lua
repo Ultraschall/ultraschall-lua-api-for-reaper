@@ -3820,11 +3820,37 @@ end
 
 
 function reagirl.InputBox_Add(x, y, w, Caption, Cap_width, MeaningOfUI_Element, Default, run_function_enter, run_function_type)
+  
+  local slot=reagirl.UI_Element_GetNextFreeSlot()
+  if x==nil then 
+    x=reagirl.UI_Element_NextX_Default
+    if slot-1==0 or reagirl.UI_Element_NextLineY>0 then
+      x=reagirl.UI_Element_NextLineX
+    elseif slot-1>0 then
+      x=reagirl.Elements[slot-1]["x"]+reagirl.Elements[slot-1]["w"]+10
+      for i=slot-1, 1, -1 do
+        if reagirl.Elements[i]["IsDecorative"]==false then
+          local w2=reagirl.Elements[i]["w"]
+          --print2(reagirl.Elements[i]["h"], w2)
+          x=reagirl.Elements[i]["x"]+w2+reagirl.UI_Element_NextX_Margin
+          break
+        end
+      end
+    end
+  end
+  
+  if y==nil then 
+    y=reagirl.UI_Element_NextY_Default
+    if slot-1>0 then
+      y=reagirl.Elements[slot-1]["y"]+reagirl.UI_Element_NextLineY
+      reagirl.UI_Element_NextLineY=0
+    end
+  end  
+  
   reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0, 1)
   local tx,ty=gfx.measurestr(Caption)
   reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0)
   
-  local slot=reagirl.UI_Element_GetNextFreeSlot()
   table.insert(reagirl.Elements, slot, {})
   reagirl.Elements[slot]["Guid"]=reaper.genGuid("")
   reagirl.Elements[slot]["GUI_Element_Type"]="Edit"
@@ -8074,33 +8100,48 @@ local count2=0
 function UpdateUI()
   reagirl.Background_GetSetColor(true, 44,44,44)
   
-  reagirl.Tabs_Add(10, 10, -10, 420, "Add Shownote", "", {"General", "Advanced"}, 1, tabme)
+  reagirl.Tabs_Add(10, 10, -10, 360, "Add Shownote", "", {"General", "Advanced"}, 1, tabme)
   reagirl.NextLine()
   reagirl.Label_Add(nil, nil, "General Attributes:", "", 0, false, nil)
-  reagirl.InputBox_Add(50, 70, -20, "Title:", 100, "", "Malik testet Hackintoshis", nil, nil)
-  reagirl.InputBox_Add(50, 92, -20, "Description:", 100, "","Neue Hackintoshs braucht das Land", nil, nil)
-  reagirl.InputBox_Add(50, 114, -20, "Tags:", 100, "", "Hackies, und, so", nil, nil)
+  reagirl.NextLine()
+  reagirl.InputBox_Add(40, nil, -20, "Title:", 100, "", "Malik testet Hackintoshis", nil, nil)
+  reagirl.NextLine()
+  reagirl.InputBox_Add(40, nil, -20, "Description:", 100, "","Neue Hackintoshs braucht das Land", nil, nil)
+  reagirl.NextLine()
+  reagirl.InputBox_Add(40, nil, -20, "Tags:", 100, "", "Hackies, und, so", nil, nil)
   
-  reagirl.CheckBox_Add(148, 138, "Spoiler Warning", "", true, tabme)
-  reagirl.CheckBox_Add(148, 160, "Is Advertisement", "", true, tabme)
-  reagirl.InputBox_Add(50, 182, -20, "CN:           ", 100, "", "Hackies, und, so", nil, nil)
+  reagirl.NextLine()
+  reagirl.CheckBox_Add(138, nil, "Spoiler Warning", "", true, tabme)
+  reagirl.NextLine()
+  reagirl.CheckBox_Add(138, nil, "Is Advertisement", "", true, tabme)
+  reagirl.NextLine()
+  reagirl.InputBox_Add(40, nil, -20, "CN:           ", 100, "", "Hackies, und, so", nil, nil)
   
-  reagirl.Label_Add(40, 210, "URL-Attributes:", "", 0, false, nil)
-  reagirl.InputBox_Add(50, 228, -20, "Url:", 100, "", "hbbs:/audiodump.de", nil, nil)
-  reagirl.InputBox_Add(50, 250, -20, "Url description:", 100, "", "Der besteste Audiodnmps auf se welt", nil, nil)
+  reagirl.NextLine()
+  reagirl.Label_Add(nil, nil, "URL-Attributes:", "", 0, false, nil)
+  reagirl.NextLine()
+  reagirl.InputBox_Add(40, nil, -20, "Url:", 100, "", "hbbs:/audiodump.de", nil, nil)
+  reagirl.NextLine()
+  reagirl.InputBox_Add(40, nil, -20, "Url description:", 100, "", "Der besteste Audiodnmps auf se welt", nil, nil)
   
-  reagirl.Label_Add(40, 315, "Chapter Image:", "", 0, false, nil)
-  reagirl.Image_Add("c:\\c.png", 50, 340, 100, 100, "Chapter Image", "", tabme)
-  reagirl.InputBox_Add(160, 340, -20, "Description: ", 100, "", "Cover of DFVA", nil, nil)
-  reagirl.InputBox_Add(160, 365, -20, "License:      ", 100, "", "CC-By-NC", nil, nil)
-  reagirl.InputBox_Add(160, 390, -20, "Origin:         ", 100, "", "Wikipedia", nil, nil)
-  reagirl.InputBox_Add(160, 415, -20, "Origin-URL:  ", 100, "", "https://www.wikipedia.com/dfva", nil, nil)
+  reagirl.NextLine()
+  reagirl.Label_Add(nil, nil, "Chapter Image:", "", 0, false, nil)
+  reagirl.NextLine()
+  reagirl.Image_Add("c:\\c.png", 40, nil, 100, 100, "Chapter Image", "", tabme)
+  reagirl.NextLine()
+  reagirl.InputBox_Add(160, 270, -20, "Description: ", 100, "", "Cover of DFVA", nil, nil)
+  reagirl.NextLine()
+  reagirl.InputBox_Add(160, 290, -20, "License:      ", 100, "", "CC-By-NC", nil, nil)
+  reagirl.NextLine()
+  reagirl.InputBox_Add(160, 310, -20, "Origin:         ", 100, "", "Wikipedia", nil, nil)
+  reagirl.NextLine()
+  reagirl.InputBox_Add(160, 330, -20, "Origin-URL:  ", 100, "", "https://www.wikipedia.com/dfva", nil, nil)
   --]]
 end
 
 
 Images={reaper.GetResourcePath().."/Scripts/Ultraschall_Gfx/Headers/soundcheck_logo.png","c:\\f.png","c:\\m.png"}
-reagirl.Gui_Open("Edit Chapter Marker Attributes", "Edit Chapter marker", 450, 480, reagirl.DockState_Retrieve("Stonehenge"), 1, 1)
+reagirl.Gui_Open("Edit Chapter Marker Attributes", "Edit Chapter marker", 370, 405, reagirl.DockState_Retrieve("Stonehenge"), 1, 1)
 
 UpdateUI()
 --reagirl.Window_ForceSize_Minimum(320, 200)
