@@ -1,7 +1,7 @@
 dofile(reaper.GetResourcePath().."/UserPlugins/ultraschall_api.lua")
 
 -- DEBUG:
---reaper.osara_outputMessage=nil
+reaper.osara_outputMessage=nil
 
 --[[
 TODO: 
@@ -75,10 +75,12 @@ reagirl.mouse.x=gfx.mouse_x
 reagirl.mouse.y=gfx.mouse_y
 reagirl.mouse.dragged=false
 
-reagirl.OSARA=reaper.osara_outputMessage
-function reaper.osara_outputMessage(message, a)
-  --if message~="" then print_update(message,a) end
-  reagirl.OSARA(message)
+if reagirl.osara_outputMessage~=nil then
+  reagirl.OSARA=reaper.osara_outputMessage
+  function reaper.osara_outputMessage(message, a)
+    --if message~="" then print_update(message,a) end
+    reagirl.OSARA(message)
+  end
 end
 --]]
 
@@ -4290,7 +4292,6 @@ function reagirl.InputBox_Manage(element_id, selected, hovered, clicked, mouse_c
   local refresh=false
 
   if reaper.osara_outputMessage~=nil then
-    
     reagirl.Gui_PreventEnterForOneCycle()
     if selected~="not selected" and (Key==13 or (mouse_cap&1==1 and gfx.mouse_x>=x and gfx.mouse_x<=x+w and gfx.mouse_y>=y and gfx.mouse_y<=y+h)) then
       local retval, text = reaper.GetUserInputs("Enter or edit the text", 1, ",extrawidth=150", element_storage.Text)
@@ -4300,6 +4301,9 @@ function reagirl.InputBox_Manage(element_id, selected, hovered, clicked, mouse_c
       end
     end
   else
+    if selected=="not selected" then
+      element_storage.hasfocus=false
+    end
     if selected=="first selected" then
       element_storage["cursor_offset"]=element_storage["Text"]:utf8_len()
       element_storage["draw_offset_end"]=element_storage["Text"]:utf8_len()
@@ -4314,7 +4318,7 @@ function reagirl.InputBox_Manage(element_id, selected, hovered, clicked, mouse_c
     gfx.setfont(1, "Arial", 20, 0)
   
     
-    if (gfx.mouse_x>=x and gfx.mouse_y>=y and gfx.mouse_x<=x+w and gfx.mouse_y<=y+h) then 
+    if selected~="not selected" and (gfx.mouse_x>=x and gfx.mouse_y>=y and gfx.mouse_x<=x+w and gfx.mouse_y<=y+h) then 
       -- mousewheel scroll the text inside the input-box via hmousewheel(doesn't work properly, yet)
       reagirl.Gui_PreventScrollingForOneCycle(true, true, false)
       if mouse_attributes[6]<0 then 
