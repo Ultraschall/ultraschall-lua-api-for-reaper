@@ -3038,7 +3038,7 @@ end
 function reagirl.Checkbox_Manage(element_id, selected, hovered, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
   local refresh=false
 
-  if selected~="not selected" and ((clicked=="FirstCLK" and mouse_cap&1==1) or Key==32) then 
+  if selected~="not selected" and (((clicked=="FirstCLK" or clicked=="DBLCLK" )and mouse_cap&1==1) or Key==32) then 
     if (gfx.mouse_x>=x 
       and gfx.mouse_x<=x+w 
       and gfx.mouse_y>=y 
@@ -4087,9 +4087,13 @@ function reagirl.InputBox_GetNextPOI(element_storage)
 end
 
 function reagirl.InputBox_OnMouseDoubleClick(mouse_cap, element_storage)
-  if element_storage.hasfocus==true then
+  local newoffs, startoffs, endoffs=reagirl.InputBox_GetTextOffset(gfx.mouse_x, gfx.mouse_y, element_storage)
+  if element_storage.hasfocus==true and newoffs~=-1 then
     element_storage.selection_startoffset=reagirl.InputBox_GetPreviousPOI(element_storage)
     element_storage.selection_endoffset=reagirl.InputBox_GetNextPOI(element_storage)
+  else
+    element_storage.selection_startoffset=0
+    element_storage.selection_endoffset=element_storage.Text:utf8_len()
   end
 end
 
@@ -4333,9 +4337,11 @@ function reagirl.InputBox_Manage(element_id, selected, hovered, clicked, mouse_c
       end
     end
   else
-    if element_storage.cursor_offset==-1 then element_storage.cursor_offset=element_storage.Text:utf8_len() end
     if selected=="not selected" then
       element_storage.hasfocus=false
+    end
+    if element_storage.cursor_offset==-1 and clicked~="DBLCLK" then 
+      element_storage.cursor_offset=element_storage.Text:utf8_len() 
     end
     if selected=="first selected" then
       element_storage["cursor_offset"]=element_storage["Text"]:utf8_len()
@@ -8319,7 +8325,7 @@ function main()
   --reagirl.Gui_PreventEnterForOneCycle()
   --print_update(reagirl.UI_Element_GetSetPosition(LAB, false, x, y))
 --print_update(reagirl.InputBox_GetSelectedText(E))
-print_update(reagirl.Label_GetStyle(Lab1))
+--print_update(reagirl.Label_GetStyle(Lab1))
   if reagirl.Gui_IsOpen()==true then reaper.defer(main) end
 end
 
