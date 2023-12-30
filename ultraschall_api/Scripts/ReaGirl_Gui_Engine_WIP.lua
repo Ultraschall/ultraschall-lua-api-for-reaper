@@ -1789,20 +1789,24 @@ function reagirl.Gui_Draw(Key, Key_utf, clickstate, specific_clickstate, mouse_c
     reagirl.Background_DrawImage()
 
     -- draw all ui-elements
-    AAAAA=0
+    
     for i=1, #reagirl.Elements, 1 do
       if reagirl.Elements[i]["hidden"]~=true then
         local x2, y2, w2, h2
-        local w_add=0
+        local w_add, h_add
         if reagirl.Elements[i]["GUI_Element_Type"]=="Tabs" then
-          w_add=reagirl.Elements[i]["h_background"]
+          w_add=reagirl.Elements[i]["bg_w"]
+          h_add=reagirl.Elements[i]["bg_h"]
         end
+        if w_add==nil then w_add=0 end
+        if h_add==nil then h_add=0 end
         if reagirl.Elements[i]["x"]<0 then x2=gfx.w+(reagirl.Elements[i]["x"]*scale) else x2=reagirl.Elements[i]["x"]*scale end
         if reagirl.Elements[i]["y"]<0 then y2=gfx.h+(reagirl.Elements[i]["y"]*scale) else y2=reagirl.Elements[i]["y"]*scale end
         
         --if reagirl.Elements[i]["w"]<0 then w2=gfx.w-(x2+reagirl.Elements[i]["w"]*scale) else w2=reagirl.Elements[i]["w"]*scale end
-        if reagirl.Elements[i]["w"]<0 then w2=gfx.w+(-x2+reagirl.Elements[i]["w"]*scale) else w2=reagirl.Elements[i]["w"]*scale end
-        if reagirl.Elements[i]["h"]<0 then h2=gfx.h+(-y2+(reagirl.Elements[i]["h"]+w_add)*scale) else h2=(reagirl.Elements[i]["h"]+w_add)*scale end
+        --print2(w_add)
+        if reagirl.Elements[i]["w"]<0 then w2=gfx.w+(-x2+(reagirl.Elements[i]["w"]+w_add)*scale) else w2=(reagirl.Elements[i]["w"]+w_add)*scale end
+        if reagirl.Elements[i]["h"]<0 then h2=gfx.h+(-y2+(reagirl.Elements[i]["h"]+h_add)*scale) else h2=(reagirl.Elements[i]["h"]+h_add)*scale end
 
   
         local MoveItAllUp=reagirl.MoveItAllUp  
@@ -1825,7 +1829,7 @@ function reagirl.Gui_Draw(Key, Key_utf, clickstate, specific_clickstate, mouse_c
         then
         --]]
    --     print_update((x2+reagirl.MoveItAllRight>=0 and x2+reagirl.MoveItAllRight<=gfx.w), x2+MoveItAllRight, (x2+reagirl.MoveItAllRight+w2>=0 and x2+reagirl.MoveItAllRight+w2<=gfx.w))
-        AAAAA=AAAAA+1
+        --AAAAA=AAAAA+1
           local selected="not selected"
           if reagirl.Elements.FocusedElement==i then selected=reagirl.ui_element_selected end
           local message=reagirl.Elements[i]["func_draw"](i, selected,
@@ -3002,9 +3006,11 @@ function reagirl.CheckBox_Add(x, y, caption, meaningOfUI_Element, default, run_f
     y=reagirl.UI_Element_NextY_Default
     if slot-1>0 then
       y=reagirl.Elements[slot-1]["y"]+reagirl.UI_Element_NextLineY
-      reagirl.UI_Element_NextLineY=0
     end
   end  
+  reagirl.UI_Element_NextLineY=0
+  reagirl.UI_Element_NextX_Default=x
+  
   reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0, 1)
   local tx,ty=gfx.measurestr(caption)
   reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0)
@@ -3420,7 +3426,7 @@ function reagirl.UI_Element_Current_Position()
   return x,y
 end
 
-function reagirl.NextLine()
+function reagirl.NextLine(y_offset)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>NextLine</slug>
@@ -3429,16 +3435,21 @@ function reagirl.NextLine()
     Reaper=7
     Lua=5.4
   </requires>
-  <functioncall>reagirl.NextLine()</functioncall>
+  <functioncall>reagirl.NextLine(integer y_offset)</functioncall>
   <description>
-    Starts a new line, when autopositioning ui-elements using the add-functions
+    Starts a new line, when autopositioning ui-elements using the add-functions.
   </description>
+  <parameters>
+    integer y_offset - an additional y-offset, by which the next line shall be moved downwards; nil, for no offset
+  </parameters>
   <chapter_context>
     UI Elements
   </chapter_context>
   <tags>ui-elements, set, next line</tags>
 </US_DocBloc>
 --]]
+  if y_offset~=nil and math.type(y_offset)~="integer" then error("Button_Add: param #1 - must be either nil or an integer", 2) end
+  if y_offset==nil then y_offset=0 end
   local slot=reagirl.UI_Element_GetNextFreeSlot()
   if reagirl.UI_Element_NextLineY==0 then
     for i=slot-1, 1, -1 do
@@ -3448,7 +3459,7 @@ function reagirl.NextLine()
         local x2, y2, w2, h2
         if reagirl.Elements[i]["y"]<0 then y2=gfx.h+(reagirl.Elements[i]["y"]) else y2=reagirl.Elements[i]["y"] end
         if reagirl.Elements[i]["h"]<0 then h2=gfx.h+(-y2+reagirl.Elements[i]["h"]) else h2=reagirl.Elements[i]["h"] end
-        reagirl.UI_Element_NextLineY=reagirl.UI_Element_NextLineY+h2+1+reagirl.UI_Element_NextY_Margin
+        reagirl.UI_Element_NextLineY=reagirl.UI_Element_NextLineY+h2+1+reagirl.UI_Element_NextY_Margin+y_offset
         break
       end
     end
@@ -3519,9 +3530,10 @@ function reagirl.Button_Add(x, y, w_margin, h_margin, caption, meaningOfUI_Eleme
     y=reagirl.UI_Element_NextY_Default
     if slot-1>0 then
       y=reagirl.Elements[slot-1]["y"]+reagirl.UI_Element_NextLineY
-      reagirl.UI_Element_NextLineY=0
     end
   end  
+  reagirl.UI_Element_NextLineY=0
+  reagirl.UI_Element_NextX_Default=x
   
   reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0, 1)
   local tx,ty=gfx.measurestr(caption)
@@ -3823,7 +3835,6 @@ end
 
 
 function reagirl.InputBox_Add(x, y, w, Caption, Cap_width, MeaningOfUI_Element, Default, run_function_enter, run_function_type)
-  
   local slot=reagirl.UI_Element_GetNextFreeSlot()
   if x==nil then 
     x=reagirl.UI_Element_NextX_Default
@@ -3846,9 +3857,10 @@ function reagirl.InputBox_Add(x, y, w, Caption, Cap_width, MeaningOfUI_Element, 
     y=reagirl.UI_Element_NextY_Default
     if slot-1>0 then
       y=reagirl.Elements[slot-1]["y"]+reagirl.UI_Element_NextLineY
-      reagirl.UI_Element_NextLineY=0
     end
   end  
+  reagirl.UI_Element_NextLineY=0
+  reagirl.UI_Element_NextX_Default=x
   
   reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0, 1)
   local tx,ty=gfx.measurestr(Caption)
@@ -3894,6 +3906,9 @@ function reagirl.InputBox_Add(x, y, w, Caption, Cap_width, MeaningOfUI_Element, 
   reagirl.Elements[slot]["run_function_type"]=run_function_type
   reagirl.Elements[slot]["userspace"]={}
   reagirl.InputBox_Calculate_DrawOffset(true, reagirl.Elements[slot])
+  
+  --print_alt(reagirl.Elements[slot-1]["Name"], reagirl.Elements[slot-1]["y"], reagirl.Elements[slot]["y"])
+  
   return reagirl.Elements[slot]["Guid"]
 end
 
@@ -4831,9 +4846,10 @@ function reagirl.DropDownMenu_Add(x, y, w, caption, meaningOfUI_Element, menuIte
     y=reagirl.UI_Element_NextY_Default
     if slot-1>0 then
       y=reagirl.Elements[slot-1]["y"]+reagirl.UI_Element_NextLineY
-      reagirl.UI_Element_NextLineY=0
     end
   end  
+  reagirl.UI_Element_NextLineY=0
+  reagirl.UI_Element_NextX_Default=x
   
   reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0, 1)
   local tx1, ty1 =gfx.measurestr(caption)
@@ -5477,9 +5493,10 @@ function reagirl.Label_Add(x, y, label, meaningOfUI_Element, align, clickable, r
     y=reagirl.UI_Element_NextY_Default
     if slot-1>0 then
       y=reagirl.Elements[slot-1]["y"]+reagirl.UI_Element_NextLineY
-      reagirl.UI_Element_NextLineY=0
     end
   end  
+  reagirl.UI_Element_NextLineY=0
+  reagirl.UI_Element_NextX_Default=x
   
   local acc_clickable=""
   local clickable_text=""
@@ -5940,9 +5957,10 @@ function reagirl.Image_Add(image_filename, x, y, w, h, name, meaningOfUI_Element
     y=reagirl.UI_Element_NextY_Default
     if slot-1>0 then
       y=reagirl.Elements[slot-1]["y"]+reagirl.UI_Element_NextLineY
-      reagirl.UI_Element_NextLineY=0
     end
   end  
+  reagirl.UI_Element_NextLineY=0
+  reagirl.UI_Element_NextX_Default=x
   
   table.insert(reagirl.Elements, slot, {})
   reagirl.Elements[slot]["Guid"]=reaper.genGuid("")
@@ -7155,9 +7173,11 @@ function reagirl.Slider_Add(x, y, w, caption, meaningOfUI_Element, unit, start, 
     y=reagirl.UI_Element_NextY_Default
     if slot-1>0 then
       y=reagirl.Elements[slot-1]["y"]+reagirl.UI_Element_NextLineY
-      reagirl.UI_Element_NextLineY=0
     end
   end  
+  reagirl.UI_Element_NextLineY=0
+  reagirl.UI_Element_NextX_Default=x
+  
   reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0, 1)
   local tx, ty =gfx.measurestr(caption.."")
   local unit2=unit
@@ -7959,13 +7979,13 @@ function reagirl.Tabs_Add(x, y, w_backdrop, h_backdrop, caption, meaningOfUI_Ele
     y=reagirl.UI_Element_NextY_Default
     if slot-1>0 then
       y=reagirl.Elements[slot-1]["y"]+reagirl.UI_Element_NextLineY
-      reagirl.UI_Element_NextLineY=0
     end
   end  
   reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0, 1)
   local tx, ty =gfx.measurestr(caption.."")
 
   reagirl.UI_Element_NextX_Default=x
+  reagirl.UI_Element_NextLineY=0
   
   local slot=reagirl.UI_Element_GetNextFreeSlot()
   table.insert(reagirl.Elements, slot, {})
@@ -7994,8 +8014,20 @@ function reagirl.Tabs_Add(x, y, w_backdrop, h_backdrop, caption, meaningOfUI_Ele
   --if w_backdrop==0 then reagirl.Elements[slot]["w_background"]="zero" else reagirl.Elements[slot]["w_background"]=w_backdrop-x end
   --if h_backdrop==0 then reagirl.Elements[slot]["h_background"]="zero" else reagirl.Elements[slot]["h_background"]=h_backdrop-reagirl.Elements[slot]["h"] end
   
-  if w_backdrop==0 then reagirl.Elements[slot]["w_background"]="zero" else reagirl.Elements[slot]["w_background"]=w_backdrop end
-  if h_backdrop==0 then reagirl.Elements[slot]["h_background"]="zero" else reagirl.Elements[slot]["h_background"]=h_backdrop end
+  if w_backdrop==0 then 
+    reagirl.Elements[slot]["w_background"]="zero" 
+    reagirl.Elements[slot]["bg_w"]=0
+  else 
+    reagirl.Elements[slot]["w_background"]=w_backdrop 
+    reagirl.Elements[slot]["bg_w"]=w_backdrop 
+  end
+  if h_backdrop==0 then 
+    reagirl.Elements[slot]["h_background"]="zero" 
+    reagirl.Elements[slot]["bg_h"]=0
+  else 
+    reagirl.Elements[slot]["h_background"]=h_backdrop 
+    reagirl.Elements[slot]["bg_h"]=h_backdrop 
+  end
   
   reagirl.Elements[slot]["sticky_x"]=false
   reagirl.Elements[slot]["sticky_y"]=false
@@ -8201,12 +8233,14 @@ function reagirl.Tabs_Draw(element_id, selected, hovered, clicked, mouse_cap, mo
     
     if element_storage["w_background"]==nil then 
       bg_w=reagirl.BoundaryX_Max-20*dpi_scale 
+      element_storage["bg_w"]=bg_w
     else 
       if element_storage["w_background"]>0 then bg_w=element_storage["w_background"]*dpi_scale else bg_w=gfx.w+element_storage["w_background"]*dpi_scale-offset_x end
     end
     
     if element_storage["h_background"]==nil then 
-      bg_h=reagirl.BoundaryX_Max-20*dpi_scale 
+      bg_h=reagirl.BoundaryY_Max-20*dpi_scale 
+      element_storage["bg_h"]=bg_h
     else 
       if element_storage["h_background"]>0 then bg_h=element_storage["h_background"]*dpi_scale else bg_h=gfx.h+element_storage["h_background"]*dpi_scale-offset_y end
     end
@@ -8246,11 +8280,11 @@ local count2=0
 
 function UpdateUI()
   reagirl.Background_GetSetColor(true, 44,44,44)
+  reagirl.Tabs_Add(10, 10, nil, nil, "Add Shownote", "", {"General", "Advanced"}, 1, tabme)
+  --reagirl.NextLine()
+  --Lab1=reagirl.Label_Add(nil, nil, "General Attributes:", "", 0, false, nil)
+  --reagirl.Label_SetStyle(Lab1, 6)
   
-  reagirl.Tabs_Add(10, 10, -10, 360, "Add Shownote", "", {"General", "Advanced"}, 1, tabme)
-  reagirl.NextLine()
-  Lab1=reagirl.Label_Add(nil, nil, "General Attributes:", "", 0, false, nil)
-  reagirl.Label_SetStyle(Lab1, 6)
   reagirl.NextLine()
   reagirl.InputBox_Add(40, nil, -20, "Title:", 100, "", "Malik testet Hackintoshis", nil, nil)
   reagirl.NextLine()
@@ -8265,27 +8299,27 @@ function UpdateUI()
   reagirl.NextLine()
   reagirl.InputBox_Add(40, nil, -20, "CN:           ", 100, "", "Hackies, und, so", nil, nil)
   
-  reagirl.NextLine()
+  reagirl.NextLine(5)
   Lab2=reagirl.Label_Add(nil, nil, "URL-Attributes:", "", 0, false, nil)
   reagirl.Label_SetStyle(Lab2, 6)
   reagirl.NextLine()
   reagirl.InputBox_Add(40, nil, -20, "Url:", 100, "", "hbbs:/audiodump.de", nil, nil)
   reagirl.NextLine()
   reagirl.InputBox_Add(40, nil, -20, "Url description:", 100, "", "Der besteste Audiodnmps auf se welt", nil, nil)
-  
+  --]]
   reagirl.NextLine()
   Lab3=reagirl.Label_Add(nil, nil, "Chapter Image:", "", 0, false, nil)
   reagirl.Label_SetStyle(Lab3, 6)
   reagirl.NextLine()
   reagirl.Image_Add("c:\\c.png", 40, nil, 100, 100, "Chapter Image", "", tabme)
   reagirl.NextLine()
-  reagirl.InputBox_Add(160, 270, -20, "Description: ", 100, "", "Cover \nof DFVA", nil, nil)
+  reagirl.InputBox_Add(1150, 460, 120, "Description: ", 100, "", "Cover \nof DFVA", nil, nil)
   reagirl.NextLine()
-  reagirl.InputBox_Add(160, 290, -20, "License:      ", 100, "", "CC-By-NC", nil, nil)
+  reagirl.InputBox_Add(nil, nil, 120, "License:      ", 100, "", "CC-By-NC", nil, nil)
   reagirl.NextLine()
-  reagirl.InputBox_Add(160, 310, -20, "Origin:         ", 100, "", "Wikipedia", nil, nil)
+  reagirl.InputBox_Add(nil, nil, 120, "Origin:         ", 100, "", "Wikipedia", nil, nil)
   reagirl.NextLine()
-  reagirl.InputBox_Add(160, 330, -20, "Origin-URL:  ", 100, "", "https://www.wikipedia.com/dfva", nil, nil)
+  reagirl.InputBox_Add(nil, nil, 120, "Origin-URL:  ", 100, "", "https://www.wikipedia.com/dfva", nil, nil)
   --]]
 end
 
