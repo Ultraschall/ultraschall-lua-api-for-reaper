@@ -42846,7 +42846,7 @@
             Reaper=5.62
         </requires>
         <description indent="default" markup_type="markdown" markup_version="1.0.1" indent="default">
-            Measures the drawing dimensions of a character with the current font (as set by [gfx.setfont](#lua_gfx.setfont)). Returns width and height of character.
+            Measures the drawing dimensions of a character with the current font (as set by [gfx_setfont](#eel_gfx_setfont)). Returns width and height of character.
         </description>
         <parameters>
             character - a character, whose dimensions you want to know
@@ -43206,7 +43206,7 @@
         <description indent="default">
             Can select a font and optionally configure it. 
 
-            After calling gfx_setfont(), gfx_texth may be updated to reflect the new average line height.
+            After calling gfx_setfont(), gfx_texth may be updated to reflect the new average line height. 
         </description>
         <parameters>
             idx - the font-id; idx=0 for default bitmapped font, no configuration is possible for this font.
@@ -43216,13 +43216,16 @@
             flags - flags, how to render the text; values are repeating every 256 numbers
                   - a multibyte character, which can include 'i' for italics, 'u' for underline, or 'b' for bold. 
                   - These flags may or may not be supported depending on the font and OS. 
-                  - 66 and 98, Bold (B), (b)
-                  - 73 and 105, italic (I), (i)
-                  - 79 and 111, white outline (O), (o)
-                  - 82 and 114, reduced(halfbright) (R), (r)
-                  - 83 and 115, sharpen (S), (s)
-                  - 85 and 117, underline (U), (u)
-                  - 86 and 118, inVerse (V), (v)
+                  -   66 and 98, Bold (B), (b)
+                  -   73 and 105, italic (I), (i)
+                  -   77 and 109, non antialias (M), (m)
+                  -   79 and 111, white outline (O), (o)
+                  -   82 and 114, blurred (R), (r)
+                  -   83 and 115, shadow (S), (s)
+                  -   85 and 117, underline (U), (u)
+                  -   86 and 118, inVerse (V), (v)
+                  -   89 and 121, 90° counter-clockwise
+                  -   90 and 122, 90° counter-clockwise
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>Reaper_Api_Documentation.USDocML</source_document>
@@ -46256,15 +46259,17 @@ Mespotine
             optional integer sz - the size of the font (8-100)
             optional integer flags - flags, how to render the text; up to 4 flags can be passed at the same time
                   - a multibyte character, which can include 'i' for italics, 'u' for underline, or 'b' for bold. 
-                  - These flags may or may not be supported depending on the font and OS. 
+                  - These flags may or may not be supported depending on the font and OS.                   
                   -   66 and 98, Bold (B), (b)
                   -   73 and 105, italic (I), (i)
+                  -   77 and 109, non antialias (M), (m)
                   -   79 and 111, white outline (O), (o)
                   -   82 and 114, blurred (R), (r)
-                  -   83 and 115, sharpen (S), (s)
+                  -   83 and 115, shadow (S), (s)
                   -   85 and 117, underline (U), (u)
                   -   86 and 118, inVerse (V), (v)
-                  - 
+                  -   89 and 121, 90° counter-clockwise
+                  -   90 and 122, 90° counter-clockwise
                   - To create such a multibyte-character, assume this flag-value as a 32-bit-value.
                   - The first 8 bits are the first flag, the next 8 bits are the second flag, 
                   - the next 8 bits are the third flag and the last 8 bits are the second flag.

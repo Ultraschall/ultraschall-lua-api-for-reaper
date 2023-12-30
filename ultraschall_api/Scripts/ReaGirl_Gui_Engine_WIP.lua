@@ -5,9 +5,8 @@ reaper.osara_outputMessage=nil
 
 --[[
 TODO: 
-  - InputBox: autopositioning doesn't work yet
+  - InputBox: autopositioning doesn't work yet completely
   - InputBox: runfunctions not yet implemented...oops
-              
   - jumping to ui-elements outside window(means autoscroll to them) doesn't always work
     - ui-elements might still be out of view when jumping to them(x-coordinate outside of window for instance)
   - Slider: disappears when scrolling upwards/leftwards: because of the "only draw neccessary gui-elements"-code, which is buggy for some reason
@@ -4008,6 +4007,9 @@ function reagirl.InputBox_OnMouseMove(mouse_cap, element_storage)
     elseif newoffs>element_storage.cursor_startoffset then
       element_storage.selection_endoffset=newoffs
       element_storage.selection_startoffset=element_storage.cursor_startoffset
+    elseif newoffs==element_storage.cursor_offset then
+      element_storage.selection_endoffset=newoffs
+      element_storage.selection_startoffset=newoffs
     end
     
     element_storage.cursor_offset=newoffs
@@ -5264,7 +5266,7 @@ function reagirl.Label_GetLabelText(element_id)
     Gets the label text of a label.
   </description>
   <retvals>
-    string label - the new text of the label
+    string label - the text of the label
   </retvals>
   <parameters>
     string element_id - the id of the element, whose label you want to get
@@ -5279,7 +5281,7 @@ function reagirl.Label_GetLabelText(element_id)
   if reagirl.IsValidGuid(element_id, true)==nil then error("Label_GetLabelText: param #1 - must be a valid guid", 2) end
   element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
   if element_id==-1 then error("Label_GetLabelText: param #1 - no such ui-element", 2) end
-  --print2(reagirl.Elements[element_id]["GUI_Element_Type"]:sub(-7,-1))
+
   if reagirl.Elements[element_id]["GUI_Element_Type"]:sub(-5,-1)~="Label" then
     error("Label_GetLabelText: param #1 - ui-element is not a label", 2)
   else
@@ -5287,6 +5289,128 @@ function reagirl.Label_GetLabelText(element_id)
   end
 end
 
+function reagirl.Label_SetStyle(element_id, style1, style2, style3, style4)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Label_SetStyle</slug>
+  <requires>
+    ReaGirl=1.0
+    Reaper=7
+    Lua=5.4
+  </requires>
+  <functioncall>reagirl.Label_SetStyle(string element_id, integer style1, optional integer style2, optional integer style3, optional integer style4)</functioncall>
+  <description>
+    Sets the style of a label.
+    
+    You can combine different styles with each other in style1 through style4.
+  </description>
+  <parameters>
+    string element_id - the id of the element, whose label-style you want to set
+    integer style1 - choose a style
+                   - 0, no style
+                   - 1, bold
+                   - 2, italic
+                   - 3, non anti-alias
+                   - 4, outline
+                   - 5, drop-shadow
+                   - 6, underline
+                   - 7, negative
+                   - 8, 90° counter-clockwise
+                   - 9, 90° clockwise
+    optional integer style2 - nil for no style; the rest, see style1 for more details
+    optional integer style3 - nil for no style; the rest, see style1 for more details
+    optional integer style4 - nil for no style; the rest, see style1 for more details
+  </parameters>
+  <chapter_context>
+    Label
+  </chapter_context>
+  <tags>label, set, text, style</tags>
+</US_DocBloc>
+--]]
+  if type(element_id)~="string" then error("Label_SetStyle: param #1 - must be a string", 2) end
+  if reagirl.IsValidGuid(element_id, true)==nil then error("Label_SetStyle: param #1 - must be a valid guid", 2) end
+  if math.type(style1)~="integer" then error("Label_SetStyle: param #2 - must be an integer", 2) end
+  if style2~=nil and math.type(style2)~="integer" then error("Label_SetStyle: param #3 - must be nil or an integer", 2) end
+  if style3~=nil and math.type(style3)~="integer" then error("Label_SetStyle: param #4 - must be nil or an integer", 2) end
+  if style4~=nil and math.type(style4)~="integer" then error("Label_SetStyle: param #5 - must be nil or an integer", 2) end
+  if style2==nil then style2=0 end
+  if style3==nil then style3=0 end
+  if style4==nil then style4=0 end
+  if style1<0 or style1>9 then error("Label_SetStyle: param #2 - no such style", 2) end
+  if style2<0 or style2>9 then error("Label_SetStyle: param #3 - no such style", 2) end
+  if style3<0 or style3>9 then error("Label_SetStyle: param #4 - no such style", 2) end
+  if style4<0 or style4>9 then error("Label_SetStyle: param #5 - no such style", 2) end
+  element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
+  if element_id==-1 then error("Label_SetStyle: param #1 - no such ui-element", 2) end
+  if reagirl.Elements[element_id]["GUI_Element_Type"]:sub(-5,-1)~="Label" then
+    error("Label_SetStyle: param #1 - ui-element is not a label", 2)
+  else
+    reagirl.Elements[element_id]["style1"]=style1
+    reagirl.Elements[element_id]["style2"]=style2
+    reagirl.Elements[element_id]["style3"]=style3
+    reagirl.Elements[element_id]["style4"]=style4
+    
+    reagirl.Gui_ForceRefresh(30)
+  end
+end
+
+function reagirl.Label_GetStyle(element_id)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Label_GetStyle</slug>
+  <requires>
+    ReaGirl=1.0
+    Reaper=7
+    Lua=5.4
+  </requires>
+  <functioncall>integer style1, integer style2, integer style3, integer style4 = reagirl.Label_GetStyle(string element_id)</functioncall>
+  <description>
+    Gets the style of a label.
+  </description>
+  <retvals>
+    integer style1 - the first style used:
+                   - 0, no style
+                   - 1, bold
+                   - 2, italic
+                   - 3, non anti-alias
+                   - 4, outline
+                   - 5, drop-shadow
+                   - 6, underline
+                   - 7, negative
+                   - 8, 90° counter-clockwise
+                   - 9, 90° clockwise
+    integer style2 - the rest, see style1 for more details
+    integer style3 - the rest, see style1 for more details
+    integer style4 - see style1 for more details
+  </retvals>
+  <parameters>
+    string element_id - the id of the element, whose label-style you want to get
+  </parameters>
+  <chapter_context>
+    Label
+  </chapter_context>
+  <tags>label, get, style</tags>
+</US_DocBloc>
+--]]
+  if type(element_id)~="string" then error("Label_GetLabelText: param #1 - must be a string", 2) end
+  if reagirl.IsValidGuid(element_id, true)==nil then error("Label_GetLabelText: param #1 - must be a valid guid", 2) end
+  element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
+  if element_id==-1 then error("Label_GetLabelText: param #1 - no such ui-element", 2) end
+
+  if reagirl.Elements[element_id]["GUI_Element_Type"]:sub(-5,-1)~="Label" then
+    error("Label_GetLabelText: param #1 - ui-element is not a label", 2)
+  else
+    return reagirl.Elements[element_id]["style1"], reagirl.Elements[element_id]["style2"], reagirl.Elements[element_id]["style3"], reagirl.Elements[element_id]["style4"]
+  end
+end
+
+--[[
+  reagirl.Elements[slot]["style1"]=0
+  reagirl.Elements[slot]["style2"]=0
+  reagirl.Elements[slot]["style3"]=0
+  reagirl.Elements[slot]["style4"]=0
+  --]]
+  
 function reagirl.Label_Add(x, y, label, meaningOfUI_Element, align, clickable, run_function)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
@@ -5368,12 +5492,17 @@ function reagirl.Label_Add(x, y, label, meaningOfUI_Element, align, clickable, r
   reagirl.Elements[slot]["z_buffer"]=128
   reagirl.Elements[slot]["x"]=x
   reagirl.Elements[slot]["y"]=y
+  
   reagirl.Elements[slot]["clickable"]=clickable
   reagirl.Elements[slot]["sticky_x"]=false
   reagirl.Elements[slot]["sticky_y"]=false
   reagirl.Elements[slot]["w"]=math.tointeger(w)+10
   reagirl.Elements[slot]["h"]=math.tointeger(h)--math.tointeger(gfx.texth)
   reagirl.Elements[slot]["align"]=align
+  reagirl.Elements[slot]["style1"]=0
+  reagirl.Elements[slot]["style2"]=0
+  reagirl.Elements[slot]["style3"]=0
+  reagirl.Elements[slot]["style4"]=0
   reagirl.Elements[slot]["func_draw"]=reagirl.Label_Draw
   reagirl.Elements[slot]["run_function"]=run_function
   reagirl.Elements[slot]["func_manage"]=reagirl.Label_Manage
@@ -5400,7 +5529,14 @@ end
 
 function reagirl.Label_Draw(element_id, selected, hovered, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
   -- BUG: with multiline-texts, when they scroll outside the top of the window, they disappear when the first line is outside of the window
-  reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0)
+  local styles={66,73,77,79,83,85,86,89,90}
+  styles[0]=0
+  local style=styles[element_storage["style1"]]<<8
+  style=style+styles[element_storage["style2"]]<<8
+  style=style+styles[element_storage["style3"]]<<8
+  style=style+styles[element_storage["style4"]]
+  --print2(style)
+  reagirl.SetFont(1, "Arial", reagirl.Font_Size, style)
   local olddest=gfx.dest
   local oldx, oldy = gfx.x, gfx.y
   local old_gfx_r=gfx.r
@@ -8106,7 +8242,8 @@ function UpdateUI()
   
   reagirl.Tabs_Add(10, 10, -10, 360, "Add Shownote", "", {"General", "Advanced"}, 1, tabme)
   reagirl.NextLine()
-  reagirl.Label_Add(nil, nil, "General Attributes:", "", 0, false, nil)
+  Lab1=reagirl.Label_Add(nil, nil, "General Attributes:", "", 0, false, nil)
+  reagirl.Label_SetStyle(Lab1, 6)
   reagirl.NextLine()
   reagirl.InputBox_Add(40, nil, -20, "Title:", 100, "", "Malik testet Hackintoshis", nil, nil)
   reagirl.NextLine()
@@ -8122,18 +8259,20 @@ function UpdateUI()
   reagirl.InputBox_Add(40, nil, -20, "CN:           ", 100, "", "Hackies, und, so", nil, nil)
   
   reagirl.NextLine()
-  reagirl.Label_Add(nil, nil, "URL-Attributes:", "", 0, false, nil)
+  Lab2=reagirl.Label_Add(nil, nil, "URL-Attributes:", "", 0, false, nil)
+  reagirl.Label_SetStyle(Lab2, 6)
   reagirl.NextLine()
   reagirl.InputBox_Add(40, nil, -20, "Url:", 100, "", "hbbs:/audiodump.de", nil, nil)
   reagirl.NextLine()
   reagirl.InputBox_Add(40, nil, -20, "Url description:", 100, "", "Der besteste Audiodnmps auf se welt", nil, nil)
   
   reagirl.NextLine()
-  reagirl.Label_Add(nil, nil, "Chapter Image:", "", 0, false, nil)
+  Lab3=reagirl.Label_Add(nil, nil, "Chapter Image:", "", 0, false, nil)
+  reagirl.Label_SetStyle(Lab3, 6)
   reagirl.NextLine()
   reagirl.Image_Add("c:\\c.png", 40, nil, 100, 100, "Chapter Image", "", tabme)
   reagirl.NextLine()
-  reagirl.InputBox_Add(160, 270, -20, "Description: ", 100, "", "Cover of DFVA", nil, nil)
+  reagirl.InputBox_Add(160, 270, -20, "Description: ", 100, "", "Cover \nof DFVA", nil, nil)
   reagirl.NextLine()
   reagirl.InputBox_Add(160, 290, -20, "License:      ", 100, "", "CC-By-NC", nil, nil)
   reagirl.NextLine()
@@ -8179,6 +8318,7 @@ function main()
   --reagirl.Gui_PreventEnterForOneCycle()
   --print_update(reagirl.UI_Element_GetSetPosition(LAB, false, x, y))
 --print_update(reagirl.InputBox_GetSelectedText(E))
+print_update(reagirl.Label_GetStyle(Lab1))
   if reagirl.Gui_IsOpen()==true then reaper.defer(main) end
 end
 
