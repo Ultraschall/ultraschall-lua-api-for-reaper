@@ -4333,6 +4333,7 @@ function reagirl.InputBox_Manage(element_id, selected, hovered, clicked, mouse_c
       end
     end
   else
+    if element_storage.cursor_offset==-1 then element_storage.cursor_offset=element_storage.Text:utf8_len() end
     if selected=="not selected" then
       element_storage.hasfocus=false
     end
