@@ -6,9 +6,11 @@ reaper.osara_outputMessage=nil
 --[[
 TODO: 
   - InputBox: if they are too small, they aren't drawn properly
+  - Tabs: when scrolling outside the top-side of the window, there are drawing issues at the top of the tab-header
   - jumping to ui-elements outside window(means autoscroll to them) doesn't always work
     - ui-elements might still be out of view when jumping to them(x-coordinate outside of window for instance)
   - Slider: disappears when scrolling upwards/leftwards: because of the "only draw neccessary gui-elements"-code, which is buggy for some reason
+  - Slider: width is too big...gui might scroll because of that...
   - Slider: draw a line where the default-value shall be
   - Slider: when width is too small, drawing bugs appear(i.e. autowidth plus window is too small)
   - Background_GetSetImage - check, if the background image works properly with scaling and scrolling
@@ -1919,11 +1921,12 @@ function reagirl.UI_Element_SetFocusRect(override, x, y, w, h)
     Reaper=7
     Lua=5.4
   </requires>
-  <functioncall>reagirl.UI_Element_SetFocusRect(integer x, integer y, integer w, integer h)</functioncall>
+  <functioncall>reagirl.UI_Element_SetFocusRect(boolean override, integer x, integer y, integer w, integer h)</functioncall>
   <description>
     sets the rectangle for focused ui-element. Can be used for custom ui-element, who need to control the focus-rectangle due some of their own ui-elements incorporated, like options in radio-buttons, etc.
   </description>
   <parameters>
+    boolean override - I forgot...
     integer x - the x-position of the focus-rectangle; negative, dock to the right windowborder
     integer y - the y-position of the focus-rectangle; negative, dock to the bottom windowborder
     integer w - the width of the focus-rectangle; negative, dock to the right windowborder
@@ -3831,7 +3834,55 @@ end
 
 
 
-function reagirl.InputBox_Add(x, y, w, Caption, Cap_width, MeaningOfUI_Element, Default, run_function_enter, run_function_type)
+function reagirl.InputBox_Add(x, y, w, caption, Cap_width, meaningOfUI_Element, Default, run_function_enter, run_function_type)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>InputBox_Add</slug>
+  <requires>
+    ReaGirl=1.0
+    Reaper=7
+    Lua=5.4
+  </requires>
+  <functioncall>string inputbox_guid = reagirl.InputBox_Add(integer x, integer y, integer w, string caption, optional integer cap_width, string meaningOfUI_Element, optional string Default, function run_function_enter, function run_function_type)</functioncall>
+  <description>
+    Adds an inputbox to a gui.
+    
+    You can autoposition the inputbox by setting x and/or y to nil, which will position the new inputbox after the last ui-element.
+    To autoposition into the next line, use reagirl.NextLine()
+    
+    The caption will be shown before the inputbox.
+    
+    Unlike other ui-elements, this one has the option for two run_functions, one for when the user hits enter in the inputbox and one for when the user types anything into the inputbox.
+  </description>
+  <parameters>
+    optional integer x - the x position of the slider in pixels; negative anchors the slider to the right window-side; nil, autoposition after the last ui-element(see description)
+    optional integer y - the y position of the slider in pixels; negative anchors the slider to the bottom window-side; nil, autoposition after the last ui-element(see description)
+    string caption - the caption of the slider
+    optional integer cap_width - the width of the caption to set the actual slider to a fixed position; nil, put slider directly after caption
+    string meaningOfUI_Element - a description for accessibility users
+    optional string Default - the "typed text" that the inputbox shall contain
+    function run_function_enter - a function that is run when the user hits enter in the inputbox
+    function run_function_type - a function that is run when the user types into the inputbox
+  </parameters>
+  <retvals>
+    string inputbox_guid - a guid that can be used for altering the inputbox-attributes
+  </retvals>
+  <chapter_context>
+    InputBox
+  </chapter_context>
+  <tags>inputbox, add</tags>
+</US_DocBloc>
+--]]
+  if x~=nil and math.type(x)~="integer" then error("InputBox_Add: param #1 - must be an integer", 2) end
+  if y~=nil and math.type(y)~="integer" then error("InputBox_Add: param #2 - must be an integer", 2) end
+  if math.type(w)~="integer" then error("InputBox_Add: param #3 - must be an integer", 2) end
+  if type(caption)~="string" then error("InputBox_Add: param #4 - must be a string", 2) end
+  if Cap_width~=nil and math.type(Cap_width)~="integer" then error("InputBox_Add: param #5 - must be wither nil or an integer", 2) end
+  if type(meaningOfUI_Element)~="string" then error("InputBox_Add: param #6 - must be a string", 2) end
+  if type(Default)~="string" then error("InputBox_Add: param #7 - must be a string", 2) end
+  if run_function_enter~=nil and type(run_function_enter)~="function" then error("InputBox_Add: param #8 - must be a function", 2) end
+  if run_function_type~=nil and type(run_function_type)~="function" then error("InputBox_Add: param #9 - must be a function", 2) end
+  
   local slot=reagirl.UI_Element_GetNextFreeSlot()
   if x==nil then 
     x=reagirl.UI_Element_NextX_Default
@@ -3842,7 +3893,6 @@ function reagirl.InputBox_Add(x, y, w, Caption, Cap_width, MeaningOfUI_Element, 
       for i=slot-1, 1, -1 do
         if reagirl.Elements[i]["IsDecorative"]==false then
           local w2=reagirl.Elements[i]["w"]
-          --print2(reagirl.Elements[i]["h"], w2)
           x=reagirl.Elements[i]["x"]+w2+reagirl.UI_Element_NextX_Margin
           break
         end
@@ -3860,15 +3910,15 @@ function reagirl.InputBox_Add(x, y, w, Caption, Cap_width, MeaningOfUI_Element, 
   reagirl.UI_Element_NextX_Default=x
   
   reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0, 1)
-  local tx,ty=gfx.measurestr(Caption)
+  local tx,ty=gfx.measurestr(caption)
   reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0)
   
   table.insert(reagirl.Elements, slot, {})
   reagirl.Elements[slot]["Guid"]=reaper.genGuid("")
   reagirl.Elements[slot]["GUI_Element_Type"]="Edit"
-  reagirl.Elements[slot]["Name"]=Caption
+  reagirl.Elements[slot]["Name"]=caption
   reagirl.Elements[slot]["cap_w"]=math.tointeger(tx)+10
-  reagirl.Elements[slot]["Description"]=MeaningOfUI_Element
+  reagirl.Elements[slot]["Description"]=meaningOfUI_Element
   reagirl.Elements[slot]["IsDecorative"]=false
   reagirl.Elements[slot]["AccHint"]="Hit Enter to type text."
   reagirl.Elements[slot]["z_buffer"]=128
@@ -4803,7 +4853,7 @@ function reagirl.DropDownMenu_Add(x, y, w, caption, Cap_width, meaningOfUI_Eleme
     Reaper=7
     Lua=5.4
   </requires>
-  <functioncall>string dropdown-menu_guid = reagirl.DropDownMenu_Add(optional integer x, optional integer y, integer w, string caption, string meaningOfUI_Element, table menuItems, integer menuSelectedItem, function run_function)</functioncall>
+  <functioncall>string dropdown-menu_guid = reagirl.DropDownMenu_Add(optional integer x, optional integer y, integer w, string caption, optional integer Cap_width, string meaningOfUI_Element, table menuItems, integer menuSelectedItem, function run_function)</functioncall>
   <description>
     Adds a dropdown-menu to a gui.
     
@@ -4815,6 +4865,7 @@ function reagirl.DropDownMenu_Add(x, y, w, caption, Cap_width, meaningOfUI_Eleme
     optional integer y - the y position of the dropdown-menu in pixels; negative anchors the dropdown-menu to the bottom window-side; nil, autoposition after the last ui-element(see description)
     integer w - the width of the dropdown-menu; negative links width to the right-edge of the window
     string caption - the name of the dropdown-menu
+    optional integer Cap_width - the width of the caption to set the actual menu to a fixed position; nil, put menu directly after caption
     string meaningOfUI_Element - a description for accessibility users
     table menuItems - a table, where every entry is a menu-item
     integer menuSelectedItem - the index of the pre-selected menu-item
@@ -4833,14 +4884,15 @@ function reagirl.DropDownMenu_Add(x, y, w, caption, Cap_width, meaningOfUI_Eleme
   if y~=nil and math.type(y)~="integer" then error("DropDownMenu_Add: param #2 - must be an integer", 2) end
   if math.type(w)~="integer" then error("DropDownMenu_Add: param #3 - must be an integer", 2) end
   if type(caption)~="string" then error("DropDownMenu_Add: param #4 - must be a string", 2) end
-  if type(meaningOfUI_Element)~="string" then error("DropDownMenu_Add: param #5 - must be a string", 2) end
-  if type(menuItems)~="table" then error("DropDownMenu_Add: param #6 - must be a table", 2) end
+  if Cap_width~=nil and math.type(Cap_width)~="integer" then error("DropDownMenu_Add: param #5 - must be wither nil or an integer", 2) end
+  if type(meaningOfUI_Element)~="string" then error("DropDownMenu_Add: param #6 - must be a string", 2) end
+  if type(menuItems)~="table" then error("DropDownMenu_Add: param #7 - must be a table", 2) end
   for i=1, #menuItems do
     menuItems[i]=tostring(menuItems[i])
   end
-  if math.type(menuSelectedItem)~="integer" then error("DropDownMenu_Add: param #7 - must be an integer", 2) end
-  if menuSelectedItem>#menuItems or menuSelectedItem<1 then error("DropDownMenu_Add: param #7 - no such menu-item", 2) end
-  if run_function~=nil and type(run_function)~="function" then error("DropDownMenu_Add: param #8 - must be either nil or a function", 2) end
+  if math.type(menuSelectedItem)~="integer" then error("DropDownMenu_Add: param #8 - must be an integer", 2) end
+  if menuSelectedItem>#menuItems or menuSelectedItem<1 then error("DropDownMenu_Add: param #9 - no such menu-item", 2) end
+  if run_function~=nil and type(run_function)~="function" then error("DropDownMenu_Add: param #10 - must be either nil or a function", 2) end
   
   local slot=reagirl.UI_Element_GetNextFreeSlot()
   if x==nil then 
@@ -7128,7 +7180,7 @@ function reagirl.Slider_Add(x, y, w, caption, Cap_width, meaningOfUI_Element, un
     Reaper=7
     Lua=5.4
   </requires>
-  <functioncall>string slider_guid = reagirl.Slider_Add(integer x, integer y, integer w, string caption, string meaningOfUI_Element, optional string unit, number start, number stop, number step, number default, function run_function)</functioncall>
+  <functioncall>string slider_guid = reagirl.Slider_Add(integer x, integer y, integer w, string caption, optional integer cap_width, string meaningOfUI_Element, optional string unit, number start, number stop, number step, number default, function run_function)</functioncall>
   <description>
     Adds a slider to a gui.
     
@@ -7144,6 +7196,7 @@ function reagirl.Slider_Add(x, y, w, caption, Cap_width, meaningOfUI_Element, un
     optional integer x - the x position of the slider in pixels; negative anchors the slider to the right window-side; nil, autoposition after the last ui-element(see description)
     optional integer y - the y position of the slider in pixels; negative anchors the slider to the bottom window-side; nil, autoposition after the last ui-element(see description)
     string caption - the caption of the slider
+    optional integer cap_width - the width of the caption to set the actual slider to a fixed position; nil, put slider directly after caption
     string meaningOfUI_Element - a description for accessibility users
     optional string unit - the unit shown next to the number the slider is currently set to
     number start - the minimum value of the slider
@@ -7167,12 +7220,13 @@ function reagirl.Slider_Add(x, y, w, caption, Cap_width, meaningOfUI_Element, un
   if y~=nil and math.type(y)~="integer" then error("Slider_Add: param #2 - must be an integer", 2) end
   if math.type(w)~="integer" then error("Slider_Add: param #3 - must be an integer", 2) end
   if type(caption)~="string" then error("Slider_Add: param #4 - must be a string", 2) end
-  if type(meaningOfUI_Element)~="string" then error("Slider_Add: param #5 - must be a string", 2) end
-  if unit~=nil and type(unit)~="string" then error("Slider_Add: param #6 - must be a number", 2) end
-  if type(start)~="number" then error("Slider_Add: param #7 - must be a number", 2) end
-  if type(stop)~="number" then error("Slider_Add: param #8 - must be a number", 2) end
-  if type(step)~="number" then error("Slider_Add: param #9 - must be a number", 2) end
-  if type(default)~="number" then error("Slider_Add: param #10 - must be a number", 2) end
+  if Cap_width~=nil and math.type(Cap_width)~="integer" then error("Slider_Add: param #5 - must be wither nil or an integer", 2) end
+  if type(meaningOfUI_Element)~="string" then error("Slider_Add: param #6 - must be a string", 2) end
+  if unit~=nil and type(unit)~="string" then error("Slider_Add: param #7 - must be a number", 2) end
+  if type(start)~="number" then error("Slider_Add: param #8 - must be a number", 2) end
+  if type(stop)~="number" then error("Slider_Add: param #9 - must be a number", 2) end
+  if type(step)~="number" then error("Slider_Add: param #10 - must be a number", 2) end
+  if type(default)~="number" then error("Slider_Add: param #11 - must be a number", 2) end
   if run_function~=nil and type(run_function)~="function" then error("Slider_Add: param #11 - must be either nil or a function", 2) end
   
   local slot=reagirl.UI_Element_GetNextFreeSlot()
@@ -7251,6 +7305,9 @@ function reagirl.Slider_Manage(element_id, selected, hovered, clicked, mouse_cap
   local offset_cap=element_storage["cap_w"]
   if element_storage["Cap_width"]~=nil then
     offset_cap=element_storage["Cap_width"]
+  end
+  if selected~="not selected" then
+    reagirl.UI_Element_SetFocusRect(true, x, y, w-20, h-5)
   end
   local offset_unit=element_storage["unit_w"]
   element_storage["slider_w"]=math.tointeger(w-element_storage["cap_w"]-element_storage["unit_w"]-10)
@@ -7401,7 +7458,7 @@ function reagirl.Slider_Draw(element_id, selected, hovered, clicked, mouse_cap, 
   local offset_unit=gfx.measurestr(element_storage["Unit"].."8888888")
   
   element_storage["cap_w"]=offset_cap--gfx.measurestr(name.." ")+5*dpi_scale
-  print_update(offset_cap)
+  --print_update(offset_cap)
   element_storage["unit_w"]=offset_unit
   element_storage["slider_w"]=w-offset_cap-offset_unit
   gfx.x=x+1
@@ -8321,7 +8378,7 @@ local count2=0
 
 function UpdateUI()
   reagirl.Background_GetSetColor(true, 44,44,44)
-  reagirl.Tabs_Add(nil, nil, nil, nil, "Add Shownote", "", {"General", "Advanced"}, 1, tabme)
+  reagirl.Tabs_Add(nil, nil, -10, 365, "Add Shownote", "", {"General", "Advanced"}, 1, tabme)
   reagirl.NextLine()
   Lab1=reagirl.Label_Add(25, nil, "General Attributes:", "", 0, false, nil)
   reagirl.Label_SetStyle(Lab1, 6)
@@ -8338,7 +8395,7 @@ function UpdateUI()
   reagirl.NextLine()
   reagirl.CheckBox_Add(138, nil, "Is Advertisement", "", true, tabme)
   reagirl.NextLine()
-  reagirl.InputBox_Add(40, nil, -20, "CN:           ", 100, "", "Hackies, und, so", nil, nil)
+  reagirl.InputBox_Add(40, nil, -20, "Content Note:", 100, "", "Hackies, und, so", nil, nil)
   
   reagirl.NextLine(5)
   Lab2=reagirl.Label_Add(25, nil, "URL-Attributes:", "", 0, false, nil)
@@ -8351,26 +8408,26 @@ function UpdateUI()
   reagirl.NextLine(5)
   Lab3=reagirl.Label_Add(25, nil, "Chapter Image:", "", 0, false, nil)
   reagirl.Label_SetStyle(Lab3, 6)
-  reagirl.NextLine()
+  reagirl.NextLine(3)
   reagirl.Image_Add("c:\\c.png", 40, nil, 100, 100, "Chapter Image", "", tabme)
   --reagirl.NextLine()
-  reagirl.InputBox_Add(150, nil, -20, "Description: ", 100, "", "Cover \nof DFVA", nil, nil)
+  reagirl.InputBox_Add(150, nil, -20, "Description: ", 80, "", "Cover \nof DFVA", nil, nil)
   reagirl.NextLine()
-  reagirl.InputBox_Add(nil, nil, -20, "License:      ", 100, "", "CC-By-NC", nil, nil)
+  reagirl.InputBox_Add(nil, nil, -20, "License:      ", 80, "", "CC-By-NC", nil, nil)
   reagirl.NextLine()
-  reagirl.InputBox_Add(nil, nil, -20, "Origin:         ", 100, "", "Wikipedia", nil, nil)
+  reagirl.InputBox_Add(nil, nil, -20, "Origin:         ", 80, "", "Wikipedia", nil, nil)
   reagirl.NextLine()
   --reagirl.InputBox_Add(nil, nil, -20, "Origin-URL:  ", 100, "", "https://www.wikipedia.com/dfva", nil, nil)
   
   reagirl.NextLine()
-  reagirl.Slider_Add(nil, nil, -20, "Tudel", 100, "Loo", "%", 1, 100, 1, 20, tabme)
-  reagirl.NextLine()
-  reagirl.DropDownMenu_Add(nil, nil, -20, "Tudel", 100, "Loo", {"eins", "zwo", "drei"}, 2, tabme)
+  reagirl.Slider_Add(nil, nil, -10, "Slide Me", 80, "Loo", "%", 1, 100, 1, 20, tabme)
+  reagirl.NextLine(-4)
+  reagirl.DropDownMenu_Add(nil, nil, -20, "Menu", 80, "Loo", {"eins", "zwo", "drei"}, 2, tabme)
 end
 
 
 Images={reaper.GetResourcePath().."/Scripts/Ultraschall_Gfx/Headers/soundcheck_logo.png","c:\\f.png","c:\\m.png"}
-reagirl.Gui_Open("Edit Chapter Marker Attributes", "Edit Chapter marker", 370, 405, reagirl.DockState_Retrieve("Stonehenge"), 1, 1)
+reagirl.Gui_Open("Edit Chapter Marker Attributes", "Edit Chapter marker", 370, 415, reagirl.DockState_Retrieve("Stonehenge"), 1, 1)
 
 UpdateUI()
 --reagirl.Window_ForceSize_Minimum(320, 200)
