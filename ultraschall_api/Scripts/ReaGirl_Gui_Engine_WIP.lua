@@ -10,7 +10,7 @@ TODO:
   - jumping to ui-elements outside window(means autoscroll to them) doesn't always work
     - ui-elements might still be out of view when jumping to them(x-coordinate outside of window for instance)
   - Slider: disappears when scrolling upwards/leftwards: because of the "only draw neccessary gui-elements"-code, which is buggy for some reason
-  - Slider: width is too big...gui might scroll because of that...
+  - Slider: width is too big...gui might scroll because of that...(probably because of the safety margin of the unit)
   - Slider: draw a line where the default-value shall be
   - Slider: when width is too small, drawing bugs appear(i.e. autowidth plus window is too small)
   - Background_GetSetImage - check, if the background image works properly with scaling and scrolling
@@ -4956,9 +4956,13 @@ end
 
 
 function reagirl.DropDownMenu_Manage(element_id, selected, hovered, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
-  local cap_w=element_storage["cap_w"]*reagirl.Window_GetCurrentScale()
+  local cap_w=element_storage["cap_w"]
   if element_storage["Cap_width"]~=nil then
     cap_w=element_storage["Cap_width"]
+  end
+  cap_w=cap_w*reagirl.Window_GetCurrentScale()
+  if selected~="not selected" then
+    reagirl.UI_Element_SetFocusRect(true, x, y, w+5, h)
   end
   if w<50 then w=50 end
   local refresh=false
@@ -5055,11 +5059,12 @@ end
 function reagirl.DropDownMenu_Draw(element_id, selected, hovered, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
   local dpi_scale, state
   local dpi_scale=reagirl.Window_CurrentScale
-  local cap_w=element_storage["cap_w"]*reagirl.Window_GetCurrentScale()
+  local cap_w=element_storage["cap_w"]
   if element_storage["Cap_width"]~=nil then
     cap_w=element_storage["Cap_width"]
   end
-  cap_w=cap_w-dpi_scale*3
+  
+  cap_w=cap_w*reagirl.Window_GetCurrentScale()-dpi_scale*3
   if w-cap_w<50 then w=50+cap_w end
   local offset=gfx.measurestr(name.." ")
   gfx.x=x+cap_w
@@ -5104,8 +5109,8 @@ function reagirl.DropDownMenu_Draw(element_id, selected, hovered, clicked, mouse
     
     gfx.set(0.39)
     local circ=4
-    gfx.circle(x+dpi_scale+dpi_scale+w-h/2, (y+dpi_scale+dpi_scale+h)-dpi_scale-h/2, circ*dpi_scale, 1, 0)
-    gfx.rect(x+w-h+1*(dpi_scale-1)+dpi_scale+dpi_scale, y+1+1*(dpi_scale-2)+dpi_scale+dpi_scale+dpi_scale, dpi_scale, h-dpi_scale, 1)
+    gfx.circle(x+dpi_scale+dpi_scale+dpi_scale+dpi_scale+w-h/2, (y+dpi_scale+dpi_scale+dpi_scale+h)-dpi_scale-h/2, circ*dpi_scale, 1, 0)
+    gfx.rect(x+w-h+1*(dpi_scale-1)+dpi_scale+dpi_scale, y+(dpi_scale-dpi_scale)+dpi_scale+dpi_scale, dpi_scale, h, 1)
     
     if element_storage["IsDecorative"]==false then
       gfx.x=x+(7*dpi_scale)+offset+cap_w
@@ -5129,7 +5134,7 @@ function reagirl.DropDownMenu_Draw(element_id, selected, hovered, clicked, mouse
     
     gfx.set(0.39)
     local circ=4
-    gfx.circle(x+w-h/2, (y+h)-dpi_scale-h/2, circ*dpi_scale, 1, 0)
+    gfx.circle(x+w+dpi_scale+dpi_scale-h/2, (y+h)-dpi_scale-h/2, circ*dpi_scale, 1, 0)
     gfx.rect(x+w-h+1*(dpi_scale-1), y+1+1*(dpi_scale-2), dpi_scale, h-dpi_scale, 1)
     
     local offset=0
@@ -7301,18 +7306,19 @@ end
 
 function reagirl.Slider_Manage(element_id, selected, hovered, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
   local refresh=false
+  local dpi_scale=reagirl.Window_GetCurrentScale()
   local slider, slider4, slider_x, slider_x2
   if w<element_storage["cap_w"]+element_storage["unit_w"]+20 then w=element_storage["cap_w"]+element_storage["unit_w"]+20 end
   local offset_cap=element_storage["cap_w"]
   if element_storage["Cap_width"]~=nil then
-    offset_cap=element_storage["Cap_width"]
+    offset_cap=element_storage["Cap_width"]*dpi_scale
   end
   if selected~="not selected" then
     reagirl.UI_Element_SetFocusRect(true, x, y, w-20, h-5)
   end
   local offset_unit=element_storage["unit_w"]
   element_storage["slider_w"]=math.tointeger(w-element_storage["cap_w"]-element_storage["unit_w"]-10)
-  local dpi_scale=reagirl.Window_GetCurrentScale()
+  
   if selected~="not selected" then
     reagirl.Scroll_Override=true
     if Key==1919379572.0 or Key==1685026670.0 then element_storage["CurValue"]=element_storage["CurValue"]+element_storage["Step"] refresh=true reagirl.Scroll_Override=true end
@@ -7452,10 +7458,11 @@ function reagirl.Slider_Draw(element_id, selected, hovered, clicked, mouse_cap, 
   local dpi_scale=reagirl.Window_GetCurrentScale()
   
   reagirl.SetFont(1, "Arial", reagirl.Font_Size-1, 0)
-  local offset_cap=gfx.measurestr(name.." ")+5*dpi_scale
+  local offset_cap=gfx.measurestr(name.." ")+5
   if element_storage["Cap_width"]~=nil then
     offset_cap=element_storage["Cap_width"]
   end
+  offset_cap=offset_cap*dpi_scale
   local offset_unit=gfx.measurestr(element_storage["Unit"].."8888888")
   
   element_storage["cap_w"]=offset_cap--gfx.measurestr(name.." ")+5*dpi_scale
