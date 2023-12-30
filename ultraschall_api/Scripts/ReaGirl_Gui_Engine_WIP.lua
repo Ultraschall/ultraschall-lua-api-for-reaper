@@ -4139,8 +4139,12 @@ end
 function reagirl.InputBox_OnTyping(Key, Key_UTF, mouse_cap, element_storage)
   if Key_UTF~=0 then Key=Key_UTF end
   local refresh=false
-  if Key>0 then refresh=true end
+  
   if Key==-1 then
+  elseif Key==13 then
+    if element_storage["run_function"]~=nil then
+      element_storage["run_function"](element_storage["Guid"], element_storage.Text)
+    end
   elseif Key==1885824110.0 then
     -- Pg down
   elseif Key==1885828464.0 then
@@ -4336,6 +4340,14 @@ function reagirl.InputBox_OnTyping(Key, Key_UTF, mouse_cap, element_storage)
     reagirl.InputBox_ConsolidateCursorPos(element_storage)
     reagirl.InputBox_Calculate_DrawOffset(true, element_storage)
   end
+  
+  if Key>0 then 
+    if element_storage["run_function_type"]~=nil then
+      element_storage["run_function_type"](element_storage["Guid"], element_storage.Text)
+    end
+    refresh=true 
+  end
+  
   return refresh
 end
 
@@ -4349,9 +4361,15 @@ function reagirl.InputBox_Manage(element_id, selected, hovered, clicked, mouse_c
       if retval==true then
         refresh=true
         element_storage.Text=text
+        if element_storage["run_function"]~=nil then
+          element_storage["run_function"](element_storage["Guid"], element_storage.Text)
+        end
       end
     end
   else
+    if element_storage["run_function"]~=nil then
+      reagirl.Gui_PreventEnterForOneCycle()
+    end
     if selected=="not selected" then
       element_storage.hasfocus=false
     end
@@ -8271,7 +8289,13 @@ reagirl.Gui_New()
 --- End of ReaGirl-Functions
 
 
+function ABBALA2(A,B,C)
+  print2("Mister Ed HUCH", A, B, C)
+end
 
+function ABBALA3(A,B,C)
+  print_update(os.date(), A,B,C)
+end
 
 local count=0
 local count2=0
@@ -8286,7 +8310,7 @@ function UpdateUI()
   --reagirl.Label_SetStyle(Lab1, 6)
   
   reagirl.NextLine()
-  reagirl.InputBox_Add(40, nil, -20, "Title:", 100, "", "Malik testet Hackintoshis", nil, nil)
+  reagirl.InputBox_Add(40, nil, -20, "Title:", 100, "", "Malik testet Hackintoshis", ABBALA2, ABBALA3)
   reagirl.NextLine()
   reagirl.InputBox_Add(40, nil, -20, "Description:", 100, "","Neue Hackintoshs braucht das Land", nil, nil)
   reagirl.NextLine()
