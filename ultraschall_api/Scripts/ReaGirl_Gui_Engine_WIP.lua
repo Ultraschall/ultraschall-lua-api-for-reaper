@@ -1741,10 +1741,10 @@ function reagirl.Gui_Manage()
             {click_x, click_y, drag_x, drag_y, mouse_wheel, mouse_hwheel},
             reagirl.Elements[i]["Name"],
             reagirl.Elements[i]["Description"], 
-            x2+MoveItAllRight,
-            y2+MoveItAllUp,
-            w2,
-            h2,
+            math.tointeger(x2+MoveItAllRight),
+            math.tointeger(y2+MoveItAllUp),
+            math.tointeger(w2),
+            math.tointeger(h2),
             Key,
             Key_utf,
             reagirl.Elements[i]
@@ -7301,6 +7301,7 @@ end
 
 function reagirl.Slider_Manage(element_id, selected, hovered, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
   local refresh=false
+  local slider, slider4, slider_x, slider_x2
   if w<element_storage["cap_w"]+element_storage["unit_w"]+20 then w=element_storage["cap_w"]+element_storage["unit_w"]+20 end
   local offset_cap=element_storage["cap_w"]
   if element_storage["Cap_width"]~=nil then
