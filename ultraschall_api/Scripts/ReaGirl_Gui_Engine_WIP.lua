@@ -1,12 +1,21 @@
 dofile(reaper.GetResourcePath().."/UserPlugins/ultraschall_api.lua")
 
 -- DEBUG:
-reaper.osara_outputMessage=nil
+--reaper.osara_outputMessage=nil
 
+reagirl={}
+if reaper.osara_outputMessage~=nil then
+  reagirl.OSARA=reaper.osara_outputMessage
+  function reaper.osara_outputMessage(message, a)
+    print_update(message)
+    if message~="" then print_update(message,a) end
+    reagirl.OSARA(message)
+  end
+end
+--]]
 --[[
 TODO: 
   - InputBox: if they are too small, they aren't drawn properly
-  - Tabs: when scrolling outside the top-side of the window, there are drawing issues at the top of the tab-header
   - jumping to ui-elements outside window(means autoscroll to them) doesn't always work
     - ui-elements might still be out of view when jumping to them(x-coordinate outside of window for instance)
   - Slider: disappears when scrolling upwards/leftwards: because of the "only draw neccessary gui-elements"-code, which is buggy for some reason
@@ -48,7 +57,7 @@ TODO:
 --]]
 --XX,YY=reaper.GetMousePosition()
 --gfx.ext_retina = 0
-reagirl={}
+
 reagirl.Elements={}
 reagirl.MoveItAllUp=0
 reagirl.MoveItAllRight=0
@@ -73,14 +82,6 @@ reagirl.mouse.x=gfx.mouse_x
 reagirl.mouse.y=gfx.mouse_y
 reagirl.mouse.dragged=false
 
-if reagirl.osara_outputMessage~=nil then
-  reagirl.OSARA=reaper.osara_outputMessage
-  function reaper.osara_outputMessage(message, a)
-    --if message~="" then print_update(message,a) end
-    reagirl.OSARA(message)
-  end
-end
---]]
 
 function reagirl.FormatNumber(n, p)
   -- by cfillion
@@ -3062,6 +3063,9 @@ function reagirl.Checkbox_Manage(element_id, selected, hovered, clicked, mouse_c
     end
   end
   if refresh==true then reagirl.Gui_ForceRefresh(14) end
+  local unchecked="checked"
+  if element_storage["checked"]==false then unchecked="unchecked" end
+  element_storage["AccHoverMessage"]=element_storage["Name"].." "..unchecked
   if reagirl.Elements[element_id]["checked"]==true then
     return "checked. ", refresh
   else
@@ -3299,7 +3303,7 @@ function reagirl.CheckBox_Draw(element_id, selected, hovered, clicked, mouse_cap
   reagirl.RoundRect(x,y,h+2,h+2,1*scale, 1,1, false, false, false, false)
   
   gfx.set(0.2725490196078431)
-  reagirl.RoundRect(x+scale,y+scale,h+2-scale*2,h+2-scale*2,1*scale, 0,1, false, false, false, false)
+  reagirl.RoundRect(x+scale,y+scale,h+2-scale*2,h+2-scale*2,scale, 0, 1, false, false, false, false)
   
   if reagirl.Elements[element_id]["checked"]==true then
     if element_storage["IsDecorative"]==false then
@@ -4510,6 +4514,7 @@ function reagirl.InputBox_Manage(element_id, selected, hovered, clicked, mouse_c
     refresh=true
   end
   element_storage.w2_old=w
+  element_storage["AccHoverMessage"]=element_storage["Name"].." "..element_storage["Text"]
   if refresh==true then
     reagirl.Gui_ForceRefresh(23)
   end
@@ -8308,7 +8313,7 @@ function reagirl.Tabs_Draw(element_id, selected, hovered, clicked, mouse_cap, mo
     if i==element_storage["TabSelected"] then offset=dpi_scale gfx.set(0.253921568627451) else offset=0 gfx.set(0.153921568627451) end
     
     --element_storage["w"]=math.tointeger(tx+text_offset_x+text_offset_x)-1-x
-    gfx.rect(math.tointeger(x+x_offset-text_offset_x)+1, y+y, math.tointeger(tx+text_offset_x+text_offset_x)-1, tab_height+ty-y+offset, 4*dpi_scale, 1, 0, false, true, false, true)
+    gfx.rect(math.tointeger(x+x_offset-text_offset_x)+1, y+text_offset_y, math.tointeger(tx+text_offset_x+text_offset_x)-1, tab_height+ty-y+offset, 4*dpi_scale, 1, 0, false, true, false, true)
     
     -- store the dimensions and positions of individual tabs for the manage-function
     element_storage["Tabs_Pos"][i]["x"]=math.tointeger(x+x_offset-text_offset_x)
@@ -8414,10 +8419,11 @@ function UpdateUI()
   reagirl.InputBox_Add(40, nil, -20, "Url description:", 100, "", "Der besteste Audiodnmps auf se welt", nil, nil)
   --]]
   reagirl.NextLine(5)
-  Lab3=reagirl.Label_Add(25, nil, "Chapter Image:", "", 0, false, nil)
+  Lab3=reagirl.Label_Add(25, nil, "Chapter Image:", "HELP", 0, false, nil)
   reagirl.Label_SetStyle(Lab3, 6)
   reagirl.NextLine(3)
-  reagirl.Image_Add("c:\\c.png", 40, nil, 100, 100, "Chapter Image", "", tabme)
+  Img=reagirl.Image_Add("c:\\c.png", 40, nil, 100, 100, "Chapter Image", "", ABBALA3)
+  reagirl.Image_SetDraggable(Img, true, {Lab3})
   --reagirl.NextLine()
   reagirl.InputBox_Add(150, nil, -20, "Description: ", 80, "", "Cover \nof DFVA", nil, nil)
   reagirl.NextLine()
