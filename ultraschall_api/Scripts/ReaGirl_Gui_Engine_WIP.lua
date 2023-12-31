@@ -7357,9 +7357,9 @@ function reagirl.Slider_Manage(element_id, selected, hovered, clicked, mouse_cap
       dh=10
       --]]
       
-      if (clicked=="FirstCLK" or clicked=="DRAG") and gfx.mouse_x>=x+offset_cap-10 and gfx.mouse_x<=x+offset_cap then
+      if (clicked=="FirstCLK" or clicked=="DRAG") and gfx.mouse_x>=x+offset_cap-10*dpi_scale and gfx.mouse_x<=x+offset_cap then
         element_storage["CurValue"]=element_storage["Start"]
-      elseif (clicked=="FirstCLK" or clicked=="DRAG") and gfx.mouse_x>=x+w-offset_unit and gfx.mouse_x<=x+w-offset_unit+10 then
+      elseif (clicked=="FirstCLK" or clicked=="DRAG") and gfx.mouse_x>=x+w-offset_unit and gfx.mouse_x<=x+w-offset_unit+10*dpi_scale then
         element_storage["CurValue"]=element_storage["Stop"]
         
       else
