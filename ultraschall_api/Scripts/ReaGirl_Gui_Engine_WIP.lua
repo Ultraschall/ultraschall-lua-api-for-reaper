@@ -7,8 +7,8 @@ reagirl={}
 if reaper.osara_outputMessage~=nil then
   reagirl.OSARA=reaper.osara_outputMessage
   function reaper.osara_outputMessage(message, a)
-    print_update(message)
-    if message~="" then print_update(message,a) end
+--    print_update(message)
+    --if message~="" then print_update(message,a) end
     reagirl.OSARA(message)
   end
 end
@@ -7319,7 +7319,7 @@ function reagirl.Slider_Manage(element_id, selected, hovered, clicked, mouse_cap
     offset_cap=element_storage["Cap_width"]*dpi_scale
   end
   if selected~="not selected" then
-    reagirl.UI_Element_SetFocusRect(true, x, y, w-20, h-5)
+    --reagirl.UI_Element_SetFocusRect(true, x, y, w-20, h-5)
   end
   local offset_unit=element_storage["unit_w"]
   element_storage["slider_w"]=math.tointeger(w-element_storage["cap_w"]-element_storage["unit_w"]-10)
@@ -7357,34 +7357,43 @@ function reagirl.Slider_Manage(element_id, selected, hovered, clicked, mouse_cap
       dh=10
       --]]
       
-      element_storage["TempValue"]=element_storage["CurValue"]      
-      if slider_x2>=0 and slider_x2<=element_storage["slider_w"] then
-        if clicked=="DBLCLK" then
-        --  element_storage["CurValue"]=element_storage["Default"]
-        --  refresh=true
-        else
-          if clicked=="FirstCLK" or clicked=="DRAG" then
-            --step_size=(rect_w/(element_storage["Stop"]+1-element_storage["Start"])/(element_storage["Step"]))
-            step_size=(rect_w/(element_storage["Stop"]+1-element_storage["Start"])/1)
-            slider4=slider_x2/step_size
-            element_storage["CurValue"]=element_storage["Start"]+slider4
-            if element_storage["Step"]~=-1 then 
-              local old=element_storage["Start"]
-              for i=element_storage["Start"], element_storage["Stop"], element_storage["Step"] do
-                if element_storage["CurValue"]<i then
-                 element_storage["CurValue"]=i
-                 break
+      if (clicked=="FirstCLK" or clicked=="DRAG") and gfx.mouse_x>=x+offset_cap-10 and gfx.mouse_x<=x+offset_cap then
+        element_storage["CurValue"]=element_storage["Start"]
+      elseif (clicked=="FirstCLK" or clicked=="DRAG") and gfx.mouse_x>=x+w-offset_unit and gfx.mouse_x<=x+w-offset_unit+10 then
+        element_storage["CurValue"]=element_storage["Stop"]
+        
+      else
+      
+        element_storage["TempValue"]=element_storage["CurValue"]     
+        if slider_x2>=0 and slider_x2<=element_storage["slider_w"] then
+          if clicked=="DBLCLK" then
+          --  element_storage["CurValue"]=element_storage["Default"]
+          --  refresh=true
+          else
+            if clicked=="FirstCLK" or clicked=="DRAG" then
+              step_size=(rect_w/(element_storage["Stop"]+1-element_storage["Start"])/1)
+              slider4=slider_x2/step_size
+              element_storage["CurValue"]=element_storage["Start"]+slider4
+              if element_storage["Step"]~=-1 then 
+                local old=element_storage["Start"]
+                for i=element_storage["Start"]-1, element_storage["Stop"]+1, element_storage["Step"] do
+                  if element_storage["CurValue"]<i then
+                   element_storage["CurValue"]=i
+                   break
+                  end
+                  old=i
                 end
-                old=i
               end
+  
+              
+              element_storage["OldMouseX"]=gfx.mouse_x
+              element_storage["OldMouseY"]=gfx.mouse_y 
             end
-            element_storage["OldMouseX"]=gfx.mouse_x
-            element_storage["OldMouseY"]=gfx.mouse_y 
           end
+        elseif slider_x2<0 and slider_x2>=-15 and clicked=="FirstCLK" then element_storage["CurValue"]=element_storage["Start"] 
+        elseif slider_x2>element_storage["slider_w"] and clicked=="FirstCLK" then 
+          element_storage["CurValue"]=element_storage["Stop"] 
         end
-      elseif slider_x2<0 and slider_x2>=-15 and clicked=="FirstCLK" then element_storage["CurValue"]=element_storage["Start"] 
-      elseif slider_x2>element_storage["slider_w"] and clicked=="FirstCLK" then 
-        element_storage["CurValue"]=element_storage["Stop"] 
       end
       if element_storage["TempValue"]~=element_storage["CurValue"] then --element_storage["OldMouseX"]~=gfx.mouse_x or element_storage["OldMouseY"]~=gfx.mouse_y then
         refresh=true
@@ -7468,7 +7477,7 @@ function reagirl.Slider_Draw(element_id, selected, hovered, clicked, mouse_cap, 
     offset_cap=element_storage["Cap_width"]
   end
   offset_cap=offset_cap*dpi_scale
-  local offset_unit=gfx.measurestr(element_storage["Unit"].."8888888")
+  local offset_unit=gfx.measurestr(element_storage["Unit"].."8888")
   
   element_storage["cap_w"]=offset_cap--gfx.measurestr(name.." ")+5*dpi_scale
   --print_update(offset_cap)
@@ -8391,7 +8400,7 @@ local count2=0
 
 function UpdateUI()
   reagirl.Background_GetSetColor(true, 44,44,44)
-  reagirl.Tabs_Add(nil, nil, -10, 365, "Add Shownote", "", {"General", "Advanced"}, 1, tabme)
+  reagirl.Tabs_Add(nil, nil, -10, 380, "Add Shownote", "", {"General", "Advanced"}, 1, tabme)
   reagirl.NextLine()
   Lab1=reagirl.Label_Add(25, nil, "General Attributes:", "", 0, false, nil)
   reagirl.Label_SetStyle(Lab1, 6)
@@ -8410,7 +8419,7 @@ function UpdateUI()
   reagirl.NextLine()
   reagirl.InputBox_Add(40, nil, -20, "Content Note:", 100, "", "Hackies, und, so", nil, nil)
   
-  reagirl.NextLine(5)
+  reagirl.NextLine(10)
   Lab2=reagirl.Label_Add(25, nil, "URL-Attributes:", "", 0, false, nil)
   reagirl.Label_SetStyle(Lab2, 6)
   reagirl.NextLine()
@@ -8418,7 +8427,7 @@ function UpdateUI()
   reagirl.NextLine()
   reagirl.InputBox_Add(40, nil, -20, "Url description:", 100, "", "Der besteste Audiodnmps auf se welt", nil, nil)
   --]]
-  reagirl.NextLine(5)
+  reagirl.NextLine(10)
   Lab3=reagirl.Label_Add(25, nil, "Chapter Image:", "HELP", 0, false, nil)
   reagirl.Label_SetStyle(Lab3, 6)
   reagirl.NextLine(3)
@@ -8427,21 +8436,22 @@ function UpdateUI()
   --reagirl.NextLine()
   reagirl.InputBox_Add(150, nil, -20, "Description: ", 80, "", "Cover \nof DFVA", nil, nil)
   reagirl.NextLine()
+  reagirl.Slider_Add(nil, nil, -20, "Slide Me", 80, "Loo", "%", 1, 100, 1, 100, tabme)
+  reagirl.NextLine(-4)
+  reagirl.DropDownMenu_Add(nil, nil, -20, "Menu", 80, "Loo", {"eins", "zwo", "drei"}, 2, tabme)
+  reagirl.NextLine()
   reagirl.InputBox_Add(nil, nil, -20, "License:      ", 80, "", "CC-By-NC", nil, nil)
   reagirl.NextLine()
   reagirl.InputBox_Add(nil, nil, -20, "Origin:         ", 80, "", "Wikipedia", nil, nil)
   reagirl.NextLine()
   --reagirl.InputBox_Add(nil, nil, -20, "Origin-URL:  ", 100, "", "https://www.wikipedia.com/dfva", nil, nil)
   
-  reagirl.NextLine()
-  reagirl.Slider_Add(nil, nil, -10, "Slide Me", 80, "Loo", "%", 1, 100, 1, 20, tabme)
-  reagirl.NextLine(-4)
-  reagirl.DropDownMenu_Add(nil, nil, -20, "Menu", 80, "Loo", {"eins", "zwo", "drei"}, 2, tabme)
+  
 end
 
 
 Images={reaper.GetResourcePath().."/Scripts/Ultraschall_Gfx/Headers/soundcheck_logo.png","c:\\f.png","c:\\m.png"}
-reagirl.Gui_Open("Edit Chapter Marker Attributes", "Edit Chapter marker", 370, 415, reagirl.DockState_Retrieve("Stonehenge"), 1, 1)
+reagirl.Gui_Open("Edit Chapter Marker Attributes", "Edit Chapter marker", 370, 425, reagirl.DockState_Retrieve("Stonehenge"), 1, 1)
 
 UpdateUI()
 --reagirl.Window_ForceSize_Minimum(320, 200)
