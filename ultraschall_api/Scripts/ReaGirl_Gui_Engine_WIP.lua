@@ -1,7 +1,7 @@
 dofile(reaper.GetResourcePath().."/UserPlugins/ultraschall_api.lua")
 
 -- DEBUG:
---reaper.osara_outputMessage=nil
+reaper.osara_outputMessage=nil
 
 reagirl={}
 if reaper.osara_outputMessage~=nil then
@@ -4588,10 +4588,12 @@ function reagirl.InputBox_Draw(element_id, selected, hovered, clicked, mouse_cap
   local textw=gfx.measurechar("65")-1
   
   -- draw rectangle around text
-  gfx.set(0.234)
-  reagirl.RoundRect(x+cap_w-2*dpi_scale, y, w-cap_w, math.tointeger(gfx.texth)+dpi_scale*2, 2*dpi_scale, 0, 1)
   gfx.set(0.59)
-  reagirl.RoundRect(x+cap_w-2*dpi_scale, y, w-cap_w, math.tointeger(gfx.texth)+dpi_scale*2, 2*dpi_scale, 0, 0)
+  reagirl.RoundRect(x+cap_w-2*dpi_scale, y, w-cap_w, math.tointeger(gfx.texth)+dpi_scale*2, 2*dpi_scale, 0, 1)
+  
+  gfx.set(0.234)
+  reagirl.RoundRect(x+dpi_scale+cap_w-2*dpi_scale, y+dpi_scale, w-cap_w-dpi_scale-dpi_scale, math.tointeger(gfx.texth), 2*dpi_scale, 0, 1)
+  
   
   -- draw text
   if element_storage["IsDecorative"]==false then gfx.set(0.8) else gfx.set(0.6) end
@@ -8400,7 +8402,7 @@ local count2=0
 
 function UpdateUI()
   reagirl.Background_GetSetColor(true, 44,44,44)
-  reagirl.Tabs_Add(nil, nil, -10, 380, "Add Shownote", "", {"General", "Advanced"}, 1, tabme)
+  reagirl.Tabs_Add(nil, nil, -10, 380, "Add Shownote", "", {"General", "Advanced", "Smoke", "On The"}, 1, tabme)
   reagirl.NextLine()
   Lab1=reagirl.Label_Add(25, nil, "General Attributes:", "", 0, false, nil)
   reagirl.Label_SetStyle(Lab1, 6)
