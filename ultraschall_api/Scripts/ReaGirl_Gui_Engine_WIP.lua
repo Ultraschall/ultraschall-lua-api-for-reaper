@@ -3769,7 +3769,6 @@ function reagirl.Button_Draw(element_id, selected, hovered, clicked, mouse_cap, 
     
     gfx.set(0.06) -- background 1
     reagirl.RoundRect((x - 1 + offset)+scale, (y - 1 + offset)+scale, w, h, radius * dpi_scale, 1, 1)
-    --reagirl.RoundRect((x+offset)+scale, (y + offset - 2) + scale, w, h, radius * dpi_scale, 1, 1)
     
     gfx.set(0.274) -- background 2
     reagirl.RoundRect((x + offset+1)+scale, (y + offset +1- 1) + scale, w, h, radius * dpi_scale, 1, 1)
@@ -3791,17 +3790,13 @@ function reagirl.Button_Draw(element_id, selected, hovered, clicked, mouse_cap, 
     state=0
     
     gfx.set(0.06) -- background 1
-    --print_update(x, scale, (x-1)*scale)
-    --reagirl.RoundRect((x - 1)*scale, (y - 1)*scale, w, h, radius * dpi_scale, 1, 1)
-    --reagirl.RoundRect(x*scale, (y - 2) * scale, w, h, radius * dpi_scale, 1, 1)
     reagirl.RoundRect((x)*scale, (y)*scale, w, h, radius * dpi_scale, 1, 1)
     
-    
     gfx.set(0.39) -- background 2
-    reagirl.RoundRect(x*scale, (y - 1) * scale, w, h, radius * dpi_scale, 1, 1)
+    reagirl.RoundRect(x*scale, (y - dpi_scale) * scale, w, h, radius * dpi_scale, 1, 1)
     
     gfx.set(0.274) -- button-area
-    reagirl.RoundRect((x + 1) * scale, (y) * scale, w-scale, h-1, radius * dpi_scale, 1, 1)
+    reagirl.RoundRect((x + dpi_scale) * scale, (y) * scale, w-dpi_scale, h-dpi_scale, radius * dpi_scale, 1, 1)
     
     local offset=0
     if element_storage["IsDecorative"]==false then
@@ -8406,6 +8401,8 @@ function UpdateUI()
   reagirl.Background_GetSetColor(true, 44,44,44)
   reagirl.Tabs_Add(nil, nil, -10, 380, "Add Shownote", "", {"General", "Advanced", "Smoke", "On The"}, 1, tabme)
   reagirl.NextLine()
+  reagirl.Button_Add(nil, nil, 0, 0, "Caption Me", "", tabme)
+  reagirl.NextLine()
   Lab1=reagirl.Label_Add(25, nil, "General Attributes:", "", 0, false, nil)
   reagirl.Label_SetStyle(Lab1, 6)
   
@@ -8445,9 +8442,8 @@ function UpdateUI()
   reagirl.DropDownMenu_Add(nil, nil, -20, "Menu", 80, "Loo", {"eins", "zwo", "drei"}, 2, tabme)
   reagirl.NextLine()
   reagirl.InputBox_Add(nil, nil, -20, "License:      ", 80, "", "CC-By-NC", nil, nil)
-  reagirl.NextLine()
-  reagirl.InputBox_Add(nil, nil, -20, "Origin:         ", 80, "", "Wikipedia", nil, nil)
-  reagirl.NextLine()
+  --reagirl.InputBox_Add(nil, nil, -20, "Origin:         ", 80, "", "Wikipedia", nil, nil)
+  --reagirl.NextLine()
   --reagirl.InputBox_Add(nil, nil, -20, "Origin-URL:  ", 100, "", "https://www.wikipedia.com/dfva", nil, nil)
   
   
