@@ -8315,16 +8315,18 @@ function reagirl.Tabs_Draw(element_id, selected, hovered, clicked, mouse_cap, mo
     element_storage["Tabs_Pos"][i]["x"]=x+text_offset_x
     element_storage["Tabs_Pos"][i]["w"]=x_offset+text_offset_x+tx+text_offset_x
     
-    if i==element_storage["TabSelected"] then offset=dpi_scale gfx.set(0.253921568627451) else offset=0 gfx.set(0.153921568627451) end
-    reagirl.RoundRect(math.tointeger(x+x_offset-text_offset_x), y, math.tointeger(tx+text_offset_x+text_offset_x), tab_height+ty, 4*dpi_scale, 1, 1, false, true, false, true)
-    
     if i==element_storage["TabSelected"] then offset=dpi_scale gfx.set(0.403921568627451) else offset=0 gfx.set(0.253921568627451) end
     gfx.set(0.403921568627451)
-    reagirl.RoundRect(math.tointeger(x+x_offset-text_offset_x), y, math.tointeger(tx+text_offset_x+text_offset_x), tab_height+ty, 4*dpi_scale, 1, 0, false, true, false, true)
+    reagirl.RoundRect(math.tointeger(x+x_offset-text_offset_x), y, math.tointeger(tx+text_offset_x+text_offset_x), tab_height+ty, 4*dpi_scale, 1, 1, false, true, false, true)
+    
+    if i==element_storage["TabSelected"] then offset=dpi_scale gfx.set(0.253921568627451) else offset=0 gfx.set(0.153921568627451) end
+    reagirl.RoundRect(math.tointeger(x+x_offset-text_offset_x)+dpi_scale, y+dpi_scale, math.tointeger(tx+text_offset_x+text_offset_x)-dpi_scale-dpi_scale, tab_height+ty+dpi_scale, 4*dpi_scale, 1, 1, false, true, false, true)
+    
+    
     if i==element_storage["TabSelected"] then offset=dpi_scale gfx.set(0.253921568627451) else offset=0 gfx.set(0.153921568627451) end
     
     --element_storage["w"]=math.tointeger(tx+text_offset_x+text_offset_x)-1-x
-    gfx.rect(math.tointeger(x+x_offset-text_offset_x)+1, y+text_offset_y, math.tointeger(tx+text_offset_x+text_offset_x)-1, tab_height+ty-y+offset, 4*dpi_scale, 1, 0, false, true, false, true)
+      --gfx.rect(math.tointeger(x+x_offset-text_offset_x)+1, y+text_offset_y, math.tointeger(tx+text_offset_x+text_offset_x)-1, tab_height+ty-y+offset, 4*dpi_scale, 1, 0, false, true, false, true)
     
     -- store the dimensions and positions of individual tabs for the manage-function
     element_storage["Tabs_Pos"][i]["x"]=math.tointeger(x+x_offset-text_offset_x)
@@ -8361,15 +8363,15 @@ function reagirl.Tabs_Draw(element_id, selected, hovered, clicked, mouse_cap, mo
       if element_storage["h_background"]>0 then bg_h=element_storage["h_background"]*dpi_scale else bg_h=gfx.h+element_storage["h_background"]*dpi_scale-offset_y end
     end
   
-    gfx.set(0.253921568627451)
-    --gfx.rect(x,y+element_storage["Tabs_Pos"][element_storage["TabSelected"] ]["h"],reagirl.BoundaryX_Max-20*dpi_scale, reagirl.BoundaryY_Max-45*dpi_scale, 1)
-    gfx.rect(x, y+element_storage["Tabs_Pos"][element_storage["TabSelected"] ]["h"], bg_w, bg_h, 1)
     gfx.set(0.403921568627451)
-    --gfx.rect(x,y+element_storage["Tabs_Pos"][element_storage["TabSelected"] ]["h"],reagirl.BoundaryX_Max-20*dpi_scale, reagirl.BoundaryY_Max-45*dpi_scale, 0)
-    gfx.rect(x, y+element_storage["Tabs_Pos"][element_storage["TabSelected"] ]["h"], bg_w, bg_h, 0)
+    gfx.rect(x, y+element_storage["Tabs_Pos"][element_storage["TabSelected"] ]["h"], bg_w, bg_h, 1)
+  
+    gfx.set(0.253921568627451)
+    gfx.rect(x+dpi_scale, y+element_storage["Tabs_Pos"][element_storage["TabSelected"] ]["h"], bg_w-dpi_scale-dpi_scale, bg_h-dpi_scale, 1)
+    
   end
   gfx.set(0.253921568627451)
-  gfx.rect(element_storage["Tabs_Pos"][element_storage["TabSelected"] ]["x"]+1, 
+  gfx.rect(element_storage["Tabs_Pos"][element_storage["TabSelected"] ]["x"]+dpi_scale, 
            y+element_storage["Tabs_Pos"][element_storage["TabSelected"] ]["h"],
            element_storage["Tabs_Pos"][element_storage["TabSelected"] ]["w"],--+element_storage["Tabs_Pos"][element_storage["TabSelected"] ]["w"], 
            dpi_scale, 0)
