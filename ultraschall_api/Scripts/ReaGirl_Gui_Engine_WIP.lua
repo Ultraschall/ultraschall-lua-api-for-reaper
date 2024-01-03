@@ -59,7 +59,7 @@ TODO:
 --gfx.ext_retina = 0
 
 reagirl.Elements={}
-reagirl.EditMode=true
+reagirl.EditMode=false
 reagirl.FocusedElement_EditMode=1
 reagirl.MoveItAllUp=0
 reagirl.MoveItAllRight=0
@@ -1903,7 +1903,12 @@ function reagirl.Gui_Draw(Key, Key_utf, clickstate, specific_clickstate, mouse_c
           if reagirl.Focused_Rect_Override==nil then
             local a=gfx.a
             gfx.a=0.4
-            gfx.rect((x2+MoveItAllRight-3), (y2+MoveItAllUp-3), (w2+7), (h2+6), 0)
+            --gfx.rect((x2+MoveItAllRight-3), (y2+MoveItAllUp-3), (w2+7), (h2+6), 0)
+            gfx.rect((x2+MoveItAllRight-3)+reagirl.Window_GetCurrentScale(), (y2+MoveItAllUp-3), (w2+7), reagirl.Window_GetCurrentScale(), 1)
+            gfx.rect((x2+MoveItAllRight-3), (y2+MoveItAllUp-3), reagirl.Window_GetCurrentScale(), h2+6, 1)
+            gfx.rect((x2+MoveItAllRight-3)+w2+7, (y2+MoveItAllUp-3)+reagirl.Window_GetCurrentScale(), reagirl.Window_GetCurrentScale(), h2+6, 1)
+            gfx.rect((x2+MoveItAllRight-3), (y2+h2+6+MoveItAllUp-3), (w2+7), reagirl.Window_GetCurrentScale(), 1)
+            
             gfx.a=a
           else
             local a=gfx.a
