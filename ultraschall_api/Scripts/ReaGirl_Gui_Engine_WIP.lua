@@ -1904,10 +1904,10 @@ function reagirl.Gui_Draw(Key, Key_utf, clickstate, specific_clickstate, mouse_c
             local a=gfx.a
             gfx.a=0.4
             --gfx.rect((x2+MoveItAllRight-3), (y2+MoveItAllUp-3), (w2+7), (h2+6), 0)
-            gfx.rect((x2+MoveItAllRight-3)+reagirl.Window_GetCurrentScale(), (y2+MoveItAllUp-3), (w2+7), reagirl.Window_GetCurrentScale(), 1)
-            gfx.rect((x2+MoveItAllRight-3), (y2+MoveItAllUp-3), reagirl.Window_GetCurrentScale(), h2+6, 1)
-            gfx.rect((x2+MoveItAllRight-3)+w2+7, (y2+MoveItAllUp-3)+reagirl.Window_GetCurrentScale(), reagirl.Window_GetCurrentScale(), h2+6, 1)
-            gfx.rect((x2+MoveItAllRight-3), (y2+h2+6+MoveItAllUp-3), (w2+7), reagirl.Window_GetCurrentScale(), 1)
+            gfx.rect((x2+MoveItAllRight-3)+reagirl.Window_GetCurrentScale(), (y2+MoveItAllUp-2), (w2+5), reagirl.Window_GetCurrentScale(), 1)
+            gfx.rect((x2+MoveItAllRight-3), (y2+MoveItAllUp-2), reagirl.Window_GetCurrentScale(), h2+2, 1)
+            gfx.rect((x2+MoveItAllRight-3)+w2+5, (y2+MoveItAllUp-2)+reagirl.Window_GetCurrentScale(), reagirl.Window_GetCurrentScale(), h2+2, 1)
+            gfx.rect((x2+MoveItAllRight-3), (y2+h2+3+MoveItAllUp-2), (w2+5), reagirl.Window_GetCurrentScale(), 1)
             
             gfx.a=a
           else
@@ -4647,7 +4647,7 @@ function reagirl.InputBox_Draw(element_id, selected, hovered, clicked, mouse_cap
   
   -- draw text
   if element_storage["IsDecorative"]==false then gfx.set(0.8) else gfx.set(0.6) end
-  gfx.x=x+cap_w+dpi_scale
+  gfx.x=x+cap_w+dpi_scale-2
   gfx.y=y+dpi_scale
   local draw_offset=0
   for i=element_storage.draw_offset, element_storage.draw_offset_end do
@@ -4661,7 +4661,7 @@ function reagirl.InputBox_Draw(element_id, selected, hovered, clicked, mouse_cap
     gfx.drawstr(element_storage.Text:utf8_sub(i,i))
     if selected~="not selected" and element_storage.hasfocus==true and element_storage.cursor_offset==i then 
       gfx.set(0.9843137254901961, 0.8156862745098039, 0)
-      gfx.line(gfx.x, y+dpi_scale, gfx.x, y+gfx.texth-dpi_scale) 
+      gfx.line(gfx.x, y+dpi_scale, gfx.x, y+gfx.texth-dpi_scale)
       if element_storage.hasfocus==true then gfx.set(0.8) else gfx.set(0.5) end
     end
     draw_offset=draw_offset+textw
