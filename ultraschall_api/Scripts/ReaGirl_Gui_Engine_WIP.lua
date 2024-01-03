@@ -5171,13 +5171,14 @@ function reagirl.DropDownMenu_Draw(element_id, selected, hovered, clicked, mouse
   else
     state=0
     gfx.set(0.06) -- background 1
-    reagirl.RoundRect(cap_w+x*scale, (y)*scale, w-cap_w+dpi_scale*4, h, radius * dpi_scale, 1, 1)
+    reagirl.RoundRect(cap_w+x, (y), w-cap_w+dpi_scale*4, h, radius * dpi_scale, 1, 1)
     
     gfx.set(0.45) -- background 2
-    reagirl.RoundRect(cap_w+x*scale, (y - 1) * scale, w-cap_w+dpi_scale*3, h, radius * dpi_scale, 1, 1)
+    reagirl.RoundRect(cap_w+x, (y - 1), w-cap_w-dpi_scale+dpi_scale*3, h-dpi_scale, radius * dpi_scale, 1, 1)
     
     gfx.set(0.274) -- button-area
-    reagirl.RoundRect(cap_w+(x + 1) * scale, (y) * scale, w-scale-cap_w+dpi_scale*3, h-1, radius * dpi_scale, 1, 1)
+    --gfx.set(1,0,0)
+    reagirl.RoundRect(cap_w+dpi_scale+(x), (y+dpi_scale-1), w-cap_w-dpi_scale+dpi_scale*3, h-dpi_scale-dpi_scale+1, radius * dpi_scale, 1, 1)
     
     gfx.set(0.39)
     local circ=4
@@ -8500,8 +8501,8 @@ function UpdateUI()
   --reagirl.InputBox_Add(nil, nil, -20, "Origin:         ", 80, "", "Wikipedia", nil, nil)
   --reagirl.NextLine()
   --reagirl.InputBox_Add(nil, nil, -20, "Origin-URL:  ", 100, "", "https://www.wikipedia.com/dfva", nil, nil)
-  --reagirl.NextLine(10)
-  --reagirl.Button_Add(-65, nil, 0, 0, "Apply", "", tabme)
+  reagirl.NextLine(10)
+  reagirl.Button_Add(-65, nil, 0, 0, "Apply", "", tabme)
   
 end
 
