@@ -1904,10 +1904,10 @@ function reagirl.Gui_Draw(Key, Key_utf, clickstate, specific_clickstate, mouse_c
             local a=gfx.a
             gfx.a=0.4
             --gfx.rect((x2+MoveItAllRight-3), (y2+MoveItAllUp-3), (w2+7), (h2+6), 0)
-            gfx.rect((x2+MoveItAllRight-3)+reagirl.Window_GetCurrentScale(), (y2+MoveItAllUp-2), (w2+5), reagirl.Window_GetCurrentScale(), 1)
-            gfx.rect((x2+MoveItAllRight-3), (y2+MoveItAllUp-2), reagirl.Window_GetCurrentScale(), h2+2, 1)
-            gfx.rect((x2+MoveItAllRight-3)+w2+5, (y2+MoveItAllUp-2)+reagirl.Window_GetCurrentScale(), reagirl.Window_GetCurrentScale(), h2+2, 1)
-            gfx.rect((x2+MoveItAllRight-3), (y2+h2+3+MoveItAllUp-2), (w2+5), reagirl.Window_GetCurrentScale(), 1)
+            gfx.rect((x2+MoveItAllRight-3)+reagirl.Window_GetCurrentScale(), (y2+MoveItAllUp-3), (w2+1), reagirl.Window_GetCurrentScale(), 1)
+            gfx.rect((x2+MoveItAllRight-3), (y2+MoveItAllUp)-3, reagirl.Window_GetCurrentScale(), h2+2, 1)
+            gfx.rect((x2+MoveItAllRight-3)+w2+1, (y2+MoveItAllUp)-3+reagirl.Window_GetCurrentScale(), reagirl.Window_GetCurrentScale(), h2+2, 1)
+            gfx.rect((x2+MoveItAllRight-3), (y2+h2+MoveItAllUp)-1, (w2+1), reagirl.Window_GetCurrentScale(), 1)
             
             gfx.a=a
           else
