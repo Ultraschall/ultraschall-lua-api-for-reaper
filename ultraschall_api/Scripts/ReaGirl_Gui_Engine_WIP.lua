@@ -60,6 +60,7 @@ TODO:
 
 reagirl.Elements={}
 reagirl.EditMode=false
+reagirl.EditMode_Grid=false
 reagirl.FocusedElement_EditMode=1
 reagirl.MoveItAllUp=0
 reagirl.MoveItAllRight=0
@@ -1775,9 +1776,9 @@ function reagirl.Gui_Manage()
   --gfx.measurestr(128)
   
   if specific_clickstate=="FirstCLK" then
-    reagirl.FocusedElement_EditMode=reagirl.Elements.FocusedElement
-    reagirl.OldMouseX_EditMode=gfx.mouse_x
-    reagirl.OldMouseY_EditMode=gfx.mouse_y
+    reagirl.EditMode_FocusedElement=reagirl.Elements.FocusedElement
+    reagirl.EditMode_OldMouseX=gfx.mouse_x
+    reagirl.EditMode_OldMouseY=gfx.mouse_y
   end
   if mouse_cap==28 and Key==261 then
     if reagirl.EditMode==true then reagirl.EditMode=false else reagirl.EditMode=true end
@@ -1785,32 +1786,36 @@ function reagirl.Gui_Manage()
   end
   --print_update(Key)
   if reagirl.EditMode==true then
+    if Key==103 then
+      if reagirl.EditMode_Grid then reagirl.EditMode_Grid=false else reagirl.EditMode_Grid=true end
+      reagirl.Gui_ForceRefresh()
+    end
     if specific_clickstate=="DBLCLK" then 
       local retval, retval_csv = reaper.GetUserInputs("Enter new name", 1, "", reagirl.Elements[reagirl.FocusedElement_EditMode]["Name"])
       if retval==true then
-        reagirl.Elements[reagirl.FocusedElement_EditMode]["Name"]=retval_csv
+        reagirl.Elements[reagirl.EditMode_FocusedElement]["Name"]=retval_csv
         reagirl.Gui_ForceRefresh()
       end
     elseif specific_clickstate=="DRAG" then
      local difx, dify
-      difx=gfx.mouse_x-reagirl.OldMouseX_EditMode
-      dify=gfx.mouse_y-reagirl.OldMouseY_EditMode
-      reagirl.Elements[reagirl.FocusedElement_EditMode]["x"]=reagirl.Elements[reagirl.FocusedElement_EditMode]["x"]+difx
-      reagirl.Elements[reagirl.FocusedElement_EditMode]["y"]=reagirl.Elements[reagirl.FocusedElement_EditMode]["y"]+dify
-      reagirl.OldMouseX_EditMode=gfx.mouse_x
-      reagirl.OldMouseY_EditMode=gfx.mouse_y
+      difx=gfx.mouse_x-reagirl.EditMode_OldMouseX
+      dify=gfx.mouse_y-reagirl.EditMode_OldMouseY
+      reagirl.Elements[reagirl.EditMode_FocusedElement]["x"]=reagirl.Elements[reagirl.EditMode_FocusedElement]["x"]+difx
+      reagirl.Elements[reagirl.EditMode_FocusedElement]["y"]=reagirl.Elements[reagirl.EditMode_FocusedElement]["y"]+dify
+      reagirl.EditMode_OldMouseX=gfx.mouse_x
+      reagirl.EditMode_OldMouseY=gfx.mouse_y
       reagirl.Gui_ForceRefresh()
     elseif mouse_hwheel<0 then 
-      reagirl.Elements[reagirl.FocusedElement_EditMode]["w"]=reagirl.Elements[reagirl.FocusedElement_EditMode]["w"]+2
+      reagirl.Elements[reagirl.EditMode_FocusedElement]["w"]=reagirl.Elements[reagirl.EditMode_FocusedElement]["w"]+2
       reagirl.Gui_PreventScrollingForOneCycle(true, true, true)
     elseif mouse_hwheel>0 then 
-      reagirl.Elements[reagirl.FocusedElement_EditMode]["w"]=reagirl.Elements[reagirl.FocusedElement_EditMode]["w"]-2
+      reagirl.Elements[reagirl.EditMode_FocusedElement]["w"]=reagirl.Elements[reagirl.EditMode_FocusedElement]["w"]-2
       reagirl.Gui_PreventScrollingForOneCycle(true, true, true)
     elseif mouse_wheel>0 then 
-      reagirl.Elements[reagirl.FocusedElement_EditMode]["h"]=reagirl.Elements[reagirl.FocusedElement_EditMode]["h"]+1
+      reagirl.Elements[reagirl.EditMode_FocusedElement]["h"]=reagirl.Elements[reagirl.EditMode_FocusedElement]["h"]+1
       reagirl.Gui_PreventScrollingForOneCycle(true, true, true)
     elseif mouse_wheel<0 then 
-      reagirl.Elements[reagirl.FocusedElement_EditMode]["h"]=reagirl.Elements[reagirl.FocusedElement_EditMode]["h"]-1
+      reagirl.Elements[reagirl.EditMode_FocusedElement]["h"]=reagirl.Elements[reagirl.EditMode_FocusedElement]["h"]-1
       reagirl.Gui_PreventScrollingForOneCycle(true, true, true)
     end
   end
@@ -1944,6 +1949,18 @@ function reagirl.Gui_Draw(Key, Key_utf, clickstate, specific_clickstate, mouse_c
     end
   end
   
+  if reagirl.EditMode_Grid==true and reagirl.Gui_ForceRefreshState==true then
+    local olda=gfx.a
+    gfx.a=0.1
+    for i=0, gfx.w, reagirl.Window_GetCurrentScale()*10 do
+      gfx.line(i, 0, i, gfx.h)
+    end
+    for i=0, gfx.w, reagirl.Window_GetCurrentScale()*10 do
+      gfx.line(0, i, gfx.w, i)
+    end
+    gfx.a=olda
+  end
+  
   if reagirl.Draggable_Element~=nil then
     if gfx.mouse_x~=reagirl.Elements[reagirl.Draggable_Element]["mouse_x"] or
        gfx.mouse_y~=reagirl.Elements[reagirl.Draggable_Element]["mouse_y"] then
@@ -1958,6 +1975,7 @@ function reagirl.Gui_Draw(Key, Key_utf, clickstate, specific_clickstate, mouse_c
   else
     reagirl.Gui_ForceRefreshState=false
   end
+  
   
   reagirl.Scroll_Override_ScrollButtons=nil
   --DebugRect()
@@ -3615,7 +3633,7 @@ function reagirl.Button_Add(x, y, w_margin, h_margin, caption, meaningOfUI_Eleme
   reagirl.Elements[slot]["h"]=math.tointeger(ty+7+h_margin)
   reagirl.Elements[slot]["w_margin"]=w_margin
   reagirl.Elements[slot]["h_margin"]=h_margin
-  reagirl.Elements[slot]["radius"]=3
+  reagirl.Elements[slot]["radius"]=2
   reagirl.Elements[slot]["func_manage"]=reagirl.Button_Manage
   reagirl.Elements[slot]["func_draw"]=reagirl.Button_Draw
   reagirl.Elements[slot]["run_function"]=run_function
@@ -3851,7 +3869,7 @@ function reagirl.Button_Draw(element_id, selected, hovered, clicked, mouse_cap, 
     reagirl.RoundRect(x*scale, (y - dpi_scale) * scale, w-dpi_scale, h, radius * dpi_scale, 1, 1)
     
     gfx.set(0.274) -- button-area
-    reagirl.RoundRect((x + dpi_scale) * scale, (y) * scale, w-dpi_scale-dpi_scale, h-dpi_scale, radius * dpi_scale, 1, 1)
+    reagirl.RoundRect((x + dpi_scale) * scale, (y) * scale, w-dpi_scale-dpi_scale, h-dpi_scale, (radius-1) * dpi_scale, 1, 1)
     
     local offset=0
     if element_storage["IsDecorative"]==false then
@@ -4642,7 +4660,7 @@ function reagirl.InputBox_Draw(element_id, selected, hovered, clicked, mouse_cap
   reagirl.RoundRect(x+cap_w-2*dpi_scale, y, w-cap_w, math.tointeger(gfx.texth)+dpi_scale*2, 2*dpi_scale, 0, 1)
   
   gfx.set(0.234)
-  reagirl.RoundRect(x+dpi_scale+cap_w-2*dpi_scale, y+dpi_scale, w-cap_w-dpi_scale-dpi_scale, math.tointeger(gfx.texth), 1*dpi_scale, 0, 1)
+  reagirl.RoundRect(x+dpi_scale+cap_w-2*dpi_scale, y+dpi_scale, w-cap_w-dpi_scale-dpi_scale, math.tointeger(gfx.texth), 1, 0, 1)
   
   
   -- draw text
@@ -5142,12 +5160,12 @@ function reagirl.DropDownMenu_Draw(element_id, selected, hovered, clicked, mouse
   
   offset=1+math.floor(dpi_scale)
   gfx.x=x+1
-  gfx.y=y+1+(h-sh)/2+offset-1
+  gfx.y=y+(h-sh)/2+offset-3
   gfx.set(0.2)
   gfx.drawstr(element_storage["Name"])
   
   gfx.x=x
-  gfx.y=y+(h-sh)/2+offset-1
+  gfx.y=y+(h-sh)/2+offset-3
   if element_storage["IsDecorative"]==true then gfx.set(0.6) else gfx.set(0.8) end
   gfx.drawstr(element_storage["Name"])
   
@@ -5188,7 +5206,7 @@ function reagirl.DropDownMenu_Draw(element_id, selected, hovered, clicked, mouse
     
     gfx.set(0.274) -- button-area
     --gfx.set(1,0,0)
-    reagirl.RoundRect(cap_w+dpi_scale+(x), (y+dpi_scale-1), w-cap_w-dpi_scale+dpi_scale*3, h-dpi_scale-dpi_scale+1, radius * dpi_scale, 1, 1)
+    reagirl.RoundRect(cap_w+dpi_scale+(x), (y+dpi_scale-1), w-cap_w-dpi_scale+dpi_scale*3, h-dpi_scale-dpi_scale+1, (radius-1) * dpi_scale, 1, 1)
     
     gfx.set(0.39)
     local circ=4
@@ -8503,9 +8521,9 @@ function UpdateUI()
   --reagirl.NextLine()
   reagirl.InputBox_Add(30, nil, -10, "Description: ", 80, "", "Cover \nof DFVA", nil, nil)
   reagirl.NextLine()
-  reagirl.Slider_Add(nil, nil, -10, "Slide Me", 80, "Loo", "%", 1, 100, 1, 100, tabme)
+  reagirl.Slider_Add(nil, nil, -10, "Slide Me:", 80, "Loo", "%", 1, 100, 1, 100, tabme)
   reagirl.NextLine(-4)
-  reagirl.DropDownMenu_Add(nil, nil, -10, "Menu", 80, "Loo", {"eins", "zwo", "drei"}, 2, tabme)
+  reagirl.DropDownMenu_Add(nil, nil, -10, "Menu:", 80, "Loo", {"Eins", "Zwo", "Drei"}, 2, tabme)
   reagirl.NextLine()
   reagirl.InputBox_Add(nil, nil, -10, "License:      ", 80, "", "CC-By-NC", nil, nil)
   --reagirl.InputBox_Add(nil, nil, -20, "Origin:         ", 80, "", "Wikipedia", nil, nil)
