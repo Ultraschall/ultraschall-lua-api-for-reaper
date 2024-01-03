@@ -1791,7 +1791,7 @@ function reagirl.Gui_Manage()
       reagirl.Gui_ForceRefresh()
     end
     if specific_clickstate=="DBLCLK" then 
-      local retval, retval_csv = reaper.GetUserInputs("Enter new name", 1, "", reagirl.Elements[reagirl.FocusedElement_EditMode]["Name"])
+      local retval, retval_csv = reaper.GetUserInputs("Enter new name", 1, "extrawidth=300", reagirl.Elements[reagirl.EditMode_FocusedElement]["Name"])
       if retval==true then
         reagirl.Elements[reagirl.EditMode_FocusedElement]["Name"]=retval_csv
         reagirl.Gui_ForceRefresh()
@@ -8516,7 +8516,7 @@ function UpdateUI()
   reagirl.Label_SetStyle(Lab3, 6)
   reagirl.NextLine()
   
-  Img=reagirl.Image_Add("c:\\c.png", -100, nil, 85, 85, "Chapter Image", "", ABBALA3)
+  Img=reagirl.Image_Add("c:\\c.png", 20, nil, 85, 85, "Chapter Image", "", ABBALA3)
   reagirl.Image_SetDraggable(Img, true, {Lab3})
   --reagirl.NextLine()
   reagirl.InputBox_Add(30, nil, -10, "Description: ", 80, "", "Cover \nof DFVA", nil, nil)
@@ -8530,7 +8530,10 @@ function UpdateUI()
   --reagirl.NextLine()
   --reagirl.InputBox_Add(nil, nil, -20, "Origin-URL:  ", 100, "", "https://www.wikipedia.com/dfva", nil, nil)
   reagirl.NextLine(10)
-  reagirl.Button_Add(-65, nil, 0, 0, "Apply Changes", "", tabme)
+  reagirl.Button_Add(-115, nil, 0, 0, "Apply Changes", "", tabme)
+  reagirl.NextLine()
+  button=reagirl.Button_Add(-115, nil, 0, 0, "Apply Changes", "", tabme)
+  reagirl.Button_SetRadius(button, 8)
   
 end
 
