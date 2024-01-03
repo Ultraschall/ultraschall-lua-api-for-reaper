@@ -3841,10 +3841,10 @@ function reagirl.Button_Draw(element_id, selected, hovered, clicked, mouse_cap, 
     if offset==0 then offset=1 end
     
     gfx.set(0.06) -- background 1
-    reagirl.RoundRect((x - 1 + offset)+scale, (y - 1 + offset)+scale, w, h, radius * dpi_scale, 1, 1)
+    reagirl.RoundRect((x - 1 + offset)+scale, (y - 2 + offset)+scale, w, h, radius * dpi_scale, 1, 1)
     
     gfx.set(0.274) -- background 2
-    reagirl.RoundRect((x + offset+1)+scale, (y + offset +1- 1) + scale, w, h, radius * dpi_scale, 1, 1)
+    --reagirl.RoundRect((x + offset+1)+scale, (y + offset +1- 1) + scale, w, h, radius * dpi_scale, 1, 1)
     
     gfx.set(0.274) -- button-area
     reagirl.RoundRect((x + 1 + offset) + scale, (y + offset) + scale, w-scale, h, radius * dpi_scale, 1, 1)
@@ -8530,7 +8530,7 @@ function UpdateUI()
   --reagirl.NextLine()
   --reagirl.InputBox_Add(nil, nil, -20, "Origin-URL:  ", 100, "", "https://www.wikipedia.com/dfva", nil, nil)
   reagirl.NextLine(10)
-  reagirl.Button_Add(-65, nil, 0, 0, "Apply", "", tabme)
+  reagirl.Button_Add(-65, nil, 0, 0, "Apply Changes", "", tabme)
   
 end
 
