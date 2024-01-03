@@ -4583,7 +4583,7 @@ function reagirl.InputBox_Draw(element_id, selected, hovered, clicked, mouse_cap
   local textw=gfx.measurechar("65")-1
   
   -- draw rectangle around text
-  gfx.set(0.59)
+  gfx.set(0.5)
   reagirl.RoundRect(x+cap_w-2*dpi_scale, y, w-cap_w, math.tointeger(gfx.texth)+dpi_scale*2, 2*dpi_scale, 0, 1)
   
   gfx.set(0.234)
@@ -8344,15 +8344,19 @@ function reagirl.Tabs_Draw(element_id, selected, hovered, clicked, mouse_cap, mo
     if x>0 then offset_x=x end
     if y>0 then offset_y=element_storage["Tabs_Pos"][element_storage["TabSelected"] ]["h"]+y end
     
+    local x2,y2
+    if element_storage["x"]<0 then x2=gfx.w+(element_storage["x"]*dpi_scale) else x2=element_storage["x"]*dpi_scale end
+    if element_storage["y"]<0 then y2=gfx.h+(element_storage["y"]*dpi_scale) else y2=element_storage["y"]*dpi_scale end    
+    
     if element_storage["w_background"]==nil then 
-      bg_w=reagirl.BoundaryX_Max-20*dpi_scale 
+      bg_w=(reagirl.BoundaryX_Max-x2-x2)*dpi_scale 
       element_storage["bg_w"]=bg_w
     else 
       if element_storage["w_background"]>0 then bg_w=element_storage["w_background"]*dpi_scale else bg_w=gfx.w+element_storage["w_background"]*dpi_scale-offset_x end
     end
     
     if element_storage["h_background"]==nil then 
-      bg_h=reagirl.BoundaryY_Max-20*dpi_scale 
+      bg_h=(reagirl.BoundaryY_Max-y2-element_storage["Tabs_Pos"][element_storage["TabSelected"] ]["h"])*dpi_scale 
       element_storage["bg_h"]=bg_h
     else 
       if element_storage["h_background"]>0 then bg_h=element_storage["h_background"]*dpi_scale else bg_h=gfx.h+element_storage["h_background"]*dpi_scale-offset_y end
@@ -8404,59 +8408,60 @@ local count2=0
 
 function UpdateUI()
   reagirl.Background_GetSetColor(true, 44,44,44)
-  reagirl.Tabs_Add(nil, nil, -10, 380, "Add Shownote", "", {"General", "Advanced", "Smoke", "On The"}, 1, tabme)
+  reagirl.Tabs_Add(nil, nil, nil, nil, "Add Shownote", "", {"General", "Advanced", "Smoke"}, 1, tabme)
   reagirl.NextLine()
-  reagirl.Button_Add(nil, nil, 0, 0, "Caption Me", "", tabme)
-  reagirl.NextLine()
-  Lab1=reagirl.Label_Add(25, nil, "General Attributes:", "", 0, false, nil)
-  reagirl.Label_SetStyle(Lab1, 6)
+  --Lab1=reagirl.Label_Add(25, nil, "General:", "", 0, false, nil)
+  --reagirl.Label_SetStyle(Lab1, 6)
   
   reagirl.NextLine()
-  reagirl.InputBox_Add(40, nil, -20, "Title:", 100, "", "Malik testet Hackintoshis", ABBALA2, ABBALA3)
+  reagirl.InputBox_Add(30, nil, -10, "Title:", 80, "", "Malik testet Hackintoshis", ABBALA2, ABBALA3)
   reagirl.NextLine()
-  reagirl.InputBox_Add(40, nil, -20, "Description:", 100, "","Neue Hackintoshs braucht das Land", nil, nil)
+  reagirl.InputBox_Add(30, nil, -10, "Description:", 80, "","Neue Hackintoshs braucht das Land", nil, nil)
   reagirl.NextLine()
-  reagirl.InputBox_Add(40, nil, -20, "Tags:", 100, "", "Hackies, und, so", nil, nil)
+  reagirl.InputBox_Add(30, nil, -10, "Tags:", 80, "", "Hackies, und, so", nil, nil)
   
   reagirl.NextLine()
-  reagirl.CheckBox_Add(138, nil, "Spoiler Warning", "", true, tabme)
+  reagirl.CheckBox_Add(108, nil, "Spoiler Warning", "", true, tabme)
   reagirl.NextLine()
-  reagirl.CheckBox_Add(138, nil, "Is Advertisement", "", true, tabme)
-  reagirl.NextLine()
-  reagirl.InputBox_Add(40, nil, -20, "Content Note:", 100, "", "Hackies, und, so", nil, nil)
-  
+  reagirl.CheckBox_Add(108, nil, "Is Advertisement", "", true, tabme)
+  --reagirl.NextLine()
+  --reagirl.InputBox_Add(40, nil, -20, "Content Note:", 100, "", "Hackies, und, so", nil, nil)
+  --[[
   reagirl.NextLine(10)
-  Lab2=reagirl.Label_Add(25, nil, "URL-Attributes:", "", 0, false, nil)
-  reagirl.Label_SetStyle(Lab2, 6)
+  Lab2=reagirl.Label_Add(25, nil, "URL:", "", 0, false, nil)
+  --reagirl.Label_SetStyle(Lab2, 6)
   reagirl.NextLine()
   reagirl.InputBox_Add(40, nil, -20, "Url:", 100, "", "hbbs:/audiodump.de", nil, nil)
   reagirl.NextLine()
-  reagirl.InputBox_Add(40, nil, -20, "Url description:", 100, "", "Der besteste Audiodnmps auf se welt", nil, nil)
+  reagirl.InputBox_Add(40, nil, -20, "Description:", 100, "", "Der besteste Audiodnmps auf se welt", nil, nil)
   --]]
-  reagirl.NextLine(10)
-  Lab3=reagirl.Label_Add(25, nil, "Chapter Image:", "HELP", 0, false, nil)
-  reagirl.Label_SetStyle(Lab3, 6)
-  reagirl.NextLine(3)
-  Img=reagirl.Image_Add("c:\\c.png", 40, nil, 100, 100, "Chapter Image", "", ABBALA3)
+  
+  reagirl.NextLine(15)
+  Lab3=reagirl.Label_Add(-100, nil, "Chapter Image", "HELP", 0, false, nil)
+  --reagirl.Label_SetStyle(Lab3, 8, 6)
+  reagirl.NextLine()
+  --reagirl.Label_SetStyle(Lab3, 6)
+  Img=reagirl.Image_Add("c:\\c.png", -100, nil, 85, 85, "Chapter Image", "", ABBALA3)
   reagirl.Image_SetDraggable(Img, true, {Lab3})
   --reagirl.NextLine()
-  reagirl.InputBox_Add(150, nil, -20, "Description: ", 80, "", "Cover \nof DFVA", nil, nil)
+  reagirl.InputBox_Add(30, nil, -110, "Description: ", 80, "", "Cover \nof DFVA", nil, nil)
   reagirl.NextLine()
-  reagirl.Slider_Add(nil, nil, -20, "Slide Me", 80, "Loo", "%", 1, 100, 1, 100, tabme)
+  reagirl.Slider_Add(nil, nil, -110, "Slide Me", 80, "Loo", "%", 1, 100, 1, 100, tabme)
   reagirl.NextLine(-4)
-  reagirl.DropDownMenu_Add(nil, nil, -20, "Menu", 80, "Loo", {"eins", "zwo", "drei"}, 2, tabme)
+  reagirl.DropDownMenu_Add(nil, nil, -110, "Menu", 80, "Loo", {"eins", "zwo", "drei"}, 2, tabme)
   reagirl.NextLine()
-  reagirl.InputBox_Add(nil, nil, -20, "License:      ", 80, "", "CC-By-NC", nil, nil)
+  reagirl.InputBox_Add(nil, nil, -110, "License:      ", 80, "", "CC-By-NC", nil, nil)
   --reagirl.InputBox_Add(nil, nil, -20, "Origin:         ", 80, "", "Wikipedia", nil, nil)
   --reagirl.NextLine()
   --reagirl.InputBox_Add(nil, nil, -20, "Origin-URL:  ", 100, "", "https://www.wikipedia.com/dfva", nil, nil)
-  
+  --reagirl.NextLine(10)
+  --reagirl.Button_Add(-65, nil, 0, 0, "Apply", "", tabme)
   
 end
 
 
 Images={reaper.GetResourcePath().."/Scripts/Ultraschall_Gfx/Headers/soundcheck_logo.png","c:\\f.png","c:\\m.png"}
-reagirl.Gui_Open("Edit Chapter Marker Attributes", "Edit Chapter marker", 370, 425, reagirl.DockState_Retrieve("Stonehenge"), 1, 1)
+reagirl.Gui_Open("Edit Chapter Marker Attributes", "Edit Chapter marker", 310, 295, reagirl.DockState_Retrieve("Stonehenge"), 1, 1)
 
 UpdateUI()
 --reagirl.Window_ForceSize_Minimum(320, 200)
