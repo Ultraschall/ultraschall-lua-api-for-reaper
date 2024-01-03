@@ -59,6 +59,8 @@ TODO:
 --gfx.ext_retina = 0
 
 reagirl.Elements={}
+reagirl.EditMode=true
+reagirl.FocusedElement_EditMode=1
 reagirl.MoveItAllUp=0
 reagirl.MoveItAllRight=0
 reagirl.MoveItAllRight_Delta=0
@@ -1724,7 +1726,7 @@ function reagirl.Gui_Manage()
       --if (x2+MoveItAllRight>=0 and x2+MoveItAllRight<=gfx.w) or (y2+MoveItAllUp>=0 and y2+MoveItAllUp<=gfx.h) or (x2+MoveItAllRight+w2>=0 and x2+MoveItAllRight+w2<=gfx.w) or (y2+MoveItAllUp+h2>=0 and y2+MoveItAllUp+h2<=gfx.h) then
       -- uncommented code: might improve performance by running only manage-functions of UI-elements, who are visible(though might be buggy)
       --                   but seems to work without it as well
-      if reagirl.Elements[i]["IsDecorative"]==false then
+      if reagirl.Elements[i]["IsDecorative"]==false and reagirl.EditMode~=true then
         if i==reagirl.Elements["FocusedElement"] or ((((x2+reagirl.MoveItAllRight>0 and x2+reagirl.MoveItAllRight<=gfx.w) 
         or (x2+w2+reagirl.MoveItAllRight>0 and x2+w2+reagirl.MoveItAllRight<=gfx.w) 
         or (x2+reagirl.MoveItAllRight<=0 and x2+w2+reagirl.MoveItAllRight>=gfx.w))
@@ -1771,6 +1773,48 @@ function reagirl.Gui_Manage()
   --]]
   --gfx.measurechar(128)
   --gfx.measurestr(128)
+  
+  if specific_clickstate=="FirstCLK" then
+    reagirl.FocusedElement_EditMode=reagirl.Elements.FocusedElement
+    reagirl.OldMouseX_EditMode=gfx.mouse_x
+    reagirl.OldMouseY_EditMode=gfx.mouse_y
+  end
+  if mouse_cap==28 and Key==261 then
+    if reagirl.EditMode==true then reagirl.EditMode=false else reagirl.EditMode=true end
+    reaper.MB("Edit_Mode="..tostring(reagirl.EditMode),"",0)
+  end
+  --print_update(Key)
+  if reagirl.EditMode==true then
+    if specific_clickstate=="DBLCLK" then 
+      local retval, retval_csv = reaper.GetUserInputs("Enter new name", 1, "", reagirl.Elements[reagirl.FocusedElement_EditMode]["Name"])
+      if retval==true then
+        reagirl.Elements[reagirl.FocusedElement_EditMode]["Name"]=retval_csv
+        reagirl.Gui_ForceRefresh()
+      end
+    elseif specific_clickstate=="DRAG" then
+     local difx, dify
+      difx=gfx.mouse_x-reagirl.OldMouseX_EditMode
+      dify=gfx.mouse_y-reagirl.OldMouseY_EditMode
+      reagirl.Elements[reagirl.FocusedElement_EditMode]["x"]=reagirl.Elements[reagirl.FocusedElement_EditMode]["x"]+difx
+      reagirl.Elements[reagirl.FocusedElement_EditMode]["y"]=reagirl.Elements[reagirl.FocusedElement_EditMode]["y"]+dify
+      reagirl.OldMouseX_EditMode=gfx.mouse_x
+      reagirl.OldMouseY_EditMode=gfx.mouse_y
+      reagirl.Gui_ForceRefresh()
+    elseif mouse_hwheel<0 then 
+      reagirl.Elements[reagirl.FocusedElement_EditMode]["w"]=reagirl.Elements[reagirl.FocusedElement_EditMode]["w"]+2
+      reagirl.Gui_PreventScrollingForOneCycle(true, true, true)
+    elseif mouse_hwheel>0 then 
+      reagirl.Elements[reagirl.FocusedElement_EditMode]["w"]=reagirl.Elements[reagirl.FocusedElement_EditMode]["w"]-2
+      reagirl.Gui_PreventScrollingForOneCycle(true, true, true)
+    elseif mouse_wheel>0 then 
+      reagirl.Elements[reagirl.FocusedElement_EditMode]["h"]=reagirl.Elements[reagirl.FocusedElement_EditMode]["h"]+1
+      reagirl.Gui_PreventScrollingForOneCycle(true, true, true)
+    elseif mouse_wheel<0 then 
+      reagirl.Elements[reagirl.FocusedElement_EditMode]["h"]=reagirl.Elements[reagirl.FocusedElement_EditMode]["h"]-1
+      reagirl.Gui_PreventScrollingForOneCycle(true, true, true)
+    end
+  end
+  
   -- go over to draw the ui-elements
   reagirl.Gui_Draw(Key, Key_utf, clickstate, specific_clickstate, mouse_cap, click_x, click_y, drag_x, drag_y, mouse_wheel, mouse_hwheel)
 end
@@ -3300,6 +3344,7 @@ function reagirl.CheckBox_Draw(element_id, selected, hovered, clicked, mouse_cap
   local top=element_storage["top_edge"]
   local bottom=element_storage["bottom_edge"]
   gfx.set(0.584)
+  gfx.set(0.45)
   reagirl.RoundRect(x,y,h+2,h+2,1*scale, 1,1, false, false, false, false)
   
   gfx.set(0.2725490196078431)
@@ -4583,7 +4628,7 @@ function reagirl.InputBox_Draw(element_id, selected, hovered, clicked, mouse_cap
   local textw=gfx.measurechar("65")-1
   
   -- draw rectangle around text
-  gfx.set(0.5)
+  gfx.set(0.45)
   reagirl.RoundRect(x+cap_w-2*dpi_scale, y, w-cap_w, math.tointeger(gfx.texth)+dpi_scale*2, 2*dpi_scale, 0, 1)
   
   gfx.set(0.234)
@@ -7512,7 +7557,7 @@ function reagirl.Slider_Draw(element_id, selected, hovered, clicked, mouse_cap, 
   --gfx.rect(x+offset_cap-dpi_scale, y-dpi_scale-dpi_scale+(gfx.texth>>1), w-offset_cap-offset_unit+dpi_scale+dpi_scale, dpi_scale*5, 1)
   reagirl.RoundRect(math.tointeger(x+offset_cap-dpi_scale), y-dpi_scale-dpi_scale+(math.tointeger(gfx.texth)>>1), math.tointeger(w-offset_cap-offset_unit+dpi_scale+dpi_scale), math.tointeger(dpi_scale)*5, 2*math.tointeger(dpi_scale), 1, 1)
   
-  if element_storage["IsDecorative"]==true then gfx.set(0.6) else gfx.set(0.8) end
+  if element_storage["IsDecorative"]==true then gfx.set(0.6) else gfx.set(0.7) end
   reagirl.RoundRect(math.tointeger(x+offset_cap),y+(math.tointeger(gfx.texth)>>1)-dpi_scale, math.tointeger(w-offset_cap-offset_unit), math.tointeger(dpi_scale)*3, 1, 1, 1)
   --gfx.rect                      (x+offset_cap, y+(gfx.texth>>1)-dpi_scale,                                w-offset_cap-offset_unit,                 dpi_scale*3, 1)
   
@@ -8333,7 +8378,7 @@ function reagirl.Tabs_Draw(element_id, selected, hovered, clicked, mouse_cap, mo
       reagirl.UI_Element_SetFocusRect(true, math.tointeger(gfx.x), y+text_offset_y, math.tointeger(tx), math.tointeger(ty))
     end
     
-    gfx.set(1)
+    gfx.set(0.8)
     gfx.drawstr(element_storage["TabNames"][i])
   end
   --element_storage["w"]=x_offset-x_offset_factor
@@ -8421,9 +8466,9 @@ function UpdateUI()
   reagirl.InputBox_Add(30, nil, -10, "Tags:", 80, "", "Hackies, und, so", nil, nil)
   
   reagirl.NextLine()
-  reagirl.CheckBox_Add(108, nil, "Spoiler Warning", "", true, tabme)
-  reagirl.NextLine()
-  reagirl.CheckBox_Add(108, nil, "Is Advertisement", "", true, tabme)
+  reagirl.CheckBox_Add(108, nil, "Is Ad", "", true, tabme)
+  reagirl.CheckBox_Add(nil, nil, "Spoilers", "", true, tabme)
+  
   --reagirl.NextLine()
   --reagirl.InputBox_Add(40, nil, -20, "Content Note:", 100, "", "Hackies, und, so", nil, nil)
   --[[
@@ -8439,18 +8484,19 @@ function UpdateUI()
   reagirl.NextLine(15)
   Lab3=reagirl.Label_Add(-100, nil, "Chapter Image", "HELP", 0, false, nil)
   --reagirl.Label_SetStyle(Lab3, 8, 6)
+  reagirl.Label_SetStyle(Lab3, 6)
   reagirl.NextLine()
-  --reagirl.Label_SetStyle(Lab3, 6)
+  
   Img=reagirl.Image_Add("c:\\c.png", -100, nil, 85, 85, "Chapter Image", "", ABBALA3)
   reagirl.Image_SetDraggable(Img, true, {Lab3})
   --reagirl.NextLine()
-  reagirl.InputBox_Add(30, nil, -110, "Description: ", 80, "", "Cover \nof DFVA", nil, nil)
+  reagirl.InputBox_Add(30, nil, -10, "Description: ", 80, "", "Cover \nof DFVA", nil, nil)
   reagirl.NextLine()
-  reagirl.Slider_Add(nil, nil, -110, "Slide Me", 80, "Loo", "%", 1, 100, 1, 100, tabme)
+  reagirl.Slider_Add(nil, nil, -10, "Slide Me", 80, "Loo", "%", 1, 100, 1, 100, tabme)
   reagirl.NextLine(-4)
-  reagirl.DropDownMenu_Add(nil, nil, -110, "Menu", 80, "Loo", {"eins", "zwo", "drei"}, 2, tabme)
+  reagirl.DropDownMenu_Add(nil, nil, -10, "Menu", 80, "Loo", {"eins", "zwo", "drei"}, 2, tabme)
   reagirl.NextLine()
-  reagirl.InputBox_Add(nil, nil, -110, "License:      ", 80, "", "CC-By-NC", nil, nil)
+  reagirl.InputBox_Add(nil, nil, -10, "License:      ", 80, "", "CC-By-NC", nil, nil)
   --reagirl.InputBox_Add(nil, nil, -20, "Origin:         ", 80, "", "Wikipedia", nil, nil)
   --reagirl.NextLine()
   --reagirl.InputBox_Add(nil, nil, -20, "Origin-URL:  ", 100, "", "https://www.wikipedia.com/dfva", nil, nil)
