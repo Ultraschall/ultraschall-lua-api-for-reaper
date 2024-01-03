@@ -3303,7 +3303,7 @@ function reagirl.CheckBox_Draw(element_id, selected, hovered, clicked, mouse_cap
   reagirl.RoundRect(x,y,h+2,h+2,1*scale, 1,1, false, false, false, false)
   
   gfx.set(0.2725490196078431)
-  reagirl.RoundRect(x+scale,y+scale,h+2-scale*2,h+2-scale*2,scale, 0, 1, false, false, false, false)
+  reagirl.RoundRect(x+scale,y+scale,h+2-scale*2,h+2-scale*2, scale-1, 0, 1, false, false, false, false)
   
   if reagirl.Elements[element_id]["checked"]==true then
     if element_storage["IsDecorative"]==false then
@@ -3793,10 +3793,10 @@ function reagirl.Button_Draw(element_id, selected, hovered, clicked, mouse_cap, 
     reagirl.RoundRect((x)*scale, (y)*scale, w, h, radius * dpi_scale, 1, 1)
     
     gfx.set(0.39) -- background 2
-    reagirl.RoundRect(x*scale, (y - dpi_scale) * scale, w, h, radius * dpi_scale, 1, 1)
+    reagirl.RoundRect(x*scale, (y - dpi_scale) * scale, w-dpi_scale, h, radius * dpi_scale, 1, 1)
     
     gfx.set(0.274) -- button-area
-    reagirl.RoundRect((x + dpi_scale) * scale, (y) * scale, w-dpi_scale, h-dpi_scale, radius * dpi_scale, 1, 1)
+    reagirl.RoundRect((x + dpi_scale) * scale, (y) * scale, w-dpi_scale-dpi_scale, h-dpi_scale, radius * dpi_scale, 1, 1)
     
     local offset=0
     if element_storage["IsDecorative"]==false then
@@ -4587,7 +4587,7 @@ function reagirl.InputBox_Draw(element_id, selected, hovered, clicked, mouse_cap
   reagirl.RoundRect(x+cap_w-2*dpi_scale, y, w-cap_w, math.tointeger(gfx.texth)+dpi_scale*2, 2*dpi_scale, 0, 1)
   
   gfx.set(0.234)
-  reagirl.RoundRect(x+dpi_scale+cap_w-2*dpi_scale, y+dpi_scale, w-cap_w-dpi_scale-dpi_scale, math.tointeger(gfx.texth), 2*dpi_scale, 0, 1)
+  reagirl.RoundRect(x+dpi_scale+cap_w-2*dpi_scale, y+dpi_scale, w-cap_w-dpi_scale-dpi_scale, math.tointeger(gfx.texth), 1*dpi_scale, 0, 1)
   
   
   -- draw text
@@ -8312,10 +8312,10 @@ function reagirl.Tabs_Draw(element_id, selected, hovered, clicked, mouse_cap, mo
     
     if i==element_storage["TabSelected"] then offset=dpi_scale gfx.set(0.403921568627451) else offset=0 gfx.set(0.253921568627451) end
     gfx.set(0.403921568627451)
-    reagirl.RoundRect(math.tointeger(x+x_offset-text_offset_x), y, math.tointeger(tx+text_offset_x+text_offset_x), tab_height+ty, 4*dpi_scale, 1, 1, false, true, false, true)
+    reagirl.RoundRect(math.tointeger(x+x_offset-text_offset_x), y, math.tointeger(tx+text_offset_x+text_offset_x), tab_height+ty, 3*dpi_scale, 1, 1, false, true, false, true)
     
     if i==element_storage["TabSelected"] then offset=dpi_scale gfx.set(0.253921568627451) else offset=0 gfx.set(0.153921568627451) end
-    reagirl.RoundRect(math.tointeger(x+x_offset-text_offset_x)+dpi_scale, y+dpi_scale, math.tointeger(tx+text_offset_x+text_offset_x)-dpi_scale-dpi_scale, tab_height+ty+dpi_scale, 4*dpi_scale, 1, 1, false, true, false, true)
+    reagirl.RoundRect(math.tointeger(x+x_offset-text_offset_x)+dpi_scale, y+dpi_scale, math.tointeger(tx+text_offset_x+text_offset_x)-dpi_scale-dpi_scale, tab_height+ty+dpi_scale, 2*dpi_scale, 1, 1, false, true, false, true)
     
     
     if i==element_storage["TabSelected"] then offset=dpi_scale gfx.set(0.253921568627451) else offset=0 gfx.set(0.153921568627451) end
@@ -8362,14 +8362,19 @@ function reagirl.Tabs_Draw(element_id, selected, hovered, clicked, mouse_cap, mo
     gfx.rect(x, y+element_storage["Tabs_Pos"][element_storage["TabSelected"] ]["h"], bg_w, bg_h, 1)
   
     gfx.set(0.253921568627451)
-    gfx.rect(x+dpi_scale, y+element_storage["Tabs_Pos"][element_storage["TabSelected"] ]["h"], bg_w-dpi_scale-dpi_scale, bg_h-dpi_scale, 1)
+    gfx.rect(x+dpi_scale, y+element_storage["Tabs_Pos"][element_storage["TabSelected"] ]["h"]+dpi_scale, bg_w-dpi_scale-dpi_scale, bg_h-dpi_scale-dpi_scale, 1)
     
   end
   gfx.set(0.253921568627451)
+  -- ugly hack...ugh...
+  local offset_tabline=0
+  if dpi_scale==1 then offset_tabline=offset_tabline+1 
+  elseif dpi_scale>=3 then offset_tabline=offset_tabline-(dpi_scale-2) end
+  -- end of ugly hack
   gfx.rect(element_storage["Tabs_Pos"][element_storage["TabSelected"] ]["x"]+dpi_scale, 
            y+element_storage["Tabs_Pos"][element_storage["TabSelected"] ]["h"],
-           element_storage["Tabs_Pos"][element_storage["TabSelected"] ]["w"],--+element_storage["Tabs_Pos"][element_storage["TabSelected"] ]["w"], 
-           dpi_scale, 0)
+           element_storage["Tabs_Pos"][element_storage["TabSelected"] ]["w"]+offset_tabline-dpi_scale,--+element_storage["Tabs_Pos"][element_storage["TabSelected"] ]["w"], 
+           dpi_scale, 1)--]]
   
   if selected~="not selected" then
     --reagirl.UI_Element_SetFocusRect(true, x, y, math.tointeger(tx), math.tointeger(ty))
