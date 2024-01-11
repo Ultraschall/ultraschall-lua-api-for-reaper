@@ -24,6 +24,18 @@ TODO:
   - Slider: when width is too small, drawing bugs appear(i.e. autowidth plus window is too small)
   - Background_GetSetImage - check, if the background image works properly with scaling and scrolling
   - Image: reload of scaled image-override; if override==true then it loads only the image.png, not image-2x.png
+  - Image: focused rect isn'tT properly aligned anymore
+  - Slider and DropDownMenu: check if height is equal to height of inputbox
+  - Scrolling is buggy, when gui is scrollen outside the top of the window, resize the window at the bottom, voila: scrolling upwards doesn't work anymore
+  - Checkbox: check, if border is the same gray as inputboxes
+  - UI_Element_OnMouse(ui_element_guid, mouseevent, mouse_x, mouse_y)
+            - mouseevent=
+            -   1, FirstClk
+            -   2, Click
+            -   3, DBLCLK
+            -   4, DRAG(in conjunction to a first run of UI_Element_OnMouse() with mouseevent=clk
+            - Runs the manage-function of the ui_element_guid and ForceRefresh to sent mouse-events to mouse
+            -   also needs to temporarily alter gfx.mouse_x and gfx.mouse_y to the desired coordinate
   - Labels: ACCHoverMessage should hold the text of the paragraph the mouse is hovering above only
             That way, not everything is read out as message to TTS, only the hovered paragraph.
             This makes reading longer label-texts much easier.
@@ -61,7 +73,7 @@ TODO:
 reagirl.Elements={}
 reagirl.EditMode=false
 reagirl.EditMode_Grid=false
-reagirl.FocusedElement_EditMode=1
+reagirl.EditMode_FocusedElement=1
 reagirl.MoveItAllUp=0
 reagirl.MoveItAllRight=0
 reagirl.MoveItAllRight_Delta=0
@@ -1782,6 +1794,7 @@ function reagirl.Gui_Manage()
   end
   if mouse_cap==28 and Key==261 then
     if reagirl.EditMode==true then reagirl.EditMode=false else reagirl.EditMode=true end
+    reagirl.Gui_ForceRefresh()
     reaper.MB("Edit_Mode="..tostring(reagirl.EditMode),"",0)
   end
   --print_update(Key)
@@ -1798,10 +1811,11 @@ function reagirl.Gui_Manage()
       end
     elseif specific_clickstate=="DRAG" then
      local difx, dify
+     local dpi_scale=reagirl.Window_GetCurrentScale()
       difx=gfx.mouse_x-reagirl.EditMode_OldMouseX
       dify=gfx.mouse_y-reagirl.EditMode_OldMouseY
-      reagirl.Elements[reagirl.EditMode_FocusedElement]["x"]=reagirl.Elements[reagirl.EditMode_FocusedElement]["x"]+difx
-      reagirl.Elements[reagirl.EditMode_FocusedElement]["y"]=reagirl.Elements[reagirl.EditMode_FocusedElement]["y"]+dify
+      reagirl.Elements[reagirl.EditMode_FocusedElement]["x"]=reagirl.Elements[reagirl.EditMode_FocusedElement]["x"]+difx/dpi_scale
+      reagirl.Elements[reagirl.EditMode_FocusedElement]["y"]=reagirl.Elements[reagirl.EditMode_FocusedElement]["y"]+dify/dpi_scale
       reagirl.EditMode_OldMouseX=gfx.mouse_x
       reagirl.EditMode_OldMouseY=gfx.mouse_y
       reagirl.Gui_ForceRefresh()
@@ -1908,7 +1922,7 @@ function reagirl.Gui_Draw(Key, Key_utf, clickstate, specific_clickstate, mouse_c
           if reagirl.Focused_Rect_Override==nil then
             local a=gfx.a
             gfx.a=0.4
-            --gfx.rect((x2+MoveItAllRight-3), (y2+MoveItAllUp-3), (w2+7), (h2+6), 0)
+            
             gfx.rect((x2+MoveItAllRight-3)+reagirl.Window_GetCurrentScale(), (y2+MoveItAllUp-3), (w2+1), reagirl.Window_GetCurrentScale(), 1)
             gfx.rect((x2+MoveItAllRight-3), (y2+MoveItAllUp)-3, reagirl.Window_GetCurrentScale(), h2+2, 1)
             gfx.rect((x2+MoveItAllRight-3)+w2+1, (y2+MoveItAllUp)-3+reagirl.Window_GetCurrentScale(), reagirl.Window_GetCurrentScale(), h2+2, 1)
@@ -1918,12 +1932,11 @@ function reagirl.Gui_Draw(Key, Key_utf, clickstate, specific_clickstate, mouse_c
           else
             local a=gfx.a
             gfx.a=0.4
-            --gfx.rect(reagirl.Elements["Focused_x"], reagirl.Elements["Focused_y"], reagirl.Elements["Focused_w"], reagirl.Elements["Focused_h"], 0)
             
-            gfx.rect((reagirl.Elements["Focused_x"])+reagirl.Window_GetCurrentScale(), (reagirl.Elements["Focused_y"]), reagirl.Elements["Focused_w"], reagirl.Window_GetCurrentScale(), 1)
-            gfx.rect((reagirl.Elements["Focused_x"]), (reagirl.Elements["Focused_y"]), reagirl.Window_GetCurrentScale(), reagirl.Elements["Focused_h"], 1)
-            gfx.rect((reagirl.Elements["Focused_x"])+reagirl.Elements["Focused_w"], (reagirl.Elements["Focused_y"])+reagirl.Window_GetCurrentScale(), reagirl.Window_GetCurrentScale(), reagirl.Elements["Focused_h"], 1)
-            gfx.rect((reagirl.Elements["Focused_x"]), (reagirl.Elements["Focused_y"])+reagirl.Elements["Focused_h"], reagirl.Elements["Focused_w"], reagirl.Window_GetCurrentScale(), 1)
+            --gfx.rect((reagirl.Elements["Focused_x"])+reagirl.Window_GetCurrentScale(), (reagirl.Elements["Focused_y"]), reagirl.Elements["Focused_w"], reagirl.Window_GetCurrentScale(), 1)
+            --gfx.rect((reagirl.Elements["Focused_x"]), (reagirl.Elements["Focused_y"]), reagirl.Window_GetCurrentScale(), reagirl.Elements["Focused_h"], 1)
+            --gfx.rect((reagirl.Elements["Focused_x"])+reagirl.Elements["Focused_w"], (reagirl.Elements["Focused_y"])+reagirl.Window_GetCurrentScale(), reagirl.Window_GetCurrentScale(), reagirl.Elements["Focused_h"], 1)
+            --gfx.rect((reagirl.Elements["Focused_x"]), (reagirl.Elements["Focused_y"])+reagirl.Elements["Focused_h"], reagirl.Elements["Focused_w"], reagirl.Window_GetCurrentScale(), 1)
             gfx.a=a
           end
           reagirl.Focused_Rect_Override=nil
@@ -1948,17 +1961,59 @@ function reagirl.Gui_Draw(Key, Key_utf, clickstate, specific_clickstate, mouse_c
       end
     end
   end
-  
-  if reagirl.EditMode_Grid==true and reagirl.Gui_ForceRefreshState==true then
-    local olda=gfx.a
-    gfx.a=0.1
-    for i=0, gfx.w, reagirl.Window_GetCurrentScale()*10 do
-      gfx.line(i, 0, i, gfx.h)
+  if reagirl.EditMode==true and reagirl.Gui_ForceRefreshState==true then
+    if reagirl.EditMode_Grid==true then
+      local olda=gfx.a
+      gfx.a=0.1
+      for i=0, gfx.w, reagirl.Window_GetCurrentScale()*10 do
+        gfx.line(i, 0, i, gfx.h)
+      end
+      for i=0, gfx.w, reagirl.Window_GetCurrentScale()*10 do
+        gfx.line(0, i, gfx.w, i)
+      end
+      gfx.a=olda
     end
-    for i=0, gfx.w, reagirl.Window_GetCurrentScale()*10 do
-      gfx.line(0, i, gfx.w, i)
+    local oldx=gfx.x
+    local oldy=gfx.y
+    local r=gfx.r
+    local g=gfx.g
+    local b=gfx.b
+    local a=gfx.a
+    gfx.x=0
+    gfx.y=0
+    gfx.set(1,0,0,0.5)
+    gfx.drawstr("X:\t"..reagirl.Elements[reagirl.EditMode_FocusedElement]["x"])
+    gfx.y=gfx.y+gfx.texth
+    gfx.x=0
+    gfx.drawstr("Y:\t"..reagirl.Elements[reagirl.EditMode_FocusedElement]["y"])
+    gfx.y=gfx.y+gfx.texth
+    gfx.x=0
+    gfx.drawstr("W:\t"..reagirl.Elements[reagirl.EditMode_FocusedElement]["w"])
+    gfx.y=gfx.y+gfx.texth
+    gfx.x=0
+    gfx.drawstr("H:\t"..reagirl.Elements[reagirl.EditMode_FocusedElement]["h"])
+    gfx.x=oldx
+    gfx.y=oldy
+    gfx.set(1,0,0,0.5)
+    local x2, y2, w2, h2
+    local scale=reagirl.Window_GetCurrentScale()
+    if reagirl.Elements[reagirl.EditMode_FocusedElement]["x"]<0 then x2=gfx.w+(reagirl.Elements[reagirl.EditMode_FocusedElement]["x"]*scale) else x2=reagirl.Elements[reagirl.EditMode_FocusedElement]["x"]*scale end
+    if reagirl.Elements[reagirl.EditMode_FocusedElement]["y"]<0 then y2=gfx.h+(reagirl.Elements[reagirl.EditMode_FocusedElement]["y"]*scale) else y2=reagirl.Elements[reagirl.EditMode_FocusedElement]["y"]*scale end
+    if reagirl.Elements[reagirl.EditMode_FocusedElement]["w"]<0 then w2=gfx.w+(-x2+reagirl.Elements[reagirl.EditMode_FocusedElement]["w"]*scale) else w2=reagirl.Elements[reagirl.EditMode_FocusedElement]["w"]*scale end
+    if reagirl.Elements[reagirl.EditMode_FocusedElement]["h"]<0 then h2=gfx.h+(-y2+reagirl.Elements[reagirl.EditMode_FocusedElement]["h"]*scale) else h2=reagirl.Elements[reagirl.EditMode_FocusedElement]["h"]*scale end
+    
+    local cap_w=reagirl.Elements[reagirl.EditMode_FocusedElement]["cap_w"]
+    if cap_w~=nil then cap_w=math.tointeger(cap_w)+scale*5+5*scale end
+    if reagirl.Elements[reagirl.EditMode_FocusedElement]["Cap_width"]~=nil then 
+      cap_w=reagirl.Elements[reagirl.EditMode_FocusedElement]["Cap_width"]-scale*3
     end
-    gfx.a=olda
+    
+    gfx.line(x2, 0, x2, gfx.h)
+    if cap_w~=nil then gfx.line(x2+cap_w*scale, 0, x2+cap_w*scale, gfx.h) end
+    gfx.line(x2+w2, 0, x2+w2, gfx.h)
+    gfx.line(0, y2-1, gfx.w, y2-1)
+    gfx.line(0, y2+h2-1, gfx.w, y2+h2-1)
+    gfx.set(r,g,b,a)
   end
   
   if reagirl.Draggable_Element~=nil then
@@ -5138,8 +5193,8 @@ function reagirl.DropDownMenu_Draw(element_id, selected, hovered, clicked, mouse
   if element_storage["Cap_width"]~=nil then
     cap_w=element_storage["Cap_width"]
   end
-  
-  cap_w=cap_w*reagirl.Window_GetCurrentScale()-dpi_scale*3
+  --cap_w=cap_w+1
+  cap_w=cap_w*reagirl.Window_GetCurrentScale()
   if w-cap_w<50 then w=50+cap_w end
   local offset=gfx.measurestr(name.." ")
   gfx.x=x+cap_w
@@ -5173,19 +5228,19 @@ function reagirl.DropDownMenu_Draw(element_id, selected, hovered, clicked, mouse
     state=1*dpi_scale-1
     if offset==0 then offset=1 end
 
-    gfx.set(0.06)
-    reagirl.RoundRect(cap_w+(x + offset)*scale, (y + offset - 1) * scale, w-cap_w+dpi_scale*3, h, radius * dpi_scale, 1, 1)
-
-    gfx.set(0.274) -- background 2
-    reagirl.RoundRect(cap_w+(x + offset+1)*scale, (y + offset +1- 1) * scale, w-cap_w+dpi_scale*3, h, radius * dpi_scale, 1, 1)
+    gfx.set(0.06) -- background 1
+    --reagirl.RoundRect(cap_w+x+dpi_scale, y+dpi_scale, w-cap_w-dpi_scale, h-dpi_scale, (radius-1) * dpi_scale, 1, 1)
+    
+    gfx.set(0.06) -- background 2
+    reagirl.RoundRect(cap_w+x, y, w-cap_w, h-dpi_scale, (radius-1) * dpi_scale, 1, 1)
     
     gfx.set(0.274) -- button-area
-    reagirl.RoundRect(cap_w+(x + 1 + offset) * scale, (y + offset) * scale, w-scale-cap_w+dpi_scale*3, h, radius * dpi_scale, 1, 1)
+    reagirl.RoundRect(cap_w+x+dpi_scale, y+dpi_scale, w-cap_w-dpi_scale, h-dpi_scale, (radius-1) * dpi_scale, 1, 1)
     
-    gfx.set(0.39)
+    gfx.set(0.45)
     local circ=4
-    gfx.circle(x+dpi_scale+dpi_scale+dpi_scale+dpi_scale+w-h/2, (y+dpi_scale+dpi_scale+dpi_scale+h)-dpi_scale-h/2, circ*dpi_scale, 1, 0)
-    gfx.rect(x+w-h+1*(dpi_scale-1)+dpi_scale+dpi_scale, y+(dpi_scale-dpi_scale)+dpi_scale+dpi_scale, dpi_scale, h, 1)
+    gfx.circle(x+w+dpi_scale-h/2, (y+h)-h/2, circ*dpi_scale, 1, 0)
+    gfx.rect(x+w+dpi_scale-h+1*(dpi_scale-1), y+dpi_scale, dpi_scale, h-dpi_scale, 1)
     
     if element_storage["IsDecorative"]==false then
       gfx.x=x+(7*dpi_scale)+offset+cap_w
@@ -5199,19 +5254,18 @@ function reagirl.DropDownMenu_Draw(element_id, selected, hovered, clicked, mouse
   else
     state=0
     gfx.set(0.06) -- background 1
-    reagirl.RoundRect(cap_w+x, (y), w-cap_w+dpi_scale*4, h, radius * dpi_scale, 1, 1)
+    reagirl.RoundRect(cap_w+x+dpi_scale, y+dpi_scale, w-cap_w-dpi_scale, h-dpi_scale, (radius-1) * dpi_scale, 1, 1)
     
     gfx.set(0.45) -- background 2
-    reagirl.RoundRect(cap_w+x, (y - 1), w-cap_w-dpi_scale+dpi_scale*3, h-dpi_scale, radius * dpi_scale, 1, 1)
+    reagirl.RoundRect(cap_w+x-dpi_scale, y-dpi_scale, w-cap_w, h-dpi_scale, (radius-1) * dpi_scale, 1, 1)
     
     gfx.set(0.274) -- button-area
-    --gfx.set(1,0,0)
-    reagirl.RoundRect(cap_w+dpi_scale+(x), (y+dpi_scale-1), w-cap_w-dpi_scale+dpi_scale*3, h-dpi_scale-dpi_scale+1, (radius-1) * dpi_scale, 1, 1)
+    reagirl.RoundRect(cap_w+x, y, w-cap_w-dpi_scale, h-dpi_scale, (radius-1) * dpi_scale, 1, 1)
     
-    gfx.set(0.39)
+    gfx.set(0.45)
     local circ=4
-    gfx.circle(x+w+dpi_scale+dpi_scale-h/2, (y+h)-dpi_scale-h/2, circ*dpi_scale, 1, 0)
-    gfx.rect(x+w-h+1*(dpi_scale-1), y+1+1*(dpi_scale-2), dpi_scale, h-dpi_scale, 1)
+    gfx.circle(x+w-h/2, (y+h)-dpi_scale-h/2, circ*dpi_scale, 1, 0)
+    gfx.rect(x+w-h+1*(dpi_scale-1), y-dpi_scale, dpi_scale, h, 1)
     
     local offset=0
     if element_storage["IsDecorative"]==false then
@@ -8488,15 +8542,15 @@ function UpdateUI()
   --reagirl.Label_SetStyle(Lab1, 6)
   
   reagirl.NextLine()
-  reagirl.InputBox_Add(30, nil, -10, "Title:", 80, "", "Malik testet Hackintoshis", ABBALA2, ABBALA3)
+  reagirl.InputBox_Add(30, nil, -10, "Title:", 80, "the title for this chapter", "Malik testet Hackintoshis", ABBALA2, ABBALA3)
   reagirl.NextLine()
-  reagirl.InputBox_Add(30, nil, -10, "Description:", 80, "","Neue Hackintoshs braucht das Land", nil, nil)
+  reagirl.InputBox_Add(30, nil, -10, "Description:", 80, "a summary of this chapter","Neue Hackintoshs braucht das Land", nil, nil)
   reagirl.NextLine()
   reagirl.InputBox_Add(30, nil, -10, "Tags:", 80, "", "Hackies, und, so", nil, nil)
   
   reagirl.NextLine()
-  reagirl.CheckBox_Add(108, nil, "Is Ad", "", true, tabme)
-  reagirl.CheckBox_Add(nil, nil, "Spoilers", "", true, tabme)
+  reagirl.CheckBox_Add(108, nil, "Is Ad", "Is this chapter an advertisement?", true, tabme)
+  reagirl.CheckBox_Add(nil, nil, "Spoilers", "Does this chapter contain spoilers or not?", true, tabme)
   
   --reagirl.NextLine()
   --reagirl.InputBox_Add(40, nil, -20, "Content Note:", 100, "", "Hackies, und, so", nil, nil)
@@ -8523,7 +8577,7 @@ function UpdateUI()
   reagirl.NextLine()
   reagirl.Slider_Add(nil, nil, -10, "Slide Me:", 80, "Loo", "%", 1, 100, 1, 100, tabme)
   reagirl.NextLine(-4)
-  reagirl.DropDownMenu_Add(nil, nil, -10, "Menu:", 80, "Loo", {"Eins", "Zwo", "Drei"}, 2, tabme)
+  reagirl.DropDownMenu_Add(nil, nil, -10, "Menu:", 80, "Menu me", {"Eins", "Zwo", "Drei"}, 2, tabme)
   reagirl.NextLine()
   reagirl.InputBox_Add(nil, nil, -10, "License:      ", 80, "", "CC-By-NC", nil, nil)
   --reagirl.InputBox_Add(nil, nil, -20, "Origin:         ", 80, "", "Wikipedia", nil, nil)
