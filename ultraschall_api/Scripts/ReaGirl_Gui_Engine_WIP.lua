@@ -71,16 +71,16 @@ TODO:
 --gfx.ext_retina = 0
 
 reagirl.Elements={}
-reagirl.EditMode=false
+reagirl.EditMode=true
 reagirl.EditMode_Grid=false
-reagirl.EditMode_FocusedElement=1
+reagirl.EditMode_FocusedElement=9
 reagirl.MoveItAllUp=0
 reagirl.MoveItAllRight=0
 reagirl.MoveItAllRight_Delta=0
 reagirl.MoveItAllUp_Delta=0
 -- margin between ui-elements
 reagirl.UI_Element_NextX_Margin=10
-reagirl.UI_Element_NextY_Margin=1
+reagirl.UI_Element_NextY_Margin=0
 
 -- offset for first ui-element
 reagirl.UI_Element_NextX_Default=10
@@ -1933,10 +1933,10 @@ function reagirl.Gui_Draw(Key, Key_utf, clickstate, specific_clickstate, mouse_c
             local a=gfx.a
             gfx.a=0.4
             
-            --gfx.rect((reagirl.Elements["Focused_x"])+reagirl.Window_GetCurrentScale(), (reagirl.Elements["Focused_y"]), reagirl.Elements["Focused_w"], reagirl.Window_GetCurrentScale(), 1)
-            --gfx.rect((reagirl.Elements["Focused_x"]), (reagirl.Elements["Focused_y"]), reagirl.Window_GetCurrentScale(), reagirl.Elements["Focused_h"], 1)
-            --gfx.rect((reagirl.Elements["Focused_x"])+reagirl.Elements["Focused_w"], (reagirl.Elements["Focused_y"])+reagirl.Window_GetCurrentScale(), reagirl.Window_GetCurrentScale(), reagirl.Elements["Focused_h"], 1)
-            --gfx.rect((reagirl.Elements["Focused_x"]), (reagirl.Elements["Focused_y"])+reagirl.Elements["Focused_h"], reagirl.Elements["Focused_w"], reagirl.Window_GetCurrentScale(), 1)
+            gfx.rect((reagirl.Elements["Focused_x"])+reagirl.Window_GetCurrentScale(), (reagirl.Elements["Focused_y"]), reagirl.Elements["Focused_w"], reagirl.Window_GetCurrentScale(), 1)
+            gfx.rect((reagirl.Elements["Focused_x"]), (reagirl.Elements["Focused_y"]), reagirl.Window_GetCurrentScale(), reagirl.Elements["Focused_h"], 1)
+            gfx.rect((reagirl.Elements["Focused_x"])+reagirl.Elements["Focused_w"], (reagirl.Elements["Focused_y"])+reagirl.Window_GetCurrentScale(), reagirl.Window_GetCurrentScale(), reagirl.Elements["Focused_h"], 1)
+            gfx.rect((reagirl.Elements["Focused_x"]), (reagirl.Elements["Focused_y"])+reagirl.Elements["Focused_h"], reagirl.Elements["Focused_w"], reagirl.Window_GetCurrentScale(), 1)
             gfx.a=a
           end
           reagirl.Focused_Rect_Override=nil
@@ -2005,7 +2005,7 @@ function reagirl.Gui_Draw(Key, Key_utf, clickstate, specific_clickstate, mouse_c
     local cap_w=reagirl.Elements[reagirl.EditMode_FocusedElement]["cap_w"]
     if cap_w~=nil then cap_w=math.tointeger(cap_w)+scale*5+5*scale end
     if reagirl.Elements[reagirl.EditMode_FocusedElement]["Cap_width"]~=nil then 
-      cap_w=reagirl.Elements[reagirl.EditMode_FocusedElement]["Cap_width"]-scale*3
+      cap_w=reagirl.Elements[reagirl.EditMode_FocusedElement]["Cap_width"]
     end
     
     gfx.line(x2, 0, x2, gfx.h)
@@ -3156,7 +3156,7 @@ function reagirl.CheckBox_Add(x, y, caption, meaningOfUI_Element, default, run_f
   reagirl.Elements[slot]["y"]=y
   reagirl.Elements[slot]["z_buffer"]=128
   reagirl.Elements[slot]["w"]=math.tointeger(ty+tx+4)+6
-  reagirl.Elements[slot]["h"]=math.tointeger(ty)+5
+  reagirl.Elements[slot]["h"]=math.tointeger(ty)+7
   reagirl.Elements[slot]["sticky_x"]=false
   reagirl.Elements[slot]["sticky_y"]=false
   reagirl.Elements[slot]["top_edge"]=true
@@ -4053,7 +4053,7 @@ function reagirl.InputBox_Add(x, y, w, caption, Cap_width, meaningOfUI_Element, 
   reagirl.Elements[slot]["x"]=x
   reagirl.Elements[slot]["y"]=y
   reagirl.Elements[slot]["w"]=w
-  reagirl.Elements[slot]["h"]=math.tointeger(ty)+4
+  reagirl.Elements[slot]["h"]=math.tointeger(ty)+7
   reagirl.Elements[slot]["sticky_x"]=false
   reagirl.Elements[slot]["sticky_y"]=false
   Default=string.gsub(Default, "\n", "")
@@ -4150,6 +4150,7 @@ function reagirl.InputBox_GetTextOffset(x,y,element_storage)
     cap_w=math.tointeger(cap_w)+dpi_scale*5+5*dpi_scale
   else
     cap_w=element_storage["Cap_width"]*dpi_scale
+    cap_w=cap_w+dpi_scale
   end
   
   local startoffs=element_storage.x2+cap_w
@@ -4660,6 +4661,7 @@ function reagirl.InputBox_Calculate_DrawOffset(forward, element_storage)
     cap_w=gfx.measurestr(element_storage["Name"])+dpi_scale*5
   else
     cap_w=element_storage["Cap_width"]*dpi_scale
+    cap_w=cap_w+dpi_scale
   end
   
   if element_storage["x"]<0 then x2=gfx.w+element_storage["x"]*dpi_scale else x2=element_storage["x"]*dpi_scale end
@@ -4712,15 +4714,15 @@ function reagirl.InputBox_Draw(element_id, selected, hovered, clicked, mouse_cap
   
   -- draw rectangle around text
   gfx.set(0.45)
-  reagirl.RoundRect(x+cap_w-2*dpi_scale, y, w-cap_w, math.tointeger(gfx.texth)+dpi_scale*2, 2*dpi_scale, 0, 1)
+  reagirl.RoundRect(x+cap_w, y, w-cap_w, math.tointeger(gfx.texth)+dpi_scale*2, 2*dpi_scale, 0, 1)
   
   gfx.set(0.234)
-  reagirl.RoundRect(x+dpi_scale+cap_w-2*dpi_scale, y+dpi_scale, w-cap_w-dpi_scale-dpi_scale, math.tointeger(gfx.texth), 1, 0, 1)
+  reagirl.RoundRect(x+dpi_scale+cap_w, y+dpi_scale, w-cap_w-dpi_scale-dpi_scale, math.tointeger(gfx.texth), 1, 0, 1)
   
   
   -- draw text
   if element_storage["IsDecorative"]==false then gfx.set(0.8) else gfx.set(0.6) end
-  gfx.x=x+cap_w+dpi_scale-2
+  gfx.x=x+cap_w+dpi_scale
   gfx.y=y+dpi_scale
   local draw_offset=0
   for i=element_storage.draw_offset, element_storage.draw_offset_end do
@@ -5193,7 +5195,6 @@ function reagirl.DropDownMenu_Draw(element_id, selected, hovered, clicked, mouse
   if element_storage["Cap_width"]~=nil then
     cap_w=element_storage["Cap_width"]
   end
-  --cap_w=cap_w+1
   cap_w=cap_w*reagirl.Window_GetCurrentScale()
   if w-cap_w<50 then w=50+cap_w end
   local offset=gfx.measurestr(name.." ")
@@ -5232,15 +5233,15 @@ function reagirl.DropDownMenu_Draw(element_id, selected, hovered, clicked, mouse
     --reagirl.RoundRect(cap_w+x+dpi_scale, y+dpi_scale, w-cap_w-dpi_scale, h-dpi_scale, (radius-1) * dpi_scale, 1, 1)
     
     gfx.set(0.06) -- background 2
-    reagirl.RoundRect(cap_w+x, y, w-cap_w, h-dpi_scale, (radius-1) * dpi_scale, 1, 1)
+    reagirl.RoundRect(cap_w+x, y, w+dpi_scale+dpi_scale+dpi_scale-cap_w, h-dpi_scale, (radius-1) * dpi_scale, 1, 1)
     
     gfx.set(0.274) -- button-area
-    reagirl.RoundRect(cap_w+x+dpi_scale, y+dpi_scale, w-cap_w-dpi_scale, h-dpi_scale, (radius-1) * dpi_scale, 1, 1)
+    reagirl.RoundRect(cap_w+x+dpi_scale, y+dpi_scale, w-cap_w+dpi_scale+dpi_scale, h-dpi_scale, (radius-1) * dpi_scale, 1, 1)
     
     gfx.set(0.45)
     local circ=4
-    gfx.circle(x+w+dpi_scale-h/2, (y+h)-h/2, circ*dpi_scale, 1, 0)
-    gfx.rect(x+w+dpi_scale-h+1*(dpi_scale-1), y+dpi_scale, dpi_scale, h-dpi_scale, 1)
+    gfx.circle(x+w+dpi_scale+dpi_scale+dpi_scale-h/2, (y+h)-h/2, circ*dpi_scale, 1, 0)
+    gfx.rect(x+w+dpi_scale+dpi_scale+dpi_scale-h+1*(dpi_scale-1), y+dpi_scale, dpi_scale, h-dpi_scale, 1)
     
     if element_storage["IsDecorative"]==false then
       gfx.x=x+(7*dpi_scale)+offset+cap_w
@@ -5254,18 +5255,18 @@ function reagirl.DropDownMenu_Draw(element_id, selected, hovered, clicked, mouse
   else
     state=0
     gfx.set(0.06) -- background 1
-    reagirl.RoundRect(cap_w+x+dpi_scale, y+dpi_scale, w-cap_w-dpi_scale, h-dpi_scale, (radius-1) * dpi_scale, 1, 1)
+    reagirl.RoundRect(cap_w+x+dpi_scale, y+dpi_scale, w-cap_w+dpi_scale+dpi_scale, h-dpi_scale, (radius-1) * dpi_scale, 1, 1)
     
     gfx.set(0.45) -- background 2
-    reagirl.RoundRect(cap_w+x-dpi_scale, y-dpi_scale, w-cap_w, h-dpi_scale, (radius-1) * dpi_scale, 1, 1)
+    reagirl.RoundRect(cap_w+x-dpi_scale, y-dpi_scale, w-cap_w+dpi_scale+dpi_scale+dpi_scale, h-dpi_scale, (radius-1) * dpi_scale, 1, 1)
     
     gfx.set(0.274) -- button-area
-    reagirl.RoundRect(cap_w+x, y, w-cap_w-dpi_scale, h-dpi_scale, (radius-1) * dpi_scale, 1, 1)
+    reagirl.RoundRect(cap_w+x, y, w-cap_w+dpi_scale+dpi_scale, h-dpi_scale, (radius-1) * dpi_scale, 1, 1)
     
     gfx.set(0.45)
     local circ=4
-    gfx.circle(x+w-h/2, (y+h)-dpi_scale-h/2, circ*dpi_scale, 1, 0)
-    gfx.rect(x+w-h+1*(dpi_scale-1), y-dpi_scale, dpi_scale, h, 1)
+    gfx.circle(x+dpi_scale+dpi_scale+w-h/2, (y+h)-dpi_scale-h/2, circ*dpi_scale, 1, 0)
+    gfx.rect(x+dpi_scale+dpi_scale+w-h+1*(dpi_scale-1), y-dpi_scale, dpi_scale, h, 1)
     
     local offset=0
     if element_storage["IsDecorative"]==false then
@@ -5732,7 +5733,7 @@ function reagirl.Label_Add(x, y, label, meaningOfUI_Element, align, clickable, r
   reagirl.Elements[slot]["sticky_x"]=false
   reagirl.Elements[slot]["sticky_y"]=false
   reagirl.Elements[slot]["w"]=math.tointeger(w)+10
-  reagirl.Elements[slot]["h"]=math.tointeger(h)--math.tointeger(gfx.texth)
+  reagirl.Elements[slot]["h"]=math.tointeger(h)+7--math.tointeger(gfx.texth)
   reagirl.Elements[slot]["align"]=align
   reagirl.Elements[slot]["style1"]=0
   reagirl.Elements[slot]["style2"]=0
@@ -7418,7 +7419,7 @@ function reagirl.Slider_Add(x, y, w, caption, Cap_width, meaningOfUI_Element, un
   reagirl.Elements[slot]["x"]=x
   reagirl.Elements[slot]["y"]=y
   reagirl.Elements[slot]["w"]=math.tointeger(w)--math.tointeger(ty+tx+4)
-  reagirl.Elements[slot]["h"]=math.tointeger(ty)+5
+  reagirl.Elements[slot]["h"]=math.tointeger(ty)+7
   reagirl.Elements[slot]["cap_w"]=math.tointeger(tx)
   reagirl.Elements[slot]["Cap_width"]=Cap_width
   
@@ -7442,6 +7443,7 @@ function reagirl.Slider_Manage(element_id, selected, hovered, clicked, mouse_cap
   local offset_cap=element_storage["cap_w"]
   if element_storage["Cap_width"]~=nil then
     offset_cap=element_storage["Cap_width"]*dpi_scale
+    offset_cap=offset_cap+dpi_scale
   end
   if selected~="not selected" then
     --reagirl.UI_Element_SetFocusRect(true, x, y, w-20, h-5)
@@ -7600,6 +7602,7 @@ function reagirl.Slider_Draw(element_id, selected, hovered, clicked, mouse_cap, 
   local offset_cap=gfx.measurestr(name.." ")+5
   if element_storage["Cap_width"]~=nil then
     offset_cap=element_storage["Cap_width"]
+    offset_cap=offset_cap+dpi_scale
   end
   offset_cap=offset_cap*dpi_scale
   local offset_unit=gfx.measurestr(element_storage["Unit"].."8888")
