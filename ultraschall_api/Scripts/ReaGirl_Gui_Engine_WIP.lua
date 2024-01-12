@@ -1,7 +1,7 @@
 dofile(reaper.GetResourcePath().."/UserPlugins/ultraschall_api.lua")
 
 -- DEBUG:
---reaper.osara_outputMessage=nil
+reaper.osara_outputMessage=nil
 
 reagirl={}
 if reaper.osara_outputMessage~=nil then
@@ -15,6 +15,10 @@ end
 --]]
 --[[
 TODO: 
+  - MacOS-check: fonts might be off by 1 in y-position, so maybe repositioning with an offset is necessary(see dropdownmenu_draw for details)
+  - Check, if all ui-elements are properly drawn in disabled-mode
+  - CheckBox: add a few pixels to the width after everything is said and done
+  - InputBox: when dragging from the left side of the boundary box, the text-selection is wrong(probably the cursor_offset). When typing something, wrong text appears.
   - InputBox: if they are too small, they aren't drawn properly
   - jumping to ui-elements outside window(means autoscroll to them) doesn't always work
     - ui-elements might still be out of view when jumping to them(x-coordinate outside of window for instance)
@@ -45,9 +49,9 @@ TODO:
 --]]
 
 reagirl.Elements={}
-reagirl.EditMode=false
+reagirl.EditMode=true
 reagirl.EditMode_Grid=false
-reagirl.EditMode_FocusedElement=9
+reagirl.EditMode_FocusedElement=10
 reagirl.MoveItAllUp=0
 reagirl.MoveItAllRight=0
 reagirl.MoveItAllRight_Delta=0
@@ -55,7 +59,7 @@ reagirl.MoveItAllUp_Delta=0
 
 -- margin between ui-elements
 reagirl.UI_Element_NextX_Margin=10
-reagirl.UI_Element_NextY_Margin=0
+reagirl.UI_Element_NextY_Margin=2
 
 -- offset for first ui-element
 reagirl.UI_Element_NextX_Default=10
@@ -63,7 +67,7 @@ reagirl.UI_Element_NextY_Default=10
 
 reagirl.UI_Element_NextLineY=1 -- don't change
 reagirl.UI_Element_NextLineX=10 -- don't change
-reagirl.Font_Size=16
+reagirl.Font_Size=15
 
 reagirl.mouse={}
 reagirl.mouse.down=false
@@ -2430,7 +2434,7 @@ function reagirl.UI_Element_GetSetHidden(element_id, is_set, hidden)
     boolean hidden - the hidden-state of the ui-element
   </retvals>
   <parameters>
-    string element_id - the id of the element, whose name you want to get/set
+    string element_id - the id of the element, whose hidden-state you want to get/set
     boolean is_set - true, set the hidden-state; false, only retrieve current hidde-state
     boolean hidden - true, set to hidden; false, set to visible
   </parameters>
@@ -3028,8 +3032,8 @@ function reagirl.CheckBox_Add(x, y, caption, meaningOfUI_Element, default, run_f
   reagirl.Elements[slot]["x"]=x
   reagirl.Elements[slot]["y"]=y
   reagirl.Elements[slot]["z_buffer"]=128
-  reagirl.Elements[slot]["w"]=math.tointeger(ty+tx+4)+6
-  reagirl.Elements[slot]["h"]=math.tointeger(ty)+7
+  reagirl.Elements[slot]["w"]=math.tointeger(ty+tx)+5
+  reagirl.Elements[slot]["h"]=math.tointeger(ty)+2
   reagirl.Elements[slot]["sticky_x"]=false
   reagirl.Elements[slot]["sticky_y"]=false
   reagirl.Elements[slot]["top_edge"]=true
@@ -3071,6 +3075,53 @@ function reagirl.Checkbox_Manage(element_id, selected, hovered, clicked, mouse_c
   else
     return " not checked. ", refresh
   end
+end
+
+function reagirl.CheckBox_Draw(element_id, selected, hovered, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
+  reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0)
+  gfx.x=x
+  gfx.y=y
+  
+  local scale=reagirl.Window_CurrentScale
+  
+  local top=element_storage["top_edge"]
+  local bottom=element_storage["bottom_edge"]
+  gfx.set(0.45)
+  reagirl.RoundRect(x, y, h, h, 2*scale-1, 1,1, false, false, false, false)
+  
+  gfx.set(0.234)
+  reagirl.RoundRect(x+scale, y+scale, h-scale*2, h-scale*2, scale-1, 0, 1, false, false, false, false)
+  
+  if reagirl.Elements[element_id]["checked"]==true then
+    if element_storage["IsDecorative"]==false then
+      gfx.set(0.9843137254901961, 0.8156862745098039, 0)
+    else
+      gfx.set(0.5843137254901961)
+    end
+    reagirl.RoundRect(x+(scale)*3, y+scale*3, h-scale*6, h-scale*6, 3*scale, 1, 1, top, bottom, true, true)
+  end
+  
+  if scale==1 then offset=0
+  elseif scale==2 then offset=2
+  elseif scale==3 then offset=5
+  elseif scale==4 then offset=8
+  elseif scale==5 then offset=11
+  elseif scale==6 then offset=14
+  elseif scale==7 then offset=17
+  elseif scale==8 then offset=20
+  end
+  
+  
+  gfx.x=x+h+5*scale
+  gfx.y=y+scale+(h-gfx.texth)/2
+  gfx.set(0.2)
+  gfx.drawstr(name)
+  
+  if element_storage["IsDecorative"]==false then gfx.set(0.8) else gfx.set(0.6) end
+  gfx.x=x+h+4*scale
+  gfx.y=y+(h-gfx.texth)/2
+  gfx.drawstr(name)
+  reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0)
 end
 
 function reagirl.Checkbox_SetTopBottom(element_id, top, bottom)
@@ -3290,51 +3341,6 @@ function reagirl.Checkbox_GetDisabled(element_id)
   end
 end
 
-function reagirl.CheckBox_Draw(element_id, selected, hovered, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
-  reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0)
-  gfx.x=x
-  gfx.y=y
-  h=h-5
-  local scale=reagirl.Window_CurrentScale
-  
-  local top=element_storage["top_edge"]
-  local bottom=element_storage["bottom_edge"]
-  gfx.set(0.45)
-  reagirl.RoundRect(x,y,h+2,h+2,1*scale, 1,1, false, false, false, false)
-  
-  gfx.set(0.234)
-  reagirl.RoundRect(x+scale,y+scale,h+2-scale*2,h+2-scale*2, scale-1, 0, 1, false, false, false, false)
-  
-  if reagirl.Elements[element_id]["checked"]==true then
-    if element_storage["IsDecorative"]==false then
-      gfx.set(0.9843137254901961, 0.8156862745098039, 0)
-    else
-      gfx.set(0.5843137254901961)
-    end
-    reagirl.RoundRect(x+1+(scale)*3, y+1+scale*3, h-scale*6, h-scale*6, 3*scale, 1, 1, top, bottom, true, true)
-  end
-  
-  if scale==1 then offset=0
-  elseif scale==2 then offset=2
-  elseif scale==3 then offset=5
-  elseif scale==4 then offset=8
-  elseif scale==5 then offset=11
-  elseif scale==6 then offset=14
-  elseif scale==7 then offset=17
-  elseif scale==8 then offset=20
-  end
-  
-  gfx.x=1+x+h+2+6
-  gfx.y=1+y+2+offset
-  gfx.set(0.2)
-  gfx.drawstr(name)
-  
-  if element_storage["IsDecorative"]==false then gfx.set(0.8) else gfx.set(0.6) end
-  gfx.x=x+h+2+6
-  gfx.y=y+2+offset
-  gfx.drawstr(name)
-  reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0)
-end
 
 function reagirl.UI_Element_OnMouse(element_id, mouse_cap, mouse_event, mouse_x, mouse_y, mouse_wheel, mouse_hwheel, Key, Key_utf)
 -- more complicated than I thought. For some reason, it's not clicking the ui-element...
@@ -3505,7 +3511,7 @@ function reagirl.NextLine(y_offset)
   <tags>ui-elements, set, next line</tags>
 </US_DocBloc>
 --]]
-  if y_offset~=nil and math.type(y_offset)~="integer" then error("Button_Add: param #1 - must be either nil or an integer", 2) end
+  if y_offset~=nil and math.type(y_offset)~="integer" then error("NextLine: param #1 - must be either nil or an integer", 2) end
   if y_offset==nil then y_offset=0 end
   local slot=reagirl.UI_Element_GetNextFreeSlot()
   if reagirl.UI_Element_NextLineY==0 then
@@ -3608,7 +3614,7 @@ function reagirl.Button_Add(x, y, w_margin, h_margin, caption, meaningOfUI_Eleme
   reagirl.Elements[slot]["x"]=x
   reagirl.Elements[slot]["y"]=y
   reagirl.Elements[slot]["w"]=math.tointeger(tx+15+w_margin)
-  reagirl.Elements[slot]["h"]=math.tointeger(ty+7+h_margin)
+  reagirl.Elements[slot]["h"]=math.tointeger(ty+h_margin)+2
   reagirl.Elements[slot]["w_margin"]=w_margin
   reagirl.Elements[slot]["h_margin"]=h_margin
   reagirl.Elements[slot]["radius"]=2
@@ -3797,12 +3803,9 @@ function reagirl.Button_Manage(element_id, selected, hovered, clicked, mouse_cap
 end
 
 function reagirl.Button_Draw(element_id, selected, hovered, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
-  x=x+1
-  y=y+1
   gfx.x=x
   gfx.y=y
-  w=w-2
-  h=h-5
+
   local dpi_scale, state
   local radius = element_storage["radius"]
   reagirl.SetFont(1, "Arial", reagirl.Font_Size-1, 0)
@@ -3819,10 +3822,10 @@ function reagirl.Button_Draw(element_id, selected, hovered, clicked, mouse_cap, 
     if offset==0 then offset=1 end
     
     gfx.set(0.06) -- background 1
-    reagirl.RoundRect((x - 1 + offset)+scale, (y - 2 + offset)+scale, w, h, radius * dpi_scale, 1, 1)
+    reagirl.RoundRect((x - 1 + offset)+scale, (y - dpi_scale - dpi_scale + offset)+scale, w, h, radius * dpi_scale, 1, 1)
     
     gfx.set(0.274) -- button-area
-    reagirl.RoundRect((x + 1 + offset) + scale, (y + offset) + scale, w-scale, h, radius * dpi_scale, 1, 1)
+    reagirl.RoundRect((x + 1 + dpi_scale+ offset) + scale, (y + offset) + scale, w-scale, h, radius * dpi_scale, 1, 1)
     
     if element_storage["IsDecorative"]==false then
       gfx.x=x+(w-sw)/2+1+2+scale
@@ -3850,7 +3853,7 @@ function reagirl.Button_Draw(element_id, selected, hovered, clicked, mouse_cap, 
     if element_storage["IsDecorative"]==false then
       gfx.x=x+(w-sw)/2+1
       if reaper.GetOS():match("OS")~=nil then offset=1 end
-      gfx.y=y+(h-sh)/2+offset
+      gfx.y=y+(h-sh)/2-dpi_scale
       gfx.set(0.784)
       gfx.drawstr(element_storage["Name"])
     else
@@ -3965,7 +3968,7 @@ function reagirl.InputBox_Add(x, y, w, caption, Cap_width, meaningOfUI_Element, 
   reagirl.Elements[slot]["x"]=x
   reagirl.Elements[slot]["y"]=y
   reagirl.Elements[slot]["w"]=w
-  reagirl.Elements[slot]["h"]=math.tointeger(ty)+7
+  reagirl.Elements[slot]["h"]=math.tointeger(ty)+2
   reagirl.Elements[slot]["sticky_x"]=false
   reagirl.Elements[slot]["sticky_y"]=false
   Default=string.gsub(Default, "\n", "")
@@ -4589,30 +4592,30 @@ function reagirl.InputBox_Draw(element_id, selected, hovered, clicked, mouse_cap
   end
   
   -- draw caption
-  gfx.x=x
-  gfx.y=y
+  gfx.x=x+dpi_scale
+  gfx.y=y+dpi_scale+(h-gfx.texth)/3
   gfx.set(0.2)
   gfx.drawstr(name)
   
   if element_storage["IsDecorative"]==false then gfx.set(0.8) else gfx.set(0.6) end
   gfx.x=x
-  gfx.y=y+1
+  gfx.y=y+(h-gfx.texth)/3
   gfx.drawstr(name)
   
   local textw=gfx.measurechar("65")-1
   
   -- draw rectangle around text
   gfx.set(0.45)
-  reagirl.RoundRect(x+cap_w, y, w-cap_w, math.tointeger(gfx.texth)+dpi_scale*2, 2*dpi_scale, 0, 1)
+  reagirl.RoundRect(x+cap_w, y, w-cap_w, h-dpi_scale, 2*dpi_scale-1, 0, 1)
   
   gfx.set(0.234)
-  reagirl.RoundRect(x+dpi_scale+cap_w, y+dpi_scale, w-cap_w-dpi_scale-dpi_scale, math.tointeger(gfx.texth), 1, 0, 1)
+  reagirl.RoundRect(x+dpi_scale+cap_w, y+dpi_scale, w-cap_w-dpi_scale-dpi_scale, h-dpi_scale-dpi_scale-dpi_scale, dpi_scale-1, 0, 1)
   
   
   -- draw text
   if element_storage["IsDecorative"]==false then gfx.set(0.8) else gfx.set(0.6) end
-  gfx.x=x+cap_w+dpi_scale
-  gfx.y=y+dpi_scale
+  gfx.x=x+cap_w+dpi_scale+dpi_scale+dpi_scale
+  gfx.y=y+dpi_scale+(h-gfx.texth)/16
   local draw_offset=0
   for i=element_storage.draw_offset, element_storage.draw_offset_end do
     local textw=gfx.measurestr(element_storage.Text:utf8_sub(i,i))
@@ -4959,7 +4962,7 @@ function reagirl.DropDownMenu_Add(x, y, w, caption, Cap_width, meaningOfUI_Eleme
   reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0, 1)
   local tx,ty=gfx.measurestr(menuItems[menuSelectedItem])
   reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0)
-  reagirl.Elements[slot]["h"]=math.tointeger(ty+7)--math.tointeger(gfx.texth)
+  reagirl.Elements[slot]["h"]=math.tointeger(ty)+2--math.tointeger(gfx.texth)
   reagirl.Elements[slot]["radius"]=2
   reagirl.Elements[slot]["sticky_x"]=false
   reagirl.Elements[slot]["sticky_y"]=false
@@ -5098,8 +5101,8 @@ function reagirl.DropDownMenu_Draw(element_id, selected, hovered, clicked, mouse
   local scale=1
   
   offset=1+math.floor(dpi_scale)
-  gfx.x=x+1
-  gfx.y=y+(h-sh)/2+offset-3
+  gfx.x=x+dpi_scale
+  gfx.y=y+dpi_scale+(h-sh)/2+offset-3
   gfx.set(0.2)
   gfx.drawstr(element_storage["Name"])
   
@@ -5107,30 +5110,31 @@ function reagirl.DropDownMenu_Draw(element_id, selected, hovered, clicked, mouse
   gfx.y=y+(h-sh)/2+offset-3
   if element_storage["IsDecorative"]==true then gfx.set(0.6) else gfx.set(0.8) end
   gfx.drawstr(element_storage["Name"])
+  reagirl.UI_Element_SetFocusRect(true, 1,1,1,1)
   
   if reagirl.Elements[element_id]["pressed"]==true then
     state=1*dpi_scale-1
     if offset==0 then offset=1 end
 
     gfx.set(0.06) -- background 1
-    --reagirl.RoundRect(cap_w+x+dpi_scale, y+dpi_scale, w-cap_w-dpi_scale, h-dpi_scale, (radius-1) * dpi_scale, 1, 1)
+    --reagirl.RoundRect(cap_w+x, y+dpi_scale, w-cap_w+dpi_scale+dpi_scale+dpi_scale+dpi_scale, h, (radius) * dpi_scale, 1, 1)
     
     gfx.set(0.06) -- background 2
-    reagirl.RoundRect(cap_w+x, y, w+dpi_scale+dpi_scale+dpi_scale-cap_w, h, (radius-1) * dpi_scale, 1, 1)
+    reagirl.RoundRect(cap_w+x, y, w-cap_w+dpi_scale+dpi_scale, h, (radius) * dpi_scale, 1, 1)
     
     gfx.set(0.274) -- button-area
-    reagirl.RoundRect(cap_w+x+dpi_scale, y+dpi_scale, w-cap_w+dpi_scale+dpi_scale, h-dpi_scale, (radius-1) * dpi_scale, 1, 1)
+    reagirl.RoundRect(cap_w+x+dpi_scale, y+dpi_scale, w-cap_w+dpi_scale, h-dpi_scale, (radius-1) * dpi_scale, 1, 1)
     
     gfx.set(0.45)
-    local circ=4
-    gfx.circle(x+w+dpi_scale+dpi_scale+dpi_scale-h/2, (y+h)-h/2, circ*dpi_scale, 1, 0)
-    gfx.rect(x+w+dpi_scale+dpi_scale+dpi_scale-h+1*(dpi_scale-1), y+dpi_scale, dpi_scale, h-dpi_scale, 1)
+    local circ=dpi_scale
+    gfx.circle(x+dpi_scale+w-h/2, (y+h+dpi_scale)-h/2, 3*dpi_scale, 1, 0)
+    gfx.rect(x+w-h+1*(dpi_scale-1), y+dpi_scale, dpi_scale, h+dpi_scale, 1)
     
     if element_storage["IsDecorative"]==false then
-      gfx.x=x+(7*dpi_scale)+offset+cap_w
+      gfx.x=x+(4*dpi_scale)+offset+cap_w--+(w-sw)/2+1
     
       if reaper.GetOS():match("OS")~=nil then offset=1 end
-      gfx.y=y+(h-sh)/2+1+offset
+      gfx.y=y+(h-gfx.texth)/2+offset
       gfx.set(0.784)
       gfx.drawstr(menuentry, 0, x+w-19*dpi_scale, gfx.y+gfx.texth)
     end
@@ -5138,37 +5142,36 @@ function reagirl.DropDownMenu_Draw(element_id, selected, hovered, clicked, mouse
   else
     state=0
     gfx.set(0.06) -- background 1
-    reagirl.RoundRect(cap_w+x-dpi_scale, y, w-cap_w+dpi_scale+dpi_scale+dpi_scale+dpi_scale, h, (radius) * dpi_scale, 1, 1)
+    reagirl.RoundRect(cap_w+x, y, w-cap_w+dpi_scale+dpi_scale, h+dpi_scale+dpi_scale, (radius) * dpi_scale, 1, 1)
     
     gfx.set(0.45) -- background 2
-    reagirl.RoundRect(cap_w+x-dpi_scale, y-dpi_scale, w-cap_w+dpi_scale+dpi_scale+dpi_scale, h, (radius) * dpi_scale, 1, 1)
+    reagirl.RoundRect(cap_w+x, y-dpi_scale, w-cap_w+dpi_scale, h+dpi_scale+dpi_scale, (radius) * dpi_scale, 1, 1)
     
     gfx.set(0.274) -- button-area
-    reagirl.RoundRect(cap_w+x, y, w-cap_w+dpi_scale+dpi_scale, h-dpi_scale, (radius-1) * dpi_scale, 1, 1)
+    reagirl.RoundRect(cap_w+x+dpi_scale, y, w-cap_w, h+dpi_scale, (radius-1) * dpi_scale, 1, 1)
     
     gfx.set(0.45)
-    local circ=4
-    gfx.circle(x+dpi_scale+dpi_scale+w-h/2, (y+h)-dpi_scale-h/2, circ*dpi_scale, 1, 0)
-    gfx.rect(x+dpi_scale+dpi_scale+w-h+1*(dpi_scale-1), y-dpi_scale, dpi_scale, h, 1)
+    local circ=dpi_scale
+    gfx.circle(x+w-h/2, (y+h)-h/2, 3*dpi_scale, 1, 0)
+    gfx.rect(x-dpi_scale+w-h+1*(dpi_scale-1), y, dpi_scale, h+dpi_scale, 1)
     
     local offset=0
     if element_storage["IsDecorative"]==false then
-      gfx.x=x+(7*dpi_scale)+offset+cap_w--+(w-sw)/2+1
+      gfx.x=x+(4*dpi_scale)+offset+cap_w--+(w-sw)/2+1
       if reaper.GetOS():match("OS")~=nil then offset=1 end
-      --gfx.y=(y*scale)+(h-element_storage["h"])/2+offset
-      gfx.y=y+(h-sh)/2+offset
+      gfx.y=y+(h-gfx.texth)/2+offset
       gfx.set(0.784)
       gfx.drawstr(menuentry, 0, x+w-21*dpi_scale, gfx.y+gfx.texth)
     else
       if reaper.GetOS():match("OS")~=nil then offset=1 end
       
       gfx.x=x+(7*dpi_scale)+offset+cap_w--+(w-sw)/2+1
-      gfx.y=y+(h-sh)/2+1+offset-1
+      gfx.y=y+(h-gfx.texth)/2+offset+2
       gfx.set(0.09)
       gfx.drawstr(menuentry,0,x+w-21*dpi_scale, gfx.y+gfx.texth)
       
       gfx.x=x+(7*dpi_scale)+offset+cap_w--+(w-sw)/2+1
-      gfx.y=y+(h-sh)/2+offset
+      gfx.y=y+(h-gfx.texth)/2+offset
       gfx.set(0.55)
       gfx.drawstr(menuentry,0,x+w-21*dpi_scale, gfx.y+gfx.texth)
     end
@@ -5609,7 +5612,7 @@ function reagirl.Label_Add(x, y, label, meaningOfUI_Element, align, clickable, r
   reagirl.Elements[slot]["sticky_x"]=false
   reagirl.Elements[slot]["sticky_y"]=false
   reagirl.Elements[slot]["w"]=math.tointeger(w)
-  reagirl.Elements[slot]["h"]=math.tointeger(h)+7--math.tointeger(gfx.texth)
+  reagirl.Elements[slot]["h"]=math.tointeger(h)--math.tointeger(gfx.texth)
   reagirl.Elements[slot]["align"]=align
   reagirl.Elements[slot]["style1"]=0
   reagirl.Elements[slot]["style2"]=0
@@ -5643,6 +5646,7 @@ function reagirl.Label_Draw(element_id, selected, hovered, clicked, mouse_cap, m
   -- BUG: with multiline-texts, when they scroll outside the top of the window, they disappear when the first line is outside of the window
   local styles={66,73,77,79,83,85,86,89,90}
   styles[0]=0
+  local dpi_scale=reagirl.Window_GetCurrentScale()
   local style=styles[element_storage["style1"]]<<8
   style=style+styles[element_storage["style2"]]<<8
   style=style+styles[element_storage["style3"]]<<8
@@ -5657,9 +5661,9 @@ function reagirl.Label_Draw(element_id, selected, hovered, clicked, mouse_cap, m
   local old_gfx_a=gfx.a
   local old_mode=gfx.mode
   gfx.setimgdim(1001, gfx.w, gfx.h)
-  gfx.dest=1001
-  gfx.set(0)
-  gfx.rect(0, 0, gfx.w, gfx.h, 1)
+  --gfx.dest=1001
+  --gfx.set(0)
+  --gfx.rect(0, 0, gfx.w, gfx.h, 1)
   if element_storage["auto_breaks"]==true then
   --[[
   -- old code, might work now in most recent Reaper-version
@@ -5680,28 +5684,30 @@ function reagirl.Label_Draw(element_id, selected, hovered, clicked, mouse_cap, m
                                      element_storage["align"])
                                      --]]
   else
-    local col=0.6
-    local col2=0.6
+    local col=0.8
+    local col2=0.8
     if element_storage["clickable"]==true then 
       col=0.2
       col2=1
     end
-    gfx.set(0.1)
-    gfx.x=1
-    gfx.y=1
+    gfx.set(0.2)
+    gfx.x=x+dpi_scale
+    gfx.y=y+dpi_scale
     gfx.drawstr(name, element_storage["align"])--, w, h)
-    gfx.set(col,col,col2)
     
-    gfx.x=0
-    gfx.y=0
+    gfx.set(col,col,col2)
+    gfx.x=x
+    gfx.y=y
     gfx.drawstr(name, element_storage["align"])--, w, h)
     reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0)
   end
-  gfx.dest=-1
+  --[[gfx.dest=-1
   gfx.x=x
   gfx.y=y
   gfx.mode=1
   gfx.blit(1001, 1, 0)
+  
+  --]]
   
   gfx.x=oldx
   gfx.y=oldy
@@ -6320,10 +6326,7 @@ function reagirl.Image_Draw(element_id, selected, hovered, clicked, mouse_cap, m
   gfx.dest=-1
   imgw, imgh = gfx.getimgdim(element_storage["Image_Storage"])
   gfx.blit(element_storage["Image_Storage"],1,0,0,0,imgw,imgh,x,y,w,h,0,0)
-  if selected~="not selected" then
-    reagirl.UI_Element_SetFocusRect(true, x-scale-scale,y-scale-scale,w+scale+scale+scale+scale,h+scale+scale+scale)
-  end
-  
+
   -- revert changes
   gfx.r,gfx.g,gfx.b,gfx.a=r,g,b,a
   gfx.mode=oldmode
@@ -7265,7 +7268,7 @@ function reagirl.Slider_Add(x, y, w, caption, Cap_width, meaningOfUI_Element, un
   reagirl.Elements[slot]["x"]=x
   reagirl.Elements[slot]["y"]=y
   reagirl.Elements[slot]["w"]=math.tointeger(w)--math.tointeger(ty+tx+4)
-  reagirl.Elements[slot]["h"]=math.tointeger(ty)+7
+  reagirl.Elements[slot]["h"]=math.tointeger(ty)+2
   reagirl.Elements[slot]["cap_w"]=math.tointeger(tx)
   reagirl.Elements[slot]["Cap_width"]=Cap_width
   
@@ -7418,7 +7421,7 @@ end
 function reagirl.Slider_Draw(element_id, selected, hovered, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
   local dpi_scale=reagirl.Window_GetCurrentScale()
   
-  reagirl.SetFont(1, "Arial", reagirl.Font_Size-1, 0)
+  reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0)
   local offset_cap=gfx.measurestr(name.." ")+5
   if element_storage["Cap_width"]~=nil then
     offset_cap=element_storage["Cap_width"]
@@ -7430,13 +7433,13 @@ function reagirl.Slider_Draw(element_id, selected, hovered, clicked, mouse_cap, 
   element_storage["cap_w"]=offset_cap
   element_storage["unit_w"]=offset_unit
   element_storage["slider_w"]=w-offset_cap-offset_unit
-  gfx.x=x+1
-  gfx.y=y+1
+  gfx.x=x+dpi_scale
+  gfx.y=y+dpi_scale+(h-gfx.texth)/2
   gfx.set(0.2)
   gfx.drawstr(element_storage["Name"])
   
   gfx.x=x
-  gfx.y=y
+  gfx.y=y+(h-gfx.texth)/2
   if element_storage["IsDecorative"]==true then gfx.set(0.6) else gfx.set(0.8) end
   -- draw caption
   gfx.drawstr(element_storage["Name"])
@@ -7459,19 +7462,19 @@ function reagirl.Slider_Draw(element_id, selected, hovered, clicked, mouse_cap, 
   if element_storage["IsDecorative"]==true then gfx.set(0.5) else gfx.set(0.7) end
   -- draw slider-area
   gfx.set(0.5)
-  reagirl.RoundRect(math.tointeger(x+offset_cap-dpi_scale), y-dpi_scale-dpi_scale+(math.tointeger(gfx.texth)>>1), math.tointeger(w-offset_cap-offset_unit+dpi_scale+dpi_scale), math.tointeger(dpi_scale)*5, 2*math.tointeger(dpi_scale), 1, 1)
+  reagirl.RoundRect(math.tointeger(x+offset_cap-dpi_scale), math.tointeger(y+(h-5*dpi_scale)/2), math.tointeger(w-offset_cap-offset_unit+dpi_scale+dpi_scale), math.tointeger(dpi_scale)*5, 2*math.tointeger(dpi_scale), 1, 1)
   
   if element_storage["IsDecorative"]==true then gfx.set(0.6) else gfx.set(0.7) end
-  reagirl.RoundRect(math.tointeger(x+offset_cap),y+(math.tointeger(gfx.texth)>>1)-dpi_scale, math.tointeger(w-offset_cap-offset_unit), math.tointeger(dpi_scale)*3, 1, 1, 1)
+  reagirl.RoundRect(math.tointeger(x+offset_cap),math.tointeger(y+(h-3*dpi_scale)/2), math.tointeger(w-offset_cap-offset_unit), math.tointeger(dpi_scale)*3, dpi_scale, 1, 1)
   
   rect_w=w-offset_unit-offset_cap
   step_size=(rect_w/(element_storage["Stop"]-element_storage["Start"])/1)
   step_current=step_size*(element_storage["CurValue"]-element_storage["Start"])
   
   gfx.set(0.584)
-  gfx.circle(x+offset_cap+step_current, gfx.y+h/3, 7*dpi_scale, 1, 1)
+  gfx.circle(x+offset_cap+step_current, y+h/2, 7*dpi_scale, 1, 1)
   gfx.set(0.2725490196078431)
-  gfx.circle(x+offset_cap+step_current, gfx.y+h/3, 6*dpi_scale, 1, 1)
+  gfx.circle(x+offset_cap+step_current, y+h/2, 6*dpi_scale, 1, 1)
   
   if element_storage["IsDecorative"]==true then
     gfx.set(0.584)
@@ -7480,7 +7483,7 @@ function reagirl.Slider_Draw(element_id, selected, hovered, clicked, mouse_cap, 
     gfx.set(0.9843137254901961, 0.8156862745098039, 0)
   end
 
-  gfx.circle(x+offset_cap+step_current, gfx.y+h/3, 5*dpi_scale, 1, 1)
+  gfx.circle(x+offset_cap+step_current, y+h/2, 5*dpi_scale, 1, 1)
 end
 
 function reagirl.Slider_SetValue(element_id, value)
@@ -8392,16 +8395,29 @@ function UpdateUI()
   --reagirl.Label_SetStyle(Lab1, 6)
   
   reagirl.NextLine()
-  A=reagirl.InputBox_Add(30, nil, -10, "Title:", 80, "the title for this chapter", "Malik testet Hackintoshis", ABBALA2, ABBALA3)
+  A=reagirl.InputBox_Add(30, nil, 270, "Title:", 70, "the title for this chapter", "Malik testet Hackintoshis", ABBALA2, ABBALA3)
   reagirl.NextLine()
-  reagirl.InputBox_Add(30, nil, -10, "Description:", 80, "a summary of this chapter","Neue Hackintoshs braucht das Land", nil, nil)
+  reagirl.InputBox_Add(30, nil, 270, "Description:", 70, "a summary of this chapter","Neue Hackintoshs braucht das Land", nil, nil)
   reagirl.NextLine()
-  reagirl.InputBox_Add(30, nil, -10, "Tags:", 80, "", "Hackies, und, so", nil, nil)
+  reagirl.InputBox_Add(30, nil, 270, "Tags:", 70, "", "Hackies, und, so", nil, nil)
   
   reagirl.NextLine()
-  A=reagirl.CheckBox_Add(108, nil, "Is Ad", "Is this chapter an advertisement?", true, tabme)
+  A=reagirl.CheckBox_Add(100, nil, "Is Ad", "Is this chapter an advertisement?", true, tabme)
   reagirl.CheckBox_Add(nil, nil, "Spoilers", "Does this chapter contain spoilers or not?", true, tabme)
+  reagirl.NextLine()
+  Lab3=reagirl.Label_Add(30, nil, "Chapter Image", "HELP", 0, false, nil)
+  reagirl.Label_SetStyle(Lab3, 6)
   
+  reagirl.NextLine()
+  reagirl.Slider_Add(30, nil, 270, "Title:", 70, "Loo", "%", 1, 100, 1, 100, tabme)
+  
+  reagirl.NextLine()
+  Img=reagirl.Image_Add("c:\\c.png", 20, nil, 85, 85, "Chapter Image", "", ABBALA3)
+
+  reagirl.NextLine()
+  reagirl.DropDownMenu_Add(30, nil, 170, "Menu:", 70, "Menu me", {"Eins", "Zwo", "Drei"}, 2, tabme)
+  reagirl.NextLine()
+  button=reagirl.Button_Add(-115, nil, 0, 0, "Apply Changes", "", button2)
   --reagirl.NextLine()
   --reagirl.InputBox_Add(40, nil, -20, "Content Note:", 100, "", "Hackies, und, so", nil, nil)
   --[[
@@ -8412,7 +8428,7 @@ function UpdateUI()
   reagirl.InputBox_Add(40, nil, -20, "Url:", 100, "", "hbbs:/audiodump.de", nil, nil)
   reagirl.NextLine()
   reagirl.InputBox_Add(40, nil, -20, "Description:", 100, "", "Der besteste Audiodnmps auf se welt", nil, nil)
-  --]]
+--[[
   
   reagirl.NextLine(15)
   Lab3=reagirl.Label_Add(-100, nil, "Chapter Image", "HELP", 0, false, nil)
@@ -8424,23 +8440,19 @@ function UpdateUI()
   reagirl.Image_SetDraggable(Img, true, {Lab3, A})
   reagirl.Image_SetDraggable(Img, false, {Lab3, A})
 
-  --reagirl.NextLine()
+
   reagirl.InputBox_Add(30, nil, -10, "Description: ", 80, "", "Cover \nof DFVA", nil, nil)
   reagirl.NextLine()
   reagirl.Slider_Add(nil, nil, -10, "Slide Me:", 80, "Loo", "%", 1, 100, 1, 100, tabme)
-  reagirl.NextLine(-4)
-  reagirl.DropDownMenu_Add(nil, nil, -10, "Menu:", 80, "Menu me", {"Eins", "Zwo", "Drei"}, 2, tabme)
   reagirl.NextLine()
   reagirl.InputBox_Add(nil, nil, -10, "License:      ", 80, "", "CC-By-NC", nil, nil)
-  --reagirl.InputBox_Add(nil, nil, -20, "Origin:         ", 80, "", "Wikipedia", nil, nil)
-  --reagirl.NextLine()
-  --reagirl.InputBox_Add(nil, nil, -20, "Origin-URL:  ", 100, "", "https://www.wikipedia.com/dfva", nil, nil)
+
   reagirl.NextLine(10)
   reagirl.Button_Add(-115, nil, 0, 0, "Apply Changes", "", button2)
   reagirl.NextLine()
   button=reagirl.Button_Add(-115, nil, 0, 0, "Apply Changes", "", button2)
   reagirl.Button_SetRadius(button, 8)
-  
+  --]]
 end
 
 
