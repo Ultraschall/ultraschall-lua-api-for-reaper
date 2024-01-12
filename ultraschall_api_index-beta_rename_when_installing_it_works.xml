@@ -1483,74 +1483,22 @@ new in this release:
     setting a new length or resizing by a factor, like 0.5 for half or 2
     for double the size.
 
-New features in 4.9
+New features in 5
 
--   Docs: links and code-examples - added links to related functions as
-    well as some first code-examples; can now add more very easily
--   DocEngine: Docs_GetAllUSDocBlocsFromFile - loads all USDocBlocs from
-    a file
--   DocEngine: Docs_GetReaperApiFunction_Categories - returns the
-    index-categories of a Reaper-function(including extensions)
--   DocEngine: Docs_GetUSDocBloc_Examples - retrieves the
-    code-example-attributes stored in a USDocBloc
--   DocEngine: Docs_GetUltraschallApiFunction_Categories - returns the
-    index-categories of an Ultraschall-function
--   Envelopes: DeleteTrackEnvelopePointsBetween - removes all
-    envelope-points between start and endposition
--   RazorEdit: RazorEdit_GetBetween_Envelope - get all razor-edits of an
-    envelope between start and endposition one or all razor-edits in a
+-   MIDI: PreviewMidiCCInTrack - previews a midi-cc in a specific armed
     track
--   RazorEdit: RazorEdit_GetBetween_Track - get all razor-edits of a
-    track between start and endposition
--   RazorEdit: RazorEdit_Resize_Envelope - resizes one or all
-    razor-edits in an envelope
--   RazorEdit: RazorEdit_ResizeByFactor_Envelope - resizes one or all
-    razor-edits in an envelope by a factor(requested by Daniel Lumertz)
--   RazorEdit: RazorEdit_Resize_Track - resizes one or all razor-edits
-    in a track
--   RazorEdit: RazorEdit_ResizeByFactor_Track - resizes one or all
-    razor-edits in a track by a factor(requested by Daniel Lumertz)
--   RazorEdit: RazorEdit_Set_Envelope - sets start/endposition of a
-    razor-edit in an envelope
--   RazorEdit: RazorEdit_Set_Track - sets start/endposition of a
-    razor-edit in a track
+-   MIDI: PreviewMidiNoteInTrack - previews a midi-note in a specific
+    armed track
+-   MIDI: PreviewMidiPCInTrack - previews a midi-pc in a specific armed
+    track
+-   MIDI: PreviewMidiPitchInTrack - previews a midi-pitch in a specific
+    armed track
+-   Rendering: CreateRenderCFG_RAW - creates a renderstring for
+    RAW-renderformat
+-   Rendering: GetRenderCFG_Settings_RAW - gets settings of a
+    RAW-renderformat-renderstring
 
-Changes from 4.8 to 4.9
-
--   Helper Functions: SFEM - crashed, when the occurred error happened
-    not within a function -> fixed now
--   DocEngine: Docs_GetAllUSDocBlocsFromString - returned nil in case of
-    an error which was wrong; returns -1 now -> fixed now
--   Docs: Reaper Internals - updated to Reaper 6.80
--   Envelopes: MoveTrackEnvelopePointsBy - didn’t properly move and cut
-    envelope-points -> fixed
--   MediaItems: RippleCut - didn’t properly move and cut
-    envelope-points; cut env-points in all tracks, not just the ones
-    from trackstring -> fixed
--   MediaItems: RippleCut_Reverse - didn’t properly move and cut
-    envelope-points; cut env-points in all tracks, not just the ones
-    from trackstring -> fixed
--   MediaItem_Takes: GetProjectPosByTakeSourcePos - removed from
-    release, due a Reaper bug that might remove take-markers; will
-    return when bug is fixed
--   MediaItem_Takes: GetTakeSourcePosByProjectPos - removed from
-    release, due a Reaper bug that might remove take-markers; will
-    return when bug is fixed
--   PodcastMetadata: GetPodcastContributorAttributesAsJSON - fix due fix
-    in GetSetContributor_Attributes
--   PodcastMetadata: GetSetContributor_Attributes - had wrong
-    undocumented parameter in the function which is removed now; added
-    “ctrb_role”
--   PodcastMetadata: GetSetPodcastEpisode_Attributes - removed
-    “epsd_tagline” and “epsd_author”
--   PodcastMetadata: GetSetPodcast_Attributes - added “podc_tagline” and
-    “podc_feed”
--   PodcastMetadata: GetShownoteAttributesAsJSON - timestamp is now in
-    hh:mm:ss:mss
--   PodcastMetadata: PodcastMetadata_CreateJSON_Entry - did only do the
-    first chapter, ignoring the rest; improved layout of JSON -> fixed
--   RazorEdit: RazorEdit_Nudge_Track - index didn’t count properly, when
-    envelopes had razor-edits -> fixed now
+Changes from 4.9 to 5
 ]]>
 </changelog>
       </version>
@@ -1580,7 +1528,7 @@ Ultraschall API}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b\ab\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
-a 1687 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 55906 from 11.01.2024 20:38:40).}
+a 1691 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 55906 from 12.01.2024 13:36:37).}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
@@ -1594,7 +1542,7 @@ The Ultraschall-Framework itself is intended to include a set of Lua-functions, 
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
-This API was to be used within Ultraschall only, but quickly evolved into a huge 1687 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
+This API was to be used within Ultraschall only, but quickly evolved into a huge 1691 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\fs24\loch\f3

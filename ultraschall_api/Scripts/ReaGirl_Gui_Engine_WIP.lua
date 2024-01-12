@@ -18,24 +18,11 @@ TODO:
   - InputBox: if they are too small, they aren't drawn properly
   - jumping to ui-elements outside window(means autoscroll to them) doesn't always work
     - ui-elements might still be out of view when jumping to them(x-coordinate outside of window for instance)
-  - Slider: disappears when scrolling upwards/leftwards: because of the "only draw neccessary gui-elements"-code, which is buggy for some reason
-  - Slider: width is too big...gui might scroll because of that...(probably because of the safety margin of the unit)
+  - Slider: disappears when scrolling upwards/leftwards: because of the "only draw neccessary gui-elements"-code, which is buggy for some reason(still is existing?)
   - Slider: draw a line where the default-value shall be
   - Slider: when width is too small, drawing bugs appear(i.e. autowidth plus window is too small)
-  - Background_GetSetImage - check, if the background image works properly with scaling and scrolling
   - Image: reload of scaled image-override; if override==true then it loads only the image.png, not image-2x.png
-  - Image: focused rect isn'tT properly aligned anymore
-  - Slider and DropDownMenu: check if height is equal to height of inputbox
-  - Scrolling is buggy, when gui is scrollen outside the top of the window, resize the window at the bottom, voila: scrolling upwards doesn't work anymore
-  - Checkbox: check, if border is the same gray as inputboxes
-  - UI_Element_OnMouse(ui_element_guid, mouseevent, mouse_x, mouse_y)
-            - mouseevent=
-            -   1, FirstClk
-            -   2, Click
-            -   3, DBLCLK
-            -   4, DRAG(in conjunction to a first run of UI_Element_OnMouse() with mouseevent=clk
-            - Runs the manage-function of the ui_element_guid and ForceRefresh to sent mouse-events to mouse
-            -   also needs to temporarily alter gfx.mouse_x and gfx.mouse_y to the desired coordinate
+  - Scrolling is buggy, when gui is scrolling outside the top of the window, resize the window at the bottom, voila: scrolling upwards doesn't work anymore
   - Labels: ACCHoverMessage should hold the text of the paragraph the mouse is hovering above only
             That way, not everything is read out as message to TTS, only the hovered paragraph.
             This makes reading longer label-texts much easier.
@@ -46,17 +33,7 @@ TODO:
   - Images: dragging for accessibility, let the dragging-destination be chosen via Ctrl+Tab and Ctrl+Shift+Tab and Ctrl+Enter to drop it into the destination ui-element
   - General: acc-messages returned by the manage-functions are not sent to the screenreader for some reasons, like "pressed" in buttons
   - DropZones: the target should be notified, which ui-element had been dragged to it
-  - InputBox:
-    - Done: #1 Length of visible text isn't properly calculated for non-mono-fonts, especially when typing jjjj and iiii a lot
-    - Done: #2 Fast moving the mouse over the middle of the textselection(the point, where it springs from)
-               while text selection offsets the text-selection by one or more characters
-    - #3 Redraw it in more pretty
-    - Done #4 Caption still missing
-    - Done #5 Scaling must be done
-    - #6 hasfocus isn't working
-    - Done #7 cursor isn't drawn when at the left edge of the boundary-box
-    - #8 Ctrl+left/right only jumps to non-alphanumeric characters, not to switches between alphanumeric and non-alphanumeric characters
-    - #9 Ctrl+Shift+left/Ctrl+Shift+right doesn't work yet
+  
   
 !!For 10k-UI-Elements(already been tested)!!  
   - Gui_Manage
@@ -3426,11 +3403,10 @@ function reagirl.CheckBox_Draw(element_id, selected, hovered, clicked, mouse_cap
   
   local top=element_storage["top_edge"]
   local bottom=element_storage["bottom_edge"]
-  gfx.set(0.584)
   gfx.set(0.45)
   reagirl.RoundRect(x,y,h+2,h+2,1*scale, 1,1, false, false, false, false)
   
-  gfx.set(0.2725490196078431)
+  gfx.set(0.234)
   reagirl.RoundRect(x+scale,y+scale,h+2-scale*2,h+2-scale*2, scale-1, 0, 1, false, false, false, false)
   
   if reagirl.Elements[element_id]["checked"]==true then
@@ -3462,6 +3438,59 @@ function reagirl.CheckBox_Draw(element_id, selected, hovered, clicked, mouse_cap
   gfx.y=y+2+offset
   gfx.drawstr(name)
   reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0)
+end
+
+function reagirl.UI_Element_OnMouse(element_id, mouse_cap, mouse_event, mouse_x, mouse_y, mouse_wheel, mouse_hwheel, Key, Key_utf)
+-- more complicated than I thought. For some reason, it's not clicking the ui-element...
+-- seems like the y-position if somehow the problem
+  --[[- UI_Element_OnMouse(ui_element_guid, mouseevent, mouse_x, mouse_y)
+            - mouseevent=
+            -   1, FirstClk
+            -   2, Click
+            -   3, DBLCLK
+            -   4, DRAG(in conjunction to a first run of UI_Element_OnMouse() with mouseevent=clk
+            - Runs the manage-function of the ui_element_guid and ForceRefresh to sent mouse-events to mouse
+            -   also needs to temporarily alter gfx.mouse_x and gfx.mouse_y to the desired coordinate
+            --]]
+  local id=reagirl.UI_Element_GetIDFromGuid(element_id)
+  reagirl.Elements.FocusedElement=id
+  local x2, y2, w2, h2
+  local scale=reagirl.Window_GetCurrentScale()
+  if reagirl.Elements[id]["x"]<0 then x2=gfx.w+(reagirl.Elements[id]["x"]*scale) else x2=(reagirl.Elements[id]["x"]*scale) end
+  if reagirl.Elements[id]["y"]<0 then y2=gfx.h+(reagirl.Elements[id]["y"]*scale) else y2=(reagirl.Elements[id]["y"]*scale) end
+  if reagirl.Elements[id]["w"]<0 then w2=gfx.w+(-x2+reagirl.Elements[id]["w"]*scale) else w2=reagirl.Elements[id]["w"]*scale end
+  if reagirl.Elements[id]["h"]<0 then h2=gfx.h+(-y2+reagirl.Elements[id]["h"]*scale) else h2=reagirl.Elements[id]["h"]*scale end
+  oldmouse_x=gfx.mouse_x
+  oldmouse_y=gfx.mouse_y
+  oldwheel=gfx.mouse_wheel
+  oldhwheel=gfx.mouse_hwheel
+  oldmousecap=gfx.mouse_cap
+  gfx.mouse_x=mouse_x
+  gfx.mouse_y=mouse_y
+  gfx.mouse_wheel=mouse_wheel
+  gfx.mouse_hwheel=mouse_hwheel
+  gfx.mouse_cap=mouse_cap
+  
+  local cur_message, refresh=reagirl.Elements[id]["func_manage"](id, true,
+              true,
+              mouse_event,
+              mouse_cap,
+              {mouse_x, mouse_y, mouse_x, mouse_y, mouse_wheel, mouse_hwheel},
+              reagirl.Elements[id]["Name"],
+              reagirl.Elements[id]["Description"], 
+              math.tointeger(x2+reagirl.MoveItAllRight),
+              math.tointeger(y2+reagirl.MoveItAllUp),
+              math.tointeger(w2),
+              math.tointeger(h2),
+              Key,
+              Key_utf,
+              reagirl.Elements[id]
+            )
+  gfx.mouse_x=oldmouse_x
+  gfx.mouse_y=oldmouse_y
+  gfx.mouse_wheel=oldwheel
+  gfx.mouse_hwheel=oldhwheel
+  gfx.mouse_cap=oldmousecap
 end
 
 function reagirl.UI_Element_Next_Position()
@@ -4688,6 +4717,7 @@ function reagirl.InputBox_Calculate_DrawOffset(forward, element_storage)
 end
 
 function reagirl.InputBox_Draw(element_id, selected, hovered, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
+
   local dpi_scale=reagirl.Window_GetCurrentScale()
   reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0)
   
@@ -6419,6 +6449,9 @@ function reagirl.Image_Draw(element_id, selected, hovered, clicked, mouse_cap, m
   --gfx.blit(element_storage["Image_Storage"], 1, 0, 0, 0, )
   imgw, imgh = gfx.getimgdim(element_storage["Image_Storage"])
   gfx.blit(element_storage["Image_Storage"],1,0,0,0,imgw,imgh,x,y,w,h,0,0)
+  if selected~="not selected" then
+    reagirl.UI_Element_SetFocusRect(true, x-scale-scale,y-scale-scale,w+scale+scale+scale+scale,h+scale+scale+scale)
+  end
   
   -- revert changes
   gfx.r,gfx.g,gfx.b,gfx.a=r,g,b,a
@@ -6524,7 +6557,7 @@ end
 
 function reagirl.Background_GetSetImage(filename, x, y, scaled, fixed_x, fixed_y)
 --[[
-<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+<  US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>Background_GetSetImage</slug>
   <requires>
     ReaGirl=1.0
@@ -8535,7 +8568,19 @@ end
 local count=0
 local count2=0
 
-
+function button2()
+  --[[
+  id=reagirl.UI_Element_GetIDFromGuid(A)
+  local scale=reagirl.Window_GetCurrentScale()
+  if reagirl.Elements[id]["x"]<0 then x2=gfx.w+(reagirl.Elements[id]["x"]*scale) else x2=(reagirl.Elements[id]["x"]*scale) end
+  if reagirl.Elements[id]["y"]<0 then y2=gfx.h+(reagirl.Elements[id]["y"]*scale) else y2=(reagirl.Elements[id]["y"]*scale) end
+  if reagirl.Elements[id]["w"]<0 then w2=gfx.w+(-x2+reagirl.Elements[id]["w"]*scale) else w2=reagirl.Elements[id]["w"]*scale end
+  if reagirl.Elements[id]["h"]<0 then h2=gfx.h+(-y2+reagirl.Elements[id]["h"]*scale) else h2=reagirl.Elements[id]["h"]*scale end
+  --reagirl.UI_Element_OnMouse(A, 1, "FirstClk", x2, y2, 0, 0, 0, 0)
+  --reaper.JS_Mouse_SetPosition(x2+reagirl.MoveItAllRight, y2+reagirl.MoveItAllUp)
+  --reagirl.UI_Element_OnMouse(A, 1, "DRAG", reagirl.Elements[3].x, reagirl.Elements[3].y+10, 0, 0, 0, 0)
+  --]]
+end
 
 function UpdateUI()
   reagirl.Background_GetSetColor(true, 44,44,44)
@@ -8545,14 +8590,14 @@ function UpdateUI()
   --reagirl.Label_SetStyle(Lab1, 6)
   
   reagirl.NextLine()
-  reagirl.InputBox_Add(30, nil, -10, "Title:", 80, "the title for this chapter", "Malik testet Hackintoshis", ABBALA2, ABBALA3)
+  A=reagirl.InputBox_Add(30, nil, -10, "Title:", 80, "the title for this chapter", "Malik testet Hackintoshis", ABBALA2, ABBALA3)
   reagirl.NextLine()
   reagirl.InputBox_Add(30, nil, -10, "Description:", 80, "a summary of this chapter","Neue Hackintoshs braucht das Land", nil, nil)
   reagirl.NextLine()
   reagirl.InputBox_Add(30, nil, -10, "Tags:", 80, "", "Hackies, und, so", nil, nil)
   
   reagirl.NextLine()
-  reagirl.CheckBox_Add(108, nil, "Is Ad", "Is this chapter an advertisement?", true, tabme)
+  A=reagirl.CheckBox_Add(108, nil, "Is Ad", "Is this chapter an advertisement?", true, tabme)
   reagirl.CheckBox_Add(nil, nil, "Spoilers", "Does this chapter contain spoilers or not?", true, tabme)
   
   --reagirl.NextLine()
@@ -8587,9 +8632,9 @@ function UpdateUI()
   --reagirl.NextLine()
   --reagirl.InputBox_Add(nil, nil, -20, "Origin-URL:  ", 100, "", "https://www.wikipedia.com/dfva", nil, nil)
   reagirl.NextLine(10)
-  reagirl.Button_Add(-115, nil, 0, 0, "Apply Changes", "", tabme)
+  reagirl.Button_Add(-115, nil, 0, 0, "Apply Changes", "", button2)
   reagirl.NextLine()
-  button=reagirl.Button_Add(-115, nil, 0, 0, "Apply Changes", "", tabme)
+  button=reagirl.Button_Add(-115, nil, 0, 0, "Apply Changes", "", button2)
   reagirl.Button_SetRadius(button, 8)
   
 end

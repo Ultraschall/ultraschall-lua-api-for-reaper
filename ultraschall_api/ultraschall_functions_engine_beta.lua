@@ -1313,8 +1313,354 @@ end
 
 
 
+-- finished for USAPI5
+function ultraschall.CreateRenderCFG_RAW(bitrate, write_sidecar_file)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>CreateRenderCFG_RAW</slug>
+  <requires>
+    Ultraschall=5
+    Reaper=7.0
+    Lua=5.4
+  </requires>
+  <functioncall>string render_cfg_string = ultraschall.CreateRenderCFG_RAW(integer bitrate, boolean write_sidecar_file)</functioncall>
+  <description>
+    Returns the render-cfg-string for the RAW-PCM-format. You can use this in ProjectStateChunks, RPP-Projectfiles and reaper-render.ini
+    
+    Returns nil in case of an error
+  </description>
+  <retvals>
+    string render_cfg_string - the render-cfg-string for the selected RAW PCM-settings
+  </retvals>
+  <parameters>
+    integer bitrate - the bitrate 
+                    - 1, 8 bit unsigned
+                    - 2, 8 bit signed
+                    - 3, 16 bit little endian
+                    - 4, 24 bit little endian
+                    - 5, 32 bit little endian
+                    - 6, 16 bit big endian
+                    - 7, 24 bit big endian
+                    - 8, 32 bit big endian
+                    - 9, 32 bit FP little endian
+                    - 10, 64 bit FP little endian
+                    - 11, 32 bit FP big endian
+                    - 12, 64 bit FP big endian
+    boolean write_sidecar_file - true, write a .rsrc.txt sidecar file; false, don't write a sidecar file
+  </parameters>
+  <chapter_context>
+    Rendering Projects
+    Creating Renderstrings
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Render_Module.lua</source_document>
+  <tags>render management, create, render, outputformat, raw, pcm, sidecar</tags>
+</US_DocBloc>
+]]
+  if math.type(bitrate)~="integer" then ultraschall.AddErrorMessage("CreateRenderCFG_RAW", "bitrate", "must be an integer", -1) return end
+  if type(write_sidecar_file)~="boolean" then ultraschall.AddErrorMessage("CreateRenderCFG_RAW", "write_sidecar_file", "must be a boolean", -2) return end
+  if bitrate<1 or bitrate>12 then ultraschall.AddErrorMessage("CreateRenderCFG_RAW", "bitrate", "must be between 1 and 12", -3) return end
+  if     bitrate==1 then bitrate=8 option=4 -- 8bit unsigned
+  elseif bitrate==2 then bitrate=8 option=0 -- 8bit signed
+  elseif bitrate==3 then bitrate=16 option=0 -- 16 bit little endian
+  elseif bitrate==4 then bitrate=24 option=0 -- 24 bit little endian
+  elseif bitrate==5 then bitrate=32 option=0 -- 32 bit little endian
+  elseif bitrate==6 then bitrate=16 option=2 -- 16 bit big endian
+  elseif bitrate==7 then bitrate=24 option=2 -- 24 bit big endian
+  elseif bitrate==8 then bitrate=32 option=2 -- 32 bit big endian
+  elseif bitrate==9 then bitrate=32 option=1 -- 32 bit FP little endian
+  elseif bitrate==10 then bitrate=64 option=1 -- 64 bit FP little endian
+  elseif bitrate==11 then bitrate=32 option=3 -- 32 bit FP big endian
+  elseif bitrate==12 then bitrate=64 option=3 -- 64 bit FP big endian
+  end
+  if write_sidecar_file==false then option=option+64 end
+  --print2(option)
+  return ultraschall.Base64_Encoder(" war"..string.char(bitrate)..string.char(option))
+end
+
+function ultraschall.GetRenderCFG_Settings_RAW(rendercfg)
+  --[[
+  <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+    <slug>GetRenderCFG_Settings_RAW</slug>
+    <requires>
+      Ultraschall=5
+      Reaper=7.0
+      Lua=5.4
+    </requires>
+    <functioncall>integer bitrate, boolean write_sidecar_file = ultraschall.GetRenderCFG_Settings_RAW(string rendercfg)</functioncall>
+    <description>
+      Returns the settings stored in a render-cfg-string for RAW PCM.
+
+      You can get this from the current RENDER_FORMAT using reaper.GetSetProjectInfo_String or from ProjectStateChunks, RPP-Projectfiles and reaper-render.ini
+      
+      Returns -1 in case of an error
+    </description>
+    <retvals>
+      integer bitrate - the encoding-depth of the raw-pcm
+      integer bitrate - the bitrate 
+                      - 1, 8 bit unsigned
+                      - 2, 8 bit signed
+                      - 3, 16 bit little endian
+                      - 4, 24 bit little endian
+                      - 5, 32 bit little endian
+                      - 6, 16 bit big endian
+                      - 7, 24 bit big endian
+                      - 8, 32 bit big endian
+                      - 9, 32 bit FP little endian
+                      - 10, 64 bit FP little endian
+                      - 11, 32 bit FP big endian
+                      - 12, 64 bit FP big endian
+      boolean write_sidecar_file - true, write .rsrc.txt sidecar file; false, don't write a sidecar file
+    </retvals>
+    <parameters>
+      string render_cfg - the render-cfg-string, that contains the raw-settings; 
+    </parameters>
+    <chapter_context>
+      Rendering Projects
+      Analyzing Renderstrings
+    </chapter_context>
+    <target_document>US_Api_Functions</target_document>
+    <source_document>Modules/ultraschall_functions_Render_Module.lua</source_document>
+    <tags>render management, get, settings, rendercfg, renderstring, raw, pcm, sidecar</tags>
+  </US_DocBloc>
+  ]]
+  if type(rendercfg)~="string" then ultraschall.AddErrorMessage("GetRenderCFG_Settings_RAW", "rendercfg", "must be a string", -1) return -1 end
+  if rendercfg==nil then
+    local retval
+    retval, rendercfg = reaper.BR_Win32_GetPrivateProfileString("flac sink defaults", "default", "", reaper.get_ini_file())
+    if retval==0 then rendercfg="63616C661000000005000000AB" end
+    rendercfg = ultraschall.ConvertHex2Ascii(rendercfg)
+    rendercfg=ultraschall.Base64_Encoder(rendercfg)
+  end
+  local Decoded_string = ultraschall.Base64_Decoder(rendercfg)
+  if Decoded_string==nil or Decoded_string:sub(1,4)~=" war" then ultraschall.AddErrorMessage("GetRenderCFG_Settings_RAW", "rendercfg", "not a render-cfg-string of the format raw pcm", -2) return -1 end
+   
+  if Decoded_string:len()==4 then
+    return 3, false
+  end
+  local bitrate=string.byte(Decoded_string:sub(5,5))
+  local option= string.byte(Decoded_string:sub(6,6))
+  if option&64==64 then option=option-64 end
+  local val=-2
+  if     bitrate==8 and option==4 then val=1 -- 8bit unsigned
+  elseif bitrate==8 and option==0 then val=2-- 8bit signed
+  elseif bitrate==16 and option==0 then val=3-- 16 bit little endian
+  elseif bitrate==24 and option==0 then val=4-- 24 bit little endian
+  elseif bitrate==32 and option==0 then val=5-- 32 bit little endian
+  elseif bitrate==16 and option==2 then val=6-- 16 bit big endian
+  elseif bitrate==24 and option==2 then val=7-- 24 bit big endian
+  elseif bitrate==32 and option==2 then val=8-- 32 bit big endian
+  elseif bitrate==32 and option==1 then val=9-- 32 bit FP little endian
+  elseif bitrate==64 and option==1 then val=10-- 64 bit FP little endian
+  elseif bitrate==32 and option==3 then val=11-- 32 bit FP big endian
+  elseif bitrate==64 and option==3 then val=12-- 64 bit FP big endian
+  end
+  return val, string.byte(Decoded_string:sub(6,6))&64==0
+end
+
+function ultraschall.PreviewMidiPitchInTrack(track, pitch)
+--[[
+  <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+    <slug>PreviewMidiPitchInTrack</slug>
+    <requires>
+      Ultraschall=5
+      Reaper=5.965
+      Lua=5.4
+    </requires>
+    <functioncall>ultraschall.PreviewMidiPitchInTrack(integer track, integer pitch)</functioncall>
+    <description>
+      Sends a MIDI-pitch to a specific track with a specific velocity.
+      
+      The track must be rec-armed!
+      
+      returns false in case of an error
+    </description>
+    <parameters>
+      integer track - the number of the track, in which you want to preview the midi-note
+      integer pitch - the pitch to be played; 0-127
+    </parameters>
+    <chapter_context>
+      MIDI Management
+      Notes
+    </chapter_context>
+    <target_document>US_Api_Functions</target_document>
+    <source_document>Modules/ultraschall_functions_MIDIManagement_Module.lua</source_document>
+    <tags>midi management, send, note, preview, pitch</tags>
+  </US_DocBloc>
+  ]]  
+  if math.type(track)~="integer" then ultraschall.AddErrorMessage("PreviewMidiCCInTrack", "track", "must be an integer", -1) return false end
+  if track<1 or track>reaper.CountTracks(0) then ultraschall.AddErrorMessage("PreviewMidiCCInTrack", "track", "no such track", -2) return false end
+  if math.type(pitch)~="integer" then ultraschall.AddErrorMessage("PreviewMidiCCInTrack", "pitch", "must be an integer", -3) return false end
+  if pitch<0 or pitch>127 then ultraschall.AddErrorMessage("PreviewMidiCCInTrack", "pitch", "must be between 0 and 127", -5) return false end
+  
+  local old_recarm=reaper.GetMediaTrackInfo_Value(reaper.GetTrack(0, track-1), "I_RECARM")
+  if old_recarm==0 then ultraschall.AddErrorMessage("PreviewMidiCCInTrack", "velocity", "track must be armed for this function to work", -6) return false end
+
+  local old_input=reaper.GetMediaTrackInfo_Value(reaper.GetTrack(0, track-1), "I_RECINPUT")
+  reaper.SetMediaTrackInfo_Value(reaper.GetTrack(0,0), "I_RECINPUT", 6080)
+  ultraschall.MIDI_SendMidiPitch(1, pitch, velocity, 0)
+  reaper.SetMediaTrackInfo_Value(reaper.GetTrack(0,0), "I_RECINPUT", old_input)
+  return true
+end
+
+--ultraschall.PreviewMidiPitchInTrack(1, 12, 1)
+
+function ultraschall.PreviewMidiPCInTrack(track, pc, velocity)
+--[[
+  <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+    <slug>PreviewMidiPCInTrack</slug>
+    <requires>
+      Ultraschall=5
+      Reaper=5.965
+      Lua=5.4
+    </requires>
+    <functioncall>ultraschall.PreviewMidiPCInTrack(integer track, integer pc, integer Velocity)</functioncall>
+    <description>
+      Sends a MIDI-pc to a specific track with a specific velocity.
+      
+      The track must be rec-armed!
+      
+      returns false in case of an error
+    </description>
+    <parameters>
+      integer track - the number of the track, in which you want to preview the midi-note
+      integer pc - the pc to be played; 0-127
+      integer velocity - the velocity of the note; 0-255
+    </parameters>
+    <chapter_context>
+      MIDI Management
+      Notes
+    </chapter_context>
+    <target_document>US_Api_Functions</target_document>
+    <source_document>Modules/ultraschall_functions_MIDIManagement_Module.lua</source_document>
+    <tags>midi management, send, note, preview, pc</tags>
+  </US_DocBloc>
+  ]]  
+  if math.type(track)~="integer" then ultraschall.AddErrorMessage("PreviewMidiPCInTrack", "track", "must be an integer", -1) return false end
+  if track<1 or track>reaper.CountTracks(0) then ultraschall.AddErrorMessage("PreviewMidiPCInTrack", "track", "no such track", -2) return false end
+  if math.type(pc)~="integer" then ultraschall.AddErrorMessage("PreviewMidiPCInTrack", "pc", "must be an integer", -3) return false end
+  if math.type(velocity)~="integer" then ultraschall.AddErrorMessage("PreviewMidiPCInTrack", "velocity", "must be an integer", -4) return false end
+  if pc<0 or pc>127 then ultraschall.AddErrorMessage("PreviewMidiPCInTrack", "pc", "must be between 0 and 127", -5) return false end
+  if velocity<0 or velocity>255 then ultraschall.AddErrorMessage("PreviewMidiPCInTrack", "velocity", "must be between 0 and 255", -6) return false end
+  
+  local old_recarm=reaper.GetMediaTrackInfo_Value(reaper.GetTrack(0, track-1), "I_RECARM")
+  if old_recarm==0 then ultraschall.AddErrorMessage("PreviewMidiPCInTrack", "velocity", "track must be armed for this function to work", -6) return false end
+
+  local old_input=reaper.GetMediaTrackInfo_Value(reaper.GetTrack(0, track-1), "I_RECINPUT")
+  reaper.SetMediaTrackInfo_Value(reaper.GetTrack(0,0), "I_RECINPUT", 6080)
+  ultraschall.MIDI_SendMidiPC(1, pc, velocity, 0)
+  reaper.SetMediaTrackInfo_Value(reaper.GetTrack(0,0), "I_RECINPUT", old_input)
+  return true
+end
+
+--ultraschall.PreviewMidiPCInTrack(1, 12, 1)
+
+function ultraschall.PreviewMidiCCInTrack(track, cc, velocity)
+--[[
+  <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+    <slug>PreviewMidiCCInTrack</slug>
+    <requires>
+      Ultraschall=5
+      Reaper=5.965
+      Lua=5.4
+    </requires>
+    <functioncall>ultraschall.PreviewMidiCCInTrack(integer track, integer cc, integer Velocity)</functioncall>
+    <description>
+      Sends a MIDI-cc to a specific track with a specific velocity.
+      
+      The track must be rec-armed!
+      
+      returns false in case of an error
+    </description>
+    <parameters>
+      integer track - the number of the track, in which you want to preview the midi-note
+      integer cc - the cc to be played; 0-127
+      integer velocity - the velocity of the note; 0-255
+    </parameters>
+    <chapter_context>
+      MIDI Management
+      Notes
+    </chapter_context>
+    <target_document>US_Api_Functions</target_document>
+    <source_document>Modules/ultraschall_functions_MIDIManagement_Module.lua</source_document>
+    <tags>midi management, send, note, preview, cc</tags>
+  </US_DocBloc>
+  ]]  
+  if math.type(track)~="integer" then ultraschall.AddErrorMessage("PreviewMidiCCInTrack", "track", "must be an integer", -1) return false end
+  if track<1 or track>reaper.CountTracks(0) then ultraschall.AddErrorMessage("PreviewMidiCCInTrack", "track", "no such track", -2) return false end
+  if math.type(cc)~="integer" then ultraschall.AddErrorMessage("PreviewMidiCCInTrack", "cc", "must be an integer", -3) return false end
+  if math.type(velocity)~="integer" then ultraschall.AddErrorMessage("PreviewMidiCCInTrack", "velocity", "must be an integer", -4) return false end
+  if cc<0 or cc>127 then ultraschall.AddErrorMessage("PreviewMidiCCInTrack", "cc", "must be between 0 and 127", -5) return false end
+  if velocity<0 or velocity>255 then ultraschall.AddErrorMessage("PreviewMidiCCInTrack", "velocity", "must be between 0 and 255", -6) return false end
+  
+  local old_recarm=reaper.GetMediaTrackInfo_Value(reaper.GetTrack(0, track-1), "I_RECARM")
+  if old_recarm==0 then ultraschall.AddErrorMessage("PreviewMidiCCInTrack", "velocity", "track must be armed for this function to work", -6) return false end
+
+  local old_input=reaper.GetMediaTrackInfo_Value(reaper.GetTrack(0, track-1), "I_RECINPUT")
+  reaper.SetMediaTrackInfo_Value(reaper.GetTrack(0,0), "I_RECINPUT", 6080)
+  ultraschall.MIDI_SendMidiCC(1, cc, velocity, 0)
+  reaper.SetMediaTrackInfo_Value(reaper.GetTrack(0,0), "I_RECINPUT", old_input)
+  return true
+end
+
+--ultraschall.PreviewMidiCCInTrack(1, 12, 1)
+
+function ultraschall.PreviewMidiNoteInTrack(track, note, velocity)
+--[[
+  <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+    <slug>PreviewMidiNoteInTrack</slug>
+    <requires>
+      Ultraschall=5
+      Reaper=5.965
+      Lua=5.4
+    </requires>
+    <functioncall>ultraschall.PreviewMidiNoteInTrack(integer track, integer note, integer Velocity)</functioncall>
+    <description>
+      Sends a MIDI-note to a specific track with a specific velocity.
+      
+      The track must be rec-armed!
+      
+      returns false in case of an error
+    </description>
+    <parameters>
+      integer track - the number of the track, in which you want to preview the midi-note
+      integer note - the note to be played; 0-127
+      integer velocity - the velocity of the note; 0-255
+    </parameters>
+    <chapter_context>
+      MIDI Management
+      Notes
+    </chapter_context>
+    <target_document>US_Api_Functions</target_document>
+    <source_document>Modules/ultraschall_functions_MIDIManagement_Module.lua</source_document>
+    <tags>midi management, send, note, preview</tags>
+  </US_DocBloc>
+  ]]  
+  if math.type(track)~="integer" then ultraschall.AddErrorMessage("PreviewMidiNoteInTrack", "track", "must be an integer", -1) return false end
+  if track<1 or track>reaper.CountTracks(0) then ultraschall.AddErrorMessage("PreviewMidiNoteInTrack", "track", "no such track", -2) return false end
+  if math.type(note)~="integer" then ultraschall.AddErrorMessage("PreviewMidiNoteInTrack", "note", "must be an integer", -3) return false end
+  if math.type(velocity)~="integer" then ultraschall.AddErrorMessage("PreviewMidiNoteInTrack", "velocity", "must be an integer", -4) return false end
+  if note<0 or note>127 then ultraschall.AddErrorMessage("PreviewMidiNoteInTrack", "note", "must be between 0 and 127", -5) return false end
+  if velocity<0 or velocity>255 then ultraschall.AddErrorMessage("PreviewMidiNoteInTrack", "velocity", "must be between 0 and 255", -6) return false end
+  
+  local old_recarm=reaper.GetMediaTrackInfo_Value(reaper.GetTrack(0, track-1), "I_RECARM")
+  if old_recarm==0 then ultraschall.AddErrorMessage("PreviewMidiNoteInTrack", "velocity", "track must be armed for this function to work", -6) return false end
+
+  local old_input=reaper.GetMediaTrackInfo_Value(reaper.GetTrack(0, track-1), "I_RECINPUT")
+  reaper.SetMediaTrackInfo_Value(reaper.GetTrack(0,0), "I_RECINPUT", 6080)
+  ultraschall.MIDI_SendMidiNote(1, note, velocity, 0)
+  reaper.SetMediaTrackInfo_Value(reaper.GetTrack(0,0), "I_RECINPUT", old_input)
+  return true
+end
+
+--ultraschall.PreviewMidiNoteInTrack(1, 72, 127)
+
+-- check on Reaper 7 and do docs and do error-checks
+
+
 
 function ultraschall.TakeMarker_GetAllVisibleFromTake(take)
+-- check with Reaper 7
   local TakeMarker={}
   for i=0, reaper.GetNumTakeMarkers(take)-1 do
     local position, name, color = reaper.GetTakeMarker(take, i)
@@ -1454,6 +1800,7 @@ function ultraschall.TakeMarker_GetAllTakeMarkers(take)
 end
 
 function ultraschall.GetTakeSourcePosByProjectPos(project_pos, take)
+-- check with Reaper 7
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>GetTakeSourcePosByProjectPos</slug>
@@ -1560,6 +1907,7 @@ end
 
 
 function ultraschall.GetProjectPosByTakeSourcePos(source_pos, take)
+-- check with Reaper 7
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>GetProjectPosByTakeSourcePos</slug>
@@ -1903,16 +2251,16 @@ function ultraschall.ItemLane_GetAllMediaItems(track, lane_idx, start_position, 
   return #MediaItemArray, MediaItemArray
 end
 
-function ultraschall.GetFixedLanesState(tracknumber, str)
+function ultraschall.GetTrackFixedLanesState(tracknumber, str)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>GetFixedLanesState</slug>
+  <slug>GetTrackFixedLanesState</slug>
   <requires>
     Ultraschall=5
     Reaper=7.0
     Lua=5.4
   </requires>
-  <functioncall>integer collapsed_state, integer state2, integer show_only_lane = ultraschall.GetFixedLanesState(integer tracknumber, optional string TrackStateChunk)</functioncall>
+  <functioncall>integer collapsed_state, integer state2, integer show_only_lane = ultraschall.GetTrackFixedLanesState(integer tracknumber, optional string TrackStateChunk)</functioncall>
   <description>
     returns Fixed Lanes-state. 
 
@@ -1941,19 +2289,19 @@ function ultraschall.GetFixedLanesState(tracknumber, str)
 --]]
   local retval
   if tracknumber~=-1 then retval, str = ultraschall.GetTrackStateChunk_Tracknumber(tracknumber) end
-  return ultraschall.GetTrackState_NumbersOnly("FIXEDLANES", str, "GetFixedLanesState", true)
+  return ultraschall.GetTrackState_NumbersOnly("FIXEDLANES", str, "GetTrackFixedLanesState", true)
 end
 
-function ultraschall.GetLaneSoloState(tracknumber, str)
+function ultraschall.GetTrackLaneSoloState(tracknumber, str)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>GetLaneSoloState</slug>
+  <slug>GetTrackLaneSoloState</slug>
   <requires>
     Ultraschall=5
     Reaper=7.0
     Lua=5.4
   </requires>
-  <functioncall>number lane_solo_state, number state2, number state3, number state4 = ultraschall.GetLaneSoloState(integer tracknumber, optional string TrackStateChunk)</functioncall>
+  <functioncall>number lane_solo_state, number state2, number state3, number state4 = ultraschall.GetTrackLaneSoloState(integer tracknumber, optional string TrackStateChunk)</functioncall>
   <description>
     returns Lanes solo-state. 
 
@@ -1982,19 +2330,19 @@ function ultraschall.GetLaneSoloState(tracknumber, str)
 --]]
   local retval
   if tracknumber~=-1 then retval, str = ultraschall.GetTrackStateChunk_Tracknumber(tracknumber) end
-  return ultraschall.GetTrackState_NumbersOnly("LANESOLO", str, "GetLaneSoloState", true)
+  return ultraschall.GetTrackState_NumbersOnly("LANESOLO", str, "GetTrackLaneSoloState", true)
 end
 
-function ultraschall.GetLaneRecState(tracknumber, str)
+function ultraschall.GetTrackLaneRecState(tracknumber, str)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>GetLaneRecState</slug>
+  <slug>GetTrackLaneRecState</slug>
   <requires>
     Ultraschall=5
     Reaper=7.0
     Lua=5.4
   </requires>
-  <functioncall>integer lane_rec_state, integer state2, integer state3 = ultraschall.GetLaneRecState(integer tracknumber, optional string TrackStateChunk)</functioncall>
+  <functioncall>integer lane_rec_state, integer state2, integer state3 = ultraschall.GetTrackLaneRecState(integer tracknumber, optional string TrackStateChunk)</functioncall>
   <description>
     returns Lanes rec-state. 
 
@@ -2022,7 +2370,7 @@ function ultraschall.GetLaneRecState(tracknumber, str)
 --]]
   local retval
   if tracknumber~=-1 then retval, str = ultraschall.GetTrackStateChunk_Tracknumber(tracknumber) end
-  return ultraschall.GetTrackState_NumbersOnly("LANEREC", str, "GetLaneRecState", true)
+  return ultraschall.GetTrackState_NumbersOnly("LANEREC", str, "GetTrackLaneRecState", true)
 end
 
 
@@ -2079,16 +2427,16 @@ function ultraschall.SplitReaperString(ReaperString)
   return #Strings, Strings
 end
 
-function ultraschall.GetLaneNameState(tracknumber, str)
+function ultraschall.GetTrackLaneNameState(tracknumber, str)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>GetLaneNameState</slug>
+  <slug>GetTrackLaneNameState</slug>
   <requires>
     Ultraschall=5
     Reaper=7.0
     Lua=5.4
   </requires>
-  <functioncall>string lanename1, string lanename2, string lanename3, .. = ultraschall.GetLaneNameState(integer tracknumber, optional string TrackStateChunk)</functioncall>
+  <functioncall>string lanename1, string lanename2, string lanename3, .. = ultraschall.GetTrackLaneNameState(integer tracknumber, optional string TrackStateChunk)</functioncall>
   <description>
     returns Lanes name-state. 
 
@@ -2123,17 +2471,17 @@ function ultraschall.GetLaneNameState(tracknumber, str)
   return table.unpack(lane_names)
 end
 
-function ultraschall.GetYPos(MediaItem, statechunk)
+function ultraschall.GetItemYPos(MediaItem, statechunk)
 --  reaper.MB(statechunk,"",0)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>GetYPos</slug>
+  <slug>GetItemYPos</slug>
   <requires>
     Ultraschall=5
     Reaper=7.0
     Lua=5.4
   </requires>
-  <functioncall>number y_position, number y_height, integer lane_or_fipm = ultraschall.GetYPos(MediaItem MediaItem, optional string MediaItemStateChunk)</functioncall>
+  <functioncall>number y_position, number y_height, integer lane_or_fipm = ultraschall.GetItemYPos(MediaItem MediaItem, optional string MediaItemStateChunk)</functioncall>
   <description>
     Returns position and height of the MediaItem in a fixed item lane/free item positioning.
     
@@ -2166,8 +2514,8 @@ function ultraschall.GetYPos(MediaItem, statechunk)
   local retval
   if MediaItem~=nil then
     if reaper.ValidatePtr2(0, MediaItem, "MediaItem*")==true then retval, statechunk=reaper.GetItemStateChunk(MediaItem,"",false) 
-    else ultraschall.AddErrorMessage("GetYPos","MediaItem", "must be a MediaItem.", -2) return end
-  elseif MediaItem==nil and ultraschall.IsValidItemStateChunk(statechunk)==false then ultraschall.AddErrorMessage("GetYPos","MediaItemStateChunk", "must be a valid MediaItemStateChunk.", -1) return
+    else ultraschall.AddErrorMessage("GetItemYPos","MediaItem", "must be a MediaItem.", -2) return end
+  elseif MediaItem==nil and ultraschall.IsValidItemStateChunk(statechunk)==false then ultraschall.AddErrorMessage("GetItemYPos","MediaItemStateChunk", "must be a valid MediaItemStateChunk.", -1) return
   end
   -- get value and return it
   statechunk=statechunk:match("YPOS( .-)%c")
@@ -2177,150 +2525,6 @@ function ultraschall.GetYPos(MediaItem, statechunk)
   return tonumber(statechunk:match(" (.-) ")), 
          tonumber(statechunk:match(" .- (.-) ")),
          tonumber(statechunk:match(" .- .- (.-) "))
-end
-
-function ultraschall.CreateRenderCFG_RAW(bitrate, write_sidecar_file)
---[[
-<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>CreateRenderCFG_RAW</slug>
-  <requires>
-    Ultraschall=5
-    Reaper=7.0
-    Lua=5.4
-  </requires>
-  <functioncall>string render_cfg_string = ultraschall.CreateRenderCFG_RAW(integer bitrate, boolean write_sidecar_file)</functioncall>
-  <description>
-    Returns the render-cfg-string for the RAW-PCM-format. You can use this in ProjectStateChunks, RPP-Projectfiles and reaper-render.ini
-    
-    Returns nil in case of an error
-  </description>
-  <retvals>
-    string render_cfg_string - the render-cfg-string for the selected RAW PCM-settings
-  </retvals>
-  <parameters>
-    integer bitrate - the bitrate 
-                    - 1, 8 bit unsigned
-                    - 2, 8 bit signed
-                    - 3, 16 bit little endian
-                    - 4, 24 bit little endian
-                    - 5, 32 bit little endian
-                    - 6, 16 bit big endian
-                    - 7, 24 bit big endian
-                    - 8, 32 bit big endian
-                    - 9, 32 bit FP little endian
-                    - 10, 64 bit FP little endian
-                    - 11, 32 bit FP big endian
-                    - 12, 64 bit FP big endian
-    boolean write_sidecar_file - true, write a .rsrc.txt sidecar file; false, don't write a sidecar file
-  </parameters>
-  <chapter_context>
-    Rendering Projects
-    Creating Renderstrings
-  </chapter_context>
-  <target_document>US_Api_Functions</target_document>
-  <source_document>Modules/ultraschall_functions_Render_Module.lua</source_document>
-  <tags>render management, create, render, outputformat, raw, pcm, sidecar</tags>
-</US_DocBloc>
-]]
-  if math.type(bitrate)~="integer" then ultraschall.AddErrorMessage("CreateRenderCFG_RAW", "bitrate", "must be an integer", -1) return end
-  if type(write_sidecar_file)~="boolean" then ultraschall.AddErrorMessage("CreateRenderCFG_RAW", "write_sidecar_file", "must be a boolean", -2) return end
-  if bitrate<1 or bitrate>12 then ultraschall.AddErrorMessage("CreateRenderCFG_RAW", "bitrate", "must be between 1 and 12", -3) return end
-  if     bitrate==1 then bitrate=8 option=4 -- 8bit unsigned
-  elseif bitrate==2 then bitrate=8 option=0 -- 8bit signed
-  elseif bitrate==3 then bitrate=16 option=0 -- 16 bit little endian
-  elseif bitrate==4 then bitrate=24 option=0 -- 24 bit little endian
-  elseif bitrate==5 then bitrate=32 option=0 -- 32 bit little endian
-  elseif bitrate==6 then bitrate=16 option=2 -- 16 bit big endian
-  elseif bitrate==7 then bitrate=24 option=2 -- 24 bit big endian
-  elseif bitrate==8 then bitrate=32 option=2 -- 32 bit big endian
-  elseif bitrate==9 then bitrate=32 option=1 -- 32 bit FP little endian
-  elseif bitrate==10 then bitrate=64 option=1 -- 64 bit FP little endian
-  elseif bitrate==11 then bitrate=32 option=3 -- 32 bit FP big endian
-  elseif bitrate==12 then bitrate=64 option=3 -- 64 bit FP big endian
-  end
-  if write_sidecar_file==false then option=option+64 end
-  --print2(option)
-  return ultraschall.Base64_Encoder(" war"..string.char(bitrate)..string.char(option))
-end
-
-function ultraschall.GetRenderCFG_Settings_RAW(rendercfg)
-  --[[
-  <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-    <slug>GetRenderCFG_Settings_RAW</slug>
-    <requires>
-      Ultraschall=5
-      Reaper=7.0
-      Lua=5.4
-    </requires>
-    <functioncall>integer bitrate, boolean write_sidecar_file = ultraschall.GetRenderCFG_Settings_RAW(string rendercfg)</functioncall>
-    <description>
-      Returns the settings stored in a render-cfg-string for RAW PCM.
-
-      You can get this from the current RENDER_FORMAT using reaper.GetSetProjectInfo_String or from ProjectStateChunks, RPP-Projectfiles and reaper-render.ini
-      
-      Returns -1 in case of an error
-    </description>
-    <retvals>
-      integer bitrate - the encoding-depth of the raw-pcm
-      integer bitrate - the bitrate 
-                      - 1, 8 bit unsigned
-                      - 2, 8 bit signed
-                      - 3, 16 bit little endian
-                      - 4, 24 bit little endian
-                      - 5, 32 bit little endian
-                      - 6, 16 bit big endian
-                      - 7, 24 bit big endian
-                      - 8, 32 bit big endian
-                      - 9, 32 bit FP little endian
-                      - 10, 64 bit FP little endian
-                      - 11, 32 bit FP big endian
-                      - 12, 64 bit FP big endian
-      boolean write_sidecar_file - true, write .rsrc.txt sidecar file; false, don't write a sidecar file
-    </retvals>
-    <parameters>
-      string render_cfg - the render-cfg-string, that contains the raw-settings; 
-    </parameters>
-    <chapter_context>
-      Rendering Projects
-      Analyzing Renderstrings
-    </chapter_context>
-    <target_document>US_Api_Functions</target_document>
-    <source_document>Modules/ultraschall_functions_Render_Module.lua</source_document>
-    <tags>render management, get, settings, rendercfg, renderstring, raw, pcm, sidecar</tags>
-  </US_DocBloc>
-  ]]
-  if type(rendercfg)~="string" then ultraschall.AddErrorMessage("GetRenderCFG_Settings_RAW", "rendercfg", "must be a string", -1) return -1 end
-  if rendercfg==nil then
-    local retval
-    retval, rendercfg = reaper.BR_Win32_GetPrivateProfileString("flac sink defaults", "default", "", reaper.get_ini_file())
-    if retval==0 then rendercfg="63616C661000000005000000AB" end
-    rendercfg = ultraschall.ConvertHex2Ascii(rendercfg)
-    rendercfg=ultraschall.Base64_Encoder(rendercfg)
-  end
-  local Decoded_string = ultraschall.Base64_Decoder(rendercfg)
-  if Decoded_string==nil or Decoded_string:sub(1,4)~=" war" then ultraschall.AddErrorMessage("GetRenderCFG_Settings_RAW", "rendercfg", "not a render-cfg-string of the format raw pcm", -2) return -1 end
-   
-  if Decoded_string:len()==4 then
-    return 3, false
-  end
-  local bitrate=string.byte(Decoded_string:sub(5,5))
-  local option= string.byte(Decoded_string:sub(6,6))
-  if option&64==64 then option=option-64 end
-  local val=-2
-  if     bitrate==8 and option==4 then val=1 -- 8bit unsigned
-  elseif bitrate==8 and option==0 then val=2-- 8bit signed
-  elseif bitrate==16 and option==0 then val=3-- 16 bit little endian
-  elseif bitrate==24 and option==0 then val=4-- 24 bit little endian
-  elseif bitrate==32 and option==0 then val=5-- 32 bit little endian
-  elseif bitrate==16 and option==2 then val=6-- 16 bit big endian
-  elseif bitrate==24 and option==2 then val=7-- 24 bit big endian
-  elseif bitrate==32 and option==2 then val=8-- 32 bit big endian
-  elseif bitrate==32 and option==1 then val=9-- 32 bit FP little endian
-  elseif bitrate==64 and option==1 then val=10-- 64 bit FP little endian
-  elseif bitrate==32 and option==3 then val=11-- 32 bit FP big endian
-  elseif bitrate==64 and option==3 then val=12-- 64 bit FP big endian
-  end
-  return val, string.byte(Decoded_string:sub(6,6))&64==0
 end
 
 function ultraschall.FX_Container_GetFXID_From_Container_Path(tr, idx1, ...)
@@ -2342,3 +2546,4 @@ end
 --track = reaper.GetTrack(0,0);
 --id = get_fx_id_from_container_path(track, 1, 1) -- first item of first item (which must be a container)
 --ok, name = reaper.TrackFX_GetFXName(track,id)
+

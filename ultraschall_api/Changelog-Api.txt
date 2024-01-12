@@ -332,6 +332,31 @@ Has now 1663 functions, with 13 new ones and two fewer ones(!)
   - **Razor Edit**  
   You can now set and resize RazorEdits. The resizing is possible by setting a new length or resizing by a factor, like 0.5 for half or 2 for double the size.  
     
+#### New features in 5  
+  - MIDI: PreviewMidiCCInTrack - previews a midi-cc in a specific armed track
+  - MIDI: PreviewMidiNoteInTrack - previews a midi-note in a specific armed track
+  - MIDI: PreviewMidiPCInTrack - previews a midi-pc in a specific armed track
+  - MIDI: PreviewMidiPitchInTrack - previews a midi-pitch in a specific armed track
+  - Rendering: CreateRenderCFG\_RAW - creates a renderstring for RAW-renderformat
+  - Rendering: GetRenderCFG\_Settings\_RAW - gets settings of a RAW-renderformat-renderstring
+
+#### Changes from 4.9 to 5  
+
+---
+
+### 4.9 - "Depeche Mode - Everything Counts" - 30th of June 2023
+
+Has now 1663 functions, with 13 new ones and two fewer ones(!)
+
+**new in this release:**  
+
+  - **ReaSpaghetti**  
+  Features bugfixes and additions that will make Ultraschall API compatible with Sexan's ReaSpaghetti coding-tool in the future.  
+  Keep checking for ReaSpaghetti-updates for more details.  
+  
+  - **Razor Edit**  
+  You can now set and resize RazorEdits. The resizing is possible by setting a new length or resizing by a factor, like 0.5 for half or 2 for double the size.  
+    
 #### New features in 4.9  
   - Docs: links and code-examples - added links to related functions as well as some first code-examples; can now add more very easily
   - DocEngine: Docs\_GetAllUSDocBlocsFromFile - loads all USDocBlocs from a file
