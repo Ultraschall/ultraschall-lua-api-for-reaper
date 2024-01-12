@@ -31,6 +31,8 @@ TODO:
   - Hovered-ACC-Message: when doing tabbing, the entire message will be read AND the one from hovering.
                         the one from hovering should only be read, if the mouse moved onto a ui-element
   - Images: dragging for accessibility, let the dragging-destination be chosen via Ctrl+Tab and Ctrl+Shift+Tab and Ctrl+Enter to drop it into the destination ui-element
+            - implemented, though the screenreader doesn't get the destination yet(not yet implemented)
+            - ctrl+enter to drop ui-element not yet implemented
   - General: acc-messages returned by the manage-functions are not sent to the screenreader for some reasons, like "pressed" in buttons
   - DropZones: the target should be notified, which ui-element had been dragged to it
   
@@ -44,8 +46,6 @@ TODO:
     
     
 --]]
---XX,YY=reaper.GetMousePosition()
---gfx.ext_retina = 0
 
 reagirl.Elements={}
 reagirl.EditMode=false
@@ -55,6 +55,7 @@ reagirl.MoveItAllUp=0
 reagirl.MoveItAllRight=0
 reagirl.MoveItAllRight_Delta=0
 reagirl.MoveItAllUp_Delta=0
+
 -- margin between ui-elements
 reagirl.UI_Element_NextX_Margin=10
 reagirl.UI_Element_NextY_Margin=0
@@ -747,8 +748,6 @@ function reagirl.Window_Open(...)
     
     if reaper.JS_Window_SetTitle~=nil then 
       local B=gfx.init(table.unpack(parms)) 
-      --reagirl.Window_CurrentScale=1
-      --reagirl.Window_RescaleIfNeeded()
       return B 
     end
     
@@ -811,18 +810,13 @@ function reagirl.Window_RescaleIfNeeded()
   end
   if reagirl.Window_CurrentScale==nil then reagirl.Window_CurrentScale=scale end
   
-  --XXX=reagirl.Window_CurrentScale
-  
   if reagirl.Window_CurrentScale~=scale then
-    --print2("")
     local unscaled_w = gfx.w/reagirl.Window_CurrentScale
     local unscaled_h = gfx.h/reagirl.Window_CurrentScale
     if gfx.getchar(65536)>1 then
       local A,B,C,D,E,F,G,H=gfx.dock(-1,0,0,0,0)
-      --print2(A,B)
       if A<0 then A=0 end
       if B<0 then B=0 end
-      --print2(A,B)
       gfx.init("", math.floor(unscaled_w*scale), math.floor(unscaled_h*scale), 0, A, B)
     end
     reagirl.Window_CurrentScale=scale
@@ -889,7 +883,7 @@ function reagirl.Mouse_GetCap(doubleclick_wait, drag_wait)
 ]]
   if doubleclick_wait~=nil and math.type(doubleclick_wait)~="integer" then error("Mouse_GetCap: #1 - must be nil or an integer", 2) end
   if drag_wait~=nil and math.type(drag_wait)~="integer" then error("Mouse_GetCap: #2 - must be nil or an integer", 2) end
---HUITOO=reaper.time_precise()
+
   -- prepare variables
   if reagirl.MouseCap==nil then
     -- if mouse-function hasn't been used yet, initialize variables
@@ -1291,7 +1285,6 @@ function reagirl.Gui_Open(title, description, w, h, dock, x, y)
   retval, reagirl.dpi = reaper.ThemeLayout_GetLayout("tcp", -3)
   if reagirl.dpi == "512" then
     reagirl.dpi_scale = 1
-    --gfx.ext_retina = 1
   else
     reagirl.dpi_scale = 0
   end
@@ -1366,10 +1359,6 @@ function reagirl.Gui_Close()
   reagirl.IsWindowOpen_attribute_Old=true
 end
 
-
---up 30064.0
---down 1685026670.0
-
 function reagirl.Gui_Manage()
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
@@ -1412,7 +1401,6 @@ function reagirl.Gui_Manage()
   local scale=reagirl.Window_CurrentScale
   local Window_State=gfx.getchar(65536)
   
-  
   -- initialize focus of first element, if not done already
   if reagirl.Elements["FocusedElement"]==nil then reagirl.Elements["FocusedElement"]=reagirl.UI_Element_GetNext(0) end
   -- initialize osara-message
@@ -1446,7 +1434,6 @@ function reagirl.Gui_Manage()
   if reagirl.Elements["FocusedElement"]~=-1 and reagirl.Elements[reagirl.Elements["FocusedElement"]].GUI_Element_Type~="Edit" and reagirl.Elements[reagirl.Elements["FocusedElement"]].GUI_Element_Type~="Edit Multiline" then
   -- scroll via keys
     if reagirl.Scroll_Override~=true then
-      --print_alt(reaper.time_precise(), tostring(reagirl.Scroll_Override))
       if gfx.mouse_cap&8==0 and Key==30064 then reagirl.UI_Element_ScrollY(2) end -- up
       if gfx.mouse_cap&8==0 and Key==1685026670 then reagirl.UI_Element_ScrollY(-2) end --down
       if Key==1818584692.0 then reagirl.UI_Element_ScrollX(-2) end -- left
@@ -1457,7 +1444,6 @@ function reagirl.Gui_Manage()
       if gfx.mouse_cap&8==8 and Key==1919379572.0 then reagirl.UI_Element_ScrollX(-20) end --Shift+right - pgright
       if Key==1752132965.0 then reagirl.MoveItAllUp=0 reagirl.Gui_ForceRefresh(3) end -- home
       if Key==6647396.0 then MoveItAllUp_Delta=0 reagirl.MoveItAllUp=gfx.h-reagirl.BoundaryY_Max reagirl.Gui_ForceRefresh(4) end -- end
-      --if Key~=0 then print3(Key) end
     end
   end
   reagirl.Scroll_Override=nil
@@ -1469,7 +1455,6 @@ function reagirl.Gui_Manage()
   if reagirl.Gui_PreventCloseViaEscForOneCycle_State~=true then
     if Key==27 then 
       reagirl.Gui_Close() 
-      --if reagirl.AtExit_RunFunc~=nil then reagirl.AtExit_RunFunc() end
     end -- esc closes window
   end 
   reagirl.Window_ForceMinSize() 
@@ -1508,10 +1493,10 @@ function reagirl.Gui_Manage()
     reagirl.ui_element_selected="selected"
   end
   -- Tab-key - next ui-element
-  if gfx.mouse_cap&8==0 and Key==9 then 
+  if gfx.mouse_cap==0 and Key==9 then 
     local old_selection=reagirl.Elements.FocusedElement
     reagirl.Elements["FocusedElement"]=reagirl.UI_Element_GetNext(reagirl.Elements["FocusedElement"])
-    --reagirl.Elements["FocusedElement"]=reagirl.Elements["FocusedElement"]+1 
+
     if reagirl.Elements["FocusedElement"]~=-1 then
       if reagirl.Elements["FocusedElement"]>#reagirl.Elements then reagirl.Elements["FocusedElement"]=1 end 
       init_message=reagirl.Elements[reagirl.Elements["FocusedElement"]]["Name"].." "..reagirl.Elements[reagirl.Elements["FocusedElement"]]["GUI_Element_Type"]..". "
@@ -1532,7 +1517,7 @@ function reagirl.Gui_Manage()
   if reagirl.Elements["FocusedElement"]>#reagirl.Elements then reagirl.Elements["FocusedElement"]=1 end
   
   -- Shift+Tab-key - previous ui-element
-  if gfx.mouse_cap&8==8 and Key==9 then 
+  if gfx.mouse_cap==8 and Key==9 then 
     local old_selection=reagirl.Elements.FocusedElement
     reagirl.Elements["FocusedElement"]=reagirl.UI_Element_GetPrevious(reagirl.Elements["FocusedElement"])
     if reagirl.Elements["FocusedElement"]~=-1 then
@@ -1575,12 +1560,7 @@ function reagirl.Gui_Manage()
       if reagirl.Elements[i]["w"]<0 then w2=gfx.w+(-x2+reagirl.Elements[i]["w"]*scale) else w2=reagirl.Elements[i]["w"]*scale end
       if reagirl.Elements[i]["h"]<0 then h2=gfx.h+(-y2+reagirl.Elements[i]["h"]*scale) else h2=reagirl.Elements[i]["h"]*scale end
       if reagirl.Elements[i]["GUI_Element_Type"]=="DropDownMenu" then if w2<20 then w2=20 end end
-      --[[
-      x2=x2*scale
-      y2=y2*scale
-      w2=w2*scale
-      h2=h2*scale
-      --]]
+
       -- is any gui-element outside of the window
       local MoveItAllUp=reagirl.MoveItAllUp  
       local MoveItAllRight=reagirl.MoveItAllRight
@@ -1694,7 +1674,6 @@ function reagirl.Gui_Manage()
   
   -- run all gui-element-management functions once. They shall decide, if a refresh is needed, provide the osara-screenreader-message and everything
   -- this is also the code, where a clickstate of a selected ui-element is interpreted
-  --reaper.ClearConsole()
   for i=#reagirl.Elements, 1, -1 do
     if reagirl.Elements[i]["hidden"]~=true then
       local x2, y2, w2, h2
@@ -1702,12 +1681,6 @@ function reagirl.Gui_Manage()
       if reagirl.Elements[i]["y"]<0 then y2=gfx.h+(reagirl.Elements[i]["y"]*scale) else y2=(reagirl.Elements[i]["y"]*scale) end
       if reagirl.Elements[i]["w"]<0 then w2=gfx.w+(-x2+reagirl.Elements[i]["w"]*scale) else w2=reagirl.Elements[i]["w"]*scale end
       if reagirl.Elements[i]["h"]<0 then h2=gfx.h+(-y2+reagirl.Elements[i]["h"]*scale) else h2=reagirl.Elements[i]["h"]*scale end
-      --[[
-      x2=x2*scale
-      y2=y2*scale
-      w2=w2*scale
-      h2=h2*scale
-      --]]
       
       local MoveItAllUp=reagirl.MoveItAllUp   
       local MoveItAllRight=reagirl.MoveItAllRight
@@ -1745,13 +1718,12 @@ function reagirl.Gui_Manage()
           if i==reagirl.Elements.FocusedElement then message=cur_message end
           --print_update(message)
         end -- only run manage-functions of visible gui-elements
-        --print_update(reaper.time_precise()-AAAA)
         
         -- output screenreader-message of ui-element
         if reagirl.Elements["FocusedElement"]==i and reagirl.Elements[reagirl.Elements["FocusedElement"]]["IsDecorative"]==false and reagirl.old_osara_message~=message and reaper.osara_outputMessage~=nil then
-          --reaper.osara_outputMessage(reagirl.osara_init_message..message)
+          
           if message==nil then message="" end
-          --print("MASSAGE: "..message)
+  
           reaper.osara_outputMessage(reagirl.osara_init_message..""..init_message.." "..message.." "..helptext,3)
           reagirl.old_osara_message=message
           reagirl.osara_init_message=""
@@ -1760,9 +1732,6 @@ function reagirl.Gui_Manage()
       end
     end
   end
-  --]]
-  --gfx.measurechar(128)
-  --gfx.measurestr(128)
   
   if specific_clickstate=="FirstCLK" then
     reagirl.EditMode_FocusedElement=reagirl.Elements.FocusedElement
@@ -1774,7 +1743,7 @@ function reagirl.Gui_Manage()
     reagirl.Gui_ForceRefresh()
     reaper.MB("Edit_Mode="..tostring(reagirl.EditMode),"",0)
   end
-  --print_update(Key)
+
   if reagirl.EditMode==true then
     if Key==103 then
       if reagirl.EditMode_Grid then reagirl.EditMode_Grid=false else reagirl.EditMode_Grid=true end
@@ -1843,8 +1812,6 @@ function reagirl.Gui_Draw(Key, Key_utf, clickstate, specific_clickstate, mouse_c
         if reagirl.Elements[i]["x"]<0 then x2=gfx.w+(reagirl.Elements[i]["x"]*scale) else x2=reagirl.Elements[i]["x"]*scale end
         if reagirl.Elements[i]["y"]<0 then y2=gfx.h+(reagirl.Elements[i]["y"]*scale) else y2=reagirl.Elements[i]["y"]*scale end
         
-        --if reagirl.Elements[i]["w"]<0 then w2=gfx.w-(x2+reagirl.Elements[i]["w"]*scale) else w2=reagirl.Elements[i]["w"]*scale end
-        --print2(w_add)
         if reagirl.Elements[i]["w"]<0 then w2=gfx.w+(-x2+(reagirl.Elements[i]["w"]+w_add)*scale) else w2=(reagirl.Elements[i]["w"]+w_add)*scale end
         if reagirl.Elements[i]["h"]<0 then h2=gfx.h+(-y2+(reagirl.Elements[i]["h"]+h_add)*scale) else h2=(reagirl.Elements[i]["h"]+h_add)*scale end
 
@@ -2114,7 +2081,7 @@ function reagirl.UI_Element_GetFocusRect()
       y=reagirl.Elements[reagirl.Elements["FocusedElement"]]["y"]
       w=reagirl.Elements[reagirl.Elements["FocusedElement"]]["w"]
       h=reagirl.Elements[reagirl.Elements["FocusedElement"]]["h"]
-      --print(x,y,w,h)
+      
       reagirl.UI_Element_SetFocusRect(true, x, y, w, h)
     else
       reagirl.UI_Element_SetFocusRect(true, 0,0,0,0)
@@ -2981,75 +2948,6 @@ function reagirl.UI_Element_GetGuidFromID(id)
   end
 end
 
-function reagirl.AddDummyElement()  
-  reagirl.Elements[#reagirl.Elements+1]={}
-  reagirl.Elements[#reagirl.Elements]["Guid"]=reaper.genGuid("")
-  reagirl.Elements[#reagirl.Elements]["GUI_Element_Type"]="Dummy"
-  reagirl.Elements[#reagirl.Elements]["Name"]="Dummy"
-  reagirl.Elements[#reagirl.Elements]["Text"]="Dummy"
-  reagirl.Elements[#reagirl.Elements]["Description"]="Description"
-  reagirl.Elements[#reagirl.Elements]["AccHint"]="Dummy Dummy Dummy, it's so flummy. In a rich mans world."
-  reagirl.Elements[#reagirl.Elements]["x"]=math.random(140)
-  reagirl.Elements[#reagirl.Elements]["y"]=math.random(140)
-  reagirl.Elements[#reagirl.Elements]["w"]=math.random(40)
-  reagirl.Elements[#reagirl.Elements]["h"]=math.random(40)
-  reagirl.Elements[#reagirl.Elements]["func_manage"]=reagirl.ManageDummyElement
-  reagirl.Elements[#reagirl.Elements]["func_draw"]=reagirl.DrawDummyElement
-  
-  return #reagirl.Elements
-end
-
-function reagirl.ManageDummyElement(element_id, selected, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF)
-    if selected==true then
-      if Key==1919379572.0 then
-        --print2("")
-        local x,y,w,h
-        x,y,w,h=reagirl.UI_Element_GetFocusRect()
-        reagirl.UI_Element_SetFocusRect(true, x+10,y,-10,-10)
-      elseif Key==1818584692.0 then
-        local x,y,w,h
-        x,y,w,h=reagirl.UI_Element_GetFocusRect()
-        reagirl.UI_Element_SetFocusRect(true, x-10,y,-10,-10)
-      end
-    end
-  return "", true
-end
-
-function reagirl.DrawDummyElement(element_id, selected, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF)
-  -- no docs in API-docs
-  local message
-  gfx.set(1)
-  --gfx.rect(x,y,w,h,1)
-  
-  if selected==true then
-    gfx.set(0.5)
-    --gfx.rect(x,y,w,h,0)
-    --reagirl.UI_Element_SetFocusRect(true, 10, 10, 20, 50)
-    if selected==true then
-      message="Dummy Element "..description.." focused"..element_id
-      C=clicked
-    else
-      --message=""
-    end
-    if mouse_cap==1 and clicked==true then
-      message="Dummy Element "..description.." clicked"..element_id
-      
-    elseif mouse_cap==2 and clicked==true then
-      gfx.showmenu("Huch|Tuch|Much")
-      --message=""
-    end
-  end
-  
-  if Key~=0 then message=Key_Utf end
-
-  gfx.x=x
-  gfx.y=y
-  gfx.set(0)
-  gfx.drawstr(element_id)
-  
-  return "HUCH", true
-end
-
 function reagirl.CheckBox_Add(x, y, caption, meaningOfUI_Element, default, run_function)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
@@ -3100,7 +2998,6 @@ function reagirl.CheckBox_Add(x, y, caption, meaningOfUI_Element, default, run_f
       for i=slot-1, 1, -1 do
         if reagirl.Elements[i]["IsDecorative"]==false then
           local w2=reagirl.Elements[i]["w"]
-          --print2(reagirl.Elements[i]["h"], w2)
           x=reagirl.Elements[i]["x"]+w2+reagirl.UI_Element_NextX_Margin
           break
         end
@@ -3616,8 +3513,6 @@ function reagirl.NextLine(y_offset)
   if reagirl.UI_Element_NextLineY==0 then
     for i=slot-1, 1, -1 do
       if reagirl.Elements[i]["IsDecorative"]==false then
-        --print2(reagirl.Elements[i]["h"])
-        --reagirl.UI_Element_NextLineY=reagirl.UI_Element_NextLineY+reagirl.Elements[i]["h"]+1
         local x2, y2, w2, h2
         if reagirl.Elements[i]["y"]<0 then y2=gfx.h+(reagirl.Elements[i]["y"]) else y2=reagirl.Elements[i]["y"] end
         if reagirl.Elements[i]["h"]<0 then h2=gfx.h+(-y2+reagirl.Elements[i]["h"]) else h2=reagirl.Elements[i]["h"] end
@@ -3957,7 +3852,6 @@ function reagirl.Button_Draw(element_id, selected, hovered, clicked, mouse_cap, 
     if element_storage["IsDecorative"]==false then
       gfx.x=x+(w-sw)/2+1
       if reaper.GetOS():match("OS")~=nil then offset=1 end
-      --gfx.y=(y*scale)+(h-element_storage["h"])/2+offset
       gfx.y=y+(h-sh)/2+offset
       gfx.set(0.784)
       gfx.drawstr(element_storage["Name"])
@@ -3975,16 +3869,9 @@ function reagirl.Button_Draw(element_id, selected, hovered, clicked, mouse_cap, 
       gfx.drawstr(element_storage["Name"])
     end
   end
-  gfx.set(0.3)
-  gfx.x=x+h+3
-  gfx.y=y+1
-  --gfx.drawstr(name)
-  gfx.set(1)
-  gfx.x=x+h+2
-  gfx.y=y
-  --gfx.drawstr(name)
+  
 end
---gfx.setfont(
+
 
 
 
@@ -4097,7 +3984,7 @@ function reagirl.InputBox_Add(x, y, w, caption, Cap_width, meaningOfUI_Element, 
   reagirl.Elements[slot].cursor_offset=1
   reagirl.Elements[slot].draw_offset=reagirl.Elements[slot].cursor_offset
   reagirl.Elements[slot].draw_offset_end=reagirl.Elements[slot].cursor_offset
-  --reagirl.Elements[slot].draw_max=reagirl.Elements[slot].draw_offset+math.floor(reagirl.Elements[slot].w/gfx.measurechar("65")-1)-1-reagirl.Elements[slot].draw_offset
+
   reagirl.Elements[slot].selection_startoffset=reagirl.Elements[slot].cursor_offset
   reagirl.Elements[slot].selection_endoffset=reagirl.Elements[slot].cursor_offset
   
@@ -4107,8 +3994,6 @@ function reagirl.InputBox_Add(x, y, w, caption, Cap_width, meaningOfUI_Element, 
   reagirl.Elements[slot]["run_function_type"]=run_function_type
   reagirl.Elements[slot]["userspace"]={}
   reagirl.InputBox_Calculate_DrawOffset(true, reagirl.Elements[slot])
-  
-  --print_alt(reagirl.Elements[slot-1]["Name"], reagirl.Elements[slot-1]["y"], reagirl.Elements[slot]["y"])
   
   return reagirl.Elements[slot]["Guid"]
 end
@@ -4139,7 +4024,7 @@ function reagirl.InputBox_OnMouseDown(mouse_cap, element_storage)
       end
     elseif mouse_cap&8==8 then
       local newoffs, startoffs, endoffs=reagirl.InputBox_GetTextOffset(gfx.mouse_x,gfx.mouse_y, element_storage)
-      --print_update(newoffs, startoffs, endoffs)
+      
       if newoffs>0 then
         if newoffs<element_storage.cursor_offset then 
           element_storage.selection_startoffset=newoffs
@@ -4170,6 +4055,7 @@ end
 function reagirl.InputBox_GetTextOffset(x,y,element_storage)
   -- BUGGY!
   -- Offset is off
+  -- still is?
   local dpi_scale = reagirl.Window_GetCurrentScale()
   local cap_w
   if element_storage["Cap_width"]==nil then
@@ -4194,11 +4080,10 @@ function reagirl.InputBox_GetTextOffset(x,y,element_storage)
   
   local draw_offset=dpi_scale*5
   for i=element_storage.draw_offset, element_storage.Text:utf8_len() do --draw_offset+math.floor(element_storage.w2/textw) do
-    --gfx.rect((i*textw),0,(i*textw),10,1)
+    
     if draw_offset+textw>w2 then break end -- this line is buggy, it doesn't go off, when auto-width is set and the user tries to move selection outside the right edge of the boundary box
     local textw=gfx.measurestr(element_storage.Text:utf8_sub(i,i))
     
-    --print_update(textw)
     if x>=startoffs and x<=startoffs+textw then
       return cursoffs, element_storage.draw_offset, element_storage.draw_offset+math.floor(element_storage.w2/textw)
     end
@@ -4216,7 +4101,7 @@ function reagirl.InputBox_OnMouseMove(mouse_cap, element_storage)
   reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0)
   if element_storage.hasfocus==false then return end
   local newoffs, startoffs, endoffs=reagirl.InputBox_GetTextOffset(gfx.mouse_x, gfx.mouse_y, element_storage)
-  --print_update(newoffs, startoffs, endoffs)
+  
   if newoffs>0 then -- buggy, resettet die Selection, wenn man "zurück" geht nach scrolling am Ende der Boundary Box
     if newoffs<element_storage.cursor_startoffset then
       element_storage.selection_startoffset=newoffs
@@ -4247,7 +4132,6 @@ function reagirl.InputBox_OnMouseMove(mouse_cap, element_storage)
     
     reagirl.InputBox_Calculate_DrawOffset(true, element_storage)
   elseif newoffs==-2 then
-    --print_update("HUCH"..reaper.time_precise())
     -- when dragging is outside the right edge
     element_storage.cursor_offset=endoffs+1
     if element_storage.cursor_offset>element_storage.Text:utf8_len() then element_storage.cursor_offset=element_storage.Text:utf8_len() end
@@ -4328,14 +4212,6 @@ function reagirl.InputBox_ConsolidateCursorPos(element_storage)
     if element_storage.draw_offset<0 then element_storage.draw_offset=0 end
     reagirl.InputBox_Calculate_DrawOffset(true, element_storage)
   end
-  --[[
-  if element_storage.cursor_offset>element_storage.draw_offset+element_storage.draw_offset_end then
-    element_storage.draw_offset=element_storage.cursor_offset-element_storage.draw_offset_end+1
-    if element_storage.draw_offset<0 then element_storage.draw_offset=0 end
-  elseif element_storage.cursor_offset<element_storage.draw_offset then
-    element_storage.draw_offset=element_storage.cursor_offset
-  end
-  --]]
 end
 
 function reagirl.InputBox_OnTyping(Key, Key_UTF, mouse_cap, element_storage)
@@ -4403,7 +4279,6 @@ function reagirl.InputBox_OnTyping(Key, Key_UTF, mouse_cap, element_storage)
       element_storage.cursor_offset=found
     end
 
-    --reagirl.InputBox_ConsolidateCursorPos(element_storage)
     if element_storage.draw_offset_end<=element_storage.cursor_offset then
       element_storage.draw_offset_end=element_storage.cursor_offset+3
       reagirl.InputBox_Calculate_DrawOffset(false, element_storage)
@@ -4444,7 +4319,6 @@ function reagirl.InputBox_OnTyping(Key, Key_UTF, mouse_cap, element_storage)
       element_storage.cursor_offset=found
     end
 
-    --reagirl.InputBox_ConsolidateCursorPos(element_storage)
     if element_storage.draw_offset>element_storage.cursor_offset then
       element_storage.draw_offset=element_storage.cursor_offset
       reagirl.InputBox_Calculate_DrawOffset(true, element_storage)
@@ -4509,7 +4383,6 @@ function reagirl.InputBox_OnTyping(Key, Key_UTF, mouse_cap, element_storage)
     if reaper.CF_GetClipboard~=nil then
       local text=string.gsub(reaper.CF_GetClipboard(), "\n", "")
       text=string.gsub(text, "\r", "")
-      --print2(text..1)
       element_storage.Text=element_storage.Text:utf8_sub(1, element_storage.selection_startoffset)..text..element_storage.Text:utf8_sub(element_storage.selection_endoffset+1, -1)
       element_storage.cursor_offset=element_storage.cursor_offset+text:utf8_len()
       element_storage.selection_startoffset=element_storage.cursor_offset
@@ -4537,8 +4410,7 @@ function reagirl.InputBox_OnTyping(Key, Key_UTF, mouse_cap, element_storage)
     element_storage.cursor_offset=element_storage.selection_startoffset+1
     element_storage.selection_startoffset=element_storage.cursor_offset
     element_storage.selection_endoffset=element_storage.cursor_offset
-    --offset_s,offset_e=reagirl.InputBox_GetShownTextoffsets(x,y,element_storage)
-    --if element_storage.cursor_offset==offset_e-1 then element_storage.draw_offset=element_storage.draw_offset+1 end
+
     reagirl.InputBox_ConsolidateCursorPos(element_storage)
     reagirl.InputBox_Calculate_DrawOffset(true, element_storage)
   end
@@ -4655,11 +4527,9 @@ function reagirl.InputBox_Manage(element_id, selected, hovered, clicked, mouse_c
   end
   
   if element_storage.w2_old~=w then
-    --reagirl.InputBox_Calculate_DrawOffset(false, element_storage)
     if element_storage.draw_offset<element_storage.cursor_offset then
       reagirl.InputBox_Calculate_DrawOffset(false, element_storage)
     else
-      --element_storage.draw_offset=element_storage.cursor_offset
       reagirl.InputBox_Calculate_DrawOffset(true, element_storage)
     end
     refresh=true
@@ -4675,14 +4545,8 @@ end
 
 
 function reagirl.InputBox_Calculate_DrawOffset(forward, element_storage)
-  -- rewrite this, it doesn't work on different scaling....for some fucking reasoninputbox_onyping(
-  
-  -- it's probably because of x2 and w2 calculation
-  -- maybe fixed now(?)
-  -- no it's not...end isn't working properly
   reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0)
   local dpi_scale = reagirl.Window_GetCurrentScale()
-  --local cap_w=element_storage["cap_w"]
   local cap_w
   if element_storage["Cap_width"]==nil then
     cap_w=gfx.measurestr(element_storage["Name"])+dpi_scale*5
@@ -4695,7 +4559,7 @@ function reagirl.InputBox_Calculate_DrawOffset(forward, element_storage)
   if element_storage["w"]<0 then w2=gfx.w-x2+element_storage["w"]*dpi_scale else w2=element_storage["w"]*dpi_scale end
   local w2=w2-cap_w
   local offset_me=dpi_scale*2
-  --print_update(cap_w)
+  
   if forward==true then
     -- forward calculation from offset
     for i=element_storage.draw_offset, element_storage.Text:utf8_len() do
@@ -4706,7 +4570,6 @@ function reagirl.InputBox_Calculate_DrawOffset(forward, element_storage)
   elseif forward==false then
     -- backwards calculation from offset_end
     for i=element_storage.draw_offset_end, 1, -1 do
-      --offset_me=offset_me+dpi_scale*2
       local x,y=gfx.measurestr(element_storage.Text:utf8_sub(i,i))
       offset_me=offset_me+x
       if offset_me>w2 then break else element_storage.draw_offset=i end
@@ -5150,19 +5013,16 @@ function reagirl.DropDownMenu_Manage(element_id, selected, hovered, clicked, mou
   end
   
   if element_storage["pressed"]==true then
-    --if (gfx.mouse_x>=x and gfx.mouse_x<=x+w and gfx.mouse_y>=y and gfx.mouse_y<=y+h) or Key==32 or Key==1685026670 or Key==30064 then
       gfx.x=x+cap_w
       gfx.y=y+h--*scale
       local selection=gfx.showmenu(Entries:sub(1,-2))
-      --selection=-1
+      
       if selection>0 then
         reagirl.Elements[element_id]["menuSelectedItem"]=math.tointeger(selection)
         reagirl.Elements[element_id]["Text"]=element_storage["MenuEntries"][math.tointeger(selection)]
       end
       refresh=true
       element_storage["pressed"]=false
-      --reagirl.Gui_ForceRefresh(27)
-    --end
   end
 
   if selected~="not selected" then
@@ -5198,7 +5058,6 @@ function reagirl.DropDownMenu_Manage(element_id, selected, hovered, clicked, mou
     elseif selected~="not selected" and (clicked=="FirstCLK" and mouse_cap&1==1) and (gfx.mouse_x>=x+cap_w and gfx.mouse_x<=x+w and gfx.mouse_y>=y and gfx.mouse_y<=y+h) then
       element_storage["pressed"]=true
       collapsed=""
-      --refresh=true
     else
       element_storage["pressed"]=false
     end
@@ -5664,13 +5523,6 @@ function reagirl.Label_GetStyle(element_id)
     return reagirl.Elements[element_id]["style1"], reagirl.Elements[element_id]["style2"], reagirl.Elements[element_id]["style3"], reagirl.Elements[element_id]["style4"]
   end
 end
-
---[[
-  reagirl.Elements[slot]["style1"]=0
-  reagirl.Elements[slot]["style2"]=0
-  reagirl.Elements[slot]["style3"]=0
-  reagirl.Elements[slot]["style4"]=0
-  --]]
   
 function reagirl.Label_Add(x, y, label, meaningOfUI_Element, align, clickable, run_function)
 --[[
@@ -5812,6 +5664,7 @@ function reagirl.Label_Draw(element_id, selected, hovered, clicked, mouse_cap, m
   gfx.rect(0, 0, gfx.w, gfx.h, 1)
   if element_storage["auto_breaks"]==true then
   --[[
+  -- old code, might work now in most recent Reaper-version
     gfx.set(0.1)
     local retval, w, h = reagirl.BlitText_AdaptLineLength(name, 
                                                           math.floor(x)+1, 
@@ -5832,7 +5685,6 @@ function reagirl.Label_Draw(element_id, selected, hovered, clicked, mouse_cap, m
     local col=0.6
     local col2=0.6
     if element_storage["clickable"]==true then 
---      reagirl.SetFont(1, "Arial", reagirl.Font_Size, 85)
       col=0.2
       col2=1
     end
@@ -6018,10 +5870,9 @@ function reagirl.Rect_GetColors(element_id)
 end
 
 function reagirl.Rect_Draw(element_id, selected, hovered, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
-  --print(w)
   old_r, old_g, old_b, old_a = gfx.r, gfx.g, gfx.b, gfx.a
   gfx.set(element_storage["r"], element_storage["g"], element_storage["b"], element_storage["a"])
-  --print_update(x,y,w,h,element_storage["filled"])
+
   gfx.rect(x, y, w, h, element_storage["filled"])
   gfx.set(old_r, old_g, old_b, old_a)
 end
@@ -6097,7 +5948,6 @@ function reagirl.Line_Add(x,y,x2,y2,r,g,b,a)
 end
 
 function reagirl.Line_Draw(element_id, selected, hovered, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
-  --element_id=reagirl.Decorative_Element_GetIDFromGuid(element_id)
   local x2, y2, w2, h2
   local scale=reagirl.Window_CurrentScale
   gfx.set(element_storage["r"], element_storage["g"], element_storage["b"], element_storage["a"])
@@ -6218,7 +6068,6 @@ function reagirl.Image_Add(image_filename, x, y, w, h, name, meaningOfUI_Element
   reagirl.Elements[slot]["func_manage"]=reagirl.Image_Manage
   reagirl.Elements[slot]["func_draw"]=reagirl.Image_Draw
   reagirl.Elements[slot]["run_function"]=run_function
-  reagirl.Elements[slot]["func_params"]=func_params -- removed for now, since I don't know, why the run-function shall have params
   reagirl.Elements[slot]["Image_Resize"]=resize
   
   reagirl.Elements[slot]["Image_Storage"]=reagirl.Gui_ReserveImageBuffer()
@@ -6234,14 +6083,6 @@ function reagirl.Image_Add(image_filename, x, y, w, h, name, meaningOfUI_Element
     image_filename=image_filename:match("(.*)%.").."-"..scale.."x"..image_filename:match(".*(%..*)")
   end
   local AImage=gfx.loadimg(reagirl.Elements[slot]["Image_Storage"], image_filename)
-  
-  --[[
-  if resize==true then
-    local retval = reagirl.ResizeImageKeepAspectRatio(reagirl.Elements[slot]["Image_Storage"], w, h, 0, 0, 0)
-  else
-    reagirl.Elements[slot]["w"], reagirl.Elements[slot]["h"] = gfx.getimgdim(AImage)
-  end
-  --]]
 
   gfx.dest=-1
   return reagirl.Elements[slot]["Guid"]
@@ -6384,17 +6225,45 @@ end
 
 
 function reagirl.Image_Manage(element_id, selected, hovered, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
+  local message
+  if selected~="not selected" then
+    message=" "
+  else
+    message=""
+  end
   if selected~="not selected" and 
     (Key==32 or mouse_cap==1) and 
     (gfx.mouse_x>=x and gfx.mouse_x<=x+w and gfx.mouse_y>=y and gfx.mouse_y<=y+h) 
     and clicked=="FirstCLK" and
     element_storage["run_function"]~=nil then 
+    --print("1")
       element_storage["clickstate"]="clicked"
       if element_storage["Draggable"]==true and hovered==true then
         reagirl.Draggable_Element=element_id
         element_storage["mouse_x"]=gfx.mouse_x
         element_storage["mouse_y"]=gfx.mouse_y
       end
+  end
+  if element_storage["Draggable"]==true then
+    if selected~="not selected" and element_storage.DraggableDestinations~=nil and gfx.mouse_cap==4 and Key==9 then
+      --print2("2")
+      if element_storage.Draggable_DestAccessibility==nil then element_storage.Draggable_DestAccessibility=1 
+      else
+        element_storage.Draggable_DestAccessibility=element_storage.Draggable_DestAccessibility+1
+        if element_storage.Draggable_DestAccessibility>#element_storage.DraggableDestinations then
+          element_storage.Draggable_DestAccessibility=1
+        end
+      end
+    elseif selected~="not selected" and element_storage.DraggableDestinations~=nil and gfx.mouse_cap==12 and Key==9 then
+      --print2("2")
+      if element_storage.Draggable_DestAccessibility==nil then element_storage.Draggable_DestAccessibility=1 
+      else
+        element_storage.Draggable_DestAccessibility=element_storage.Draggable_DestAccessibility-1
+        if element_storage.Draggable_DestAccessibility<1 then
+          element_storage.Draggable_DestAccessibility=#element_storage.DraggableDestinations
+        end
+      end
+    end
   end
   if element_storage["clickstate"]=="clicked" and mouse_cap&1==0 then
     element_storage["clickstate"]=nil
@@ -6409,14 +6278,7 @@ function reagirl.Image_Manage(element_id, selected, hovered, clicked, mouse_cap,
     end
     reagirl.Draggable_Element=nil
   end
-  if element_storage["Draggable"]==true then
   
-  end
-  if selected~="not selected" then
-    message=" "
-  else
-    message=""
-  end
   local draggable
   if element_storage["Draggable"]==true then draggable="Draggable " draggable2=" Use Ctrl plus alt plus Tab and Ctrl plus alt plus Tab to select the dragging-destinations and ctrl plus alt plus enter to drop the image into the dragging-destination." else draggable="" end
   return draggable..message
@@ -6442,7 +6304,6 @@ function reagirl.Image_Draw(element_id, selected, hovered, clicked, mouse_cap, m
   gfx.y=y
   
   gfx.dest=-1
-  --gfx.blit(element_storage["Image_Storage"], 1, 0, 0, 0, )
   imgw, imgh = gfx.getimgdim(element_storage["Image_Storage"])
   gfx.blit(element_storage["Image_Storage"],1,0,0,0,imgw,imgh,x,y,w,h,0,0)
   if selected~="not selected" then
@@ -6736,47 +6597,6 @@ function reagirl.Window_ForceSize_Maximum(MaxW, MaxH)
   reagirl.Window_MaxH=MaxH
 end
 
---- End of ReaGirl-functions
-
-
-function DropDownList(element_id, check, name)
-  --print2(element_id, check, name)
-end
-
-
-function UpdateImage2(element_id)
-  print2("HUH", element_id)
-  reagirl.Gui_ForceRefreshState=true
-  --if gfx.mouse_cap==1 then
-    retval, filename = reaper.GetUserFileNameForRead("", "", "")
-    if retval==true then
-      reagirl.Image_Load(element_id, filename)
-    end
-  --end
-  --]]
-end
-
-function GetFileList(element_id, filelist)
-  print2(element_id)
-  reagirl.Image_Load(B, filelist[1])
-  AFile=filelist
-  list=""
-  for i=1, 1000 do
-    if filelist[i]~=nil then 
-      list=list..i..": "..filelist[i].."\n"
-    end
-  end
- -- print2(list)
-end
-
-function GetFileList2(filelist)
-  list=""
-  for i=1, 1000 do
-    if filelist[i]==nil then break end
-    list=list..filelist[i].."\n"
-  end
-  print2("Zwo:"..list)
-end
 
 function reagirl.UI_Element_ScrollX(deltapx_x)
   if deltapx_x>0 and reagirl.MoveItAllRight_Delta<0 then reagirl.MoveItAllRight_Delta=0 end
@@ -6791,7 +6611,7 @@ function reagirl.UI_Element_ScrollY(deltapx_y)
 end
 
 function reagirl.UI_Element_SmoothScroll(Smoothscroll) -- parameter for debugging only
-  reagirl.SmoothScroll=Smoothscroll -- for debugging only
+  --reagirl.SmoothScroll=Smoothscroll -- for debugging only
   --Boundary=reaper.time_precise() -- for debugging only
   -- scroll y position
   
@@ -6799,9 +6619,7 @@ function reagirl.UI_Element_SmoothScroll(Smoothscroll) -- parameter for debuggin
   if reagirl.BoundaryY_Max>gfx.h then
     
     -- Scrolllimiter bottom
---    print_update(reagirl.BoundaryY_Max, reagirl.MoveItAllUp, gfx.h)
     if reagirl.MoveItAllUp_Delta<0 and reagirl.BoundaryY_Max+reagirl.MoveItAllUp-gfx.h<=0 then 
-      --print_update(reagirl.BoundaryY_Max, reagirl.MoveItAllUp, gfx.h)
       reagirl.MoveItAllUp_Delta=0 
       reagirl.MoveItAllUp=gfx.h-reagirl.BoundaryY_Max
       reagirl.Gui_ForceRefresh(35) 
@@ -6887,16 +6705,7 @@ function reagirl.UI_Elements_Boundaries()
     end
   end
   --]]
-  --[[
-  local x2, y2, w2, h2
-  if reagirl.Elements[i]["x"]<0 then x2=gfx.w+reagirl.Elements[i]["x"] else x2=reagirl.Elements[i]["x"] end
-  if reagirl.Elements[i]["y"]<0 then y2=gfx.h+reagirl.Elements[i]["y"] else y2=reagirl.Elements[i]["y"] end
-  if reagirl.Elements[i]["w"]<0 then w2=gfx.w-x2+reagirl.Elements[i]["w"] else w2=reagirl.Elements[i]["w"] end
-  if reagirl.Elements[i]["h"]<0 then h2=gfx.h-y2+reagirl.Elements[i]["h"] else h2=reagirl.Elements[i]["h"] end
-  if reagirl.Elements[i]["GUI_Element_Type"]=="DropDownMenu" then
-    if w2<20 then w2=20 end
-  end
-  --]]
+  
   local scale=reagirl.Window_CurrentScale
   local minx, miny, maxx, maxy = 2147483648, 2147483648, -2147483648, -2147483648
   -- first the x position
@@ -7076,7 +6885,6 @@ function reagirl.ScrollButton_Left_Draw(element_id, selected, hovered, clicked, 
     element_storage.IsDecorative=false
   else
     element_storage.a=0 
-    --reagirl.Gui_ForceRefresh(46) 
     if element_storage.IsDecorative==false then
       reagirl.UI_Element_SetNothingFocused()
       element_storage.IsDecorative=true
@@ -7138,7 +6946,6 @@ function reagirl.ScrollButton_Up_Draw(element_id, selected, hovered, clicked, mo
     element_storage.IsDecorative=false
   else
     element_storage.a=0 
-    --reagirl.Gui_ForceRefresh(48) 
     if element_storage.IsDecorative==false then
       reagirl.UI_Element_SetNothingFocused()
       element_storage.IsDecorative=true
@@ -7197,12 +7004,10 @@ end
 function reagirl.ScrollButton_Down_Draw(element_id, selected, hovered, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
   if reagirl.Scroll_Override_ScrollButtons==true then return "" end
   local scale=reagirl.Window_CurrentScale
-  --print_update(x,y,w,h,scale)
   if reagirl.BoundaryY_Max>gfx.h then
     element_storage.IsDecorative=false
   else
     element_storage.a=0 
-    --reagirl.Gui_ForceRefresh(50) 
     if element_storage.IsDecorative==false then
       reagirl.UI_Element_SetNothingFocused()
       element_storage.IsDecorative=true
@@ -7244,7 +7049,6 @@ function reagirl.UI_Element_ScrollToUIElement(element_id, x_offset, y_offset)
       if x2+reagirl.MoveItAllRight<0 or x2+reagirl.MoveItAllRight>gfx.w or y2+reagirl.MoveItAllUp<0 or y2+reagirl.MoveItAllUp>gfx.h or
          x2+w2+reagirl.MoveItAllRight<0 or x2+w2+reagirl.MoveItAllRight>gfx.w or y2+h2+reagirl.MoveItAllUp<0 or y2+h2+reagirl.MoveItAllUp>gfx.h 
       then
-        --print2()
         reagirl.MoveItAllRight=-x2+x_offset
         reagirl.MoveItAllUp=-y2+y_offset
         reagirl.Gui_ForceRefresh(51)
@@ -7404,7 +7208,6 @@ function reagirl.Slider_Add(x, y, w, caption, Cap_width, meaningOfUI_Element, un
       for i=slot-1, 1, -1 do
         if reagirl.Elements[i]["IsDecorative"]==false then
           local w2=reagirl.Elements[i]["w"]
-          --print2(reagirl.Elements[i]["h"], w2)
           x=reagirl.Elements[i]["x"]+w2+reagirl.UI_Element_NextX_Margin
           break
         end
@@ -7474,9 +7277,7 @@ function reagirl.Slider_Manage(element_id, selected, hovered, clicked, mouse_cap
     offset_cap=element_storage["Cap_width"]*dpi_scale
     offset_cap=offset_cap+dpi_scale
   end
-  if selected~="not selected" then
-    --reagirl.UI_Element_SetFocusRect(true, x, y, w-20, h-5)
-  end
+
   local offset_unit=element_storage["unit_w"]
   element_storage["slider_w"]=math.tointeger(w-element_storage["cap_w"]-element_storage["unit_w"]-10)
   
@@ -7489,16 +7290,7 @@ function reagirl.Slider_Manage(element_id, selected, hovered, clicked, mouse_cap
     if Key==1885824110.0 then element_storage["CurValue"]=element_storage["CurValue"]+element_storage["Step"]*5 refresh=true reagirl.Scroll_Override=true end
     if Key==1885828464.0 then element_storage["CurValue"]=element_storage["CurValue"]-element_storage["Step"]*5 refresh=true reagirl.Scroll_Override=true end
     
-    --if Key~=0 then ABBA3=Key end
-    
-    
-    if Key~=0 then
-      --refresh=true
-    end
     if gfx.mouse_x>=x and gfx.mouse_x<=x+w and gfx.mouse_y>=y and gfx.mouse_y<=y+h then
-      --reagirl.Scroll_Override=true
-      --if mouse_attributes[5]<0 or mouse_attributes[6]>0 then element_storage["CurValue"]=element_storage["CurValue"]+element_storage["Step"] end
-      --if mouse_attributes[5]>0 or mouse_attributes[6]<0 then element_storage["CurValue"]=element_storage["CurValue"]-element_storage["Step"] end
       slider_x=x+element_storage["cap_w"]
       slider_x2=x+element_storage["cap_w"]+element_storage["slider_w"]
       rect_w=slider_x2-slider_x
@@ -7523,8 +7315,6 @@ function reagirl.Slider_Manage(element_id, selected, hovered, clicked, mouse_cap
         element_storage["TempValue"]=element_storage["CurValue"]     
         if slider_x2>=0 and slider_x2<=element_storage["slider_w"] then
           if clicked=="DBLCLK" then
-          --  element_storage["CurValue"]=element_storage["Default"]
-          --  refresh=true
           else
             if clicked=="FirstCLK" or clicked=="DRAG" then
               step_size=(rect_w/(element_storage["Stop"]+1-element_storage["Start"])/1)
@@ -7593,13 +7383,6 @@ function reagirl.Slider_Manage(element_id, selected, hovered, clicked, mouse_cap
         element_storage["CurValue"]=element_storage["CurValue"]-element_storage["Step"]*(stepme)
         refresh=true 
       end
-      if element_storage["CurValue"]>element_storage["Stop"] then
-        --element_storage["CurValue"]=element_storage["Stop"]
-        --refresh=false
-      elseif element_storage["CurValue"]<element_storage["Start"] then
-        --element_storage["CurValue"]=element_storage["Start"]
-        --refresh=false
-      end
     end
   end
   
@@ -7619,12 +7402,6 @@ end
 
 
 function reagirl.Slider_Draw(element_id, selected, hovered, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
-  --if lol==nil then return end
-  --gfx.rect(10,10,100,100,1)
-  --print_update(y)
-  --if w<element_storage["cap_w"]+element_storage["unit_w"]+20 then w=element_storage["cap_w"]+element_storage["unit_w"]+20 end
-  --element_storage["IsDecorative"]=true -- debug
-  
   local dpi_scale=reagirl.Window_GetCurrentScale()
   
   reagirl.SetFont(1, "Arial", reagirl.Font_Size-1, 0)
@@ -7636,8 +7413,7 @@ function reagirl.Slider_Draw(element_id, selected, hovered, clicked, mouse_cap, 
   offset_cap=offset_cap*dpi_scale
   local offset_unit=gfx.measurestr(element_storage["Unit"].."8888")
   
-  element_storage["cap_w"]=offset_cap--gfx.measurestr(name.." ")+5*dpi_scale
-  --print_update(offset_cap)
+  element_storage["cap_w"]=offset_cap
   element_storage["unit_w"]=offset_unit
   element_storage["slider_w"]=w-offset_cap-offset_unit
   gfx.x=x+1
@@ -7669,24 +7445,17 @@ function reagirl.Slider_Draw(element_id, selected, hovered, clicked, mouse_cap, 
   if element_storage["IsDecorative"]==true then gfx.set(0.5) else gfx.set(0.7) end
   -- draw slider-area
   gfx.set(0.5)
-  --gfx.rect(x+offset_cap-dpi_scale, y-dpi_scale-dpi_scale+(gfx.texth>>1), w-offset_cap-offset_unit+dpi_scale+dpi_scale, dpi_scale*5, 1)
   reagirl.RoundRect(math.tointeger(x+offset_cap-dpi_scale), y-dpi_scale-dpi_scale+(math.tointeger(gfx.texth)>>1), math.tointeger(w-offset_cap-offset_unit+dpi_scale+dpi_scale), math.tointeger(dpi_scale)*5, 2*math.tointeger(dpi_scale), 1, 1)
   
   if element_storage["IsDecorative"]==true then gfx.set(0.6) else gfx.set(0.7) end
   reagirl.RoundRect(math.tointeger(x+offset_cap),y+(math.tointeger(gfx.texth)>>1)-dpi_scale, math.tointeger(w-offset_cap-offset_unit), math.tointeger(dpi_scale)*3, 1, 1, 1)
-  --gfx.rect                      (x+offset_cap, y+(gfx.texth>>1)-dpi_scale,                                w-offset_cap-offset_unit,                 dpi_scale*3, 1)
   
-  --local rect_stop=w-offset_unit
-  --gfx.x=rect_stop
   rect_w=w-offset_unit-offset_cap
   step_size=(rect_w/(element_storage["Stop"]-element_storage["Start"])/1)
   step_current=step_size*(element_storage["CurValue"]-element_storage["Start"])
-  --local unit=element_storage["Unit"]
-  
   
   gfx.set(0.584)
   gfx.circle(x+offset_cap+step_current, gfx.y+h/3, 7*dpi_scale, 1, 1)
-  --gfx.set(0.584)
   gfx.set(0.2725490196078431)
   gfx.circle(x+offset_cap+step_current, gfx.y+h/3, 6*dpi_scale, 1, 1)
   
@@ -8282,8 +8051,6 @@ function reagirl.Tabs_Add(x, y, w_backdrop, h_backdrop, caption, meaningOfUI_Ele
   reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0)
   reagirl.Elements[slot]["w"]=math.tointeger(width)
   reagirl.Elements[slot]["h"]=math.tointeger(ty)+15
-  --if w_backdrop==0 then reagirl.Elements[slot]["w_background"]="zero" else reagirl.Elements[slot]["w_background"]=w_backdrop-x end
-  --if h_backdrop==0 then reagirl.Elements[slot]["h_background"]="zero" else reagirl.Elements[slot]["h_background"]=h_backdrop-reagirl.Elements[slot]["h"] end
   
   if w_backdrop==0 then 
     reagirl.Elements[slot]["w_background"]="zero" 
@@ -8418,9 +8185,6 @@ function reagirl.Tabs_Manage(element_id, selected, hovered, clicked, mouse_cap, 
   -- click management for the tabs
   if selected~="not selected" and element_storage["Tabs_Pos"]~=nil then
     reagirl.Gui_PreventScrollingForOneCycle(true, false)
-    for i=1, #element_storage["Tabs_Pos"] do
-      --if gfx.mouse_x>=x+element_storage["Tabs_Pos"]
-    end
   end
   
   -- hover management for the tabs
@@ -8434,7 +8198,6 @@ function reagirl.Tabs_Manage(element_id, selected, hovered, clicked, mouse_cap, 
         end
       end
     end
-    --element_storage["AccHoverMessage"]=element_storage["Name"].." "..element_storage["TabNames"][element_storage["TabSelected"]]
   end
   if refresh==true then 
     reagirl.Gui_ForceRefresh(62) 
@@ -8479,10 +8242,7 @@ function reagirl.Tabs_Draw(element_id, selected, hovered, clicked, mouse_cap, mo
     
     
     if i==element_storage["TabSelected"] then offset=dpi_scale gfx.set(0.253921568627451) else offset=0 gfx.set(0.153921568627451) end
-    
-    --element_storage["w"]=math.tointeger(tx+text_offset_x+text_offset_x)-1-x
-      --gfx.rect(math.tointeger(x+x_offset-text_offset_x)+1, y+text_offset_y, math.tointeger(tx+text_offset_x+text_offset_x)-1, tab_height+ty-y+offset, 4*dpi_scale, 1, 0, false, true, false, true)
-    
+
     -- store the dimensions and positions of individual tabs for the manage-function
     element_storage["Tabs_Pos"][i]["x"]=math.tointeger(x+x_offset-text_offset_x)
     element_storage["Tabs_Pos"][i]["w"]=math.tointeger(tx+text_offset_x+text_offset_x)-1
@@ -8496,7 +8256,6 @@ function reagirl.Tabs_Draw(element_id, selected, hovered, clicked, mouse_cap, mo
     gfx.set(0.8)
     gfx.drawstr(element_storage["TabNames"][i])
   end
-  --element_storage["w"]=x_offset-x_offset_factor
   -- backdrop
   if element_storage["w_background"]~="zero" and element_storage["h_background"]~="zero" then
     local offset_x=0
@@ -8539,19 +8298,52 @@ function reagirl.Tabs_Draw(element_id, selected, hovered, clicked, mouse_cap, mo
            y+element_storage["Tabs_Pos"][element_storage["TabSelected"] ]["h"],
            element_storage["Tabs_Pos"][element_storage["TabSelected"] ]["w"]+offset_tabline-dpi_scale,--+element_storage["Tabs_Pos"][element_storage["TabSelected"] ]["w"], 
            dpi_scale, 1)--]]
-  
-  if selected~="not selected" then
-    --reagirl.UI_Element_SetFocusRect(true, x, y, math.tointeger(tx), math.tointeger(ty))
-  end
-  
-  
 end
 
 reagirl.Gui_New()
 
 
---- End of ReaGirl-Functions
+--- End of ReaGirl-functions
 
+
+function DropDownList(element_id, check, name)
+  --print2(element_id, check, name)
+end
+
+
+function UpdateImage2(element_id)
+  print2("HUH", element_id)
+  reagirl.Gui_ForceRefreshState=true
+  --if gfx.mouse_cap==1 then
+    retval, filename = reaper.GetUserFileNameForRead("", "", "")
+    if retval==true then
+      reagirl.Image_Load(element_id, filename)
+    end
+  --end
+  --]]
+end
+
+function GetFileList(element_id, filelist)
+  print2(element_id)
+  reagirl.Image_Load(B, filelist[1])
+  AFile=filelist
+  list=""
+  for i=1, 1000 do
+    if filelist[i]~=nil then 
+      list=list..i..": "..filelist[i].."\n"
+    end
+  end
+ -- print2(list)
+end
+
+function GetFileList2(filelist)
+  list=""
+  for i=1, 1000 do
+    if filelist[i]==nil then break end
+    list=list..filelist[i].."\n"
+  end
+  print2("Zwo:"..list)
+end
 
 function ABBALA2(A,B,C)
   print2("Mister Ed HUCH", A, B, C)
@@ -8615,7 +8407,8 @@ function UpdateUI()
   reagirl.NextLine()
   
   Img=reagirl.Image_Add("c:\\c.png", 20, nil, 85, 85, "Chapter Image", "", ABBALA3)
-  reagirl.Image_SetDraggable(Img, true, {Lab3})
+  reagirl.Image_SetDraggable(Img, true, {Lab3, A})
+
   --reagirl.NextLine()
   reagirl.InputBox_Add(30, nil, -10, "Description: ", 80, "", "Cover \nof DFVA", nil, nil)
   reagirl.NextLine()
