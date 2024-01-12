@@ -6171,6 +6171,11 @@ function reagirl.Image_SetDraggable(element_id, draggable, destination_element_i
   local slot=reagirl.UI_Element_GetIDFromGuid(element_id)
   reagirl.Elements[slot]["Draggable"]=draggable
   reagirl.Elements[slot]["DraggableDestinations"]=destination_element_ids
+  if draggable==true then
+    reagirl.Elements[slot]["AccHint"]=reagirl.Elements[slot]["AccHint"].."This image can be drag n dropped. Use ctrl+Tab and Ctrl+Shift+Tab to choose drop-destination. Use ctrl+Enter to drop it onto the destination."
+  else
+    reagirl.Elements[slot]["AccHint"]=reagirl.Elements[slot]["AccHint"]:utf8_sub(1,43)
+  end
 end
 
 function reagirl.Image_ReloadImage_Scaled(element_id)
@@ -8417,6 +8422,7 @@ function UpdateUI()
   
   Img=reagirl.Image_Add("c:\\c.png", 20, nil, 85, 85, "Chapter Image", "", ABBALA3)
   reagirl.Image_SetDraggable(Img, true, {Lab3, A})
+  reagirl.Image_SetDraggable(Img, false, {Lab3, A})
 
   --reagirl.NextLine()
   reagirl.InputBox_Add(30, nil, -10, "Description: ", 80, "", "Cover \nof DFVA", nil, nil)
