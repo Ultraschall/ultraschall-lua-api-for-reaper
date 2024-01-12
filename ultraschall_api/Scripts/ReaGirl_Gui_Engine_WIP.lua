@@ -1870,10 +1870,10 @@ function reagirl.Gui_Draw(Key, Key_utf, clickstate, specific_clickstate, mouse_c
             local dpi_scale=reagirl.Window_GetCurrentScale()
             gfx.a=0.4
             
-            gfx.rect((x2+MoveItAllRight-3)+reagirl.Window_GetCurrentScale(), (y2+MoveItAllUp-3), (w2+dpi_scale*5), reagirl.Window_GetCurrentScale(), 1)
-            gfx.rect((x2+MoveItAllRight-3), (y2+MoveItAllUp)-3, reagirl.Window_GetCurrentScale(), h2+2, 1)
-            gfx.rect((x2+MoveItAllRight-3)+w2+dpi_scale*5, (y2+MoveItAllUp)-3+reagirl.Window_GetCurrentScale(), reagirl.Window_GetCurrentScale(), h2+2, 1)
-            gfx.rect((x2+MoveItAllRight-3), (y2+h2+MoveItAllUp)-1, (w2+dpi_scale*5), reagirl.Window_GetCurrentScale(), 1)
+            gfx.rect((x2+MoveItAllRight-3)+reagirl.Window_GetCurrentScale(), (y2+MoveItAllUp-4), (w2+dpi_scale*3), reagirl.Window_GetCurrentScale(), 1)
+            gfx.rect((x2+MoveItAllRight-3), (y2+MoveItAllUp)-4, reagirl.Window_GetCurrentScale(), h2+dpi_scale+dpi_scale+dpi_scale, 1)
+            gfx.rect((x2+MoveItAllRight-3)+w2+dpi_scale*3, (y2+MoveItAllUp)-4+reagirl.Window_GetCurrentScale(), reagirl.Window_GetCurrentScale(), h2+dpi_scale+dpi_scale+dpi_scale, 1)
+            gfx.rect((x2+MoveItAllRight-3), (y2+h2+1+dpi_scale+MoveItAllUp)-1, (w2+dpi_scale*3), reagirl.Window_GetCurrentScale(), 1)
             
             gfx.a=a
           else
@@ -5110,7 +5110,6 @@ function reagirl.DropDownMenu_Draw(element_id, selected, hovered, clicked, mouse
   gfx.y=y+(h-sh)/2+offset-3
   if element_storage["IsDecorative"]==true then gfx.set(0.6) else gfx.set(0.8) end
   gfx.drawstr(element_storage["Name"])
-  reagirl.UI_Element_SetFocusRect(true, 1,1,1,1)
   
   if reagirl.Elements[element_id]["pressed"]==true then
     state=1*dpi_scale-1
