@@ -48,7 +48,7 @@ TODO:
 --gfx.ext_retina = 0
 
 reagirl.Elements={}
-reagirl.EditMode=true
+reagirl.EditMode=false
 reagirl.EditMode_Grid=false
 reagirl.EditMode_FocusedElement=9
 reagirl.MoveItAllUp=0
@@ -1898,12 +1898,13 @@ function reagirl.Gui_Draw(Key, Key_utf, clickstate, specific_clickstate, mouse_c
           --print_update(scale, x, y, w, h, reagirl.Font_Size)
           if reagirl.Focused_Rect_Override==nil then
             local a=gfx.a
+            local dpi_scale=reagirl.Window_GetCurrentScale()
             gfx.a=0.4
             
-            gfx.rect((x2+MoveItAllRight-3)+reagirl.Window_GetCurrentScale(), (y2+MoveItAllUp-3), (w2+1), reagirl.Window_GetCurrentScale(), 1)
+            gfx.rect((x2+MoveItAllRight-3)+reagirl.Window_GetCurrentScale(), (y2+MoveItAllUp-3), (w2+dpi_scale*5), reagirl.Window_GetCurrentScale(), 1)
             gfx.rect((x2+MoveItAllRight-3), (y2+MoveItAllUp)-3, reagirl.Window_GetCurrentScale(), h2+2, 1)
-            gfx.rect((x2+MoveItAllRight-3)+w2+1, (y2+MoveItAllUp)-3+reagirl.Window_GetCurrentScale(), reagirl.Window_GetCurrentScale(), h2+2, 1)
-            gfx.rect((x2+MoveItAllRight-3), (y2+h2+MoveItAllUp)-1, (w2+1), reagirl.Window_GetCurrentScale(), 1)
+            gfx.rect((x2+MoveItAllRight-3)+w2+dpi_scale*5, (y2+MoveItAllUp)-3+reagirl.Window_GetCurrentScale(), reagirl.Window_GetCurrentScale(), h2+2, 1)
+            gfx.rect((x2+MoveItAllRight-3), (y2+h2+MoveItAllUp)-1, (w2+dpi_scale*5), reagirl.Window_GetCurrentScale(), 1)
             
             gfx.a=a
           else
@@ -3907,7 +3908,7 @@ function reagirl.Button_Draw(element_id, selected, hovered, clicked, mouse_cap, 
   y=y+1
   gfx.x=x
   gfx.y=y
-  w=w-5
+  w=w-2
   h=h-5
   local dpi_scale, state
   local radius = element_storage["radius"]
@@ -3926,9 +3927,6 @@ function reagirl.Button_Draw(element_id, selected, hovered, clicked, mouse_cap, 
     
     gfx.set(0.06) -- background 1
     reagirl.RoundRect((x - 1 + offset)+scale, (y - 2 + offset)+scale, w, h, radius * dpi_scale, 1, 1)
-    
-    gfx.set(0.274) -- background 2
-    --reagirl.RoundRect((x + offset+1)+scale, (y + offset +1- 1) + scale, w, h, radius * dpi_scale, 1, 1)
     
     gfx.set(0.274) -- button-area
     reagirl.RoundRect((x + 1 + offset) + scale, (y + offset) + scale, w-scale, h, radius * dpi_scale, 1, 1)
@@ -5123,9 +5121,7 @@ function reagirl.DropDownMenu_Manage(element_id, selected, hovered, clicked, mou
     cap_w=element_storage["Cap_width"]
   end
   cap_w=cap_w*reagirl.Window_GetCurrentScale()
-  if selected~="not selected" then
-    reagirl.UI_Element_SetFocusRect(true, x, y, w+5, h)
-  end
+
   if w<50 then w=50 end
   local refresh=false
   if gfx.mouse_x>=x+cap_w and gfx.mouse_x<=x+w and gfx.mouse_y>=y and gfx.mouse_y<=y+h then
@@ -5263,7 +5259,7 @@ function reagirl.DropDownMenu_Draw(element_id, selected, hovered, clicked, mouse
     --reagirl.RoundRect(cap_w+x+dpi_scale, y+dpi_scale, w-cap_w-dpi_scale, h-dpi_scale, (radius-1) * dpi_scale, 1, 1)
     
     gfx.set(0.06) -- background 2
-    reagirl.RoundRect(cap_w+x, y, w+dpi_scale+dpi_scale+dpi_scale-cap_w, h-dpi_scale, (radius-1) * dpi_scale, 1, 1)
+    reagirl.RoundRect(cap_w+x, y, w+dpi_scale+dpi_scale+dpi_scale-cap_w, h, (radius-1) * dpi_scale, 1, 1)
     
     gfx.set(0.274) -- button-area
     reagirl.RoundRect(cap_w+x+dpi_scale, y+dpi_scale, w-cap_w+dpi_scale+dpi_scale, h-dpi_scale, (radius-1) * dpi_scale, 1, 1)
@@ -5285,10 +5281,10 @@ function reagirl.DropDownMenu_Draw(element_id, selected, hovered, clicked, mouse
   else
     state=0
     gfx.set(0.06) -- background 1
-    reagirl.RoundRect(cap_w+x+dpi_scale, y+dpi_scale, w-cap_w+dpi_scale+dpi_scale, h-dpi_scale, (radius-1) * dpi_scale, 1, 1)
+    reagirl.RoundRect(cap_w+x, y+dpi_scale, w-cap_w+dpi_scale+dpi_scale+dpi_scale, h-dpi_scale, (radius) * dpi_scale, 1, 1)
     
     gfx.set(0.45) -- background 2
-    reagirl.RoundRect(cap_w+x-dpi_scale, y-dpi_scale, w-cap_w+dpi_scale+dpi_scale+dpi_scale, h-dpi_scale, (radius-1) * dpi_scale, 1, 1)
+    reagirl.RoundRect(cap_w+x-dpi_scale, y-dpi_scale, w-cap_w+dpi_scale+dpi_scale+dpi_scale, h-dpi_scale, (radius) * dpi_scale, 1, 1)
     
     gfx.set(0.274) -- button-area
     reagirl.RoundRect(cap_w+x, y, w-cap_w+dpi_scale+dpi_scale, h-dpi_scale, (radius-1) * dpi_scale, 1, 1)
@@ -5762,7 +5758,7 @@ function reagirl.Label_Add(x, y, label, meaningOfUI_Element, align, clickable, r
   reagirl.Elements[slot]["clickable"]=clickable
   reagirl.Elements[slot]["sticky_x"]=false
   reagirl.Elements[slot]["sticky_y"]=false
-  reagirl.Elements[slot]["w"]=math.tointeger(w)+10
+  reagirl.Elements[slot]["w"]=math.tointeger(w)
   reagirl.Elements[slot]["h"]=math.tointeger(h)+7--math.tointeger(gfx.texth)
   reagirl.Elements[slot]["align"]=align
   reagirl.Elements[slot]["style1"]=0
