@@ -49,7 +49,7 @@ TODO:
 --]]
 
 reagirl.Elements={}
-reagirl.EditMode=true
+reagirl.EditMode=false
 reagirl.EditMode_Grid=false
 reagirl.EditMode_FocusedElement=10
 reagirl.MoveItAllUp=0
@@ -76,6 +76,7 @@ reagirl.mouse.x=gfx.mouse_x
 reagirl.mouse.y=gfx.mouse_y
 reagirl.mouse.dragged=false
 
+reagirl.UI_Element_HeightMargin=5
 
 function reagirl.FormatNumber(n, p)
   -- by cfillion
@@ -3614,7 +3615,7 @@ function reagirl.Button_Add(x, y, w_margin, h_margin, caption, meaningOfUI_Eleme
   reagirl.Elements[slot]["x"]=x
   reagirl.Elements[slot]["y"]=y
   reagirl.Elements[slot]["w"]=math.tointeger(tx+15+w_margin)
-  reagirl.Elements[slot]["h"]=math.tointeger(ty+h_margin)+2
+  reagirl.Elements[slot]["h"]=math.tointeger(ty+h_margin)+reagirl.UI_Element_HeightMargin
   reagirl.Elements[slot]["w_margin"]=w_margin
   reagirl.Elements[slot]["h_margin"]=h_margin
   reagirl.Elements[slot]["radius"]=2
@@ -3808,7 +3809,7 @@ function reagirl.Button_Draw(element_id, selected, hovered, clicked, mouse_cap, 
 
   local dpi_scale, state
   local radius = element_storage["radius"]
-  reagirl.SetFont(1, "Arial", reagirl.Font_Size-1, 0)
+  reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0)
   
   local sw,sh=gfx.measurestr(element_storage["Name"])
   
@@ -3968,7 +3969,7 @@ function reagirl.InputBox_Add(x, y, w, caption, Cap_width, meaningOfUI_Element, 
   reagirl.Elements[slot]["x"]=x
   reagirl.Elements[slot]["y"]=y
   reagirl.Elements[slot]["w"]=w
-  reagirl.Elements[slot]["h"]=math.tointeger(ty)+2
+  reagirl.Elements[slot]["h"]=math.tointeger(ty)+reagirl.UI_Element_HeightMargin
   reagirl.Elements[slot]["sticky_x"]=false
   reagirl.Elements[slot]["sticky_y"]=false
   Default=string.gsub(Default, "\n", "")
@@ -4962,7 +4963,7 @@ function reagirl.DropDownMenu_Add(x, y, w, caption, Cap_width, meaningOfUI_Eleme
   reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0, 1)
   local tx,ty=gfx.measurestr(menuItems[menuSelectedItem])
   reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0)
-  reagirl.Elements[slot]["h"]=math.tointeger(ty)+2--math.tointeger(gfx.texth)
+  reagirl.Elements[slot]["h"]=math.tointeger(ty)+reagirl.UI_Element_HeightMargin--math.tointeger(gfx.texth)
   reagirl.Elements[slot]["radius"]=2
   reagirl.Elements[slot]["sticky_x"]=false
   reagirl.Elements[slot]["sticky_y"]=false
@@ -5075,6 +5076,7 @@ function reagirl.DropDownMenu_Manage(element_id, selected, hovered, clicked, mou
 end
 
 function reagirl.DropDownMenu_Draw(element_id, selected, hovered, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
+  
   local dpi_scale, state
   local dpi_scale=reagirl.Window_CurrentScale
   local cap_w=element_storage["cap_w"]
@@ -5095,7 +5097,7 @@ function reagirl.DropDownMenu_Draw(element_id, selected, hovered, clicked, mouse
   w=w-5
   h=h-5
   radius=element_storage["radius"]
-  reagirl.SetFont(1, "Arial", reagirl.Font_Size-1, 0)
+  reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0)
   
   local sw,sh=gfx.measurestr(menuentry)
   local scale=1
@@ -5611,7 +5613,7 @@ function reagirl.Label_Add(x, y, label, meaningOfUI_Element, align, clickable, r
   reagirl.Elements[slot]["sticky_x"]=false
   reagirl.Elements[slot]["sticky_y"]=false
   reagirl.Elements[slot]["w"]=math.tointeger(w)
-  reagirl.Elements[slot]["h"]=math.tointeger(h)--math.tointeger(gfx.texth)
+  reagirl.Elements[slot]["h"]=math.tointeger(h)+reagirl.UI_Element_HeightMargin--math.tointeger(gfx.texth)
   reagirl.Elements[slot]["align"]=align
   reagirl.Elements[slot]["style1"]=0
   reagirl.Elements[slot]["style2"]=0
@@ -7267,7 +7269,7 @@ function reagirl.Slider_Add(x, y, w, caption, Cap_width, meaningOfUI_Element, un
   reagirl.Elements[slot]["x"]=x
   reagirl.Elements[slot]["y"]=y
   reagirl.Elements[slot]["w"]=math.tointeger(w)--math.tointeger(ty+tx+4)
-  reagirl.Elements[slot]["h"]=math.tointeger(ty)+2
+  reagirl.Elements[slot]["h"]=math.tointeger(ty)+reagirl.UI_Element_HeightMargin
   reagirl.Elements[slot]["cap_w"]=math.tointeger(tx)
   reagirl.Elements[slot]["Cap_width"]=Cap_width
   
@@ -7446,13 +7448,13 @@ function reagirl.Slider_Draw(element_id, selected, hovered, clicked, mouse_cap, 
   -- draw unit
   local unit=reagirl.FormatNumber(element_storage["CurValue"], 3)
   if element_storage["Unit"]~=nil then 
-    gfx.x=x+1+w-offset_unit+5*dpi_scale
-    gfx.y=y+1
+    gfx.x=x+w-offset_unit+6*dpi_scale
+    gfx.y=y+dpi_scale+dpi_scale+(h-gfx.texth)/2
     gfx.set(0.2)
     gfx.drawstr(" "..unit..element_storage["Unit"])
     
     gfx.x=x+w-offset_unit+5*dpi_scale
-    gfx.y=y
+    gfx.y=y+(h-gfx.texth)/2
   
     gfx.set(0.8) 
     gfx.drawstr(" "..unit..element_storage["Unit"]) 
@@ -7461,10 +7463,10 @@ function reagirl.Slider_Draw(element_id, selected, hovered, clicked, mouse_cap, 
   if element_storage["IsDecorative"]==true then gfx.set(0.5) else gfx.set(0.7) end
   -- draw slider-area
   gfx.set(0.5)
-  reagirl.RoundRect(math.tointeger(x+offset_cap-dpi_scale), math.tointeger(y+(h-5*dpi_scale)/2), math.tointeger(w-offset_cap-offset_unit+dpi_scale+dpi_scale), math.tointeger(dpi_scale)*5, 2*math.tointeger(dpi_scale), 1, 1)
+  reagirl.RoundRect(math.tointeger(x+offset_cap-dpi_scale), math.floor(y+(h-5*dpi_scale)/2), math.tointeger(w-offset_cap-offset_unit+dpi_scale+dpi_scale), math.tointeger(dpi_scale)*5, 2*math.tointeger(dpi_scale), 1, 1)
   
   if element_storage["IsDecorative"]==true then gfx.set(0.6) else gfx.set(0.7) end
-  reagirl.RoundRect(math.tointeger(x+offset_cap),math.tointeger(y+(h-3*dpi_scale)/2), math.tointeger(w-offset_cap-offset_unit), math.tointeger(dpi_scale)*3, dpi_scale, 1, 1)
+  reagirl.RoundRect(math.tointeger(x+offset_cap),math.floor(y+(h-3*dpi_scale)/2), math.tointeger(w-offset_cap-offset_unit), math.tointeger(dpi_scale)*3, dpi_scale, 1, 1)
   
   rect_w=w-offset_unit-offset_cap
   step_size=(rect_w/(element_storage["Stop"]-element_storage["Start"])/1)
@@ -8456,7 +8458,7 @@ end
 
 
 Images={reaper.GetResourcePath().."/Scripts/Ultraschall_Gfx/Headers/soundcheck_logo.png","c:\\f.png","c:\\m.png"}
-reagirl.Gui_Open("Edit Chapter Marker Attributes", "Edit Chapter marker", 310, 295, reagirl.DockState_Retrieve("Stonehenge"), 1, 1)
+reagirl.Gui_Open("Edit Chapter Marker Attributes", "Edit Chapter marker", 310, 395, reagirl.DockState_Retrieve("Stonehenge"), 1, 1)
 
 UpdateUI()
 --reagirl.Window_ForceSize_Minimum(320, 200)
