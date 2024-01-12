@@ -5281,10 +5281,10 @@ function reagirl.DropDownMenu_Draw(element_id, selected, hovered, clicked, mouse
   else
     state=0
     gfx.set(0.06) -- background 1
-    reagirl.RoundRect(cap_w+x, y+dpi_scale, w-cap_w+dpi_scale+dpi_scale+dpi_scale, h-dpi_scale, (radius) * dpi_scale, 1, 1)
+    reagirl.RoundRect(cap_w+x-dpi_scale, y, w-cap_w+dpi_scale+dpi_scale+dpi_scale+dpi_scale, h, (radius) * dpi_scale, 1, 1)
     
     gfx.set(0.45) -- background 2
-    reagirl.RoundRect(cap_w+x-dpi_scale, y-dpi_scale, w-cap_w+dpi_scale+dpi_scale+dpi_scale, h-dpi_scale, (radius) * dpi_scale, 1, 1)
+    reagirl.RoundRect(cap_w+x-dpi_scale, y-dpi_scale, w-cap_w+dpi_scale+dpi_scale+dpi_scale, h, (radius) * dpi_scale, 1, 1)
     
     gfx.set(0.274) -- button-area
     reagirl.RoundRect(cap_w+x, y, w-cap_w+dpi_scale+dpi_scale, h-dpi_scale, (radius-1) * dpi_scale, 1, 1)
