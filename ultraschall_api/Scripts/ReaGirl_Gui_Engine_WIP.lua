@@ -1,7 +1,7 @@
 dofile(reaper.GetResourcePath().."/UserPlugins/ultraschall_api.lua")
 
 -- DEBUG:
-reaper.osara_outputMessage=nil
+--reaper.osara_outputMessage=nil
 
 reagirl={}
 if reaper.osara_outputMessage~=nil then
@@ -30,9 +30,6 @@ TODO:
               https://github.com/jcsteh/osara/issues/961
   - Hovered-ACC-Message: when doing tabbing, the entire message will be read AND the one from hovering.
                         the one from hovering should only be read, if the mouse moved onto a ui-element
-  - Images: dragging for accessibility, let the dragging-destination be chosen via Ctrl+Tab and Ctrl+Shift+Tab and Ctrl+Enter to drop it into the destination ui-element
-            - implemented, though the screenreader doesn't get the destination yet(not yet implemented)
-            - ctrl+enter to drop ui-element not yet implemented
   - General: acc-messages returned by the manage-functions are not sent to the screenreader for some reasons, like "pressed" in buttons
   - DropZones: the target should be notified, which ui-element had been dragged to it
   
@@ -1625,15 +1622,16 @@ function reagirl.Gui_Manage()
   if reagirl.SetPosition_MousePositionY~=gfx.mouse_y and reagirl.SetPosition_MousePositionY~=gfx.mouse_x then
     if reagirl.UI_Elements_HoveredElement~=-1 and reagirl.UI_Elements_HoveredElement~=reagirl.UI_Elements_HoveredElement_Old then
       if reaper.osara_outputMessage~=nil then
-        if reagirl.Elements[reagirl.UI_Elements_HoveredElement]["AccHoverMessage"]~=nil then
-          reaper.osara_outputMessage(reagirl.Elements[reagirl.UI_Elements_HoveredElement]["AccHoverMessage"])
-        else
-          reaper.osara_outputMessage(reagirl.Elements[reagirl.UI_Elements_HoveredElement]["Name"])
-        end
+        reaper.osara_outputMessage(reagirl.Elements[reagirl.UI_Elements_HoveredElement]["Name"])
       end
     end
   end
-  
+  if reaper.osara_outputMessage~=nil then
+    if reagirl.Elements["GlobalAccHoverMessage"]~=nil then
+      reaper.osara_outputMessage(reagirl.Elements["GlobalAccHoverMessage"])
+      reagirl.Elements["GlobalAccHoverMessage"]=nil
+    end
+  end
   --[[context menu]]
   -- show context-menu if the last defer-loop had a right-click onto a ui-element
   local ContextShow
@@ -6244,25 +6242,36 @@ function reagirl.Image_Manage(element_id, selected, hovered, clicked, mouse_cap,
         element_storage["mouse_y"]=gfx.mouse_y
       end
   end
-  if element_storage["Draggable"]==true then
-    if selected~="not selected" and element_storage.DraggableDestinations~=nil and gfx.mouse_cap==4 and Key==9 then
-      --print2("2")
-      if element_storage.Draggable_DestAccessibility==nil then element_storage.Draggable_DestAccessibility=1 
+  if element_storage["Draggable"]==true and element_storage.DraggableDestinations~=nil then
+    if selected~="not selected" and gfx.mouse_cap==4 and Key==9 then
+      if element_storage.Draggable_DestAccessibility==nil then 
+        element_storage.Draggable_DestAccessibility=1 
       else
         element_storage.Draggable_DestAccessibility=element_storage.Draggable_DestAccessibility+1
         if element_storage.Draggable_DestAccessibility>#element_storage.DraggableDestinations then
           element_storage.Draggable_DestAccessibility=1
         end
       end
-    elseif selected~="not selected" and element_storage.DraggableDestinations~=nil and gfx.mouse_cap==12 and Key==9 then
-      --print2("2")
-      if element_storage.Draggable_DestAccessibility==nil then element_storage.Draggable_DestAccessibility=1 
+      local id = reagirl.UI_Element_GetIDFromGuid(element_storage.DraggableDestinations[element_storage.Draggable_DestAccessibility])
+      reagirl.Elements["GlobalAccHoverMessage"]="Drop to "..reagirl.Elements[id]["Name"]
+    elseif selected~="not selected" and gfx.mouse_cap==12 and Key==9 then
+      if element_storage.Draggable_DestAccessibility==nil then 
+        element_storage.Draggable_DestAccessibility=1 
       else
         element_storage.Draggable_DestAccessibility=element_storage.Draggable_DestAccessibility-1
         if element_storage.Draggable_DestAccessibility<1 then
           element_storage.Draggable_DestAccessibility=#element_storage.DraggableDestinations
         end
       end
+      local id = reagirl.UI_Element_GetIDFromGuid(element_storage.DraggableDestinations[element_storage.Draggable_DestAccessibility])
+      reagirl.Elements["GlobalAccHoverMessage"]="Drop to "..reagirl.Elements[id]["Name"]
+    elseif selected~="not selected" and gfx.mouse_cap==4 and Key==13 then
+      if element_storage.Draggable_DestAccessibility==nil then 
+        element_storage.Draggable_DestAccessibility=1 
+      end
+      element_storage["run_function"](element_storage["Guid"], element_storage["Image_Filename"], element_storage.DraggableDestinations[element_storage.Draggable_DestAccessibility]) 
+      local id = reagirl.UI_Element_GetIDFromGuid(element_storage.DraggableDestinations[element_storage.Draggable_DestAccessibility])
+      reagirl.Elements["GlobalAccHoverMessage"]="Dropped onto "..reagirl.Elements[id]["Name"]
     end
   end
   if element_storage["clickstate"]=="clicked" and mouse_cap&1==0 then
