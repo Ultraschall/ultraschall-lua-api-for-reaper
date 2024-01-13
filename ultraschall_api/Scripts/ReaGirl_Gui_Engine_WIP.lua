@@ -1871,10 +1871,10 @@ function reagirl.Gui_Draw(Key, Key_utf, clickstate, specific_clickstate, mouse_c
             local dpi_scale=reagirl.Window_GetCurrentScale()
             gfx.a=0.4
             
-            gfx.rect((x2+MoveItAllRight-3)+reagirl.Window_GetCurrentScale(), (y2+MoveItAllUp-4), (w2+dpi_scale*3), reagirl.Window_GetCurrentScale(), 1)
-            gfx.rect((x2+MoveItAllRight-3), (y2+MoveItAllUp)-4, reagirl.Window_GetCurrentScale(), h2+dpi_scale+dpi_scale+dpi_scale, 1)
-            gfx.rect((x2+MoveItAllRight-3)+w2+dpi_scale*3, (y2+MoveItAllUp)-4+reagirl.Window_GetCurrentScale(), reagirl.Window_GetCurrentScale(), h2+dpi_scale+dpi_scale+dpi_scale, 1)
-            gfx.rect((x2+MoveItAllRight-3), (y2+h2+1+dpi_scale+MoveItAllUp)-1, (w2+dpi_scale*3), reagirl.Window_GetCurrentScale(), 1)
+            gfx.rect((x2+MoveItAllRight)-dpi_scale, (y2+MoveItAllUp-dpi_scale*2), (w2+dpi_scale*3), reagirl.Window_GetCurrentScale(), 1)
+            gfx.rect((x2+MoveItAllRight)-dpi_scale-dpi_scale, (y2+MoveItAllUp)-dpi_scale*2, reagirl.Window_GetCurrentScale(), h2+dpi_scale+dpi_scale+dpi_scale, 1)
+            gfx.rect((x2+MoveItAllRight)+w2+dpi_scale, (y2+MoveItAllUp)-dpi_scale*2+reagirl.Window_GetCurrentScale(), reagirl.Window_GetCurrentScale(), h2+dpi_scale+dpi_scale+dpi_scale, 1)
+            gfx.rect((x2+MoveItAllRight)-dpi_scale-dpi_scale, (y2+h2+dpi_scale+MoveItAllUp), (w2+dpi_scale*3), reagirl.Window_GetCurrentScale(), 1)
             
             gfx.a=a
           else
@@ -3113,13 +3113,13 @@ function reagirl.CheckBox_Draw(element_id, selected, hovered, clicked, mouse_cap
   end
   
   
-  gfx.x=x+h+5*scale
+  gfx.x=x+h+4*scale
   gfx.y=y+scale+(h-gfx.texth)/2
   gfx.set(0.2)
   gfx.drawstr(name)
   
   if element_storage["IsDecorative"]==false then gfx.set(0.8) else gfx.set(0.6) end
-  gfx.x=x+h+4*scale
+  gfx.x=x+h+3*scale
   gfx.y=y+(h-gfx.texth)/2
   gfx.drawstr(name)
   reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0)
@@ -5102,14 +5102,14 @@ function reagirl.DropDownMenu_Draw(element_id, selected, hovered, clicked, mouse
   local sw,sh=gfx.measurestr(menuentry)
   local scale=1
   
-  offset=1+math.floor(dpi_scale)
+  
   gfx.x=x+dpi_scale
-  gfx.y=y+dpi_scale+(h-sh)/2+offset-3
+  gfx.y=y+dpi_scale+(h-gfx.texth)/2
   gfx.set(0.2)
   gfx.drawstr(element_storage["Name"])
   
   gfx.x=x
-  gfx.y=y+(h-sh)/2+offset-3
+  gfx.y=y+(h-gfx.texth)/2
   if element_storage["IsDecorative"]==true then gfx.set(0.6) else gfx.set(0.8) end
   gfx.drawstr(element_storage["Name"])
   
