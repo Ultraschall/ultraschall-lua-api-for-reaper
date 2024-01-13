@@ -1,7 +1,7 @@
 dofile(reaper.GetResourcePath().."/UserPlugins/ultraschall_api.lua")
 
 -- DEBUG:
-reaper.osara_outputMessage=nil
+--reaper.osara_outputMessage=nil
 
 reagirl={}
 if reaper.osara_outputMessage~=nil then
@@ -421,7 +421,7 @@ function reagirl.RoundRect(x, y, w, h, r, antialias, fill, square_top_left, squa
   if square_bottom_left~=nil  and type(square_bottom_left)~="boolean"  then error("RoundRect: param #9 - must be a boolean or nil", 2)  end
   if square_top_right~=nil    and type(square_top_right)~="boolean"    then error("RoundRect: param #10 - must be a boolean or nil", 2) end
   if square_bottom_right~=nil and type(square_bottom_right)~="boolean" then error("RoundRect: param #11 - must be a boolean or nil", 2) end
-    
+  local offset
   local aa = antialias or 1
   fill = fill or 0
 
@@ -1081,8 +1081,117 @@ function reagirl.Gui_New()
   reagirl.ScrollButton_Right_Add()
   reagirl.ScrollButton_Up_Add()
   reagirl.ScrollButton_Down_Add()
+  reagirl.ScrollBar_Left_Add()
+  reagirl.ScrollBar_Bottom_Add()
 end
 
+function reagirl.ScrollBar_Left_Add()
+  reagirl.Elements[#reagirl.Elements+1]={}
+  reagirl.Elements[#reagirl.Elements]["Guid"]=reaper.genGuid("")
+  reagirl.Elements[#reagirl.Elements]["GUI_Element_Type"]="Scroll Bar"
+  reagirl.Elements[#reagirl.Elements]["Name"]="Scroll bar Left"
+  reagirl.Elements[#reagirl.Elements]["Text"]=""
+  reagirl.Elements[#reagirl.Elements]["IsDecorative"]=false
+  reagirl.Elements[#reagirl.Elements]["Description"]="Scroll bar"
+  reagirl.Elements[#reagirl.Elements]["AccHint"]="Scrolls the user interface up and down, using the arrowkeys"
+  reagirl.Elements[#reagirl.Elements]["z_buffer"]=256
+  reagirl.Elements[#reagirl.Elements]["x"]=-15
+  reagirl.Elements[#reagirl.Elements]["y"]=15
+  reagirl.Elements[#reagirl.Elements]["w"]=-1
+  reagirl.Elements[#reagirl.Elements]["h"]=-30
+  reagirl.Elements[#reagirl.Elements]["sticky_x"]=true
+  reagirl.Elements[#reagirl.Elements]["sticky_y"]=true
+  reagirl.Elements[#reagirl.Elements]["func_manage"]=reagirl.ScrollBar_Left_Manage
+  reagirl.Elements[#reagirl.Elements]["func_draw"]=reagirl.ScrollBar_Left_Draw
+  reagirl.Elements[#reagirl.Elements]["userspace"]={}
+  reagirl.Elements[#reagirl.Elements]["a"]=0
+  return reagirl.Elements[#reagirl.Elements]["Guid"]
+end
+
+function reagirl.ScrollBar_Left_Manage(element_id, selected, hovered, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
+  if reagirl.Scroll_Override_ScrollButtons==true then return "" end
+  if element_storage.IsDecorative==false and element_storage.a<=0.75 then element_storage.a=element_storage.a+.1 reagirl.Gui_ForceRefresh(44) end
+  if gfx.mouse_x>=x and gfx.mouse_x<=x+w and gfx.mouse_y>=y and gfx.mouse_y<=y+h then
+    
+  end
+end
+
+function reagirl.ScrollBar_Left_Draw(element_id, selected, hovered, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
+  if reagirl.Scroll_Override_ScrollButtons==true then return "" end
+  local scale=reagirl.Window_CurrentScale
+  if reagirl.BoundaryY_Max>gfx.h then
+    element_storage.IsDecorative=false
+  else
+    element_storage.a=0 
+    if element_storage.IsDecorative==false then
+      reagirl.UI_Element_SetNothingFocused()
+      element_storage.IsDecorative=true
+    end
+  end
+  local oldr, oldg, oldb, olda = gfx.r, gfx.g, gfx.b, gfx.a
+  gfx.set(reagirl["WindowBackgroundColorR"], reagirl["WindowBackgroundColorG"], reagirl["WindowBackgroundColorB"], element_storage.a)
+  
+  if mouse_cap==1 and selected~="not selected" then
+    gfx.set(0.59, 0.59, 0.59, element_storage.a)
+  else
+    gfx.set(0.39, 0.39, 0.39, element_storage.a)
+  end
+  gfx.rect(x, y, w, h, 1)
+end
+
+function reagirl.ScrollBar_Bottom_Add()
+  reagirl.Elements[#reagirl.Elements+1]={}
+  reagirl.Elements[#reagirl.Elements]["Guid"]=reaper.genGuid("")
+  reagirl.Elements[#reagirl.Elements]["GUI_Element_Type"]="Scroll Bar"
+  reagirl.Elements[#reagirl.Elements]["Name"]="Scroll bar bottom"
+  reagirl.Elements[#reagirl.Elements]["Text"]=""
+  reagirl.Elements[#reagirl.Elements]["IsDecorative"]=false
+  reagirl.Elements[#reagirl.Elements]["Description"]="Scroll bar"
+  reagirl.Elements[#reagirl.Elements]["AccHint"]="Scrolls the user interface left and right, using the arrowkeys"
+  reagirl.Elements[#reagirl.Elements]["z_buffer"]=256
+  reagirl.Elements[#reagirl.Elements]["x"]=15
+  reagirl.Elements[#reagirl.Elements]["y"]=-15
+  reagirl.Elements[#reagirl.Elements]["w"]=-30
+  reagirl.Elements[#reagirl.Elements]["h"]=15
+  reagirl.Elements[#reagirl.Elements]["sticky_x"]=true
+  reagirl.Elements[#reagirl.Elements]["sticky_y"]=true
+  reagirl.Elements[#reagirl.Elements]["func_manage"]=reagirl.ScrollBar_Bottom_Manage
+  reagirl.Elements[#reagirl.Elements]["func_draw"]=reagirl.ScrollBar_Bottom_Draw
+  reagirl.Elements[#reagirl.Elements]["userspace"]={}
+  reagirl.Elements[#reagirl.Elements]["a"]=0
+  return reagirl.Elements[#reagirl.Elements]["Guid"]
+end
+
+function reagirl.ScrollBar_Bottom_Manage(element_id, selected, hovered, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
+  if reagirl.Scroll_Override_ScrollButtons==true then return "" end
+  if element_storage.IsDecorative==false and element_storage.a<=0.75 then element_storage.a=element_storage.a+.1 reagirl.Gui_ForceRefresh(44) end
+  if gfx.mouse_x>=x and gfx.mouse_x<=x+w and gfx.mouse_y>=y and gfx.mouse_y<=y+h then
+    
+  end
+end
+
+function reagirl.ScrollBar_Bottom_Draw(element_id, selected, hovered, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
+  if reagirl.Scroll_Override_ScrollButtons==true then return "" end
+  local scale=reagirl.Window_CurrentScale
+  if reagirl.BoundaryX_Max>gfx.w then
+    element_storage.IsDecorative=false
+  else
+    element_storage.a=0 
+    if element_storage.IsDecorative==false then
+      reagirl.UI_Element_SetNothingFocused()
+      element_storage.IsDecorative=true
+    end
+  end
+  local oldr, oldg, oldb, olda = gfx.r, gfx.g, gfx.b, gfx.a
+  gfx.set(reagirl["WindowBackgroundColorR"], reagirl["WindowBackgroundColorG"], reagirl["WindowBackgroundColorB"], element_storage.a)
+  
+  if mouse_cap==1 and selected~="not selected" then
+    gfx.set(0.59, 0.59, 0.59, element_storage.a)
+  else
+    gfx.set(0.39, 0.39, 0.39, element_storage.a)
+  end
+  gfx.rect(x, y, w, h, 1)
+end
 
 function reagirl.Window_GetCurrentScale()
 --[[
@@ -1387,6 +1496,7 @@ function reagirl.Gui_Manage()
   -- manages the gui, including tts, mouse and keyboard-management and ui-focused-management
 
   -- initialize shit
+  local message
   if reagirl.Gui_IsOpen()==false then return end
   if reagirl.NewUI~=false then reagirl.NewUI=false reagirl.Elements.FocusedElement=1 end
   if #reagirl.Elements==0 then error("Gui_Manage: no ui-element available", -2) end
@@ -1420,7 +1530,7 @@ function reagirl.Gui_Manage()
   end
   
   -- reset clicked state
-  for i=1, #reagirl.Elements do reagirl.Elements[i]["clicked"]=false end
+  --for i=1, #reagirl.Elements do reagirl.Elements[i]["clicked"]=false end
   
   -- [[ Keyboard Management ]]
   local Key, Key_utf=gfx.getchar()
@@ -1503,7 +1613,7 @@ function reagirl.Gui_Manage()
       if reagirl.Elements["FocusedElement"]>#reagirl.Elements then reagirl.Elements["FocusedElement"]=1 end 
       init_message=reagirl.Elements[reagirl.Elements["FocusedElement"]]["Name"].." "..reagirl.Elements[reagirl.Elements["FocusedElement"]]["GUI_Element_Type"]..". "
       helptext=reagirl.Elements[reagirl.Elements["FocusedElement"]]["Description"]..", "..reagirl.Elements[reagirl.Elements["FocusedElement"]]["AccHint"]
-      if reagirl.Elements["FocusedElement"]<=#reagirl.Elements-4 then
+      if reagirl.Elements["FocusedElement"]<=#reagirl.Elements-6 then
         reagirl.UI_Element_ScrollToUIElement(reagirl.Elements[reagirl.Elements["FocusedElement"]].Guid) -- buggy, should scroll to ui-element...
       end
       reagirl.UI_Element_SetFocusRect()
@@ -1528,7 +1638,7 @@ function reagirl.Gui_Manage()
       reagirl.Elements[reagirl.Elements["FocusedElement"]]["GUI_Element_Type"]..". "
       helptext=reagirl.Elements[reagirl.Elements["FocusedElement"]]["Description"]..", "..reagirl.Elements[reagirl.Elements["FocusedElement"]]["AccHint"]
       reagirl.old_osara_message=""
-      if reagirl.Elements["FocusedElement"]<=#reagirl.Elements-4 then
+      if reagirl.Elements["FocusedElement"]<=#reagirl.Elements-6 then
         reagirl.UI_Element_ScrollToUIElement(reagirl.Elements[reagirl.Elements["FocusedElement"]].Guid) -- buggy, should scroll to ui-element...
       end
       reagirl.UI_Element_SetFocusRect()
@@ -1554,6 +1664,7 @@ function reagirl.Gui_Manage()
   local Scroll_Override_ScrollButtons=0
   if reagirl.Scroll_Override_ScrollButtons==true then Scroll_Override_ScrollButtons=4 end
   reagirl.UI_Elements_HoveredElement=-1
+  local found_element
   for i=#reagirl.Elements-Scroll_Override_ScrollButtons, 1, -1 do
     if reagirl.Elements[i]["hidden"]~=true then
       local x2, y2, w2, h2
@@ -1698,7 +1809,7 @@ function reagirl.Gui_Manage()
         or (x2+reagirl.MoveItAllRight<=0 and x2+w2+reagirl.MoveItAllRight>=gfx.w))
         and ((y2+reagirl.MoveItAllUp>=0 and y2+reagirl.MoveItAllUp<=gfx.h)
         or (y2+h2+reagirl.MoveItAllUp>=0 and y2+h2+reagirl.MoveItAllUp<=gfx.h)
-        or (y2+reagirl.MoveItAllUp<=0 and y2+h2+reagirl.MoveItAllUp>=gfx.h))) or i>#reagirl.Elements-4)
+        or (y2+reagirl.MoveItAllUp<=0 and y2+h2+reagirl.MoveItAllUp>=gfx.h))) or i>#reagirl.Elements-6)
         then--]]  
           -- run manage-function of ui-element
           local selected="not selected"
@@ -1835,7 +1946,7 @@ function reagirl.Gui_Draw(Key, Key_utf, clickstate, specific_clickstate, mouse_c
         or (x2+reagirl.MoveItAllRight<=0 and x2+w2+reagirl.MoveItAllRight>=gfx.w))
         and ((y2+reagirl.MoveItAllUp>=0 and y2+reagirl.MoveItAllUp<=gfx.h)
         or (y2+h2+reagirl.MoveItAllUp>=0 and y2+h2+reagirl.MoveItAllUp<=gfx.h)
-        or (y2+reagirl.MoveItAllUp<=0 and y2+h2+reagirl.MoveItAllUp>=gfx.h))) or i>#reagirl.Elements-4
+        or (y2+reagirl.MoveItAllUp<=0 and y2+h2+reagirl.MoveItAllUp>=gfx.h))) or i>#reagirl.Elements-6
         then
         --]]
    --     print_update((x2+reagirl.MoveItAllRight>=0 and x2+reagirl.MoveItAllRight<=gfx.w), x2+MoveItAllRight, (x2+reagirl.MoveItAllRight+w2>=0 and x2+reagirl.MoveItAllRight+w2<=gfx.w))
@@ -2944,7 +3055,7 @@ end
 
 function reagirl.UI_Element_GetGuidFromID(id)
   if math.type(id)~="integer" then error("UI_Element_GetGuidFromID: param #1 - must be an integer", 2) end
-  if id>#reagirl.Elements-4 then
+  if id>#reagirl.Elements-6 then
     return reagirl.Elements[id]["Guid"]
   else
     error("UI_Element_GetGuidFromID: param #1 - no such ui-element", 2)
@@ -3082,7 +3193,7 @@ function reagirl.CheckBox_Draw(element_id, selected, hovered, clicked, mouse_cap
   reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0)
   gfx.x=x
   gfx.y=y
-  
+  local offset
   local scale=reagirl.Window_CurrentScale
   
   local top=element_storage["top_edge"]
@@ -3806,7 +3917,7 @@ end
 function reagirl.Button_Draw(element_id, selected, hovered, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
   gfx.x=x
   gfx.y=y
-
+  local offset
   local dpi_scale, state
   local radius = element_storage["radius"]
   reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0)
@@ -4549,7 +4660,7 @@ end
 function reagirl.InputBox_Calculate_DrawOffset(forward, element_storage)
   reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0)
   local dpi_scale = reagirl.Window_GetCurrentScale()
-  local cap_w
+  local cap_w, x2, w2
   if element_storage["Cap_width"]==nil then
     cap_w=gfx.measurestr(element_storage["Name"])+dpi_scale*5
   else
@@ -5076,7 +5187,6 @@ function reagirl.DropDownMenu_Manage(element_id, selected, hovered, clicked, mou
 end
 
 function reagirl.DropDownMenu_Draw(element_id, selected, hovered, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
-  
   local dpi_scale, state
   local dpi_scale=reagirl.Window_CurrentScale
   local cap_w=element_storage["cap_w"]
@@ -5096,7 +5206,7 @@ function reagirl.DropDownMenu_Draw(element_id, selected, hovered, clicked, mouse
   gfx.y=y
   w=w-5
   h=h-5
-  radius=element_storage["radius"]
+  local radius=element_storage["radius"]
   reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0)
   
   local sw,sh=gfx.measurestr(menuentry)
@@ -5132,12 +5242,11 @@ function reagirl.DropDownMenu_Draw(element_id, selected, hovered, clicked, mouse
     gfx.rect(x+w-h+1*(dpi_scale-1), y+dpi_scale, dpi_scale, h+dpi_scale, 1)
     
     if element_storage["IsDecorative"]==false then
-      gfx.x=x+(4*dpi_scale)+offset+cap_w--+(w-sw)/2+1
-    
+      gfx.x=x+(4*dpi_scale)+cap_w+dpi_scale
       if reaper.GetOS():match("OS")~=nil then offset=1 end
-      gfx.y=y+(h-gfx.texth)/2+offset
+      gfx.y=y+(h-gfx.texth)/2+dpi_scale
       gfx.set(0.784)
-      gfx.drawstr(menuentry, 0, x+w-19*dpi_scale, gfx.y+gfx.texth)
+      gfx.drawstr(menuentry, 0, x+w-21*dpi_scale, gfx.y+gfx.texth)
     end
     reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0)
   else
@@ -5158,9 +5267,9 @@ function reagirl.DropDownMenu_Draw(element_id, selected, hovered, clicked, mouse
     
     local offset=0
     if element_storage["IsDecorative"]==false then
-      gfx.x=x+(4*dpi_scale)+offset+cap_w--+(w-sw)/2+1
+      gfx.x=x+(4*dpi_scale)+cap_w--+(w-sw)/2+1
       if reaper.GetOS():match("OS")~=nil then offset=1 end
-      gfx.y=y+(h-gfx.texth)/2+offset
+      gfx.y=y+(h-gfx.texth)/2
       gfx.set(0.784)
       gfx.drawstr(menuentry, 0, x+w-21*dpi_scale, gfx.y+gfx.texth)
     else
@@ -6325,7 +6434,7 @@ function reagirl.Image_Draw(element_id, selected, hovered, clicked, mouse_cap, m
   gfx.y=y
   
   gfx.dest=-1
-  imgw, imgh = gfx.getimgdim(element_storage["Image_Storage"])
+  local imgw, imgh = gfx.getimgdim(element_storage["Image_Storage"])
   gfx.blit(element_storage["Image_Storage"],1,0,0,0,imgw,imgh,x,y,w,h,0,0)
 
   -- revert changes
@@ -6726,6 +6835,7 @@ function reagirl.UI_Elements_Boundaries()
   
   local scale=reagirl.Window_CurrentScale
   local minx, miny, maxx, maxy = 2147483648, 2147483648, -2147483648, -2147483648
+  local MaxW, MAXH
   -- first the x position
   for i=1, #reagirl.Elements do
     if reagirl.Elements[i].hidden~=true then
@@ -6911,6 +7021,7 @@ function reagirl.ScrollButton_Left_Draw(element_id, selected, hovered, clicked, 
   local oldr, oldg, oldb, olda = gfx.r, gfx.g, gfx.b, gfx.a
   gfx.set(reagirl["WindowBackgroundColorR"], reagirl["WindowBackgroundColorG"], reagirl["WindowBackgroundColorB"], element_storage.a)
   gfx.rect(0, gfx.h-15*scale, 15*scale, 15*scale, 1)
+  print(mouse_cap)
   if mouse_cap==1 and selected~="not selected" then
     gfx.set(0.59, 0.59, 0.59, element_storage.a)
   else
@@ -7047,8 +7158,8 @@ function reagirl.ScrollButton_Down_Draw(element_id, selected, hovered, clicked, 
 end
 
 function reagirl.UI_Element_GetNextFreeSlot()
-  if #reagirl.Elements-3<1 then return #reagirl.Elements+1 end
-  return #reagirl.Elements-3
+  if #reagirl.Elements-5<1 then return #reagirl.Elements+1 end
+  return #reagirl.Elements-5
 end
 
 function reagirl.UI_Element_ScrollToUIElement(element_id, x_offset, y_offset)
@@ -7125,7 +7236,7 @@ function reagirl.UI_Element_GetFocused()
   <tags>gfx, functions, get, focused, gui</tags>
 </US_DocBloc>
 ]]
-  if reagirl.Elements.FocusedElement>=#reagirl.Elements-3 then return end
+  if reagirl.Elements.FocusedElement>=#reagirl.Elements-5 then return end
   return reagirl.Elements[reagirl.Elements.FocusedElement]["Guid"]
 end
 
@@ -7150,7 +7261,7 @@ function reagirl.UI_Element_SetFocused(element_id)
   <tags>gfx, functions, set, focused, gui</tags>
 </US_DocBloc>
 ]]
-  if reagirl.Elements.FocusedElement>=#reagirl.Elements-3 then return end
+  if reagirl.Elements.FocusedElement>=#reagirl.Elements-5 then return end
   local id=reagirl.UI_Element_GetIDFromGuid(element_id)
   if id==-1 then error("UI_Element_SetFocused: param #1 - no such ui-element", -2) end
 
@@ -7298,7 +7409,7 @@ function reagirl.Slider_Manage(element_id, selected, hovered, clicked, mouse_cap
 
   local offset_unit=element_storage["unit_w"]
   element_storage["slider_w"]=math.tointeger(w-element_storage["cap_w"]-element_storage["unit_w"]-10)
-  
+  local rect_w, step_current, step_size
   if selected~="not selected" then
     reagirl.Scroll_Override=true
     if Key==1919379572.0 or Key==1685026670.0 then element_storage["CurValue"]=element_storage["CurValue"]+element_storage["Step"] refresh=true reagirl.Scroll_Override=true end
@@ -8237,8 +8348,8 @@ function reagirl.Tabs_Draw(element_id, selected, hovered, clicked, mouse_cap, mo
   local x_offset=dpi_scale*x_offset_factor
   local tab_height=text_offset_y+text_offset_y
   element_storage["Tabs_Pos"]={}
-  local tx,ty
-  
+  local tx,ty,bg_h,bg_w
+  local offset
   for i=1, #element_storage["TabNames"] do
     element_storage["Tabs_Pos"][i]={}
     
