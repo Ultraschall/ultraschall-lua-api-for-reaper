@@ -1,13 +1,13 @@
 dofile(reaper.GetResourcePath().."/UserPlugins/ultraschall_api.lua")
 
 -- DEBUG:
---reaper.osara_outputMessage=nil
+reaper.osara_outputMessage=nil
 
 reagirl={}
 if reaper.osara_outputMessage~=nil then
   reagirl.OSARA=reaper.osara_outputMessage
   function reaper.osara_outputMessage(message, a)
-    print(message)
+--    print(message)
     --if message~="" then print_update(message,a) end
     reagirl.OSARA(message)
   end
@@ -31,10 +31,6 @@ TODO:
             This makes reading longer label-texts much easier.
             Needs this Osara-Issue to be done, if this is possible in the first place:
               https://github.com/jcsteh/osara/issues/961
-  - Hovered-ACC-Message: when doing tabbing, the entire message will be read AND the one from hovering.
-                        the one from hovering should only be read, if the mouse moved onto a ui-element
-                        You probably need to reimplement the hovering acc-message.
-  - General: acc-messages returned by the manage-functions are not sent to the screenreader for some reasons, like "pressed" in buttons
   - DropZones: the target should be notified, which ui-element had been dragged to it
   
   
@@ -1797,7 +1793,9 @@ function reagirl.Gui_Manage()
     if reagirl.SetPosition_MousePositionX~=gfx.mouse_x or reagirl.SetPosition_MousePositionY~=gfx.mouse_y then
       if reagirl.UI_Elements_HoveredElement~=-1 then
         if reagirl.UI_Elements_HoveredElement~=reagirl.UI_Elements_HoveredElement_Old then
-          reaper.osara_outputMessage(reagirl.Elements[reagirl.UI_Elements_HoveredElement]["Name"])
+          if reaper.osara_outputMessage~=nil then
+            reaper.osara_outputMessage(reagirl.Elements[reagirl.UI_Elements_HoveredElement]["Name"])
+          end
         end
       end
     end
@@ -4195,12 +4193,19 @@ function reagirl.InputBox_OnMouseDown(mouse_cap, element_storage)
   if element_storage.hasfocus==true then
     if mouse_cap&8==0 then
       element_storage.cursor_offset=reagirl.InputBox_GetTextOffset(gfx.mouse_x,gfx.mouse_y, element_storage)
+      --print2(element_storage.cursor_offset)
       element_storage.cursor_startoffset=element_storage.cursor_offset
       element_storage.clicked1=true
       if element_storage.cursor_offset==-2 then 
         element_storage.cursor_offset=element_storage.Text:utf8_len() 
         element_storage.selection_startoffset=element_storage.cursor_offset
         element_storage.selection_endoffset=element_storage.cursor_offset
+        element_storage.cursor_startoffset=element_storage.cursor_offset
+      elseif element_storage.cursor_offset==-1 then
+        element_storage.cursor_offset=0
+        element_storage.selection_startoffset=0
+        element_storage.selection_endoffset=0
+        element_storage.cursor_startoffset=element_storage.cursor_offset
       else
         element_storage.selection_startoffset=element_storage.cursor_offset
         element_storage.selection_endoffset=element_storage.cursor_offset
@@ -4282,6 +4287,8 @@ end
 
 function reagirl.InputBox_OnMouseMove(mouse_cap, element_storage)
   reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0)
+  if element_storage.selection_startoffset==-1 then element_storage.selection_startoffset=0 end
+  if element_storage.cursor_startoffset==-1 then element_storage.cursor_startoffset=0 end
   if element_storage.hasfocus==false then return end
   local newoffs, startoffs, endoffs=reagirl.InputBox_GetTextOffset(gfx.mouse_x, gfx.mouse_y, element_storage)
   
@@ -4417,12 +4424,19 @@ function reagirl.InputBox_OnTyping(Key, Key_UTF, mouse_cap, element_storage)
         element_storage.Text=element_storage.Text:utf8_sub(1, element_storage.selection_startoffset)..element_storage.Text:utf8_sub(element_storage.selection_endoffset+1, -1)
         element_storage.cursor_offset=element_storage.selection_startoffset
       else
-        element_storage.Text=element_storage.Text:utf8_sub(1, element_storage.selection_startoffset-1)..element_storage.Text:utf8_sub(element_storage.selection_endoffset+1, -1)
-        element_storage.cursor_offset=element_storage.selection_startoffset-1
+        if element_storage.cursor_offset-1>=0 then
+          element_storage.Text=element_storage.Text:utf8_sub(1, element_storage.selection_startoffset-1)..element_storage.Text:utf8_sub(element_storage.selection_endoffset+1, -1)
+          element_storage.cursor_offset=element_storage.selection_startoffset-1
+          if element_storage.cursor_offset<element_storage.draw_offset then
+            element_storage.draw_offset=element_storage.cursor_offset
+          end
+          reagirl.InputBox_Calculate_DrawOffset(true, element_storage)
+        end
       end
       element_storage.selection_startoffset=element_storage.cursor_offset
       element_storage.selection_endoffset=element_storage.cursor_offset
       reagirl.InputBox_ConsolidateCursorPos(element_storage)
+      
     end
   elseif Key==1919379572.0 then
     -- right arrow key
@@ -4818,7 +4832,8 @@ function reagirl.InputBox_Draw(element_id, selected, hovered, clicked, mouse_cap
   end
   if selected~="not selected" and element_storage.cursor_offset==element_storage.draw_offset-1 then
     gfx.set(0.9843137254901961, 0.8156862745098039, 0)
-    gfx.line(x+cap_w-dpi_scale, y+dpi_scale, x+cap_w-dpi_scale, y+gfx.texth) 
+    --gfx.set(1,0,0)
+    gfx.line(x+cap_w+dpi_scale, y+dpi_scale, x+cap_w+dpi_scale, y+gfx.texth/2)
   end
 end
 
