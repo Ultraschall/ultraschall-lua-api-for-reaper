@@ -7,7 +7,7 @@ reagirl={}
 if reaper.osara_outputMessage~=nil then
   reagirl.OSARA=reaper.osara_outputMessage
   function reaper.osara_outputMessage(message, a)
---    print_update(message)
+    print(message)
     --if message~="" then print_update(message,a) end
     reagirl.OSARA(message)
   end
@@ -26,7 +26,6 @@ TODO:
   - Slider: draw a line where the default-value shall be
   - Slider: when width is too small, drawing bugs appear(i.e. autowidth plus window is too small)
   - Image: reload of scaled image-override; if override==true then it loads only the image.png, not image-2x.png
-  - Scrolling is buggy, when gui is scrolling outside the top of the window, resize the window at the bottom, voila: scrolling upwards doesn't work anymore
   - Labels: ACCHoverMessage should hold the text of the paragraph the mouse is hovering above only
             That way, not everything is read out as message to TTS, only the hovered paragraph.
             This makes reading longer label-texts much easier.
@@ -1095,6 +1094,8 @@ function reagirl.ScrollBar_Left_Add()
   reagirl.Elements[#reagirl.Elements]["IsDecorative"]=false
   reagirl.Elements[#reagirl.Elements]["Description"]="Scroll bar"
   reagirl.Elements[#reagirl.Elements]["AccHint"]="Scrolls the user interface up and down, using the arrowkeys"
+  reagirl.Elements[#reagirl.Elements]["ContextMenu_ACC"]=""
+  reagirl.Elements[#reagirl.Elements]["DropZoneFunction_ACC"]=""
   reagirl.Elements[#reagirl.Elements]["z_buffer"]=256
   reagirl.Elements[#reagirl.Elements]["x"]=-15
   reagirl.Elements[#reagirl.Elements]["y"]=15
@@ -1150,6 +1151,8 @@ function reagirl.ScrollBar_Bottom_Add()
   reagirl.Elements[#reagirl.Elements]["IsDecorative"]=false
   reagirl.Elements[#reagirl.Elements]["Description"]="Scroll bar"
   reagirl.Elements[#reagirl.Elements]["AccHint"]="Scrolls the user interface left and right, using the arrowkeys"
+  reagirl.Elements[#reagirl.Elements]["ContextMenu_ACC"]=""
+  reagirl.Elements[#reagirl.Elements]["DropZoneFunction_ACC"]=""
   reagirl.Elements[#reagirl.Elements]["z_buffer"]=256
   reagirl.Elements[#reagirl.Elements]["x"]=15
   reagirl.Elements[#reagirl.Elements]["y"]=-15
@@ -1615,6 +1618,7 @@ function reagirl.Gui_Manage()
   else
     reagirl.ui_element_selected="selected"
   end
+  local skip_hover_acc_message=false
   -- Tab-key - next ui-element
   if gfx.mouse_cap==0 and Key==9 then 
     local old_selection=reagirl.Elements.FocusedElement
@@ -1636,6 +1640,7 @@ function reagirl.Gui_Manage()
         reagirl.ui_element_selected="selected"
       end
     end
+    skip_hover_acc_message=true
   end
   if reagirl.Elements["FocusedElement"]>#reagirl.Elements then reagirl.Elements["FocusedElement"]=1 end
   
@@ -1660,6 +1665,7 @@ function reagirl.Gui_Manage()
         reagirl.ui_element_selected="selected"
       end
     end
+    skip_hover_acc_message=true
   end
   if reagirl.Elements["FocusedElement"]<1 then reagirl.Elements["FocusedElement"]=#reagirl.Elements end
   
@@ -1746,13 +1752,34 @@ function reagirl.Gui_Manage()
       end
     end
   end
-  if reagirl.SetPosition_MousePositionY~=gfx.mouse_y and reagirl.SetPosition_MousePositionY~=gfx.mouse_x then
-    if reagirl.UI_Elements_HoveredElement~=-1 and reagirl.UI_Elements_HoveredElement~=reagirl.UI_Elements_HoveredElement_Old then
-      if reaper.osara_outputMessage~=nil then
-        reaper.osara_outputMessage(reagirl.Elements[reagirl.UI_Elements_HoveredElement]["Name"])
+  -- if osara is installed, move mouse to hover above ui-element
+  if reaper.osara_outputMessage~=nil and reagirl.oldselection~=reagirl.Elements.FocusedElement then
+    reagirl.oldselection=reagirl.Elements.FocusedElement
+    local i=reagirl.Elements.FocusedElement
+    if reaper.JS_Mouse_SetPosition~=nil then 
+      if reagirl.Elements[i]["x"]<0 then x2=gfx.w+(reagirl.Elements[i]["x"]*scale) else x2=reagirl.Elements[i]["x"]*scale end
+      if reagirl.Elements[i]["y"]<0 then y2=gfx.h+(reagirl.Elements[i]["y"]*scale) else y2=reagirl.Elements[i]["y"]*scale end
+      if reagirl.Elements[i]["w"]<0 then w2=gfx.w+(-x2+reagirl.Elements[i]["w"]*scale) else w2=reagirl.Elements[i]["w"]*scale end
+      if reagirl.Elements[i]["h"]<0 then h2=gfx.h+(-y2+reagirl.Elements[i]["h"]*scale) else h2=reagirl.Elements[i]["h"]*scale end
+      --reagirl.UI_Element_ScrollToUIElement(reagirl.Elements[reagirl.Elements["FocusedElement"]].Guid) -- buggy, should scroll to ui-element...
+      if gfx.mouse_x<=x2 or gfx.mouse_x>=x2+w2 or gfx.mouse_y<=y2 or gfx.mouse_y>=y2+h2 then
+        --local tempx, tempy=gfx.clienttoscreen(x2+MoveItAllRight+4,y2+MoveItAllUp+4)
+        --if tempx<0 then tempx=-tempx end
+        reaper.JS_Mouse_SetPosition(gfx.clienttoscreen(x2+reagirl.MoveItAllRight+4,y2+reagirl.MoveItAllUp+4)) 
       end
     end
   end
+  if reagirl.SetPosition_MousePositionY~=gfx.mouse_y or reagirl.SetPosition_MousePositionX~=gfx.mouse_x then
+    if reagirl.UI_Elements_HoveredElement~=-1 and reagirl.UI_Elements_HoveredElement~=reagirl.UI_Elements_HoveredElement_Old then
+      if reaper.osara_outputMessage~=nil then
+        if skip_hover_acc_message~=true then
+          reaper.osara_outputMessage(reagirl.Elements[reagirl.UI_Elements_HoveredElement]["Name"])
+        end
+      end
+    end
+  end
+  reagirl.SetPosition_MousePositionX=gfx.mouse_x
+  reagirl.SetPosition_MousePositionY=gfx.mouse_y
   if reaper.osara_outputMessage~=nil then
     if reagirl.Elements["GlobalAccHoverMessage"]~=nil then
       reaper.osara_outputMessage(reagirl.Elements["GlobalAccHoverMessage"])
@@ -1907,6 +1934,7 @@ function reagirl.Gui_Manage()
       reagirl.Gui_PreventScrollingForOneCycle(true, true, true)
     end
   end
+  
   -- go over to draw the ui-elements
   reagirl.Gui_Draw(Key, Key_utf, clickstate, specific_clickstate, mouse_cap, click_x, click_y, drag_x, drag_y, mouse_wheel, mouse_hwheel)
 end
@@ -2015,20 +2043,7 @@ function reagirl.Gui_Draw(Key, Key_utf, clickstate, specific_clickstate, mouse_c
           gfx.set(r,g,b,a)
           gfx.dest=dest
           
-          -- if osara is installed, move mouse to hover above ui-element
-          if reaper.osara_outputMessage~=nil and reagirl.oldselection~=i then
-            reagirl.oldselection=i
-            if reaper.JS_Mouse_SetPosition~=nil then 
-              --reagirl.UI_Element_ScrollToUIElement(reagirl.Elements[reagirl.Elements["FocusedElement"]].Guid) -- buggy, should scroll to ui-element...
-              if gfx.mouse_x<=x2 or gfx.mouse_x>=x2+w2 or gfx.mouse_y<=y2 or gfx.mouse_y>=y2+h2 then
-                --local tempx, tempy=gfx.clienttoscreen(x2+MoveItAllRight+4,y2+MoveItAllUp+4)
-                --if tempx<0 then tempx=-tempx end
-                reaper.JS_Mouse_SetPosition(gfx.clienttoscreen(x2+MoveItAllRight+4,y2+MoveItAllUp+4)) 
-                reagirl.SetPosition_MousePositionX=gfx.mouse_x
-                reagirl.SetPosition_MousePositionY=gfx.mouse_y
-              end
-            end
-          end
+          
         end
       end
     end
@@ -6803,6 +6818,8 @@ function reagirl.UI_Element_SmoothScroll(Smoothscroll) -- parameter for debuggin
     end
   elseif reagirl.MoveItAllUp_Delta<0 then
     reagirl.MoveItAllUp_Delta=reagirl.MoveItAllUp_Delta+1 --reagirl.MoveItAllUp_Delta=0
+  elseif reagirl.BoundaryY_Max<=gfx.h then
+    reagirl.MoveItAllUp=0
   end
   if reagirl.MoveItAllUp_Delta>-1 and reagirl.MoveItAllUp_Delta<1 then reagirl.MoveItAllUp_Delta=0 end
   
@@ -6822,6 +6839,8 @@ function reagirl.UI_Element_SmoothScroll(Smoothscroll) -- parameter for debuggin
     end
   elseif reagirl.MoveItAllRight_Delta<0 then
     reagirl.MoveItAllRight_Delta=reagirl.MoveItAllRight_Delta+1 --reagirl.MoveItAllUp_Delta=0
+  elseif reagirl.BoundaryX_Max<=gfx.w then
+    reagirl.MoveItAllRight=0
   end
   if reagirl.MoveItAllRight_Delta>-1 and reagirl.MoveItAllRight_Delta<1 then reagirl.MoveItAllRight_Delta=0 end
   
@@ -6951,6 +6970,8 @@ function reagirl.ScrollButton_Right_Add()
   reagirl.Elements[#reagirl.Elements]["IsDecorative"]=false
   reagirl.Elements[#reagirl.Elements]["Description"]="Scroll Right"
   reagirl.Elements[#reagirl.Elements]["AccHint"]="Scrolls the user interface to the right"
+  reagirl.Elements[#reagirl.Elements]["ContextMenu_ACC"]=""
+  reagirl.Elements[#reagirl.Elements]["DropZoneFunction_ACC"]=""
   reagirl.Elements[#reagirl.Elements]["z_buffer"]=256
   reagirl.Elements[#reagirl.Elements]["x"]=-30
   reagirl.Elements[#reagirl.Elements]["y"]=-15
@@ -7013,6 +7034,8 @@ function reagirl.ScrollButton_Left_Add()
   reagirl.Elements[#reagirl.Elements]["IsDecorative"]=false
   reagirl.Elements[#reagirl.Elements]["Description"]="Scroll left"
   reagirl.Elements[#reagirl.Elements]["AccHint"]="Scrolls the user interface to the left"
+  reagirl.Elements[#reagirl.Elements]["ContextMenu_ACC"]=""
+  reagirl.Elements[#reagirl.Elements]["DropZoneFunction_ACC"]=""
   reagirl.Elements[#reagirl.Elements]["z_buffer"]=256
   reagirl.Elements[#reagirl.Elements]["x"]=1
   reagirl.Elements[#reagirl.Elements]["y"]=-15
@@ -7075,6 +7098,8 @@ function reagirl.ScrollButton_Up_Add()
   reagirl.Elements[#reagirl.Elements]["IsDecorative"]=false
   reagirl.Elements[#reagirl.Elements]["Description"]="Scroll up"
   reagirl.Elements[#reagirl.Elements]["AccHint"]="Scrolls the user interface upwards"
+  reagirl.Elements[#reagirl.Elements]["ContextMenu_ACC"]=""
+  reagirl.Elements[#reagirl.Elements]["DropZoneFunction_ACC"]=""
   reagirl.Elements[#reagirl.Elements]["z_buffer"]=256
   reagirl.Elements[#reagirl.Elements]["x"]=-15
   reagirl.Elements[#reagirl.Elements]["y"]=0
@@ -7136,6 +7161,8 @@ function reagirl.ScrollButton_Down_Add()
   reagirl.Elements[#reagirl.Elements]["IsDecorative"]=false
   reagirl.Elements[#reagirl.Elements]["Description"]="Scroll Down"
   reagirl.Elements[#reagirl.Elements]["AccHint"]="Scrolls the user interface downwards"
+  reagirl.Elements[#reagirl.Elements]["ContextMenu_ACC"]=""
+  reagirl.Elements[#reagirl.Elements]["DropZoneFunction_ACC"]=""
   reagirl.Elements[#reagirl.Elements]["z_buffer"]=256
   reagirl.Elements[#reagirl.Elements]["x"]=-15
   reagirl.Elements[#reagirl.Elements]["y"]=-30
