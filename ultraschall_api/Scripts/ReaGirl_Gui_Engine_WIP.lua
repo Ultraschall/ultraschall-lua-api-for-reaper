@@ -34,6 +34,7 @@ TODO:
               https://github.com/jcsteh/osara/issues/961
   - Hovered-ACC-Message: when doing tabbing, the entire message will be read AND the one from hovering.
                         the one from hovering should only be read, if the mouse moved onto a ui-element
+                        You probably need to reimplement the hovering acc-message.
   - General: acc-messages returned by the manage-functions are not sent to the screenreader for some reasons, like "pressed" in buttons
   - DropZones: the target should be notified, which ui-element had been dragged to it
   
@@ -1109,6 +1110,7 @@ function reagirl.ScrollBar_Left_Add()
 end
 
 function reagirl.ScrollBar_Left_Manage(element_id, selected, hovered, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
+
   if reagirl.Scroll_Override_ScrollButtons==true then return "" end
   if element_storage.IsDecorative==false and element_storage.a<=0.75 then element_storage.a=element_storage.a+.1 reagirl.Gui_ForceRefresh(44) end
   if gfx.mouse_x>=x and gfx.mouse_x<=x+w and gfx.mouse_y>=y and gfx.mouse_y<=y+h then
@@ -1163,10 +1165,23 @@ function reagirl.ScrollBar_Bottom_Add()
 end
 
 function reagirl.ScrollBar_Bottom_Manage(element_id, selected, hovered, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
+-- still buggy, though it somehow works...(without clicking yet)
   if reagirl.Scroll_Override_ScrollButtons==true then return "" end
   if element_storage.IsDecorative==false and element_storage.a<=0.75 then element_storage.a=element_storage.a+.1 reagirl.Gui_ForceRefresh(44) end
-  if gfx.mouse_x>=x and gfx.mouse_x<=x+w and gfx.mouse_y>=y and gfx.mouse_y<=y+h then
-    
+  if gfx.mouse_x>=x and gfx.mouse_x<=x+w*2 and gfx.mouse_y>=y and gfx.mouse_y<=y+h then
+    local dpi_scale = reagirl.Window_GetCurrentScale()
+    element_storage.stepsize=math.ceil((w-90*dpi_scale)/(reagirl.BoundaryX_Max-gfx.w))
+    if element_storage.stepsize==0 then element_storage.stepsize=1 end
+    local count=0
+    for i=x, x+w+element_storage.stepsize, element_storage.stepsize do
+      count=count+1
+      if gfx.mouse_x<i then
+        reagirl.MoveItAllRight=-count
+--        print_update(i)
+        reagirl.Gui_ForceRefresh()
+        break
+      end
+    end
   end
 end
 
@@ -1185,11 +1200,7 @@ function reagirl.ScrollBar_Bottom_Draw(element_id, selected, hovered, clicked, m
   local oldr, oldg, oldb, olda = gfx.r, gfx.g, gfx.b, gfx.a
   gfx.set(reagirl["WindowBackgroundColorR"], reagirl["WindowBackgroundColorG"], reagirl["WindowBackgroundColorB"], element_storage.a)
   
-  if mouse_cap==1 and selected~="not selected" then
-    gfx.set(0.59, 0.59, 0.59, element_storage.a)
-  else
-    gfx.set(0.39, 0.39, 0.39, element_storage.a)
-  end
+  gfx.set(0.39, 0.39, 0.39, element_storage.a)
   gfx.rect(x, y, w, h, 1)
 end
 
@@ -1837,8 +1848,11 @@ function reagirl.Gui_Manage()
         if reagirl.Elements["FocusedElement"]==i and reagirl.Elements[reagirl.Elements["FocusedElement"]]["IsDecorative"]==false and reagirl.old_osara_message~=message and reaper.osara_outputMessage~=nil then
           
           if message==nil then message="" end
-  
-          reaper.osara_outputMessage(reagirl.osara_init_message..""..init_message.." "..message.." "..helptext,3)
+          
+          -- ContextMenu_ACC
+          -- DropZoneFunction_ACC
+          
+          reaper.osara_outputMessage(reagirl.osara_init_message..""..init_message.." "..message.." "..helptext..reagirl.Elements[reagirl.Elements["FocusedElement"]]["ContextMenu_ACC"]..reagirl.Elements[reagirl.Elements["FocusedElement"]]["DropZoneFunction_ACC"],3)
           reagirl.old_osara_message=message
           reagirl.osara_init_message=""
         end
@@ -1893,7 +1907,6 @@ function reagirl.Gui_Manage()
       reagirl.Gui_PreventScrollingForOneCycle(true, true, true)
     end
   end
-  
   -- go over to draw the ui-elements
   reagirl.Gui_Draw(Key, Key_utf, clickstate, specific_clickstate, mouse_cap, click_x, click_y, drag_x, drag_y, mouse_wheel, mouse_hwheel)
 end
@@ -2434,6 +2447,9 @@ function reagirl.UI_Element_GetSet_ContextMenu(element_id, is_set, menu, menu_fu
   if is_set==true then
     reagirl.Elements[element_id]["ContextMenu"]=menu
     reagirl.Elements[element_id]["ContextMenuFunction"]=menu_function
+    reagirl.Elements[element_id]["ContextMenu_ACC"]="This UI element contains a context menu."
+  else
+    reagirl.Elements[element_id]["ContextMenu_ACC"]=""
   end
   return reagirl.Elements[element_id]["ContextMenu"], reagirl.Elements[element_id]["ContextMenuFunction"]
 end
@@ -2483,6 +2499,9 @@ function reagirl.UI_Element_GetSet_DropZoneFunction(element_id, is_set, dropzone
   
   if is_set==true then
     reagirl.Elements[element_id]["DropZoneFunction"]=dropzone_function
+    reagirl.Elements[element_id]["DropZoneFunction_ACC"]="You can drop files on this UI-element."
+  else
+    reagirl.Elements[element_id]["DropZoneFunction_ACC"]=""
   end
   return reagirl.Elements[element_id]["DropZoneFunction"]
 end
@@ -3141,6 +3160,8 @@ function reagirl.CheckBox_Add(x, y, caption, meaningOfUI_Element, default, run_f
   reagirl.Elements[slot]["IsDecorative"]=false
   reagirl.Elements[slot]["Description"]=meaningOfUI_Element
   reagirl.Elements[slot]["AccHint"]="Change checkstate with space or left mouse-click."
+  reagirl.Elements[slot]["ContextMenu_ACC"]=""
+  reagirl.Elements[slot]["DropZoneFunction_ACC"]=""
   reagirl.Elements[slot]["x"]=x
   reagirl.Elements[slot]["y"]=y
   reagirl.Elements[slot]["z_buffer"]=128
@@ -3721,7 +3742,9 @@ function reagirl.Button_Add(x, y, w_margin, h_margin, caption, meaningOfUI_Eleme
   reagirl.Elements[slot]["sticky_x"]=false
   reagirl.Elements[slot]["sticky_y"]=false
   reagirl.Elements[slot]["Description"]=meaningOfUI_Element
-  reagirl.Elements[slot]["AccHint"]="click with space or left mouseclick"
+  reagirl.Elements[slot]["AccHint"]="Click with space or left mouseclick."
+  reagirl.Elements[slot]["ContextMenu_ACC"]=""
+  reagirl.Elements[slot]["DropZoneFunction_ACC"]=""
   reagirl.Elements[slot]["z_buffer"]=128
   reagirl.Elements[slot]["x"]=x
   reagirl.Elements[slot]["y"]=y
@@ -4075,6 +4098,8 @@ function reagirl.InputBox_Add(x, y, w, caption, Cap_width, meaningOfUI_Element, 
   reagirl.Elements[slot]["Description"]=meaningOfUI_Element
   reagirl.Elements[slot]["IsDecorative"]=false
   reagirl.Elements[slot]["AccHint"]="Hit Enter to type text."
+  reagirl.Elements[slot]["ContextMenu_ACC"]=""
+  reagirl.Elements[slot]["DropZoneFunction_ACC"]=""
   reagirl.Elements[slot]["z_buffer"]=128
   reagirl.Elements[slot]["Cap_width"]=Cap_width
   reagirl.Elements[slot]["x"]=x
@@ -4652,6 +4677,7 @@ function reagirl.InputBox_Manage(element_id, selected, hovered, clicked, mouse_c
   if refresh==true then
     reagirl.Gui_ForceRefresh(23)
   end
+  return element_storage["Text"]
 end
 
 
@@ -5066,6 +5092,8 @@ function reagirl.DropDownMenu_Add(x, y, w, caption, Cap_width, meaningOfUI_Eleme
   reagirl.Elements[slot]["Description"]=meaningOfUI_Element
   reagirl.Elements[slot]["IsDecorative"]=false
   reagirl.Elements[slot]["AccHint"]="Select via arrow-keys."
+  reagirl.Elements[slot]["ContextMenu_ACC"]=""
+  reagirl.Elements[slot]["DropZoneFunction_ACC"]=""
   reagirl.Elements[slot]["cap_w"]=math.tointeger(tx1)+5
   reagirl.Elements[slot]["z_buffer"]=128
   reagirl.Elements[slot]["x"]=x
@@ -5713,7 +5741,9 @@ function reagirl.Label_Add(x, y, label, meaningOfUI_Element, align, clickable, r
   reagirl.Elements[slot]["Text"]=""
   reagirl.Elements[slot]["Description"]=meaningOfUI_Element
   reagirl.Elements[slot]["IsDecorative"]=false
-  reagirl.Elements[slot]["AccHint"]=acc_clickable.."Ctrl+C to copy text into clipboard"
+  reagirl.Elements[slot]["AccHint"]=acc_clickable.."Ctrl+C to copy text into clipboard."
+  reagirl.Elements[slot]["ContextMenu_ACC"]=""
+  reagirl.Elements[slot]["DropZoneFunction_ACC"]=""
   reagirl.Elements[slot]["z_buffer"]=128
   reagirl.Elements[slot]["x"]=x
   reagirl.Elements[slot]["y"]=y
@@ -6172,6 +6202,8 @@ function reagirl.Image_Add(image_filename, x, y, w, h, name, meaningOfUI_Element
   reagirl.Elements[slot]["Text"]=name
   reagirl.Elements[slot]["IsDecorative"]=false
   reagirl.Elements[slot]["AccHint"]="Use Space or left mouse-click to select it."
+  reagirl.Elements[slot]["ContextMenu_ACC"]=""
+  reagirl.Elements[slot]["DropZoneFunction_ACC"]=""
   reagirl.Elements[slot]["z_buffer"]=128
   reagirl.Elements[slot]["x"]=x
   reagirl.Elements[slot]["y"]=y
@@ -7021,7 +7053,7 @@ function reagirl.ScrollButton_Left_Draw(element_id, selected, hovered, clicked, 
   local oldr, oldg, oldb, olda = gfx.r, gfx.g, gfx.b, gfx.a
   gfx.set(reagirl["WindowBackgroundColorR"], reagirl["WindowBackgroundColorG"], reagirl["WindowBackgroundColorB"], element_storage.a)
   gfx.rect(0, gfx.h-15*scale, 15*scale, 15*scale, 1)
-  print(mouse_cap)
+--  print(mouse_cap)
   if mouse_cap==1 and selected~="not selected" then
     gfx.set(0.59, 0.59, 0.59, element_storage.a)
   else
@@ -7376,6 +7408,8 @@ function reagirl.Slider_Add(x, y, w, caption, Cap_width, meaningOfUI_Element, un
   reagirl.Elements[slot]["IsDecorative"]=false
   reagirl.Elements[slot]["Description"]=meaningOfUI_Element
   reagirl.Elements[slot]["AccHint"]="Change via arrowkeys, home, end, pageup, pagedown."
+  reagirl.Elements[slot]["ContextMenu_ACC"]=""
+  reagirl.Elements[slot]["DropZoneFunction_ACC"]=""
   reagirl.Elements[slot]["z_buffer"]=128
   reagirl.Elements[slot]["x"]=x
   reagirl.Elements[slot]["y"]=y
@@ -7532,7 +7566,7 @@ end
 
 function reagirl.Slider_Draw(element_id, selected, hovered, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
   local dpi_scale=reagirl.Window_GetCurrentScale()
-  
+  local step_current, step_size
   reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0)
   local offset_cap=gfx.measurestr(name.." ")+5
   if element_storage["Cap_width"]~=nil then
@@ -8166,7 +8200,9 @@ function reagirl.Tabs_Add(x, y, w_backdrop, h_backdrop, caption, meaningOfUI_Ele
   reagirl.Elements[slot]["TabSelected"]=selected_tab
   reagirl.Elements[slot]["IsDecorative"]=false
   reagirl.Elements[slot]["Description"]=meaningOfUI_Element
-  reagirl.Elements[slot]["AccHint"]="Switch tab using left/right arrow-keys"
+  reagirl.Elements[slot]["AccHint"]="Switch tab using left/right arrow-keys."
+  reagirl.Elements[slot]["ContextMenu_ACC"]=""
+  reagirl.Elements[slot]["DropZoneFunction_ACC"]=""
   reagirl.Elements[slot]["z_buffer"]=128
   reagirl.Elements[slot]["x"]=x
   reagirl.Elements[slot]["y"]=y
@@ -8518,6 +8554,9 @@ function UpdateUI()
   reagirl.CheckBox_Add(nil, nil, "Spoilers", "Does this chapter contain spoilers or not?", true, tabme)
   reagirl.NextLine()
   Lab3=reagirl.Label_Add(30, nil, "Chapter Image", "HELP", 0, false, nil)
+  
+  --reagirl.UI_Element_GetSet_ContextMenu(Lab3, true, "HULU", button2)
+  --reagirl.UI_Element_GetSet_DropZoneFunction(Lab3, true, button2)
   reagirl.Label_SetStyle(Lab3, 6)
   
   reagirl.NextLine()
