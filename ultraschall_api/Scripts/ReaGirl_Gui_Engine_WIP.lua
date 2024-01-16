@@ -1681,6 +1681,7 @@ function reagirl.Gui_Manage()
   local Scroll_Override_ScrollButtons=0
   if reagirl.Scroll_Override_ScrollButtons==true then Scroll_Override_ScrollButtons=4 end
   reagirl.UI_Elements_HoveredElement=-1
+  
   local found_element
   for i=#reagirl.Elements-Scroll_Override_ScrollButtons, 1, -1 do
     if reagirl.Elements[i]["hidden"]~=true then
@@ -1752,10 +1753,12 @@ function reagirl.Gui_Manage()
       end
     end
   end
+  
   -- if osara is installed, move mouse to hover above ui-element
   if reaper.osara_outputMessage~=nil and reagirl.oldselection~=reagirl.Elements.FocusedElement then
     reagirl.oldselection=reagirl.Elements.FocusedElement
     local i=reagirl.Elements.FocusedElement
+    
     if reaper.JS_Mouse_SetPosition~=nil then 
       if reagirl.Elements[i]["x"]<0 then x2=gfx.w+(reagirl.Elements[i]["x"]*scale) else x2=reagirl.Elements[i]["x"]*scale end
       if reagirl.Elements[i]["y"]<0 then y2=gfx.h+(reagirl.Elements[i]["y"]*scale) else y2=reagirl.Elements[i]["y"]*scale end
@@ -1766,24 +1769,51 @@ function reagirl.Gui_Manage()
         --local tempx, tempy=gfx.clienttoscreen(x2+MoveItAllRight+4,y2+MoveItAllUp+4)
         --if tempx<0 then tempx=-tempx end
         reaper.JS_Mouse_SetPosition(gfx.clienttoscreen(x2+reagirl.MoveItAllRight+4,y2+reagirl.MoveItAllUp+4)) 
+        reagirl.SetPosition_MousePositionX=gfx.mouse_x
+        reagirl.SetPosition_MousePositionY=gfx.mouse_y
+        reagirl.UI_Elements_HoveredElement_Old=i
+        reagirl.UI_Elements_HoveredElement=i
+        skip_hover_acc_message=true
       end
     end
   end
+  
+  --[[
   if reagirl.SetPosition_MousePositionY~=gfx.mouse_y or reagirl.SetPosition_MousePositionX~=gfx.mouse_x then
     if reagirl.UI_Elements_HoveredElement~=-1 and reagirl.UI_Elements_HoveredElement~=reagirl.UI_Elements_HoveredElement_Old then
       if reaper.osara_outputMessage~=nil then
-        if skip_hover_acc_message~=true then
+        if skip_hover_acc_message==false then
+          reaper.osara_outputMessage(reagirl.Elements[reagirl.UI_Elements_HoveredElement]["Name"])
+        end
+      end
+      reagirl.UI_Elements_HoveredElement_Old=reagirl.UI_Elements_HoveredElement
+    end
+  end
+  
+  reagirl.SetPosition_MousePositionX=gfx.mouse_x
+  reagirl.SetPosition_MousePositionY=gfx.mouse_y
+  --]]
+  if skip_hover_acc_message==false then
+    if reagirl.SetPosition_MousePositionX~=gfx.mouse_x or reagirl.SetPosition_MousePositionY~=gfx.mouse_y then
+      if reagirl.UI_Elements_HoveredElement~=-1 then
+        if reagirl.UI_Elements_HoveredElement~=reagirl.UI_Elements_HoveredElement_Old then
           reaper.osara_outputMessage(reagirl.Elements[reagirl.UI_Elements_HoveredElement]["Name"])
         end
       end
     end
   end
+  if reagirl.UI_Elements_HoveredElement~=-1 then
+    --print_update(reagirl.UI_Elements_HoveredElement_Old, reagirl.UI_Elements_HoveredElement,reaper.time_precise())
+    --for i=0, 10000000 do end
+    reagirl.UI_Elements_HoveredElement_Old=reagirl.UI_Elements_HoveredElement
+  end
   reagirl.SetPosition_MousePositionX=gfx.mouse_x
   reagirl.SetPosition_MousePositionY=gfx.mouse_y
+  
   if reaper.osara_outputMessage~=nil then
-    if reagirl.Elements["GlobalAccHoverMessage"]~=nil then
+    if reagirl.Elements["GlobalAccHoverMessage"]~=reagirl.Elements["GlobalAccHoverMessageOld"] then
       reaper.osara_outputMessage(reagirl.Elements["GlobalAccHoverMessage"])
-      reagirl.Elements["GlobalAccHoverMessage"]=nil
+      reagirl.Elements["GlobalAccHoverMessageOld"]=reagirl.Elements["GlobalAccHoverMessage"]
     end
   end
   --[[context menu]]
@@ -8385,7 +8415,8 @@ function reagirl.Tabs_Manage(element_id, selected, hovered, clicked, mouse_cap, 
       for i=1, #element_storage["Tabs_Pos"] do
         if gfx.mouse_y>=y and gfx.mouse_y<=element_storage["Tabs_Pos"][i]["h"]+y then
           if gfx.mouse_x>=element_storage["Tabs_Pos"][i]["x"] and gfx.mouse_x<=element_storage["Tabs_Pos"][i]["x"]+element_storage["Tabs_Pos"][i]["w"] then
-            element_storage["AccHoverMessage"]=element_storage["TabNames"][i]
+            --element_storage["AccHoverMessage"]=element_storage["TabNames"][i]
+            reagirl.Elements["GlobalAccHoverMessage"]=element_storage["TabNames"][i]
           end
         end
       end
