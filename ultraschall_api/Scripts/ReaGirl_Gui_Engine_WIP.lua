@@ -18,7 +18,6 @@ TODO:
   - MacOS-check: fonts might be off by 1 in y-position, so maybe repositioning with an offset is necessary(see dropdownmenu_draw for details)
   - Check, if all ui-elements are properly drawn in disabled-mode
   - CheckBox: add a few pixels to the width after everything is said and done
-  - InputBox: when dragging from the left side of the boundary box, the text-selection is wrong(probably the cursor_offset). When typing something, wrong text appears.
   - InputBox: if they are too small, they aren't drawn properly
   - jumping to ui-elements outside window(means autoscroll to them) doesn't always work
     - ui-elements might still be out of view when jumping to them(x-coordinate outside of window for instance)
