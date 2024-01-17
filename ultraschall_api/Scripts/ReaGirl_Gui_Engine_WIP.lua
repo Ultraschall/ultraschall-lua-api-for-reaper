@@ -1824,6 +1824,7 @@ function reagirl.Gui_Manage()
       
       if selection>0 then
         reagirl.Elements[reagirl.UI_Elements_HoveredElement]["ContextMenuFunction"](reagirl.Elements[reagirl.UI_Elements_HoveredElement]["Guid"], math.tointeger(selection))
+        reagirl.Gui_ForceRefresh()
       end
     end
     -- workaround to prevent, that the menu is shown twice in a row
@@ -1849,6 +1850,7 @@ function reagirl.Gui_Manage()
   end
   if #files>0 and reagirl.UI_Elements_HoveredElement~=-1 and reagirl.Elements[reagirl.UI_Elements_HoveredElement]["DropZoneFunction"]~=nil then 
     reagirl.Elements[reagirl.UI_Elements_HoveredElement]["DropZoneFunction"](reagirl.Elements[reagirl.UI_Elements_HoveredElement]["Guid"], files)
+    reagirl.Gui_ForceRefresh()
   end
   
   -- run all gui-element-management functions once. They shall decide, if a refresh is needed, provide the osara-screenreader-message and everything
@@ -3231,7 +3233,7 @@ function reagirl.Checkbox_Manage(element_id, selected, hovered, clicked, mouse_c
   -- drop files for accessibility using a file-requester, after typing ctrl+shift+f
   if reaper.osara_outputMessage~=nil and element_storage["DropZoneFunction"]~=nil and Key==6 and mouse_cap==12 then
     local retval, filenames = reaper.GetUserFileNameForRead("", "Choose file to drop into "..element_storage["Name"], "")
-    if retval==true then element_storage["DropZoneFunction"](element_storage["Guid"], filenames) refresh=true end
+    if retval==true then element_storage["DropZoneFunction"](element_storage["Guid"], {filenames}) refresh=true reagirl.Gui_ForceRefresh() end
   end
   
   if selected~="not selected" and (((clicked=="FirstCLK" or clicked=="DBLCLK" )and mouse_cap&1==1) or Key==32) then 
@@ -3967,7 +3969,7 @@ function reagirl.Button_Manage(element_id, selected, hovered, clicked, mouse_cap
   -- drop files for accessibility using a file-requester, after typing ctrl+shift+f
   if reaper.osara_outputMessage~=nil and element_storage["DropZoneFunction"]~=nil and Key==6 and mouse_cap==12 then
     local retval, filenames = reaper.GetUserFileNameForRead("", "Choose file to drop into "..element_storage["Name"], "")
-    if retval==true then element_storage["DropZoneFunction"](element_storage["Guid"], filenames) refresh=true end
+    if retval==true then element_storage["DropZoneFunction"](element_storage["Guid"], {filenames}) refresh=true end
   end
   
   if selected~="not selected" and Key==32 then 
@@ -4643,7 +4645,7 @@ function reagirl.InputBox_Manage(element_id, selected, hovered, clicked, mouse_c
   -- drop files for accessibility using a file-requester, after typing ctrl+shift+f
   if reaper.osara_outputMessage~=nil and element_storage["DropZoneFunction"]~=nil and Key==6 and mouse_cap==12 then
     local retval, filenames = reaper.GetUserFileNameForRead("", "Choose file to drop into "..element_storage["Name"], "")
-    if retval==true then element_storage["DropZoneFunction"](element_storage["Guid"], filenames) refresh=true end
+    if retval==true then element_storage["DropZoneFunction"](element_storage["Guid"], {filenames}) refresh=true end
   end
 
   if reaper.osara_outputMessage~=nil then
@@ -5204,7 +5206,7 @@ function reagirl.DropDownMenu_Manage(element_id, selected, hovered, clicked, mou
   -- drop files for accessibility using a file-requester, after typing ctrl+shift+f
   if reaper.osara_outputMessage~=nil and element_storage["DropZoneFunction"]~=nil and Key==6 and mouse_cap==12 then
     local retval, filenames = reaper.GetUserFileNameForRead("", "Choose file to drop into "..element_storage["Name"], "")
-    if retval==true then element_storage["DropZoneFunction"](element_storage["Guid"], filenames) refresh=true end
+    if retval==true then element_storage["DropZoneFunction"](element_storage["Guid"], {filenames}) refresh=true end
   end
   
   local cap_w=element_storage["cap_w"]
@@ -5856,7 +5858,7 @@ function reagirl.Label_Manage(element_id, selected, hovered, clicked, mouse_cap,
   -- drop files for accessibility using a file-requester, after typing ctrl+shift+f
   if reaper.osara_outputMessage~=nil and element_storage["DropZoneFunction"]~=nil and Key==6 and mouse_cap==12 then
     local retval, filenames = reaper.GetUserFileNameForRead("", "Choose file to drop into "..element_storage["Name"], "")
-    if retval==true then element_storage["DropZoneFunction"](element_storage["Guid"], filenames) refresh=true end
+    if retval==true then element_storage["DropZoneFunction"](element_storage["Guid"], {filenames}) refresh=true end
   end
   
   --if Key==3 and selected==true then reaper.CF_SetClipboard(name) end
@@ -6472,7 +6474,7 @@ function reagirl.Image_Manage(element_id, selected, hovered, clicked, mouse_cap,
   -- drop files for accessibility using a file-requester, after typing ctrl+shift+f
   if reaper.osara_outputMessage~=nil and element_storage["DropZoneFunction"]~=nil and Key==6 and mouse_cap==12 then
     local retval, filenames = reaper.GetUserFileNameForRead("", "Choose file to drop into "..element_storage["Name"], "")
-    if retval==true then element_storage["DropZoneFunction"](element_storage["Guid"], filenames) refresh=true end
+    if retval==true then element_storage["DropZoneFunction"](element_storage["Guid"], {filenames}) refresh=true end
   end
   
   local message
@@ -7545,7 +7547,7 @@ function reagirl.Slider_Manage(element_id, selected, hovered, clicked, mouse_cap
   -- drop files for accessibility using a file-requester, after typing ctrl+shift+f
   if reaper.osara_outputMessage~=nil and element_storage["DropZoneFunction"]~=nil and Key==6 and mouse_cap==12 then
     local retval, filenames = reaper.GetUserFileNameForRead("", "Choose file to drop into "..element_storage["Name"], "")
-    if retval==true then element_storage["DropZoneFunction"](element_storage["Guid"], filenames) refresh=true end
+    if retval==true then element_storage["DropZoneFunction"](element_storage["Guid"], {filenames}) refresh=true end
   end
   
   local refresh=false
@@ -8437,7 +8439,7 @@ function reagirl.Tabs_Manage(element_id, selected, hovered, clicked, mouse_cap, 
   -- drop files for accessibility using a file-requester, after typing ctrl+shift+f
   if reaper.osara_outputMessage~=nil and element_storage["DropZoneFunction"]~=nil and Key==6 and mouse_cap==12 then
     local retval, filenames = reaper.GetUserFileNameForRead("", "Choose file to drop into "..element_storage["Name"], "")
-    if retval==true then element_storage["DropZoneFunction"](element_storage["Guid"], filenames) refresh=true end
+    if retval==true then element_storage["DropZoneFunction"](element_storage["Guid"], {filenames}) refresh=true end
   end
   
   if Key~=0 then ABBA=Key end
@@ -8646,8 +8648,9 @@ local count=0
 local count2=0
 
 function button2(A,B,C)
-  print2(A,B,C)
-  reagirl.UI_Element_GetSetCaption(A, true, B)
+  --print2(A,B,C)
+  B={1,2,3}
+  reagirl.UI_Element_GetSetCaption(A, true, "HÄH")
   --[[
   id=reagirl.UI_Element_GetIDFromGuid(A)
   local scale=reagirl.Window_GetCurrentScale()
@@ -8678,6 +8681,7 @@ function UpdateUI()
   reagirl.NextLine()
   A=reagirl.CheckBox_Add(100, nil, "Is Ad", "Is this chapter an advertisement?", true, tabme)
   reagirl.UI_Element_GetSet_DropZoneFunction(A, true, button2)
+  reagirl.UI_Element_GetSet_ContextMenu(A, true, "HULU", button2)
   reagirl.CheckBox_Add(nil, nil, "Spoilers", "Does this chapter contain spoilers or not?", true, tabme)
   reagirl.NextLine()
   Lab3=reagirl.Label_Add(30, nil, "Chapter Image", "HELP", 0, false, nil)
