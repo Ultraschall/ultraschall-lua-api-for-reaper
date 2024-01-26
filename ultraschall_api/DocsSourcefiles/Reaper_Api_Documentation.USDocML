@@ -43225,7 +43225,7 @@
                   -   85 and 117, underline (U), (u)
                   -   86 and 118, inVerse (V), (v)
                   -   89 and 121, 90° counter-clockwise
-                  -   90 and 122, 90° counter-clockwise
+                  -   90 and 122, 90° clockwise
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>Reaper_Api_Documentation.USDocML</source_document>

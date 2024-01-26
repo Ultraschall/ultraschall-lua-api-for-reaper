@@ -1312,12 +1312,15 @@ function reagirl.SetFont(idx, fontface, size, flags, scale_override)
                       - These flags may or may not be supported depending on the font and OS. 
                       -   66 and 98, Bold (B), (b)
                       -   73 and 105, italic (I), (i)
+                      -   77 and 109, non antialias (M), (m)
                       -   79 and 111, white outline (O), (o)
                       -   82 and 114, blurred (R), (r)
-                      -   83 and 115, sharpen (S), (s)
+                      -   83 and 115, shadow (S), (s)
                       -   85 and 117, underline (U), (u)
                       -   86 and 118, inVerse (V), (v)
-                      - 
+                      -   89 and 121, 90° counter-clockwise
+                      -   90 and 122, 90° counter-clockwise
+                      -
                       - To create such a multibyte-character, assume this flag-value as a 32-bit-value.
                       - The first 8 bits are the first flag, the next 8 bits are the second flag, 
                       - the next 8 bits are the third flag and the last 8 bits are the second flag.
@@ -1759,17 +1762,17 @@ function reagirl.Gui_Manage()
       if reagirl.Elements[i]["y"]<0 then y2=gfx.h+(reagirl.Elements[i]["y"]*scale) else y2=reagirl.Elements[i]["y"]*scale end
       if reagirl.Elements[i]["w"]<0 then w2=gfx.w+(-x2+reagirl.Elements[i]["w"]*scale) else w2=reagirl.Elements[i]["w"]*scale end
       if reagirl.Elements[i]["h"]<0 then h2=gfx.h+(-y2+reagirl.Elements[i]["h"]*scale) else h2=reagirl.Elements[i]["h"]*scale end
-      --reagirl.UI_Element_ScrollToUIElement(reagirl.Elements[reagirl.Elements["FocusedElement"]].Guid) -- buggy, should scroll to ui-element...
-      if gfx.mouse_x<=x2 or gfx.mouse_x>=x2+w2 or gfx.mouse_y<=y2 or gfx.mouse_y>=y2+h2 then
-        --local tempx, tempy=gfx.clienttoscreen(x2+MoveItAllRight+4,y2+MoveItAllUp+4)
-        --if tempx<0 then tempx=-tempx end
-        reaper.JS_Mouse_SetPosition(gfx.clienttoscreen(x2+reagirl.MoveItAllRight+4,y2+reagirl.MoveItAllUp+4)) 
+
+        local MoveItAllUp=reagirl.MoveItAllUp
+        local MoveItAllRight=reagirl.MoveItAllRight
+        if reagirl.Elements[i]["sticky_y"]==true then MoveItAllUp=0 end
+        if reagirl.Elements[i]["sticky_x"]==true then MoveItAllRight=0 end
+        reaper.JS_Mouse_SetPosition(gfx.clienttoscreen(x2+MoveItAllRight+4,y2+MoveItAllUp+4)) 
         reagirl.SetPosition_MousePositionX=gfx.mouse_x
         reagirl.SetPosition_MousePositionY=gfx.mouse_y
         reagirl.UI_Elements_HoveredElement_Old=i
         reagirl.UI_Elements_HoveredElement=i
         skip_hover_acc_message=true
-      end
     end
   end
   
@@ -5637,7 +5640,7 @@ function reagirl.Label_GetLabelText(element_id)
   end
 end
 
-function reagirl.Label_SetStyle(element_id, style1, style2, style3, style4)
+function reagirl.Label_SetStyle(element_id, style1, style2, style3)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>Label_SetStyle</slug>
@@ -5646,7 +5649,7 @@ function reagirl.Label_SetStyle(element_id, style1, style2, style3, style4)
     Reaper=7
     Lua=5.4
   </requires>
-  <functioncall>reagirl.Label_SetStyle(string element_id, integer style1, optional integer style2, optional integer style3, optional integer style4)</functioncall>
+  <functioncall>reagirl.Label_SetStyle(string element_id, integer style1, optional integer style2, optional integer style3)</functioncall>
   <description>
     Sets the style of a label.
     
@@ -5667,7 +5670,6 @@ function reagirl.Label_SetStyle(element_id, style1, style2, style3, style4)
                    - 9, 90° clockwise
     optional integer style2 - nil for no style; the rest, see style1 for more details
     optional integer style3 - nil for no style; the rest, see style1 for more details
-    optional integer style4 - nil for no style; the rest, see style1 for more details
   </parameters>
   <chapter_context>
     Label
@@ -5879,13 +5881,17 @@ end
 
 function reagirl.Label_Draw(element_id, selected, hovered, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
   -- BUG: with multiline-texts, when they scroll outside the top of the window, they disappear when the first line is outside of the window
+                        --   85 and 117, underline (U), (u)
   local styles={66,73,77,79,83,85,86,89,90}
   styles[0]=0
   local dpi_scale=reagirl.Window_GetCurrentScale()
   local style=styles[element_storage["style1"]]<<8
   style=style+styles[element_storage["style2"]]<<8
   style=style+styles[element_storage["style3"]]<<8
-  style=style+styles[element_storage["style4"]]
+  if element_storage["clickable"] then
+    style=style+85
+  end
+  
   --print2(style)
   reagirl.SetFont(1, "Arial", reagirl.Font_Size, style)
   local olddest=gfx.dest
@@ -5921,11 +5927,13 @@ function reagirl.Label_Draw(element_id, selected, hovered, clicked, mouse_cap, m
   else
     local col=0.8
     local col2=0.8
+    local col3=0.2
     if element_storage["clickable"]==true then 
-      col=0.2
-      col2=1
+      col=0.4
+      col2=0.8
+      col3=0.2
     end
-    gfx.set(0.2)
+    gfx.set(col3)
     gfx.x=x+dpi_scale
     gfx.y=y+dpi_scale
     gfx.drawstr(name, element_storage["align"])--, w, h)
@@ -8668,6 +8676,9 @@ function UpdateUI()
   reagirl.Background_GetSetColor(true, 44,44,44)
   reagirl.Tabs_Add(nil, nil, nil, nil, "Add Shownote", "", {"General", "Advanced", "Smoke"}, 1, tabme)
   reagirl.NextLine()
+  reagirl.NextLine(15)
+  Lab3=reagirl.Label_Add(-100, nil, "Chapter Image", "HELP", 0, true, nil)
+  
   --Lab1=reagirl.Label_Add(25, nil, "General:", "", 0, false, nil)
   --reagirl.Label_SetStyle(Lab1, 6)
   
@@ -8680,6 +8691,7 @@ function UpdateUI()
   
   reagirl.NextLine()
   A=reagirl.CheckBox_Add(100, nil, "Is Ad", "Is this chapter an advertisement?", true, tabme)
+  reagirl.UI_Element_GetSetSticky(A, true, true, true)
   reagirl.UI_Element_GetSet_DropZoneFunction(A, true, button2)
   reagirl.UI_Element_GetSet_ContextMenu(A, true, "HULU", button2)
   reagirl.CheckBox_Add(nil, nil, "Spoilers", "Does this chapter contain spoilers or not?", true, tabme)
