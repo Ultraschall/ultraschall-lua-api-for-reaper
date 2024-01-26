@@ -1757,7 +1757,7 @@ function reagirl.Gui_Manage()
     reagirl.oldselection=reagirl.Elements.FocusedElement
     local i=reagirl.Elements.FocusedElement
     
-    if reaper.JS_Mouse_SetPosition~=nil then 
+    if reaper.osara_outputMessage~=nil and reaper.JS_Mouse_SetPosition~=nil then 
       if reagirl.Elements[i]["x"]<0 then x2=gfx.w+(reagirl.Elements[i]["x"]*scale) else x2=reagirl.Elements[i]["x"]*scale end
       if reagirl.Elements[i]["y"]<0 then y2=gfx.h+(reagirl.Elements[i]["y"]*scale) else y2=reagirl.Elements[i]["y"]*scale end
       if reagirl.Elements[i]["w"]<0 then w2=gfx.w+(-x2+reagirl.Elements[i]["w"]*scale) else w2=reagirl.Elements[i]["w"]*scale end
@@ -1767,7 +1767,15 @@ function reagirl.Gui_Manage()
         local MoveItAllRight=reagirl.MoveItAllRight
         if reagirl.Elements[i]["sticky_y"]==true then MoveItAllUp=0 end
         if reagirl.Elements[i]["sticky_x"]==true then MoveItAllRight=0 end
-        reaper.JS_Mouse_SetPosition(gfx.clienttoscreen(x2+MoveItAllRight+4,y2+MoveItAllUp+4)) 
+        if x2+MoveItAllRight+4<0 or x2+MoveItAllRight+4>gfx.w or 
+           y2+MoveItAllUp+4<0 or y2+MoveItAllUp+4>gfx.h then
+          if reagirl.Elements[i]["ContextMenu"]~=nil then
+            reaper.MB("This sticky ui-element, that contains a context menu, is outside of the viewable area of the window. If you want to right-click it to use the context-menu, try resizing the window.\n\nIf that doesn't work, report this issue to the developer of this script, please. The name of the ui-element in question is: "..reagirl.Elements[i]["Name"], "Potential Issue with this gui-script.", 0)
+            gfx.init("")
+          end
+        else
+          reaper.JS_Mouse_SetPosition(gfx.clienttoscreen(x2+MoveItAllRight+4,y2+MoveItAllUp+4)) 
+        end
         reagirl.SetPosition_MousePositionX=gfx.mouse_x
         reagirl.SetPosition_MousePositionY=gfx.mouse_y
         reagirl.UI_Elements_HoveredElement_Old=i
@@ -2659,6 +2667,13 @@ function reagirl.UI_Element_GetSetSticky(element_id, is_set, sticky_x, sticky_y)
     gets/sets the stickyness of the ui-element.
     
     Sticky-elements will not be moved by the global scrollbar-scrolling.
+    
+    IMPORTANT: 
+    Make sure that sticky elements are always visible by forcing a minimum width/height of the window
+    using reagirl.Window_ForceSize_Minimum(). 
+    Otherwise a ui-element might not be clickable, since it can't be scrolled to. 
+    This would also affect blind users, as tabbing through ui-elements moves the mouse to the ui-element(so they can right-click context-menus), 
+    which might be outside of the window and therefore the mouse would move to nowhere.
   </description>
   <retvals>
     boolean sticky_x - true, x-movement is sticky; false, x-movement isn't sticky
@@ -7318,25 +7333,43 @@ end
 function reagirl.UI_Element_ScrollToUIElement(element_id, x_offset, y_offset)
   if x_offset==nil then x_offset=10 end
   if y_offset==nil then y_offset=10 end
-  local found=-1
+  local i=reagirl.UI_Element_GetIDFromGuid(element_id)
   local x2,y2,w2,h2
   local scale=reagirl.Window_GetCurrentScale()
-  for i=1, #reagirl.Elements do
-    if element_id==reagirl.Elements[i].Guid then
-      if reagirl.Elements[i]["x"]<0 then x2=gfx.w+reagirl.Elements[i]["x"]*scale else x2=reagirl.Elements[i]["x"]*scale end
-      if reagirl.Elements[i]["y"]<0 then y2=gfx.h+reagirl.Elements[i]["y"]*scale else y2=reagirl.Elements[i]["y"]*scale end
-      if reagirl.Elements[i]["w"]<0 then w2=gfx.w-x2+reagirl.Elements[i]["w"]*scale else w2=reagirl.Elements[i]["w"]*scale end
-      if reagirl.Elements[i]["h"]<0 then h2=gfx.h-y2+reagirl.Elements[i]["h"]*scale else h2=reagirl.Elements[i]["h"]*scale end
-      
-      if x2+reagirl.MoveItAllRight<0 or x2+reagirl.MoveItAllRight>gfx.w or y2+reagirl.MoveItAllUp<0 or y2+reagirl.MoveItAllUp>gfx.h or
-         x2+w2+reagirl.MoveItAllRight<0 or x2+w2+reagirl.MoveItAllRight>gfx.w or y2+h2+reagirl.MoveItAllUp<0 or y2+h2+reagirl.MoveItAllUp>gfx.h 
-      then
-        reagirl.MoveItAllRight=-x2+x_offset
-        reagirl.MoveItAllUp=-y2+y_offset
-        reagirl.Gui_ForceRefresh(51)
-      end
+  
+  if reagirl.Elements[i]["x"]<0 then x2=gfx.w+reagirl.Elements[i]["x"]*scale else x2=reagirl.Elements[i]["x"]*scale end
+  if reagirl.Elements[i]["y"]<0 then y2=gfx.h+reagirl.Elements[i]["y"]*scale else y2=reagirl.Elements[i]["y"]*scale end
+  if reagirl.Elements[i]["w"]<0 then w2=gfx.w-x2+reagirl.Elements[i]["w"]*scale else w2=reagirl.Elements[i]["w"]*scale end
+  if reagirl.Elements[i]["h"]<0 then h2=gfx.h-y2+reagirl.Elements[i]["h"]*scale else h2=reagirl.Elements[i]["h"]*scale end
+  
+  if reagirl.Elements[i]["sticky_x"]==false then
+    if x2+reagirl.MoveItAllRight<0 then
+      reagirl.MoveItAllRight=-x2+x_offset
+    elseif x2+reagirl.MoveItAllRight>gfx.w-30*scale and x2+w2+reagirl.MoveItAllRight>gfx.w-30*scale then
+      reagirl.MoveItAllRight=gfx.w-30*scale-w2-x2
     end
   end
+  
+  if reagirl.Elements[i]["sticky_y"]==false then
+    if y2+reagirl.MoveItAllUp<0 then
+      reagirl.MoveItAllUp=-y2+y_offset
+    elseif y2+reagirl.MoveItAllUp>gfx.h-30*scale and y2+h2+reagirl.MoveItAllUp>gfx.h-30*scale then
+      reagirl.MoveItAllUp=gfx.h-30*scale-h2-y2
+    end
+  end
+  --[[
+  if x2+reagirl.MoveItAllRight<0 or x2+reagirl.MoveItAllRight>gfx.w or y2+reagirl.MoveItAllUp<0 or y2+reagirl.MoveItAllUp>gfx.h or
+     x2+w2+reagirl.MoveItAllRight<0 or x2+w2+reagirl.MoveItAllRight>gfx.w or y2+h2+reagirl.MoveItAllUp<0 or y2+h2+reagirl.MoveItAllUp>gfx.h 
+  then
+    if reagirl.Elements[i]["sticky_y"]==false then
+      reagirl.MoveItAllRight=-x2+x_offset
+    end
+    if reagirl.Elements[i]["sticky_x"]==false then
+      reagirl.MoveItAllUp=-y2+y_offset
+    end
+    reagirl.Gui_ForceRefresh(51)
+  end
+  --]]
 end
 
 function reagirl.UI_Element_SetNothingFocused()
