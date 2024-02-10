@@ -4030,21 +4030,21 @@ function reagirl.Button_Draw(element_id, selected, hovered, clicked, mouse_cap, 
     local scale=reagirl.Window_CurrentScale-1
     state=1*dpi_scale-1
     
-    offset=math.floor(dpi_scale)
+    offset=1--math.floor(dpi_scale)
     
     if offset==0 then offset=1 end
     
-    gfx.set(0.06) -- background 1
-    reagirl.RoundRect((x - 1 + offset)+scale, (y - dpi_scale - dpi_scale + offset)+scale, w, h, radius * dpi_scale, 1, 1)
+    gfx.set(0.06) -- background 2
+    reagirl.RoundRect(x, y, w+dpi_scale+dpi_scale, h, (radius) * dpi_scale, 1, 1)
     
     gfx.set(0.274) -- button-area
-    reagirl.RoundRect((x + 1 + dpi_scale+ offset) + scale, (y + offset) + scale, w-scale, h, radius * dpi_scale, 1, 1)
+    reagirl.RoundRect(x+dpi_scale, y+dpi_scale, w+dpi_scale, h, (radius-1) * dpi_scale, 1, 1)
     
     if element_storage["IsDecorative"]==false then
-      gfx.x=x+(w-sw)/2+1+2+scale
+      gfx.x=x+(w-sw)/2+2+scale
     
       if reaper.GetOS():match("OS")~=nil then offset=1 end
-      gfx.y=y+(h-sh)/2+1+offset+scale
+      gfx.y=y+(h-sh)/2+scale
       gfx.set(0.784)
       gfx.drawstr(element_storage["Name"])
     end
@@ -4853,7 +4853,7 @@ function reagirl.InputBox_Draw(element_id, selected, hovered, clicked, mouse_cap
   -- draw text
   if element_storage["IsDecorative"]==false then gfx.set(0.8) else gfx.set(0.6) end
   gfx.x=x+cap_w+dpi_scale+dpi_scale+dpi_scale
-  gfx.y=y+dpi_scale+(h-gfx.texth)/16
+  gfx.y=y+dpi_scale+dpi_scale+(h-gfx.texth)/16
   local draw_offset=0
   for i=element_storage.draw_offset, element_storage.draw_offset_end do
     local textw=gfx.measurestr(element_storage.Text:utf8_sub(i,i))
@@ -5369,12 +5369,12 @@ function reagirl.DropDownMenu_Draw(element_id, selected, hovered, clicked, mouse
     reagirl.RoundRect(cap_w+x, y, w-cap_w+dpi_scale+dpi_scale, h, (radius) * dpi_scale, 1, 1)
     
     gfx.set(0.274) -- button-area
-    reagirl.RoundRect(cap_w+x+dpi_scale, y+dpi_scale, w-cap_w+dpi_scale, h-dpi_scale, (radius-1) * dpi_scale, 1, 1)
+    reagirl.RoundRect(cap_w+x+dpi_scale, y+dpi_scale, w-cap_w+dpi_scale, h, (radius-1) * dpi_scale, 1, 1)
     
     gfx.set(0.45)
     local circ=dpi_scale
-    gfx.circle(x+dpi_scale+w-h/2, (y+h+dpi_scale)-h/2, 3*dpi_scale, 1, 0)
-    gfx.rect(x+w-h+1*(dpi_scale-1), y+dpi_scale, dpi_scale, h+dpi_scale, 1)
+    gfx.circle(x+dpi_scale+dpi_scale+w-h/2, (y+h+dpi_scale)-h/2, 3*dpi_scale, 1, 0)
+    gfx.rect(x+dpi_scale+w-h+1*(dpi_scale-1), y+dpi_scale, dpi_scale, h+dpi_scale, 1)
     
     if element_storage["IsDecorative"]==false then
       gfx.x=x+(4*dpi_scale)+cap_w+dpi_scale
@@ -5397,8 +5397,8 @@ function reagirl.DropDownMenu_Draw(element_id, selected, hovered, clicked, mouse
     
     gfx.set(0.45)
     local circ=dpi_scale
-    gfx.circle(x+w-h/2, (y+h)-h/2, 3*dpi_scale, 1, 0)
-    gfx.rect(x-dpi_scale+w-h+1*(dpi_scale-1), y, dpi_scale, h+dpi_scale, 1)
+    gfx.circle(x+w+dpi_scale-h/2, (y+h)-h/2, 3*dpi_scale, 1, 0)
+    gfx.rect(x+w-h+1*(dpi_scale-1), y, dpi_scale, h+dpi_scale, 1)
     
     local offset=0
     if element_storage["IsDecorative"]==false then
@@ -8716,7 +8716,7 @@ function UpdateUI()
   --reagirl.Label_SetStyle(Lab1, 6)
   
   reagirl.NextLine()
-  A=reagirl.InputBox_Add(30, nil, 270, "Title:", 70, "the title for this chapter", "Malik testet Hackintoshis", ABBALA2, ABBALA3)
+  A=reagirl.InputBox_Add(30, nil, 270, "Title:", 70, "the title for this chapter", "gggMalik testet Hackintoshis", ABBALA2, ABBALA3)
   reagirl.NextLine()
   reagirl.InputBox_Add(30, nil, 270, "Description:", 70, "a summary of this chapter","Neue Hackintoshs braucht das Land", nil, nil)
   reagirl.NextLine()
@@ -8744,7 +8744,7 @@ function UpdateUI()
   reagirl.NextLine()
   reagirl.DropDownMenu_Add(30, nil, 170, "Menu:", 70, "Menu me", {"Eins", "Zwo", "Drei"}, 2, tabme)
   reagirl.NextLine()
-  button=reagirl.Button_Add(-115, nil, 0, 0, "Apply Changes", "", button2)
+  button=reagirl.Button_Add(-115, nil, 0, 0, "Apply Changes", "", nil, button2)
   --reagirl.NextLine()
   --reagirl.InputBox_Add(40, nil, -20, "Content Note:", 100, "", "Hackies, und, so", nil, nil)
   --[[
