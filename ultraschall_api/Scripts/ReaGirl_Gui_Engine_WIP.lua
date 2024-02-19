@@ -1,7 +1,7 @@
 dofile(reaper.GetResourcePath().."/UserPlugins/ultraschall_api.lua")
 
 -- DEBUG:
---reaper.osara_outputMessage=nil
+reaper.osara_outputMessage=nil
 
 reagirl={}
 if reaper.osara_outputMessage~=nil then
@@ -19,6 +19,9 @@ TODO:
   - Check, if all ui-elements are properly drawn in disabled-mode
   - CheckBox: add a few pixels to the width after everything is said and done
   - InputBox: if they are too small, they aren't drawn properly
+  - InputBox: when dragging the textselection to the left/right edge(during scrolling) the textselection isn't drawn properly(keeps text selected that is outside of scope)
+              it will be drawn too far until the "source of the text-selection" is in view
+              -- I debugged it in InputBox_OnMouseMove() and it seems to work now? 
   - jumping to ui-elements outside window(means autoscroll to them) doesn't always work
     - ui-elements might still be out of view when jumping to them(x-coordinate outside of window for instance)
   - Slider: disappears when scrolling upwards/leftwards: because of the "only draw neccessary gui-elements"-code, which is buggy for some reason(still is existing?)
@@ -4228,7 +4231,7 @@ function reagirl.InputBox_OnMouseDown(mouse_cap, element_storage)
   if element_storage.hasfocus==true then
     if mouse_cap&8==0 then
       element_storage.cursor_offset=reagirl.InputBox_GetTextOffset(gfx.mouse_x,gfx.mouse_y, element_storage)
-      --print2(element_storage.cursor_offset)
+      
       element_storage.cursor_startoffset=element_storage.cursor_offset
       element_storage.clicked1=true
       if element_storage.cursor_offset==-2 then 
@@ -4308,7 +4311,7 @@ function reagirl.InputBox_GetTextOffset(x,y,element_storage)
     local textw=gfx.measurestr(element_storage.Text:utf8_sub(i,i))
     
     if x>=startoffs and x<=startoffs+textw then
-      return cursoffs, element_storage.draw_offset, element_storage.draw_offset+math.floor(element_storage.w2/textw)
+      return cursoffs-1, element_storage.draw_offset-1, element_storage.draw_offset+math.floor(element_storage.w2/textw)-1
     end
     cursoffs=cursoffs+1
     startoffs=startoffs+textw
@@ -4326,7 +4329,7 @@ function reagirl.InputBox_OnMouseMove(mouse_cap, element_storage)
   if element_storage.cursor_startoffset==-1 then element_storage.cursor_startoffset=0 end
   if element_storage.hasfocus==false then return end
   local newoffs, startoffs, endoffs=reagirl.InputBox_GetTextOffset(gfx.mouse_x, gfx.mouse_y, element_storage)
-  
+  --print_update(newoffs, startoffs, endoffs)
   if newoffs>0 then -- buggy, resettet die Selection, wenn man "zurück" geht nach scrolling am Ende der Boundary Box
     if newoffs<element_storage.cursor_startoffset then
       element_storage.selection_startoffset=newoffs
@@ -4353,6 +4356,9 @@ function reagirl.InputBox_OnMouseMove(mouse_cap, element_storage)
     if startoffs<element_storage.cursor_startoffset then
       element_storage.selection_startoffset=element_storage.draw_offset
       element_storage.selection_endoffset=element_storage.cursor_startoffset
+    elseif startoffs>=element_storage.cursor_offset then
+      element_storage.selection_startoffset=element_storage.cursor_startoffset--element_storage.draw_offset
+      element_storage.selection_endoffset=element_storage.cursor_startoffset
     end
     
     reagirl.InputBox_Calculate_DrawOffset(true, element_storage)
@@ -4369,6 +4375,9 @@ function reagirl.InputBox_OnMouseMove(mouse_cap, element_storage)
     if endoffs>element_storage.cursor_startoffset then
       element_storage.selection_startoffset=element_storage.cursor_startoffset
       element_storage.selection_endoffset=element_storage.draw_offset_end
+    elseif endoffs<=element_storage.cursor_startoffset then
+      element_storage.selection_startoffset=element_storage.cursor_startoffset
+      element_storage.selection_endoffset=element_storage.cursor_startoffset--element_storage.draw_offset_end
     end
     
     
@@ -4659,7 +4668,15 @@ end
 
 function reagirl.InputBox_Manage(element_id, selected, hovered, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
   local refresh=false
-
+  if hovered==true then
+    -- test code for changing the mouse-cursor to textedit-cursor
+    -- must be done with a different code-logic, as this flickers
+    -- the interception must be done somewhere else
+     -- reaper.JS_WindowMessage_Intercept(track_window, "WM_SETCURSOR", false)
+     -- local B1=reaper.JS_Mouse_LoadCursor(220)
+     -- reaper.JS_Mouse_SetCursor(B1) 
+     -- reaper.JS_WindowMessage_Release(track_window, "WM_SETCURSOR")
+  end
   -- drop files for accessibility using a file-requester, after typing ctrl+shift+f
   if reaper.osara_outputMessage~=nil and element_storage["DropZoneFunction"]~=nil and Key==6 and mouse_cap==12 then
     local retval, filenames = reaper.GetUserFileNameForRead("", "Choose file to drop into "..element_storage["Name"], "")
@@ -8739,7 +8756,7 @@ function UpdateUI()
   reagirl.Slider_Add(30, nil, 270, "Title:", 70, "Loo", "%", 1, 100, 1, 100, tabme)
   
   reagirl.NextLine()
-  Img=reagirl.Image_Add("c:\\c.png", 20, nil, 85, 85, "Chapter Image", "", ABBALA3)
+  Img=reagirl.Image_Add("c:\\c.png", nil, nil, 70, 70, "Chapter Image", "", ABBALA3)
 
   reagirl.NextLine()
   reagirl.DropDownMenu_Add(30, nil, 170, "Menu:", 70, "Menu me", {"Eins", "Zwo", "Drei"}, 2, tabme)
