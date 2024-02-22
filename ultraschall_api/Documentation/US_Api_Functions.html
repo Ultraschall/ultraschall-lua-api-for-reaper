@@ -9989,42 +9989,6 @@ The format of the table is as follows:<br>
 </div>
 <div class="ch">
 <hr>
-<a class="anch" id="GetAllTrackEnvelopes"></a>
-<a href="#GetAllTrackEnvelopes"> ^</a> 
-<img width="3%" src="gfx/reaper5.52.png" alt="Reaper version 5.52">
-<img width="3%" src="gfx/ultraschall4.00.png" alt="Ultraschall version 4.00"><u><b>GetAllTrackEnvelopes</b></u><br>			<p>
-<div class="cc">
-<div class="l">Lua: <code> <i>array</i> TrackEnvelopeArray, <i>integer</i> number_of_tracks, <i>integer</i> FirstEnvelopeTrackNumber, <i>integer</i> FirstEnvelopeMaster = <em>ultraschall.GetAllTrackEnvelopes</em>()</code></div>
-</div><p>
-<div class="ch">
-returns all TrackEnvelopes of the current project as a table, number of tracks, the first track that has an envelope, if the master track has an envelope(0) or not (-1)<br>
-</div><br>      
-<u>Returnvalues:</u>
-<table class="ch">
-<tr><td class="pr"><i>array</i> TrackEnvelopeArray</td></tr>
-<tr><td class="ch2">a table with all envelopes of the current project<br/>
-the table works as follows:<br/>
-TrackEnvelopeArray[Tracknumber][0] - number of envelopes for track Tracknumber<br/>
-TrackEnvelopeArray[Tracknumber][1][Envelopenumber] - the envelope Envelopenumber of track Tracknumber<br/>
-<br/>
-tracknumber of 0 is for the master track</td></tr>
-</table>
-<table class="ch">
-<tr><td class="pr"><i>integer</i> number_of_tracks</td></tr>
-<tr><td class="ch2">the number of tracks, covered in the TrackEnvelopeArray</td></tr>
-</table>
-<table class="ch">
-<tr><td class="pr"><i>integer</i> FirstEnvelopeTrackNumber</td></tr>
-<tr><td class="ch2">the number of the first track to have an envelope; -1 if theres none</td></tr>
-</table>
-<table class="ch">
-<tr><td class="pr"><i>integer</i> FirstEnvelopeMaster</td></tr>
-<tr><td class="ch2">0, if the master-track has an envelope, -1 if not.</td></tr>
-</table>
-<br>
-</div>
-<div class="ch">
-<hr>
 <a class="anch" id="GetTakeEnvelopeFromPoint"></a>
 <a href="#GetTakeEnvelopeFromPoint"> ^</a> 
 <img width="3%" src="gfx/reaper6.10.png" alt="Reaper version 6.10">
