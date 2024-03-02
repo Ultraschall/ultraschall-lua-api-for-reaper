@@ -2142,11 +2142,11 @@ function reagirl.Gui_Draw(Key, Key_utf, clickstate, specific_clickstate, mouse_c
       cap_w=reagirl.Elements[reagirl.EditMode_FocusedElement]["Cap_width"]
     end
     
-    gfx.line(x2, 0, x2, gfx.h)
-    if cap_w~=nil then gfx.line(x2+cap_w*scale, 0, x2+cap_w*scale, gfx.h) end
-    gfx.line(x2+w2, 0, x2+w2, gfx.h)
-    gfx.line(0, y2-1, gfx.w, y2-1)
-    gfx.line(0, y2+h2-1, gfx.w, y2+h2-1)
+    gfx.line(x2+reagirl.MoveItAllRight, 0, x2+reagirl.MoveItAllRight, gfx.h)
+    if cap_w~=nil then gfx.line(x2+reagirl.MoveItAllRight+cap_w*scale, 0, x2+reagirl.MoveItAllRight+cap_w*scale, gfx.h) end
+    gfx.line(x2+w2+reagirl.MoveItAllRight, 0, x2+w2+reagirl.MoveItAllRight, gfx.h)
+    gfx.line(0, y2-1+reagirl.MoveItAllUp, gfx.w, y2-1+reagirl.MoveItAllUp)
+    gfx.line(0, y2+h2-1+reagirl.MoveItAllUp, gfx.w, y2+h2-1+reagirl.MoveItAllUp)
     gfx.set(r,g,b,a)
   end
   
