@@ -4198,6 +4198,8 @@ function reagirl.InputBox_Add(x, y, w, caption, Cap_width, meaningOfUI_Element, 
   reagirl.Elements[slot]["selection_startoffset"]=1
   reagirl.Elements[slot]["selection_endoffset"]=1
   
+  reagirl.Elements[slot]["password"]=""
+  
   reagirl.Elements[slot].hasfocus=false
   reagirl.Elements[slot].hasfocus_old=false
   reagirl.Elements[slot].cursor_offset=1
@@ -4215,6 +4217,82 @@ function reagirl.InputBox_Add(x, y, w, caption, Cap_width, meaningOfUI_Element, 
   reagirl.InputBox_Calculate_DrawOffset(true, reagirl.Elements[slot])
   
   return reagirl.Elements[slot]["Guid"]
+end
+
+
+function reagirl.Inputbox_SetPassword(element_id, password)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Inputbox_SetPassword</slug>
+  <requires>
+    ReaGirl=1.0
+    Reaper=7
+    Lua=5.4
+  </requires>
+  <functioncall>reagirl.Inputbox_SetPassword(string element_id, boolean top)</functioncall>
+  <description>
+    Sets an inputbox to show * instead of the text(for password entry, etc)
+  </description>
+  <parameters>
+    string element_id - the guid of the inputbox, that you want to set to password-input
+    boolean password - true, set the inputbox to show * instead of the actual text; false, show normal text
+  </parameters>
+  <chapter_context>
+    Checkbox
+  </chapter_context>
+  <tags>inputbox, set, password</tags>
+</US_DocBloc>
+--]]
+  if type(element_id)~="string" then error("Inputbox_SetPassword: param #1 - must be a string", 2) end
+  if reagirl.IsValidGuid(element_id, true)==nil then error("Inputbox_SetPassword: param #1 - must be a valid guid", 2) end
+  if type(password)~="boolean" then error("Inputbox_SetPassword: param #2 - must be a boolean", 2) end
+  element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
+  if element_id==-1 then error("Inputbox_SetPassword: param #1 - no such ui-element", 2) end
+  if reagirl.Elements[element_id]["GUI_Element_Type"]~="Edit" then
+    error("Inputbox_SetPassword: param #1 - ui-element is not an inputbox", 2)
+  else
+    if password==true then 
+      reagirl.Elements[element_id]["password"]="*"
+    else
+      reagirl.Elements[element_id]["password"]=""
+    end
+    reagirl.Gui_ForceRefresh(15)
+  end
+end
+
+function reagirl.Inputbox_GetPassword(element_id)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Inputbox_GetPassword</slug>
+  <requires>
+    ReaGirl=1.0
+    Reaper=7
+    Lua=5.4
+  </requires>
+  <functioncall>reagirl.Inputbox_GetPassword(string element_id, boolean top)</functioncall>
+  <description>
+    gets an inputbox to show * instead of the text(for password entry, etc)
+  </description>
+  <parameters>
+    string element_id - the guid of the inputbox, whose password-input-state you want to get
+  </parameters>
+  <retvals>
+    boolean password - true, the inputbox shows * instead of the actual text; false, shows normal text
+  </retvals>
+  <chapter_context>
+    Checkbox
+  </chapter_context>
+  <tags>inputbox, get, password</tags>
+</US_DocBloc>
+--]]
+  if type(element_id)~="string" then error("Inputbox_GetPassword: param #1 - must be a string", 2) end
+  if reagirl.IsValidGuid(element_id, true)==nil then error("Inputbox_GetPassword: param #1 - must be a valid guid", 2) end
+  element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
+  if reagirl.Elements[element_id]["GUI_Element_Type"]~="Edit" then
+    error("Inputbox_GetPassword: param #1 - ui-element is not an inputbox", 2)
+  else
+    return reagirl.Elements[element_id]["password"]=="*"
+  end
 end
 
 
@@ -4308,7 +4386,13 @@ function reagirl.InputBox_GetTextOffset(x,y,element_storage)
   for i=element_storage.draw_offset, element_storage.Text:utf8_len() do --draw_offset+math.floor(element_storage.w2/textw) do
     
     if draw_offset+textw>w2 then break end -- this line is buggy, it doesn't go off, when auto-width is set and the user tries to move selection outside the right edge of the boundary box
-    local textw=gfx.measurestr(element_storage.Text:utf8_sub(i,i))
+    local textw
+    if element_storage["password"]=="*" then
+      textw=gfx.measurestr("*")
+    else
+      textw=gfx.measurestr(element_storage.Text:utf8_sub(i,i))
+    end
+    --local textw=gfx.measurestr(element_storage.Text:utf8_sub(i,i))
     
     if x>=startoffs and x<=startoffs+textw then
       return cursoffs-1, element_storage.draw_offset-1, element_storage.draw_offset+math.floor(element_storage.w2/textw)-1
@@ -4422,7 +4506,13 @@ function reagirl.InputBox_GetNextPOI(element_storage)
 end
 
 function reagirl.InputBox_OnMouseDoubleClick(mouse_cap, element_storage)
+  if element_storage["password"]=="*" then
+    element_storage.selection_startoffset=0
+    element_storage.selection_endoffset=element_storage["Text"]:utf8_len()
+    return  
+  end
   local newoffs, startoffs, endoffs=reagirl.InputBox_GetTextOffset(gfx.mouse_x, gfx.mouse_y, element_storage)
+  
   if element_storage.hasfocus==true and newoffs~=-1 then
     element_storage.selection_startoffset=reagirl.InputBox_GetPreviousPOI(element_storage)
     element_storage.selection_endoffset=reagirl.InputBox_GetNextPOI(element_storage)
@@ -4686,7 +4776,9 @@ function reagirl.InputBox_Manage(element_id, selected, hovered, clicked, mouse_c
   if reaper.osara_outputMessage~=nil then
     reagirl.Gui_PreventEnterForOneCycle()
     if selected~="not selected" and (Key==13 or (mouse_cap&1==1 and gfx.mouse_x>=x and gfx.mouse_x<=x+w and gfx.mouse_y>=y and gfx.mouse_y<=y+h)) then
-      local retval, text = reaper.GetUserInputs("Enter or edit the text", 1, ",extrawidth=150", element_storage.Text)
+      local retval, text = reaper.GetUserInputs("Enter or edit the text", 1, element_storage["password"]..",extrawidth=150", element_storage.Text)
+      --element_storage.draw_offset=1
+      --reagirl.InputBox_Calculate_DrawOffset(true, element_storage)
       if retval==true then
         refresh=true
         element_storage.Text=text
@@ -4819,14 +4911,26 @@ function reagirl.InputBox_Calculate_DrawOffset(forward, element_storage)
   if forward==true then
     -- forward calculation from offset
     for i=element_storage.draw_offset, element_storage.Text:utf8_len() do
-      local x,y=gfx.measurestr(element_storage.Text:utf8_sub(i,i))
+      local x,y
+      if element_storage["password"]=="*" then
+        x,y=gfx.measurestr("*")
+      else
+        x,y=gfx.measurestr(element_storage.Text:utf8_sub(i,i))
+      end
+      --local x,y=gfx.measurestr(element_storage.Text:utf8_sub(i,i))
       offset_me=offset_me+x
       if offset_me>w2 then break else element_storage.draw_offset_end=i end
     end
   elseif forward==false then
     -- backwards calculation from offset_end
     for i=element_storage.draw_offset_end, 1, -1 do
-      local x,y=gfx.measurestr(element_storage.Text:utf8_sub(i,i))
+      local x,y
+      if element_storage["password"]=="*" then
+        x,y=gfx.measurestr("*")
+      else
+        x,y=gfx.measurestr(element_storage.Text:utf8_sub(i,i))
+      end
+      --local x,y=gfx.measurestr(element_storage.Text:utf8_sub(i,i))
       offset_me=offset_me+x
       if offset_me>w2 then break else element_storage.draw_offset=i end
     end
@@ -4834,7 +4938,6 @@ function reagirl.InputBox_Calculate_DrawOffset(forward, element_storage)
 end
 
 function reagirl.InputBox_Draw(element_id, selected, hovered, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
-
   local dpi_scale=reagirl.Window_GetCurrentScale()
   reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0)
   
@@ -4873,14 +4976,24 @@ function reagirl.InputBox_Draw(element_id, selected, hovered, clicked, mouse_cap
   gfx.y=y+dpi_scale+dpi_scale+(h-gfx.texth)/16
   local draw_offset=0
   for i=element_storage.draw_offset, element_storage.draw_offset_end do
-    local textw=gfx.measurestr(element_storage.Text:utf8_sub(i,i))
+    if i>element_storage.Text:utf8_len() then break end
+    local textw
+    if element_storage["password"]=="*" then
+      textw=gfx.measurestr("*")
+    else
+      textw=gfx.measurestr(element_storage.Text:utf8_sub(i,i))
+    end
     if draw_offset+textw>w then break end
     if i>=element_storage.selection_startoffset+1 and i<=element_storage.selection_endoffset then
       reagirl.SetFont(1, "Arial", reagirl.Font_Size, 86)
     else
       reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0)
     end
-    gfx.drawstr(element_storage.Text:utf8_sub(i,i))
+    if element_storage["password"]=="*" then
+      gfx.drawstr("*")
+    else
+      gfx.drawstr(element_storage.Text:utf8_sub(i,i))
+    end
     if selected~="not selected" and element_storage.hasfocus==true and element_storage.cursor_offset==i then 
       gfx.set(0.9843137254901961, 0.8156862745098039, 0)
       gfx.line(gfx.x, y+dpi_scale, gfx.x, y+gfx.texth-dpi_scale)
@@ -8734,6 +8847,8 @@ function UpdateUI()
   
   reagirl.NextLine()
   A=reagirl.InputBox_Add(30, nil, 270, "Title:", 70, "the title for this chapter", "gggMalik testet Hackintoshis", ABBALA2, ABBALA3)
+  reagirl.Inputbox_SetPassword(A, true)
+  print2(reagirl.Inputbox_GetPassword(A))
   reagirl.NextLine()
   reagirl.InputBox_Add(30, nil, 270, "Description:", 70, "a summary of this chapter","Neue Hackintoshs braucht das Land", nil, nil)
   reagirl.NextLine()
