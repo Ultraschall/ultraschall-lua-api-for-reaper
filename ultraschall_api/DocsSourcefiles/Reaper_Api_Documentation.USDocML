@@ -4428,6 +4428,44 @@
     </US_DocBloc>
 
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>EnumInstalledFX</slug>
+        <title>EnumInstalledFX</title>
+        <functioncall prog_lang="cpp">bool EnumInstalledFX(int index, const char** nameOut, const char** identOut)</functioncall>
+        <functioncall prog_lang="eel">bool EnumInstalledFX(int index, #name, #ident)</functioncall>
+        <functioncall prog_lang="lua">boolean retval, string name, string ident = reaper.EnumInstalledFX(integer index)</functioncall>
+        <functioncall prog_lang="python">Boolean RPR_EnumInstalledFX(Int index, String nameOut, String identOut)</functioncall>
+        <requires>
+            Reaper=7.00
+        </requires>
+        <description>
+            Enumerates installed FX. Returns true if successful, sets nameOut and identOut to name and ident of FX at index.
+            
+            for video-processor(index=0) and fx-container(index=1), retval ident is "Video processor" or "Container" respectively.
+        </description>
+        <retvals>
+            boolean retval - true, such an fx exists; false, such an fx doesn't exist(index is higher than the number of installed fx)
+            string name - the name of the FX
+            string ident - the path+filename of the plugin; can also be "Video processor" or "Container"
+        </retvals>
+        <parameters>
+            integer index - the index of the installed fx; 0-based
+                          - 0, is Video Processor
+                          - 1, Container
+                          - 2 and higher, installed fx
+        </parameters>
+        <target_document>Reaper_Api_Documentation</target_document>
+        <source_document>Reaper_Api_Documentation.USDocML</source_document>
+        <chapter_context>
+            FX Management
+            Misc
+        </chapter_context>
+        <tags>fxmanagement, enumerate, installed fx</tags>
+        <changelog>
+          Reaper 7.00 - added to the api
+        </changelog>
+    </US_DocBloc>
+
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
         <slug>EnumPitchShiftModes</slug>
         <title>EnumPitchShiftModes</title>
         <functioncall prog_lang="cpp">bool EnumPitchShiftModes(int mode, const char** strOut)</functioncall>
@@ -6439,11 +6477,9 @@
         <description>
             Get focused FX. 
 
-            !!Deprecated, use GetFocusedFX2 instead
-
-            See GetLastTouchedFX
+            !!Deprecated, use GetTouchedOrFocusedFX instead!!
         </description>
-        <deprecated since_when="Reaper 5.979" alternative="GetFocusedFX2(available since at least Reaper 6.16)"/>
+        <deprecated since_when="Reaper 5.979" alternative="GetTouchedOrFocusedFX(available since Reaper 7.00)"/>
         <retvals>
             integer retval - 0, if no FX window has focus
                            - 1, if a track FX window has focus or was the last focused and still open
@@ -6453,10 +6489,8 @@
             integer fxnumber - If item FX, fxnumber will have the high word be the take index, the low word the FX index
         </retvals>
         <linked_to desc="see also:">
-            Reaper:GetFocusedFX2
-                   gets the focused/opened fx and if it's item/track fx
-            Reaper:GetLastTouchedFX
-                   gets the last fx that was touched by the user
+            Reaper:GetTouchedOrFocusedFX
+                   gets the touched or focused fx
         </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>Reaper_Api_Documentation.USDocML</source_document>
@@ -6477,13 +6511,16 @@
         <functioncall prog_lang="lua">integer retval, number tracknumber, number itemnumber, number fxnumber = reaper.GetFocusedFX2()</functioncall>
         <functioncall prog_lang="python">(Int retval, Int tracknumberOut, Int itemnumberOut, Int fxnumberOut) = RPR_GetFocusedFX2(tracknumberOut, itemnumberOut, fxnumberOut)</functioncall>
         <requires>
-            Reaper=6.16
+            Reaper=7.00
         </requires>
         <description>
+            !!Deprecated, use GetTouchedOrFocusedFX instead!!
+            
             Return value has 1 set if track FX, 2 if take/item FX, &4 is set if FX is no longer focused but still open. 
 
             tracknumber==0 means the master track, 1 means track 1, etc. itemnumber is zero-based (or -1 if not an item). 
         </description>
+        <deprecated since_when="Reaper 7.00" alternative="GetTouchedOrFocusedFX(available since Reaper 7.00)"/>
         <retvals>
             integer retval - 0, if no FX window has focus
                            - 1, if a track FX window has focus or was the last focused and still open
@@ -6494,8 +6531,8 @@
             integer fxnumber - If item FX, fxnumber will have the high word be the take index, the low word the FX index
         </retvals>
         <linked_to desc="see also:">
-            Reaper:GetLastTouchedFX
-                   gets the last fx that was touched by the user
+            Reaper:GetTouchedOrFocusedFX
+                   gets the touched or focused fx
         </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>Reaper_Api_Documentation.USDocML</source_document>
@@ -6923,13 +6960,16 @@
         <functioncall prog_lang="lua">boolean retval, integer tracknumber, integer fxnumber, integer paramnumber = reaper.GetLastTouchedFX()</functioncall>
         <functioncall prog_lang="python">(Boolean retval, Int tracknumberOut, Int fxnumberOut, Int paramnumberOut) = RPR_GetLastTouchedFX(tracknumberOut, fxnumberOut, paramnumberOut)</functioncall>
         <requires>
-            Reaper=5.979
+            Reaper=7.00
         </requires>
         <description>
+            !!Deprecated, use GetTouchedOrFocusedFX instead.
+            
             Returns the last touched track, it's last touched parameter and tracknumber.
 
             The low word of tracknumber is the 1-based track index -- 0 means the master track, 1 means track 1, etc. 
         </description>
+        <deprecated since_when="Reaper 7.00" alternative="GetTouchedOrFocusedFX(available since Reaper 7.00)"/>
         <retvals>
             boolean retval - true, if last touched FX parameter is valid; false, if otherwise
             integer tracknumber - the tracknumber; 0 means the master track, 1 means track 1, etc.
@@ -6940,8 +6980,8 @@
             integer paramnumber - the id of the last parameter touched, zero-based
         </retvals>
         <linked_to desc="see also:">
-            Reaper:GetFocusedFX2
-                   gets the focused/open fx
+            Reaper:GetTouchedOrFocusedFX
+                   gets the touched or focused fx
         </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>Reaper_Api_Documentation.USDocML</source_document>
@@ -7310,13 +7350,14 @@
         <functioncall prog_lang="lua">number retval = reaper.GetMediaItemInfo_Value(MediaItem item, string parmname)</functioncall>
         <functioncall prog_lang="python">Float retval = RPR_GetMediaItemInfo_Value(MediaItem item, String parmname)</functioncall>
         <requires>
-            Reaper=6.34
+            Reaper=7.00
         </requires>
         <description prog_lang="*">
             Get media item numerical-value attributes.
                 B_MUTE : bool * : muted (item solo overrides). setting this value will clear C_MUTE_SOLO.
                 B_MUTE_ACTUAL : bool * : muted (ignores solo). setting this value will not affect C_MUTE_SOLO.
                 C_MUTE_SOLO : char * : solo override (-1=soloed, 0=no override, 1=unsoloed). note that this API does not automatically unsolo other items when soloing (nor clear the unsolos when clearing the last soloed item), it must be done by the caller via action or via this API.
+                C_LANEPLAYS : char * : in fixed lane tracks, 0=this item lane does not play, 1=this item lane plays exclusively, 2=this item lane plays and other lanes also play (read-only)
                 B_LOOPSRC : bool * : loop source
                 B_ALLTAKESPLAY : bool * : all takes play
                 B_UISEL : bool * : selected in arrange view
@@ -7341,8 +7382,10 @@
                 I_CUSTOMCOLOR : int * : custom color, OS dependent color|0x1000000 (i.e. ColorToNative(r,g,b)|0x1000000). If you do not |0x1000000, then it will not be used, but will store the color
                 I_CURTAKE : int * : active take number
                 IP_ITEMNUMBER : int : item number on this track (read-only, returns the item number directly)
-                F_FREEMODE_Y : float * : free item positioning Y-position, 0=top of track, 1=bottom of track (will never be 1)
-                F_FREEMODE_H : float * : free item positioning height, 0=no height, 1=full height of track (will never be 0)
+                F_FREEMODE_Y : float * : free item positioning or fixed lane Y-position. 0=top of track, 1.0=bottom of track
+                F_FREEMODE_H : float * : free item positioning or fixed lane height. 0.5=half the track height, 1.0=full track height
+                I_FIXEDLANE : int * : fixed lane of item (fine to call with setNewValue, but returned value is read-only)
+                B_FIXEDLANE_HIDDEN : bool * : true if displaying only one fixed lane and this item is in a different lane (read-only)
                 P_TRACK : MediaTrack * : (read-only)
         </description>
         <retvals>
@@ -7360,6 +7403,7 @@
         </chapter_context>
         <tags>mediaitemmanagement, get, parameter, numerical values</tags>
         <changelog>
+          Reaper 7.00 - added new attributes C_LANEPLAYS, I_FIXEDLANE and B_FIXEDLANE_HIDDEN
         </changelog>
     </US_DocBloc>
 
@@ -7852,7 +7896,7 @@
         <functioncall prog_lang="lua">number retval = reaper.GetMediaTrackInfo_Value(MediaTrack tr, string parmname)</functioncall>
         <functioncall prog_lang="python">Float retval = RPR_GetMediaTrackInfo_Value(MediaTrack tr, String parmname)</functioncall>
         <requires>
-            Reaper=6.65
+            Reaper=7.00
         </requires>
         <description prog_lang="*">
             Get track numerical-value attributes.
@@ -7872,7 +7916,7 @@
             B_AUTO_RECARM : bool * : automatically set record arm when selected (does not immediately affect recarm state, script should set directly if desired)
             I_VUMODE : int * : track vu mode, &1:disabled, &30==0:stereo peaks, &30==2:multichannel peaks, &30==4:stereo RMS, &30==8:combined RMS, &30==12:LUFS-M, &30==16:LUFS-S (readout=max), &30==20:LUFS-S (readout=current), &32:LUFS calculation on channels 1+2 only            
             I_AUTOMODE : int * : track automation mode, 0=trim/off, 1=read, 2=touch, 3=write, 4=latch
-            I_NCHAN : int * : number of track channels, 2-64, even numbers only
+            I_NCHAN : int * : number of track channels, 2-128, even numbers only
             I_SELECTED : int * : track selected, 0=unselected, 1=selected
             I_WNDH : int * : current TCP window height in pixels including envelopes (read-only)
             I_TCPH : int * : current TCP window height in pixels not including envelopes (read-only)
@@ -7882,12 +7926,13 @@
             I_MCPW : int * : current MCP width in pixels(read only)
             I_MCPH : int * : current MCP height in pixels(read only)
             I_FOLDERDEPTH : int * : folder depth change, 0=normal, 1=track is a folder parent, -1=track is the last in the innermost folder, -2=track is the last in the innermost and next-innermost folders, etc
-            I_FOLDERCOMPACT : int * : folder compacted state (only valid on folders), 0=normal, 1=small, 2=tiny children
+            I_FOLDERCOMPACT : int * : folder collapsed state (only valid on folders), 0=normal, 1=collapsed, 2=fully collapsed
             I_MIDIHWOUT : int * : track midi hardware output index, <0=disabled, low 5 bits are which channels (0=all, 1-16), next 5 bits are output device index (0-31)
             I_PERFFLAGS : int * : track performance flags, &1=no media buffering, &2=no anticipative FX
             I_CUSTOMCOLOR : int * : custom color, OS dependent color|0x1000000 (i.e. ColorToNative(r,g,b)|0x1000000), 0, default color. If you do not |0x1000000, then it will not be used, but will store the color.
             I_HEIGHTOVERRIDE : int * : custom height override for TCP window, 0 for none, otherwise size in pixels
             B_HEIGHTLOCK : bool * : track height lock (must set I_HEIGHTOVERRIDE before locking)
+            I_SPACER : int * : 1=TCP track spacer above this trackB_HEIGHTLOCK : bool * : track height lock (must set I_HEIGHTOVERRIDE before locking)
             D_VOL : double * : trim volume of track, 0=-inf, 0.5=-6dB, 1=+0dB, 2=+6dB, etc
             D_PAN : double * : trim pan of track, -1..1
             D_WIDTH : double * : width of track, -1..1
@@ -7903,6 +7948,9 @@
             C_MAINSEND_OFFS : char * : channel offset of track send to parent
             C_MAINSEND_NCH : char * : channel count of track send to parent (0=use all child track channels, 1=use one channel only)
             I_FREEMODE : int * : 1=track free item positioning enabled, 2=track fixed lanes enabled (call UpdateTimeline() after changing)
+            I_NUMFIXEDLANES : int * : number of track fixed lanes (fine to call with setNewValue, but returned value is read-only)
+            I_LANESCOLLAPSED : int * : fixed lane collapse state (1=lanes collapsed, 2=track displays as non-fixed-lanes but hidden lanes exist)
+            C_LANEPLAYS:N : char * : in fixed lane tracks, 0=lane N does not play, 1=lane N plays exclusively, 2=lane N plays and other lanes also play (fine to call with setNewValue, but returned value is read-only)
             C_BEATATTACHMODE : char * : track timebase, -1=project default, 0=time, 1=beats (position, length, rate), 2=beats (position only)
             F_MCP_FXSEND_SCALE : float * : scale of fx+send area in MCP (0=minimum allowed, 1=maximum allowed)
             F_MCP_FXPARM_SCALE : float * : scale of fx parameter area in MCP (0=minimum allowed, 1=maximum allowed)
@@ -7934,6 +7982,7 @@
         </linked_to>
         <tags></tags>
         <changelog>
+            Reaper 7.00 - enhanced I_NCHAN to 128; added new attributes I_SPACER, I_NUMFIXEDLANES, I_LANESCOLLAPSED 
             Reaper 6.65 - attribute "I_PANLAW_FLAGS" added
             Reaper 6.60 - attribute "I_RECMODE_FLAGS" added
             Reaper 6.54 - attribute "I_FREEMODE" includes new value 2=track fixed lanes enabled
@@ -9629,7 +9678,7 @@
                 Example: "0.00 1.00 \"\" 0.00 1.00 "{xyz-...}"
                 Set stringNeedBig="" and setnewvalue=false to query the currently set razor-edits on this track.
             P_RAZOREDITS_EXT : const char * : list of razor edit areas, as comma-separated sets of space-separated tuples of start time, end time, optional envelope GUID string, optional fixed/fipm top y-position, optional fixed/fipm bottom y-position(fipm means fixed item positioning).
-                Example: "0.0 1.0,0.0 1.0 "{xyz-...}",1.0 2.0 "" 0.25 0.5"
+                Example: "0.0 1.0,0.0 1.0 "{xyz-...}",1.0 2.0 "" 0.25 0.75"
                 see P_RAZOREDITS above for more details
             P_TCP_LAYOUT : const char * : layout name
             P_EXT:xyz : char * : extension-specific persistent data
@@ -9844,7 +9893,7 @@
         <functioncall prog_lang="lua">boolean retval, string valuestrNeedBig = reaper.GetSetProjectInfo_String(ReaProject project, string desc, string valuestrNeedBig, boolean is_set)</functioncall>
         <functioncall prog_lang="python">(Boolean retval, ReaProject project, String desc, String valuestrNeedBig, Boolean is_set) = RPR_GetSetProjectInfo_String(project, desc, valuestrNeedBig, is_set)</functioncall>
         <requires>
-            Reaper=6.76
+            Reaper=7.00
         </requires>
         <description>
             Get or set project information.  
@@ -9872,7 +9921,7 @@
             see <a href="misc_docs/RENDER_How_RenderCFG-Base64-strings_are_encoded.txt">RENDER_How_RenderCFG-Base64-strings_are_encoded.txt</a> for how the unencoded RENDER_FORMAT-string is structured.  
 
             To just use the 4-byte-string, you can use: 
-            "wave" for wave, "aiff" for aiff, "caff" for caf, "iso " for audio-cd, "ddp " for ddp, "flac" for flac, "mp3l" for mp3, "oggv" for ogg, "OggS" for Opus, "FFMP" for FFMpeg-video, "FVAX" for MP4Video/Audio on Mac, "GIF " for Gif, "LCF " for LCF, "WMF" for Windows Media Foundation(mp4, m4a), "wvpk" for wavepack
+            "wave" for wave, "aiff" for aiff, "caff" for caf, "raw" for raw-audio, "iso " for audio-cd, "ddp " for ddp, "flac" for flac, "mp3l" for mp3, "oggv" for ogg, "OggS" for Opus, "FFMP" for FFMpeg-video, "FVAX" for MP4Video/Audio on Mac, "GIF " for Gif, "LCF " for LCF, "WMF" for Windows Media Foundation(mp4, m4a), "wvpk" for wavepack
 
             RENDER_METADATA: get or set the metadata saved with the project (not metadata embedded in project media). Example, ID3 album name metadata: Uses common ID3-tagcodes like TALB(album), TPE1(Artist), etc.
             To get album tag, use "ID3:TALB", to set album tag, use "ID3:TALB|my album name".  
@@ -9934,6 +9983,7 @@
         </chapter_context>
         <tags></tags>
         <changelog>
+            Reaper 7.00 - "raw" added as new render-output format
             Reaper 6.76 - "OPENCOPY_CFGIDX", "RECORD_FORMAT" and "APPLYFX_FORMAT" - added as new attributes
             Reaper 6.71 - "MARKER_INDEX_FROM_GUID:{GUID}" - added, which allows getting marker-index by marker-guid
             Reaper 6.70 - "RENDER_TARGETS_EX" - fixed bug with NULL-separation
@@ -10791,6 +10841,53 @@
         <changelog>
         </changelog>
     </US_DocBloc>
+    
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>GetTouchedOrFocusedFX</slug>
+        <title>GetTouchedOrFocusedFX</title>
+        <functioncall prog_lang="cpp">bool GetTouchedOrFocusedFX(int mode, int* trackidxOut, int* itemidxOut, int* takeidxOut, int* fxidxOut, int* parmOut)</functioncall>
+        <functioncall prog_lang="eel">bool GetTouchedOrFocusedFX(int mode, int &trackidx, int &itemidx, int &takeidx, int &fxidx, int &parm)</functioncall>
+        <functioncall prog_lang="lua">boolean retval, integer trackidx, integer itemidx, integer takeidx, integer fxidx, integer parm = reaper.GetTouchedOrFocusedFX(integer mode)</functioncall>
+        <functioncall prog_lang="python">(Boolean retval, Int mode, Int trackidxOut, Int itemidxOut, Int takeidxOut, Int fxidxOut, Int parmOut) = RPR_GetTouchedOrFocusedFX(mode, trackidxOut, itemidxOut, takeidxOut, fxidxOut, parmOut)</functioncall>
+        <requires>
+            Reaper=7.00
+        </requires>
+        <description prog_lang="*">
+            mode can be 0 to query last touched parameter, or 1 to query currently focused FX. 
+            
+            Returns false if failed. 
+            
+            If successful, trackIdxOut will be track index (-1 is master track, 0 is first track). 
+            
+            itemidxOut will be 0-based item index if an item, or -1 if not an item. 
+            takeidxOut will be 0-based take index. 
+            fxidxOut will be FX index, potentially with 0x2000000 set to signify container-addressing, or with 0x1000000 set to signify record-input FX. 
+            parmOut will be set to the parameter index if querying last-touched. 
+            parmOut will have 1 set if querying focused state and FX is no longer focused but still open.
+        </description>
+        <parameters>
+          integer mode - 0, query last touched parameter
+                       - 1, query currently focused fx
+        </parameters>
+        <retvals>
+            boolean retval - true, last touched parameter/focused fx exists; false, no last touched parameter/focused fx exists
+            integer trackidx - the tracknumber on which the trackfx/itemfx is located; 0-based; -1, if no fx had been touched/focused
+            integer itemidx - the itemnumber if fx is take-fx; 0-based; -1, if no take-fx
+            integer takeidx - the takenumber of the item if fx is take-fx; 0-based; -1, if no take-fx
+            integer fxidx - the fx-number in the fxchain of the TrackFX/TakeFX; -1, if no fx had been touched or focused
+            integer parm - the number of the last touched parameter; 0-based; -1, if no fx had been touched or focused
+        </retvals>
+        <target_document>Reaper_Api_Documentation</target_document>
+        <source_document>Reaper_Api_Documentation.USDocML</source_document>
+        <chapter_context>
+            FX Management
+            Misc
+        </chapter_context>
+        <tags>fx management, get, last touched, fx, parameter, focused</tags>
+        <changelog>
+          Reaper 7.00 - added to the api
+        </changelog>
+    </US_DocBloc>
 
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
         <slug>GetTrack</slug>
@@ -11030,10 +11127,12 @@
         <functioncall prog_lang="lua">MediaTrack retval, optional integer info = reaper.GetTrackFromPoint(integer screen_x, integer screen_y)</functioncall>
         <functioncall prog_lang="python">(MediaTrack retval, Int screen_x, Int screen_y, Int infoOutOptional) = RPR_GetTrackFromPoint(screen_x, screen_y, infoOutOptional)</functioncall>
         <requires>
-            Reaper=5.975
+            Reaper=7.00
         </requires>
         <description>
             Returns the track from the screen coordinates specified. If the screen coordinates refer to a window associated to the track (such as FX), the track will be returned. infoOutOptional will be set to 1 if it is likely an envelope, 2 if it is likely a track FX.
+
+            For a free item positioning or fixed lane track, the second byte of info or infoOutOptional will be set to the (approximate, for fipm tracks) item lane underneath the mouse.
 
             Note: You can not get the track at screen-coordinates, where it is hidden by other windows.
             
@@ -11042,8 +11141,9 @@
         <retvals>
             MediaTrack retval - the MediaTrack at position; if the position is above a window associated with the track, this holds the track, where retval info will hold additional information
             optional integer info - additional information, if the position is above a windows associated with a track
-                                 - 1, if it is likely an envelope
-                                 - 2, if it is likely a track FX
+                                  - 1, if it is likely an envelope
+                                  - 2, if it is likely a track FX
+                                  - the second byte refers to the track-lane, use "lane_index = info>>8" to get the lane-index
         </retvals>
         <parameters>
             integer screen_x - the x-position in pixels, from which you want to get the underlying track
@@ -11061,6 +11161,7 @@
         </chapter_context>
         <tags></tags>
         <changelog>
+          Reaper 7.00 - supports now track-lanes
         </changelog>
     </US_DocBloc>
 

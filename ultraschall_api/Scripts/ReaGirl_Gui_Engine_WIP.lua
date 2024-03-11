@@ -1,7 +1,7 @@
 dofile(reaper.GetResourcePath().."/UserPlugins/ultraschall_api.lua")
 
 -- DEBUG:
-reaper.osara_outputMessage=nil
+--reaper.osara_outputMessage=nil
 
 reagirl={}
 if reaper.osara_outputMessage~=nil then
@@ -1777,7 +1777,13 @@ function reagirl.Gui_Manage()
             gfx.init("")
           end
         else
-          reaper.JS_Mouse_SetPosition(gfx.clienttoscreen(x2+MoveItAllRight+4,y2+MoveItAllUp+4)) 
+          if gfx.mouse_cap&1==0 and gfx.mouse_cap&2==0 then
+            local cap_w=0
+            if reagirl.Elements[i]["Cap_width"]~=nil then
+              cap_w=reagirl.Elements[i]["Cap_width"]
+            end
+            reaper.JS_Mouse_SetPosition(gfx.clienttoscreen(x2+cap_w+MoveItAllRight+4,y2+MoveItAllUp+4)) 
+          end
         end
         reagirl.SetPosition_MousePositionX=gfx.mouse_x
         reagirl.SetPosition_MousePositionY=gfx.mouse_y
