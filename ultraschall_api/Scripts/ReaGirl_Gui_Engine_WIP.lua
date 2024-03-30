@@ -15,6 +15,11 @@ end
 --]]
 --[[
 TODO: 
+  - general: instead of math.floor() use number // 1 | 0 as this is massively faster for creating integers!
+            9.87654 // 1 | 0
+            1.23456 // 1 | 0
+  - general: for functions that I do not expose to the user(like RoundRect), remove math.XXX()-functioncalls for improved performance.
+  - mouse-wheel/mouse-hwheel: sometimes using mousewheel to drag sliders/options in drop down menu stops for no apparent reason
   - MacOS-check: fonts might be off by 1 in y-position, so maybe repositioning with an offset is necessary(see dropdownmenu_draw for details)
   - Check, if all ui-elements are properly drawn in disabled-mode
   - CheckBox: add a few pixels to the width after everything is said and done
@@ -1109,11 +1114,24 @@ function reagirl.ScrollBar_Left_Add()
 end
 
 function reagirl.ScrollBar_Left_Manage(element_id, selected, hovered, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
-
+  -- ToDo: scrolling only from y+15 to y+h-30
+  --       - adding scroll "marker"(probably in Draw-function)
   if reagirl.Scroll_Override_ScrollButtons==true then return "" end
   if element_storage.IsDecorative==false and element_storage.a<=0.75 then element_storage.a=element_storage.a+.1 reagirl.Gui_ForceRefresh(44) end
-  if gfx.mouse_x>=x and gfx.mouse_x<=x+w and gfx.mouse_y>=y and gfx.mouse_y<=y+h then
-    
+  if mouse_cap&1==1 and gfx.mouse_x>=x and gfx.mouse_x<=x+w and gfx.mouse_y>=y and gfx.mouse_y<=y+h then
+    local dpi_scale = reagirl.Window_GetCurrentScale()
+    --element_storage.stepsize=math.ceil((h-90*dpi_scale)/(reagirl.BoundaryY_Max-gfx.h))
+    element_storage.stepsize=h/(reagirl.BoundaryY_Max*dpi_scale-gfx.h+30)
+    if element_storage.stepsize==0 then element_storage.stepsize=1 end
+    local count=0
+    for i=y, y+h+element_storage.stepsize, element_storage.stepsize do
+      count=count+1
+      if gfx.mouse_y<i then
+        reagirl.MoveItAllUp=-count
+        reagirl.Gui_ForceRefresh()
+        break
+      end
+    end
   end
 end
 
@@ -1166,19 +1184,24 @@ function reagirl.ScrollBar_Bottom_Add()
 end
 
 function reagirl.ScrollBar_Bottom_Manage(element_id, selected, hovered, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
--- still buggy, though it somehow works...(without clicking yet)
+  -- still buggy, though it somehow works...(without clicking yet)
+  -- ToDo: - scrolling only from x+15 to x+w-30
+  --       - adding scroll "marker"(probably in Draw-function)
   if reagirl.Scroll_Override_ScrollButtons==true then return "" end
   if element_storage.IsDecorative==false and element_storage.a<=0.75 then element_storage.a=element_storage.a+.1 reagirl.Gui_ForceRefresh(44) end
-  if gfx.mouse_x>=x and gfx.mouse_x<=x+w*2 and gfx.mouse_y>=y and gfx.mouse_y<=y+h then
-    local dpi_scale = reagirl.Window_GetCurrentScale()
-    element_storage.stepsize=math.ceil((w-90*dpi_scale)/(reagirl.BoundaryX_Max-gfx.w))
-    if element_storage.stepsize==0 then element_storage.stepsize=1 end
+  local dpi_scale = reagirl.Window_GetCurrentScale()
+  
+  if mouse_cap&1==1 
+     and gfx.mouse_x>=x 
+     and gfx.mouse_x<=x+w
+     and gfx.mouse_y>=y 
+     and gfx.mouse_y<=y+h then
+    element_storage.stepsize=w/(reagirl.BoundaryX_Max*dpi_scale-gfx.w+30)
     local count=0
     for i=x, x+w+element_storage.stepsize, element_storage.stepsize do
       count=count+1
       if gfx.mouse_x<i then
         reagirl.MoveItAllRight=-count
---        print_update(i)
         reagirl.Gui_ForceRefresh()
         break
       end
@@ -1676,7 +1699,6 @@ function reagirl.Gui_Manage()
   
   -- [[ click management-code]]
   local clickstate, specific_clickstate, mouse_cap, click_x, click_y, drag_x, drag_y, mouse_wheel, mouse_hwheel = reagirl.Mouse_GetCap(5, 10)
-  
   -- finds out also, which ui-element shall be seen as clicked(only the last ui-element within click-area will be seen as clicked)
   -- changes the selected ui-element when clicked AND shows tooltip
   local Scroll_Override_ScrollButtons=0
@@ -7721,6 +7743,7 @@ function reagirl.Slider_Add(x, y, w, caption, Cap_width, meaningOfUI_Element, un
 end
 
 function reagirl.Slider_Manage(element_id, selected, hovered, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
+  --print_update(reaper.time_precise(), table.unpack(mouse_attributes))
   -- drop files for accessibility using a file-requester, after typing ctrl+shift+f
   if reaper.osara_outputMessage~=nil and element_storage["DropZoneFunction"]~=nil and Key==6 and mouse_cap==12 then
     local retval, filenames = reaper.GetUserFileNameForRead("", "Choose file to drop into "..element_storage["Name"], "")
@@ -8880,7 +8903,7 @@ function UpdateUI()
   Img=reagirl.Image_Add("c:\\c.png", nil, nil, 70, 70, "Chapter Image", "", ABBALA3)
 
   reagirl.NextLine()
-  reagirl.DropDownMenu_Add(30, nil, 170, "Menu:", 70, "Menu me", {"Eins", "Zwo", "Drei"}, 2, tabme)
+  reagirl.DropDownMenu_Add(1230, 1200, 170, "Menu:", 70, "Menu me", {"Eins", "Zwo", "Drei"}, 2, tabme)
   reagirl.NextLine()
   button=reagirl.Button_Add(-115, nil, 0, 0, "Apply Changes", "", nil, button2)
   --reagirl.NextLine()

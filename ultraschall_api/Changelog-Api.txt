@@ -317,7 +317,11 @@ ToDo Marker Menu:
       todo: vzoom3 (double) missing in configvar-docs - vzoom2 is math.floor(vzoom3). When settin, vzoom2 and vzoom3 must be set or it can cause issues.
       
       TODO: LINKEDLANE for comp-areas (see zoom-ezgif.com-gif-to-mp4-converter.mp4 on how to create a comp-area and influence the LINKEDLANE-entry)
-        LINKEDLANE double start_position  double end_position  integer lane_index  unknown unknown4  unknown unknown5  unknown unknown6  unknown unknown7 
+        LINKEDLANE double start_position  double end_position  integer lane_index  unknown unknown4  unknown unknown5  double unknown6  double unknown7 
+        
+    - general: instead of math.floor() use number // 1 | 0 as this is massively faster for creating integers!
+        9.87654 // 1 | 0
+        1.23456 // 1 | 0
 </TODO>
 
 ## Ultraschall Framework - Changelog

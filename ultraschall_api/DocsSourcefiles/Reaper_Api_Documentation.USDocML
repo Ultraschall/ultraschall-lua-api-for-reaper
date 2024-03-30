@@ -7931,8 +7931,8 @@
             I_PERFFLAGS : int * : track performance flags, &1=no media buffering, &2=no anticipative FX
             I_CUSTOMCOLOR : int * : custom color, OS dependent color|0x1000000 (i.e. ColorToNative(r,g,b)|0x1000000), 0, default color. If you do not |0x1000000, then it will not be used, but will store the color.
             I_HEIGHTOVERRIDE : int * : custom height override for TCP window, 0 for none, otherwise size in pixels
-            B_HEIGHTLOCK : bool * : track height lock (must set I_HEIGHTOVERRIDE before locking)
             I_SPACER : int * : 1=TCP track spacer above this trackB_HEIGHTLOCK : bool * : track height lock (must set I_HEIGHTOVERRIDE before locking)
+            B_HEIGHTLOCK : deprecated - bool * : track height lock (must set I_HEIGHTOVERRIDE before locking)
             D_VOL : double * : trim volume of track, 0=-inf, 0.5=-6dB, 1=+0dB, 2=+6dB, etc
             D_PAN : double * : trim pan of track, -1..1
             D_WIDTH : double * : width of track, -1..1
@@ -7982,7 +7982,7 @@
         </linked_to>
         <tags></tags>
         <changelog>
-            Reaper 7.00 - enhanced I_NCHAN to 128; added new attributes I_SPACER, I_NUMFIXEDLANES, I_LANESCOLLAPSED 
+            Reaper 7.00 - enhanced I_NCHAN to 128; added new attributes I_SPACER, I_NUMFIXEDLANES, I_LANESCOLLAPSED; B_HEIGHTLOCK is deprecated
             Reaper 6.65 - attribute "I_PANLAW_FLAGS" added
             Reaper 6.60 - attribute "I_RECMODE_FLAGS" added
             Reaper 6.54 - attribute "I_FREEMODE" includes new value 2=track fixed lanes enabled
@@ -10651,26 +10651,32 @@
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
         <slug>GetThemeColor</slug>
         <title>GetThemeColor</title>
-        <functioncall prog_lang="cpp">int GetThemeColor(const char* ini_key, int flagsOptional)</functioncall>
-        <functioncall prog_lang="eel">int GetThemeColor("ini_key", int flags)</functioncall>
-        <functioncall prog_lang="lua">integer retval = reaper.GetThemeColor(string ini_key, integer flags)</functioncall>
-        <functioncall prog_lang="python">Int retval = RPR_GetThemeColor(String ini_key, Int flagsOptional)</functioncall>
+        <functioncall prog_lang="cpp">int GetThemeColor(const char* theme_color, int flagsOptional)</functioncall>
+        <functioncall prog_lang="eel">int GetThemeColor("theme_color", int flags)</functioncall>
+        <functioncall prog_lang="lua">integer retval = reaper.GetThemeColor(string theme_color, integer flags)</functioncall>
+        <functioncall prog_lang="python">Int retval = RPR_GetThemeColor(String theme_color, Int flagsOptional)</functioncall>
         <requires>
             Reaper=6.14
         </requires>
         <description>
-            Returns the theme color specified, or -1 on failure. If the low bit of flags is set, the color as originally specified by the theme (before any transformations) is returned, otherwise the current (possibly transformed and modified) color is returned. 
+            Returns the theme color specified, or -1 on failure. 
             
-            See SetThemeColor for a list of valid ini_key.
+            If the low bit of flags is set, the color as originally specified by the theme (before any transformations) is returned, otherwise the current (possibly transformed and modified) color is returned. 
+            
+            See SetThemeColor for a list of valid theme_color-names.
         </description>
         <retvals>
-            integer retval - 
+            integer retval - the native color value used fro this theme-color; use ColorFromNative to convert it to r,g,b-values
         </retvals>
         <parameters>
-            string ini_key - 
-            integer flags - 
+            string theme_color - the theme-color, whose color you want to use
+            integer flags - If the low bit of flags is set, the color as originally specified by the theme (before any transformations) is returned, otherwise the current (possibly transformed and modified) color is returned. 
         </parameters>
         <linked_to desc="see also:">
+            Reaper:ColorFromNative
+                   gets r,g,b-values from a native-color-value
+            Reaper:ColorToNative
+                   generates native color value from r,g,b-values
             Reaper:SetThemeColor
                    sets a theme-color to a new color-value
         </linked_to>
@@ -15520,6 +15526,43 @@
         </changelog>
     </US_DocBloc>
 
+  <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>MIDIEditorFlagsForTrack</slug>
+        <title>MIDIEditorFlagsForTrack</title>
+        <functioncall prog_lang="cpp">void MIDIEditorFlagsForTrack(MediaTrack* track, int* pitchwheelrangeInOut, int* flagsInOut, bool is_set)</functioncall>
+        <functioncall prog_lang="eel">MIDIEditorFlagsForTrack(MediaTrack track, int &pitchwheelrange, int &flags, bool is_set)</functioncall>
+        <functioncall prog_lang="lua">integer pitchwheelrange, integer flags = reaper.MIDIEditorFlagsForTrack(MediaTrack track, integer pitchwheelrange, integer flags, boolean is_set)</functioncall>
+        <functioncall prog_lang="python">(MediaTrack track, Int pitchwheelrangeInOut, Int flagsInOut, Boolean is_set) = RPR_MIDIEditorFlagsForTrack(track, pitchwheelrangeInOut, flagsInOut, is_set)</functioncall>
+        <requires>
+            Reaper=7.00
+        </requires>
+        <description>
+            Get or set MIDI editor settings for this track. 
+            
+            pitchwheelrange: semitones up or down. 
+            flags &1: snap pitch lane edits to semitones if pitchwheel range is defined.
+        </description>
+        <retvals>
+            integer pitchwheelrange - semitones up or down
+            integer flags - flags &1: snap pitch lane edits to semitones if pitchwheel range is defined.
+        </retvals>
+        <parameters>
+            MediaTrack track - the track, whose midi-editor-flags you want to get/set
+            integer pitchwheelrange - semitones up or down
+            integer flags - flags &1: snap pitch lane edits to semitones if pitchwheel range is defined.
+            boolean is_set - true, set the flags; false, just get them
+        </parameters>
+        <target_document>Reaper_Api_Documentation</target_document>
+        <source_document>Reaper_Api_Documentation.USDocML</source_document>
+        <chapter_context>
+            MIDI Management
+        </chapter_context>
+        <tags></tags>
+        <changelog>
+          Reaper 7.00 - added to API
+        </changelog>
+    </US_DocBloc>
+
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
         <slug>mkpanstr</slug>
         <title>mkpanstr</title>
@@ -17970,13 +18013,14 @@
         <functioncall prog_lang="lua">boolean retval = reaper.SetMediaItemInfo_Value(MediaItem item, string parmname, number newvalue)</functioncall>
         <functioncall prog_lang="python">Boolean retval = RPR_SetMediaItemInfo_Value(MediaItem item, String parmname, Float newvalue)</functioncall>
         <requires>
-            Reaper=6.34
+            Reaper=7.00
         </requires>
         <description prog_lang="*">
             Set media item numerical-value attributes.
             B_MUTE : bool * : muted
             B_MUTE_ACTUAL : bool * : muted (ignores solo). setting this value will not affect C_MUTE_SOLO.
             C_MUTE_SOLO : char * : solo override (-1=soloed, 0=no override, 1=unsoloed). note that this API does not automatically unsolo other items when soloing (nor clear the unsolos when clearing the last soloed item), it must be done by the caller via action or via this API.
+            C_LANEPLAYS : char * : in fixed lane tracks, 0=this item lane does not play, 1=this item lane plays exclusively, 2=this item lane plays and other lanes also play (read-only)
             B_LOOPSRC : bool * : loop source
             B_ALLTAKESPLAY : bool * : all takes play
             B_UISEL : bool * : selected in arrange view
@@ -18001,8 +18045,10 @@
             I_CUSTOMCOLOR : int * : custom color, OS dependent color|0x1000000 (i.e. ColorToNative(r,g,b)|0x1000000). If you do not |0x1000000, then it will not be used, but will store the color.
             I_CURTAKE : int * : active take number
             IP_ITEMNUMBER : int : item number on this track (read-only, returns the item number directly)
-            F_FREEMODE_Y : float * : free item positioning Y-position, 0=top of track, 1=bottom of track (will never be 1)
-            F_FREEMODE_H : float * : free item positioning height, 0=no height, 1=full height of track (will never be 0)
+            F_FREEMODE_Y : float * : free item positioning or fixed lane Y-position. 0=top of track, 1.0=bottom of track
+            F_FREEMODE_H : float * : free item positioning or fixed lane height. 0.5=half the track height, 1.0=full track height
+            I_FIXEDLANE : int * : fixed lane of item (fine to call with setNewValue, but returned value is read-only)
+            B_FIXEDLANE_HIDDEN : bool * : true if displaying only one fixed lane and this item is in a different lane (read-only)
         </description>
         <retvals>
             boolean retval - true, setting was successful; false, setting was unsuccessful
@@ -18020,6 +18066,7 @@
         </chapter_context>
         <tags></tags>
         <changelog>
+          Reaper 7.00 - added new attributes C_LANEPLAYS, I_FIXEDLANE and B_FIXEDLANE_HIDDEN
         </changelog>
     </US_DocBloc>
 
@@ -18202,7 +18249,7 @@
         <functioncall prog_lang="lua">boolean retval = reaper.SetMediaTrackInfo_Value(MediaTrack tr, string parmname, number newvalue)</functioncall>
         <functioncall prog_lang="python">Boolean retval = RPR_SetMediaTrackInfo_Value(MediaTrack tr, String parmname, Float newvalue)</functioncall>
         <requires>
-            Reaper=6.60
+            Reaper=7.00
         </requires>
         <description>
             Set track numerical-value attributes.
@@ -18221,8 +18268,8 @@
             I_RECMONITEMS : int * : monitor items while recording, 0=off, 1=on
             B_AUTO_RECARM : bool * : automatically set record arm when selected (does not immediately affect recarm state, script should set directly if desired)
             I_VUMODE : int * : track vu mode, &1:disabled, &30==0:stereo peaks, &30==2:multichannel peaks, &30==4:stereo RMS, &30==8:combined RMS, &30==12:LUFS-M, &30==16:LUFS-S (readout=max), &30==20:LUFS-S (readout=current), &32:LUFS calculation on channels 1+2 only
-            I_AUTOMODE : int * : track automation mode, 0=trim/off, 1=read, 2=touch, 3=write, 4=latch
-            I_NCHAN : int * : number of track channels, 2-64, even numbers only
+            I_AUTOMODE : int * : track automation mode, 0=trim/off, 1=read, 2=touch, 3=write, 4=latch            
+            I_NCHAN : int * : number of track channels, 2-128, even numbers only
             I_SELECTED : int * : track selected, 0=unselected, 1=selected
             I_WNDH : int * : current TCP window height in pixels including envelopes (read-only)
             I_TCPH : int * : current TCP window height in pixels not including envelopes (read-only)
@@ -18232,12 +18279,13 @@
             I_MCPW : int * : current MCP width in pixels (read-only)
             I_MCPH : int * : current MCP height in pixels (read-only)
             I_FOLDERDEPTH : int * : folder depth change, 0=normal, 1=track is a folder parent, -1=track is the last in the innermost folder, -2=track is the last in the innermost and next-innermost folders, etc
-            I_FOLDERCOMPACT : int * : folder compacted state (only valid on folders), 0=normal, 1=small, 2=tiny children
+            I_FOLDERCOMPACT : int * : folder collapsed state (only valid on folders), 0=normal, 1=collapsed, 2=fully collapsed
             I_MIDIHWOUT : int * : track midi hardware output index, <0=disabled, low 5 bits are which channels (0=all, 1-16), next 5 bits are output device index (0-31)
             I_PERFFLAGS : int * : track performance flags, &1=no media buffering, &2=no anticipative FX
             I_CUSTOMCOLOR : int * : custom color, OS dependent color|0x1000000 (i.e. ColorToNative(r,g,b)|0x1000000). 0, default color. If you do not |0x1000000, then it will not be used, but will store the color
             I_HEIGHTOVERRIDE : int * : custom height override for TCP window, 0 for none, otherwise size in pixels
-            B_HEIGHTLOCK : bool * : track height lock (must set I_HEIGHTOVERRIDE before locking)
+            I_SPACER : int * : 1=TCP track spacer above this trackB_HEIGHTLOCK : bool * : track height lock (must set I_HEIGHTOVERRIDE before locking)
+            B_HEIGHTLOCK : deprecated - bool * : track height lock (must set I_HEIGHTOVERRIDE before locking)
             D_VOL : double * : trim volume of track, 0=-inf, 0.5=-6dB, 1=+0dB, 2=+6dB, etc
             D_PAN : double * : trim pan of track, -1..1
             D_WIDTH : double * : width of track, -1..1
@@ -18253,6 +18301,9 @@
             C_MAINSEND_OFFS : char * : channel offset of track send to parent
             C_MAINSEND_NCH : char * : channel count of track send to parent (0=use all child track channels, 1=use one channel only)
             I_FREEMODE : int * : 1=track free item positioning enabled, 2=track fixed lanes enabled (call UpdateTimeline() after changing)
+            I_NUMFIXEDLANES : int * : number of track fixed lanes (fine to call with setNewValue, but returned value is read-only)
+            I_LANESCOLLAPSED : int * : fixed lane collapse state (1=lanes collapsed, 2=track displays as non-fixed-lanes but hidden lanes exist)
+            C_LANEPLAYS:N : char * : in fixed lane tracks, 0=lane N does not play, 1=lane N plays exclusively, 2=lane N plays and other lanes also play (fine to call with setNewValue, but returned value is read-only)
             C_BEATATTACHMODE : char * : track timebase, -1=project default, 0=time, 1=beats (position, length, rate), 2=beats (position only)
             F_MCP_FXSEND_SCALE : float * : scale of fx+send area in MCP (0=minimum allowed, 1=maximum allowed)
             F_MCP_FXPARM_SCALE : float * : scale of fx parameter area in MCP (0=minimum allowed, 1=maximum allowed)
@@ -18276,6 +18327,7 @@
                    returns a numerical value of a MediaTrack-attribute
         </linked_to>
         <changelog>
+            Reaper 7.00 - enhanced I_NCHAN to 128; added new attributes I_SPACER, I_NUMFIXEDLANES, I_LANESCOLLAPSED; B_HEIGHTLOCK is deprecated
             Reaper 6.65 - attribute "I_PANLAW_FLAGS" added
             Reaper 6.60 - attribute "I_RECMODE_FLAGS" added
             Reaper 6.54 - attribute "I_FREEMODE" includes new value 2=track fixed lanes enabled
@@ -18287,8 +18339,6 @@
             Track States
         </chapter_context>
         <tags></tags>
-        <changelog>
-        </changelog>
     </US_DocBloc>
 
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
@@ -18356,7 +18406,7 @@
         <functioncall prog_lang="lua">reaper.SetMouseModifier(string context, integer modifier_flag, string action)</functioncall>
         <functioncall prog_lang="python">RPR_SetMouseModifier(String context, Int modifier_flag, String action)</functioncall>
         <requires>
-            Reaper=6.74
+            Reaper=7.00
         </requires>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
             Set the mouse modifier assignment for a specific modifier key assignment, in a specific context.
@@ -18370,15 +18420,17 @@
             For left-click and double-click contexts, the action can be any built-in command ID number
             or any custom action ID string. Find built-in command IDs in the REAPER actions window
             (enable "show action IDs" in the context menu), and find custom action ID strings in reaper-kb.ini.
+
+            The action string may be a mouse modifier ID (see reaper-mouse.ini) with " m" appended to it,
+            or (for click/double-click contexts) a command ID with " c" appended to it, or the text that appears 
+            in the mouse modifiers preferences dialog, like "Move item" (unlocalized).
             
-            For built-in mouse modifier behaviors, find action IDs (which will be low numbers)
-            by modifying an assignment in Preferences/Editing/Mouse Modifiers, then looking in reaper-mouse.ini.
-            Assigning an action of -1 will reset that mouse modifier behavior to factory default.
-            See [GetMouseModifier](#GetMouseModifier).
-            
-            Note: the action string may have a space and 'c' or 'm' appended to it to specify command ID vs mouse modifier ID.
-            Special case: SetMouseModifier(context, -1, -1) will reset the entire context to default.
-            Special case: SetMouseModifier(-1, -1, -1) will reset all contexts to default.
+            For example, SetMouseModifier("MM_CTX_ITEM", 0, "1 m") and SetMouseModifier("Media item left drag", 0, "Move item") are equivalent.
+            ```
+            SetMouseModifier(context, modifier_flag, -1) will reset that mouse modifier to default.
+            SetMouseModifier(context, -1, -1) will reset the entire context to default.
+            SetMouseModifier(-1, -1, -1) will reset all contexts to default.
+            ```
             
             See [Docs for reaper-mouse.ini](Reaper-Filetype-Descriptions.html#Reaper-mouse.ini) for more details
         </description>
@@ -18395,6 +18447,7 @@
         </chapter_context>
         <tags></tags>
         <changelog>
+            Reaper 7.00 - new contexts available
             Reaper 6.74 - you can now specify commands instead of mouse-commands now(see note in description)
         </changelog>
     </US_DocBloc>
@@ -18973,12 +19026,12 @@
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
         <slug>SetThemeColor</slug>
         <title>SetThemeColor</title>
-        <functioncall prog_lang="cpp">int SetThemeColor(const char* ini_key, int color, int flagsOptional)</functioncall>
-        <functioncall prog_lang="eel">int SetThemeColor("ini_key", int color, int flags)</functioncall>
-        <functioncall prog_lang="lua">integer retval = reaper.SetThemeColor(string ini_key, integer color, integer flags)</functioncall>
-        <functioncall prog_lang="python">Int retval = RPR_SetThemeColor(String ini_key, Int color, Int flagsOptional)</functioncall>
+        <functioncall prog_lang="cpp">int SetThemeColor(const char* theme_color, int color, int flagsOptional)</functioncall>
+        <functioncall prog_lang="eel">int SetThemeColor("theme_color", int color, int flags)</functioncall>
+        <functioncall prog_lang="lua">integer retval = reaper.SetThemeColor(string theme_color, integer color, integer flags)</functioncall>
+        <functioncall prog_lang="python">Int retval = RPR_SetThemeColor(String theme_color, Int color, Int flagsOptional)</functioncall>
         <requires>
-            Reaper=6.74
+            Reaper=7.00
         </requires>
         <description>
             Temporarily updates the theme color to the color specified (or the theme default color if -1 is specified). 
@@ -18986,7 +19039,7 @@
             
             Note that the UI is not updated by this, the caller should call UpdateArrange etc as necessary. 
             
-            If the low bit of flags is set, any color transformations are bypassed. 
+            If the low bit of flags is set, any color transformations are bypassed.(see GetThemeColor for what it means).
             To read a value see GetThemeColor
 
              * col_main_bg2 : Main window/transport background 
@@ -19040,6 +19093,7 @@
              * col_trans_bg : Transport status background 
              * col_trans_fg : Transport status text 
              * playrate_edited : Project play rate control when not 1.0 
+             * selitem_dot : Media item selection indicator 
              * col_mi_label : Media item label 
              * col_mi_label_sel : Media item label (selected) 
              * col_mi_label_float : Floating media item label 
@@ -19084,6 +19138,11 @@
              * col_tr2_bg : Track background (even tracks) 
              * selcol_tr1_bg : Selected track background (odd tracks) 
              * selcol_tr2_bg : Selected track background (even tracks) 
+             * track_lane_tabcol : Track fixed lane button -- current RGB: 87,96,87
+             * track_lanesolo_tabcol : Track fixed lane button when only this lane plays -- current RGB: 201,201,38
+             * track_lanesolo_text : Track fixed lane button text -- current RGB: 200,200,200
+             * track_lane_gutter : Track fixed lane add area -- current RGB: 128,128,128
+             * track_lane_gutter_drawmode : Track fixed lane add fill mode 
              * col_tr1_divline : Track divider line (odd tracks) 
              * col_tr2_divline : Track divider line (even tracks) 
              * col_envlane1_divline : Envelope lane divider line (odd tracks) 
@@ -19104,6 +19163,12 @@
              * areasel_drawmode : Razor edit area fill mode 
              * areasel_outline : Razor edit area outline 
              * areasel_outlinemode : Razor edit area outline mode 
+             * linkedlane_fill : Fixed lane comp area fill -- current RGB: 255,203,0
+             * linkedlane_fillmode : Fixed lane comp area fill mode -- blendmode 00020c01
+             * linkedlane_outline : Fixed lane comp area outline -- current RGB: 255,237,164
+             * linkedlane_outlinemode : Fixed lane comp area outline mode -- blendmode 0002c000
+             * linkedlane_unsynced : Fixed lane comp lane unsynced media item -- current RGB: 0,198,255
+             * linkedlane_unsynced_mode : Fixed lane comp lane unsynced media item mode
              * col_cursor : Edit cursor 
              * col_cursor2 : Edit cursor (alternate) 
              * playcursor_color : Play cursor 
@@ -19135,6 +19200,8 @@
              * col_vumid : VU meter middle 
              * col_vubot : VU meter bottom 
              * col_vuintcol : VU meter interlace/edge color 
+             * vu_gr_bgcol : VU meter gain reduction background -- current RGB: 32,32,32
+             * vu_gr_fgcol : VU meter gain reduction indicator
              * col_vumidi : VU meter midi activity 
              * col_vuind1 : VU (indicator) - no signal 
              * col_vuind2 : VU (indicator) - low signal 
@@ -19349,16 +19416,20 @@
              * group_63 : Group #64 
         </description>
         <retvals>
-            integer retval - 
+            integer retval - the new color value set
         </retvals>
         <parameters>
-            string ini_key - 
-            integer color - 
-            integer flags - 
+            string theme_color - the color to be set; see description for the available theme_colors
+            integer color - the new color to be set for this value; use ColorToNative to generate this value
+            integer flags - if the low bit of flags is set, any color transformations are bypassed
         </parameters>
         <linked_to desc="see also:">
             Reaper:GetThemeColor
                    gets a certain theme-color
+            Reaper:ColorFromNative
+                   gets r,g,b-values from a native-color-value
+            Reaper:ColorToNative
+                   generates native color value from r,g,b-values
             Reaper:UpdateArrange
                    updates the arrangeview, so theme-color changes are applied
         </linked_to>
@@ -19369,6 +19440,7 @@
         </chapter_context>
         <tags></tags>
         <changelog>
+            Reaper 7.00 - new theme-colors: selitem_dot, track_lane_tabcol, track_lanesolo_tabcol, track_lanesolo_text, track_lane_gutter, track_lane_gutter_drawmode, linkedlane_fill, linkedlane_fillmode, linkedlane_outline, linkedlane_outlinemode, linkedlane_unsynced, linkedlane_unsynced_mode, vu_gr_bgcol, vu_gr_fgcol
             Reaper 6.74 - new theme-colors: col_routingact, wiring_activity
             Reaper 6.59 - changes with color: col_env7 added width to it
             Reaper 6.57 - new theme-colors: inactive_take_overlay_col, inactive_take_overlay_mode; mute_overlay_col, mute_overlay_mode doesn't work on inactive takes anymore, but rather on items
@@ -20222,10 +20294,16 @@
         <functioncall prog_lang="lua">reaper.ShowConsoleMsg(string msg)</functioncall>
         <functioncall prog_lang="python">RPR_ShowConsoleMsg(String msg)</functioncall>
         <requires>
-            Reaper=5.62
+            Reaper=7.00
         </requires>
         <description>
-            Show a message to the user (also useful for debugging). Send "\n" for newline, "" to clear the console.
+            Show a message to the user (also useful for debugging). 
+            
+            Send 
+            "\n" for newline, 
+            "" to clear the console
+            
+            Prefix string with "!SHOW:" and text will be added to console without opening the window.
         </description>
         <parameters>
             string msg - a message to be shown in ReaConsole
@@ -20242,6 +20320,7 @@
         </chapter_context>
         <tags>helperfunctions, message, console</tags>
         <changelog>
+          Reaper 7.00 - string can now be prefixed with "!SHOW:" to add text in the console without opening the window
         </changelog>
     </US_DocBloc>
 
