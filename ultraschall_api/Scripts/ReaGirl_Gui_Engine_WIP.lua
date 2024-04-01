@@ -2057,12 +2057,12 @@ function reagirl.Gui_Draw(Key, Key_utf, clickstate, specific_clickstate, mouse_c
         --if (x2+MoveItAllRight>=0 and x2+MoveItAllRight<=gfx.w)       and (y2+MoveItAllUp>=0    and y2+MoveItAllUp<=gfx.h) 
         --or (x2+MoveItAllRight+w2>=0 and x2+MoveItAllRight+w2<=gfx.w) and (y2+MoveItAllUp+h2>=0 and y2+MoveItAllUp+h2<=gfx.h) then
         
-        if (((x2+reagirl.MoveItAllRight>0 and x2+reagirl.MoveItAllRight<=gfx.w) 
-        or (x2+w2+reagirl.MoveItAllRight>0 and x2+w2+reagirl.MoveItAllRight<=gfx.w) 
-        or (x2+reagirl.MoveItAllRight<=0 and x2+w2+reagirl.MoveItAllRight>=gfx.w))
-        and ((y2+reagirl.MoveItAllUp>=0 and y2+reagirl.MoveItAllUp<=gfx.h)
-        or (y2+h2+reagirl.MoveItAllUp>=0 and y2+h2+reagirl.MoveItAllUp<=gfx.h)
-        or (y2+reagirl.MoveItAllUp<=0 and y2+h2+reagirl.MoveItAllUp>=gfx.h))) or i>#reagirl.Elements-6
+        if (((x2+MoveItAllRight>0 and x2+MoveItAllRight<=gfx.w) 
+        or (x2+w2+MoveItAllRight>0 and x2+w2+MoveItAllRight<=gfx.w) 
+        or (x2+MoveItAllRight<=0 and x2+w2+MoveItAllRight>=gfx.w))
+        and ((y2+MoveItAllUp>=0 and y2+MoveItAllUp<=gfx.h)
+        or (y2+h2+MoveItAllUp>=0 and y2+h2+MoveItAllUp<=gfx.h)
+        or (y2+MoveItAllUp<=0 and y2+h2+MoveItAllUp>=gfx.h))) or i>#reagirl.Elements-6
         then
         --]]
    --     print_update((x2+reagirl.MoveItAllRight>=0 and x2+reagirl.MoveItAllRight<=gfx.w), x2+MoveItAllRight, (x2+reagirl.MoveItAllRight+w2>=0 and x2+reagirl.MoveItAllRight+w2<=gfx.w))
