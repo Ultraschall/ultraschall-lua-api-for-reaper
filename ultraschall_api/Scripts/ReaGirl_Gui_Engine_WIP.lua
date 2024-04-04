@@ -1,7 +1,7 @@
 dofile(reaper.GetResourcePath().."/UserPlugins/ultraschall_api.lua")
 
 -- DEBUG:
---reaper.osara_outputMessage=nil
+reaper.osara_outputMessage=nil
 
 reagirl={}
 if reaper.osara_outputMessage~=nil then
@@ -15,6 +15,9 @@ end
 --]]
 --[[
 TODO: 
+  - DropDownMenu: line "if gfx.mouse_x>=x+cap_w and gfx.mouse_x<=x+w and gfx.mouse_y>=y and gfx.mouse_y<=y+h then"
+          in DropDownMenu_Manage occasionally produces nil-error on x for some reason...
+          Maybe only after using EditMode?
   - general: instead of math.floor() use number // 1 | 0 as this is massively faster for creating integers!
             9.87654 // 1 | 0
             1.23456 // 1 | 0
@@ -2544,7 +2547,7 @@ function reagirl.UI_Element_GetSet_ContextMenu(element_id, is_set, menu, menu_fu
   if reagirl.Elements[element_id]==nil then error("UI_Element_GetSet_ContextMenu: #1 - no such ui-element", 2) end
   if type(is_set)~="boolean" then error("UI_Element_GetSet_ContextMenu: #2 - must be a boolean", 2) end
   if is_set==true and type(menu)~="string" then error("UI_Element_GetSet_ContextMenu: #3 - must be a string when #2==true", 2) end
-  if is_set==true and type(menu_function)~="function" then error("UI_Element_GetSet_ContextMenu: #4 - must be a string when #2==true", 2) end
+  if is_set==true and type(menu_function)~="function" then error("UI_Element_GetSet_ContextMenu: #4 - must be a function when #2==true", 2) end
   
   if is_set==true then
     reagirl.Elements[element_id]["ContextMenu"]=menu
@@ -7201,9 +7204,9 @@ function reagirl.UI_Elements_Boundaries()
   end
   --]]
   reagirl.BoundaryX_Min=0--minx
-  reagirl.BoundaryX_Max=maxx+15*scale
+  reagirl.BoundaryX_Max=maxx+30*scale
   reagirl.BoundaryY_Min=0--miny
-  reagirl.BoundaryY_Max=maxy+15*scale -- +scale_offset
+  reagirl.BoundaryY_Max=maxy+30*scale -- +scale_offset
   --gfx.rect(reagirl.BoundaryX_Min, reagirl.BoundaryY_Min+reagirl.MoveItAllUp, 10, 10, 1)
   --gfx.rect(reagirl.BoundaryX_Max-20, reagirl.BoundaryY_Max+reagirl.MoveItAllUp-20, 10, 10, 1)
   --gfx.drawstr(reagirl.MoveItAllUp.." "..reagirl.BoundaryY_Min)
@@ -8771,14 +8774,14 @@ function reagirl.Tabs_Draw(element_id, selected, hovered, clicked, mouse_cap, mo
     if element_storage["y"]<0 then y2=gfx.h+(element_storage["y"]*dpi_scale) else y2=element_storage["y"]*dpi_scale end    
     
     if element_storage["w_background"]==nil then 
-      bg_w=(reagirl.BoundaryX_Max-x2-x2)*dpi_scale 
+      bg_w=(reagirl.BoundaryX_Max-x2-x2)-15*dpi_scale--*dpi_scale 
       element_storage["bg_w"]=bg_w
     else 
       if element_storage["w_background"]>0 then bg_w=element_storage["w_background"]*dpi_scale else bg_w=gfx.w+element_storage["w_background"]*dpi_scale-offset_x end
     end
     
     if element_storage["h_background"]==nil then 
-      bg_h=(reagirl.BoundaryY_Max-y2-element_storage["Tabs_Pos"][element_storage["TabSelected"] ]["h"])*dpi_scale 
+      bg_h=(reagirl.BoundaryY_Max-y2-element_storage["Tabs_Pos"][element_storage["TabSelected"] ]["h"])-25*dpi_scale--*dpi_scale 
       element_storage["bg_h"]=bg_h
     else 
       if element_storage["h_background"]>0 then bg_h=element_storage["h_background"]*dpi_scale else bg_h=gfx.h+element_storage["h_background"]*dpi_scale-offset_y end
@@ -8859,10 +8862,10 @@ end
 local count=0
 local count2=0
 
-function button2(A,B,C)
-  --print2(A,B,C)
+function button2(A,B,C,D,E,F)
+  print2(A,B,C,D,E,F)
   B={1,2,3}
-  reagirl.UI_Element_GetSetCaption(A, true, "HÄH")
+  --reagirl.UI_Element_GetSetCaption(A, true, "HÄH")
   --[[
   id=reagirl.UI_Element_GetIDFromGuid(A)
   local scale=reagirl.Window_GetCurrentScale()
@@ -8882,6 +8885,8 @@ function UpdateUI()
   reagirl.NextLine()
   reagirl.NextLine(15)
   Lab3=reagirl.Label_Add(-100, nil, "Chapter Image", "HELP", 0, true, nil)
+  reagirl.UI_Element_GetSet_ContextMenu(Lab3, true, "Tudel|>Loo|Huch", button2)
+  reagirl.UI_Element_GetSet_DropZoneFunction(Lab3, true, button2)
   
   --Lab1=reagirl.Label_Add(25, nil, "General:", "", 0, false, nil)
   --reagirl.Label_SetStyle(Lab1, 6)
