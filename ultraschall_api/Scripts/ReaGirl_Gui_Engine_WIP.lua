@@ -5791,40 +5791,82 @@ function reagirl.Label_SetLabelText(element_id, label)
   end
 end
 
-function reagirl.Label_GetLabelText(element_id)
+function reagirl.Label_GetFontSize(element_id)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>Label_GetLabelText</slug>
+  <slug>Label_GetFontSize</slug>
   <requires>
     ReaGirl=1.0
     Reaper=7
     Lua=5.4
   </requires>
-  <functioncall>string label = reagirl.Label_GetLabelText(string element_id)</functioncall>
+  <functioncall>integer font_size = reagirl.Label_GetFontSize(string element_id)</functioncall>
   <description>
-    Gets the label text of a label.
+    Gets the font-size of a label.
   </description>
   <retvals>
-    string label - the text of the label
+    integer font_size - the font_size of the label
   </retvals>
   <parameters>
-    string element_id - the id of the element, whose label you want to get
+    string element_id - the id of the element, whose font-size you want to get
   </parameters>
   <chapter_context>
     Label
   </chapter_context>
-  <tags>label, get, text</tags>
+  <tags>label, get, font size</tags>
 </US_DocBloc>
 --]]
-  if type(element_id)~="string" then error("Label_GetLabelText: param #1 - must be a string", 2) end
-  if reagirl.IsValidGuid(element_id, true)==nil then error("Label_GetLabelText: param #1 - must be a valid guid", 2) end
+  if type(element_id)~="string" then error("Label_GetFontSize: param #1 - must be a string", 2) end
+  if reagirl.IsValidGuid(element_id, true)==nil then error("Label_GetFontSize: param #1 - must be a valid guid", 2) end
   element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
-  if element_id==-1 then error("Label_GetLabelText: param #1 - no such ui-element", 2) end
+  if element_id==-1 then error("Label_GetFontSize: param #1 - no such ui-element", 2) end
 
   if reagirl.Elements[element_id]["GUI_Element_Type"]:sub(-5,-1)~="Label" then
-    error("Label_GetLabelText: param #1 - ui-element is not a label", 2)
+    error("Label_GetFontSize: param #1 - ui-element is not a label", 2)
   else
-    return reagirl.Elements[element_id]["Name"]
+    return reagirl.Elements[element_id]["font_size"]
+  end
+end
+
+function reagirl.Label_SetFontSize(element_id, font_size)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Label_SetFontSize</slug>
+  <requires>
+    ReaGirl=1.0
+    Reaper=7
+    Lua=5.4
+  </requires>
+  <functioncall>reagirl.Label_SetFontSize(string element_id, integer font_size)</functioncall>
+  <description>
+    Sets the font-size of a label.
+  </description>
+  <parameters>
+    string element_id - the id of the element, whose font-size you want to set
+    integer font_size - the font_size of the label
+  </parameters>
+  <chapter_context>
+    Label
+  </chapter_context>
+  <tags>label, set, font size</tags>
+</US_DocBloc>
+--]]
+  if type(element_id)~="string" then error("Label_SetFontSize: param #1 - must be a string", 2) end
+  if reagirl.IsValidGuid(element_id, true)==nil then error("Label_SetFontSize: param #1 - must be a valid guid", 2) end
+  if math.type(font_size)~="integer" then error("Label_SetFontSize: param #2 - must be an integer", 2) end
+  if font_size<1 then error("Label_SetFontSize: param #2 - must be bigger than 0", 2) end
+  element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
+  if element_id==-1 then error("Label_SetFontSize: param #1 - no such ui-element", 2) end
+
+  if reagirl.Elements[element_id]["GUI_Element_Type"]:sub(-5,-1)~="Label" then
+    error("Label_SetFontSize: param #1 - ui-element is not a label", 2)
+  else
+    reagirl.Elements[element_id]["font_size"]=font_size
+    reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0, 1)
+    local w,h=gfx.measurestr(reagirl.Elements[element_id]["Name"])
+    reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0)
+    reagirl.Elements[element_id]["w"]=math.tointeger(w)
+    reagirl.Elements[element_id]["h"]=math.tointeger(h)+reagirl.UI_Element_HeightMargin
   end
 end
 
@@ -6027,6 +6069,7 @@ function reagirl.Label_Add(x, y, label, meaningOfUI_Element, align, clickable, r
   reagirl.Elements[slot]["x"]=x
   reagirl.Elements[slot]["y"]=y
   
+  reagirl.Elements[slot]["font_size"]=reagirl.Font_Size
   reagirl.Elements[slot]["clickable"]=clickable
   reagirl.Elements[slot]["sticky_x"]=false
   reagirl.Elements[slot]["sticky_y"]=false
@@ -6081,7 +6124,7 @@ function reagirl.Label_Draw(element_id, selected, hovered, clicked, mouse_cap, m
   end
   
   --print2(style)
-  reagirl.SetFont(1, "Arial", reagirl.Font_Size, style)
+  reagirl.SetFont(1, "Arial", element_storage["font_size"], style)
   local olddest=gfx.dest
   local oldx, oldy = gfx.x, gfx.y
   local old_gfx_r=gfx.r
@@ -6130,7 +6173,7 @@ function reagirl.Label_Draw(element_id, selected, hovered, clicked, mouse_cap, m
     gfx.x=x
     gfx.y=y
     gfx.drawstr(name, element_storage["align"])--, w, h)
-    reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0)
+    reagirl.SetFont(1, "Arial", element_storage["font_size"], 0)
   end
   --[[gfx.dest=-1
   gfx.x=x
@@ -8885,6 +8928,8 @@ function UpdateUI()
   reagirl.NextLine()
   reagirl.NextLine(15)
   Lab3=reagirl.Label_Add(-100, nil, "Chapter Image", "HELP", 0, true, nil)
+  reagirl.Label_SetFontSize(Lab3, 25)
+  reagirl.Label_SetStyle(Lab3, 0, 0, 0)
   reagirl.UI_Element_GetSet_ContextMenu(Lab3, true, "Tudel|>Loo|Huch", button2)
   reagirl.UI_Element_GetSet_DropZoneFunction(Lab3, true, button2)
   
@@ -8907,11 +8952,11 @@ function UpdateUI()
   reagirl.UI_Element_GetSet_ContextMenu(A, true, "HULU", button2)
   reagirl.CheckBox_Add(nil, nil, "Spoilers", "Does this chapter contain spoilers or not?", true, tabme)
   reagirl.NextLine()
-  Lab3=reagirl.Label_Add(30, nil, "Chapter Image", "HELP", 0, false, nil)
+  Lab13=reagirl.Label_Add(30, nil, "Chapter Image", "HELP", 0, false, nil)
   
   --reagirl.UI_Element_GetSet_ContextMenu(Lab3, true, "HULU", button2)
   --
-  reagirl.Label_SetStyle(Lab3, 6)
+  reagirl.Label_SetStyle(Lab13, 6)
   
   reagirl.NextLine()
   reagirl.Slider_Add(30, nil, 270, "Title:", 70, "Loo", "%", 1, 100, 1, 100, tabme)
@@ -8979,6 +9024,7 @@ reagirl.Gui_AtExit(ExitMe)
 function main()
   reagirl.Gui_Manage()
   reagirl.DockState_Update("Stonehenge")
+  --if oldfont~=reagirl.Label_GetFontSize(Lab3) then oldfont=reagirl.Label_GetFontSize(Lab3) print2(reagirl.Label_GetFontSize(Lab3)) end
   --reagirl.FileDropZone_SetVisibility(dropzone_id, true)
   --reagirl.Gui_PreventScrollingForOneCycle(false, false, reagirl.Checkbox_GetCheckState)
   --reagirl.Gui_PreventCloseViaEscForOneCycle()
