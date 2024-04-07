@@ -84,6 +84,14 @@ reagirl.mouse.dragged=false
 
 reagirl.UI_Element_HeightMargin=5
 
+-- Cursor-Blinkspeed for inputboxes, live-settable in extstate ReaGirl -> InputBox_BlinkSpeed
+-- 7 and higher is supported
+if reaper.GetExtState("ReaGirl", "InputBox_BlinkSpeed")=="" then
+  reagirl.InputBox_BlinkSpeed=32
+else
+  reagirl.InputBox_BlinkSpeed=tonumber(reaper.GetExtState("ReaGirl", "InputBox_BlinkSpeed"))
+end
+  
 function reagirl.FormatNumber(n, p)
   -- by cfillion
   local p = (math.log(math.abs(n), 10) // 1) + (p or 3) + 1
@@ -1555,6 +1563,12 @@ function reagirl.Gui_Manage()
   if #reagirl.Elements==0 then error("Gui_Manage: no ui-element available", -2) end
   
   if #reagirl.Elements<reagirl.Elements.FocusedElement then reagirl.Elements.FocusedElement=1 end
+  
+  if reaper.GetExtState("ReaGirl", "InputBox_BlinkSpeed")=="" then
+    reagirl.InputBox_BlinkSpeed=33
+  else
+    reagirl.InputBox_BlinkSpeed=tonumber(reaper.GetExtState("ReaGirl", "InputBox_BlinkSpeed"))
+  end
   
   reagirl.UI_Element_MinX=gfx.w
   reagirl.UI_Element_MinY=gfx.h
@@ -4230,6 +4244,7 @@ function reagirl.InputBox_Add(x, y, w, caption, Cap_width, meaningOfUI_Element, 
   reagirl.Elements[slot]["y"]=y
   reagirl.Elements[slot]["w"]=w
   reagirl.Elements[slot]["h"]=math.tointeger(ty)+reagirl.UI_Element_HeightMargin
+  reagirl.Elements[slot]["blink"]=0
   reagirl.Elements[slot]["sticky_x"]=false
   reagirl.Elements[slot]["sticky_y"]=false
   Default=string.gsub(Default, "\n", "")
@@ -4815,7 +4830,8 @@ function reagirl.InputBox_Manage(element_id, selected, hovered, clicked, mouse_c
     local retval, filenames = reaper.GetUserFileNameForRead("", "Choose file to drop into "..element_storage["Name"], "")
     if retval==true then element_storage["DropZoneFunction"](element_storage["Guid"], {filenames}) refresh=true end
   end
-
+  
+  local blink_refresh=false
   if reaper.osara_outputMessage~=nil then
     reagirl.Gui_PreventEnterForOneCycle()
     if selected~="not selected" and (Key==13 or (mouse_cap&1==1 and gfx.mouse_x>=x and gfx.mouse_x<=x+w and gfx.mouse_y>=y and gfx.mouse_y<=y+h)) then
@@ -4831,6 +4847,13 @@ function reagirl.InputBox_Manage(element_id, selected, hovered, clicked, mouse_c
       end
     end
   else
+    if selected~="not selected" then
+      element_storage["blink"]=element_storage["blink"]+1
+      if element_storage["blink"]>reagirl.InputBox_BlinkSpeed then element_storage["blink"]=0 end
+      if element_storage["blink"]==(reagirl.InputBox_BlinkSpeed>>1)+4 or element_storage["blink"]==1 then refresh=true end
+    else
+      element_storage["blink"]=0
+    end
     if element_storage["run_function"]~=nil then
       reagirl.Gui_PreventEnterForOneCycle()
     end
@@ -5039,7 +5062,9 @@ function reagirl.InputBox_Draw(element_id, selected, hovered, clicked, mouse_cap
     end
     if selected~="not selected" and element_storage.hasfocus==true and element_storage.cursor_offset==i then 
       gfx.set(0.9843137254901961, 0.8156862745098039, 0)
-      gfx.line(gfx.x, y+dpi_scale, gfx.x, y+gfx.texth-dpi_scale)
+      if element_storage["blink"]>0 and element_storage["blink"]<(reagirl.InputBox_BlinkSpeed>>1)+4 then
+        gfx.line(gfx.x, y+dpi_scale, gfx.x, y+gfx.texth-dpi_scale)
+      end
       if element_storage.hasfocus==true then gfx.set(0.8) else gfx.set(0.5) end
     end
     draw_offset=draw_offset+textw
