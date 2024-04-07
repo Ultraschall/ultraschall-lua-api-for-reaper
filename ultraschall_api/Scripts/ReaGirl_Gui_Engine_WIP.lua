@@ -1135,10 +1135,10 @@ function reagirl.ScrollBar_Left_Manage(element_id, selected, hovered, clicked, m
         break
       end
     end
-  elseif mouse_cap&1==1 and gfx.mouse_y>=y and gfx.mouse_y<=y+7 then
+  elseif mouse_cap&1==1 and gfx.mouse_x>=x and gfx.mouse_x<=x+w and gfx.mouse_y>=y and gfx.mouse_y<=y+7 then
     reagirl.MoveItAllUp=0
     reagirl.Gui_ForceRefresh()
-  elseif mouse_cap&1==1 and gfx.mouse_y>=y+h-8 and gfx.mouse_y<=y+h then
+  elseif mouse_cap&1==1 and gfx.mouse_x>=x and gfx.mouse_x<=x+w and gfx.mouse_y>=y+h-8 and gfx.mouse_y<=y+h then
     reagirl.MoveItAllUp=-reagirl.BoundaryY_Max+gfx.h
     reagirl.Gui_ForceRefresh()
   end
@@ -1215,10 +1215,10 @@ function reagirl.ScrollBar_Bottom_Manage(element_id, selected, hovered, clicked,
         break
       end
     end
-  elseif mouse_cap&1==1 and gfx.mouse_x>=x and gfx.mouse_x<=x+7 then
+  elseif mouse_cap&1==1 and gfx.mouse_x>=x and gfx.mouse_x<=x+7 and gfx.mouse_y>=y and gfx.mouse_y<=y+h then
     reagirl.MoveItAllRight=0
     reagirl.Gui_ForceRefresh()
-  elseif mouse_cap&1==1 and gfx.mouse_x>=x+w-8 and gfx.mouse_x<=x+w then
+  elseif mouse_cap&1==1 and gfx.mouse_x>=x+w-8 and gfx.mouse_x<=x+w and gfx.mouse_y>=y and gfx.mouse_y<=y+h then
     reagirl.MoveItAllRight=-reagirl.BoundaryX_Max+gfx.w
     reagirl.Gui_ForceRefresh()
   end
@@ -4845,7 +4845,7 @@ function reagirl.InputBox_Manage(element_id, selected, hovered, clicked, mouse_c
       element_storage["draw_offset_end"]=element_storage["Text"]:utf8_len()
       element_storage["selection_endoffset"]=element_storage["Text"]:utf8_len()
       element_storage["selection_startoffset"]=0
-      reagirl.InputBox_Calculate_DrawOffset(false, element_storage)
+      reagirl.InputBox_Calculate_DrawOffset(true, element_storage)
       element_storage.hasfocus=true
     elseif selected=="not selected" then
       element_storage["selection_endoffset"]=element_storage["cursor_offset"]
@@ -4884,7 +4884,7 @@ function reagirl.InputBox_Manage(element_id, selected, hovered, clicked, mouse_c
       -- mouse management
       if selected~="not selected" and clicked=="FirstCLK" then 
         element_storage["hasfocus"]=true
-        if reagirl.mouse.down==false then
+        if reagirl.mouse.down==false then 
           reagirl.InputBox_OnMouseDown(mouse_cap, element_storage) 
           refresh=true
         end
