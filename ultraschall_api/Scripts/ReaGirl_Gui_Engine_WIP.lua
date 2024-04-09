@@ -1150,7 +1150,14 @@ function reagirl.ScrollBar_Left_Manage(element_id, selected, hovered, clicked, m
   --       - adding scroll "marker"(probably in Draw-function)
   if reagirl.Scroll_Override_ScrollButtons==true then return "" end
   if element_storage.IsDecorative==false and element_storage.a<=0.75 then element_storage.a=element_storage.a+.1 reagirl.Gui_ForceRefresh(44) end
-  if mouse_cap&1==1 and gfx.mouse_x>=x and gfx.mouse_x<=x+w and gfx.mouse_y>=y+7 and gfx.mouse_y<=y+h-8 then
+  
+  if clicked=="FirstCLK" and selected~="not selected" then
+    element_storage.clicked=true
+  end
+  
+  if mouse_cap==0 then element_storage.clicked=false end
+  
+  if element_storage.clicked==true and mouse_cap&1==1 and gfx.mouse_x>=x and gfx.mouse_x<=x+w and gfx.mouse_y>=y+7 and gfx.mouse_y<=y+h-8 then
     local dpi_scale = reagirl.Window_GetCurrentScale()
     --element_storage.stepsize=math.ceil((h-90*dpi_scale)/(reagirl.BoundaryY_Max-gfx.h))
     element_storage.stepsize=(h-13)/(reagirl.BoundaryY_Max*dpi_scale-gfx.h)
@@ -1229,7 +1236,13 @@ function reagirl.ScrollBar_Bottom_Manage(element_id, selected, hovered, clicked,
   if element_storage.IsDecorative==false and element_storage.a<=0.75 then element_storage.a=element_storage.a+.1 reagirl.Gui_ForceRefresh(44) end
   local dpi_scale = reagirl.Window_GetCurrentScale()
   
-  if mouse_cap&1==1 
+  if clicked=="FirstCLK" and selected~="not selected" then
+    element_storage.clicked=true
+  end
+  
+  if mouse_cap==0 then element_storage.clicked=false end
+  
+  if element_storage.clicked==true
      and gfx.mouse_x>=x+7
      and gfx.mouse_x<=x+w-8
      and gfx.mouse_y>=y 
