@@ -93,14 +93,24 @@ else
   reagirl.InputBox_BlinkSpeed=tonumber(reaper.GetExtState("ReaGirl", "InputBox_BlinkSpeed"))
 end
 
--- Cursor-Blinkspeed for inputboxes, live-settable in extstate ReaGirl -> InputBox_BlinkSpeed
+-- Blinkspeed for the focus-rectangle, live-settable in extstate 
+--    ReaGirl -> FocusRect_BlinkSpeed - sets the speed of the blinking
+-- and 
+--    ReaGirl -> FocusRectangle_BlinkTime - sets the duration in seconds for how long the blinking shall happen
 -- 7 and higher is supported
 reagirl.FocusRectangle_Alpha=0.4
 reagirl.FocusRectangle_Blink=0
+reagirl.FocusRectangle_BlinkTime=5
 if reaper.GetExtState("ReaGirl", "FocusRect_BlinkSpeed")=="" then
   reagirl.FocusRectangle_BlinkSpeed=1
 else
   reagirl.FocusRectangle_BlinkSpeed=tonumber(reaper.GetExtState("ReaGirl", "FocusRect_BlinkSpeed"))
+end
+
+if reaper.GetExtState("ReaGirl", "FocusRectangle_BlinkTime")=="" then
+  reagirl.FocusRectangle_BlinkTime=1
+else
+  reagirl.FocusRectangle_BlinkTime=tonumber(reaper.GetExtState("ReaGirl", "FocusRectangle_BlinkTime"))
 end
   
 function reagirl.FormatNumber(n, p)
@@ -1538,6 +1548,7 @@ function reagirl.Gui_Close()
 </US_DocBloc>
 ]]
   gfx.quit()
+  reagirl.FocusRectangle_BlinkStartTime=nil
   reagirl.IsWindowOpen_attribute=false
   reagirl.IsWindowOpen_attribute_Old=true
 end
@@ -1587,11 +1598,31 @@ function reagirl.Gui_Manage()
   else
     reagirl.FocusRectangle_BlinkSpeed=tonumber(reaper.GetExtState("ReaGirl", "FocusRect_BlinkSpeed"))
   end
+  if reagirl.FocusRectangle_BlinkStartTime==nil then
+    reagirl.FocusRectangle_BlinkStartTime=reaper.time_precise()
+  end
   
-  reagirl.FocusRectangle_Blink=reagirl.FocusRectangle_Blink+1
-  if reagirl.FocusRectangle_Blink>reagirl.FocusRectangle_BlinkSpeed then reagirl.FocusRectangle_Blink=0 end
-  if reagirl.FocusRectangle_Blink==(reagirl.FocusRectangle_BlinkSpeed>>1) then reagirl.FocusRectangle_Alpha=0 reagirl.Gui_ForceRefresh() end
-  if reagirl.FocusRectangle_Blink==0 then reagirl.FocusRectangle_Alpha=0.8 reagirl.Gui_ForceRefresh() end
+  if reaper.GetExtState("ReaGirl", "FocusRectangle_BlinkTime")=="" then
+    reagirl.FocusRectangle_BlinkTime=3
+  else
+    reagirl.FocusRectangle_BlinkTime=tonumber(reaper.GetExtState("ReaGirl", "FocusRectangle_BlinkTime"))
+  end
+  if reagirl.FocusRectangle_BlinkStartTime==nil then
+    reagirl.FocusRectangle_BlinkStartTime=reaper.time_precise()
+  end
+  
+  if reaper.time_precise()<reagirl.FocusRectangle_BlinkStartTime+reagirl.FocusRectangle_BlinkTime then
+    if reagirl.FocusRectangle_BlinkSpeed>1 then
+      reagirl.FocusRectangle_Blink=reagirl.FocusRectangle_Blink+1
+      if reagirl.FocusRectangle_Blink>reagirl.FocusRectangle_BlinkSpeed then reagirl.FocusRectangle_Blink=0 end
+      if reagirl.FocusRectangle_Blink==(reagirl.FocusRectangle_BlinkSpeed>>1) then reagirl.FocusRectangle_Alpha=0 reagirl.Gui_ForceRefresh() end
+      if reagirl.FocusRectangle_Blink==0 then reagirl.FocusRectangle_Alpha=0.5 reagirl.Gui_ForceRefresh() end
+    end
+  elseif reagirl.FocusRectangle_BlinkStop~=true then
+    reagirl.FocusRectangle_Alpha=0.5
+    reagirl.FocusRectangle_BlinkStop=true
+    reagirl.Gui_ForceRefresh()
+  end
   
   reagirl.UI_Element_MinX=gfx.w
   reagirl.UI_Element_MinY=gfx.h
@@ -1699,7 +1730,10 @@ function reagirl.Gui_Manage()
   if gfx.mouse_cap==0 and Key==9 then 
     local old_selection=reagirl.Elements.FocusedElement
     reagirl.Elements["FocusedElement"]=reagirl.UI_Element_GetNext(reagirl.Elements["FocusedElement"])
-
+    
+    reagirl.FocusRectangle_BlinkStartTime=reaper.time_precise()
+    reagirl.FocusRectangle_BlinkStop=nil
+    
     if reagirl.Elements["FocusedElement"]~=-1 then
       if reagirl.Elements["FocusedElement"]>#reagirl.Elements then reagirl.Elements["FocusedElement"]=1 end 
       init_message=reagirl.Elements[reagirl.Elements["FocusedElement"]]["Name"].." "..reagirl.Elements[reagirl.Elements["FocusedElement"]]["GUI_Element_Type"]..". "
@@ -1724,6 +1758,10 @@ function reagirl.Gui_Manage()
   if gfx.mouse_cap==8 and Key==9 then 
     local old_selection=reagirl.Elements.FocusedElement
     reagirl.Elements["FocusedElement"]=reagirl.UI_Element_GetPrevious(reagirl.Elements["FocusedElement"])
+    
+    reagirl.FocusRectangle_BlinkStartTime=reaper.time_precise()
+    reagirl.FocusRectangle_BlinkStop=nil
+    
     if reagirl.Elements["FocusedElement"]~=-1 then
       if reagirl.Elements["FocusedElement"]<1 then reagirl.Elements["FocusedElement"]=#reagirl.Elements end
       init_message=reagirl.Elements[reagirl.Elements["FocusedElement"]]["Name"].." "..
@@ -5910,7 +5948,7 @@ function reagirl.Label_SetFontSize(element_id, font_size)
     error("Label_SetFontSize: param #1 - ui-element is not a label", 2)
   else
     reagirl.Elements[element_id]["font_size"]=font_size
-    reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0, 1)
+    reagirl.SetFont(1, "Arial", font_size, 0, 1)
     local w,h=gfx.measurestr(reagirl.Elements[element_id]["Name"])
     reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0)
     reagirl.Elements[element_id]["w"]=math.tointeger(w)
@@ -8909,7 +8947,7 @@ end
 
 
 function UpdateImage2(element_id)
-  print2("HUH", element_id)
+  --print2("HUH", element_id)
   reagirl.Gui_ForceRefreshState=true
   --if gfx.mouse_cap==1 then
     retval, filename = reaper.GetUserFileNameForRead("", "", "")
@@ -8987,7 +9025,7 @@ function UpdateUI()
   reagirl.NextLine()
   A=reagirl.InputBox_Add(30, nil, 270, "Title:", 70, "the title for this chapter", "gggMalik testet Hackintoshis", ABBALA2, ABBALA3)
   reagirl.Inputbox_SetPassword(A, true)
-  print2(reagirl.Inputbox_GetPassword(A))
+  --print2(reagirl.Inputbox_GetPassword(A))
   reagirl.NextLine()
   reagirl.InputBox_Add(30, nil, 270, "Description:", 70, "a summary of this chapter","Neue Hackintoshs braucht das Land", nil, nil)
   reagirl.NextLine()
@@ -9016,6 +9054,7 @@ function UpdateUI()
   reagirl.DropDownMenu_Add(1230, 1200, 170, "Menu:", 70, "Menu me", {"Eins", "Zwo", "Drei"}, 2, tabme)
   reagirl.NextLine()
   button=reagirl.Button_Add(-115, nil, 0, 0, "Apply Changes", "", nil, button2)
+  print2(reagirl.Button_GetRadius(button))
   --reagirl.NextLine()
   --reagirl.InputBox_Add(40, nil, -20, "Content Note:", 100, "", "Hackies, und, so", nil, nil)
   --[[
