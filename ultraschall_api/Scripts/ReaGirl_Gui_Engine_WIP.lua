@@ -3,6 +3,7 @@ dofile(reaper.GetResourcePath().."/UserPlugins/ultraschall_api.lua")
 -- DEBUG:
 reaper.osara_outputMessage=nil
 
+
 reagirl={}
 if reaper.osara_outputMessage~=nil then
   reagirl.OSARA=reaper.osara_outputMessage
@@ -87,9 +88,19 @@ reagirl.UI_Element_HeightMargin=5
 -- Cursor-Blinkspeed for inputboxes, live-settable in extstate ReaGirl -> InputBox_BlinkSpeed
 -- 7 and higher is supported
 if reaper.GetExtState("ReaGirl", "InputBox_BlinkSpeed")=="" then
-  reagirl.InputBox_BlinkSpeed=32
+  reagirl.InputBox_BlinkSpeed=33
 else
   reagirl.InputBox_BlinkSpeed=tonumber(reaper.GetExtState("ReaGirl", "InputBox_BlinkSpeed"))
+end
+
+-- Cursor-Blinkspeed for inputboxes, live-settable in extstate ReaGirl -> InputBox_BlinkSpeed
+-- 7 and higher is supported
+reagirl.FocusRectangle_Alpha=0.4
+reagirl.FocusRectangle_Blink=0
+if reaper.GetExtState("ReaGirl", "FocusRect_BlinkSpeed")=="" then
+  reagirl.FocusRectangle_BlinkSpeed=1
+else
+  reagirl.FocusRectangle_BlinkSpeed=tonumber(reaper.GetExtState("ReaGirl", "FocusRect_BlinkSpeed"))
 end
   
 function reagirl.FormatNumber(n, p)
@@ -1564,11 +1575,23 @@ function reagirl.Gui_Manage()
   
   if #reagirl.Elements<reagirl.Elements.FocusedElement then reagirl.Elements.FocusedElement=1 end
   
+  -- initialize cursor-blinkspeed
   if reaper.GetExtState("ReaGirl", "InputBox_BlinkSpeed")=="" then
     reagirl.InputBox_BlinkSpeed=33
   else
     reagirl.InputBox_BlinkSpeed=tonumber(reaper.GetExtState("ReaGirl", "InputBox_BlinkSpeed"))
   end
+
+  if reaper.GetExtState("ReaGirl", "FocusRect_BlinkSpeed")=="" then
+    reagirl.FocusRectangle_BlinkSpeed=1
+  else
+    reagirl.FocusRectangle_BlinkSpeed=tonumber(reaper.GetExtState("ReaGirl", "FocusRect_BlinkSpeed"))
+  end
+  
+  reagirl.FocusRectangle_Blink=reagirl.FocusRectangle_Blink+1
+  if reagirl.FocusRectangle_Blink>reagirl.FocusRectangle_BlinkSpeed then reagirl.FocusRectangle_Blink=0 end
+  if reagirl.FocusRectangle_Blink==(reagirl.FocusRectangle_BlinkSpeed>>1) then reagirl.FocusRectangle_Alpha=0 reagirl.Gui_ForceRefresh() end
+  if reagirl.FocusRectangle_Blink==0 then reagirl.FocusRectangle_Alpha=0.8 reagirl.Gui_ForceRefresh() end
   
   reagirl.UI_Element_MinX=gfx.w
   reagirl.UI_Element_MinY=gfx.h
@@ -2125,7 +2148,7 @@ function reagirl.Gui_Draw(Key, Key_utf, clickstate, specific_clickstate, mouse_c
           if reagirl.Focused_Rect_Override==nil then
             local a=gfx.a
             local dpi_scale=reagirl.Window_GetCurrentScale()
-            gfx.a=0.4
+            gfx.a=reagirl.FocusRectangle_Alpha
             
             gfx.rect((x2+MoveItAllRight)-dpi_scale, (y2+MoveItAllUp-dpi_scale*2), (w2+dpi_scale*3), reagirl.Window_GetCurrentScale(), 1)
             gfx.rect((x2+MoveItAllRight)-dpi_scale-dpi_scale, (y2+MoveItAllUp)-dpi_scale*2, reagirl.Window_GetCurrentScale(), h2+dpi_scale+dpi_scale+dpi_scale, 1)
@@ -2135,7 +2158,7 @@ function reagirl.Gui_Draw(Key, Key_utf, clickstate, specific_clickstate, mouse_c
             gfx.a=a
           else
             local a=gfx.a
-            gfx.a=0.4
+            gfx.a=reagirl.FocusRectangle_Alpha
             
             gfx.rect((reagirl.Elements["Focused_x"])+reagirl.Window_GetCurrentScale(), (reagirl.Elements["Focused_y"]), reagirl.Elements["Focused_w"], reagirl.Window_GetCurrentScale(), 1)
             gfx.rect((reagirl.Elements["Focused_x"]), (reagirl.Elements["Focused_y"]), reagirl.Window_GetCurrentScale(), reagirl.Elements["Focused_h"], 1)
