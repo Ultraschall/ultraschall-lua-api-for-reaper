@@ -707,6 +707,23 @@ end
 
 --reagirl.ResizeImageKeepAspectRatio(1, 1, 1, 1, 1, 1)
 
+
+function reagirl.Window_Reposition(x_or_y)
+  if x_or_y==true then
+    if reagirl.BoundaryY_Max-gfx.h<-reagirl.MoveItAllUp then
+      local dif=-(reagirl.BoundaryY_Max-gfx.h)-reagirl.MoveItAllUp
+      reagirl.MoveItAllUp=reagirl.MoveItAllUp+dif
+    end
+    if reagirl.MoveItAllUp>0 then reagirl.MoveItAllUp=0 end
+  else
+    if reagirl.BoundaryX_Max-gfx.w<-reagirl.MoveItAllRight then
+      local dif=-(reagirl.BoundaryX_Max-gfx.w)-reagirl.MoveItAllRight
+      reagirl.MoveItAllRight=reagirl.MoveItAllRight+dif
+    end
+    if reagirl.MoveItAllRight>0 then reagirl.MoveItAllRight=0 end
+  end
+end
+
 function reagirl.Window_Open(...)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
@@ -1638,7 +1655,8 @@ function reagirl.Gui_Manage()
   else
     reagirl.InputBox_BlinkSpeed=tonumber(reaper.GetExtState("ReaGirl", "InputBox_BlinkSpeed"))
   end
-
+  
+  -- focus rectangle blinking
   if reaper.GetExtState("ReaGirl", "FocusRect_BlinkSpeed")=="" then
     reagirl.FocusRectangle_BlinkSpeed=1
   else
@@ -1763,8 +1781,8 @@ function reagirl.Gui_Manage()
   reagirl.OldMouseY=gfx.mouse_y
   
   -- if window has been resized, force refresh
-  if reagirl.Windows_OldH~=gfx.h then reagirl.Windows_OldH=gfx.h reagirl.Gui_ForceRefresh(5) end
-  if reagirl.Windows_OldW~=gfx.w then reagirl.Windows_OldW=gfx.w reagirl.Gui_ForceRefresh(6) end
+  if reagirl.Windows_OldH~=gfx.h then reagirl.Windows_OldH=gfx.h reagirl.Window_Reposition(true) reagirl.Gui_ForceRefresh(5) end
+  if reagirl.Windows_OldW~=gfx.w then reagirl.Windows_OldW=gfx.w reagirl.Window_Reposition(false) reagirl.Gui_ForceRefresh(6) end
   
   if reagirl.ui_element_selected==nil then 
     reagirl.ui_element_selected="first selected"
