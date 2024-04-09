@@ -1195,12 +1195,13 @@ function reagirl.ScrollBar_Left_Draw(element_id, selected, hovered, clicked, mou
   local oldr, oldg, oldb, olda = gfx.r, gfx.g, gfx.b, gfx.a
   gfx.set(reagirl["WindowBackgroundColorR"], reagirl["WindowBackgroundColorG"], reagirl["WindowBackgroundColorB"], element_storage.a)
   
-  if mouse_cap==1 and selected~="not selected" then
-    gfx.set(0.59, 0.59, 0.59, element_storage.a)
-  else
-    gfx.set(0.39, 0.39, 0.39, element_storage.a)
-  end
+  gfx.set(0.39, 0.39, 0.39, element_storage.a-0.3)
   gfx.rect(x, y, w, h, 1)
+  gfx.set(0.39, 0.39, 0.39, element_storage.a)
+  gfx.rect(x, y, w, h, 0)
+  y2=-((h-13)/(reagirl.BoundaryY_Max-gfx.h))*reagirl.MoveItAllUp
+  gfx.set(0.39, 0.39, 0.39, element_storage.a+0.9)
+  gfx.rect(x,y2+15,13,16)
 end
 
 function reagirl.ScrollBar_Bottom_Add()
@@ -1281,8 +1282,13 @@ function reagirl.ScrollBar_Bottom_Draw(element_id, selected, hovered, clicked, m
   local oldr, oldg, oldb, olda = gfx.r, gfx.g, gfx.b, gfx.a
   gfx.set(reagirl["WindowBackgroundColorR"], reagirl["WindowBackgroundColorG"], reagirl["WindowBackgroundColorB"], element_storage.a)
   
-  gfx.set(0.39, 0.39, 0.39, element_storage.a)
+  gfx.set(0.39, 0.39, 0.39, element_storage.a-0.3)
   gfx.rect(x, y, w, h, 1)
+  gfx.set(0.39, 0.39, 0.39, element_storage.a)
+  gfx.rect(x, y, w, h, 0)
+  x2=-((w-13)/(reagirl.BoundaryX_Max-gfx.w))*reagirl.MoveItAllRight
+  gfx.set(0.39, 0.39, 0.39, element_storage.a+0.9)
+  gfx.rect(x2+15,y,13,16)
 end
 
 function reagirl.Window_GetCurrentScale()
