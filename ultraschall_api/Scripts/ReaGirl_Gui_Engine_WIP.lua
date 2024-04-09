@@ -4620,7 +4620,7 @@ function reagirl.InputBox_OnMouseUp(mouse_cap, element_storage)
 end
 
 function reagirl.InputBox_GetPreviousPOI(element_storage)
-  for i=element_storage.cursor_offset-1, 0, -1 do
+  for i=element_storage.cursor_offset, 0, -1 do
     if element_storage.Text:utf8_sub(i,i):has_alphanumeric_plus_underscore()==false then
       return i
     end
@@ -4629,7 +4629,7 @@ function reagirl.InputBox_GetPreviousPOI(element_storage)
 end
 
 function reagirl.InputBox_GetNextPOI(element_storage)
-  for i=element_storage.cursor_offset, element_storage.Text:utf8_len() do
+  for i=element_storage.cursor_offset+1, element_storage.Text:utf8_len() do
     if element_storage.Text:utf8_sub(i,i):has_alphanumeric_plus_underscore()==false then
       return i-1
     end
