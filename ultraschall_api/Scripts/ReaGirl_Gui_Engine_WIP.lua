@@ -1203,7 +1203,7 @@ function reagirl.ScrollBar_Left_Draw(element_id, selected, hovered, clicked, mou
   gfx.rect(x, y, w+1, h, 1)
   gfx.set(0.39, 0.39, 0.39, element_storage.a)
   
-  y2=-((h-13*scale)/(reagirl.BoundaryY_Max-gfx.h))*reagirl.MoveItAllUp
+  local y2=-((h-13*scale)/(reagirl.BoundaryY_Max-gfx.h))*reagirl.MoveItAllUp
   
   --gfx.set(0.19, 0.19, 0.19, 1)  
   --gfx.rect(scale+x,y2+16*scale,-scale-scale+15*scale,-scale-scale+14*scale,1)
@@ -1297,7 +1297,7 @@ function reagirl.ScrollBar_Bottom_Draw(element_id, selected, hovered, clicked, m
   gfx.rect(x, y, w, h, 1)
   --gfx.set(0.39, 0.39, 0.39, element_storage.a)
   --gfx.rect(x, y, w, h, 0)
-  x2=-((w-13*scale)/(reagirl.BoundaryX_Max-gfx.w))*reagirl.MoveItAllRight
+  local x2=-((w-13*scale)/(reagirl.BoundaryX_Max-gfx.w))*reagirl.MoveItAllRight
   
   gfx.set(0.49, 0.49, 0.49, 1)
   gfx.rect(x2+15*scale,y,13*scale,15*scale,1)
