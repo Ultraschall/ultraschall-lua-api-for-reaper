@@ -1160,7 +1160,7 @@ function reagirl.ScrollBar_Left_Manage(element_id, selected, hovered, clicked, m
   if element_storage.clicked==true and mouse_cap&1==1 and gfx.mouse_x>=x and gfx.mouse_x<=x+w and gfx.mouse_y>=y+7 and gfx.mouse_y<=y+h-8 then
     local dpi_scale = reagirl.Window_GetCurrentScale()
     --element_storage.stepsize=math.ceil((h-90*dpi_scale)/(reagirl.BoundaryY_Max-gfx.h))
-    element_storage.stepsize=(h-13)/(reagirl.BoundaryY_Max*dpi_scale-gfx.h)
+    element_storage.stepsize=(h-13)/(reagirl.BoundaryY_Max-gfx.h)
     if element_storage.stepsize==0 then element_storage.stepsize=1 end
     local count=0
     for i=y+7, y+h+element_storage.stepsize, element_storage.stepsize do
@@ -1199,9 +1199,9 @@ function reagirl.ScrollBar_Left_Draw(element_id, selected, hovered, clicked, mou
   gfx.rect(x, y, w, h, 1)
   gfx.set(0.39, 0.39, 0.39, element_storage.a)
   gfx.rect(x, y, w, h, 0)
-  y2=-((h-13)/(reagirl.BoundaryY_Max-gfx.h))*reagirl.MoveItAllUp
+  y2=-((h-13*scale)/(reagirl.BoundaryY_Max-gfx.h))*reagirl.MoveItAllUp
   gfx.set(0.39, 0.39, 0.39, element_storage.a+0.9)
-  gfx.rect(x,y2+15,13,16)
+  gfx.rect(x,y2+15*scale,13*scale,16*scale)
 end
 
 function reagirl.ScrollBar_Bottom_Add()
@@ -1243,11 +1243,7 @@ function reagirl.ScrollBar_Bottom_Manage(element_id, selected, hovered, clicked,
   
   if mouse_cap==0 then element_storage.clicked=false end
   
-  if element_storage.clicked==true
-     and gfx.mouse_x>=x+7
-     and gfx.mouse_x<=x+w-8
-     and gfx.mouse_y>=y 
-     and gfx.mouse_y<=y+h then
+  if element_storage.clicked==true and gfx.mouse_x>=x+7 and gfx.mouse_x<=x+w-8 and gfx.mouse_y>=y and gfx.mouse_y<=y+h then
     element_storage.stepsize=(w-13)/(reagirl.BoundaryX_Max-gfx.w)
     local count=0
     for i=x+7, x+w+element_storage.stepsize, element_storage.stepsize do
@@ -1286,9 +1282,9 @@ function reagirl.ScrollBar_Bottom_Draw(element_id, selected, hovered, clicked, m
   gfx.rect(x, y, w, h, 1)
   gfx.set(0.39, 0.39, 0.39, element_storage.a)
   gfx.rect(x, y, w, h, 0)
-  x2=-((w-13)/(reagirl.BoundaryX_Max-gfx.w))*reagirl.MoveItAllRight
+  x2=-((w-13*scale)/(reagirl.BoundaryX_Max-gfx.w))*reagirl.MoveItAllRight
   gfx.set(0.39, 0.39, 0.39, element_storage.a+0.9)
-  gfx.rect(x2+15,y,13,16)
+  gfx.rect(x2+15*scale,y,13*scale,16*scale)
 end
 
 function reagirl.Window_GetCurrentScale()
