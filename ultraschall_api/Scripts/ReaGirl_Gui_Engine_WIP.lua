@@ -1208,7 +1208,7 @@ function reagirl.ScrollBar_Left_Draw(element_id, selected, hovered, clicked, mou
   --gfx.set(0.19, 0.19, 0.19, 1)  
   --gfx.rect(scale+x,y2+16*scale,-scale-scale+15*scale,-scale-scale+14*scale,1)
   
-  gfx.set(0.49, 0.49, 0.49, 1)
+  gfx.set(0.49, 0.49, 0.49, element_storage.a)
   gfx.rect(x,y2+15*scale,16*scale,14*scale,1)
   
   --gfx.set(0.39, 0.39, 0.39, element_storage.a+0.9)
@@ -1299,7 +1299,7 @@ function reagirl.ScrollBar_Bottom_Draw(element_id, selected, hovered, clicked, m
   --gfx.rect(x, y, w, h, 0)
   local x2=-((w-13*scale)/(reagirl.BoundaryX_Max-gfx.w))*reagirl.MoveItAllRight
   
-  gfx.set(0.49, 0.49, 0.49, 1)
+  gfx.set(0.49, 0.49, 0.49, element_storage.a)
   gfx.rect(x2+15*scale,y,13*scale,15*scale,1)
   
   --gfx.set(0.19, 0.19, 0.19, 1)
@@ -9049,7 +9049,7 @@ function UpdateUI()
   reagirl.Tabs_Add(nil, nil, nil, nil, "Add Shownote", "", {"General", "Advanced", "Smoke"}, 1, tabme)
   reagirl.NextLine()
   reagirl.NextLine(15)
-  Lab3=reagirl.Label_Add(-100, nil, "Chapter Image", "HELP", 0, true, nil)
+  Lab3=reagirl.Label_Add(-300, nil, "Chapter Image", "HELP", 0, true, nil)
   reagirl.Label_SetFontSize(Lab3, 25)
   reagirl.Label_SetStyle(Lab3, 0, 0, 0)
   reagirl.UI_Element_GetSet_ContextMenu(Lab3, true, "Tudel|>Loo|Huch", button2)
@@ -9087,9 +9087,9 @@ function UpdateUI()
   Img=reagirl.Image_Add("c:\\c.png", nil, nil, 70, 70, "Chapter Image", "", ABBALA3)
 
   reagirl.NextLine()
-  reagirl.DropDownMenu_Add(1230, 1200, 170, "Menu:", 70, "Menu me", {"Eins", "Zwo", "Drei"}, 2, tabme)
+  reagirl.DropDownMenu_Add(130, 120, 170, "Menu:", 70, "Menu me", {"Eins", "Zwo", "Drei"}, 2, tabme)
   reagirl.NextLine()
-  button=reagirl.Button_Add(-115, nil, 0, 0, "Apply Changes", "", nil, button2)
+  button=reagirl.Button_Add(-315, nil, 0, 0, "Apply Changes", "", nil, button2)
   print2(reagirl.Button_GetRadius(button))
   --reagirl.NextLine()
   --reagirl.InputBox_Add(40, nil, -20, "Content Note:", 100, "", "Hackies, und, so", nil, nil)
