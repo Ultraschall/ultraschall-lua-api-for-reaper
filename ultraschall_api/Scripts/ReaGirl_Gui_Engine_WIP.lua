@@ -1860,6 +1860,8 @@ function reagirl.Gui_Manage()
            if i~=reagirl.Elements["FocusedElement"] then
              init_message=reagirl.Elements[i]["Name"].." "..reagirl.Elements[i]["GUI_Element_Type"]:sub(1,-1).." "
              helptext=reagirl.Elements[i]["Description"]..", "..reagirl.Elements[i]["AccHint"]
+             reagirl.FocusRectangle_BlinkStartTime=reaper.time_precise()
+             reagirl.FocusRectangle_BlinkStop=nil
            end
            
            -- set found ui-element as focused and clicked
