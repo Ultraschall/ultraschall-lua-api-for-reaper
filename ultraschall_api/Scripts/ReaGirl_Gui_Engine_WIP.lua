@@ -1190,8 +1190,9 @@ function reagirl.ScrollBar_Left_Manage(element_id, selected, hovered, clicked, m
   
   if mouse_cap==0 then element_storage.clickme=false end
   
-  if element_storage.clickme==true and mouse_cap&1==1 and gfx.mouse_y>=y+7 and gfx.mouse_y<=y+h-8 then
-    local dpi_scale = reagirl.Window_GetCurrentScale()
+  local dpi_scale = reagirl.Window_GetCurrentScale()
+  if element_storage.clickme==true and mouse_cap&1==1 and gfx.mouse_y>=y+7*dpi_scale and gfx.mouse_y<=y+h-8*dpi_scale then
+    
     --element_storage.stepsize=math.ceil((h-90*dpi_scale)/(reagirl.BoundaryY_Max-gfx.h))
     element_storage.stepsize=(h-13)/(reagirl.BoundaryY_Max-gfx.h)
     --if element_storage.stepsize==0 then element_storage.stepsize=1 end
@@ -1205,12 +1206,12 @@ function reagirl.ScrollBar_Left_Manage(element_id, selected, hovered, clicked, m
         break
       end
     end
-  elseif element_storage.clickme==true and gfx.mouse_y<=y+7 then
-    element_storage.scroll_pos=y+7
+  elseif element_storage.clickme==true and gfx.mouse_y<=y+7*dpi_scale then
+    element_storage.scroll_pos=y+7*dpi_scale
     reagirl.MoveItAllUp=0
     reagirl.Gui_ForceRefresh()
-  elseif element_storage.clickme==true and gfx.mouse_y>=y+h-8 then
-    element_storage.scroll_pos=w+h-6
+  elseif element_storage.clickme==true and gfx.mouse_y>=y+h-8*dpi_scale then
+    element_storage.scroll_pos=w+h-6*dpi_scale
     reagirl.MoveItAllUp=-reagirl.BoundaryY_Max+gfx.h
     reagirl.Gui_ForceRefresh()
   end
@@ -1303,7 +1304,8 @@ function reagirl.ScrollBar_Bottom_Manage(element_id, selected, hovered, clicked,
   
   if mouse_cap==0 then element_storage.clickme=false end
   
-  if element_storage.clickme==true and gfx.mouse_x>=x+7 and gfx.mouse_x<=x+w-8 then
+  local dpi_scale = reagirl.Window_GetCurrentScale()
+  if element_storage.clickme==true and gfx.mouse_x>=x+7*dpi_scale and gfx.mouse_x<=x+w-8*dpi_scale then
     element_storage.stepsize=(w-13)/(reagirl.BoundaryX_Max-gfx.w)
     local count=-2
     for i=x+7, x+w+element_storage.stepsize, element_storage.stepsize do
@@ -1315,12 +1317,12 @@ function reagirl.ScrollBar_Bottom_Manage(element_id, selected, hovered, clicked,
       end
       count=count+1
     end
-  elseif element_storage.clickme==true and gfx.mouse_x<=x+7 then
-    element_storage.scroll_pos=x+7
+  elseif element_storage.clickme==true and gfx.mouse_x<=x+7*dpi_scale then
+    element_storage.scroll_pos=x+7*dpi_scale
     reagirl.MoveItAllRight=0
     reagirl.Gui_ForceRefresh()
-  elseif element_storage.clickme==true and gfx.mouse_x>=x+w-8 then
-    element_storage.scroll_pos=x+w-6
+  elseif element_storage.clickme==true and gfx.mouse_x>=x+w-8*dpi_scale then
+    element_storage.scroll_pos=x+w-6*dpi_scale
     reagirl.MoveItAllRight=-reagirl.BoundaryX_Max+gfx.w
     reagirl.Gui_ForceRefresh()
     --]]
