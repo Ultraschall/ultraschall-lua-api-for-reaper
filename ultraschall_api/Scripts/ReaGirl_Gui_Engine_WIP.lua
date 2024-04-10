@@ -1744,7 +1744,7 @@ function reagirl.Gui_Manage()
   -- This can be used to build more extensive scrollcode, including smooth scroll and scrollbars
   -- see reagirl.UI_Elements_Boundaries() for the calculation of it and more information
   if reagirl.Scroll_Override_MouseWheel~=true then
-    if gfx.mouse_hwheel~=0 then reagirl.UI_Element_ScrollX(-gfx.mouse_hwheel/50) end
+    if gfx.mouse_hwheel~=0 then reagirl.UI_Element_ScrollX(gfx.mouse_hwheel/50) end
     if gfx.mouse_wheel~=0 then reagirl.UI_Element_ScrollY(gfx.mouse_wheel/50) end
   end
   reagirl.Scroll_Override_MouseWheel=nil
@@ -5027,8 +5027,8 @@ function reagirl.InputBox_Manage(element_id, selected, hovered, clicked, mouse_c
     if selected~="not selected" and (gfx.mouse_x>=x and gfx.mouse_y>=y and gfx.mouse_x<=x+w and gfx.mouse_y<=y+h) then 
       -- mousewheel scroll the text inside the input-box via hmousewheel(doesn't work properly, yet)
       reagirl.Gui_PreventScrollingForOneCycle(true, true, false)
-      if mouse_attributes[6]<0 then 
-        if mouse_attributes[6]<-300 then factor=10 else factor=1 end  
+      if mouse_attributes[6]>0 then 
+        if mouse_attributes[6]>-300 then factor=10 else factor=1 end  
         element_storage["draw_offset"]=element_storage["draw_offset"]-factor
         if element_storage["draw_offset"]<1 then 
           element_storage["draw_offset"]=1 
@@ -5037,8 +5037,8 @@ function reagirl.InputBox_Manage(element_id, selected, hovered, clicked, mouse_c
         reagirl.InputBox_Calculate_DrawOffset(true, element_storage)
       end
       
-      if mouse_attributes[6]>0 then 
-        if mouse_attributes[6]>300 then factor=10 else factor=1 end
+      if mouse_attributes[6]<0 then 
+        if mouse_attributes[6]<300 then factor=10 else factor=1 end
         element_storage["draw_offset"]=element_storage["draw_offset"]+factor
         if element_storage["draw_offset"]>element_storage["Text"]:utf8_len() then 
           element_storage["draw_offset"]=element_storage["Text"]:utf8_len()
@@ -5210,7 +5210,8 @@ function reagirl.InputBox_Draw(element_id, selected, hovered, clicked, mouse_cap
     if selected~="not selected" and element_storage.hasfocus==true and element_storage.cursor_offset==i then 
       gfx.set(0.9843137254901961, 0.8156862745098039, 0)
       if element_storage["blink"]>0 and element_storage["blink"]<(reagirl.InputBox_BlinkSpeed>>1)+4 then
-        gfx.line(gfx.x, y+dpi_scale, gfx.x, y+gfx.texth-dpi_scale)
+        local y3=y+(h-gfx.texth)/3
+        gfx.line(gfx.x, y3, gfx.x, y3+gfx.texth)
       end
       if element_storage.hasfocus==true then gfx.set(0.8) else gfx.set(0.5) end
     end
@@ -9173,8 +9174,9 @@ function UpdateUI()
   reagirl.NextLine(10)
   reagirl.Button_Add(-115, nil, 0, 0, "Apply Changes", "", button2)
   reagirl.NextLine()
-  button=reagirl.Button_Add(-115, nil, 0, 0, "Apply Changes", "", button2)
-  reagirl.Button_SetRadius(button, 8)
+  --]]
+  button33=reagirl.Button_Add(1115, 900, 0, 0, "Apply  Changes", "", button2)
+  reagirl.Button_SetRadius(button33, 8)
   --]]
 end
 
