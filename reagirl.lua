@@ -100,15 +100,15 @@ end
 -- 7 and higher is supported
 reagirl.FocusRectangle_Alpha=0.4
 reagirl.FocusRectangle_Blink=0
-reagirl.FocusRectangle_BlinkTime=5
-if reaper.GetExtState("ReaGirl", "FocusRect_BlinkSpeed")=="" then
-  reagirl.FocusRectangle_BlinkSpeed=1
+reagirl.FocusRectangle_BlinkTime=0
+if reaper.GetExtState("ReaGirl", "FocusRectangle_BlinkSpeed")=="" then
+  reagirl.FocusRectangle_BlinkSpeed=nil
 else
-  reagirl.FocusRectangle_BlinkSpeed=tonumber(reaper.GetExtState("ReaGirl", "FocusRect_BlinkSpeed"))
+  reagirl.FocusRectangle_BlinkSpeed=tonumber(reaper.GetExtState("ReaGirl", "FocusRectangle_BlinkSpeed"))
 end
 
 if reaper.GetExtState("ReaGirl", "FocusRectangle_BlinkTime")=="" then
-  reagirl.FocusRectangle_BlinkTime=1
+  reagirl.FocusRectangle_BlinkTime=nil
 else
   reagirl.FocusRectangle_BlinkTime=tonumber(reaper.GetExtState("ReaGirl", "FocusRectangle_BlinkTime"))
 end
@@ -116,6 +116,7 @@ end
 function reagirl.FormatNumber(n, p)
   -- by cfillion
   local p = (math.log(math.abs(n), 10) // 1) + (p or 3) + 1
+  if tostring(p):match("INF")~=nil then p=0 end
   return ('%%.%dg'):format(p):format(n)
 end
 
@@ -835,8 +836,8 @@ function reagirl.Window_RescaleIfNeeded()
   local scale
   
   if reagirl.Window_CurrentScale_Override==nil then
-    if tonumber(reaper.GetExtState("reagirl_preferences", "scaling_override"))~=nil then
-      scale=tonumber(reaper.GetExtState("reagirl_preferences", "scaling_override"))
+    if tonumber(reaper.GetExtState("ReaGirl", "scaling_override"))~=nil then
+      scale=tonumber(reaper.GetExtState("ReaGirl", "scaling_override"))
     else
       local retval, dpi = reaper.ThemeLayout_GetLayout("tcp", -3)
       local dpi=tonumber(dpi)
@@ -1679,17 +1680,17 @@ function reagirl.Gui_Manage()
   end
   
   -- focus rectangle blinking
-  if reaper.GetExtState("ReaGirl", "FocusRect_BlinkSpeed")=="" then
-    reagirl.FocusRectangle_BlinkSpeed=1
+  if reaper.GetExtState("ReaGirl", "FocusRectangle_BlinkSpeed")=="" then
+    reagirl.FocusRectangle_BlinkSpeed=10
   else
-    reagirl.FocusRectangle_BlinkSpeed=tonumber(reaper.GetExtState("ReaGirl", "FocusRect_BlinkSpeed"))
+    reagirl.FocusRectangle_BlinkSpeed=tonumber(reaper.GetExtState("ReaGirl", "FocusRectangle_BlinkSpeed"))
   end
   if reagirl.FocusRectangle_BlinkStartTime==nil then
     reagirl.FocusRectangle_BlinkStartTime=reaper.time_precise()
   end
   
   if reaper.GetExtState("ReaGirl", "FocusRectangle_BlinkTime")=="" then
-    reagirl.FocusRectangle_BlinkTime=3
+    reagirl.FocusRectangle_BlinkTime=0.001
   else
     reagirl.FocusRectangle_BlinkTime=tonumber(reaper.GetExtState("ReaGirl", "FocusRectangle_BlinkTime"))
   end
@@ -1705,9 +1706,10 @@ function reagirl.Gui_Manage()
       if reagirl.FocusRectangle_Blink==0 then reagirl.FocusRectangle_Alpha=0.5 reagirl.Gui_ForceRefresh() end
     end
   elseif reagirl.FocusRectangle_BlinkStop~=true then
-    reagirl.FocusRectangle_Alpha=0.5
-    reagirl.FocusRectangle_BlinkStop=true
+    reagirl.FocusRectangle_Alpha=0.5    
+    reagirl.FocusRectangle_Blink=0
     reagirl.Gui_ForceRefresh()
+    reagirl.FocusRectangle_BlinkStop=true
   end
   
   reagirl.UI_Element_MinX=gfx.w
@@ -4319,10 +4321,11 @@ function reagirl.InputBox_Add(x, y, w, caption, Cap_width, meaningOfUI_Element, 
     Unlike other ui-elements, this one has the option for two run_functions, one for when the user hits enter in the inputbox and one for when the user types anything into the inputbox.
   </description>
   <parameters>
-    optional integer x - the x position of the slider in pixels; negative anchors the slider to the right window-side; nil, autoposition after the last ui-element(see description)
-    optional integer y - the y position of the slider in pixels; negative anchors the slider to the bottom window-side; nil, autoposition after the last ui-element(see description)
-    string caption - the caption of the slider
-    optional integer cap_width - the width of the caption to set the actual slider to a fixed position; nil, put slider directly after caption
+    optional integer x - the x position of the inputbox in pixels; negative anchors the inputbox to the right window-side; nil, autoposition after the last ui-element(see description)
+    optional integer y - the y position of the inputbox in pixels; negative anchors the inputbox to the bottom window-side; nil, autoposition after the last ui-element(see description)
+    integer w - the width of the inputbox in pixels
+    string caption - the caption of the inpubox
+    optional integer cap_width - the width of the caption to set the actual inputbox to a fixed position; nil, put inputbox directly after caption
     string meaningOfUI_Element - a description for accessibility users
     optional string Default - the "typed text" that the inputbox shall contain
     function run_function_enter - a function that is run when the user hits enter in the inputbox
@@ -7908,6 +7911,7 @@ function reagirl.Slider_Add(x, y, w, caption, Cap_width, meaningOfUI_Element, un
   if Cap_width~=nil and math.type(Cap_width)~="integer" then error("Slider_Add: param #5 - must be wither nil or an integer", 2) end
   if type(meaningOfUI_Element)~="string" then error("Slider_Add: param #6 - must be a string", 2) end
   if unit~=nil and type(unit)~="string" then error("Slider_Add: param #7 - must be a number", 2) end
+  if unit==nil then unit="" end
   if type(start)~="number" then error("Slider_Add: param #8 - must be a number", 2) end
   if type(stop)~="number" then error("Slider_Add: param #9 - must be a number", 2) end
   if type(step)~="number" then error("Slider_Add: param #10 - must be a number", 2) end
@@ -9038,216 +9042,4 @@ reagirl.Gui_New()
 
 
 --- End of ReaGirl-functions
-
-
-function DropDownList(element_id, check, name)
-  --print2(element_id, check, name)
-end
-
-
-function UpdateImage2(element_id)
-  --print2("HUH", element_id)
-  reagirl.Gui_ForceRefreshState=true
-  --if gfx.mouse_cap==1 then
-    retval, filename = reaper.GetUserFileNameForRead("", "", "")
-    if retval==true then
-      reagirl.Image_Load(element_id, filename)
-    end
-  --end
-  --]]
-end
-
-function GetFileList(element_id, filelist)
-  print2(element_id)
-  reagirl.Image_Load(B, filelist[1])
-  AFile=filelist
-  list=""
-  for i=1, 1000 do
-    if filelist[i]~=nil then 
-      list=list..i..": "..filelist[i].."\n"
-    end
-  end
- -- print2(list)
-end
-
-function GetFileList2(filelist)
-  list=""
-  for i=1, 1000 do
-    if filelist[i]==nil then break end
-    list=list..filelist[i].."\n"
-  end
-  print2("Zwo:"..list)
-end
-
-function ABBALA2(A,B,C)
-  print2("Mister Ed HUCH", A, B, C)
-end
-
-function ABBALA3(A,B,C)
-  print_update(os.date(), A,B,C)
-end
-
-local count=0
-local count2=0
-
-function button2(A,B,C,D,E,F)
-  print2(A,B,C,D,E,F)
-  B={1,2,3}
-  --reagirl.UI_Element_GetSetCaption(A, true, "HÄH")
-  --[[
-  id=reagirl.UI_Element_GetIDFromGuid(A)
-  local scale=reagirl.Window_GetCurrentScale()
-  if reagirl.Elements[id]["x"]<0 then x2=gfx.w+(reagirl.Elements[id]["x"]*scale) else x2=(reagirl.Elements[id]["x"]*scale) end
-  if reagirl.Elements[id]["y"]<0 then y2=gfx.h+(reagirl.Elements[id]["y"]*scale) else y2=(reagirl.Elements[id]["y"]*scale) end
-  if reagirl.Elements[id]["w"]<0 then w2=gfx.w+(-x2+reagirl.Elements[id]["w"]*scale) else w2=reagirl.Elements[id]["w"]*scale end
-  if reagirl.Elements[id]["h"]<0 then h2=gfx.h+(-y2+reagirl.Elements[id]["h"]*scale) else h2=reagirl.Elements[id]["h"]*scale end
-  --reagirl.UI_Element_OnMouse(A, 1, "FirstClk", x2, y2, 0, 0, 0, 0)
-  --reaper.JS_Mouse_SetPosition(x2+reagirl.MoveItAllRight, y2+reagirl.MoveItAllUp)
-  --reagirl.UI_Element_OnMouse(A, 1, "DRAG", reagirl.Elements[3].x, reagirl.Elements[3].y+10, 0, 0, 0, 0)
-  --]]
-end
-
-function UpdateUI()
-  reagirl.Background_GetSetColor(true, 44,44,44)
-  reagirl.Tabs_Add(nil, nil, nil, nil, "Add Shownote", "", {"General", "Advanced", "Smoke"}, 1, tabme)
-  reagirl.NextLine()
-  reagirl.NextLine(15)
-  Lab3=reagirl.Label_Add(-300, nil, "Chapter Image", "HELP", 0, true, nil)
-  reagirl.Label_SetFontSize(Lab3, 25)
-  reagirl.Label_SetStyle(Lab3, 0, 0, 0)
-  reagirl.UI_Element_GetSet_ContextMenu(Lab3, true, "Tudel|>Loo|Huch", button2)
-  reagirl.UI_Element_GetSet_DropZoneFunction(Lab3, true, button2)
-  
-  --Lab1=reagirl.Label_Add(25, nil, "General:", "", 0, false, nil)
-  --reagirl.Label_SetStyle(Lab1, 6)
-  
-  reagirl.NextLine()
-  A=reagirl.InputBox_Add(30, nil, 270, "Title:", 70, "the title for this chapter", "gggMalik testet Hackintoshis", ABBALA2, ABBALA3)
-  reagirl.Inputbox_SetPassword(A, true)
-  --print2(reagirl.Inputbox_GetPassword(A))
-  reagirl.NextLine()
-  reagirl.InputBox_Add(30, nil, 270, "Description:", 70, "a summary of this chapter","Neue Hackintoshs braucht das Land", nil, nil)
-  reagirl.NextLine()
-  reagirl.InputBox_Add(30, nil, 270, "Tags:", 70, "", "Hackies, und, so", nil, nil)
-  
-  reagirl.NextLine()
-  A=reagirl.CheckBox_Add(100, nil, "Is Ad", "Is this chapter an advertisement?", true, tabme)
-  reagirl.UI_Element_GetSetSticky(A, true, true, true)
-  reagirl.UI_Element_GetSet_DropZoneFunction(A, true, button2)
-  reagirl.UI_Element_GetSet_ContextMenu(A, true, "HULU", button2)
-  reagirl.CheckBox_Add(nil, nil, "Spoilers", "Does this chapter contain spoilers or not?", true, tabme)
-  reagirl.NextLine()
-  Lab13=reagirl.Label_Add(30, nil, "Chapter Image", "HELP", 0, false, nil)
-  
-  --reagirl.UI_Element_GetSet_ContextMenu(Lab3, true, "HULU", button2)
-  --
-  reagirl.Label_SetStyle(Lab13, 6)
-  
-  reagirl.NextLine()
-  reagirl.Slider_Add(30, nil, 270, "Title:", 70, "Loo", "%", 1, 100, 1, 100, tabme)
-  
-  reagirl.NextLine()
-  --Img=reagirl.Image_Add("c:\\c.png", nil, nil, 70, 70, "Chapter Image", "", ABBALA3)
-  Img=reagirl.Image_Add("c:\\Ultraschall-US_API_4.1.001\\Data\\toolbar_icons\\animation_toolbar_armed.png", nil, nil, 30, 300, "Chapter Image", "", ABBALA3)
-
-  reagirl.NextLine()
-  reagirl.DropDownMenu_Add(130, 120, 170, "Menu:", 70, "Menu me", {"Eins", "Zwo", "Drei"}, 2, tabme)
-  reagirl.NextLine()
-  button=reagirl.Button_Add(-315, nil, 0, 0, "Apply Changes", "", nil, button2)
-  --print2(reagirl.Button_GetRadius(button))
-  --reagirl.NextLine()
-  --reagirl.InputBox_Add(40, nil, -20, "Content Note:", 100, "", "Hackies, und, so", nil, nil)
-  --[[
-  reagirl.NextLine(10)
-  Lab2=reagirl.Label_Add(25, nil, "URL:", "", 0, false, nil)
-  --reagirl.Label_SetStyle(Lab2, 6)
-  reagirl.NextLine()
-  reagirl.InputBox_Add(40, nil, -20, "Url:", 100, "", "hbbs:/audiodump.de", nil, nil)
-  reagirl.NextLine()
-  reagirl.InputBox_Add(40, nil, -20, "Description:", 100, "", "Der besteste Audiodnmps auf se welt", nil, nil)
---[[
-  
-  reagirl.NextLine(15)
-  Lab3=reagirl.Label_Add(-100, nil, "Chapter Image", "HELP", 0, false, nil)
-  --reagirl.Label_SetStyle(Lab3, 8, 6)
-  reagirl.Label_SetStyle(Lab3, 6)
-  reagirl.NextLine()
-  
-  Img=reagirl.Image_Add("c:\\c.png", 20, nil, 85, 85, "Chapter Image", "", ABBALA3)
-  reagirl.Image_SetDraggable(Img, true, {Lab3, A})
-  reagirl.Image_SetDraggable(Img, false, {Lab3, A})
-
-
-  reagirl.InputBox_Add(30, nil, -10, "Description: ", 80, "", "Cover \nof DFVA", nil, nil)
-  reagirl.NextLine()
-  reagirl.Slider_Add(nil, nil, -10, "Slide Me:", 80, "Loo", "%", 1, 100, 1, 100, tabme)
-  reagirl.NextLine()
-  reagirl.InputBox_Add(nil, nil, -10, "License:      ", 80, "", "CC-By-NC", nil, nil)
-
-  reagirl.NextLine(10)
-  reagirl.Button_Add(-115, nil, 0, 0, "Apply Changes", "", button2)
-  reagirl.NextLine()
-  --]]
-  button33=reagirl.Button_Add(1115, 900, 0, 0, "Apply  Changes", "", button2)
-  reagirl.Button_SetRadius(button33, 8)
-  --]]
-end
-
-
-Images={reaper.GetResourcePath().."/Scripts/Ultraschall_Gfx/Headers/soundcheck_logo.png","c:\\f.png","c:\\m.png"}
-reagirl.Gui_Open("Edit Chapter Marker Attributes", "Edit Chapter marker", 310, 395, reagirl.DockState_Retrieve("Stonehenge"), 1, 1)
-
-UpdateUI()
---reagirl.Window_ForceSize_Minimum(320, 200)
---reagirl.Window_ForceSize_Maximum(640, 77)
---reagirl.Gui_ForceRefreshState=true
---main()
-
-function ExitMe()
-  print2("Bye Bye")
-end
-
-reagirl.Gui_AtExit(ExitMe)
-
-function main()
-  reagirl.Gui_Manage()
-  reagirl.DockState_Update("Stonehenge")
-  --if oldfont~=reagirl.Label_GetFontSize(Lab3) then oldfont=reagirl.Label_GetFontSize(Lab3) print2(reagirl.Label_GetFontSize(Lab3)) end
-  --reagirl.FileDropZone_SetVisibility(dropzone_id, true)
-  --reagirl.Gui_PreventScrollingForOneCycle(false, false, reagirl.Checkbox_GetCheckState)
-  --reagirl.Gui_PreventCloseViaEscForOneCycle()
-  --ABBA={reagirl.DropDownMenu_GetMenuItems(E)}
-  --ABBA[1][1]=reaper.time_precise()
-  --reagirl.DropDownMenu_SetMenuItems(E, ABBA[1], 1)
-  --reagirl.Gui_ForceRefresh()
-  --reagirl.Elements[2]["hidden"]=true
-  --reagirl.ContextMenu[1]["hidden"]=true
-  --print_update(reagirl.ContextMenuZone_GetVisibility(contextmenu_id))
-  --print(reagirl.FileDropZone_GetVisibility(dropzone_id))
-  --gfx.update()
-  --print_update(reagirl.UI_Element_IsElementAtMousePosition(LAB2))
- -- print_update(reagirl.UI_Element_GetHovered())
-  --reagirl.Gui_PreventEnterForOneCycle()
-  --print_update(reagirl.UI_Element_GetSetPosition(LAB, false, x, y))
---print_update(reagirl.InputBox_GetSelectedText(E))
---print_update(reagirl.Label_GetStyle(Lab1))
-  if reagirl.Gui_IsOpen()==true then reaper.defer(main) end
-end
-
-main()
-
-function ABBALA()
-  print2("Mister Ed")
-end
-
-reagirl.AtEnter(ABBALA)
---Element1={reagirl.UI_Element_GetSetRunFunction(4, true, print2)}
---Element1={reagirl.UI_Element_GetSetAllVerticalOffset(true, 100)}
---print2("Pudeldu")
-
---reagirl.UI_Element_GetFocusedRect()
-
---reagirl.Label_SetLabelText(LAB, "Prime Time Of Your\nLife")
-
-
 
