@@ -6734,8 +6734,12 @@ function reagirl.Image_Add(image_filename, x, y, w, h, name, meaningOfUI_Element
   gfx.set(r,g,b,a)
   local scale=reagirl.Window_CurrentScale
   
+  local path, filename = string.gsub(image_filename, "\\", "/"):match("(.*)(/.*)")
+
   if reaper.file_exists(image_filename:match("(.*)%.").."-"..scale.."x"..image_filename:match(".*(%..*)"))==true then
     image_filename=image_filename:match("(.*)%.").."-"..scale.."x"..image_filename:match(".*(%..*)")
+  elseif reaper.file_exists(path.."/"..scale.."00/"..filename) then
+    image_filename=path.."/"..scale.."00/"..filename
   end
   local AImage=gfx.loadimg(reagirl.Elements[slot]["Image_Storage"], image_filename)
 
@@ -6866,8 +6870,13 @@ function reagirl.Image_ReloadImage_Scaled(element_id)
   if reagirl.UI_Element_GetType(element_id)~="Image" then error("Image_ReloadImage_Scaled: #1 - UI-element is not an image", 2) end
   local image_filename=reagirl.Elements[slot]["Image_Filename"]
   local scale=reagirl.Window_CurrentScale
+  
+  local path, filename = string.gsub(image_filename, "\\", "/"):match("(.*)(/.*)")
+  
   if reaper.file_exists(image_filename:match("(.*)%.").."-"..scale.."x"..image_filename:match(".*(%..*)"))==true then
     image_filename=image_filename:match("(.*)%.").."-"..scale.."x"..image_filename:match(".*(%..*)")
+  elseif reaper.file_exists(path.."/"..scale.."00/"..filename) then
+    image_filename=path.."/"..scale.."00/"..filename
   end
   gfx.dest=reagirl.Elements[slot]["Image_Storage"]
   
@@ -7032,6 +7041,7 @@ function reagirl.Image_Load(element_id, image_filename)
   if type(element_id)~="string" then error("Image_Load: param #1 - must be a string", 2) end
   if type(image_filename)~="string" then error("Image_Load: param #2 - must be a string", 2) end
   if reagirl.IsValidGuid(element_id, true)==nil then error("Image_Load: param #1 - must be a valid guid", 2) end
+  if reaper.file_exists(image_filename)==false then error("Image_Load: param #2 - file not found", 2) end
   local el_id=element_id
   element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
   if element_id==-1 then error("Image_Load: param #1 - no such ui-element", 2) end
@@ -9137,7 +9147,8 @@ function UpdateUI()
   reagirl.Slider_Add(30, nil, 270, "Title:", 70, "Loo", "%", 1, 100, 1, 100, tabme)
   
   reagirl.NextLine()
-  Img=reagirl.Image_Add("c:\\c.png", nil, nil, 70, 70, "Chapter Image", "", ABBALA3)
+  --Img=reagirl.Image_Add("c:\\c.png", nil, nil, 70, 70, "Chapter Image", "", ABBALA3)
+  Img=reagirl.Image_Add("c:\\Ultraschall-US_API_4.1.001\\Data\\toolbar_icons\\animation_toolbar_armed.png", nil, nil, 30, 300, "Chapter Image", "", ABBALA3)
 
   reagirl.NextLine()
   reagirl.DropDownMenu_Add(130, 120, 170, "Menu:", 70, "Menu me", {"Eins", "Zwo", "Drei"}, 2, tabme)
