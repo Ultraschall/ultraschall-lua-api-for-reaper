@@ -170,6 +170,7 @@ end
 
 L=ultraschall.MakeCopyOfFile_Binary(SourceDir.."/ultraschall_api.lua", Target_Dir.."/ultraschall_api.lua")
 L=ultraschall.MakeCopyOfFile_Binary(SourceDir.."/ultraschall_api_readme.txt", Target_Dir.."/ultraschall_api_readme.txt")
+L=ultraschall.MakeCopyOfFile_Binary(SourceDir.."/reagirl.lua", Target_Dir.."/reagirl.lua")
 
 
 ReadMe_Reaper_Internals=[[
@@ -408,6 +409,7 @@ end
 
 --if lol==nil then return end
 -- generate ReaPack-indexfile
+XML_file="\t"..[[<source file="reagirl.lua" type="extension">]]..Url.."/reagirl.lua</source>\n"
 XML_file="\t"..[[<source file="ultraschall_api.lua" type="extension">]]..Url.."/ultraschall_api.lua</source>\n"
 XML_file=XML_file.."\t"..[[<source file="ultraschall_api_readme.txt" type="extension">]]..Url.."/ultraschall_api_readme.txt</source>\n"
 
