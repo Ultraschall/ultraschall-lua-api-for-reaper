@@ -162,9 +162,14 @@ Example 2:
 
   main()
 
-You'll notice that we added three tables, tab1, tab2 and tab3. You'll also notice, that we put the element_ids returned by the _Add-functions into these tabs.
+You'll notice that we added three tables, tab1, tab2 and tab3. You'll also notice, that we put the element_ids returned by the _Add-functions into these tabs, for instance :
+  inputbox_name_of_setting = reagirl.InputBox_Add(30, 105, 300, "Name of the setting:", 150, "Type in here the name of the setting", "No title", InputBox_RunFunction_Enter, InputBox_RunFunction_Type)
+became
+  tab1.inputbox_name_of_setting = reagirl.InputBox_Add(30, 105, 300, "Name of the setting:", 150, "Type in here the name of the setting", "No title", InputBox_RunFunction_Enter, InputBox_RunFunction_Type)
+means, we added tab1. in front of the variable-name, so it's now associated with the table that stores the gui-elements of the first tab.
+  
 All Inputbox_Add add to tab1, all Checkbox_Add add to tab2 and all Button_Add add to tab3. That way we have one table for each tab with all ui-elements that shall be in that tab.
-Now, let's add the tabs-ui-element to the gui using the funtion reagirl.Tabs_Add(). We also add a run-function for tabs called Tab_RunFunction.
+Now, let's add the tabs-ui-element to the gui using the function reagirl.Tabs_Add(). We also add a run-function for tabs called Tab_RunFunction.
 
 Example 3:
 
@@ -484,7 +489,7 @@ We're almost done.
 You remember from the first tutorial, that interacting with the user elements was showing dialogs. For instance, clicking the OK-button shows a dialog saying "OK button is pressed".
 But when you click it now, it does nothing.
 This is because our run-functions still use the old variables that used to store the element_ids but they are stored now in the tables tab1, tab2 and tab3.
-So let's alter the run-functions to check not for i.e. pressed_button_id==button_ok_id but pressed_button_id==tab3[1] and so on.
+So let's alter the run-functions to check not for i.e. pressed_button_id==button_ok_id but pressed_button_id==tab3.button_ok_id and so on.
 Here's how the run-functions look like, when they check against the table-entries of the ui-elements:
 
 
