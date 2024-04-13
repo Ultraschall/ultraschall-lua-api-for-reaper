@@ -822,10 +822,13 @@ function reagirl.Window_Open(...)
     
     -- rename it to the original title
     if HWND~=nil then reaper.JS_Window_SetTitle(HWND, temp) end
-    reagirl.GFX_WindowHWND=HWND
+    reagirl.GFX_WindowHWND=HWND    
   else 
+    parms[1]=""
+    local B=gfx.init(table.unpack(parms)) 
     retval=0.0
   end
+  
   return retval, reagirl.GFX_WindowHWND
 end
 
@@ -7006,8 +7009,8 @@ function reagirl.Image_Draw(element_id, selected, hovered, clicked, mouse_cap, m
     local ratiox=((100/x1)*w)/100
     local ratioy=((100/y1)*h)/100
     if ratiox<ratioy then ratio=ratiox else ratio=ratioy end
-    gfx.x=x+(math.floor((w-(x1*ratio)))>>1)
-    gfx.y=y+(math.floor((h-(y1*ratio)))>>1)
+    gfx.x=x+(math.floor((w-(x1*ratio)))/2)
+    gfx.y=y+(math.floor((h-(y1*ratio)))/2)
     gfx.blit(element_storage["Image_Storage"], ratio, 0)
   else    
     gfx.blit(element_storage["Image_Storage"],1,0,0,0,imgw,imgh,x,y,w,h,0,0)
