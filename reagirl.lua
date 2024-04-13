@@ -5169,6 +5169,7 @@ function reagirl.InputBox_Draw(element_id, selected, hovered, clicked, mouse_cap
   else
     cap_w=element_storage["Cap_width"]*dpi_scale
   end
+  cap_w=cap_w+dpi_scale
   
   -- draw caption
   gfx.x=x+dpi_scale
