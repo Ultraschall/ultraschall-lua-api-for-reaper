@@ -6999,8 +6999,18 @@ function reagirl.Image_Draw(element_id, selected, hovered, clicked, mouse_cap, m
   
   gfx.dest=-1
   local imgw, imgh = gfx.getimgdim(element_storage["Image_Storage"])
-  gfx.blit(element_storage["Image_Storage"],1,0,0,0,imgw,imgh,x,y,w,h,0,0)
-
+  
+  if element_storage.KeepAspectRatio==true then
+    local x1,y1=gfx.getimgdim(element_storage["Image_Storage"])
+    local ratiox=((100/x1)*w)/100
+    local ratioy=((100/y1)*h)/100
+    if ratiox<ratioy then ratio=ratiox else ratio=ratioy end
+    gfx.x=x+(math.floor((w-(x1*ratio)))>>1)
+    gfx.y=y+(math.floor((h-(y1*ratio)))>>1)
+    gfx.blit(element_storage["Image_Storage"], ratio, 0)
+  else    
+    gfx.blit(element_storage["Image_Storage"],1,0,0,0,imgw,imgh,x,y,w,h,0,0)
+  end
   -- revert changes
   gfx.r,gfx.g,gfx.b,gfx.a=r,g,b,a
   gfx.mode=oldmode
@@ -7009,7 +7019,130 @@ function reagirl.Image_Draw(element_id, selected, hovered, clicked, mouse_cap, m
   gfx.dest=olddest
 end
 
+function reagirl.Image_KeepAspectRatio(element_id, state)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Image_KeepAspectRatio</slug>
+  <requires>
+    ReaGirl=1.0
+    Reaper=7
+    Lua=5.4
+  </requires>
+  <functioncall>reagirl.Image_KeepAspectRatio(string element_id, boolean state)</functioncall>
+  <description>
+    Set if the image shall keep its aspect ratio when shown.
+  </description>
+  <parameters>
+    string element_id - the guid of the image
+    boolean state - true, keep aspect ratio; false, stretch to meet dimensions of the image
+  </parameters>
+  <chapter_context>
+    Image
+  </chapter_context>
+  <tags>image, set, keep, aspect ratio</tags>
+</US_DocBloc>
+--]]  
+  if type(element_id)~="string" then error("Image_KeepAspectRatio: param #1 - must be a string", 2) end
+  if type(state)~="boolean" then error("Image_KeepAspectRatio: param #2 - must be an integer", 2) end
+  if reagirl.IsValidGuid(element_id, true)==nil then error("Image_KeepAspectRatio: param #1 - must be a valid guid", 2) end
+  local el_id=element_id
+  element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
+  if element_id==-1 then error("Image_KeepAspectRatio: param #1 - no such ui-element", 2) end
+  if reagirl.Elements[element_id]["GUI_Element_Type"]~="Image" then
+    error("Image_KeepAspectRatio: param #1 - ui-element is not an image", 2)
+  else
+    reagirl.Elements[element_id]["KeepAspectRatio"]=state    
+  end
+end
 
+function reagirl.Image_GetImageFilename(element_id)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Image_GetImageFilename</slug>
+  <requires>
+    ReaGirl=1.0
+    Reaper=7
+    Lua=5.4
+  </requires>
+  <functioncall>reagirl.Image_GetImageFilename(string element_id)</functioncall>
+  <description>
+    Returns the filename of the currently loaded image.
+    
+    It will only return the regular filename, not a scaled file!
+  </description>
+  <parameters>
+    string element_id - the guid of the image
+  </parameters>
+  <retvals>
+    string filename - the filename of the currently loaded image
+  </retvals>
+  <chapter_context>
+    Image
+  </chapter_context>
+  <tags>image, set, keep, aspect ratio</tags>
+</US_DocBloc>
+--]]  
+  if type(element_id)~="string" then error("Image_GetImageFilename: param #1 - must be a string", 2) end
+  if reagirl.IsValidGuid(element_id, true)==nil then error("Image_GetImageFilename: param #1 - must be a valid guid", 2) end
+  local el_id=element_id
+  element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
+  if element_id==-1 then error("Image_GetImageFilename: param #1 - no such ui-element", 2) end
+  if reagirl.Elements[element_id]["GUI_Element_Type"]~="Image" then
+    error("Image_GetImageFilename: param #1 - ui-element is not an image", 2)
+  else
+    return reagirl.Elements[element_id]["Image_Filename"]
+  end
+end
+
+function reagirl.Image_ClearToColor(element_id, r, g, b)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Image_ClearToColor</slug>
+  <requires>
+    ReaGirl=1.0
+    Reaper=7
+    Lua=5.4
+  </requires>
+  <functioncall>reagirl.Image_ClearToColor(string element_id, integer r, integer g, integer b)</functioncall>
+  <description>
+    Clears the image with a set r-g-b-color. It also clears the previously loaded image-filename.
+  </description>
+  <parameters>
+    string element_id - the guid of the image
+    integer r - the red-value 0-255
+    integer g - the green-value 0-255
+    integer b - the blue-value 0-255
+  </parameters>
+  <chapter_context>
+    Image
+  </chapter_context>
+  <tags>image, clear</tags>
+</US_DocBloc>
+--]]  
+  if type(element_id)~="string" then error("Image_ClearToColor: param #1 - must be a string", 2) end
+  if math.type(r)~="integer" then error("Image_ClearToColor: param #2 - must be an integer", 2) end
+  if math.type(g)~="integer" then error("Image_ClearToColor: param #2 - must be an integer", 2) end
+  if math.type(b)~="integer" then error("Image_ClearToColor: param #2 - must be an integer", 2) end
+  if reagirl.IsValidGuid(element_id, true)==nil then error("Image_ClearToColor: param #1 - must be a valid guid", 2) end
+  local el_id=element_id
+  element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
+  if element_id==-1 then error("Image_ClearToColor: param #1 - no such ui-element", 2) end
+  if reagirl.Elements[element_id]["GUI_Element_Type"]~="Image" then
+    error("Image_ClearToColor: param #1 - ui-element is not an image", 2)
+  else
+    local oldgfx_dest=gfx.dest
+    local oldr, oldg, oldb = gfx.r, gfx.g, gfx.b
+    gfx.dest=reagirl.Elements[element_id]["Image_Storage"]
+    gfx.set(r/255, g/255, b/255, 1)
+    local w,h=gfx.getimgdim(gfx.dest)
+    gfx.rect(0, 0, w, h, 1)
+    gfx.r=oldr
+    gfx.g=oldg
+    gfx.b=oldb
+    gfx.dest=oldgfx_dest
+    reagirl.Elements[element_id]["Image_Filename"]=""
+  end
+end
 
 function reagirl.Image_Load(element_id, image_filename)
 --[[
