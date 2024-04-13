@@ -8026,8 +8026,8 @@ function reagirl.Slider_Add(x, y, w, caption, Cap_width, meaningOfUI_Element, un
   reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0, 1)
   local tx, ty =gfx.measurestr(caption.."")
   if Cap_width==nil then Cap_width=tx+5 end
-  local unit2=unit
-  if unit==nil then unit2="" end
+  local unit2=" "..unit
+  if unit==nil then unit2="" unit="" end
   local tx1,ty1=gfx.measurestr(unit2)
   tx1=tx1+gfx.texth+gfx.texth
   reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0)
@@ -8038,7 +8038,7 @@ function reagirl.Slider_Add(x, y, w, caption, Cap_width, meaningOfUI_Element, un
   reagirl.Elements[slot]["GUI_Element_Type"]="Slider"
   reagirl.Elements[slot]["Name"]=caption
   reagirl.Elements[slot]["Text"]=caption
-  reagirl.Elements[slot]["Unit"]=unit
+  reagirl.Elements[slot]["Unit"]=" "..unit
   reagirl.Elements[slot]["Start"]=start
   reagirl.Elements[slot]["Stop"]=stop
   reagirl.Elements[slot]["Step"]=step
