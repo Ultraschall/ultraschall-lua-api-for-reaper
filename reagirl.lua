@@ -17,7 +17,6 @@ end
 --[[
 TODO: 
   - Tabs: will be invisible when x,y is scrolling outside of window
-  - Scrollbars: will be "clickable" even if they are invisible
   - Scrollbars: are shown "too early" so you can't put ui-elements at the edged of the window without triggering them
   - DropDownMenu: line "if gfx.mouse_x>=x+cap_w and gfx.mouse_x<=x+w and gfx.mouse_y>=y and gfx.mouse_y<=y+h then"
           in DropDownMenu_Manage occasionally produces nil-error on x for some reason...
@@ -7445,6 +7444,27 @@ function reagirl.UI_Elements_Boundaries()
   --gfx.rect(reagirl.BoundaryX_Min, reagirl.BoundaryY_Min+reagirl.MoveItAllUp, 10, 10, 1)
   --gfx.rect(reagirl.BoundaryX_Max-20, reagirl.BoundaryY_Max+reagirl.MoveItAllUp-20, 10, 10, 1)
   --gfx.drawstr(reagirl.MoveItAllUp.." "..reagirl.BoundaryY_Min)
+  
+  if gfx.w<reagirl.BoundaryX_Max then
+    reagirl.Elements[#reagirl.Elements-4].hidden=nil
+    reagirl.Elements[#reagirl.Elements-5].hidden=nil
+    reagirl.Elements[#reagirl.Elements].hidden=nil
+  else
+    reagirl.Elements[#reagirl.Elements-4].hidden=true
+    reagirl.Elements[#reagirl.Elements-5].hidden=true
+    reagirl.Elements[#reagirl.Elements].hidden=true
+  end
+  
+  if gfx.h<reagirl.BoundaryY_Max then
+    reagirl.Elements[#reagirl.Elements-3].hidden=nil
+    reagirl.Elements[#reagirl.Elements-2].hidden=nil
+    reagirl.Elements[#reagirl.Elements-1].hidden=nil
+  else
+    reagirl.Elements[#reagirl.Elements-3].hidden=true
+    reagirl.Elements[#reagirl.Elements-2].hidden=true
+    reagirl.Elements[#reagirl.Elements-1].hidden=true
+  end
+  
 end 
 
 function reagirl.DockState_Update(name)
@@ -7519,7 +7539,7 @@ function reagirl.ScrollButton_Right_Draw(element_id, selected, hovered, clicked,
   local scale=reagirl.Window_CurrentScale
   local x_offset=-15*scale
   if reagirl.BoundaryX_Max>gfx.w then
-    element_storage.IsDecorative=false
+    element_storage.IsDecorative=false    
   else
     element_storage.a=0 
     if element_storage.IsDecorative==false then
@@ -9170,6 +9190,4 @@ end
 
 reagirl.Gui_New()
 
-
 --- End of ReaGirl-functions
-

@@ -724,7 +724,8 @@ Final Example:
 
   main()
   
-In here we added two more buttons and a checkbox, whose ids are stored into apply_button, close_button and global_checkbox.
-We also altered the run-functions Button_RunFunction and Checkbox_RunFunction so clicking these ui-elements will show a dialog.
+When you run this script, two buttons and a checkbox are added to the bottom of the window and you can switch tabs, they will alwas be visible.
+And all we did was adding two more buttons and a checkbox, whose ids are stored into apply_button, close_button and global_checkbox.
+We also altered the run-functions Button_RunFunction and Checkbox_RunFunction so clicking these ui-elements will also show a dialog.
 
-Now you know everything needed to make guis with tabs in ReaGirl.
+Now you know everything <ou need to make guis with tabs in ReaGirl.
