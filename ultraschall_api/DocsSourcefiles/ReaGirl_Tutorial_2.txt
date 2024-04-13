@@ -3,8 +3,7 @@ The first tab gets all inputboxes, the second tab all checkboxes and the third t
 I removed the label and the image from the gui in this tutorial to make it a little simpler.
 Our initial gui looks now this way:
 
-Example 1:
-  
+```  
   dofile(reaper.GetResourcePath().."/UserPlugins/reagirl.lua")
   
   function Button_RunFunction(pressed_button_id)
@@ -78,11 +77,12 @@ Example 1:
   end
 
   main()
+```
 
 The first thing we will do is to create three tables, in which we will store the element-ids of the gui-elements.
 Each table represents a tab, means: tab1 contains all ui-elements of tab 1, tab2 all ui-elements of tab 2 and tab3 all of tab 2.  
 
-Example 2:
+```
   dofile(reaper.GetResourcePath().."/UserPlugins/reagirl.lua")
   
   function Button_RunFunction(pressed_button_id)
@@ -161,18 +161,25 @@ Example 2:
   end
 
   main()
+```
 
-You'll notice that we added three tables, tab1, tab2 and tab3. You'll also notice, that we put the element_ids returned by the _Add-functions into these tabs, for instance :
+You'll notice that we added three tables, tab1, tab2 and tab3. You'll also notice, that we put the element\_ids returned by the \_Add-functions into these tabs, for instance :
+  
+  ```
   inputbox_name_of_setting = reagirl.InputBox_Add(30, 105, 300, "Name of the setting:", 150, "Type in here the name of the setting", "No title", InputBox_RunFunction_Enter, InputBox_RunFunction_Type)
+  ```
 became
+  
+  ```
   tab1.inputbox_name_of_setting = reagirl.InputBox_Add(30, 105, 300, "Name of the setting:", 150, "Type in here the name of the setting", "No title", InputBox_RunFunction_Enter, InputBox_RunFunction_Type)
+  ```
+  
 means, we added tab1. in front of the variable-name, so it's now associated with the table that stores the gui-elements of the first tab.
   
-All Inputbox_Add add to tab1, all Checkbox_Add add to tab2 and all Button_Add add to tab3. That way we have one table for each tab with all ui-elements that shall be in that tab.
-Now, let's add the tabs-ui-element to the gui using the function reagirl.Tabs_Add(). We also add a run-function for tabs called Tab_RunFunction.
+All Inputbox\_Add add to tab1, all Checkbox\_Add add to tab2 and all Button\_Add add to tab3. That way we have one table for each tab with all ui-elements that shall be in that tab.
+Now, let's add the tabs-ui-element to the gui using the function reagirl.Tabs\_Add(). We also add a run-function for tabs called Tab\_RunFunction.
 
-Example 3:
-
+```
   dofile(reaper.GetResourcePath().."/UserPlugins/reagirl.lua")
   
   function Button_RunFunction(pressed_button_id)
@@ -260,13 +267,14 @@ Example 3:
   end
 
   main()
-  
+```
+
 If you run this example, you'll have tabs. Click on them and the run-function will show a dialog with the selected tab number and its name.
 This dialog still shows all ui-elements in all tabs, so let's alter the tabs-run-function to show only all ui-elements associated with a certain tab.
-To achieve this, we use the function reagirl.UI_Element_SetHiddenFromTable(), which shows/hides all ui-elements whose ids are stored in a table.
-Now our three tables, tab1, tab2 and tab3 will come in handy: we pass these tables over to reagirl.UI_Element_SetHiddenFromTable() to show or hide their ui-elements.
+To achieve this, we use the function reagirl.UI\_Element\_SetHiddenFromTable(), which shows/hides all ui-elements whose ids are stored in a table.
+Now our three tables, tab1, tab2 and tab3 will come in handy: we pass these tables over to reagirl.UI\_Element\_SetHiddenFromTable() to show or hide their ui-elements.
 
-Example 4:
+```
   dofile(reaper.GetResourcePath().."/UserPlugins/reagirl.lua")
   
   function Button_RunFunction(pressed_button_id)
@@ -370,11 +378,12 @@ Example 4:
   end
 
   main()
+```
   
 Run this script and you can click on the tabs to show only the ui-elements of associated with the tab. This is already close to what we want to achieve but when starting the script, it will still show all ui-elements in the first tab, only clicking other tabs will show the right ui-elements.
-So let's deal with that problem by adding additional reagirl.UI_Element_SetHiddenFromTable()-functioncalls right after the last Button_Add-function:
+So let's deal with that problem by adding additional reagirl.UI\_Element\_SetHiddenFromTable()-functioncalls right after the last Button\_Add-function:
 
-Example 5:
+```
   dofile(reaper.GetResourcePath().."/UserPlugins/reagirl.lua")
   
   function Button_RunFunction(pressed_button_id)
@@ -483,17 +492,17 @@ Example 5:
   end
 
   main()
+```
   
 Now we're talking! Starting up the gui will only show the InputBoxes now for tab 1. If we switch now the tabs, it will show all correct ui-elements: tab 1 all inputboxes, tab 2 all checkboxes and tab 3 all buttons.
 We're almost done.
 You remember from the first tutorial, that interacting with the user elements was showing dialogs. For instance, clicking the OK-button shows a dialog saying "OK button is pressed".
 But when you click it now, it does nothing.
-This is because our run-functions still use the old variables that used to store the element_ids but they are stored now in the tables tab1, tab2 and tab3.
-So let's alter the run-functions to check not for i.e. pressed_button_id==button_ok_id but pressed_button_id==tab3.button_ok_id and so on.
+This is because our run-functions still use the old variables that used to store the element\_ids but they are stored now in the tables tab1, tab2 and tab3.
+So let's alter the run-functions to check not for i.e. pressed\_button\_id==button\_ok\_id but pressed\_button\_id==tab3.button\_ok\_id and so on.
 Here's how the run-functions look like, when they check against the table-entries of the ui-elements:
 
-
-Example 6:
+```
   dofile(reaper.GetResourcePath().."/UserPlugins/reagirl.lua")
   
   function Button_RunFunction(pressed_button_id)
@@ -602,6 +611,7 @@ Example 6:
   end
 
   main()
+```
   
 Now the code works exactly as intended. Tab 1 shows all ui-elements of tab1, tab 2 shows all ui-elements of tab2, tab 3 shows all ui-elements of tab3.
 Starting the script also shows the correct ui-elements right away. Plus: interacting with all ui-elements works properly now.
@@ -609,7 +619,7 @@ Starting the script also shows the correct ui-elements right away. Plus: interac
 There's one final thing: what if I want to have buttons shown all the time, like apply and close-buttons or additional checkboxes?
 It's simple: add them BUT don't add their ids to tab1, tab2 or tab3:
 
-Final Example:
+```
   dofile(reaper.GetResourcePath().."/UserPlugins/reagirl.lua")
   
   function Button_RunFunction(pressed_button_id)
@@ -729,9 +739,10 @@ Final Example:
   end
 
   main()
-  
-When you run this script, two buttons and a checkbox are added to the bottom of the window and you can switch tabs, they will alwas be visible.
-And all we did was adding two more buttons and a checkbox, whose ids are stored into apply_button, close_button and global_checkbox.
-We also altered the run-functions Button_RunFunction and Checkbox_RunFunction so clicking these ui-elements will also show a dialog.
+```
 
-Now you know everything <ou need to make guis with tabs in ReaGirl.
+When you run this script, two buttons and a checkbox are added to the bottom of the window and you can switch tabs, they will alwas be visible.
+And all we did was adding two more buttons and a checkbox, whose ids are stored into apply\_button, close\_button and global\_checkbox.
+We also altered the run-functions Button\_RunFunction and Checkbox\_RunFunction so clicking these ui-elements will also show a dialog.
+
+Now you know everything you need to make guis with tabs in ReaGirl.
