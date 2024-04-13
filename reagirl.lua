@@ -7437,15 +7437,15 @@ function reagirl.UI_Elements_Boundaries()
   end
   --]]
   reagirl.BoundaryX_Min=0--minx
-  reagirl.BoundaryX_Max=maxx+30*scale
+  reagirl.BoundaryX_Max=maxx+15*scale
   reagirl.BoundaryY_Min=0--miny
-  reagirl.BoundaryY_Max=maxy+30*scale -- +scale_offset
+  reagirl.BoundaryY_Max=maxy+15*scale -- +scale_offset
   --gfx.rect(reagirl.BoundaryX_Min, reagirl.BoundaryY_Min+reagirl.MoveItAllUp, 10, 10, 1)
   --gfx.rect(reagirl.BoundaryX_Max-20, reagirl.BoundaryY_Max+reagirl.MoveItAllUp-20, 10, 10, 1)
   --gfx.drawstr(reagirl.MoveItAllUp.." "..reagirl.BoundaryY_Min)
   
-  local tab_offset_x=30*scale
-  local tab_offset_y=30*scale
+  local tab_offset_x=15*scale
+  local tab_offset_y=15*scale
   if gfx.w<reagirl.BoundaryX_Max-tab_offset_x then tab_offset_y=0 end
   if gfx.h<reagirl.BoundaryY_Max-tab_offset_y then tab_offset_x=0 end
   

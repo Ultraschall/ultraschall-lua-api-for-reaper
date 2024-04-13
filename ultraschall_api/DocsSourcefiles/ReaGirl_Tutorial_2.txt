@@ -701,9 +701,9 @@ Final Example:
   tab3.button_cancel_id = reagirl.Button_Add(70, 200, 0, 0, "Cancel", "Discard changes and close dialog", Button_RunFunction)
 
   -- add a "global" apply-button and close-button to the gui as well as a checkbox
+  global_checkbox = reagirl.CheckBox_Add(10, 225, "Apply only to project", "Shall these settings be applied only to a project?", true, Checkbox_RunFunction)
   apply_button = reagirl.Button_Add(520, 225, 0, 0, "Apply", "Apply changes", Button_RunFunction)
   close_button = reagirl.Button_Add(570, 225, 0, 0, "Close", "close dialog", Button_RunFunction)
-  global_checkbox = reagirl.CheckBox_Add(10, 225, "Apply only to project", "Shall these settings be applied only to a project?", true, Checkbox_RunFunction)
 
   -- let's force window-sizes
   reagirl.Window_ForceSize_Minimum(550, 200)  -- set the minimum size of the window
