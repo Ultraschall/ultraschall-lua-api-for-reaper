@@ -8126,7 +8126,7 @@ function reagirl.Slider_Manage(element_id, selected, hovered, clicked, mouse_cap
           if clicked=="DBLCLK" then
           else
             if clicked=="FirstCLK" or clicked=="DRAG" then
-              step_size=(rect_w/(element_storage["Stop"]+1-element_storage["Start"])/1)
+              step_size=(rect_w/(element_storage["Stop"]-element_storage["Start"])/1)
               slider4=slider_x2/step_size
               element_storage["CurValue"]=element_storage["Start"]+slider4
               if element_storage["Step"]~=-1 then 
