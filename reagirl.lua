@@ -25,7 +25,6 @@ TODO:
   - general: for functions that I do not expose to the user(like RoundRect), remove math.XXX()-functioncalls for improved performance.
   - mouse-wheel/mouse-hwheel: sometimes using mousewheel to drag sliders/options in drop down menu stops for no apparent reason
   - Check, if all ui-elements are properly drawn in disabled-mode
-  - CheckBox: add a few pixels to the width after everything is said and done
   - InputBox: if they are too small, they aren't drawn properly
   - InputBox: when dragging the textselection to the left/right edge(during scrolling) the textselection isn't drawn properly(keeps text selected that is outside of scope)
               it will be drawn too far until the "source of the text-selection" is in view
@@ -34,7 +33,6 @@ TODO:
   - jumping to ui-elements outside window(means autoscroll to them) doesn't always work
     - ui-elements might still be out of view when jumping to them(x-coordinate outside of window for instance)
   - Slider: disappears when scrolling upwards/leftwards: because of the "only draw neccessary gui-elements"-code, which is buggy for some reason(still is existing?)
-  - Slider: draw a line where the default-value shall be
   - Slider: when width is too small, drawing bugs appear(i.e. autowidth plus window is too small)
   - Image: reload of scaled image-override; if override==true then it loads only the image.png, not image-2x.png
   - Labels: ACCHoverMessage should hold the text of the paragraph the mouse is hovering above only
@@ -8258,16 +8256,16 @@ function reagirl.Slider_Draw(element_id, selected, hovered, clicked, mouse_cap, 
   rect_w=w-offset_unit-offset_cap-5*dpi_scale
   step_size=((rect_w/(element_storage["Stop"]-element_storage["Start"])/1))
   step_current=step_size*(element_storage["CurValue"]-element_storage["Start"])
-  offset_cap=offset_cap+5*dpi_scale
+  local offset_cap2=offset_cap+7*dpi_scale
   gfx.set(0.584)
-  gfx.rect(x+offset_cap+step_size*(element_storage["Default"]-element_storage["Start"]), y+dpi_scale+dpi_scale+dpi_scale+dpi_scale+dpi_scale, dpi_scale, h-dpi_scale-dpi_scale-dpi_scale-dpi_scale-dpi_scale-dpi_scale-dpi_scale-dpi_scale-dpi_scale-dpi_scale, 1)
-  
+  gfx.rect(x+offset_cap2+step_size*(element_storage["Default"]-element_storage["Start"]), y+dpi_scale+dpi_scale+dpi_scale+dpi_scale+dpi_scale, dpi_scale, h-dpi_scale-dpi_scale-dpi_scale-dpi_scale-dpi_scale-dpi_scale-dpi_scale-dpi_scale-dpi_scale-dpi_scale, 1)
+  offset_cap=offset_cap+dpi_scale
   gfx.set(0.5)
   reagirl.RoundRect(math.tointeger(x+offset_cap-dpi_scale), math.floor(y+(h-5*dpi_scale)/2), math.tointeger(w-offset_cap-offset_unit+dpi_scale+dpi_scale), math.tointeger(dpi_scale)*5, 2*math.tointeger(dpi_scale), 1, 1)
   
   if element_storage["IsDecorative"]==true then gfx.set(0.6) else gfx.set(0.7) end
   reagirl.RoundRect(math.tointeger(x+offset_cap),math.floor(y+(h-3*dpi_scale)/2), math.tointeger(w-offset_cap-offset_unit), math.tointeger(dpi_scale)*3, dpi_scale, 1, 1)
-    
+  offset_cap=offset_cap+6*dpi_scale  
   gfx.set(0.584)
   gfx.circle(x+offset_cap+step_current, y+h/2, 7*dpi_scale, 1, 1)
   gfx.set(0.2725490196078431)
