@@ -17,7 +17,6 @@ end
 --[[
 TODO: 
   - Tabs: will be invisible when x,y is scrolling outside of window
-  - Scrollbars: are shown "too early" so you can't put ui-elements at the edged of the window without triggering them
   - DropDownMenu: line "if gfx.mouse_x>=x+cap_w and gfx.mouse_x<=x+w and gfx.mouse_y>=y and gfx.mouse_y<=y+h then"
           in DropDownMenu_Manage occasionally produces nil-error on x for some reason...
           Maybe only after using EditMode?
@@ -2240,7 +2239,7 @@ function reagirl.Gui_Draw(Key, Key_utf, clickstate, specific_clickstate, mouse_c
         --if (x2+MoveItAllRight>=0 and x2+MoveItAllRight<=gfx.w)       and (y2+MoveItAllUp>=0    and y2+MoveItAllUp<=gfx.h) 
         --or (x2+MoveItAllRight+w2>=0 and x2+MoveItAllRight+w2<=gfx.w) and (y2+MoveItAllUp+h2>=0 and y2+MoveItAllUp+h2<=gfx.h) then
         
-        if (((x2+MoveItAllRight>0 and x2+MoveItAllRight<=gfx.w) 
+        if reagirl.Elements[i]["GUI_Element_Type"]=="Tabs" or (((x2+MoveItAllRight>0 and x2+MoveItAllRight<=gfx.w) 
         or (x2+w2+MoveItAllRight>0 and x2+w2+MoveItAllRight<=gfx.w) 
         or (x2+MoveItAllRight<=0 and x2+w2+MoveItAllRight>=gfx.w))
         and ((y2+MoveItAllUp>=0 and y2+MoveItAllUp<=gfx.h)
