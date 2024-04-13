@@ -7445,7 +7445,12 @@ function reagirl.UI_Elements_Boundaries()
   --gfx.rect(reagirl.BoundaryX_Max-20, reagirl.BoundaryY_Max+reagirl.MoveItAllUp-20, 10, 10, 1)
   --gfx.drawstr(reagirl.MoveItAllUp.." "..reagirl.BoundaryY_Min)
   
-  if gfx.w<reagirl.BoundaryX_Max then
+  local tab_offset_x=30*scale
+  local tab_offset_y=30*scale
+  if gfx.w<reagirl.BoundaryX_Max-tab_offset_x then tab_offset_y=0 end
+  if gfx.h<reagirl.BoundaryY_Max-tab_offset_y then tab_offset_x=0 end
+  
+  if gfx.w<reagirl.BoundaryX_Max-tab_offset_x then
     reagirl.Elements[#reagirl.Elements-4].hidden=nil
     reagirl.Elements[#reagirl.Elements-5].hidden=nil
     reagirl.Elements[#reagirl.Elements].hidden=nil
@@ -7455,7 +7460,7 @@ function reagirl.UI_Elements_Boundaries()
     reagirl.Elements[#reagirl.Elements].hidden=true
   end
   
-  if gfx.h<reagirl.BoundaryY_Max then
+  if gfx.h<reagirl.BoundaryY_Max-tab_offset_y then
     reagirl.Elements[#reagirl.Elements-3].hidden=nil
     reagirl.Elements[#reagirl.Elements-2].hidden=nil
     reagirl.Elements[#reagirl.Elements-1].hidden=nil
@@ -7895,7 +7900,7 @@ end
 function reagirl.UI_Element_SetHiddenFromTable(table_element_ids, visible)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>UI_Element_SetFocused</slug>
+  <slug>UI_Element_SetHiddenFromTable</slug>
   <requires>
     ReaGirl=1.0
     Reaper=7
@@ -7919,9 +7924,10 @@ function reagirl.UI_Element_SetHiddenFromTable(table_element_ids, visible)
 ]]
   if type(table_element_ids)~="table" then error("UI_Element_SetHiddenFromTable: param #1: must be a table", 2) return end
   if type(visible)~="boolean" then error("UI_Element_SetHiddenFromTable: param #2: must be a boolean", 2) return end
-  for i=1, #table_element_ids do
-    if reagirl.IsValidGuid(table_element_ids[i], true)==false then error("UI_Element_SetHiddenFromTable: param #1: table-entry "..i.." is not a valid guid", -2) return end
-    reagirl.UI_Element_GetSetVisibility(table_element_ids[i], true, visible)
+  --for i=1, #table_element_ids do
+  for k, v in pairs(table_element_ids) do
+    if reagirl.IsValidGuid(v, true)==false then error("UI_Element_SetHiddenFromTable: param #1: table-entry "..i.." is not a valid guid", -2) return end
+    reagirl.UI_Element_GetSetVisibility(v, true, visible)
   end
 end
 

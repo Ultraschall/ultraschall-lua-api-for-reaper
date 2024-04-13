@@ -84,8 +84,7 @@ Each table represents a tab, means: tab1 contains all ui-elements of tab 1, tab2
 
 Example 2:
   dofile(reaper.GetResourcePath().."/UserPlugins/reagirl.lua")
-
-
+  
   function Button_RunFunction(pressed_button_id)
     -- this function is run, when a button is pressed
     if pressed_button_id==button_ok_id then
@@ -125,23 +124,23 @@ Example 2:
 
   -- create new gui
   reagirl.Gui_New()
-  
+
   -- add tables that will contain the element-ids of the ui-element
   tab1={} -- for the ui-elements in tab 1
   tab2={} -- for the ui-elements in tab 2
   tab3={} -- for the ui-elements in tab 3
   
   -- add inputboxes to type in text
-  tab1[1] = reagirl.InputBox_Add(30, 105, 300, "Name of the setting:", 150, "Type in here the name of the setting", "No title", InputBox_RunFunction_Enter, InputBox_RunFunction_Type)
-  tab1[2] = reagirl.InputBox_Add(30, 130, 300, "Description of the setting:", 150, "Type in here a description of the setting", "No Description", InputBox_RunFunction_Enter, InputBox_RunFunction_Type)
-  
+  tab1.inputbox_name_of_setting = reagirl.InputBox_Add(30, 105, 300, "Name of the setting:", 150, "Type in here the name of the setting", "No title", InputBox_RunFunction_Enter, InputBox_RunFunction_Type)
+  tab1.inputbox_description_of_setting = reagirl.InputBox_Add(30, 130, 300, "Description of the setting:", 150, "Type in here a description of the setting", "No Description", InputBox_RunFunction_Enter, InputBox_RunFunction_Type)
+
   -- add two checkboxes to the gui
-  tab2[2] = reagirl.CheckBox_Add(30, 150, "My setting", "How shall my setting be set?", true, Checkbox_RunFunction)
-  tab2[1] = reagirl.CheckBox_Add(30, 170, "Remember chosen setting", "Shall this setting be used as future default?", true, Checkbox_RunFunction)
+  tab2.checkbox_mysetting = reagirl.CheckBox_Add(30, 150, "My setting", "How shall my setting be set?", true, Checkbox_RunFunction)
+  tab2.checkbox_remember = reagirl.CheckBox_Add(30, 170, "Remember chosen setting", "Shall this setting be used as future default?", true, Checkbox_RunFunction)
 
   -- add an ok-button and a cancel button to the gui
-  tab3[1] = reagirl.Button_Add(30, 200, 0, 0, "OK", "Apply changes and close dialog", Button_RunFunction)
-  tab3[2] = reagirl.Button_Add(70, 200, 0, 0, "Cancel", "Discard changes and close dialog", Button_RunFunction)
+  tab3.button_ok_id = reagirl.Button_Add(30, 200, 0, 0, "OK", "Apply changes and close dialog", Button_RunFunction)
+  tab3.button_cancel_id = reagirl.Button_Add(70, 200, 0, 0, "Cancel", "Discard changes and close dialog", Button_RunFunction)
 
   -- let's force window-sizes
   reagirl.Window_ForceSize_Minimum(550, 200)  -- set the minimum size of the window
@@ -158,7 +157,7 @@ Example 2:
     reagirl.Gui_Manage()
     
     -- if the gui-window hasn't been closed, keep the script alive.
-    if reagirl.Gui_IsOpen()==true then reaper.defer(main) else reagirl.Gui_Open("The dialog", "This is a demo dialog with some options.", 640, 250) reaper.defer(main) end
+    if reagirl.Gui_IsOpen()==true then reaper.defer(main) end
   end
 
   main()
@@ -170,8 +169,7 @@ Now, let's add the tabs-ui-element to the gui using the funtion reagirl.Tabs_Add
 Example 3:
 
   dofile(reaper.GetResourcePath().."/UserPlugins/reagirl.lua")
-
-
+  
   function Button_RunFunction(pressed_button_id)
     -- this function is run, when a button is pressed
     if pressed_button_id==button_ok_id then
@@ -209,6 +207,7 @@ Example 3:
     end
   end
   
+  
   function Tab_RunFunction(tab_id, tab_selected, tab_name_selected)
     -- this function is run, when tabs are switched
     reaper.MB("Tab #"..tab_selected.." with name "..tab_name_selected.." is selected.", "Tabs", 0)
@@ -216,26 +215,26 @@ Example 3:
 
   -- create new gui
   reagirl.Gui_New()
-  
+
   -- add tables that will contain the element-ids of the ui-element
   tab1={} -- for the ui-elements in tab 1
   tab2={} -- for the ui-elements in tab 2
   tab3={} -- for the ui-elements in tab 3
   
   -- let's add tabs
-  reagirl.Tabs_Add(10, 10, -20, -20, "Tabs", "Different options in this dialog", {"Inputboxes, Labels and Image", "Checkboxes", "Buttons"}, 1, Tab_RunFunction)
+  reagirl.Tabs_Add(10, 10, 620, 187, "Tabs", "Different options in this dialog", {"Inputboxes, Labels and Image", "Checkboxes", "Buttons"}, 1, Tab_RunFunction)
   
   -- add inputboxes to type in text
-  tab1[1] = reagirl.InputBox_Add(30, 105, 300, "Name of the setting:", 150, "Type in here the name of the setting", "No title", InputBox_RunFunction_Enter, InputBox_RunFunction_Type)
-  tab1[2] = reagirl.InputBox_Add(30, 130, 300, "Description of the setting:", 150, "Type in here a description of the setting", "No Description", InputBox_RunFunction_Enter, InputBox_RunFunction_Type)
-  
+  tab1.inputbox_name_of_setting = reagirl.InputBox_Add(30, 105, 300, "Name of the setting:", 150, "Type in here the name of the setting", "No title", InputBox_RunFunction_Enter, InputBox_RunFunction_Type)
+  tab1.inputbox_description_of_setting = reagirl.InputBox_Add(30, 130, 300, "Description of the setting:", 150, "Type in here a description of the setting", "No Description", InputBox_RunFunction_Enter, InputBox_RunFunction_Type)
+
   -- add two checkboxes to the gui
-  tab2[2] = reagirl.CheckBox_Add(30, 150, "My setting", "How shall my setting be set?", true, Checkbox_RunFunction)
-  tab2[1] = reagirl.CheckBox_Add(30, 170, "Remember chosen setting", "Shall this setting be used as future default?", true, Checkbox_RunFunction)
+  tab2.checkbox_mysetting = reagirl.CheckBox_Add(30, 150, "My setting", "How shall my setting be set?", true, Checkbox_RunFunction)
+  tab2.checkbox_remember = reagirl.CheckBox_Add(30, 170, "Remember chosen setting", "Shall this setting be used as future default?", true, Checkbox_RunFunction)
 
   -- add an ok-button and a cancel button to the gui
-  tab3[1] = reagirl.Button_Add(30, 200, 0, 0, "OK", "Apply changes and close dialog", Button_RunFunction)
-  tab3[2] = reagirl.Button_Add(70, 200, 0, 0, "Cancel", "Discard changes and close dialog", Button_RunFunction)
+  tab3.button_ok_id = reagirl.Button_Add(30, 200, 0, 0, "OK", "Apply changes and close dialog", Button_RunFunction)
+  tab3.button_cancel_id = reagirl.Button_Add(70, 200, 0, 0, "Cancel", "Discard changes and close dialog", Button_RunFunction)
 
   -- let's force window-sizes
   reagirl.Window_ForceSize_Minimum(550, 200)  -- set the minimum size of the window
@@ -252,7 +251,7 @@ Example 3:
     reagirl.Gui_Manage()
     
     -- if the gui-window hasn't been closed, keep the script alive.
-    if reagirl.Gui_IsOpen()==true then reaper.defer(main) else reagirl.Gui_Open("The dialog", "This is a demo dialog with some options.", 640, 250) reaper.defer(main) end
+    if reagirl.Gui_IsOpen()==true then reaper.defer(main) end
   end
 
   main()
@@ -264,8 +263,7 @@ Now our three tables, tab1, tab2 and tab3 will come in handy: we pass these tabl
 
 Example 4:
   dofile(reaper.GetResourcePath().."/UserPlugins/reagirl.lua")
-
-
+  
   function Button_RunFunction(pressed_button_id)
     -- this function is run, when a button is pressed
     if pressed_button_id==button_ok_id then
@@ -303,6 +301,7 @@ Example 4:
     end
   end
   
+  
   function Tab_RunFunction(tab_id, tab_selected, tab_name_selected)
     -- this function is run, when tabs are switched
     
@@ -326,26 +325,26 @@ Example 4:
 
   -- create new gui
   reagirl.Gui_New()
-  
+
   -- add tables that will contain the element-ids of the ui-element
   tab1={} -- for the ui-elements in tab 1
   tab2={} -- for the ui-elements in tab 2
   tab3={} -- for the ui-elements in tab 3
   
   -- let's add tabs
-  reagirl.Tabs_Add(10, 10, -20, -20, "Tabs", "Different options in this dialog", {"Inputboxes, Labels and Image", "Checkboxes", "Buttons"}, 1, Tab_RunFunction)
+  reagirl.Tabs_Add(10, 10, 620, 187, "Tabs", "Different options in this dialog", {"Inputboxes, Labels and Image", "Checkboxes", "Buttons"}, 1, Tab_RunFunction)
   
   -- add inputboxes to type in text
-  tab1[1] = reagirl.InputBox_Add(30, 105, 300, "Name of the setting:", 150, "Type in here the name of the setting", "No title", InputBox_RunFunction_Enter, InputBox_RunFunction_Type)
-  tab1[2] = reagirl.InputBox_Add(30, 130, 300, "Description of the setting:", 150, "Type in here a description of the setting", "No Description", InputBox_RunFunction_Enter, InputBox_RunFunction_Type)
-  
+  tab1.inputbox_name_of_setting = reagirl.InputBox_Add(30, 105, 300, "Name of the setting:", 150, "Type in here the name of the setting", "No title", InputBox_RunFunction_Enter, InputBox_RunFunction_Type)
+  tab1.inputbox_description_of_setting = reagirl.InputBox_Add(30, 130, 300, "Description of the setting:", 150, "Type in here a description of the setting", "No Description", InputBox_RunFunction_Enter, InputBox_RunFunction_Type)
+
   -- add two checkboxes to the gui
-  tab2[2] = reagirl.CheckBox_Add(30, 150, "My setting", "How shall my setting be set?", true, Checkbox_RunFunction)
-  tab2[1] = reagirl.CheckBox_Add(30, 170, "Remember chosen setting", "Shall this setting be used as future default?", true, Checkbox_RunFunction)
+  tab2.checkbox_mysetting = reagirl.CheckBox_Add(30, 150, "My setting", "How shall my setting be set?", true, Checkbox_RunFunction)
+  tab2.checkbox_remember = reagirl.CheckBox_Add(30, 170, "Remember chosen setting", "Shall this setting be used as future default?", true, Checkbox_RunFunction)
 
   -- add an ok-button and a cancel button to the gui
-  tab3[1] = reagirl.Button_Add(30, 200, 0, 0, "OK", "Apply changes and close dialog", Button_RunFunction)
-  tab3[2] = reagirl.Button_Add(70, 200, 0, 0, "Cancel", "Discard changes and close dialog", Button_RunFunction)
+  tab3.button_ok_id = reagirl.Button_Add(30, 200, 0, 0, "OK", "Apply changes and close dialog", Button_RunFunction)
+  tab3.button_cancel_id = reagirl.Button_Add(70, 200, 0, 0, "Cancel", "Discard changes and close dialog", Button_RunFunction)
 
   -- let's force window-sizes
   reagirl.Window_ForceSize_Minimum(550, 200)  -- set the minimum size of the window
@@ -362,7 +361,7 @@ Example 4:
     reagirl.Gui_Manage()
     
     -- if the gui-window hasn't been closed, keep the script alive.
-    if reagirl.Gui_IsOpen()==true then reaper.defer(main) else reagirl.Gui_Open("The dialog", "This is a demo dialog with some options.", 640, 250) reaper.defer(main) end
+    if reagirl.Gui_IsOpen()==true then reaper.defer(main) end
   end
 
   main()
@@ -372,8 +371,7 @@ So let's deal with that problem by adding additional reagirl.UI_Element_SetHidde
 
 Example 5:
   dofile(reaper.GetResourcePath().."/UserPlugins/reagirl.lua")
-
-
+  
   function Button_RunFunction(pressed_button_id)
     -- this function is run, when a button is pressed
     if pressed_button_id==button_ok_id then
@@ -411,6 +409,7 @@ Example 5:
     end
   end
   
+  
   function Tab_RunFunction(tab_id, tab_selected, tab_name_selected)
     -- this function is run, when tabs are switched
     
@@ -434,36 +433,36 @@ Example 5:
 
   -- create new gui
   reagirl.Gui_New()
-  
+
   -- add tables that will contain the element-ids of the ui-element
   tab1={} -- for the ui-elements in tab 1
   tab2={} -- for the ui-elements in tab 2
   tab3={} -- for the ui-elements in tab 3
   
   -- let's add tabs
-  reagirl.Tabs_Add(10, 10, -20, -20, "Tabs", "Different options in this dialog", {"Inputboxes, Labels and Image", "Checkboxes", "Buttons"}, 1, Tab_RunFunction)
+  reagirl.Tabs_Add(10, 10, 620, 187, "Tabs", "Different options in this dialog", {"Inputboxes, Labels and Image", "Checkboxes", "Buttons"}, 1, Tab_RunFunction)
   
   -- add inputboxes to type in text
-  tab1[1] = reagirl.InputBox_Add(30, 105, 300, "Name of the setting:", 150, "Type in here the name of the setting", "No title", InputBox_RunFunction_Enter, InputBox_RunFunction_Type)
-  tab1[2] = reagirl.InputBox_Add(30, 130, 300, "Description of the setting:", 150, "Type in here a description of the setting", "No Description", InputBox_RunFunction_Enter, InputBox_RunFunction_Type)
-  
+  tab1.inputbox_name_of_setting = reagirl.InputBox_Add(30, 105, 300, "Name of the setting:", 150, "Type in here the name of the setting", "No title", InputBox_RunFunction_Enter, InputBox_RunFunction_Type)
+  tab1.inputbox_description_of_setting = reagirl.InputBox_Add(30, 130, 300, "Description of the setting:", 150, "Type in here a description of the setting", "No Description", InputBox_RunFunction_Enter, InputBox_RunFunction_Type)
+
   -- add two checkboxes to the gui
-  tab2[2] = reagirl.CheckBox_Add(30, 150, "My setting", "How shall my setting be set?", true, Checkbox_RunFunction)
-  tab2[1] = reagirl.CheckBox_Add(30, 170, "Remember chosen setting", "Shall this setting be used as future default?", true, Checkbox_RunFunction)
+  tab2.checkbox_mysetting = reagirl.CheckBox_Add(30, 150, "My setting", "How shall my setting be set?", true, Checkbox_RunFunction)
+  tab2.checkbox_remember = reagirl.CheckBox_Add(30, 170, "Remember chosen setting", "Shall this setting be used as future default?", true, Checkbox_RunFunction)
 
   -- add an ok-button and a cancel button to the gui
-  tab3[1] = reagirl.Button_Add(30, 200, 0, 0, "OK", "Apply changes and close dialog", Button_RunFunction)
-  tab3[2] = reagirl.Button_Add(70, 200, 0, 0, "Cancel", "Discard changes and close dialog", Button_RunFunction)
+  tab3.button_ok_id = reagirl.Button_Add(30, 200, 0, 0, "OK", "Apply changes and close dialog", Button_RunFunction)
+  tab3.button_cancel_id = reagirl.Button_Add(70, 200, 0, 0, "Cancel", "Discard changes and close dialog", Button_RunFunction)
+
+  -- let's force window-sizes
+  reagirl.Window_ForceSize_Minimum(550, 200)  -- set the minimum size of the window
+  reagirl.Window_ForceSize_Maximum(1150, 400) -- set the maximum size of the window
   
   -- make only ui-elements of tab 1 visible at startup
   reagirl.UI_Element_SetHiddenFromTable(tab1, true)
   reagirl.UI_Element_SetHiddenFromTable(tab2, false)
   reagirl.UI_Element_SetHiddenFromTable(tab3, false)
-
-  -- let's force window-sizes
-  reagirl.Window_ForceSize_Minimum(550, 200)  -- set the minimum size of the window
-  reagirl.Window_ForceSize_Maximum(1150, 400) -- set the maximum size of the window
-
+  
   -- open the new gui
   reagirl.Gui_Open("The dialog", "This is a demo dialog with some options.", 640, 250)
 
@@ -475,7 +474,7 @@ Example 5:
     reagirl.Gui_Manage()
     
     -- if the gui-window hasn't been closed, keep the script alive.
-    if reagirl.Gui_IsOpen()==true then reaper.defer(main) else reagirl.Gui_Open("The dialog", "This is a demo dialog with some options.", 640, 250) reaper.defer(main) end
+    if reagirl.Gui_IsOpen()==true then reaper.defer(main) end
   end
 
   main()
@@ -491,43 +490,44 @@ Here's how the run-functions look like, when they check against the table-entrie
 
 Example 6:
   dofile(reaper.GetResourcePath().."/UserPlugins/reagirl.lua")
+  
+  function Button_RunFunction(pressed_button_id)
+    -- this function is run, when a button is pressed
+    if pressed_button_id==tab3.button_ok_id then
+      reaper.MB("OK Button is pressed", "OK Button", 0)
+    elseif pressed_button_id==tab3.button_cancel_id then
+      reaper.MB("Cancel Button is pressed", "Cancel Button", 0)
+    end
+  end
+
+  function Checkbox_RunFunction(checked_checkbox_id, checkstate)
+    -- this function is run, when the checkstate of a checkbox is changed
+    if checked_checkbox_id==tab2.checkbox_remember then
+      reaper.MB("Checkbox \"Remember\" is "..tostring(checkstate), "Checkbox-State changed", 0)
+    elseif checked_checkbox_id==tab2.checkbox_mysetting then
+      reaper.MB("Checkbox \"my Setting\" is "..tostring(checkstate), "Checkbox-State changed", 0)
+    end
+  end
 
   function InputBox_RunFunction_Type(inputbox_id, entered_text)
     -- this function is run, when the user types in text into an inputbox
     reaper.ClearConsole()
-    if inputbox_id==tab1[1] then
+    if inputbox_id==tab1.inputbox_name_of_setting then
       reaper.ShowConsoleMsg("NAME: "..entered_text)
-    elseif inputbox_id==tab1[2] then
+    elseif inputbox_id==tab1.inputbox_description_of_setting then
       reaper.ShowConsoleMsg("DESCRIPTION: "..entered_text)
     end
   end
 
   function InputBox_RunFunction_Enter(inputbox_id, entered_text)
     -- this function is run, when the user hits enter into an inputbox
-    if inputbox_id==tab1[1] then
+    if inputbox_id==tab1.inputbox_name_of_setting then
       reaper.MB(entered_text, "The typed text into NAME was", 0)
-    elseif inputbox_id==tab1[2] then
+    elseif inputbox_id==tab1.inputbox_description_of_setting then
       reaper.MB(entered_text, "The typed text into DESCRIPTION was", 0)
     end
   end
-
-  function Checkbox_RunFunction(checked_checkbox_id, checkstate)
-    -- this function is run, when the checkstate of a checkbox is changed
-    if checked_checkbox_id==tab2[1] then
-      reaper.MB("Checkbox \"Remember\" is "..tostring(checkstate), "Checkbox-State changed", 0)
-    elseif checked_checkbox_id==tab2[2] then
-      reaper.MB("Checkbox \"my Setting\" is "..tostring(checkstate), "Checkbox-State changed", 0)
-    end
-  end
-
-  function Button_RunFunction(pressed_button_id)
-    -- this function is run, when a button is pressed
-    if pressed_button_id==tab3[1] then
-      reaper.MB("OK Button is pressed", "OK Button", 0)
-    elseif pressed_button_id==tab3[2] then
-      reaper.MB("Cancel Button is pressed", "Cancel Button", 0)
-    end
-  end
+  
   
   function Tab_RunFunction(tab_id, tab_selected, tab_name_selected)
     -- this function is run, when tabs are switched
@@ -552,36 +552,36 @@ Example 6:
 
   -- create new gui
   reagirl.Gui_New()
-  
+
   -- add tables that will contain the element-ids of the ui-element
   tab1={} -- for the ui-elements in tab 1
   tab2={} -- for the ui-elements in tab 2
   tab3={} -- for the ui-elements in tab 3
   
   -- let's add tabs
-  reagirl.Tabs_Add(10, 10, -20, -20, "Tabs", "Different options in this dialog", {"Inputboxes, Labels and Image", "Checkboxes", "Buttons"}, 1, Tab_RunFunction)
+  reagirl.Tabs_Add(10, 10, 620, 187, "Tabs", "Different options in this dialog", {"Inputboxes, Labels and Image", "Checkboxes", "Buttons"}, 1, Tab_RunFunction)
   
   -- add inputboxes to type in text
-  tab1[1] = reagirl.InputBox_Add(30, 105, 300, "Name of the setting:", 150, "Type in here the name of the setting", "No title", InputBox_RunFunction_Enter, InputBox_RunFunction_Type)
-  tab1[2] = reagirl.InputBox_Add(30, 130, 300, "Description of the setting:", 150, "Type in here a description of the setting", "No Description", InputBox_RunFunction_Enter, InputBox_RunFunction_Type)
-  
+  tab1.inputbox_name_of_setting = reagirl.InputBox_Add(30, 105, 300, "Name of the setting:", 150, "Type in here the name of the setting", "No title", InputBox_RunFunction_Enter, InputBox_RunFunction_Type)
+  tab1.inputbox_description_of_setting = reagirl.InputBox_Add(30, 130, 300, "Description of the setting:", 150, "Type in here a description of the setting", "No Description", InputBox_RunFunction_Enter, InputBox_RunFunction_Type)
+
   -- add two checkboxes to the gui
-  tab2[2] = reagirl.CheckBox_Add(30, 150, "My setting", "How shall my setting be set?", true, Checkbox_RunFunction)
-  tab2[1] = reagirl.CheckBox_Add(30, 170, "Remember chosen setting", "Shall this setting be used as future default?", true, Checkbox_RunFunction)
+  tab2.checkbox_mysetting = reagirl.CheckBox_Add(30, 150, "My setting", "How shall my setting be set?", true, Checkbox_RunFunction)
+  tab2.checkbox_remember = reagirl.CheckBox_Add(30, 170, "Remember chosen setting", "Shall this setting be used as future default?", true, Checkbox_RunFunction)
 
   -- add an ok-button and a cancel button to the gui
-  tab3[1] = reagirl.Button_Add(30, 200, 0, 0, "OK", "Apply changes and close dialog", Button_RunFunction)
-  tab3[2] = reagirl.Button_Add(70, 200, 0, 0, "Cancel", "Discard changes and close dialog", Button_RunFunction)
+  tab3.button_ok_id = reagirl.Button_Add(30, 200, 0, 0, "OK", "Apply changes and close dialog", Button_RunFunction)
+  tab3.button_cancel_id = reagirl.Button_Add(70, 200, 0, 0, "Cancel", "Discard changes and close dialog", Button_RunFunction)
+
+  -- let's force window-sizes
+  reagirl.Window_ForceSize_Minimum(550, 200)  -- set the minimum size of the window
+  reagirl.Window_ForceSize_Maximum(1150, 400) -- set the maximum size of the window
   
   -- make only ui-elements of tab 1 visible at startup
   reagirl.UI_Element_SetHiddenFromTable(tab1, true)
   reagirl.UI_Element_SetHiddenFromTable(tab2, false)
   reagirl.UI_Element_SetHiddenFromTable(tab3, false)
-
-  -- let's force window-sizes
-  reagirl.Window_ForceSize_Minimum(550, 200)  -- set the minimum size of the window
-  reagirl.Window_ForceSize_Maximum(1150, 400) -- set the maximum size of the window
-
+  
   -- open the new gui
   reagirl.Gui_Open("The dialog", "This is a demo dialog with some options.", 640, 250)
 
@@ -593,7 +593,7 @@ Example 6:
     reagirl.Gui_Manage()
     
     -- if the gui-window hasn't been closed, keep the script alive.
-    if reagirl.Gui_IsOpen()==true then reaper.defer(main) else reagirl.Gui_Open("The dialog", "This is a demo dialog with some options.", 640, 250) reaper.defer(main) end
+    if reagirl.Gui_IsOpen()==true then reaper.defer(main) end
   end
 
   main()
@@ -606,42 +606,12 @@ It's simple: add them BUT don't add their ids to tab1, tab2 or tab3:
 
 Final Example:
   dofile(reaper.GetResourcePath().."/UserPlugins/reagirl.lua")
-
-  function InputBox_RunFunction_Type(inputbox_id, entered_text)
-    -- this function is run, when the user types in text into an inputbox
-    reaper.ClearConsole()
-    if inputbox_id==tab1[1] then
-      reaper.ShowConsoleMsg("NAME: "..entered_text)
-    elseif inputbox_id==tab1[2] then
-      reaper.ShowConsoleMsg("DESCRIPTION: "..entered_text)
-    end
-  end
-
-  function InputBox_RunFunction_Enter(inputbox_id, entered_text)
-    -- this function is run, when the user hits enter into an inputbox
-    if inputbox_id==tab1[1] then
-      reaper.MB(entered_text, "The typed text into NAME was", 0)
-    elseif inputbox_id==tab1[2] then
-      reaper.MB(entered_text, "The typed text into DESCRIPTION was", 0)
-    end
-  end
-
-  function Checkbox_RunFunction(checked_checkbox_id, checkstate)
-    -- this function is run, when the checkstate of a checkbox is changed
-    if checked_checkbox_id==tab2[1] then
-      reaper.MB("Checkbox \"Remember\" is "..tostring(checkstate), "Checkbox-State changed", 0)
-    elseif checked_checkbox_id==tab2[2] then
-      reaper.MB("Checkbox \"my Setting\" is "..tostring(checkstate), "Checkbox-State changed", 0)
-    elseif checked_checkbox_id==global_checkbox then
-      reaper.MB("Checkbox \"Apply only to project\" is "..tostring(checkstate), "Checkbox-State changed", 0)
-    end
-  end
-
+  
   function Button_RunFunction(pressed_button_id)
     -- this function is run, when a button is pressed
-    if pressed_button_id==tab3[1] then
+    if pressed_button_id==tab3.button_ok_id then
       reaper.MB("OK Button is pressed", "OK Button", 0)
-    elseif pressed_button_id==tab3[2] then
+    elseif pressed_button_id==tab3.button_cancel_id then
       reaper.MB("Cancel Button is pressed", "Cancel Button", 0)
     elseif pressed_button_id==apply_button then
       reaper.MB("Apply Button is pressed", "Apply Button", 0)
@@ -649,6 +619,37 @@ Final Example:
       reaper.MB("Close Button is pressed", "Close Button", 0)
     end
   end
+
+  function Checkbox_RunFunction(checked_checkbox_id, checkstate)
+    -- this function is run, when the checkstate of a checkbox is changed
+    if checked_checkbox_id==tab2.checkbox_remember then
+      reaper.MB("Checkbox \"Remember\" is "..tostring(checkstate), "Checkbox-State changed", 0)
+    elseif checked_checkbox_id==tab2.checkbox_mysetting then
+      reaper.MB("Checkbox \"my Setting\" is "..tostring(checkstate), "Checkbox-State changed", 0)
+    elseif checked_checkbox_id==global_checkbox then
+      reaper.MB("Checkbox \"Apply only to project\" is "..tostring(checkstate), "Checkbox-State changed", 0)
+    end
+  end
+
+  function InputBox_RunFunction_Type(inputbox_id, entered_text)
+    -- this function is run, when the user types in text into an inputbox
+    reaper.ClearConsole()
+    if inputbox_id==tab1.inputbox_name_of_setting then
+      reaper.ShowConsoleMsg("NAME: "..entered_text)
+    elseif inputbox_id==tab1.inputbox_description_of_setting then
+      reaper.ShowConsoleMsg("DESCRIPTION: "..entered_text)
+    end
+  end
+
+  function InputBox_RunFunction_Enter(inputbox_id, entered_text)
+    -- this function is run, when the user hits enter into an inputbox
+    if inputbox_id==tab1.inputbox_name_of_setting then
+      reaper.MB(entered_text, "The typed text into NAME was", 0)
+    elseif inputbox_id==tab1.inputbox_description_of_setting then
+      reaper.MB(entered_text, "The typed text into DESCRIPTION was", 0)
+    end
+  end
+  
   
   function Tab_RunFunction(tab_id, tab_selected, tab_name_selected)
     -- this function is run, when tabs are switched
@@ -673,41 +674,41 @@ Final Example:
 
   -- create new gui
   reagirl.Gui_New()
-  
+
   -- add tables that will contain the element-ids of the ui-element
   tab1={} -- for the ui-elements in tab 1
   tab2={} -- for the ui-elements in tab 2
   tab3={} -- for the ui-elements in tab 3
   
   -- let's add tabs
-  reagirl.Tabs_Add(10, 10, -20, -27, "Tabs", "Different options in this dialog", {"Inputboxes, Labels and Image", "Checkboxes", "Buttons"}, 1, Tab_RunFunction)
+  reagirl.Tabs_Add(10, 10, 620, 187, "Tabs", "Different options in this dialog", {"Inputboxes, Labels and Image", "Checkboxes", "Buttons"}, 1, Tab_RunFunction)
   
   -- add inputboxes to type in text
-  tab1[1] = reagirl.InputBox_Add(30, 105, 300, "Name of the setting:", 150, "Type in here the name of the setting", "No title", InputBox_RunFunction_Enter, InputBox_RunFunction_Type)
-  tab1[2] = reagirl.InputBox_Add(30, 130, 300, "Description of the setting:", 150, "Type in here a description of the setting", "No Description", InputBox_RunFunction_Enter, InputBox_RunFunction_Type)
-  
+  tab1.inputbox_name_of_setting = reagirl.InputBox_Add(30, 105, 300, "Name of the setting:", 150, "Type in here the name of the setting", "No title", InputBox_RunFunction_Enter, InputBox_RunFunction_Type)
+  tab1.inputbox_description_of_setting = reagirl.InputBox_Add(30, 130, 300, "Description of the setting:", 150, "Type in here a description of the setting", "No Description", InputBox_RunFunction_Enter, InputBox_RunFunction_Type)
+
   -- add two checkboxes to the gui
-  tab2[2] = reagirl.CheckBox_Add(30, 150, "My setting", "How shall my setting be set?", true, Checkbox_RunFunction)
-  tab2[1] = reagirl.CheckBox_Add(30, 170, "Remember chosen setting", "Shall this setting be used as future default?", true, Checkbox_RunFunction)
+  tab2.checkbox_mysetting = reagirl.CheckBox_Add(30, 150, "My setting", "How shall my setting be set?", true, Checkbox_RunFunction)
+  tab2.checkbox_remember = reagirl.CheckBox_Add(30, 170, "Remember chosen setting", "Shall this setting be used as future default?", true, Checkbox_RunFunction)
 
   -- add an ok-button and a cancel button to the gui
-  tab3[1] = reagirl.Button_Add(30, 200, 0, 0, "OK", "Apply changes and close dialog", Button_RunFunction)
-  tab3[2] = reagirl.Button_Add(70, 200, 0, 0, "Cancel", "Discard changes and close dialog", Button_RunFunction)
+  tab3.button_ok_id = reagirl.Button_Add(30, 200, 0, 0, "OK", "Apply changes and close dialog", Button_RunFunction)
+  tab3.button_cancel_id = reagirl.Button_Add(70, 200, 0, 0, "Cancel", "Discard changes and close dialog", Button_RunFunction)
+
+  -- add a "global" apply-button and close-button to the gui as well as a checkbox
+  apply_button = reagirl.Button_Add(520, 225, 0, 0, "Apply", "Apply changes", Button_RunFunction)
+  close_button = reagirl.Button_Add(570, 225, 0, 0, "Close", "close dialog", Button_RunFunction)
+  global_checkbox = reagirl.CheckBox_Add(10, 225, "Apply only to project", "Shall these settings be applied only to a project?", true, Checkbox_RunFunction)
+
+  -- let's force window-sizes
+  reagirl.Window_ForceSize_Minimum(550, 200)  -- set the minimum size of the window
+  reagirl.Window_ForceSize_Maximum(1150, 400) -- set the maximum size of the window
   
   -- make only ui-elements of tab 1 visible at startup
   reagirl.UI_Element_SetHiddenFromTable(tab1, true)
   reagirl.UI_Element_SetHiddenFromTable(tab2, false)
   reagirl.UI_Element_SetHiddenFromTable(tab3, false)
   
-  -- add a "global" apply-button and close-button to the gui as well as a checkbox
-  apply_button = reagirl.Button_Add(520, 225, 0, 0, "Apply", "Apply changes", Button_RunFunction)
-  close_button = reagirl.Button_Add(570, 225, 0, 0, "Close", "close dialog", Button_RunFunction)
-  global_checkbox = reagirl.CheckBox_Add(10, 225, "Apply only to project", "Shall these settings be applied only to a project?", true, Checkbox_RunFunction)
-  
-  -- let's force window-sizes
-  reagirl.Window_ForceSize_Minimum(550, 200)  -- set the minimum size of the window
-  reagirl.Window_ForceSize_Maximum(1150, 400) -- set the maximum size of the window
-
   -- open the new gui
   reagirl.Gui_Open("The dialog", "This is a demo dialog with some options.", 640, 250)
 
@@ -719,7 +720,7 @@ Final Example:
     reagirl.Gui_Manage()
     
     -- if the gui-window hasn't been closed, keep the script alive.
-    if reagirl.Gui_IsOpen()==true then reaper.defer(main) else reagirl.Gui_Open("The dialog", "This is a demo dialog with some options.", 640, 250) reaper.defer(main) end
+    if reagirl.Gui_IsOpen()==true then reaper.defer(main) end
   end
 
   main()
