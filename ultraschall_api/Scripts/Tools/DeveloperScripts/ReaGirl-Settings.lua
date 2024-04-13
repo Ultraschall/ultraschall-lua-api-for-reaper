@@ -71,10 +71,11 @@ reagirl.Button_Add(nil, nil, 0, 0, "Apply", "Apply the chosen scaling value.", b
 
 reagirl.Background_GetSetColor(true,55,55,55)
 
-reagirl.Gui_Open("ReaGirl Settings", "various settings for ReaGirl-Accessible Guis", 350, 280, nil, nil, nil)
+reagirl.Gui_Open("ReaGirl Settings", "various settings for ReaGirl-Accessible Guis", 345, 263, nil, nil, nil)
 
 function main()
   reagirl.Gui_Manage()
-  reaper.defer(main)
+  
+  if reagirl.Gui_IsOpen()==true then reaper.defer(main) end
 end
 main()

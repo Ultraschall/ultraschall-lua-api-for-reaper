@@ -1,4 +1,4 @@
-dofile(reaper.GetResourcePath().."/UserPlugins/ultraschall_api.lua")
+--dofile(reaper.GetResourcePath().."/UserPlugins/ultraschall_api.lua")
 
 -- DEBUG:
 reaper.osara_outputMessage=nil
@@ -16,6 +16,9 @@ end
 --]]
 --[[
 TODO: 
+  - Tabs: will be invisible when x,y is scrolling outside of window
+  - Scrollbars: will be "clickable" even if they are invisible
+  - Scrollbars: are shown "too early" so you can't put ui-elements at the edged of the window without triggering them
   - DropDownMenu: line "if gfx.mouse_x>=x+cap_w and gfx.mouse_x<=x+w and gfx.mouse_y>=y and gfx.mouse_y<=y+h then"
           in DropDownMenu_Manage occasionally produces nil-error on x for some reason...
           Maybe only after using EditMode?
@@ -24,7 +27,6 @@ TODO:
             1.23456 // 1 | 0
   - general: for functions that I do not expose to the user(like RoundRect), remove math.XXX()-functioncalls for improved performance.
   - mouse-wheel/mouse-hwheel: sometimes using mousewheel to drag sliders/options in drop down menu stops for no apparent reason
-  - MacOS-check: fonts might be off by 1 in y-position, so maybe repositioning with an offset is necessary(see dropdownmenu_draw for details)
   - Check, if all ui-elements are properly drawn in disabled-mode
   - CheckBox: add a few pixels to the width after everything is said and done
   - InputBox: if they are too small, they aren't drawn properly
@@ -36,6 +38,7 @@ TODO:
   - Slider: disappears when scrolling upwards/leftwards: because of the "only draw neccessary gui-elements"-code, which is buggy for some reason(still is existing?)
   - Slider: draw a line where the default-value shall be
   - Slider: when width is too small, drawing bugs appear(i.e. autowidth plus window is too small)
+  - Slider: knob isn't correctly aligned with mouse at the beginning, but perfectly at the end
   - Image: reload of scaled image-override; if override==true then it loads only the image.png, not image-2x.png
   - Labels: ACCHoverMessage should hold the text of the paragraph the mouse is hovering above only
             That way, not everything is read out as message to TTS, only the hovered paragraph.
@@ -756,7 +759,7 @@ function reagirl.Window_Open(...)
   </chapter_context>
   <target_document>ReaGirl_Docs</target_document>
   <source_document>reagirl_GuiEngine.lua</source_document>
-  <tags>gfx, functions, gfx, init, window, create, hwnd</tags>
+  <tags>init, window, create, hwnd</tags>
 </US_DocBloc>
 ]]
   local parms={...}
@@ -933,7 +936,7 @@ function reagirl.Mouse_GetCap(doubleclick_wait, drag_wait)
   </chapter_context>
   <target_document>ReaGirl_Docs</target_document>
   <source_document>reagirl_GuiEngine.lua</source_document>
-  <tags>gfx, functions, mouse, mouse cap, leftclick, rightclick, doubleclick, drag, wheel, mousewheel, horizontal mousewheel</tags>
+  <tags>functions, mouse, mouse cap, leftclick, rightclick, doubleclick, drag, wheel, mousewheel, horizontal mousewheel</tags>
 </US_DocBloc>
 ]]
   if doubleclick_wait~=nil and math.type(doubleclick_wait)~="integer" then error("Mouse_GetCap: #1 - must be nil or an integer", 2) end
@@ -1065,7 +1068,7 @@ function reagirl.Gui_AtExit(run_func)
   </chapter_context>
   <target_document>ReaGirl_Docs</target_document>
   <source_document>reagirl_GuiEngine.lua</source_document>
-  <tags>gfx, functions, atexit, gui, function</tags>
+  <tags>functions, atexit, gui, function</tags>
 </US_DocBloc>
 ]]
   if run_func~=nil and type(run_func)~="function" then error("AtExit: param #1 - must be a function", -2) return end
@@ -1093,7 +1096,7 @@ function reagirl.AtEnter(run_func)
   </chapter_context>
   <target_document>ReaGirl_Docs</target_document>
   <source_document>reagirl_GuiEngine.lua</source_document>
-  <tags>gfx, functions, atenter, gui, function</tags>
+  <tags>functions, atenter, gui, function</tags>
 </US_DocBloc>
 ]]
   if run_func~=nil and type(run_func)~="function" then error("AtEnter: param #1 - must be a function", -2) return end
@@ -1118,7 +1121,7 @@ function reagirl.Gui_New()
   </chapter_context>
   <target_document>ReaGirl_Docs</target_document>
   <source_document>reagirl_GuiEngine.lua</source_document>
-  <tags>gfx, functions, new, gui</tags>
+  <tags>functions, new, gui</tags>
 </US_DocBloc>
 ]]
   reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0)
@@ -1498,7 +1501,7 @@ function reagirl.SetFont(idx, fontface, size, flags, scale_override)
   </chapter_context>
   <target_document>ReaGirl_Docs</target_document>
   <source_document>reagirl_GuiEngine.lua</source_document>
-  <tags>gfx, functions, set, font</tags>
+  <tags>functions, set, font</tags>
 </US_DocBloc>
 ]]
   if math.type(idx)~="integer" then error("SetFont: #1 - must be an integer", 2) end
@@ -1550,7 +1553,7 @@ function reagirl.Gui_Open(title, description, w, h, dock, x, y)
   </chapter_context>
   <target_document>ReaGirl_Docs</target_document>
   <source_document>reagirl_GuiEngine.lua</source_document>
-  <tags>gfx, functions, open, gui</tags>
+  <tags>functions, open, gui</tags>
 </US_DocBloc>
 ]]
   if type(title)~="string" then error("Gui_Open: #1 - must be an integer", 2) end
@@ -1581,6 +1584,8 @@ function reagirl.Gui_Open(title, description, w, h, dock, x, y)
   
   if reagirl.Window_ForceMinSize_Toggle==nil then reagirl.Window_ForceMinSize_Toggle=false end
   reagirl.osara_init_message=false
+  --reagirl.FocusRectangle_BlinkStartTime=nil
+  reagirl.FocusRectangle_BlinkStartTime=reaper.time_precise()
   
   return reagirl.Window_Open(title, w, h, dock, x, y)
 end
@@ -1606,7 +1611,7 @@ function reagirl.Gui_IsOpen()
   </chapter_context>
   <target_document>ReaGirl_Docs</target_document>
   <source_document>reagirl_GuiEngine.lua</source_document>
-  <tags>gfx, functions, is open, gui</tags>
+  <tags>functions, is open, gui</tags>
 </US_DocBloc>
 ]]
   return reagirl.IsWindowOpen_attribute==true
@@ -1630,11 +1635,10 @@ function reagirl.Gui_Close()
   </chapter_context>
   <target_document>ReaGirl_Docs</target_document>
   <source_document>reagirl_GuiEngine.lua</source_document>
-  <tags>gfx, functions, close, gui</tags>
+  <tags>functions, close, gui</tags>
 </US_DocBloc>
 ]]
-  gfx.quit()
-  reagirl.FocusRectangle_BlinkStartTime=nil
+  gfx.quit()  
   reagirl.IsWindowOpen_attribute=false
   reagirl.IsWindowOpen_attribute_Old=true
 end
@@ -2818,16 +2822,16 @@ function reagirl.UI_Element_GetSetCaption(element_id, is_set, name)
   return reagirl.Elements[element_id]["Name"]
 end
 
-function reagirl.UI_Element_GetSetHidden(element_id, is_set, hidden)
+function reagirl.UI_Element_GetSetVisibility(element_id, is_set, visible)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>UI_Element_GetSetHidden</slug>
+  <slug>UI_Element_GetSetVisibility</slug>
   <requires>
     ReaGirl=1.0
     Reaper=7
     Lua=5.4
   </requires>
-  <functioncall>boolean hidden = reagirl.UI_Element_GetSetHidden(string element_id, boolean is_set, boolean hidden)</functioncall>
+  <functioncall>boolean visible = reagirl.UI_Element_GetSetVisibility(string element_id, boolean is_set, boolean visible)</functioncall>
   <description>
     gets/sets the hidden-state of the ui-element
   </description>
@@ -2837,7 +2841,7 @@ function reagirl.UI_Element_GetSetHidden(element_id, is_set, hidden)
   <parameters>
     string element_id - the id of the element, whose hidden-state you want to get/set
     boolean is_set - true, set the hidden-state; false, only retrieve current hidde-state
-    boolean hidden - true, set to hidden; false, set to visible
+    boolean visible - true, set to visible; false, set to hidden
   </parameters>
   <chapter_context>
     UI Elements
@@ -2847,15 +2851,15 @@ function reagirl.UI_Element_GetSetHidden(element_id, is_set, hidden)
   <tags>ui-elements, set, get, hidden, visibility</tags>
 </US_DocBloc>
 ]]
-  if type(element_id)~="string" then error("UI_Element_GetSetHidden: #1 - must be a guid as string", 2) end
+  if type(element_id)~="string" then error("UI_Element_GetSetVisibility: #1 - must be a guid as string", 2) end
   element_id=reagirl.UI_Element_GetIDFromGuid(element_id)
-  if element_id==nil then error("UI_Element_GetSetHidden: #1 - no such ui-element", 2) end
-  if reagirl.Elements[element_id]==nil then error("UI_Element_GetSetHidden: #1 - no such ui-element", 2) end
-  if type(is_set)~="boolean" then error("UI_Element_GetSetHidden: #2 - must be a boolean", 2) end
-  if is_set==true and type(hidden)~="boolean" then error("UI_Element_GetSetHidden: #3 - must be a boolean when #2==true", 2) end
+  if element_id==nil then error("UI_Element_GetSetVisibility: #1 - no such ui-element", 2) end
+  if reagirl.Elements[element_id]==nil then error("UI_Element_GetSetVisibility: #1 - no such ui-element", 2) end
+  if type(is_set)~="boolean" then error("UI_Element_GetSetVisibility: #2 - must be a boolean", 2) end
+  if is_set==true and type(visible)~="boolean" then error("UI_Element_GetSetVisibility: #3 - must be a boolean when #2==true", 2) end
   
   if is_set==true then
-    if hidden==true then
+    if visible==false then
       reagirl.Elements[element_id]["hidden"]=true
     else
       reagirl.Elements[element_id]["hidden"]=nil
@@ -7793,12 +7797,15 @@ function reagirl.UI_Element_GetHovered()
   <description>
     Get the ui-element-guid, at where the mouse is currently hovering above. 
   </description>
+  <retvals>
+    string element_id - the element-id of the currently hovered ui-element
+  </retvals>
   <chapter_context>
     Gui
   </chapter_context>
   <target_document>ReaGirl_Docs</target_document>
   <source_document>reagirl_GuiEngine.lua</source_document>
-  <tags>gfx, functions, get, hovered, hover, gui</tags>
+  <tags>functions, get, hovered, hover, gui</tags>
 </US_DocBloc>
 ]]
   if reagirl.UI_Elements_HoveredElement==-1 then return end
@@ -7818,12 +7825,15 @@ function reagirl.UI_Element_GetFocused()
   <description>
     Get the ui-element-guid, that is currently focused. 
   </description>
+  <retvals>
+    string element_guid - the element-id of the currently focused ui-element
+  </retvals>
   <chapter_context>
     Gui
   </chapter_context>
   <target_document>ReaGirl_Docs</target_document>
   <source_document>reagirl_GuiEngine.lua</source_document>
-  <tags>gfx, functions, get, focused, gui</tags>
+  <tags>functions, get, focused, gui</tags>
 </US_DocBloc>
 ]]
   if reagirl.Elements.FocusedElement>=#reagirl.Elements-5 then return end
@@ -7843,12 +7853,15 @@ function reagirl.UI_Element_SetFocused(element_id)
   <description>
     Set an ui-element-guid focused. 
   </description>
+  <parameters>
+    string element_id - the id of the ui-element, which you want to set to focused
+  </parameters>
   <chapter_context>
     Gui
   </chapter_context>
   <target_document>ReaGirl_Docs</target_document>
   <source_document>reagirl_GuiEngine.lua</source_document>
-  <tags>gfx, functions, set, focused, gui</tags>
+  <tags>functions, set, focused, gui</tags>
 </US_DocBloc>
 ]]
   if reagirl.Elements.FocusedElement>=#reagirl.Elements-5 then return end
@@ -7858,6 +7871,40 @@ function reagirl.UI_Element_SetFocused(element_id)
   reagirl.Elements.FocusedElement=id
   reagirl.Gui_ForceRefresh(52)
 end
+
+function reagirl.UI_Element_SetHiddenFromTable(table_element_ids, visible)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>UI_Element_SetFocused</slug>
+  <requires>
+    ReaGirl=1.0
+    Reaper=7
+    Lua=5.4
+  </requires>
+  <functioncall>reagirl.UI_Element_SetHiddenFromTable(table table_element_ids, boolean visible)</functioncall>
+  <description>
+    Set ui-elements stored in a table to hidden or visible.
+  </description>
+  <parameters>
+     table table_element_ids - a table with element_ids that you want to hide or make visible
+     boolean visible - true, set all ui-elements in table_element_ids to visible; false, set them to hidden
+  </parameters>
+  <chapter_context>
+    Gui
+  </chapter_context>
+  <target_document>ReaGirl_Docs</target_document>
+  <source_document>reagirl_GuiEngine.lua</source_document>
+  <tags>functions, set, hidden, visible, from table, gui</tags>
+</US_DocBloc>
+]]
+  if type(table_element_ids)~="table" then error("UI_Element_SetHiddenFromTable: param #1: must be a table", 2) return end
+  if type(visible)~="boolean" then error("UI_Element_SetHiddenFromTable: param #2: must be a boolean", 2) return end
+  for i=1, #table_element_ids do
+    if reagirl.IsValidGuid(table_element_ids[i], true)==false then error("UI_Element_SetHiddenFromTable: param #1: table-entry "..i.." is not a valid guid", -2) return end
+    reagirl.UI_Element_GetSetVisibility(table_element_ids[i], true, visible)
+  end
+end
+
 
 function reagirl.Slider_Add(x, y, w, caption, Cap_width, meaningOfUI_Element, unit, start, stop, step, default, run_function)
 --[[
@@ -9036,6 +9083,89 @@ function reagirl.Tabs_Draw(element_id, selected, hovered, clicked, mouse_cap, mo
            y+element_storage["Tabs_Pos"][element_storage["TabSelected"] ]["h"],
            element_storage["Tabs_Pos"][element_storage["TabSelected"] ]["w"]+offset_tabline-dpi_scale,--+element_storage["Tabs_Pos"][element_storage["TabSelected"] ]["w"], 
            dpi_scale, 1)--]]
+end
+
+function reagirl.CheckForValidFileFormat(filename_with_path)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>CheckForValidFileFormats</slug>
+  <requires>
+    ReaGirl=1.0
+    Reaper=7
+    Lua=5.4
+  </requires>
+  <functioncall>string fileformat, boolean supported_by_reaper, string mediatype = reagirl.CheckForValidFileFormat(string filename_with_path)</functioncall>
+  <description>
+    Returns the fileformat of a Reaper-supported-file, images, audios(opus and m4a missing, though!), and video(mp4-video missing, though!).
+    Note: Checks the file itself and does not check for correct file-extension. Reaper needs the correct file-extension or it can't read an otherwise valid imagefile.
+          For example: if you want to import a GIF, renamed to filename.JPG, Reaper will not be able to read it. Only when the extension is the same as the file itself(filename.GIF).
+    
+    Returns nil in case of an error
+  </description>
+  <parameters>
+    string filename_with_path - the file to check for its image-fileformat
+  </parameters>
+  <retvals>
+    string fileformat - the format of the file; JPG, PNG, GIF, LCF, ICO, WAV, AIFF, ASF/WMA/WMV, MP3, MP3 -ID3TAG, FLAC, MKV/MKA/MKS/MK3D/WEBM, AVI, RPP_PROJECT, unknown
+    boolean supported_by_reaper - true, if importing of the fileformat is supported by Reaper; false, if not
+    string mediatype - the type of the media; Image, Audio, Audio/Video, Video, Reaper
+  </retvals>
+  <chapter_context>
+    File Management
+  </chapter_context>
+  <tags>helper functions, image, video, audio, fileformat, check</tags>
+</US_DocBloc>
+--]]
+
+  -- check parameters
+  if type(filename_with_path)~="string" then ultraschall.AddErrorMessage("CheckForValidFileFormats","filename_with_path", "Must be a string!", -1) return nil end
+  if reaper.file_exists(filename_with_path)~=true then ultraschall.AddErrorMessage("CheckForValidFileFormats","filename_with_path", "File does not exist!", -2) return nil end
+  
+  -- prepare variables
+  local length, content = ultraschall.ReadBinaryFile_Offset(filename_with_path, 0, 100)
+  
+  --print2(content:sub(13,14))
+  -- check for a specific imagefile supported by Reaper
+  
+  --if     content:match("JFIF")~=nil then return "JPG", true, "Image"
+  if ultraschall.CompareStringWithAsciiValues(content, 0xFF, 0xD8, -1, -1, -1, -1, 0x45, 0x78, 0x69, 0x66, 0x00)==true then return "JPG", true, "Image"
+  elseif ultraschall.CompareStringWithAsciiValues(content, 0xFF, 0xD8, -1, -1, -1, -1, 0x4A, 0x46, 0x49, 0x46, 0x00)==true then return "JPG", true, "Image"
+  elseif content:sub(1,3)=="ÿØÿ" then return "JPG", true, "Image"
+  elseif content:sub(2,4)=="PNG" then return "PNG", true, "Image"
+  elseif content:sub(1,2)=="BM" then return "BMP", true, "Image"
+  elseif content:sub(1,3)=="GIF" then return "GIF", true, "Image"
+  elseif ultraschall.CompareStringWithAsciiValues(content, 0x1,0xB0,0xCE)==true then 
+        local file=ultraschall.ReadFullFile(filename_with_path,true)
+        local frameheader=string.char(1, 176, 206)
+        local framecount=0
+        while file~=nil do
+          framecount=framecount+1
+          file=file:match(frameheader.."(.*)")
+        end
+        return "LCF", true, "Image", framecount-1
+  elseif ultraschall.CompareStringWithAsciiValues(content, 0,0,1,1)==true then return "ICO", true, "Image"
+  
+  -- audio formats
+  elseif content:sub(1,4)=="OggS" then return "OGG", true, "Audio"
+  elseif ultraschall.CompareStringWithAsciiValues(content, 0x52, 0x49, 0x46, 0x46, -1, -1, -1, -1, 0x57, 0x41, 0x56, 0x45)==true then return "WAV", true, "Audio"
+  elseif ultraschall.CompareStringWithAsciiValues(content, 0x46, 0x4F, 0x52, 0x4D, -1, -1, -1, -1, 0x41, 0x49, 0x46, 0x46)==true then return "AIFF", true, "Audio"
+  elseif ultraschall.CompareStringWithAsciiValues(content, 0x30, 0x26, 0xB2, 0x75, 0x8E, 0x66, 0xCF, 0x11, 0xA6, 0xD9, 0x00, 0xAA, 0x00, 0x62, 0xCE, 0x6C)==true then return "ASF/WMA/WMV", true, "Audio/Video"
+  elseif ultraschall.CompareStringWithAsciiValues(content, 0xFF, 0xFB)==true then return "MP3", true, "Audio"
+  elseif ultraschall.CompareStringWithAsciiValues(content, 0x49, 0x44, 0x33)==true then return "MP3 - ID3TAG", true, "Audio"
+  elseif ultraschall.CompareStringWithAsciiValues(content, 0x66, 0x4C, 0x61, 0x43)==true then return "FLAC", true, "Audio"
+  elseif content:sub(1,4)=="MThd" then return "MID", true, "Audio"
+  
+  -- video formats
+  elseif ultraschall.CompareStringWithAsciiValues(content, 0x1A, 0x45, 0xDF, 0xA3)==true then return "MKV/MKA/MKS/MK3D/WEBM", true, "Video"
+  elseif ultraschall.CompareStringWithAsciiValues(content, 0x52, 0x49, 0x46, 0x46, -1, -1, -1, -1, 0x41, 0x56, 0x49, 0x20)==true then return "AVI", true, "Video"
+  else -- Reaper's own projectfiles
+    local A,B=ultraschall.ReadBinaryFile_Offset(filename_with_path, 0, 100)
+    local C,D=ultraschall.ReadBinaryFile_Offset(filename_with_path, -20, 21)
+    if ultraschall.IsValidProjectStateChunk(B..D)==true then return "RPP_PROJECT", true, "Reaper" end
+      
+  -- other formats
+  return "unknown", false, "unknown"
+  end
 end
 
 reagirl.Gui_New()
