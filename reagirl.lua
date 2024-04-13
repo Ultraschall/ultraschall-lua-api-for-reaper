@@ -8177,7 +8177,7 @@ function reagirl.Slider_Manage(element_id, selected, hovered, clicked, mouse_cap
         elseif stepme<2000 then stepme=16
         elseif stepme<4000 then stepme=64
         end
-        element_storage["CurValue"]=element_storage["CurValue"]+element_storage["Step"]*(stepme)
+        element_storage["CurValue"]=element_storage["CurValue"]+element_storage["Step"]*(stepme)        
         refresh=true 
       end
       if mouse_attributes[5]>0 or mouse_attributes[6]<0 then 
@@ -8259,10 +8259,10 @@ function reagirl.Slider_Draw(element_id, selected, hovered, clicked, mouse_cap, 
   if element_storage["IsDecorative"]==true then gfx.set(0.6) else gfx.set(0.7) end
   reagirl.RoundRect(math.tointeger(x+offset_cap),math.floor(y+(h-3*dpi_scale)/2), math.tointeger(w-offset_cap-offset_unit), math.tointeger(dpi_scale)*3, dpi_scale, 1, 1)
   
-  rect_w=w-offset_unit-offset_cap
-  step_size=(rect_w/(element_storage["Stop"]-element_storage["Start"])/1)
+  rect_w=w-offset_unit-offset_cap-5*dpi_scale
+  step_size=((rect_w/(element_storage["Stop"]-element_storage["Start"])/1))
   step_current=step_size*(element_storage["CurValue"]-element_storage["Start"])
-  
+  offset_cap=offset_cap+5*dpi_scale
   gfx.set(0.584)
   gfx.circle(x+offset_cap+step_current, y+h/2, 7*dpi_scale, 1, 1)
   gfx.set(0.2725490196078431)
