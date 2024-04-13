@@ -36,7 +36,6 @@ TODO:
   - Slider: disappears when scrolling upwards/leftwards: because of the "only draw neccessary gui-elements"-code, which is buggy for some reason(still is existing?)
   - Slider: draw a line where the default-value shall be
   - Slider: when width is too small, drawing bugs appear(i.e. autowidth plus window is too small)
-  - Slider: knob isn't correctly aligned with mouse at the beginning, but perfectly at the end
   - Image: reload of scaled image-override; if override==true then it loads only the image.png, not image-2x.png
   - Labels: ACCHoverMessage should hold the text of the paragraph the mouse is hovering above only
             That way, not everything is read out as message to TTS, only the hovered paragraph.
@@ -7938,7 +7937,7 @@ function reagirl.UI_Element_SetHiddenFromTable(table_element_ids, visible)
 end
 
 
-function reagirl.Slider_Add(x, y, w, caption, Cap_width, meaningOfUI_Element, unit, start, stop, step, default, run_function)
+function reagirl.Slider_Add(x, y, w, caption, Cap_width, meaningOfUI_Element, unit, start, stop, step, init_value, default, run_function)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>Slider_Add</slug>
@@ -7947,7 +7946,7 @@ function reagirl.Slider_Add(x, y, w, caption, Cap_width, meaningOfUI_Element, un
     Reaper=7
     Lua=5.4
   </requires>
-  <functioncall>string slider_guid = reagirl.Slider_Add(integer x, integer y, integer w, string caption, optional integer cap_width, string meaningOfUI_Element, optional string unit, number start, number stop, number step, number default, function run_function)</functioncall>
+  <functioncall>string slider_guid = reagirl.Slider_Add(integer x, integer y, integer w, string caption, optional integer cap_width, string meaningOfUI_Element, optional string unit, number start, number stop, number step, number init_value, number default, function run_function)</functioncall>
   <description>
     Adds a slider to a gui.
     
@@ -7969,7 +7968,8 @@ function reagirl.Slider_Add(x, y, w, caption, Cap_width, meaningOfUI_Element, un
     number start - the minimum value of the slider
     number stop - the maximum value of the slider
     number step - the stepsize until the next value within the slider
-    number default - the default value of the slider(also the initial value)
+    number init_value - the initial value of the slider
+    number default - the default value of the slider
     function run_function - a function that shall be run when the slider is clicked; will get passed over the slider-element_id as first and the new slider-value as second parameter
   </parameters>
   <retvals>
@@ -7994,8 +7994,9 @@ function reagirl.Slider_Add(x, y, w, caption, Cap_width, meaningOfUI_Element, un
   if type(start)~="number" then error("Slider_Add: param #8 - must be a number", 2) end
   if type(stop)~="number" then error("Slider_Add: param #9 - must be a number", 2) end
   if type(step)~="number" then error("Slider_Add: param #10 - must be a number", 2) end
-  if type(default)~="number" then error("Slider_Add: param #11 - must be a number", 2) end
-  if run_function~=nil and type(run_function)~="function" then error("Slider_Add: param #11 - must be either nil or a function", 2) end
+  if type(init_value)~="number" then error("Slider_Add: param #11 - must be a number", 2) end  
+  if type(default)~="number" then error("Slider_Add: param #12 - must be a number", 2) end
+  if run_function~=nil and type(run_function)~="function" then error("Slider_Add: param #13 - must be either nil or a function", 2) end
   
   local slot=reagirl.UI_Element_GetNextFreeSlot()
   if x==nil then 
@@ -8043,7 +8044,7 @@ function reagirl.Slider_Add(x, y, w, caption, Cap_width, meaningOfUI_Element, un
   reagirl.Elements[slot]["Stop"]=stop
   reagirl.Elements[slot]["Step"]=step
   reagirl.Elements[slot]["Default"]=default
-  reagirl.Elements[slot]["CurValue"]=default
+  reagirl.Elements[slot]["CurValue"]=init_value
   reagirl.Elements[slot]["IsDecorative"]=false
   reagirl.Elements[slot]["Description"]=meaningOfUI_Element
   reagirl.Elements[slot]["AccHint"]="Change via arrowkeys, home, end, pageup, pagedown."
@@ -8253,16 +8254,20 @@ function reagirl.Slider_Draw(element_id, selected, hovered, clicked, mouse_cap, 
 
   if element_storage["IsDecorative"]==true then gfx.set(0.5) else gfx.set(0.7) end
   -- draw slider-area
-  gfx.set(0.5)
-  reagirl.RoundRect(math.tointeger(x+offset_cap-dpi_scale), math.floor(y+(h-5*dpi_scale)/2), math.tointeger(w-offset_cap-offset_unit+dpi_scale+dpi_scale), math.tointeger(dpi_scale)*5, 2*math.tointeger(dpi_scale), 1, 1)
-  
-  if element_storage["IsDecorative"]==true then gfx.set(0.6) else gfx.set(0.7) end
-  reagirl.RoundRect(math.tointeger(x+offset_cap),math.floor(y+(h-3*dpi_scale)/2), math.tointeger(w-offset_cap-offset_unit), math.tointeger(dpi_scale)*3, dpi_scale, 1, 1)
   
   rect_w=w-offset_unit-offset_cap-5*dpi_scale
   step_size=((rect_w/(element_storage["Stop"]-element_storage["Start"])/1))
   step_current=step_size*(element_storage["CurValue"]-element_storage["Start"])
   offset_cap=offset_cap+5*dpi_scale
+  gfx.set(0.584)
+  gfx.rect(x+offset_cap+step_size*(element_storage["Default"]-element_storage["Start"]), y+dpi_scale+dpi_scale+dpi_scale+dpi_scale+dpi_scale, dpi_scale, h-dpi_scale-dpi_scale-dpi_scale-dpi_scale-dpi_scale-dpi_scale-dpi_scale-dpi_scale-dpi_scale-dpi_scale, 1)
+  
+  gfx.set(0.5)
+  reagirl.RoundRect(math.tointeger(x+offset_cap-dpi_scale), math.floor(y+(h-5*dpi_scale)/2), math.tointeger(w-offset_cap-offset_unit+dpi_scale+dpi_scale), math.tointeger(dpi_scale)*5, 2*math.tointeger(dpi_scale), 1, 1)
+  
+  if element_storage["IsDecorative"]==true then gfx.set(0.6) else gfx.set(0.7) end
+  reagirl.RoundRect(math.tointeger(x+offset_cap),math.floor(y+(h-3*dpi_scale)/2), math.tointeger(w-offset_cap-offset_unit), math.tointeger(dpi_scale)*3, dpi_scale, 1, 1)
+    
   gfx.set(0.584)
   gfx.circle(x+offset_cap+step_current, y+h/2, 7*dpi_scale, 1, 1)
   gfx.set(0.2725490196078431)
@@ -8275,7 +8280,7 @@ function reagirl.Slider_Draw(element_id, selected, hovered, clicked, mouse_cap, 
     gfx.set(0.9843137254901961, 0.8156862745098039, 0)
   end
 
-  gfx.circle(x+offset_cap+step_current, y+h/2, 5*dpi_scale, 1, 1)
+  gfx.circle(x+offset_cap+step_current, y+h/2, 5*dpi_scale, 1, 1)  
 end
 
 function reagirl.Slider_SetValue(element_id, value)
