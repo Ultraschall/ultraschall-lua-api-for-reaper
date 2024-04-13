@@ -1,7 +1,7 @@
 --dofile(reaper.GetResourcePath().."/UserPlugins/ultraschall_api.lua")
 
 -- DEBUG:
-reaper.osara_outputMessage=nil
+--reaper.osara_outputMessage=nil
 
 
 reagirl={}
@@ -16,7 +16,6 @@ end
 --]]
 --[[
 TODO: 
-  - Tabs: will be invisible when x,y is scrolling outside of window
   - DropDownMenu: line "if gfx.mouse_x>=x+cap_w and gfx.mouse_x<=x+w and gfx.mouse_y>=y and gfx.mouse_y<=y+h then"
           in DropDownMenu_Manage occasionally produces nil-error on x for some reason...
           Maybe only after using EditMode?
@@ -31,6 +30,7 @@ TODO:
   - InputBox: when dragging the textselection to the left/right edge(during scrolling) the textselection isn't drawn properly(keeps text selected that is outside of scope)
               it will be drawn too far until the "source of the text-selection" is in view
               -- I debugged it in InputBox_OnMouseMove() and it seems to work now? 
+  - InputBox: allow "Unit" for stuff like " Enable processing on [16] CPUs". Currently you can't have CPUs or anything else as suffix right after the inputbox.
   - jumping to ui-elements outside window(means autoscroll to them) doesn't always work
     - ui-elements might still be out of view when jumping to them(x-coordinate outside of window for instance)
   - Slider: disappears when scrolling upwards/leftwards: because of the "only draw neccessary gui-elements"-code, which is buggy for some reason(still is existing?)
@@ -2017,7 +2017,11 @@ function reagirl.Gui_Manage()
       if reagirl.UI_Elements_HoveredElement~=-1 then
         if reagirl.UI_Elements_HoveredElement~=reagirl.UI_Elements_HoveredElement_Old then
           if reaper.osara_outputMessage~=nil then
-            reaper.osara_outputMessage(reagirl.Elements[reagirl.UI_Elements_HoveredElement]["Name"])
+            local description=""
+            if reagirl.Elements[reagirl.UI_Elements_HoveredElement]["GUI_Element_Type"]=="Edit" then
+              description=reagirl.Elements[reagirl.UI_Elements_HoveredElement]["Text"]
+            end
+            reaper.osara_outputMessage(reagirl.Elements[reagirl.UI_Elements_HoveredElement]["Name"].." "..description)
           end
         end
       end
@@ -5536,6 +5540,7 @@ function reagirl.DropDownMenu_Add(x, y, w, caption, Cap_width, meaningOfUI_Eleme
   
   reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0, 1)
   local tx1, ty1 =gfx.measurestr(caption)
+  if Cap_width==nil then Cap_width=tx1+5 end
   reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0)
   
   table.insert(reagirl.Elements, slot, {})
@@ -5567,7 +5572,7 @@ function reagirl.DropDownMenu_Add(x, y, w, caption, Cap_width, meaningOfUI_Eleme
   reagirl.Elements[slot]["func_manage"]=reagirl.DropDownMenu_Manage
   reagirl.Elements[slot]["func_draw"]=reagirl.DropDownMenu_Draw
   reagirl.Elements[slot]["run_function"]=run_function
-  reagirl.Elements[slot]["Cap_width"]=Cap_width
+  reagirl.Elements[slot]["Cap_width"]=math.floor(Cap_width)
   reagirl.Elements[slot]["userspace"]={}
   return  reagirl.Elements[slot]["Guid"]
 end
@@ -7453,6 +7458,7 @@ function reagirl.UI_Elements_Boundaries()
     reagirl.Elements[#reagirl.Elements-4].hidden=nil
     reagirl.Elements[#reagirl.Elements-5].hidden=nil
     reagirl.Elements[#reagirl.Elements].hidden=nil
+    reagirl.BoundaryX_Max=reagirl.BoundaryX_Max+15*scale
   else
     reagirl.Elements[#reagirl.Elements-4].hidden=true
     reagirl.Elements[#reagirl.Elements-5].hidden=true
@@ -7463,6 +7469,7 @@ function reagirl.UI_Elements_Boundaries()
     reagirl.Elements[#reagirl.Elements-3].hidden=nil
     reagirl.Elements[#reagirl.Elements-2].hidden=nil
     reagirl.Elements[#reagirl.Elements-1].hidden=nil
+    reagirl.BoundaryY_Max=reagirl.BoundaryY_Max+15*scale
   else
     reagirl.Elements[#reagirl.Elements-3].hidden=true
     reagirl.Elements[#reagirl.Elements-2].hidden=true
@@ -7762,7 +7769,7 @@ function reagirl.UI_Element_GetNextFreeSlot()
   return #reagirl.Elements-5
 end
 
-function reagirl.UI_Element_ScrollToUIElement(element_id, x_offset, y_offset)
+function reagirl.UI_Element_ScrollToUIElement(element_id, x_offset, y_offset)  
   if x_offset==nil then x_offset=10 end
   if y_offset==nil then y_offset=10 end
   local i=reagirl.UI_Element_GetIDFromGuid(element_id)
@@ -7777,7 +7784,7 @@ function reagirl.UI_Element_ScrollToUIElement(element_id, x_offset, y_offset)
   if reagirl.Elements[i]["sticky_x"]==false then
     if x2+reagirl.MoveItAllRight<0 then
       reagirl.MoveItAllRight=-x2+x_offset
-    elseif x2+reagirl.MoveItAllRight>gfx.w-30*scale and x2+w2+reagirl.MoveItAllRight>gfx.w-30*scale then
+    elseif x2+reagirl.MoveItAllRight>gfx.w-15*scale and x2+w2+reagirl.MoveItAllRight>gfx.w-15*scale then
       reagirl.MoveItAllRight=gfx.w-30*scale-w2-x2
     end
   end
@@ -7785,7 +7792,7 @@ function reagirl.UI_Element_ScrollToUIElement(element_id, x_offset, y_offset)
   if reagirl.Elements[i]["sticky_y"]==false then
     if y2+reagirl.MoveItAllUp<0 then
       reagirl.MoveItAllUp=-y2+y_offset
-    elseif y2+reagirl.MoveItAllUp>gfx.h-30*scale and y2+h2+reagirl.MoveItAllUp>gfx.h-30*scale then
+    elseif y2+reagirl.MoveItAllUp>gfx.h-15*scale and y2+h2+reagirl.MoveItAllUp>gfx.h-15*scale then
       reagirl.MoveItAllUp=gfx.h-30*scale-h2-y2
     end
   end
@@ -8018,6 +8025,7 @@ function reagirl.Slider_Add(x, y, w, caption, Cap_width, meaningOfUI_Element, un
   
   reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0, 1)
   local tx, ty =gfx.measurestr(caption.."")
+  if Cap_width==nil then Cap_width=tx+5 end
   local unit2=unit
   if unit==nil then unit2="" end
   local tx1,ty1=gfx.measurestr(unit2)
