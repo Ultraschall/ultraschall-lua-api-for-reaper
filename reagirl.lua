@@ -1959,9 +1959,9 @@ function reagirl.Gui_Manage()
   -- if osara is installed, move mouse to hover above ui-element
   if reaper.osara_outputMessage~=nil and reagirl.oldselection~=reagirl.Elements.FocusedElement then
     reagirl.oldselection=reagirl.Elements.FocusedElement
-    local i=reagirl.Elements.FocusedElement
-    
+    local i=reagirl.Elements.FocusedElement    
     if reaper.osara_outputMessage~=nil and reaper.JS_Mouse_SetPosition~=nil then 
+      local x2, y2, w2, h2
       if reagirl.Elements[i]["x"]<0 then x2=gfx.w+(reagirl.Elements[i]["x"]*scale) else x2=reagirl.Elements[i]["x"]*scale end
       if reagirl.Elements[i]["y"]<0 then y2=gfx.h+(reagirl.Elements[i]["y"]*scale) else y2=reagirl.Elements[i]["y"]*scale end
       if reagirl.Elements[i]["w"]<0 then w2=gfx.w+(-x2+reagirl.Elements[i]["w"]*scale) else w2=reagirl.Elements[i]["w"]*scale end
@@ -7002,6 +7002,7 @@ function reagirl.Image_Draw(element_id, selected, hovered, clicked, mouse_cap, m
   
   if element_storage.KeepAspectRatio==true then
     local x1,y1=gfx.getimgdim(element_storage["Image_Storage"])
+    local ratio
     local ratiox=((100/x1)*w)/100
     local ratioy=((100/y1)*h)/100
     if ratiox<ratioy then ratio=ratiox else ratio=ratioy end
