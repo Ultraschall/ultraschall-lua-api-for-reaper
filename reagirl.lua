@@ -41,7 +41,8 @@ TODO:
             Needs this Osara-Issue to be done, if this is possible in the first place:
               https://github.com/jcsteh/osara/issues/961
   - DropZones: the target should be notified, which ui-element had been dragged to it
-  
+  - Tabs: autobackground doesn't work with tutorial-examples. It's too small by ca 11 px.
+          -- seems to work now, but I think it needs more tests...
   
 !!For 10k-UI-Elements(already been tested)!!  
   - Gui_Manage
@@ -9110,7 +9111,6 @@ function reagirl.Tabs_Manage(element_id, selected, hovered, clicked, mouse_cap, 
     if retval==true then element_storage["DropZoneFunction"](element_storage["Guid"], {filenames}) refresh=true end
   end
   
-  if Key~=0 then ABBA=Key end
   local refresh
   if element_storage["Tabs_Pos"]==nil then reagirl.Gui_ForceRefresh(61) end
   if element_storage["Tabs_Pos"]~=nil and clicked=="FirstCLK" then 
@@ -9227,14 +9227,14 @@ function reagirl.Tabs_Draw(element_id, selected, hovered, clicked, mouse_cap, mo
     if element_storage["y"]<0 then y2=gfx.h+(element_storage["y"]*dpi_scale) else y2=element_storage["y"]*dpi_scale end    
     
     if element_storage["w_background"]==nil then 
-      bg_w=(reagirl.BoundaryX_Max-x2-x2)-15*dpi_scale--*dpi_scale 
+      bg_w=(reagirl.BoundaryX_Max-x2-x2)--*dpi_scale 
       element_storage["bg_w"]=bg_w
     else 
       if element_storage["w_background"]>0 then bg_w=element_storage["w_background"]*dpi_scale else bg_w=gfx.w+element_storage["w_background"]*dpi_scale-offset_x end
     end
     
     if element_storage["h_background"]==nil then 
-      bg_h=(reagirl.BoundaryY_Max-y2-element_storage["Tabs_Pos"][element_storage["TabSelected"] ]["h"])-25*dpi_scale--*dpi_scale 
+      bg_h=(reagirl.BoundaryY_Max-y2-element_storage["Tabs_Pos"][element_storage["TabSelected"] ]["h"])--*dpi_scale 
       element_storage["bg_h"]=bg_h
     else 
       if element_storage["h_background"]>0 then bg_h=element_storage["h_background"]*dpi_scale else bg_h=gfx.h+element_storage["h_background"]*dpi_scale-offset_y end

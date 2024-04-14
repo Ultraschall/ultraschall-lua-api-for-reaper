@@ -40,7 +40,7 @@ When you run it, it will show the image of a bass guitar.
 Now, we will try to adapt the code, so you can drag n drop an image onto it to change it. To achieve this, we need a drag n drop area for this image.
 In ReaGirl, you can add to each ui-element a dropzone. This will have the dimensions and position of the ui-element.
 This dropzone gets it's own run-function that is run every time a file is dropped onto the dropzone.
-So, let's add a dropzone for our image, using the function reagirl.UI\_Element\_GetSet\_DropZoneFunction(). We also add a run-function for this drop-zone.
+So, let's add a dropzone for our image, using the function reagirl.UI\_Element\_GetSet\_DropZoneFunction(). We also add a run-function for this drop-zone, Image\_DropZone\_RunFunction.
 
 ```
   dofile(reaper.GetResourcePath().."/UserPlugins/reagirl.lua")
@@ -79,8 +79,8 @@ So, let's add a dropzone for our image, using the function reagirl.UI\_Element\_
   main()
 ```
 
-You'll notice, it's only one functioncall to add the dropzone and a run-function. That's all you need.
-Now you can drop files onto the image. A dialog will pop up that tells you the filename of the first file dropped, though you can drop multiple files into it.
+You'll notice, it's only one functioncall to add the dropzone plus a run-function. That's all you need.
+Now you can drop files onto the image. A dialog will pop up that tells you the filename of the first file dropped. It's only the first one in this code, but you could drop multiple files at the same time into it.
 What we would like to do next, is to change the shown image. For this, we alter the function Image\_DropZone\_RunFunction accordingly.
 
 ```
@@ -122,10 +122,10 @@ What we would like to do next, is to change the shown image. For this, we alter 
   main()
 ```
 
-You see, it's simply one functioncall of reagirl.Image\_Load() to load the dropped file, the first file dropped in this case (dropped\_filenames\_table[1]).
+You see, it's simply one functioncall of reagirl.Image\_Load() to load the dropped file. The first file dropped in this case (dropped\_filenames\_table[1]).
 Now that we have an image-viewer that accepts dropping of image-files, we might want to have a context-menu that allows us to load a file-requester and to clear the image.
-Contextmenus work the same as dropzones. You can add a context-menu to a specific ui-element. When the user right-clicks the ui-element, the context-menu is opened.
-When the user selects a menu-entry, a run-function for this context-menu is run, which gives you the chance to react to the user's choice.
+Contextmenus work the same as dropzones. You can add a context-menu to a specific ui-element and you add a run-function. 
+When the user right-clicks the ui-element, the context-menu is opened. When the user selects a menu-entry, the run-function for this context-menu is run, which gives you the chance to react to the user's choice.
 Let's add a context-menu using reagirl.UI\_Element\_GetSet\_ContextMenu() including its run-function.
 
 ```
@@ -176,7 +176,7 @@ Let's add a context-menu using reagirl.UI\_Element\_GetSet\_ContextMenu() includ
 ```
   
 Now you can right-click on the image and a menu will appear. You can select either of the entries and the run-function Image\_ContextMenu\_RunFunction() will show a dialog with the selected menu-entry-number.
-The parameter menu of the function UI\_Element\_GetSet\_ContextMenu works like gfx.showmenu from Reaper's own gfx-functions.
+The parameter menu of the function reagirl.UI\_Element\_GetSet\_ContextMenu works like gfx.showmenu from Reaper's own gfx-functions.
 So check out the docs for it for more details or read the chapter about context-menus, where I'll explain it in more detail.
 Ok, now that we have a menu, let's alter the run-function Image\_ContextMenu\_RunFunction() to react to the individual menu-entries.
 The first menu-entry will clear the image to be fully black, while the other one loads a filerequester that allows you to choose an image.
@@ -200,7 +200,7 @@ The first menu-entry will clear the image to be fully black, while the other one
     -- the context-menu of the image and makes a choice
     
     if menu_entry_selection==1 then
-      -- if user chose the first menu-entry, clear the image
+      -- if user chose the first menu-entry, clear the image to black
       reagirl.Image_ClearToColor(element_id, 0, 0, 0)
     elseif menu_entry_selection==2 then
       -- if user chose the second menu-entry, allow to load an image using a file requester
@@ -262,7 +262,7 @@ We can achieve this with the function reagirl.Image\_KeepAspectRatio()
     -- this function will be called when the user opens up 
     -- the context-menu of the image and makes a choice
     if menu_entry_selection==1 then
-      -- if user chose the first menu-entry, clear the image
+      -- if user chose the first menu-entry, clear the image to black
       reagirl.Image_ClearToColor(element_id, 0, 0, 0)
     elseif menu_entry_selection==2 then
       -- if user chose the second menu-entry, allow to load an image using a file requester
@@ -335,7 +335,7 @@ First, we get the filename of the currently used image-file for the image using 
     -- this function will be called when the user opens up 
     -- the context-menu of the image and makes a choice
     if menu_entry_selection==1 then
-      -- if user chose the first menu-entry, clear the image
+      -- if user chose the first menu-entry, clear the image to black
       reagirl.Image_ClearToColor(element_id, 0, 0, 0)
     elseif menu_entry_selection==2 then
       -- if user chose the second menu-entry, allow to load an image using a file requester

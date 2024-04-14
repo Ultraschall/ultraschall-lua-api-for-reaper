@@ -1,7 +1,7 @@
 In the first tutorial, we made a basic gui with some ui-elements. In this tutorial we want to add tabs and put the ui-elements into the individual tabs.
 The first tab gets all inputboxes, the second tab all checkboxes and the third tab all buttons.
 I removed the label and the image from the gui in this tutorial to make it a little simpler.
-Our initial gui looks now this way:
+Our initial gui looks this way, now:
 
 ```  
   dofile(reaper.GetResourcePath().."/UserPlugins/reagirl.lua")
@@ -79,8 +79,8 @@ Our initial gui looks now this way:
   main()
 ```
 
-The first thing we will do is to create three tables, in which we will store the element-ids of the gui-elements.
-Each table represents a tab, means: tab1 contains all ui-elements of tab 1, tab2 all ui-elements of tab 2 and tab3 all of tab 2.  
+The first thing we will do is to create three tables, in which we will store the element\_ids of the gui-elements.
+Each table represents a tab, means: tab1 contains all element\_ids of the ui-elements of tab 1, tab2 all element\_ids of the ui-elements of tab 2 and tab3 all of tab 3.  
 
 ```
   dofile(reaper.GetResourcePath().."/UserPlugins/reagirl.lua")
@@ -174,7 +174,7 @@ became
   tab1.inputbox_name_of_setting = reagirl.InputBox_Add(30, 105, 300, "Name of the setting:", 150, "Type in here the name of the setting", "No title", InputBox_RunFunction_Enter, InputBox_RunFunction_Type)
   ```
   
-means, we added tab1. in front of the variable-name, so it's now associated with the table that stores the gui-elements of the first tab.
+means, we added _tab1._ in front of the variable-name, so it's now associated with the table that stores the gui-elements of the first tab.
   
 All Inputbox\_Add add to tab1, all Checkbox\_Add add to tab2 and all Button\_Add add to tab3. That way we have one table for each tab with all ui-elements that shall be in that tab.
 Now, let's add the tabs-ui-element to the gui using the function reagirl.Tabs\_Add(). We also add a run-function for tabs called Tab\_RunFunction.
@@ -270,6 +270,10 @@ Now, let's add the tabs-ui-element to the gui using the function reagirl.Tabs\_A
 ```
 
 If you run this example, you'll have tabs. Click on them and the run-function will show a dialog with the selected tab number and its name.
+Tabs can have a background drawn, which I set here to 620x187 pixels. You can alter them or make them linked to the right/bottom of the window by making them negative.
+You can also pass nil instead of numbers. This will make the background enclose all ui-elements automatically. If you don't want a background, pass 0 as background-width and height.
+Toy around with it to get an idea.
+
 This dialog still shows all ui-elements in all tabs, so let's alter the tabs-run-function to show only all ui-elements associated with a certain tab.
 To achieve this, we use the function reagirl.UI\_Element\_SetHiddenFromTable(), which shows/hides all ui-elements whose ids are stored in a table.
 Now our three tables, tab1, tab2 and tab3 will come in handy: we pass these tables over to reagirl.UI\_Element\_SetHiddenFromTable() to show or hide their ui-elements.
@@ -380,7 +384,7 @@ Now our three tables, tab1, tab2 and tab3 will come in handy: we pass these tabl
   main()
 ```
   
-Run this script and you can click on the tabs to show only the ui-elements of associated with the tab. This is already close to what we want to achieve but when starting the script, it will still show all ui-elements in the first tab, only clicking other tabs will show the right ui-elements.
+Run this script and you can click on the tabs to show only the ui-elements of associated with the tab. This is already close to what we want to achieve but when starting the script, it will still show all ui-elements in the first tab, only clicking other tabs will show the correct ui-elements.
 So let's deal with that problem by adding additional reagirl.UI\_Element\_SetHiddenFromTable()-functioncalls right after the last Button\_Add-function:
 
 ```
@@ -498,7 +502,7 @@ Now we're talking! Starting up the gui will only show the InputBoxes now for tab
 We're almost done.
 You remember from the first tutorial, that interacting with the user elements was showing dialogs. For instance, clicking the OK-button shows a dialog saying "OK button is pressed".
 But when you click it now, it does nothing.
-This is because our run-functions still use the old variables that used to store the element\_ids but they are stored now in the tables tab1, tab2 and tab3.
+This is because our run-functions still use the old variables that used to store the element\_ids but they are stored in the tables tab1, tab2 and tab3, now.
 So let's alter the run-functions to check not for i.e. pressed\_button\_id==button\_ok\_id but pressed\_button\_id==tab3.button\_ok\_id and so on.
 Here's how the run-functions look like, when they check against the table-entries of the ui-elements:
 
@@ -713,7 +717,7 @@ It's simple: add them BUT don't add their ids to tab1, tab2 or tab3:
   -- add a "global" apply-button and close-button to the gui as well as a checkbox
   global_checkbox = reagirl.CheckBox_Add(10, 225, "Apply only to project", "Shall these settings be applied only to a project?", true, Checkbox_RunFunction)
   apply_button = reagirl.Button_Add(520, 225, 0, 0, "Apply", "Apply changes", Button_RunFunction)
-  close_button = reagirl.Button_Add(570, 225, 0, 0, "Close", "close dialog", Button_RunFunction)
+  close_button = reagirl.Button_Add(570, 225, 0, 0, "Close", "Close dialog", Button_RunFunction)
 
   -- let's force window-sizes
   reagirl.Window_ForceSize_Minimum(550, 200)  -- set the minimum size of the window
@@ -741,8 +745,8 @@ It's simple: add them BUT don't add their ids to tab1, tab2 or tab3:
   main()
 ```
 
-When you run this script, two buttons and a checkbox are added to the bottom of the window and you can switch tabs, they will alwas be visible.
-And all we did was adding two more buttons and a checkbox, whose ids are stored into apply\_button, close\_button and global\_checkbox.
+When you run this script, a checkbox and two buttons are added to the bottom of the window and you can switch tabs, they will always be visible.
+And all we did was adding a checkbox and two more buttons, whose ids are stored into apply\_button, close\_button and global\_checkbox and not in tab1 or tab2 or tab3.
 We also altered the run-functions Button\_RunFunction and Checkbox\_RunFunction so clicking these ui-elements will also show a dialog.
 
 Now you know everything you need to make guis with tabs in ReaGirl.
