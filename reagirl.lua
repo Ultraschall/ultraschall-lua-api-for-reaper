@@ -2723,7 +2723,7 @@ function reagirl.UI_Element_GetSet_ContextMenu(element_id, is_set, menu, menu_fu
   if is_set==true then
     reagirl.Elements[element_id]["ContextMenu"]=menu
     reagirl.Elements[element_id]["ContextMenuFunction"]=menu_function
-    reagirl.Elements[element_id]["ContextMenu_ACC"]="This UI element contains a context menu."
+    reagirl.Elements[element_id]["ContextMenu_ACC"]="Right click for a context menu."
   else
     reagirl.Elements[element_id]["ContextMenu_ACC"]=""
   end
