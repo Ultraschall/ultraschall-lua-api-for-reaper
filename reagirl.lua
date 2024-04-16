@@ -2294,7 +2294,6 @@ function reagirl.Gui_Draw(Key, Key_utf, clickstate, specific_clickstate, mouse_c
           else
             local dpi_scale=reagirl.Window_GetCurrentScale()
             local a=gfx.a
-            reaper.ShowConsoleMsg("A: "..dpi_scale.." "..tostring(reagirl.Focused_Rect_Override).."\n")
             gfx.a=reagirl.FocusRectangle_Alpha
             
             gfx.rect((reagirl.Elements["Focused_x"])+reagirl.Window_GetCurrentScale(), (reagirl.Elements["Focused_y"]), reagirl.Elements["Focused_w"], reagirl.Window_GetCurrentScale(), 1)
