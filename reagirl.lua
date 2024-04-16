@@ -5770,8 +5770,12 @@ function reagirl.DropDownMenu_Draw(element_id, selected, hovered, clicked, mouse
     gfx.set(0.274) -- button-area
     reagirl.RoundRect(cap_w+x+dpi_scale, y, w-cap_w, h+dpi_scale, (radius-1) * dpi_scale, 1, 1)
     
-    gfx.set(0.45)
-    local circ=dpi_scale
+    if element_storage["IsDecorative"]==false then
+      gfx.set(0.45)
+    else
+      gfx.set(0.35)
+    end
+    local circ=dpi_scale    
     gfx.circle(x+w+dpi_scale-h/2, (y+h)-h/2, 3*dpi_scale, 1, 0)
     gfx.rect(x+w-h+1*(dpi_scale-1), y, dpi_scale, h+dpi_scale, 1)
     
