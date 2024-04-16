@@ -4325,9 +4325,15 @@ function reagirl.InputBox_Add(x, y, w, caption, Cap_width, meaningOfUI_Element, 
     You can autoposition the inputbox by setting x and/or y to nil, which will position the new inputbox after the last ui-element.
     To autoposition into the next line, use reagirl.NextLine()
     
-    The caption will be shown before the inputbox.
+    The caption will be shown before the inputbox.    
     
     Unlike other ui-elements, this one has the option for two run_functions, one for when the user hits enter in the inputbox and one for when the user types anything into the inputbox.
+    
+    Important:
+    Screenreader users get an additional dialog shown when entering text, that will NOT run the run-function for typed text. This is due some limitations in Reaper's API and can't be circumvented.
+    So don't rely only on the run_function_type but also add a run_function_enter, when you want to use the value immediately when typed in your script(like setting as a setting into an ini-file).
+    Otherwise blind users might be able to enter text but it will be ignored by your code, which would be unfortunate.
+    
   </description>
   <parameters>
     optional integer x - the x position of the inputbox in pixels; negative anchors the inputbox to the right window-side; nil, autoposition after the last ui-element(see description)
@@ -4337,8 +4343,8 @@ function reagirl.InputBox_Add(x, y, w, caption, Cap_width, meaningOfUI_Element, 
     optional integer cap_width - the width of the caption to set the actual inputbox to a fixed position; nil, put inputbox directly after caption
     string meaningOfUI_Element - a description for accessibility users
     optional string Default - the "typed text" that the inputbox shall contain
-    function run_function_enter - a function that is run when the user hits enter in the inputbox
-    function run_function_type - a function that is run when the user types into the inputbox
+    function run_function_enter - a function that is run when the user hits enter in the inputbox(always used, even for screenreader users)
+    function run_function_type - a function that is run when the user types into the inputbox(only used if no screenreader is used)
   </parameters>
   <retvals>
     string inputbox_guid - a guid that can be used for altering the inputbox-attributes
@@ -4358,6 +4364,7 @@ function reagirl.InputBox_Add(x, y, w, caption, Cap_width, meaningOfUI_Element, 
   if type(Default)~="string" then error("InputBox_Add: param #7 - must be a string", 2) end
   if run_function_enter~=nil and type(run_function_enter)~="function" then error("InputBox_Add: param #8 - must be a function", 2) end
   if run_function_type~=nil and type(run_function_type)~="function" then error("InputBox_Add: param #9 - must be a function", 2) end
+  if run_function_type~=nil and run_function_enter==nil then error("InputBox: param #8 - must be set when using one for type, or blind people might not be able to use the gui properly", -2) end
   
   local slot=reagirl.UI_Element_GetNextFreeSlot()
   if x==nil then 

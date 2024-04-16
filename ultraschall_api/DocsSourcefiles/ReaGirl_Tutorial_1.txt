@@ -31,6 +31,7 @@ These run-functions will get parameters passed from the gui, like the identifier
 So run-functions are powerful and will make the magic happen, once the user interacted with a ui-element.
 
 When writing a new gui, you can just write some "empty" functions that do nothing. We'll fill them in later.
+More on run-functions in our tutorials.
 
 ### Step 2: Start a new gui using reagirl.Gui\_New()
 This will tell ReaGirl, that you want to start a new gui. And it's simple, just add reagirl.Gui\_New() to your script and you're done.
@@ -38,7 +39,7 @@ You can also use this later in more complex scripts to throw away an already exi
 
 ### Step 3: Add some ui-elements using the various \_Add-functions
 Now the magic starts, we add our first ui-elements. You do it using the various \_Add-functions like Button\_Add, InputBox\_Add, DropDownMenu\_Add, Slider\_Add, CheckBox\_Add, Label\_Add, Image\_Add, etc.
-All these add-functions will ask you for the position of the ui-element, a caption(which is usually shown next to it), an accessibility-hint which helps blind users to navigate and understand your gui and a run-function.
+All these add-functions will ask you for the position of the ui-element, a caption(which is usually shown next to it), an accessibility-hint which is shown as tooltip and also helps blind users to navigate and understand your gui, and a run-function.
 Some may ask you for more things like width and height(Images) or initial values(Checkboxes, Sliders, DropDownMenu) or even additional run-functions(InputBox uses one run-function when the user types text and one for when the user hits enter in the inputbox).
 
 All \_Add-functions return a string called element\_id. This element\_id is like a unique name for your ui-element.
@@ -77,10 +78,10 @@ Don't bother with scrolling your ui-elements. This is done by ReaGirl. So if a u
 
 Also don't bother about scaling like Retina/HiDPI or something. This is also done by ReaGirl automatically. So if the user chooses to run your script on Retina/HiDPI-displays or even with an altered scaling set in the preferences, your gui will change automatically.
 
-Since one of the key-features in ReaGirl is accessibility for blind people, most of the stuff needed for screenreader-management is done by ReaGirl itself. You just need to set the parameters meaningOfUI\_Element properly by giving a short and precise explanation, what the ui-element is doing and why. This will be communicated to blind users automatically, so you don't need to do much more.
+Since one of the key-features in ReaGirl is accessibility for blind people, most of the stuff needed for screenreader-management is done by ReaGirl itself. You just need to set the parameters meaningOfUI\_Element properly by giving a short and precise explanation, what the ui-element is doing and why. This will be shown as tooltip and also communicated to blind users via screenreader. This happens automatically, so you don't need to do much more.
 There's a chapter dedicated on best practices for accessible guis later, if you want to improve on things further.
 
-In the next chapters, I will take you through some basic tutorials on how making a gui works in practice.
+In the next chapters, I will take you through some basic tutorials on how making a gui is done in practice.
 And we'll start with a basic one.
 
 
@@ -99,7 +100,7 @@ Let's start with a basic gui, which will show one single button.
   -- Step 1: write the run-functions
   function Button_RunFunction(pressed_button_id)
     -- this function is run, when a button is pressed
-    reaper.MB("Buton has been pressed", "Pressed", 0)
+    reaper.MB("Button has been pressed", "Pressed", 0)
   end
 
   -- Step 2: create new gui
@@ -107,8 +108,8 @@ Let's start with a basic gui, which will show one single button.
   
   -- Step 3: add the ui-elements to the gui
   -- add an ok-button to the gui at x-position 30 and y-position 200 with the run-function Button_RunFunction
-  -- The meaningOfUI_Element-parameter "Apply changes and close dialog" will be sent to a screenreader 
-  -- to blind people.
+  -- The meaningOfUI_Element-parameter "Apply changes and close dialog" will be shown as tooltip 
+  -- and sent to a screenreader for blind people.
   button_ok_id = reagirl.Button_Add(30, 200, 0, 0, "OK", "Apply changes and close dialog", Button_RunFunction)
   
   -- Step 4: open the new gui with size 640x250 pixels, titled "The dialog". 
@@ -130,8 +131,8 @@ Let's start with a basic gui, which will show one single button.
 ```  
 You see the 5 steps I mentioned in the first steps-chapter detailed out in the script. 
 This adds a button and the run-function Button\_RunFunction which is run when the user hits the button.
-Also note the parameter meaningOfUI\_Element, which is set to "Apply changes and close dialog". This parameter tells blind users, what the ui-element is supposed to do and why, so if you add your own ui-elements, add a short and descriptive explanation into this parameter which says more than just "ok". Blind users will thank you for that.
-And that's it, a simple gui with one button. Try it and experiment with it. Write a different text into the button. Set other numbers into the parameters of reagirl.Button\_Add to see what happens.
+Also note the parameter meaningOfUI\_Element, which is set to "Apply changes and close dialog". This parameter will be shown as a tooltip. It will also tell blind users, what the ui-element is supposed to do and why via screenreader. So if you add your own ui-elements, add a short and descriptive explanation into this parameter which says more than just "ok". Blind users will thank you for that.
+And that's it, a simple gui with one button. Try it and experiment with it. Write a different text into the button. Alter the numbers in the parameters of reagirl.Button\_Add to see what happens.
 Don't worry about making mistakes. When you pass wrong parameters to ReaGirl-functions, they will tell you with an error message, what went wrong and where.
 
 You'll also note in the code, that reagirl.Button_Add() returns the element\_id as a returnvalue that I put into the variable button\_ok\_id. We will use this later on.
