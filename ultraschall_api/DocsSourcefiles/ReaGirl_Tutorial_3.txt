@@ -1,4 +1,4 @@
-## Tutorial: a basic image viewer with a drag'n'drop-zone and a context menu
+## Tutorial #3: a basic image viewer with a drag'n'drop-zone and a context menu
 
 In this tutorial, I will show you a basic image viewer. I will also show you, how to add a drag'n'drop-zone to this image as well as a context menu.
 And as a cherry on the top, we will make clicking the image setting the loaded image as track icon for the first track in the current project.

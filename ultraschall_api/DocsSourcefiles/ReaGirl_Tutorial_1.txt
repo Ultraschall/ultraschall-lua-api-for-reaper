@@ -86,7 +86,7 @@ And we'll start with a basic one.
 
 
 
-##Tutorial #1 - a basic gui
+## Tutorial #1 - a basic gui
 
 In this tutorial, I will show you how to make a basic gui with some buttons, inputboxes and checkboxes. I will also explain to you the basic concepts in practice that you need to know to make guis with ReaGirl.
 Stick with me, it's easier than you think.

@@ -3676,7 +3676,7 @@ function reagirl.Checkbox_GetCheckState(element_id)
   </requires>
   <functioncall>boolean check_state = reagirl.Checkbox_GetCheckState(string element_id)</functioncall>
   <description>
-    Gets a checkbox's rounded edges state.
+    Gets a checkbox's current checked-state.
   </description>
   <parameters>
     string element_id - the guid of the checkbox, whose rounded edges-state you want to get
@@ -5785,12 +5785,12 @@ function reagirl.DropDownMenu_Draw(element_id, selected, hovered, clicked, mouse
     else
       if reaper.GetOS():match("OS")~=nil then offset=1 end
       
-      gfx.x=x+(7*dpi_scale)+offset+cap_w--+(w-sw)/2+1
+      gfx.x=x+(4*dpi_scale)+offset+cap_w--+(w-sw)/2+1
       gfx.y=y+(h-gfx.texth)/2+offset+2
       gfx.set(0.09)
       gfx.drawstr(menuentry,0,x+w-21*dpi_scale, gfx.y+gfx.texth)
       
-      gfx.x=x+(7*dpi_scale)+offset+cap_w--+(w-sw)/2+1
+      gfx.x=x+(4*dpi_scale)+offset+cap_w--+(w-sw)/2+1
       gfx.y=y+(h-gfx.texth)/2+offset
       gfx.set(0.55)
       gfx.drawstr(menuentry,0,x+w-21*dpi_scale, gfx.y+gfx.texth)

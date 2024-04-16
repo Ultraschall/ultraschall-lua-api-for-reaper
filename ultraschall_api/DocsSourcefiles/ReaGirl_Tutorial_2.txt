@@ -1,3 +1,5 @@
+## Tutorial #2: Adding Tabs to a gui
+
 In the first tutorial, we made a basic gui with some ui-elements. In this tutorial we want to add tabs and put the ui-elements into the individual tabs.
 The first tab gets all inputboxes, the second tab all checkboxes and the third tab all buttons.
 I removed the label and the image from the gui in this tutorial to make it a little simpler.
