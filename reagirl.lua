@@ -2301,7 +2301,6 @@ function reagirl.Gui_Draw(Key, Key_utf, clickstate, specific_clickstate, mouse_c
             local dpi_scale=reagirl.Window_GetCurrentScale()
             local a=gfx.a
             gfx.a=reagirl.FocusRectangle_Alpha
-            reaper.ShowConsoleMsg(reagirl.Elements["Focused_x"].." "..reagirl.Elements["Focused_y"].." "..reagirl.Elements["Focused_w"].." "..reagirl.Elements["Focused_h"].."\n")
             gfx.rect((reagirl.Elements["Focused_x"])+reagirl.Window_GetCurrentScale(), (reagirl.Elements["Focused_y"]), reagirl.Elements["Focused_w"], reagirl.Window_GetCurrentScale(), 1)
             gfx.rect((reagirl.Elements["Focused_x"]), (reagirl.Elements["Focused_y"]), reagirl.Window_GetCurrentScale(), reagirl.Elements["Focused_h"], 1)
             gfx.rect((reagirl.Elements["Focused_x"])+reagirl.Elements["Focused_w"], (reagirl.Elements["Focused_y"])+reagirl.Window_GetCurrentScale(), reagirl.Window_GetCurrentScale(), reagirl.Elements["Focused_h"], 1)
@@ -7530,7 +7529,9 @@ function reagirl.UI_Element_SmoothScroll(Smoothscroll) -- parameter for debuggin
     if reagirl.BoundaryX_Max>gfx.w then
       reagirl.MoveItAllRight=math.floor(reagirl.MoveItAllRight+reagirl.MoveItAllRight_Delta)
     end
-  elseif reagirl.MoveItAllRight_Delta<0 then
+  elseif reagirl.MoveItAllRight>0 and reagirl.MoveItAllRight_Delta<0 then
+    refreshh_1=reagirl.MoveItAllRight
+    refreshh_2=reagirl.MoveItAllRight_Delta
     reagirl.MoveItAllRight_Delta=reagirl.MoveItAllRight_Delta+1 --reagirl.MoveItAllUp_Delta=0
   elseif reagirl.BoundaryX_Max<=gfx.w then
     reagirl.MoveItAllRight=0
