@@ -2284,15 +2284,17 @@ function reagirl.Gui_Draw(Key, Key_utf, clickstate, specific_clickstate, mouse_c
             local a=gfx.a
             local dpi_scale=reagirl.Window_GetCurrentScale()
             gfx.a=reagirl.FocusRectangle_Alpha
-            
             gfx.rect((x2+MoveItAllRight)-dpi_scale, (y2+MoveItAllUp-dpi_scale*2), (w2+dpi_scale*3), reagirl.Window_GetCurrentScale(), 1)
             gfx.rect((x2+MoveItAllRight)-dpi_scale-dpi_scale, (y2+MoveItAllUp)-dpi_scale*2, reagirl.Window_GetCurrentScale(), h2+dpi_scale+dpi_scale+dpi_scale, 1)
             gfx.rect((x2+MoveItAllRight)+w2+dpi_scale, (y2+MoveItAllUp)-dpi_scale*2+reagirl.Window_GetCurrentScale(), reagirl.Window_GetCurrentScale(), h2+dpi_scale+dpi_scale+dpi_scale, 1)
             gfx.rect((x2+MoveItAllRight)-dpi_scale-dpi_scale, (y2+h2+dpi_scale+MoveItAllUp), (w2+dpi_scale*3), reagirl.Window_GetCurrentScale(), 1)
             
             gfx.a=a
+            reagirl.Focused_Rect_Override=nil
           else
+            local dpi_scale=reagirl.Window_GetCurrentScale()
             local a=gfx.a
+            reaper.ShowConsoleMsg("A: "..dpi_scale.." "..tostring(reagirl.Focused_Rect_Override).."\n")
             gfx.a=reagirl.FocusRectangle_Alpha
             
             gfx.rect((reagirl.Elements["Focused_x"])+reagirl.Window_GetCurrentScale(), (reagirl.Elements["Focused_y"]), reagirl.Elements["Focused_w"], reagirl.Window_GetCurrentScale(), 1)
@@ -2300,6 +2302,7 @@ function reagirl.Gui_Draw(Key, Key_utf, clickstate, specific_clickstate, mouse_c
             gfx.rect((reagirl.Elements["Focused_x"])+reagirl.Elements["Focused_w"], (reagirl.Elements["Focused_y"])+reagirl.Window_GetCurrentScale(), reagirl.Window_GetCurrentScale(), reagirl.Elements["Focused_h"], 1)
             gfx.rect((reagirl.Elements["Focused_x"]), (reagirl.Elements["Focused_y"])+reagirl.Elements["Focused_h"], reagirl.Elements["Focused_w"], reagirl.Window_GetCurrentScale(), 1)
             gfx.a=a
+            
           end
           reagirl.Focused_Rect_Override=nil
           gfx.set(r,g,b,a)
@@ -3449,7 +3452,7 @@ function reagirl.CheckBox_Add(x, y, caption, meaningOfUI_Element, default, run_f
   reagirl.Elements[slot]["x"]=x
   reagirl.Elements[slot]["y"]=y
   reagirl.Elements[slot]["z_buffer"]=128
-  reagirl.Elements[slot]["w"]=math.tointeger(ty+tx)+7
+  reagirl.Elements[slot]["w"]=math.tointeger(ty+tx)+9
   reagirl.Elements[slot]["h"]=math.tointeger(ty)+2
   reagirl.Elements[slot]["sticky_x"]=false
   reagirl.Elements[slot]["sticky_y"]=false
@@ -6118,6 +6121,22 @@ function reagirl.Label_SetStyle(element_id, style1, style2, style3)
     reagirl.Elements[element_id]["style3"]=style3
     reagirl.Elements[element_id]["style4"]=style4
     
+    --[[local styles={66,73,77,79,83,85,86,89,90}
+    styles[0]=0
+    local style=styles[style1]<<8
+    style=style+styles[style2]<<8
+    style=style+styles[style3]<<8
+    if reagirl.Elements[element_id]["clickable"] then
+      style=style+85
+    end
+    
+    reagirl.SetFont(1, "Arial", reagirl.Elements[element_id]["font_size"], style, 1)
+    local w,h=gfx.measurestr(reagirl.Elements[element_id]["Name"])
+    reaper.MB(reagirl.Elements[element_id]["Name"],"",0)
+    reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0)
+    
+    reagirl.Elements[element_id]["w"]=math.tointeger(w)--]]
+    
     reagirl.Gui_ForceRefresh(30)
   end
 end
@@ -6313,6 +6332,10 @@ function reagirl.Label_Draw(element_id, selected, hovered, clicked, mouse_cap, m
   
   --print2(style)
   reagirl.SetFont(1, "Arial", element_storage["font_size"], style)
+  if selected~="not selected" then
+    local w2,h2=gfx.measurestr(name)  
+    reagirl.UI_Element_SetFocusRect(true, x, y, math.floor(w2), math.floor(h2))
+  end
   local olddest=gfx.dest
   local oldx, oldy = gfx.x, gfx.y
   local old_gfx_r=gfx.r
@@ -8383,7 +8406,7 @@ function reagirl.Slider_Draw(element_id, selected, hovered, clicked, mouse_cap, 
     gfx.set(0.2)
     gfx.drawstr(" "..unit..element_storage["Unit"])
     
-    gfx.x=x+w-offset_unit+5*dpi_scale
+    gfx.x=x+w-offset_unit+8*dpi_scale
     gfx.y=y+(h-gfx.texth)/2
   
     gfx.set(0.8) 
