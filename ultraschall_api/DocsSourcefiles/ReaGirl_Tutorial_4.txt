@@ -238,7 +238,10 @@ It's basically done the same way, as we did for the slider. However, we use now 
 
 This will set the drop down menu to disabled, when you set the checkbox to uncheckd and enabled, when you set it to checked.
 However, you have probably noticed, that when starting up the script, the checkbox is unchecked but the drop down menu is still enabled. Only checking the checkbox on and off will make it disabled.
-To solve this, we add one last 
+To solve this, we add one last reagirl.DropDownMenu\_SetDisabled() right after the reagirl.DropDownMenu\_Add-functioncall, using the element\_id of the drop down list.
+And we set it to disable the drop down menu.
+
+Here's how the code looks like now.
 
 ```
   dofile(reaper.GetResourcePath().."/UserPlugins/reagirl.lua")
@@ -251,17 +254,20 @@ To solve this, we add one last
 
   function Checkbox_RunFunction(checked_checkbox_id, checkstate)
     -- this function is run, when the checkstate of a checkbox is changed
+    
     if checked_checkbox_id==checkbox_disableSlider_id then
+      -- if the first checkbox's checkstate is changed to true
       if reagirl.Checkbox_GetCheckState(checked_checkbox_id)==true then
-        reagirl.Slider_SetDisabled(slider_id, false)
-      else
-        reagirl.Slider_SetDisabled(slider_id, true)
+        reagirl.Slider_SetDisabled(slider_id, false) -- set the slider enabled
+      else -- otherwise
+        reagirl.Slider_SetDisabled(slider_id, true)  -- set the slider disabled
       end
+      -- if the second checkbox's checkstate is changed to true
     elseif checked_checkbox_id==checkbox_disableDropDownMenu_id then
       if reagirl.Checkbox_GetCheckState(checked_checkbox_id)==true then
-        reagirl.DropDownMenu_SetDisabled(dropdownmenu_id, false)
-      else
-        reagirl.DropDownMenu_SetDisabled(dropdownmenu_id, true)
+        reagirl.DropDownMenu_SetDisabled(dropdownmenu_id, false) -- set the drop down menu to enabled
+      else -- otherwise
+        reagirl.DropDownMenu_SetDisabled(dropdownmenu_id, true)  -- set the drop down menu to disabled
       end
     end
   end
@@ -277,7 +283,7 @@ To solve this, we add one last
   -- add a checkbox and a slider to the gui
   checkbox_disableSlider_id = reagirl.CheckBox_Add(30, 50, "Activated", "Check to activate slider", true, Checkbox_RunFunction)
   slider_id = reagirl.Slider_Add(200, 50, -20, "I am a slider", nil, "A slider to set a value", "%", 20, 200, 1, 25, 100, Slider_RunFunction)
-  
+
   -- add a checkbox and a drop-down-menu to the gui
   checkbox_disableDropDownMenu_id = reagirl.CheckBox_Add(30, 70, "Activated", "Check to activate drop-down-menu", false, Checkbox_RunFunction)
   dropdownmenu_id = reagirl.DropDownMenu_Add(200, 70, -20, "I am a dropdownmenu", nil, "A Drop Down Menu to choose from", {"Entry 1 - The first entry", "Entry 2 - The second entry", "Entry 3 - The third entry"}, 2, DropDownMenu_RunFunction)
@@ -296,3 +302,5 @@ To solve this, we add one last
 
   main()
 ```
+
+And there we are: the finished gui that enables/disables the slider and the drop down menu according to the states of the checkboxes.
