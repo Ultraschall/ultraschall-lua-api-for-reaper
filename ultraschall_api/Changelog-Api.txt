@@ -322,22 +322,24 @@ ToDo Marker Menu:
     - general: instead of math.floor() use number // 1 | 0 as this is massively faster for creating integers!
         9.87654 // 1 | 0
         1.23456 // 1 | 0
+        
+    - kb.ini-docs
+      - ActionCommandIDs are case-insensitive, please add this info to the docs
 </TODO>
 
 ## Ultraschall Framework - Changelog
 
-### 4.9 - "Depeche Mode - Everything Counts" - 30th of June 2023
+### 5 - "Eels - Novocaine for the Soul" - 30th of June 2024
 
-Has now 1663 functions, with 13 new ones and two fewer ones(!)
+Has now 1663 functions, with X new ones and two fewer ones(!)
 
 **new in this release:**  
 
-  - **ReaSpaghetti**  
-  Features bugfixes and additions that will make Ultraschall API compatible with Sexan's ReaSpaghetti coding-tool in the future.  
-  Keep checking for ReaSpaghetti-updates for more details.  
+  - **bla**  
+
   
-  - **Razor Edit**  
-  You can now set and resize RazorEdits. The resizing is possible by setting a new length or resizing by a factor, like 0.5 for half or 2 for double the size.  
+  - **bla**  
+  
     
 #### New features in 5  
   - MIDI: PreviewMidiCCInTrack - previews a midi-cc in a specific armed track

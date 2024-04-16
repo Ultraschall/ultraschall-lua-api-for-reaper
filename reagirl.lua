@@ -402,7 +402,7 @@ function reagirl.IsValidGuid(guid, strict)
   <tags>helper functions, guid, check</tags>
 </US_DocBloc>
 --]]
-  if type(guid)~="string" then error("IsValidGuid: param #1 - must be a string", -1) return false end
+  if type(guid)~="string" then return false end
   if type(strict)~="boolean" then error("IsValidGuid: param #2 - must be a boolean", -2) return false end
   if strict==true and guid:match("^{%x%x%x%x%x%x%x%x%-%x%x%x%x%-%x%x%x%x%-%x%x%x%x%-%x%x%x%x%x%x%x%x%x%x%x%x%}$")~=nil then return true
   elseif strict==false and guid:match(".-{%x%x%x%x%x%x%x%x%-%x%x%x%x%-%x%x%x%x%-%x%x%x%x%-%x%x%x%x%x%x%x%x%x%x%x%x%}.*")~=nil then return true
@@ -5002,6 +5002,7 @@ function reagirl.InputBox_Manage(element_id, selected, hovered, clicked, mouse_c
         element_storage.Text=text
         if element_storage["run_function"]~=nil then
           element_storage["run_function"](element_storage["Guid"], element_storage.Text)
+          reagirl.InputBox_Calculate_DrawOffset(true, element_storage)
         end
       end
     end
@@ -9068,6 +9069,52 @@ function reagirl.Tabs_SetValue(element_id, selected_tab)
   end
 end
 
+function reagirl.Tabs_SetUIElementsForTab(element_id, tab_number, element_ids_table)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Tabs_SetUIElementsForTab</slug>
+  <requires>
+    ReaGirl=1.0
+    Reaper=7
+    Lua=5.4
+  </requires>
+  <functioncall>reagirl.Tabs_SetUIElementsForTab(string element_id, integer tab_number, table element_ids_table)</functioncall>
+  <description>
+    Sets the ui-elements for a table.
+    
+    The table in the parameter table element_ids_table consists of all element_ids that shall be visible when this tab is selected.
+  </description>
+  <parameters>
+    string element_id - the guid of the tabs, whose selected tab you want to set
+    integer tab_number - the number of the tab, whose ui-elements you want to set; 1-based
+    table element_ids_table - a table with all element_ids of all ui-elements that shall be shown when the tab is selected
+  </parameters>
+  <chapter_context>
+    Tabs
+  </chapter_context>
+  <tags>tabs, set, ui-elements shown in selected tab</tags>
+</US_DocBloc>
+--]]
+  if type(element_id)~="string" then error("Tabs_SetUIElementsForTab: param #1 - must be a string", 2) end
+  if reagirl.IsValidGuid(element_id, true)==nil then error("Tabs_SetUIElementsForTab: param #1 - must be a valid guid", 2) end
+  if math.type(tab_number)~="integer" then error("Tabs_SetUIElementsForTab: param #2 - must be a number", 2) end
+  if type(element_ids_table)~="table" then error("Tabs_SetUIElementsForTab: param #3 - must be a table", 2) end
+  element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
+  if element_id==-1 then error("Tabs_SetUIElementsForTab: param #1 - no such ui-element", 2) end
+  if reagirl.Elements[element_id]["GUI_Element_Type"]~="Tabs" then
+    error("Tabs_SetUIElementsForTab: param #1 - ui-element is not a tab", 2)
+  else
+    for k, v in pairs(element_ids_table) do
+      if reagirl.IsValidGuid(v, true)==false then
+        error("Tabs_SetUIElementsForTab: param #3: value "..tostring(k).." is not a valid element_id", 2)
+      end
+    end
+    reagirl.Elements[element_id]["Tab"..tab_number]=element_ids_table
+    reagirl.Elements[element_id]["TabRefresh"]=true
+    reagirl.Gui_ForceRefresh(60)
+  end
+end
+
 function reagirl.Tabs_GetValue(element_id)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
@@ -9111,6 +9158,7 @@ function reagirl.Tabs_Manage(element_id, selected, hovered, clicked, mouse_cap, 
     if retval==true then element_storage["DropZoneFunction"](element_storage["Guid"], {filenames}) refresh=true end
   end
   
+  -- click management for the tabs
   local refresh
   if element_storage["Tabs_Pos"]==nil then reagirl.Gui_ForceRefresh(61) end
   if element_storage["Tabs_Pos"]~=nil and clicked=="FirstCLK" then 
@@ -9119,6 +9167,7 @@ function reagirl.Tabs_Manage(element_id, selected, hovered, clicked, mouse_cap, 
         if gfx.mouse_x>=element_storage["Tabs_Pos"][i]["x"] and gfx.mouse_x<=element_storage["Tabs_Pos"][i]["x"]+element_storage["Tabs_Pos"][i]["w"] then
           if element_storage["TabSelected"]~=i then
             element_storage["TabSelected"]=i
+            element_storage["TabRefresh"]=true
             refresh=true
           end
           break
@@ -9131,16 +9180,18 @@ function reagirl.Tabs_Manage(element_id, selected, hovered, clicked, mouse_cap, 
     if element_storage["TabSelected"]+1~=#element_storage["TabNames"]+1 then
       element_storage["TabSelected"]=element_storage["TabSelected"]+1
       refresh=true
+      element_storage["TabRefresh"]=true
     end
   end
   if selected~="not selected" and Key==1818584692.0 then
     if element_storage["TabSelected"]-1~=0 then
       element_storage["TabSelected"]=element_storage["TabSelected"]-1
       refresh=true
+      element_storage["TabRefresh"]=true
     end
   end
   
-  -- click management for the tabs
+  
   if selected~="not selected" and element_storage["Tabs_Pos"]~=nil then
     reagirl.Gui_PreventScrollingForOneCycle(true, false)
   end
@@ -9163,6 +9214,15 @@ function reagirl.Tabs_Manage(element_id, selected, hovered, clicked, mouse_cap, 
     if element_storage["run_function"]~=nil and skip_func~=true then 
       element_storage["run_function"](element_storage["Guid"], element_storage["TabSelected"], element_storage["TabNames"][element_storage["TabSelected"]]) 
     end
+  end
+  
+  if element_storage["TabRefresh"]==true then
+    for i=1, #element_storage["TabNames"] do
+      if element_storage["Tab"..i]~=nil then
+        reagirl.UI_Element_SetHiddenFromTable(element_storage["Tab"..i], element_storage["TabSelected"]==i)
+      end
+    end
+    element_storage["TabRefresh"]=false
   end
   
   return element_storage["TabNames"][element_storage["TabSelected"]].." tab selected", refresh
