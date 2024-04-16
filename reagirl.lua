@@ -3449,7 +3449,7 @@ function reagirl.CheckBox_Add(x, y, caption, meaningOfUI_Element, default, run_f
   reagirl.Elements[slot]["x"]=x
   reagirl.Elements[slot]["y"]=y
   reagirl.Elements[slot]["z_buffer"]=128
-  reagirl.Elements[slot]["w"]=math.tointeger(ty+tx)+5
+  reagirl.Elements[slot]["w"]=math.tointeger(ty+tx)+7
   reagirl.Elements[slot]["h"]=math.tointeger(ty)+2
   reagirl.Elements[slot]["sticky_x"]=false
   reagirl.Elements[slot]["sticky_y"]=false
@@ -3541,7 +3541,7 @@ function reagirl.CheckBox_Draw(element_id, selected, hovered, clicked, mouse_cap
   gfx.drawstr(name)
   
   if element_storage["IsDecorative"]==false then gfx.set(0.8) else gfx.set(0.6) end
-  gfx.x=x+h+3*scale
+  gfx.x=x+h+5*scale
   gfx.y=y+(h-gfx.texth)/2
   gfx.drawstr(name)
   reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0)
