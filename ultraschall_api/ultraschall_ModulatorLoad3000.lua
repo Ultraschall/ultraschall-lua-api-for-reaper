@@ -529,10 +529,6 @@ else
     ultraschall.LM(10)
     return ultraschall.SetEnvelopeHeight(table.unpack({...}))
   end
-  function ultraschall.GetAllTrackEnvelopes(...)
-    ultraschall.LM(10)
-    return ultraschall.GetAllTrackEnvelopes(table.unpack({...}))
-  end
   function ultraschall.IsValidEnvelopePointArray(...)
     ultraschall.LM(10)
     return ultraschall.IsValidEnvelopePointArray(table.unpack({...}))
