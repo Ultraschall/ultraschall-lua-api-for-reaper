@@ -82,6 +82,8 @@ reagirl.mouse.x=gfx.mouse_x
 reagirl.mouse.y=gfx.mouse_y
 reagirl.mouse.dragged=false
 
+reagirl.init_refresh=0
+
 reagirl.UI_Element_HeightMargin=5
 
 -- Cursor-Blinkspeed for inputboxes, live-settable in extstate ReaGirl -> InputBox_BlinkSpeed
@@ -1176,12 +1178,12 @@ function reagirl.ScrollBar_Left_Manage(element_id, selected, hovered, clicked, m
       reagirl.MoveItAllUp=reagirl.MoveItAllUp+10
       if reagirl.MoveItAllUp>0 then reagirl.MoveItAllUp=0 end
       element_storage.clickme=false
-      reagirl.Gui_ForceRefresh()
+      reagirl.Gui_ForceRefresh(999)
     elseif element_storage.clickme~=true and mouse_cap&1==1 and gfx.mouse_y>=element_storage.scrollend and gfx.mouse_y<=y+h then
       reagirl.MoveItAllUp=reagirl.MoveItAllUp-10
       if reagirl.MoveItAllUp>reagirl.BoundaryY_Max-gfx.h then reagirl.MoveItAllUp=reagirl.BoundaryY_Max-gfx.h end
       element_storage.clickme=false
-      reagirl.Gui_ForceRefresh()
+      reagirl.Gui_ForceRefresh(998)
     elseif clicked=="FirstCLK" then
       element_storage.clickme=true
     end
@@ -1205,18 +1207,18 @@ function reagirl.ScrollBar_Left_Manage(element_id, selected, hovered, clicked, m
       if gfx.mouse_y<i then
         element_storage.scroll_pos=gfx.mouse_y
         reagirl.MoveItAllUp=-count
-        reagirl.Gui_ForceRefresh()
+        reagirl.Gui_ForceRefresh(997)
         break
       end
     end
   elseif element_storage.clickme==true and gfx.mouse_y<=y+7*dpi_scale then
     element_storage.scroll_pos=y+7*dpi_scale
     reagirl.MoveItAllUp=0
-    reagirl.Gui_ForceRefresh()
+    reagirl.Gui_ForceRefresh(996)
   elseif element_storage.clickme==true and gfx.mouse_y>=y+h-8*dpi_scale then
     element_storage.scroll_pos=w+h-6*dpi_scale
     reagirl.MoveItAllUp=-reagirl.BoundaryY_Max+gfx.h
-    reagirl.Gui_ForceRefresh()
+    reagirl.Gui_ForceRefresh(995)
   end
 end
 
@@ -1288,12 +1290,12 @@ function reagirl.ScrollBar_Bottom_Manage(element_id, selected, hovered, clicked,
       reagirl.MoveItAllRight=reagirl.MoveItAllRight+10
       if reagirl.MoveItAllRight>0 then reagirl.MoveItAllRight=0 end
       element_storage.clickme=false
-      reagirl.Gui_ForceRefresh()
+      reagirl.Gui_ForceRefresh(993)
     elseif element_storage.clickme~=true and mouse_cap&1==1 and gfx.mouse_x>=element_storage.scrollend and gfx.mouse_x<=x+w then
       reagirl.MoveItAllRight=reagirl.MoveItAllRight-10
       if reagirl.MoveItAllRight>reagirl.BoundaryX_Max-gfx.w then reagirl.MoveItAllRight=reagirl.BoundaryX_Max-gfx.w end
       element_storage.clickme=false
-      reagirl.Gui_ForceRefresh()
+      reagirl.Gui_ForceRefresh(992)
     elseif clicked=="FirstCLK" then
       element_storage.clickme=true
     end
@@ -1315,7 +1317,7 @@ function reagirl.ScrollBar_Bottom_Manage(element_id, selected, hovered, clicked,
       if gfx.mouse_x<i then
         element_storage.scroll_pos=gfx.mouse_x
         reagirl.MoveItAllRight=-count
-        reagirl.Gui_ForceRefresh()
+        reagirl.Gui_ForceRefresh(991)
         break
       end
       count=count+1
@@ -1323,11 +1325,11 @@ function reagirl.ScrollBar_Bottom_Manage(element_id, selected, hovered, clicked,
   elseif element_storage.clickme==true and gfx.mouse_x<=x+7*dpi_scale then
     element_storage.scroll_pos=x+7*dpi_scale
     reagirl.MoveItAllRight=0
-    reagirl.Gui_ForceRefresh()
+    reagirl.Gui_ForceRefresh(990)
   elseif element_storage.clickme==true and gfx.mouse_x>=x+w-8*dpi_scale then
     element_storage.scroll_pos=x+w-6*dpi_scale
     reagirl.MoveItAllRight=-reagirl.BoundaryX_Max+gfx.w
-    reagirl.Gui_ForceRefresh()
+    reagirl.Gui_ForceRefresh(989)
     --]]
   end
 end
@@ -1705,13 +1707,13 @@ function reagirl.Gui_Manage()
     if reagirl.FocusRectangle_BlinkSpeed>1 then
       reagirl.FocusRectangle_Blink=reagirl.FocusRectangle_Blink+1
       if reagirl.FocusRectangle_Blink>reagirl.FocusRectangle_BlinkSpeed then reagirl.FocusRectangle_Blink=0 end
-      if reagirl.FocusRectangle_Blink==(reagirl.FocusRectangle_BlinkSpeed>>1) then reagirl.FocusRectangle_Alpha=0 reagirl.Gui_ForceRefresh() end
-      if reagirl.FocusRectangle_Blink==0 then reagirl.FocusRectangle_Alpha=0.5 reagirl.Gui_ForceRefresh() end
+      if reagirl.FocusRectangle_Blink==(reagirl.FocusRectangle_BlinkSpeed>>1) then reagirl.FocusRectangle_Alpha=0 reagirl.Gui_ForceRefresh(988) end
+      if reagirl.FocusRectangle_Blink==0 then reagirl.FocusRectangle_Alpha=0.5 reagirl.Gui_ForceRefresh(987) end
     end
   elseif reagirl.FocusRectangle_BlinkStop~=true then
     reagirl.FocusRectangle_Alpha=0.5    
     reagirl.FocusRectangle_Blink=0
-    reagirl.Gui_ForceRefresh()
+    reagirl.Gui_ForceRefresh(986)
     reagirl.FocusRectangle_BlinkStop=true
   end
   
@@ -2053,7 +2055,7 @@ function reagirl.Gui_Manage()
       
       if selection>0 then
         reagirl.Elements[reagirl.UI_Elements_HoveredElement]["ContextMenuFunction"](reagirl.Elements[reagirl.UI_Elements_HoveredElement]["Guid"], math.tointeger(selection))
-        reagirl.Gui_ForceRefresh()
+        reagirl.Gui_ForceRefresh(985)
       end
     end
     -- workaround to prevent, that the menu is shown twice in a row
@@ -2079,7 +2081,7 @@ function reagirl.Gui_Manage()
   end
   if #files>0 and reagirl.UI_Elements_HoveredElement~=-1 and reagirl.Elements[reagirl.UI_Elements_HoveredElement]["DropZoneFunction"]~=nil then 
     reagirl.Elements[reagirl.UI_Elements_HoveredElement]["DropZoneFunction"](reagirl.Elements[reagirl.UI_Elements_HoveredElement]["Guid"], files)
-    reagirl.Gui_ForceRefresh()
+    reagirl.Gui_ForceRefresh(984)
   end
   
   -- run all gui-element-management functions once. They shall decide, if a refresh is needed, provide the osara-screenreader-message and everything
@@ -2145,6 +2147,10 @@ function reagirl.Gui_Manage()
           reagirl.old_osara_message=message
           reagirl.osara_init_message=""
         end
+        -- ugly hack to prevent focus rect being drawn wrong
+        if reagirl.init_refresh~=6 then reagirl.Gui_ForceRefresh(-99) reagirl.init_refresh=reagirl.init_refresh+1 end
+        -- end of ugly hack
+        
         if refresh==true then reagirl.Gui_ForceRefresh(10) end
       end
     end
@@ -2157,20 +2163,20 @@ function reagirl.Gui_Manage()
   end
   if mouse_cap==28 and Key==261 then
     if reagirl.EditMode==true then reagirl.EditMode=false else reagirl.EditMode=true end
-    reagirl.Gui_ForceRefresh()
+    reagirl.Gui_ForceRefresh(983)
     reaper.MB("Edit_Mode="..tostring(reagirl.EditMode),"",0)
   end
 
   if reagirl.EditMode==true then
     if Key==103 then
       if reagirl.EditMode_Grid then reagirl.EditMode_Grid=false else reagirl.EditMode_Grid=true end
-      reagirl.Gui_ForceRefresh()
+      reagirl.Gui_ForceRefresh(982)
     end
     if specific_clickstate=="DBLCLK" then 
       local retval, retval_csv = reaper.GetUserInputs("Enter new name", 1, "extrawidth=300", reagirl.Elements[reagirl.EditMode_FocusedElement]["Name"])
       if retval==true then
         reagirl.Elements[reagirl.EditMode_FocusedElement]["Name"]=retval_csv
-        reagirl.Gui_ForceRefresh()
+        reagirl.Gui_ForceRefresh(981)
       end
     elseif specific_clickstate=="DRAG" then
      local difx, dify
@@ -2181,7 +2187,7 @@ function reagirl.Gui_Manage()
       reagirl.Elements[reagirl.EditMode_FocusedElement]["y"]=reagirl.Elements[reagirl.EditMode_FocusedElement]["y"]+dify/dpi_scale
       reagirl.EditMode_OldMouseX=gfx.mouse_x
       reagirl.EditMode_OldMouseY=gfx.mouse_y
-      reagirl.Gui_ForceRefresh()
+      reagirl.Gui_ForceRefresh(980)
     elseif mouse_hwheel<0 then 
       reagirl.Elements[reagirl.EditMode_FocusedElement]["w"]=reagirl.Elements[reagirl.EditMode_FocusedElement]["w"]+2
       reagirl.Gui_PreventScrollingForOneCycle(true, true, true)
@@ -2295,7 +2301,7 @@ function reagirl.Gui_Draw(Key, Key_utf, clickstate, specific_clickstate, mouse_c
             local dpi_scale=reagirl.Window_GetCurrentScale()
             local a=gfx.a
             gfx.a=reagirl.FocusRectangle_Alpha
-            
+            reaper.ShowConsoleMsg(reagirl.Elements["Focused_x"].." "..reagirl.Elements["Focused_y"].." "..reagirl.Elements["Focused_w"].." "..reagirl.Elements["Focused_h"].."\n")
             gfx.rect((reagirl.Elements["Focused_x"])+reagirl.Window_GetCurrentScale(), (reagirl.Elements["Focused_y"]), reagirl.Elements["Focused_w"], reagirl.Window_GetCurrentScale(), 1)
             gfx.rect((reagirl.Elements["Focused_x"]), (reagirl.Elements["Focused_y"]), reagirl.Window_GetCurrentScale(), reagirl.Elements["Focused_h"], 1)
             gfx.rect((reagirl.Elements["Focused_x"])+reagirl.Elements["Focused_w"], (reagirl.Elements["Focused_y"])+reagirl.Window_GetCurrentScale(), reagirl.Window_GetCurrentScale(), reagirl.Elements["Focused_h"], 1)
@@ -2489,8 +2495,8 @@ function reagirl.UI_Element_GetFocusRect()
       h=reagirl.Elements[reagirl.Elements["FocusedElement"]]["h"]
       
       reagirl.UI_Element_SetFocusRect(true, x, y, w, h)
-    else
-      reagirl.UI_Element_SetFocusRect(true, 0,0,0,0)
+    --else
+      --reagirl.UI_Element_SetFocusRect(true, 0,0,0,0)
     end
   end
   
@@ -3471,7 +3477,7 @@ function reagirl.Checkbox_Manage(element_id, selected, hovered, clicked, mouse_c
   -- drop files for accessibility using a file-requester, after typing ctrl+shift+f
   if reaper.osara_outputMessage~=nil and element_storage["DropZoneFunction"]~=nil and Key==6 and mouse_cap==12 then
     local retval, filenames = reaper.GetUserFileNameForRead("", "Choose file to drop into "..element_storage["Name"], "")
-    if retval==true then element_storage["DropZoneFunction"](element_storage["Guid"], {filenames}) refresh=true reagirl.Gui_ForceRefresh() end
+    if retval==true then element_storage["DropZoneFunction"](element_storage["Guid"], {filenames}) refresh=true reagirl.Gui_ForceRefresh(979) end
   end
   
   if selected~="not selected" and (((clicked=="FirstCLK" or clicked=="DBLCLK" )and mouse_cap&1==1) or Key==32) then 
@@ -4332,7 +4338,7 @@ function reagirl.InputBox_Add(x, y, w, caption, Cap_width, meaningOfUI_Element, 
     Important:
     Screenreader users get an additional dialog shown when entering text, that will NOT run the run-function for typed text. This is due some limitations in Reaper's API and can't be circumvented.
     So don't rely only on the run_function_type but also add a run_function_enter, when you want to use the value immediately when typed in your script(like setting as a setting into an ini-file).
-    Otherwise blind users might be able to enter text but it will be ignored by your code, which would be unfortunate.
+    Otherwise blind users might be able to enter text but it will be ignored at hitting enter by your code, which would be unfortunate.
     
   </description>
   <parameters>
@@ -5826,7 +5832,7 @@ function reagirl.DropDownMenu_SetDisabled(element_id, state)
     error("DropDownMenu_SetDisabled: param #1 - ui-element is not a dropdown-menu", 2)
   else
     reagirl.Elements[element_id]["IsDecorative"]=state
-    reagirl.Gui_ForceRefresh()
+    reagirl.Gui_ForceRefresh(977)
   end
 end
 
@@ -7506,6 +7512,7 @@ function reagirl.UI_Element_SmoothScroll(Smoothscroll) -- parameter for debuggin
     reagirl.MoveItAllUp_Delta=reagirl.MoveItAllUp_Delta+1 --reagirl.MoveItAllUp_Delta=0
   elseif reagirl.BoundaryY_Max<=gfx.h then
     reagirl.MoveItAllUp=0
+    reagirl.MoveItAllUp_Delta=0
   end
   if reagirl.MoveItAllUp_Delta>-1 and reagirl.MoveItAllUp_Delta<1 then reagirl.MoveItAllUp_Delta=0 end
   
@@ -7527,10 +7534,11 @@ function reagirl.UI_Element_SmoothScroll(Smoothscroll) -- parameter for debuggin
     reagirl.MoveItAllRight_Delta=reagirl.MoveItAllRight_Delta+1 --reagirl.MoveItAllUp_Delta=0
   elseif reagirl.BoundaryX_Max<=gfx.w then
     reagirl.MoveItAllRight=0
+    reagirl.MoveItAllRight_Delta=0
   end
   if reagirl.MoveItAllRight_Delta>-1 and reagirl.MoveItAllRight_Delta<1 then reagirl.MoveItAllRight_Delta=0 end
   
-  if reagirl.MoveItAllRight_Delta~=0 or reagirl.MoveItAllUp_Delta~=0 then reagirl.Gui_ForceRefresh(39) end
+  if reagirl.MoveItAllRight_Delta~=0 or reagirl.MoveItAllUp_Delta~=0 then reagirl.Gui_ForceRefresh(reagirl.MoveItAllUp_Delta) end
 end
 
 function reagirl.UI_Elements_Boundaries()
