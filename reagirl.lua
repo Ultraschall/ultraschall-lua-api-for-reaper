@@ -5,14 +5,16 @@
 
 
 reagirl={}
-if reaper.osara_outputMessage~=nil then
-  reagirl.OSARA=reaper.osara_outputMessage
-  function reaper.osara_outputMessage(message, a)
---    print(message)
-    --if message~="" then print_update(message,a) end
-    reagirl.OSARA(message)
-  end
+
+reagirl.osara_outputMessage=reaper.osara_outputMessage
+reagirl.osara=reaper.osara_outputMessage
+
+if reaper.GetExtState("ReaGirl", "osara_override")=="false" then 
+  reagirl.osara_outputMessage=nil
+else
+  reagirl.osara_outputMessage=reagirl.osara
 end
+
 --]]
 --[[
 TODO: 
@@ -1677,6 +1679,13 @@ function reagirl.Gui_Manage()
   
   if #reagirl.Elements<reagirl.Elements.FocusedElement then reagirl.Elements.FocusedElement=1 end
   
+  -- Osara Override
+  if reaper.GetExtState("ReaGirl", "osara_override")=="false" then 
+    reagirl.osara_outputMessage=nil
+  else
+    reagirl.osara_outputMessage=reagirl.osara     
+  end
+  
   -- initialize cursor-blinkspeed
   if reaper.GetExtState("ReaGirl", "InputBox_BlinkSpeed")=="" then
     reagirl.InputBox_BlinkSpeed=33
@@ -1798,7 +1807,7 @@ function reagirl.Gui_Manage()
     end -- esc closes window
   end 
   
-  if Key==26161 and reaper.osara_outputMessage~=nil then reaper.osara_outputMessage(reagirl.Elements[reagirl.Elements["FocusedElement"]]["Description"],1) end -- F1 help message for osara
+  if Key==26161 and reagirl.osara_outputMessage~=nil then reagirl.osara_outputMessage(reagirl.Elements[reagirl.Elements["FocusedElement"]]["Description"]) end -- F1 help message for osara
   
   -- if mouse has been moved, reset wait-counter for displaying tooltip
   if reagirl.OldMouseX==gfx.mouse_x and reagirl.OldMouseY==gfx.mouse_y then
@@ -1927,12 +1936,12 @@ function reagirl.Gui_Manage()
           if reagirl.SetPosition_MousePositionY~=gfx.mouse_y 
           and reagirl.SetPosition_MousePositionY~=gfx.mouse_x 
           and reagirl.Elements[i]["AccHoverMessage"]~=nil then
-            --reaper.osara_outputMessage(reagirl.Elements[i]["AccHoverMessage"])
+            --reagirl.osara_outputMessage(reagirl.Elements[i]["AccHoverMessage"])
             --reagirl.SetPosition_MousePositionX=-1
             --reagirl.SetPosition_MousePositionY=-1
           end
           
-          --if reaper.osara_outputMessage~=nil then reaper.osara_outputMessage(reagirl.Elements[i]["Text"],2--[[:utf8_sub(1,20)]]) end
+          --if reagirl.osara_outputMessage~=nil then reagirl.osara_outputMessage(reagirl.Elements[i]["Text"],2--[[:utf8_sub(1,20)]]) end
          end
          
          -- focused/clicked ui-element-management
@@ -1963,10 +1972,10 @@ function reagirl.Gui_Manage()
   end
   
   -- if osara is installed, move mouse to hover above ui-element
-  if reaper.osara_outputMessage~=nil and reagirl.oldselection~=reagirl.Elements.FocusedElement then
+  if reagirl.osara_outputMessage~=nil and reagirl.oldselection~=reagirl.Elements.FocusedElement then
     reagirl.oldselection=reagirl.Elements.FocusedElement
     local i=reagirl.Elements.FocusedElement    
-    if reaper.osara_outputMessage~=nil and reaper.JS_Mouse_SetPosition~=nil then 
+    if reagirl.osara_outputMessage~=nil and reaper.JS_Mouse_SetPosition~=nil then 
       local x2, y2, w2, h2
       if reagirl.Elements[i]["x"]<0 then x2=gfx.w+(reagirl.Elements[i]["x"]*scale) else x2=reagirl.Elements[i]["x"]*scale end
       if reagirl.Elements[i]["y"]<0 then y2=gfx.h+(reagirl.Elements[i]["y"]*scale) else y2=reagirl.Elements[i]["y"]*scale end
@@ -2003,9 +2012,9 @@ function reagirl.Gui_Manage()
   --[[
   if reagirl.SetPosition_MousePositionY~=gfx.mouse_y or reagirl.SetPosition_MousePositionX~=gfx.mouse_x then
     if reagirl.UI_Elements_HoveredElement~=-1 and reagirl.UI_Elements_HoveredElement~=reagirl.UI_Elements_HoveredElement_Old then
-      if reaper.osara_outputMessage~=nil then
+      if reagirl.osara_outputMessage~=nil then
         if skip_hover_acc_message==false then
-          reaper.osara_outputMessage(reagirl.Elements[reagirl.UI_Elements_HoveredElement]["Name"])
+          reagirl.osara_outputMessage(reagirl.Elements[reagirl.UI_Elements_HoveredElement]["Name"])
         end
       end
       reagirl.UI_Elements_HoveredElement_Old=reagirl.UI_Elements_HoveredElement
@@ -2019,12 +2028,12 @@ function reagirl.Gui_Manage()
     if reagirl.SetPosition_MousePositionX~=gfx.mouse_x or reagirl.SetPosition_MousePositionY~=gfx.mouse_y then
       if reagirl.UI_Elements_HoveredElement~=-1 then
         if reagirl.UI_Elements_HoveredElement~=reagirl.UI_Elements_HoveredElement_Old then
-          if reaper.osara_outputMessage~=nil then
+          if reagirl.osara_outputMessage~=nil then
             local description=""
             if reagirl.Elements[reagirl.UI_Elements_HoveredElement]["GUI_Element_Type"]=="Edit" then
               description=reagirl.Elements[reagirl.UI_Elements_HoveredElement]["Text"]
             end
-            reaper.osara_outputMessage(reagirl.Elements[reagirl.UI_Elements_HoveredElement]["Name"].." "..description)
+            reagirl.osara_outputMessage(reagirl.Elements[reagirl.UI_Elements_HoveredElement]["Name"].." "..description)
           end
         end
       end
@@ -2038,9 +2047,9 @@ function reagirl.Gui_Manage()
   reagirl.SetPosition_MousePositionX=gfx.mouse_x
   reagirl.SetPosition_MousePositionY=gfx.mouse_y
   
-  if reaper.osara_outputMessage~=nil then
+  if reagirl.osara_outputMessage~=nil then
     if reagirl.Elements["GlobalAccHoverMessage"]~=reagirl.Elements["GlobalAccHoverMessageOld"] then
-      reaper.osara_outputMessage(reagirl.Elements["GlobalAccHoverMessage"])
+      reagirl.osara_outputMessage(reagirl.Elements["GlobalAccHoverMessage"])
       reagirl.Elements["GlobalAccHoverMessageOld"]=reagirl.Elements["GlobalAccHoverMessage"]
     end
   end
@@ -2132,7 +2141,7 @@ function reagirl.Gui_Manage()
         end -- only run manage-functions of visible gui-elements
         
         -- output screenreader-message of ui-element
-        if reagirl.Elements["FocusedElement"]==i and reagirl.Elements[reagirl.Elements["FocusedElement"]]["IsDecorative"]==false and reagirl.old_osara_message~=message and reaper.osara_outputMessage~=nil then
+        if reagirl.Elements["FocusedElement"]==i and reagirl.Elements[reagirl.Elements["FocusedElement"]]["IsDecorative"]==false and reagirl.old_osara_message~=message and reagirl.osara_outputMessage~=nil then
           
           if message==nil then message="" end
           
@@ -2143,7 +2152,7 @@ function reagirl.Gui_Manage()
           if init_message~="" then
             acc_message=reagirl.Elements[reagirl.Elements["FocusedElement"]]["ContextMenu_ACC"]..reagirl.Elements[reagirl.Elements["FocusedElement"]]["DropZoneFunction_ACC"]
           end
-          reaper.osara_outputMessage(reagirl.osara_init_message..""..init_message.." "..message.." "..helptext..acc_message,3)
+          reagirl.osara_outputMessage(reagirl.osara_init_message..""..init_message.." "..message.." "..helptext..acc_message)
           reagirl.old_osara_message=message
           reagirl.osara_init_message=""
         end
@@ -3436,7 +3445,7 @@ function reagirl.CheckBox_Add(x, y, caption, meaningOfUI_Element, default, run_f
     end
   end  
   reagirl.UI_Element_NextLineY=0
-  reagirl.UI_Element_NextX_Default=x
+  --reagirl.UI_Element_NextX_Default=x
   
   reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0, 1)
   local tx,ty=gfx.measurestr(caption)
@@ -3474,7 +3483,7 @@ function reagirl.Checkbox_Manage(element_id, selected, hovered, clicked, mouse_c
   local refresh=false
   
   -- drop files for accessibility using a file-requester, after typing ctrl+shift+f
-  if reaper.osara_outputMessage~=nil and element_storage["DropZoneFunction"]~=nil and Key==6 and mouse_cap==12 then
+  if reagirl.osara_outputMessage~=nil and element_storage["DropZoneFunction"]~=nil and Key==6 and mouse_cap==12 then
     local retval, filenames = reaper.GetUserFileNameForRead("", "Choose file to drop into "..element_storage["Name"], "")
     if retval==true then element_storage["DropZoneFunction"](element_storage["Guid"], {filenames}) refresh=true reagirl.Gui_ForceRefresh(979) end
   end
@@ -3956,7 +3965,7 @@ function reagirl.NextLine(y_offset)
     end
   else
     reagirl.UI_Element_NextLineY=reagirl.UI_Element_NextLineY+reagirl.UI_Element_NextY_Margin
-  end
+  end  
   reagirl.UI_Element_NextLineX=reagirl.UI_Element_NextX_Default
 end
 
@@ -4024,7 +4033,7 @@ function reagirl.Button_Add(x, y, w_margin, h_margin, caption, meaningOfUI_Eleme
     end
   end  
   reagirl.UI_Element_NextLineY=0
-  reagirl.UI_Element_NextX_Default=x
+  --reagirl.UI_Element_NextX_Default=x
   
   reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0, 1)
   local tx,ty=gfx.measurestr(caption)
@@ -4210,7 +4219,7 @@ function reagirl.Button_Manage(element_id, selected, hovered, clicked, mouse_cap
   local oldpressed=element_storage["pressed"]
   
   -- drop files for accessibility using a file-requester, after typing ctrl+shift+f
-  if reaper.osara_outputMessage~=nil and element_storage["DropZoneFunction"]~=nil and Key==6 and mouse_cap==12 then
+  if reagirl.osara_outputMessage~=nil and element_storage["DropZoneFunction"]~=nil and Key==6 and mouse_cap==12 then
     local retval, filenames = reaper.GetUserFileNameForRead("", "Choose file to drop into "..element_storage["Name"], "")
     if retval==true then element_storage["DropZoneFunction"](element_storage["Guid"], {filenames}) refresh=true end
   end
@@ -4395,7 +4404,7 @@ function reagirl.InputBox_Add(x, y, w, caption, Cap_width, meaningOfUI_Element, 
     end
   end  
   reagirl.UI_Element_NextLineY=0
-  reagirl.UI_Element_NextX_Default=x
+  --reagirl.UI_Element_NextX_Default=x
   
   reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0, 1)
   local tx,ty=gfx.measurestr(caption)
@@ -4999,13 +5008,13 @@ function reagirl.InputBox_Manage(element_id, selected, hovered, clicked, mouse_c
      -- reaper.JS_WindowMessage_Release(track_window, "WM_SETCURSOR")
   end
   -- drop files for accessibility using a file-requester, after typing ctrl+shift+f
-  if reaper.osara_outputMessage~=nil and element_storage["DropZoneFunction"]~=nil and Key==6 and mouse_cap==12 then
+  if reagirl.osara_outputMessage~=nil and element_storage["DropZoneFunction"]~=nil and Key==6 and mouse_cap==12 then
     local retval, filenames = reaper.GetUserFileNameForRead("", "Choose file to drop into "..element_storage["Name"], "")
     if retval==true then element_storage["DropZoneFunction"](element_storage["Guid"], {filenames}) refresh=true end
   end
   
   local blink_refresh=false
-  if reaper.osara_outputMessage~=nil then
+  if reagirl.osara_outputMessage~=nil then
     reagirl.Gui_PreventEnterForOneCycle()
     if selected~="not selected" and (Key==13 or (mouse_cap&1==1 and gfx.mouse_x>=x and gfx.mouse_x<=x+w and gfx.mouse_y>=y and gfx.mouse_y<=y+h)) then
       local retval, text = reaper.GetUserInputs("Enter or edit the text", 1, element_storage["password"]..",extrawidth=150", element_storage.Text)
@@ -5553,7 +5562,7 @@ function reagirl.DropDownMenu_Add(x, y, w, caption, Cap_width, meaningOfUI_Eleme
     end
   end  
   reagirl.UI_Element_NextLineY=0
-  reagirl.UI_Element_NextX_Default=x
+  --reagirl.UI_Element_NextX_Default=x
   
   reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0, 1)
   local tx1, ty1 =gfx.measurestr(caption)
@@ -5597,7 +5606,7 @@ end
 
 function reagirl.DropDownMenu_Manage(element_id, selected, hovered, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
   -- drop files for accessibility using a file-requester, after typing ctrl+shift+f
-  if reaper.osara_outputMessage~=nil and element_storage["DropZoneFunction"]~=nil and Key==6 and mouse_cap==12 then
+  if reagirl.osara_outputMessage~=nil and element_storage["DropZoneFunction"]~=nil and Key==6 and mouse_cap==12 then
     local retval, filenames = reaper.GetUserFileNameForRead("", "Choose file to drop into "..element_storage["Name"], "")
     if retval==true then element_storage["DropZoneFunction"](element_storage["Guid"], {filenames}) refresh=true end
   end
@@ -6268,7 +6277,7 @@ function reagirl.Label_Add(x, y, label, meaningOfUI_Element, align, clickable, r
     end
   end  
   reagirl.UI_Element_NextLineY=0
-  reagirl.UI_Element_NextX_Default=x
+  --reagirl.UI_Element_NextX_Default=x
   
   local acc_clickable=""
   local clickable_text=""
@@ -6311,7 +6320,7 @@ end
 
 function reagirl.Label_Manage(element_id, selected, hovered, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
   -- drop files for accessibility using a file-requester, after typing ctrl+shift+f
-  if reaper.osara_outputMessage~=nil and element_storage["DropZoneFunction"]~=nil and Key==6 and mouse_cap==12 then
+  if reagirl.osara_outputMessage~=nil and element_storage["DropZoneFunction"]~=nil and Key==6 and mouse_cap==12 then
     local retval, filenames = reaper.GetUserFileNameForRead("", "Choose file to drop into "..element_storage["Name"], "")
     if retval==true then element_storage["DropZoneFunction"](element_storage["Guid"], {filenames}) refresh=true end
   end
@@ -6752,7 +6761,7 @@ function reagirl.Image_Add(image_filename, x, y, w, h, name, meaningOfUI_Element
     end
   end  
   reagirl.UI_Element_NextLineY=0
-  reagirl.UI_Element_NextX_Default=x
+  --reagirl.UI_Element_NextX_Default=x
   
   table.insert(reagirl.Elements, slot, {})
   reagirl.Elements[slot]["Guid"]=reaper.genGuid("")
@@ -6946,7 +6955,7 @@ end
 
 function reagirl.Image_Manage(element_id, selected, hovered, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
   -- drop files for accessibility using a file-requester, after typing ctrl+shift+f
-  if reaper.osara_outputMessage~=nil and element_storage["DropZoneFunction"]~=nil and Key==6 and mouse_cap==12 then
+  if reagirl.osara_outputMessage~=nil and element_storage["DropZoneFunction"]~=nil and Key==6 and mouse_cap==12 then
     local retval, filenames = reaper.GetUserFileNameForRead("", "Choose file to drop into "..element_storage["Name"], "")
     if retval==true then element_storage["DropZoneFunction"](element_storage["Guid"], {filenames}) refresh=true end
   end
@@ -8202,7 +8211,7 @@ function reagirl.Slider_Add(x, y, w, caption, Cap_width, meaningOfUI_Element, un
     end
   end  
   reagirl.UI_Element_NextLineY=0
-  reagirl.UI_Element_NextX_Default=x
+  --reagirl.UI_Element_NextX_Default=x
   
   reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0, 1)
   local tx, ty =gfx.measurestr(caption.."")
@@ -8253,7 +8262,7 @@ end
 function reagirl.Slider_Manage(element_id, selected, hovered, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
   --print_update(reaper.time_precise(), table.unpack(mouse_attributes))
   -- drop files for accessibility using a file-requester, after typing ctrl+shift+f
-  if reaper.osara_outputMessage~=nil and element_storage["DropZoneFunction"]~=nil and Key==6 and mouse_cap==12 then
+  if reagirl.osara_outputMessage~=nil and element_storage["DropZoneFunction"]~=nil and Key==6 and mouse_cap==12 then
     local retval, filenames = reaper.GetUserFileNameForRead("", "Choose file to drop into "..element_storage["Name"], "")
     if retval==true then element_storage["DropZoneFunction"](element_storage["Guid"], {filenames}) refresh=true end
   end
@@ -9018,7 +9027,7 @@ function reagirl.Tabs_Add(x, y, w_backdrop, h_backdrop, caption, meaningOfUI_Ele
   reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0, 1)
   local tx, ty =gfx.measurestr(caption.."")
 
-  reagirl.UI_Element_NextX_Default=x
+  --reagirl.UI_Element_NextX_Default=x
   reagirl.UI_Element_NextLineY=0
   
   local slot=reagirl.UI_Element_GetNextFreeSlot()
@@ -9195,7 +9204,7 @@ end
 
 function reagirl.Tabs_Manage(element_id, selected, hovered, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
   -- drop files for accessibility using a file-requester, after typing ctrl+shift+f
-  if reaper.osara_outputMessage~=nil and element_storage["DropZoneFunction"]~=nil and Key==6 and mouse_cap==12 then
+  if reagirl.osara_outputMessage~=nil and element_storage["DropZoneFunction"]~=nil and Key==6 and mouse_cap==12 then
     local retval, filenames = reaper.GetUserFileNameForRead("", "Choose file to drop into "..element_storage["Name"], "")
     if retval==true then element_storage["DropZoneFunction"](element_storage["Guid"], {filenames}) refresh=true end
   end

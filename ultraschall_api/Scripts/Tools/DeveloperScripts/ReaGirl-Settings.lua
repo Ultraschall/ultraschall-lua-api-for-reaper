@@ -33,6 +33,12 @@ function button_apply(slider_id, value)
   reaper.SetExtState("ReaGirl", "scaling_override", value, true)
 end
 
+function checkbox(checkbox_id, checkstate)
+  if checkbox_id==checkbox_osara_id then
+    reaper.SetExtState("ReaGirl", "osara_override", tostring(checkstate), true)
+  end
+end
+
 reagirl.Gui_New()
 
 --[[ Blinking Focus Rectangle ]]
@@ -52,7 +58,7 @@ reagirl.NextLine()
 reagirl.Slider_Add(nil, nil, 250, "Blinklength in seconds", 140, "Set the speed of the blinking", nil, 0, 10, 1, val2, 0, BlinkTime)
 
 -- [[ Blinking InputBox-Cursor ]]
-reagirl.NextLine(20)
+reagirl.NextLine(15)
 Label1=reagirl.Label_Add(nil, nil, "Blinking of inputbox-cursor", "Set the blinking of the inputbox-cursor", 0, false, nil)
 reagirl.Label_SetStyle(Label1, 6, 0, 0)
 reagirl.NextLine()
@@ -65,7 +71,7 @@ reagirl.InputBox_Add(nil, nil, 250, "Test input:", 140, "Input test text to chec
 
 val4=tonumber(reaper.GetExtState("reagirl_preferences", "scaling_override"))
 if val4==nil then val4=0 end
-reagirl.NextLine(20)
+reagirl.NextLine(15)
 Label1=reagirl.Label_Add(nil, nil, "Blinking of inputbox-cursor", "Set the blinking of the inputbox-cursor", 0, false, nil)
 reagirl.Label_SetStyle(Label1, 6, 0, 0)
 reagirl.NextLine()
@@ -75,11 +81,20 @@ val5=tonumber(reaper.GetExtState("ReaGirl", "scaling_override", value, true))
 if val5==nil then val5=0 end
 slider_scale = reagirl.Slider_Add(nil, nil, 250, "Scale Override", 140, "Set the default scaling-factor for all ReaGirl-Guis; 0 is auto-scaling.", nil, 0, 8, 1, val5, 0, ScaleOverride)
 reagirl.Button_Add(nil, nil, 0, 0, "Apply", "Apply the chosen scaling value.", button_apply)
+reagirl.NextLine(15)
+
+-- [[ Osara override ]]
+val6=reaper.GetExtState("ReaGirl", "osara_override", value, true)
+if val6=="true" then val6=true else val6=false end
+Label1=reagirl.Label_Add(nil, nil, "Osara specific", "Settings that influence the relationship between Osara and ReaGirl", 0, false, nil)
+reagirl.NextLine()
+reagirl.Label_SetStyle(Label1, 6, 0, 0)
+checkbox_osara_id = reagirl.CheckBox_Add(nil, nil, "Ignore installed Osara for inputboxes", "Checking this will make the inputboxes behave like when Osara is not installed(you can type directly into them).", val6, checkbox)
 
 
 reagirl.Background_GetSetColor(true,55,55,55)
 
-reagirl.Gui_Open("ReaGirl Settings", "various settings for ReaGirl-Accessible Guis", 345, 263, nil, nil, nil)
+reagirl.Gui_Open("ReaGirl Settings", "various settings for ReaGirl-Accessible Guis", 345, 310, nil, nil, nil)
 
 function main()
   reagirl.Gui_Manage()
