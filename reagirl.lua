@@ -2033,7 +2033,9 @@ function reagirl.Gui_Manage()
             if reagirl.Elements[reagirl.UI_Elements_HoveredElement]["GUI_Element_Type"]=="Edit" then
               description=reagirl.Elements[reagirl.UI_Elements_HoveredElement]["Text"]
             end
-            reagirl.osara_outputMessage(reagirl.Elements[reagirl.UI_Elements_HoveredElement]["Name"].." "..description)
+            if Window_State&8==8 then
+              reagirl.osara_outputMessage(reagirl.Elements[reagirl.UI_Elements_HoveredElement]["Name"].." "..description)
+            end
           end
         end
       end

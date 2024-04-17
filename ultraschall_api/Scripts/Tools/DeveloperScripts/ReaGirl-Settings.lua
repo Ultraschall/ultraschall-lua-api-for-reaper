@@ -89,7 +89,7 @@ if val6=="true" then val6=true else val6=false end
 Label1=reagirl.Label_Add(nil, nil, "Osara specific", "Settings that influence the relationship between Osara and ReaGirl", 0, false, nil)
 reagirl.NextLine()
 reagirl.Label_SetStyle(Label1, 6, 0, 0)
-checkbox_osara_id = reagirl.CheckBox_Add(nil, nil, "Ignore installed Osara for inputboxes", "Checking this will make the inputboxes behave like when Osara is not installed(you can type directly into them).", val6, checkbox)
+checkbox_osara_id = reagirl.CheckBox_Add(nil, nil, "Ignore installed Osara", "Checking this will prevent from screenreader messages to be sent to Osara. Also, you can type directly into inputboxes.", val6, checkbox)
 
 
 reagirl.Background_GetSetColor(true,55,55,55)
