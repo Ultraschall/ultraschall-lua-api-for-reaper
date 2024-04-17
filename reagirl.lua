@@ -5776,7 +5776,7 @@ function reagirl.DropDownMenu_Draw(element_id, selected, hovered, clicked, mouse
       gfx.set(0.35)
     end
     local circ=dpi_scale    
-    gfx.circle(x+w+dpi_scale-h/2, (y+h+dpi_scale)-h/2, 3*dpi_scale, 1, 0)
+    gfx.circle(x+w+dpi_scale-h/2, (y+h)-h/2, 3*dpi_scale, 1, 0)
     gfx.rect(x+w-h+1*(dpi_scale-1), y, dpi_scale, h+dpi_scale, 1)
     
     local offset=0
@@ -8420,15 +8420,15 @@ function reagirl.Slider_Draw(element_id, selected, hovered, clicked, mouse_cap, 
   -- draw unit
   local unit=reagirl.FormatNumber(element_storage["CurValue"], 3)
   if element_storage["Unit"]~=nil then 
-    gfx.x=x+w-offset_unit+6*dpi_scale
-    gfx.y=y+dpi_scale+dpi_scale+(h-gfx.texth)/2
+    gfx.x=x+w-offset_unit+8*dpi_scale
+    gfx.y=y+dpi_scale+(h-gfx.texth)/2
     gfx.set(0.2)
     gfx.drawstr(" "..unit..element_storage["Unit"])
     
-    gfx.x=x+w-offset_unit+8*dpi_scale
+    gfx.x=x+w-offset_unit+7*dpi_scale
     gfx.y=y+(h-gfx.texth)/2
   
-    gfx.set(0.8) 
+    if element_storage["IsDecorative"]==true then gfx.set(0.6) else gfx.set(0.8) end
     gfx.drawstr(" "..unit..element_storage["Unit"]) 
   end
 
