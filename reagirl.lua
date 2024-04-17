@@ -5776,7 +5776,7 @@ function reagirl.DropDownMenu_Draw(element_id, selected, hovered, clicked, mouse
       gfx.set(0.35)
     end
     local circ=dpi_scale    
-    gfx.circle(x+w+dpi_scale-h/2, (y+h)-h/2, 3*dpi_scale, 1, 0)
+    gfx.circle(x+w+dpi_scale-h/2, (y+h+dpi_scale)-h/2, 3*dpi_scale, 1, 0)
     gfx.rect(x+w-h+1*(dpi_scale-1), y, dpi_scale, h+dpi_scale, 1)
     
     local offset=0
