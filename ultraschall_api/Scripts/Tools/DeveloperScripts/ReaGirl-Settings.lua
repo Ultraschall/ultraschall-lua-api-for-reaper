@@ -88,7 +88,6 @@ reagirl.NextLine()
 reagirl.Label_SetStyle(Label1, 6, 0, 0)
 checkbox_osara_id = reagirl.CheckBox_Add(nil, nil, "Ignore installed Osara", "Checking this will prevent from screenreader messages to be sent to Osara. You can also type directly into inputboxes.", val6, checkbox)
 
-
 reagirl.Background_GetSetColor(true,55,55,55)
 
 reagirl.Gui_Open("ReaGirl Settings", "various settings for ReaGirl-Accessible Guis", 345, 282, nil, nil, nil)

@@ -3457,6 +3457,7 @@ function reagirl.CheckBox_Add(x, y, caption, meaningOfUI_Element, default, run_f
   if x~=nil and math.type(x)~="integer" then error("CheckBox_Add: param #1 - must be an integer", 2) end
   if y~=nil and math.type(y)~="integer" then error("CheckBox_Add: param #2 - must be an integer", 2) end
   if type(caption)~="string" then error("CheckBox_Add: param #3 - must be a string", 2) end
+  caption=string.gsub(caption, "[\n\r]", "")
   if type(meaningOfUI_Element)~="string" then error("CheckBox_Add: param #4 - must be a string", 2) end
   if type(default)~="boolean" then error("CheckBox_Add: param #5 - must be a boolean", 2) end
   if run_function~=nil and type(run_function)~="function" then error("CheckBox_Add: param #6 - must be either nil or a function", 2) end
@@ -4013,6 +4014,7 @@ function reagirl.Button_Add(x, y, w_margin, h_margin, caption, meaningOfUI_Eleme
   if math.type(w_margin)~="integer" then error("Button_Add: param #3 - must be an integer", 2) end
   if math.type(h_margin)~="integer" then error("Button_Add: param #4 - must be an integer", 2) end
   if type(caption)~="string" then error("Button_Add: param #5 - must be a string", 2) end
+  caption=string.gsub(caption, "[\n\r]", "")
   if type(meaningOfUI_Element)~="string" then error("Button_Add: param #6 - must be a string", 2) end
   if run_function~=nil and type(run_function)~="function" then error("Button_Add: param #7 - must be either nil or a function", 2) end
   
@@ -4391,6 +4393,7 @@ function reagirl.InputBox_Add(x, y, w, caption, Cap_width, meaningOfUI_Element, 
   if y~=nil and math.type(y)~="integer" then error("InputBox_Add: param #2 - must be an integer", 2) end
   if math.type(w)~="integer" then error("InputBox_Add: param #3 - must be an integer", 2) end
   if type(caption)~="string" then error("InputBox_Add: param #4 - must be a string", 2) end
+  caption=string.gsub(caption, "[\n\r]", "")
   if Cap_width~=nil and math.type(Cap_width)~="integer" then error("InputBox_Add: param #5 - must be either nil or an integer", 2) end
   if type(meaningOfUI_Element)~="string" then error("InputBox_Add: param #6 - must be a string", 2) end
   if type(Default)~="string" then error("InputBox_Add: param #7 - must be a string", 2) end
@@ -5606,11 +5609,13 @@ function reagirl.DropDownMenu_Add(x, y, w, caption, Cap_width, meaningOfUI_Eleme
   if y~=nil and math.type(y)~="integer" then error("DropDownMenu_Add: param #2 - must be an integer", 2) end
   if math.type(w)~="integer" then error("DropDownMenu_Add: param #3 - must be an integer", 2) end
   if type(caption)~="string" then error("DropDownMenu_Add: param #4 - must be a string", 2) end
+  caption=string.gsub(caption, "[\n\r]", "")
   if Cap_width~=nil and math.type(Cap_width)~="integer" then error("DropDownMenu_Add: param #5 - must be either nil or an integer", 2) end
   if type(meaningOfUI_Element)~="string" then error("DropDownMenu_Add: param #6 - must be a string", 2) end
   if type(menuItems)~="table" then error("DropDownMenu_Add: param #7 - must be a table", 2) end
   for i=1, #menuItems do
     menuItems[i]=tostring(menuItems[i])
+    menuItems[i]=string.gsub(menuItems[i], "[\n\r]", "")
   end
   if math.type(menuSelectedItem)~="integer" then error("DropDownMenu_Add: param #8 - must be an integer", 2) end
   if menuSelectedItem>#menuItems or menuSelectedItem<1 then error("DropDownMenu_Add: param #9 - no such menu-item", 2) end
@@ -8297,10 +8302,12 @@ function reagirl.Slider_Add(x, y, w, caption, Cap_width, meaningOfUI_Element, un
   if y~=nil and math.type(y)~="integer" then error("Slider_Add: param #2 - must be an integer", 2) end
   if math.type(w)~="integer" then error("Slider_Add: param #3 - must be an integer", 2) end
   if type(caption)~="string" then error("Slider_Add: param #4 - must be a string", 2) end
+  caption=string.gsub(caption, "[\n\r]", "")
   if Cap_width~=nil and math.type(Cap_width)~="integer" then error("Slider_Add: param #5 - must be either nil or an integer", 2) end
   if type(meaningOfUI_Element)~="string" then error("Slider_Add: param #6 - must be a string", 2) end
   if unit~=nil and type(unit)~="string" then error("Slider_Add: param #7 - must be a number", 2) end
   if unit==nil then unit="" end
+  unit=string.gsub(unit, "[\n\r]", "")
   if type(start)~="number" then error("Slider_Add: param #8 - must be a number", 2) end
   if type(stop)~="number" then error("Slider_Add: param #9 - must be a number", 2) end
   if type(step)~="number" then error("Slider_Add: param #10 - must be a number", 2) end
@@ -9124,10 +9131,12 @@ function reagirl.Tabs_Add(x, y, w_backdrop, h_backdrop, caption, meaningOfUI_Ele
   if w_backdrop~=nil and math.type(w_backdrop)~="integer" then error("Tabs_Add: param #4 - must be an integer", 2) end
   if h_backdrop~=nil and math.type(h_backdrop)~="integer" then error("Tabs_Add: param #5 - must be an integer", 2) end
   if type(caption)~="string" then error("Tabs_Add: param #6 - must be a string", 2) end
+  caption=string.gsub(caption, "[\n\r]", "")
   if type(meaningOfUI_Element)~="string" then error("Tabs_Add: param #7 - must be a string", 2) end
   if type(tab_names)~="table" then error("Tabs_Add: param #8 - must be a number", 2) end
   for i=1, #tab_names do
     tab_names[i]=tostring(tab_names[i])
+    tab_names[i]=string.gsub(tab_names[i], "[\n\r]", "")
   end
   if math.type(selected_tab)~="integer" then error("Tabs_Add: param #9 - must be an integer", 2) end
   if run_function~=nil and type(run_function)~="function" then error("Tabs_Add: param #10 - must be either nil or a function", 2) end
