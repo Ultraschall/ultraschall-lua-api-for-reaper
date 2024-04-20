@@ -5270,7 +5270,7 @@ function reagirl.InputBox_Draw(element_id, selected, hovered, clicked, mouse_cap
   if selected~="not selected" and element_storage.cursor_offset==element_storage.draw_offset-1 then
     gfx.set(0.9843137254901961, 0.8156862745098039, 0)
     --gfx.set(1,0,0)
-    gfx.line(x+cap_w+dpi_scale, y+dpi_scale, x+cap_w+dpi_scale, y+gfx.texth/2)
+    gfx.line(x+cap_w+dpi_scale, y+dpi_scale, x+cap_w+dpi_scale, y+gfx.texth)
   end
 end
 
