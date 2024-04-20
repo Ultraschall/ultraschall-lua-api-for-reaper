@@ -9,7 +9,7 @@ reagirl={}
 reagirl.osara_outputMessage=reaper.osara_outputMessage
 reagirl.osara=reaper.osara_outputMessage
 
-if reaper.GetExtState("ReaGirl", "osara_override")=="false" then 
+if reaper.GetExtState("ReaGirl", "osara_override")~="false" then 
   reagirl.osara_outputMessage=nil
 else
   reagirl.osara_outputMessage=reagirl.osara
@@ -1680,7 +1680,7 @@ function reagirl.Gui_Manage()
   if #reagirl.Elements<reagirl.Elements.FocusedElement then reagirl.Elements.FocusedElement=1 end
   
   -- Osara Override
-  if reaper.GetExtState("ReaGirl", "osara_override")=="false" then 
+  if reaper.GetExtState("ReaGirl", "osara_override")~="false" then 
     reagirl.osara_outputMessage=nil
   else
     reagirl.osara_outputMessage=reagirl.osara     
