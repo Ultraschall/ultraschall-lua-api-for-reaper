@@ -43,7 +43,7 @@ reagirl.Gui_New()
 
 --[[ Blinking Focus Rectangle ]]
 
-Label1=reagirl.Label_Add(nil, nil, "Blinking of the focus rectangle", "Set the blinking of the focus rectangle", 0, false, nil)
+Label1=reagirl.Label_Add(nil, nil, "Focus Rectangle", "Settings for the focus rectangle", 0, false, nil)
 reagirl.Label_SetStyle(Label1, 6, 0, 0)
 
 reagirl.NextLine()
@@ -59,25 +59,21 @@ reagirl.Slider_Add(nil, nil, 250, "Blinklength in seconds", 140, "Set the speed 
 
 -- [[ Blinking InputBox-Cursor ]]
 reagirl.NextLine(15)
-Label1=reagirl.Label_Add(nil, nil, "Blinking of inputbox-cursor", "Set the blinking of the inputbox-cursor", 0, false, nil)
+Label1=reagirl.Label_Add(nil, nil, "Inputbox-Cursor", "Settings for the inputbox-cursor", 0, false, nil)
 reagirl.Label_SetStyle(Label1, 6, 0, 0)
 reagirl.NextLine()
-
 val3=tonumber(reaper.GetExtState("ReaGirl", "InputBox_BlinkSpeed"))
 if val3==nil then val3=33 end
-slider=reagirl.Slider_Add(nil, nil, 250, "Speed", 140, "Set the speed of the blinking", nil, 6, 100, 1, val3, 33, CursorBlinkSpeed)
+slider=reagirl.Slider_Add(nil, nil, 250, "Blinkspeed", 140, "Set the speed of the blinking", nil, 6, 100, 1, val3, 33, CursorBlinkSpeed)
 reagirl.NextLine()
 input_id = reagirl.InputBox_Add(nil, nil, 300, "Test input:", 140, "Input test text to check cursor blinking speed", "", nil, nil)
-reagirl.InputBox_SetEmptyText(input_id, "Enter test-text here...")
--- [[ Scaling Override ]]
-val4=tonumber(reaper.GetExtState("reagirl_preferences", "scaling_override"))
-if val4==nil then val4=0 end
-reagirl.NextLine(15)
-Label1=reagirl.Label_Add(nil, nil, "Blinking of inputbox-cursor", "Set the blinking of the inputbox-cursor", 0, false, nil)
-reagirl.Label_SetStyle(Label1, 6, 0, 0)
-reagirl.NextLine()
+reagirl.InputBox_SetEmptyText(input_id, "Test Blinkspeed here...")
 
 -- [[ Scaling Override ]]
+reagirl.NextLine(15)
+Label1=reagirl.Label_Add(nil, nil, "Scaling", "Settings for the scaling-factor of ReaGirl-Guis", 0, false, nil)
+reagirl.Label_SetStyle(Label1, 6, 0, 0)
+reagirl.NextLine()
 val5=tonumber(reaper.GetExtState("ReaGirl", "scaling_override", value, true))
 if val5==nil then val5=0 end
 slider_scale = reagirl.Slider_Add(nil, nil, 250, "Scale Override", 140, "Set the default scaling-factor for all ReaGirl-Guis; 0 is auto-scaling.", nil, 0, 8, 1, val5, 0, ScaleOverride)
@@ -87,7 +83,7 @@ reagirl.NextLine(15)
 -- [[ Osara override ]]
 val6=reaper.GetExtState("ReaGirl", "osara_override", value, true)
 if val6=="true" then val6=true else val6=false end
-Label1=reagirl.Label_Add(nil, nil, "Osara specific", "Settings that influence the relationship between Osara and ReaGirl", 0, false, nil)
+Label1=reagirl.Label_Add(nil, nil, "Osara", "Settings that influence the relationship between Osara and ReaGirl", 0, false, nil)
 reagirl.NextLine()
 reagirl.Label_SetStyle(Label1, 6, 0, 0)
 checkbox_osara_id = reagirl.CheckBox_Add(nil, nil, "Ignore installed Osara", "Checking this will prevent from screenreader messages to be sent to Osara. Also, you can type directly into inputboxes.", val6, checkbox)
@@ -95,7 +91,7 @@ checkbox_osara_id = reagirl.CheckBox_Add(nil, nil, "Ignore installed Osara", "Ch
 
 reagirl.Background_GetSetColor(true,55,55,55)
 
-reagirl.Gui_Open("ReaGirl Settings", "various settings for ReaGirl-Accessible Guis", 345, 310, nil, nil, nil)
+reagirl.Gui_Open("ReaGirl Settings", "various settings for ReaGirl-Accessible Guis", 365, 310, nil, nil, nil)
 
 function main()
   reagirl.Gui_Manage()
