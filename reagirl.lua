@@ -2839,7 +2839,7 @@ function reagirl.UI_Element_GetSet_DropZoneFunction(element_id, is_set, dropzone
   return reagirl.Elements[element_id]["DropZoneFunction"]
 end
 
-function reagirl.UI_Element_GetSetCaption(element_id, is_set, name)
+function reagirl.UI_Element_GetSetCaption(element_id, is_set, caption)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>UI_Element_GetSetCaption</slug>
@@ -2873,10 +2873,11 @@ function reagirl.UI_Element_GetSetCaption(element_id, is_set, name)
   if element_id==nil then error("UI_Element_GetSetCaption: #1 - no such ui-element", 2) end
   if reagirl.Elements[element_id]==nil then error("UI_Element_GetSetCaption: #1 - no such ui-element", 2) end
   if type(is_set)~="boolean" then error("UI_Element_GetSetCaption: #2 - must be a boolean", 2) end
-  if is_set==true and type(name)~="string" then error("UI_Element_GetSetCaption: #3 - must be a string when #2==true", 2) end
+  if is_set==true and type(caption)~="string" then error("UI_Element_GetSetCaption: #3 - must be a string when #2==true", 2) end
   
   if is_set==true then
-    reagirl.Elements[element_id]["Name"]=name
+    caption=string.gsub(caption, "[\n\r]", "")
+    reagirl.Elements[element_id]["Name"]=caption
   end
   return reagirl.Elements[element_id]["Name"]
 end
