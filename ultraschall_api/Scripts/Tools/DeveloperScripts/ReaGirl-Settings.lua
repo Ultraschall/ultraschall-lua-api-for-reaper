@@ -4,7 +4,7 @@ function BlinkSpeed(slider_id, value)
   if value==0 then
     reaper.SetExtState("ReaGirl", "FocusRectangle_BlinkSpeed", "", true)
   else
-    reaper.SetExtState("ReaGirl", "FocusRectangle_BlinkSpeed", value, true)
+    reaper.SetExtState("ReaGirl", "FocusRectangle_BlinkSpeed", math.floor(value*33), true)
   end
   reagirl.FocusRectangle_BlinkStartTime=reaper.time_precise()
 end
@@ -19,10 +19,10 @@ function BlinkTime(slider_id, value)
 end
 
 function CursorBlinkSpeed(slider_id, value)
-  if value==33 then
+  if value==1 then
     reaper.SetExtState("ReaGirl", "InputBox_BlinkSpeed", "", true)
   else
-    reaper.SetExtState("ReaGirl", "InputBox_BlinkSpeed", value, true)
+    reaper.SetExtState("ReaGirl", "InputBox_BlinkSpeed", math.floor(value*33), true)
   end
   reagirl.FocusRectangle_BlinkStartTime=reaper.time_precise()
 end
@@ -53,9 +53,9 @@ if val==nil then val=0 end
 val2=tonumber(reaper.GetExtState("ReaGirl", "FocusRectangle_BlinkTime"))
 if val2==nil then val2=0 end
 
-reagirl.Slider_Add(nil, nil, 250, "Blinkspeed", 140, "Set the speed of the blinking", nil, 0, 200, 1, val, 0, BlinkSpeed)
+reagirl.Slider_Add(nil, nil, 300, "Blinkspeed", 140, "Set the speed of the blinking", "seconds", 0.4, 3, 0.1, val/33, 1, BlinkSpeed)
 reagirl.NextLine()
-reagirl.Slider_Add(nil, nil, 250, "Blinklength in seconds", 140, "Set the speed of the blinking", nil, 0, 10, 1, val2, 0, BlinkTime)
+reagirl.Slider_Add(nil, nil, 300, "Blinklength", 140, "Set the speed of the blinking", "seconds", 0, 10, 1, val2, 0, BlinkTime)
 
 -- [[ Blinking InputBox-Cursor ]]
 reagirl.NextLine(15)
@@ -64,7 +64,7 @@ reagirl.Label_SetStyle(Label1, 6, 0, 0)
 reagirl.NextLine()
 val3=tonumber(reaper.GetExtState("ReaGirl", "InputBox_BlinkSpeed"))
 if val3==nil then val3=33 end
-slider=reagirl.Slider_Add(nil, nil, 250, "Blinkspeed", 140, "Set the speed of the blinking", nil, 6, 100, 1, val3, 33, CursorBlinkSpeed)
+slider=reagirl.Slider_Add(nil, nil, 300, "Blinkspeed", 140, "Set the speed of the blinking", "seconds", 0.4, 3, 0.1, val3/33, 1, CursorBlinkSpeed)
 reagirl.NextLine()
 input_id = reagirl.InputBox_Add(nil, nil, 300, "Test input:", 140, "Input test text to check cursor blinking speed", "", nil, nil)
 reagirl.InputBox_SetEmptyText(input_id, "Test Blinkspeed here...")
