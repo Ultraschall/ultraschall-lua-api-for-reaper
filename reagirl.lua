@@ -4439,6 +4439,7 @@ function reagirl.InputBox_Add(x, y, w, caption, Cap_width, meaningOfUI_Element, 
   reagirl.Elements[slot]["cursor_offset"]=0
   reagirl.Elements[slot]["selection_startoffset"]=1
   reagirl.Elements[slot]["selection_endoffset"]=1
+  reagirl.Elements[slot]["empty_text"]=""
   
   reagirl.Elements[slot]["password"]=""
   
@@ -5230,6 +5231,12 @@ function reagirl.InputBox_Draw(element_id, selected, hovered, clicked, mouse_cap
   if element_storage["IsDecorative"]==false then gfx.set(0.8) else gfx.set(0.6) end
   gfx.x=x+cap_w+dpi_scale+dpi_scale+dpi_scale
   gfx.y=y+dpi_scale+dpi_scale+(h-gfx.texth)/16
+  if element_storage["Text"]:len()==0 then
+    gfx.set(0.6)
+    gfx.x=gfx.x+dpi_scale*5
+    gfx.drawstr(element_storage["empty_text"],0, x+w, y+h)
+    gfx.set(0.8)
+  end
   local draw_offset=0
   for i=element_storage.draw_offset, element_storage.draw_offset_end do
     if i>element_storage.Text:utf8_len() then break end
@@ -5419,6 +5426,41 @@ function reagirl.InputBox_GetText(element_id)
   end
 end
 
+function reagirl.InputBox_SetEmptyText(element_id, empty_text)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>InputBox_SetEmptyText</slug>
+  <requires>
+    ReaGirl=1.0
+    Reaper=7
+    Lua=5.4
+  </requires>
+  <functioncall>string text = reagirl.InputBox_SetEmptyText(string element_id, string empty_text)</functioncall>
+  <description>
+    Sets an inputbox's shown text when nothing has been input.
+  </description>
+  <parameters>
+    string element_id - the guid of the inputbox, whose text you want to get
+  </parameters>
+  <retvals>
+    string empty_text - a text that is shown, when nothing has been input
+  </retvals>
+  <chapter_context>
+    InputBox
+  </chapter_context>
+  <tags>inputbox, set, empty text</tags>
+</US_DocBloc>
+--]]
+  if type(element_id)~="string" then error("InputBox_SetEmptyText: param #1 - must be a string", 2) end
+  if reagirl.IsValidGuid(element_id, true)==nil then error("InputBox_SetEmptyText: param #1 - must be a valid guid", 2) end
+  if type(empty_text)~="string" then error("InputBox_SetEmptyText: param #2 - must be a string", 2) end
+  element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
+  if reagirl.Elements[element_id]["GUI_Element_Type"]~="Edit" then
+    error("InputBox_SetEmptyText: param #1 - ui-element is not an input-box", 2)
+  else
+    reagirl.Elements[element_id]["empty_text"]=empty_text
+  end
+end
 
 function reagirl.InputBox_GetSelectedText(element_id)
 --[[
