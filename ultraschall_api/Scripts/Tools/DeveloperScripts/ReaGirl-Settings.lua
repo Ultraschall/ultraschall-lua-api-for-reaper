@@ -67,7 +67,7 @@ if val3==nil then val3=33 end
 slider=reagirl.Slider_Add(nil, nil, 300, "Blinkspeed", 140, "Set the speed of the blinking of the cursor.", "seconds", 0.4, 3, 0.1, val3/33, 1, CursorBlinkSpeed)
 reagirl.NextLine()
 input_id = reagirl.InputBox_Add(nil, nil, 300, "Test input:", 140, "Input test text to check cursor blinking speed.", "", nil, nil)
-reagirl.InputBox_SetEmptyText(input_id, "Test Blinkspeed here...")
+reagirl.InputBox_SetEmptyText(input_id, "Test blink-speed here...")
 
 -- [[ Scaling Override ]]
 reagirl.NextLine(15)
