@@ -4814,6 +4814,10 @@ function reagirl.InputBox_OnTyping(Key, Key_UTF, mouse_cap, element_storage)
       reagirl.InputBox_ConsolidateCursorPos(element_storage)
       
     end
+  elseif Key==25 then
+    -- Ctrl+Y = Redo
+  elseif Key==26 then
+    -- Ctrl+Z = Undo
   elseif Key==1919379572.0 then
     -- right arrow key
     if mouse_cap&4==0 then
@@ -9372,87 +9376,251 @@ function reagirl.Tabs_Draw(element_id, selected, hovered, clicked, mouse_cap, mo
            dpi_scale, 1)--]]
 end
 
-function reagirl.CheckForValidFileFormat(filename_with_path)
+
+function reagirl.Base64_Encoder(source_string, remove_newlines, remove_tabs)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>CheckForValidFileFormats</slug>
+  <slug>Base64_Encoder</slug>
+  <requires>
+    ReaGirl=1.0
+    Reaper=7.0
+    Lua=5.4
+  </requires>
+  <functioncall>string encoded_string = reagirl.Base64_Encoder(string source_string, optional integer remove_newlines, optional integer remove_tabs)</functioncall>
+  <description>
+    Converts a string into a Base64-Encoded string. 
+    
+    Returns nil in case of an error
+  </description>
+  <retvals>
+    string encoded_string - the encoded string
+  </retvals>
+  <parameters>
+    string source_string - the string that you want to convert into Base64
+    optional integer remove_newlines - 1, removes \n-newlines(including \r-carriage return) from the string
+                                     - 2, replaces \n-newlines(including \r-carriage return) from the string with a single space
+    optional integer remove_tabs     - 1, removes \t-tabs from the string
+                                     - 2, replaces \t-tabs from the string with a single space
+  </parameters>
+  <chapter_context>
+    Misc
+  </chapter_context>
+  <tags>helper functions, convert, encode, base64, string</tags>
+</US_DocBloc>
+]]
+  -- Not to myself:
+  -- When you do the decoder, you need to take care, that the bitorder must be changed first, before creating the final-decoded characters
+  -- that means: reverse the process of the "tear apart the source-string into bits"-code-passage
+  
+  -- check parameters and prepare variables
+  if type(source_string)~="string" then error("Base64_Encoder: param #1 - must be a string", 2) return nil end
+  if remove_newlines~=nil and math.type(remove_newlines)~="integer" then error("Base64_Encoder: param #2 - must be either nil or an integer", -2) return nil end
+  if remove_tabs~=nil and math.type(remove_tabs)~="integer" then error("Base64_Encoder: param #3 - must be an integer", 2) return nil end
+  if base64_type~=nil and math.type(base64_type)~="integer" then error("Base64_Encoder: base64_type - must be an integer", 2) return nil end
+  
+  local tempstring={}
+  local a=1
+  local temp
+  
+  -- this is probably the future space for more base64-encoding-schemes
+  local base64_string="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/"
+    
+  -- if source_string is multiline, get rid of \r and replace \t and \n with a single whitespace
+  if remove_newlines==1 then
+    source_string=string.gsub(source_string, "\n", "")
+    source_string=string.gsub(source_string, "\r", "")
+  elseif remove_newlines==2 then
+    source_string=string.gsub(source_string, "\n", " ")
+    source_string=string.gsub(source_string, "\r", "")  
+  end
+
+  if remove_tabs==1 then
+    source_string=string.gsub(source_string, "\t", "")
+  elseif remove_tabs==2 then 
+    source_string=string.gsub(source_string, "\t", " ")
+  end
+  
+  --print2(0)
+  -- tear apart the source-string into bits
+  -- bitorder of bytes will be reversed for the later parts of the conversion!
+  for i=1, source_string:len() do
+    temp=string.byte(source_string:sub(i,i))
+    --temp=temp
+    if temp&1==0 then tempstring[a+7]=0 else tempstring[a+7]=1 end
+    if temp&2==0 then tempstring[a+6]=0 else tempstring[a+6]=1 end
+    if temp&4==0 then tempstring[a+5]=0 else tempstring[a+5]=1 end
+    if temp&8==0 then tempstring[a+4]=0 else tempstring[a+4]=1 end
+    if temp&16==0 then tempstring[a+3]=0 else tempstring[a+3]=1 end
+    if temp&32==0 then tempstring[a+2]=0 else tempstring[a+2]=1 end
+    if temp&64==0 then tempstring[a+1]=0 else tempstring[a+1]=1 end
+    if temp&128==0 then tempstring[a]=0 else tempstring[a]=1 end
+    a=a+8
+  end
+  
+  -- now do the encoding
+  local encoded_string=""
+  local temp2=0
+  
+  -- take six bits and make a single integer-value off of it
+  -- after that, use this integer to know, which place in the base64_string must
+  -- be read and included into the final string "encoded_string"
+  local Entries={}
+  local Entries_Count=1
+  Entries[Entries_Count]=""
+  local Count=0
+    
+  --print2("1")
+  for i=0, a-2, 6 do
+    temp2=0
+    if tempstring[i+1]==1 then temp2=temp2+32 end
+    if tempstring[i+2]==1 then temp2=temp2+16 end
+    if tempstring[i+3]==1 then temp2=temp2+8 end
+    if tempstring[i+4]==1 then temp2=temp2+4 end
+    if tempstring[i+5]==1 then temp2=temp2+2 end
+    if tempstring[i+6]==1 then temp2=temp2+1 end
+    
+    if Count>810 then
+      Entries_Count=Entries_Count+1
+      Entries[Entries_Count]=""
+      Count=0
+    end
+    Count=Count+1
+    Entries[Entries_Count]=Entries[Entries_Count]..base64_string:sub(temp2+1,temp2+1)
+  end
+  --print2("2")
+  
+  local Count=0
+  local encoded_string2=""
+  local encoded_string=""
+  for i=1, Entries_Count do
+    Count=Count+1
+    encoded_string2=encoded_string2..Entries[i]
+    if Count==6 then
+      encoded_string=encoded_string..encoded_string2
+      encoded_string2=""
+      Count=0
+    end
+  end
+  encoded_string=encoded_string..encoded_string2
+  --]]
+  --print2("3")
+  -- if the number of characters in the encoded_string isn't exactly divideable 
+  -- by 3, add = to fill up missing bytes
+  --  OOO=encoded_string:len()%4
+  if encoded_string:len()%4==2 then encoded_string=encoded_string.."=="
+  elseif encoded_string:len()%2==1 then encoded_string=encoded_string.."="
+  end
+  
+  return encoded_string
+end
+
+function reagirl.Base64_Decoder(source_string)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Base64_Decoder</slug>
   <requires>
     ReaGirl=1.0
     Reaper=7
     Lua=5.4
   </requires>
-  <functioncall>string fileformat, boolean supported_by_reaper, string mediatype = reagirl.CheckForValidFileFormat(string filename_with_path)</functioncall>
+  <functioncall>string decoded_string = reagirl.Base64_Decoder(string source_string)</functioncall>
   <description>
-    Returns the fileformat of a Reaper-supported-file, images, audios(opus and m4a missing, though!), and video(mp4-video missing, though!).
-    Note: Checks the file itself and does not check for correct file-extension. Reaper needs the correct file-extension or it can't read an otherwise valid imagefile.
-          For example: if you want to import a GIF, renamed to filename.JPG, Reaper will not be able to read it. Only when the extension is the same as the file itself(filename.GIF).
+    Converts a Base64-encoded string into a normal string. 
     
     Returns nil in case of an error
   </description>
-  <parameters>
-    string filename_with_path - the file to check for its image-fileformat
-  </parameters>
   <retvals>
-    string fileformat - the format of the file; JPG, PNG, GIF, LCF, ICO, WAV, AIFF, ASF/WMA/WMV, MP3, MP3 -ID3TAG, FLAC, MKV/MKA/MKS/MK3D/WEBM, AVI, RPP_PROJECT, unknown
-    boolean supported_by_reaper - true, if importing of the fileformat is supported by Reaper; false, if not
-    string mediatype - the type of the media; Image, Audio, Audio/Video, Video, Reaper
+    string decoded_string - the decoded string
   </retvals>
+  <parameters>
+    string source_string - the Base64-encoded string
+  </parameters>
   <chapter_context>
-    File Management
+    Misc
   </chapter_context>
-  <tags>helper functions, image, video, audio, fileformat, check</tags>
+  <tags>helper functions, convert, decode, base64, string</tags>
 </US_DocBloc>
---]]
+]]
+  if type(source_string)~="string" then error("Base64_Decoder: param #1 - must be a string", 2) return nil end
+  
+  -- this is probably the place for other types of base64-decoding-stuff  
+  local base64_string="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/"
+  
+  local Table={}
+  local count=0
+  for i=65, 90 do  count=count+1 Table[string.char(i)]=count end
+  for i=97, 122 do count=count+1 Table[string.char(i)]=count end
+  for i=48, 57 do  count=count+1 Table[string.char(i)]=count end
+  count=count+1 Table[string.char(43)]=count
+  count=count+1 Table[string.char(47)]=count
+  
+  -- remove =
+  source_string=string.gsub(source_string,"=","")
+  
+  -- split the string into bits
+  local bitarray={}
+  local count=1
+  local temp
 
-  -- check parameters
-  if type(filename_with_path)~="string" then ultraschall.AddErrorMessage("CheckForValidFileFormats","filename_with_path", "Must be a string!", -1) return nil end
-  if reaper.file_exists(filename_with_path)~=true then ultraschall.AddErrorMessage("CheckForValidFileFormats","filename_with_path", "File does not exist!", -2) return nil end
-  
-  -- prepare variables
-  local length, content = ultraschall.ReadBinaryFile_Offset(filename_with_path, 0, 100)
-  
-  --print2(content:sub(13,14))
-  -- check for a specific imagefile supported by Reaper
-  
-  --if     content:match("JFIF")~=nil then return "JPG", true, "Image"
-  if ultraschall.CompareStringWithAsciiValues(content, 0xFF, 0xD8, -1, -1, -1, -1, 0x45, 0x78, 0x69, 0x66, 0x00)==true then return "JPG", true, "Image"
-  elseif ultraschall.CompareStringWithAsciiValues(content, 0xFF, 0xD8, -1, -1, -1, -1, 0x4A, 0x46, 0x49, 0x46, 0x00)==true then return "JPG", true, "Image"
-  elseif content:sub(1,3)=="ÿØÿ" then return "JPG", true, "Image"
-  elseif content:sub(2,4)=="PNG" then return "PNG", true, "Image"
-  elseif content:sub(1,2)=="BM" then return "BMP", true, "Image"
-  elseif content:sub(1,3)=="GIF" then return "GIF", true, "Image"
-  elseif ultraschall.CompareStringWithAsciiValues(content, 0x1,0xB0,0xCE)==true then 
-        local file=ultraschall.ReadFullFile(filename_with_path,true)
-        local frameheader=string.char(1, 176, 206)
-        local framecount=0
-        while file~=nil do
-          framecount=framecount+1
-          file=file:match(frameheader.."(.*)")
-        end
-        return "LCF", true, "Image", framecount-1
-  elseif ultraschall.CompareStringWithAsciiValues(content, 0,0,1,1)==true then return "ICO", true, "Image"
-  
-  -- audio formats
-  elseif content:sub(1,4)=="OggS" then return "OGG", true, "Audio"
-  elseif ultraschall.CompareStringWithAsciiValues(content, 0x52, 0x49, 0x46, 0x46, -1, -1, -1, -1, 0x57, 0x41, 0x56, 0x45)==true then return "WAV", true, "Audio"
-  elseif ultraschall.CompareStringWithAsciiValues(content, 0x46, 0x4F, 0x52, 0x4D, -1, -1, -1, -1, 0x41, 0x49, 0x46, 0x46)==true then return "AIFF", true, "Audio"
-  elseif ultraschall.CompareStringWithAsciiValues(content, 0x30, 0x26, 0xB2, 0x75, 0x8E, 0x66, 0xCF, 0x11, 0xA6, 0xD9, 0x00, 0xAA, 0x00, 0x62, 0xCE, 0x6C)==true then return "ASF/WMA/WMV", true, "Audio/Video"
-  elseif ultraschall.CompareStringWithAsciiValues(content, 0xFF, 0xFB)==true then return "MP3", true, "Audio"
-  elseif ultraschall.CompareStringWithAsciiValues(content, 0x49, 0x44, 0x33)==true then return "MP3 - ID3TAG", true, "Audio"
-  elseif ultraschall.CompareStringWithAsciiValues(content, 0x66, 0x4C, 0x61, 0x43)==true then return "FLAC", true, "Audio"
-  elseif content:sub(1,4)=="MThd" then return "MID", true, "Audio"
-  
-  -- video formats
-  elseif ultraschall.CompareStringWithAsciiValues(content, 0x1A, 0x45, 0xDF, 0xA3)==true then return "MKV/MKA/MKS/MK3D/WEBM", true, "Video"
-  elseif ultraschall.CompareStringWithAsciiValues(content, 0x52, 0x49, 0x46, 0x46, -1, -1, -1, -1, 0x41, 0x56, 0x49, 0x20)==true then return "AVI", true, "Video"
-  else -- Reaper's own projectfiles
-    local A,B=ultraschall.ReadBinaryFile_Offset(filename_with_path, 0, 100)
-    local C,D=ultraschall.ReadBinaryFile_Offset(filename_with_path, -20, 21)
-    if ultraschall.IsValidProjectStateChunk(B..D)==true then return "RPP_PROJECT", true, "Reaper" end
-      
-  -- other formats
-  return "unknown", false, "unknown"
+  for i=1, source_string:len() do
+    local temp=Table[source_string:sub(i,i)]
+    --temp=base64_string:match(source_string:sub(i,i).."()")    
+    if temp==nil then error("Base64_Decoder: param #2: no valid Base64-string: invalid character found - "..source_string:sub(i,i).." at position "..i, -3) return nil end
+    temp=temp-1
+    if temp&32~=0 then bitarray[count]=1 else bitarray[count]=0 end
+    if temp&16~=0 then bitarray[count+1]=1 else bitarray[count+1]=0 end
+    if temp&8~=0 then bitarray[count+2]=1 else bitarray[count+2]=0 end
+    if temp&4~=0 then bitarray[count+3]=1 else bitarray[count+3]=0 end
+    if temp&2~=0 then bitarray[count+4]=1 else bitarray[count+4]=0 end
+    if temp&1~=0 then bitarray[count+5]=1 else bitarray[count+5]=0 end
+    count=count+6
   end
+
+  -- combine the bits into the original bytes and put them into decoded_string
+  local Entries={}
+  local Entries_Count=1
+  Entries[Entries_Count]=""
+  local Count=0
+
+  local decoded_string=""
+  
+  local temp2=0
+  for i=0, count-1, 8 do
+    temp2=0
+    if bitarray[i+1]==1 then temp2=temp2+128 end
+    if bitarray[i+2]==1 then temp2=temp2+64 end
+    if bitarray[i+3]==1 then temp2=temp2+32 end
+    if bitarray[i+4]==1 then temp2=temp2+16 end
+    if bitarray[i+5]==1 then temp2=temp2+8 end
+    if bitarray[i+6]==1 then temp2=temp2+4 end
+    if bitarray[i+7]==1 then temp2=temp2+2 end
+    if bitarray[i+8]==1 then temp2=temp2+1 end
+    
+    if Count>780 then
+      Entries_Count=Entries_Count+1
+      Entries[Entries_Count]=""
+      Count=0
+    end
+    Count=Count+1
+    Entries[Entries_Count]=Entries[Entries_Count]..string.char(temp2)
+  end
+
+  local Count=0
+  local decoded_string2=""
+  local decoded_string=""
+  for i=1, Entries_Count do
+    Count=Count+1
+    decoded_string2=decoded_string2..Entries[i]
+    if Count==6 then
+      decoded_string=decoded_string..decoded_string2
+      decoded_string2=""
+      Count=0
+    end
+  end
+  decoded_string=decoded_string..decoded_string2
+
+  if decoded_string:sub(-1,-1)=="\0" then decoded_string=decoded_string:sub(1,-2) end
+  return decoded_string
 end
 
 reagirl.Gui_New()
