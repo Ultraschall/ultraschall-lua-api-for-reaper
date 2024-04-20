@@ -5030,9 +5030,9 @@ function reagirl.InputBox_Manage(element_id, selected, hovered, clicked, mouse_c
       if retval==true then
         refresh=true
         element_storage.Text=text
+        reagirl.InputBox_Calculate_DrawOffset(true, element_storage)
         if element_storage["run_function"]~=nil then
           element_storage["run_function"](element_storage["Guid"], element_storage.Text)
-          reagirl.InputBox_Calculate_DrawOffset(true, element_storage)
         end
       end
     end
@@ -5145,54 +5145,6 @@ function reagirl.InputBox_Manage(element_id, selected, hovered, clicked, mouse_c
   return element_storage["Text"]
 end
 
-
-
-
-function reagirl.InputBox_Calculate_DrawOffset(forward, element_storage)
-  reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0)
-  local dpi_scale = reagirl.Window_GetCurrentScale()
-  local cap_w, x2, w2
-  if element_storage["Cap_width"]==nil then
-    cap_w=gfx.measurestr(element_storage["Name"])+dpi_scale*5
-  else
-    cap_w=element_storage["Cap_width"]*dpi_scale
-    cap_w=cap_w+dpi_scale
-  end
-  
-  if element_storage["x"]<0 then x2=gfx.w+element_storage["x"]*dpi_scale else x2=element_storage["x"]*dpi_scale end
-  if element_storage["w"]<0 then w2=gfx.w-x2+element_storage["w"]*dpi_scale else w2=element_storage["w"]*dpi_scale end
-  local w2=w2-cap_w
-  local offset_me=dpi_scale*2
-  
-  if forward==true then
-    -- forward calculation from offset
-    for i=element_storage.draw_offset, element_storage.Text:utf8_len() do
-      local x,y
-      if element_storage["password"]=="*" then
-        x,y=gfx.measurestr("*")
-      else
-        x,y=gfx.measurestr(element_storage.Text:utf8_sub(i,i))
-      end
-      --local x,y=gfx.measurestr(element_storage.Text:utf8_sub(i,i))
-      offset_me=offset_me+x
-      if offset_me>w2 then break else element_storage.draw_offset_end=i end
-    end
-  elseif forward==false then
-    -- backwards calculation from offset_end
-    for i=element_storage.draw_offset_end, 1, -1 do
-      local x,y
-      if element_storage["password"]=="*" then
-        x,y=gfx.measurestr("*")
-      else
-        x,y=gfx.measurestr(element_storage.Text:utf8_sub(i,i))
-      end
-      --local x,y=gfx.measurestr(element_storage.Text:utf8_sub(i,i))
-      offset_me=offset_me+x
-      if offset_me>w2 then break else element_storage.draw_offset=i end
-    end
-  end
-end
-
 function reagirl.InputBox_Draw(element_id, selected, hovered, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
   local dpi_scale=reagirl.Window_GetCurrentScale()
   reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0)
@@ -5261,7 +5213,7 @@ function reagirl.InputBox_Draw(element_id, selected, hovered, clicked, mouse_cap
       gfx.set(0.9843137254901961, 0.8156862745098039, 0)
       if element_storage["blink"]>0 and element_storage["blink"]<(reagirl.InputBox_BlinkSpeed>>1)+4 then
         local y3=y+(h-gfx.texth)/3
-        gfx.line(gfx.x, y3, gfx.x, y3+gfx.texth)
+          gfx.line(gfx.x, y3, gfx.x, y3+gfx.texth)
       end
       if element_storage.hasfocus==true then gfx.set(0.8) else gfx.set(0.5) end
     end
@@ -5273,6 +5225,52 @@ function reagirl.InputBox_Draw(element_id, selected, hovered, clicked, mouse_cap
     gfx.line(x+cap_w+dpi_scale, y+dpi_scale, x+cap_w+dpi_scale, y+gfx.texth)
   end
 end
+
+function reagirl.InputBox_Calculate_DrawOffset(forward, element_storage)
+  reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0)
+  local dpi_scale = reagirl.Window_GetCurrentScale()
+  local cap_w, x2, w2
+  if element_storage["Cap_width"]==nil then
+    cap_w=gfx.measurestr(element_storage["Name"])+dpi_scale*5
+  else
+    cap_w=element_storage["Cap_width"]*dpi_scale
+    cap_w=cap_w+dpi_scale
+  end
+  
+  if element_storage["x"]<0 then x2=gfx.w+element_storage["x"]*dpi_scale else x2=element_storage["x"]*dpi_scale end
+  if element_storage["w"]<0 then w2=gfx.w-x2+element_storage["w"]*dpi_scale else w2=element_storage["w"]*dpi_scale end
+  local w2=w2-cap_w
+  local offset_me=dpi_scale*2
+  
+  if forward==true then
+    -- forward calculation from offset
+    for i=element_storage.draw_offset, element_storage.Text:utf8_len() do
+      local x,y
+      if element_storage["password"]=="*" then
+        x,y=gfx.measurestr("*")
+      else
+        x,y=gfx.measurestr(element_storage.Text:utf8_sub(i,i))
+      end
+      --local x,y=gfx.measurestr(element_storage.Text:utf8_sub(i,i))
+      offset_me=offset_me+x
+      if offset_me>w2 then break else element_storage.draw_offset_end=i end
+    end
+  elseif forward==false then
+    -- backwards calculation from offset_end
+    for i=element_storage.draw_offset_end, 1, -1 do
+      local x,y
+      if element_storage["password"]=="*" then
+        x,y=gfx.measurestr("*")
+      else
+        x,y=gfx.measurestr(element_storage.Text:utf8_sub(i,i))
+      end
+      --local x,y=gfx.measurestr(element_storage.Text:utf8_sub(i,i))
+      offset_me=offset_me+x
+      if offset_me>w2 then break else element_storage.draw_offset=i end
+    end
+  end
+end
+
 
 function reagirl.InputBox_SetDisabled(element_id, state)
 --[[

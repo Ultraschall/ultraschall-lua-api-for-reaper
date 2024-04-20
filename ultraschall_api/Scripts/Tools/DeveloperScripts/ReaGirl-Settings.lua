@@ -67,9 +67,8 @@ val3=tonumber(reaper.GetExtState("ReaGirl", "InputBox_BlinkSpeed"))
 if val3==nil then val3=33 end
 slider=reagirl.Slider_Add(nil, nil, 250, "Speed", 140, "Set the speed of the blinking", nil, 6, 100, 1, val3, 33, CursorBlinkSpeed)
 reagirl.NextLine()
-input_id = reagirl.InputBox_Add(nil, nil, -20, "Test input:", 140, "Input test text to check cursor blinking speed", "", nil, nil)
-reagirl.InputBox_SetEmptyText(input_id, "TudeluuuuuuuuuuuuuuuuuuuuABCDEFGH")
-
+input_id = reagirl.InputBox_Add(nil, nil, 300, "Test input:", 140, "Input test text to check cursor blinking speed", "", nil, nil)
+reagirl.InputBox_SetEmptyText(input_id, "Enter test-text here...")
 -- [[ Scaling Override ]]
 val4=tonumber(reaper.GetExtState("reagirl_preferences", "scaling_override"))
 if val4==nil then val4=0 end
