@@ -5149,13 +5149,13 @@ function reagirl.InputBox_Draw(element_id, selected, hovered, clicked, mouse_cap
   
   -- draw caption
   gfx.x=x+dpi_scale
-  gfx.y=y+dpi_scale+(h-gfx.texth)/3
+  gfx.y=y+dpi_scale+(h-gfx.texth)/2
   gfx.set(0.2)
   gfx.drawstr(name)
   
   if element_storage["IsDecorative"]==false then gfx.set(0.8) else gfx.set(0.6) end
   gfx.x=x
-  gfx.y=y+(h-gfx.texth)/3
+  gfx.y=y+(h-gfx.texth)/2
   gfx.drawstr(name)
   
   local textw=gfx.measurechar("65")-1
@@ -5171,7 +5171,8 @@ function reagirl.InputBox_Draw(element_id, selected, hovered, clicked, mouse_cap
   -- draw text
   if element_storage["IsDecorative"]==false then gfx.set(0.8) else gfx.set(0.6) end
   gfx.x=x+cap_w+dpi_scale+dpi_scale+dpi_scale
-  gfx.y=y+dpi_scale+dpi_scale+(h-gfx.texth)/16
+  
+  gfx.y=y+(h-gfx.texth)/2
   if element_storage["Text"]:len()==0 then
     gfx.set(0.6)
     gfx.x=gfx.x+dpi_scale*5
@@ -8267,7 +8268,7 @@ function reagirl.Slider_Add(x, y, w, caption, Cap_width, meaningOfUI_Element, un
   if type(step)~="number" then error("Slider_Add: param #10 - must be a number", 2) end
   if type(init_value)~="number" then error("Slider_Add: param #11 - must be a number", 2) end  
   if type(default)~="number" then error("Slider_Add: param #12 - must be a number", 2) end
-  if step>start-stop then error("Slider_Add: param 10 - must be smaller than start-stop", 2) end
+  if step>stop-start then error("Slider_Add: param 10 - must be smaller than start-stop", 2) end
   if run_function~=nil and type(run_function)~="function" then error("Slider_Add: param #13 - must be either nil or a function", 2) end
   
   local slot=reagirl.UI_Element_GetNextFreeSlot()
