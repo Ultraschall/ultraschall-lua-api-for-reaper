@@ -91,7 +91,7 @@ checkbox_osara_id = reagirl.CheckBox_Add(nil, nil, "Ignore installed Osara", "Ch
 
 reagirl.Background_GetSetColor(true,55,55,55)
 
-reagirl.Gui_Open("ReaGirl Settings", "various settings for ReaGirl-Accessible Guis", 365, 310, nil, nil, nil)
+reagirl.Gui_Open("ReaGirl Settings", "various settings for ReaGirl-Accessible Guis", 345, 282, nil, nil, nil)
 
 function main()
   reagirl.Gui_Manage()
