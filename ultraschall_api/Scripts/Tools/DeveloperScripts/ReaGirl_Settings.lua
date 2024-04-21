@@ -82,7 +82,7 @@ function SetUpNewGui()
   Label1=reagirl.Label_Add(nil, nil, "General", "General settings.", 0, false, nil)
   reagirl.Label_SetStyle(Label1, 6, 0, 0)
 
-  reagirl.NextLine()
+  reagirl.NextLine(-2)
   show_tooltips = reaper.GetExtState("ReaGirl", "show_tooltips")
   if show_tooltips=="" or show_tooltips=="true" then show_tooltips=true else show_tooltips=false end
   checkbox_tooltips_id = reagirl.CheckBox_Add(nil, nil, "Show tooltips when hovering above ui-element", "When checked, ReaGirl will show tooltips when hovering above ui-elements.", show_tooltips, checkbox)
@@ -91,7 +91,7 @@ function SetUpNewGui()
   Label1=reagirl.Label_Add(nil, nil, "Focus Rectangle", "Settings for the focus rectangle.", 0, false, nil)
   reagirl.Label_SetStyle(Label1, 6, 0, 0)
   
-  reagirl.NextLine()
+  reagirl.NextLine(-4)
   val=tonumber(reaper.GetExtState("ReaGirl", "FocusRectangle_BlinkSpeed"))
   if val==nil then val=33 end
   
@@ -99,18 +99,18 @@ function SetUpNewGui()
   if val2==nil then val2=0 end
   
   reagirl.Slider_Add(nil, nil, 300, "Blink every", 140, "Set the speed of the blinking of the focus rectangle.", "seconds", 0.4, 3, 0.1, val/33, 1, BlinkSpeed)
-  reagirl.NextLine()
+  reagirl.NextLine(-4)
   reagirl.Slider_Add(nil, nil, 300, "Blinklength for", 140, "Set the duration of the blinking of the focus rectangle.", "seconds", 0, 10, 1, val2, 0, BlinkTime)
   
   -- [[ Blinking InputBox-Cursor ]]
   reagirl.NextLine(15)
   Label1=reagirl.Label_Add(nil, nil, "Inputbox-Cursor", "Settings for the inputbox-cursor.", 0, false, nil)
   reagirl.Label_SetStyle(Label1, 6, 0, 0)
-  reagirl.NextLine()
+  reagirl.NextLine(-4)
   val3=tonumber(reaper.GetExtState("ReaGirl", "InputBox_BlinkSpeed"))
   if val3==nil then val3=33 end
   slider=reagirl.Slider_Add(nil, nil, 300, "Blink every", 140, "Set the speed of the blinking of the cursor.", "seconds", 0.4, 3, 0.1, val3/33, 1, CursorBlinkSpeed)
-  reagirl.NextLine()
+  reagirl.NextLine(-2)
   input_id = reagirl.InputBox_Add(nil, nil, 300, "Test input:", 140, "Input text to check cursor blinking speed.", testtext, nil, nil)
   reagirl.InputBox_SetEmptyText(input_id, "Test blink-speed here...")
   
@@ -118,7 +118,7 @@ function SetUpNewGui()
   reagirl.NextLine(15)
   Label1=reagirl.Label_Add(nil, nil, "Scaling", "Settings for the scaling-factor of ReaGirl-Guis", 0, false, nil)
   reagirl.Label_SetStyle(Label1, 6, 0, 0)
-  reagirl.NextLine()
+  reagirl.NextLine(-4)
   scaling_override=tonumber(reaper.GetExtState("ReaGirl", "scaling_override", value, true))
   if scaling_override==nil then scaling_override2=0 else scaling_override2=scaling_override end
   slider_scale = reagirl.Slider_Add(nil, nil, 250, "Scale Override", 140, "Set the default scaling-factor for all ReaGirl-Gui-windows; 0 is auto-scaling.", nil, 0, 8, 1, scaling_override2, 0, ScaleOverride)
@@ -127,7 +127,7 @@ function SetUpNewGui()
   
   -- [[ Osara override ]]
   Label1=reagirl.Label_Add(nil, nil, "Osara", "Settings that influence the relationship between Osara and ReaGirl.", 0, false, nil)
-  reagirl.NextLine()
+  reagirl.NextLine(-4)
   reagirl.Label_SetStyle(Label1, 6, 0, 0)
   osara_override=reaper.GetExtState("ReaGirl", "osara_override")
   if osara_override=="true" or osara_override=="" then osara_override=true else osara_override=false end
