@@ -40,6 +40,8 @@ end
 function checkbox(checkbox_id, checkstate)
   if checkbox_id==checkbox_osara_id then
     reaper.SetExtState("ReaGirl", "osara_override", tostring(checkstate), true)
+  elseif checkbox_id==checkbox_osara_debug_id then
+    reaper.SetExtState("ReaGirl", "osara_debug", tostring(checkstate), true)
   end
 end
 
@@ -85,17 +87,20 @@ reagirl.Button_Add(nil, nil, 0, 0, "Apply", "Apply the chosen scaling value.", b
 reagirl.NextLine(15)
 
 -- [[ Osara override ]]
-val6=tonumber(reaper.GetExtState("ReaGirl", "osara_override", value, true))
-if val6==nil then val6=1 end
 Label1=reagirl.Label_Add(nil, nil, "Osara", "Settings that influence the relationship between Osara and ReaGirl.", 0, false, nil)
 reagirl.NextLine()
 reagirl.Label_SetStyle(Label1, 6, 0, 0)
---checkbox_osara_id = reagirl.CheckBox_Add(nil, nil, "Ignore installed Osara", "Checking this will prevent from screenreader messages to be sent to Osara. You can also type directly into inputboxes.", val6, checkbox)
-dropdownmenu_osara_id = reagirl.DropDownMenu_Add(nil, nil, -30, "Osara settings", 140, "Set Osara behavior and optionally show accessibility messages in the ReaScript-console(for debugging).", {"Ignore Osara", "Allow Osara, no debug message", "Allow Osara, show debug-messages"}, val6, DropDownMenu_RunFunction)
+val6=reaper.GetExtState("ReaGirl", "osara_override", value, true)
+if val6=="false" or val6=="" then val6=false else val6=true end
+checkbox_osara_id = reagirl.CheckBox_Add(nil, nil, "Ignore installed Osara", "Checking this will prevent from screenreader messages to be sent to Osara. You can also type directly into inputboxes.", val6, checkbox)
+reagirl.NextLine()
+val7=reaper.GetExtState("ReaGirl", "osara_debug", value, true)
+if val7=="false" or val7=="" then val7=false else val7=true end
+checkbox_osara_debug_id = reagirl.CheckBox_Add(nil, nil, "Show Screenreader messages in console", "Checking this will show the screenreader messages in the console for debugging purposes.", val7, checkbox)
 
 reagirl.Background_GetSetColor(true,55,55,55)
 
-reagirl.Gui_Open("ReaGirl Settings", "various settings for ReaGirl-Accessible Guis", 345, 282, nil, nil, nil)
+reagirl.Gui_Open("ReaGirl Settings", "various settings for ReaGirl-Accessible Guis", 345, 320, nil, nil, nil)
 
 function main()
   reagirl.Gui_Manage()

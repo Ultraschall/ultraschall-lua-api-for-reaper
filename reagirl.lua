@@ -9,10 +9,16 @@ reagirl={}
 reagirl.osara_outputMessage=reaper.osara_outputMessage
 reagirl.osara=reaper.osara_outputMessage
 
-if reaper.GetExtState("ReaGirl", "osara_override")~="false" then 
+if reaper.GetExtState("ReaGirl", "osara_override")=="true" then 
   reagirl.osara_outputMessage=nil
 else
   reagirl.osara_outputMessage=reagirl.osara
+end
+
+function reagirl.Osara_Debug_Message(message)
+  if reaper.GetExtState("ReaGirl", "osara_debug")=="true" then
+    reaper.ShowConsoleMsg(message.."\n")
+  end
 end
 
 --]]
@@ -68,7 +74,7 @@ reagirl.MoveItAllUp_Delta=0
 
 -- margin between ui-elements
 reagirl.UI_Element_NextX_Margin=10
-reagirl.UI_Element_NextY_Margin=0
+reagirl.UI_Element_NextY_Margin=2
 
 -- offset for first ui-element
 reagirl.UI_Element_NextX_Default=10
@@ -1719,7 +1725,7 @@ function reagirl.Gui_Manage()
   if #reagirl.Elements<reagirl.Elements.FocusedElement then reagirl.Elements.FocusedElement=1 end
   
   -- Osara Override
-  if reaper.GetExtState("ReaGirl", "osara_override")~="false" then 
+  if reaper.GetExtState("ReaGirl", "osara_override")=="true" then 
     reagirl.osara_outputMessage=nil
   else
     reagirl.osara_outputMessage=reagirl.osara     
@@ -1846,7 +1852,11 @@ function reagirl.Gui_Manage()
     end -- esc closes window
   end 
   
-  if Key==26161 and reagirl.osara_outputMessage~=nil then reagirl.osara_outputMessage(reagirl.Elements[reagirl.Elements["FocusedElement"]]["Description"]) end -- F1 help message for osara
+  if Key==26161 then 
+    if reagirl.osara_outputMessage~=nil then
+      reagirl.osara_outputMessage(reagirl.Elements[reagirl.Elements["FocusedElement"]]["Description"]) 
+    end
+  end -- F1 help message for osara
   
   -- if mouse has been moved, reset wait-counter for displaying tooltip
   if reagirl.OldMouseX==gfx.mouse_x and reagirl.OldMouseY==gfx.mouse_y then
@@ -2067,14 +2077,15 @@ function reagirl.Gui_Manage()
     if reagirl.SetPosition_MousePositionX~=gfx.mouse_x or reagirl.SetPosition_MousePositionY~=gfx.mouse_y then
       if reagirl.UI_Elements_HoveredElement~=-1 then
         if reagirl.UI_Elements_HoveredElement~=reagirl.UI_Elements_HoveredElement_Old then
-          if reagirl.osara_outputMessage~=nil then
-            local description=""
-            if reagirl.Elements[reagirl.UI_Elements_HoveredElement]["GUI_Element_Type"]=="Edit" then
-              description=reagirl.Elements[reagirl.UI_Elements_HoveredElement]["Text"]
-            end
-            if Window_State&8==8 then
+          local description=""
+          if reagirl.Elements[reagirl.UI_Elements_HoveredElement]["GUI_Element_Type"]=="Edit" then
+            description=reagirl.Elements[reagirl.UI_Elements_HoveredElement]["Text"]
+          end
+          if Window_State&8==8 then
+            if reagirl.osara_outputMessage~=nil then
               reagirl.osara_outputMessage(reagirl.Elements[reagirl.UI_Elements_HoveredElement]["Name"].." "..description)
             end
+            reagirl.Osara_Debug_Message(reagirl.Elements[reagirl.UI_Elements_HoveredElement]["Name"].." "..description)
           end
         end
       end
@@ -2088,12 +2099,14 @@ function reagirl.Gui_Manage()
   reagirl.SetPosition_MousePositionX=gfx.mouse_x
   reagirl.SetPosition_MousePositionY=gfx.mouse_y
   
-  if reagirl.osara_outputMessage~=nil then
-    if reagirl.Elements["GlobalAccHoverMessage"]~=reagirl.Elements["GlobalAccHoverMessageOld"] then
+  if reagirl.Elements["GlobalAccHoverMessage"]~=reagirl.Elements["GlobalAccHoverMessageOld"] then
+    if reagirl.osara_outputMessage~=nil then
       reagirl.osara_outputMessage(reagirl.Elements["GlobalAccHoverMessage"])
-      reagirl.Elements["GlobalAccHoverMessageOld"]=reagirl.Elements["GlobalAccHoverMessage"]
     end
+    reagirl.Osara_Debug_Message(reagirl.Elements["GlobalAccHoverMessage"])
+    reagirl.Elements["GlobalAccHoverMessageOld"]=reagirl.Elements["GlobalAccHoverMessage"]
   end
+
   --[[context menu]]
   -- show context-menu if the last defer-loop had a right-click onto a ui-element
   local ContextShow
@@ -2182,7 +2195,7 @@ function reagirl.Gui_Manage()
         end -- only run manage-functions of visible gui-elements
         
         -- output screenreader-message of ui-element
-        if reagirl.Elements["FocusedElement"]==i and reagirl.Elements[reagirl.Elements["FocusedElement"]]["IsDecorative"]==false and reagirl.old_osara_message~=message and reagirl.osara_outputMessage~=nil then
+        if reagirl.Elements["FocusedElement"]==i and reagirl.Elements[reagirl.Elements["FocusedElement"]]["IsDecorative"]==false and reagirl.old_osara_message~=message then
           
           if message==nil then message="" end
           
@@ -2193,7 +2206,10 @@ function reagirl.Gui_Manage()
           if init_message~="" then
             acc_message=reagirl.Elements[reagirl.Elements["FocusedElement"]]["ContextMenu_ACC"]..reagirl.Elements[reagirl.Elements["FocusedElement"]]["DropZoneFunction_ACC"]
           end
-          reagirl.osara_outputMessage(reagirl.osara_init_message..""..init_message.." "..message.." "..helptext..acc_message)
+          if reagirl.osara_outputMessage~=nil then
+            reagirl.osara_outputMessage(reagirl.osara_init_message..""..init_message.." "..message.." "..helptext..acc_message)
+          end
+          reagirl.Osara_Debug_Message(reagirl.osara_init_message..""..init_message.." "..message.." "..helptext..acc_message)
           reagirl.old_osara_message=message
           reagirl.osara_init_message=""
         end
