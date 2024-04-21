@@ -5194,7 +5194,7 @@ function reagirl.InputBox_Manage(element_id, selected, hovered, clicked, mouse_c
   if refresh==true then
     reagirl.Gui_ForceRefresh(23)
   end
-  return element_storage["Text"]
+  return element_storage["Text"].." "
 end
 
 function reagirl.InputBox_Draw(element_id, selected, hovered, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
