@@ -62,9 +62,9 @@ function SetUpNewGui()
   val2=tonumber(reaper.GetExtState("ReaGirl", "FocusRectangle_BlinkTime"))
   if val2==nil then val2=0 end
   
-  reagirl.Slider_Add(nil, nil, 300, "Blinkspeed", 140, "Set the speed of the blinking of the focus rectangle.", "seconds", 0.4, 3, 0.1, val/33, 1, BlinkSpeed)
+  reagirl.Slider_Add(nil, nil, 300, "Blink every", 140, "Set the speed of the blinking of the focus rectangle.", "seconds", 0.4, 3, 0.1, val/33, 1, BlinkSpeed)
   reagirl.NextLine()
-  reagirl.Slider_Add(nil, nil, 300, "Blinklength", 140, "Set the length of the blinking of the focus rectangle.", "seconds", 0, 10, 1, val2, 0, BlinkTime)
+  reagirl.Slider_Add(nil, nil, 300, "Blinklength for", 140, "Set the length of the blinking of the focus rectangle.", "seconds", 0, 10, 1, val2, 0, BlinkTime)
   
   -- [[ Blinking InputBox-Cursor ]]
   reagirl.NextLine(15)
@@ -73,7 +73,7 @@ function SetUpNewGui()
   reagirl.NextLine()
   val3=tonumber(reaper.GetExtState("ReaGirl", "InputBox_BlinkSpeed"))
   if val3==nil then val3=33 end
-  slider=reagirl.Slider_Add(nil, nil, 300, "Blinkspeed", 140, "Set the speed of the blinking of the cursor.", "seconds", 0.4, 3, 0.1, val3/33, 1, CursorBlinkSpeed)
+  slider=reagirl.Slider_Add(nil, nil, 300, "Blink every", 140, "Set the speed of the blinking of the cursor.", "seconds", 0.4, 3, 0.1, val3/33, 1, CursorBlinkSpeed)
   reagirl.NextLine()
   input_id = reagirl.InputBox_Add(nil, nil, 300, "Test input:", 140, "Input test text to check cursor blinking speed.", "", nil, nil)
   reagirl.InputBox_SetEmptyText(input_id, "Test blink-speed here...")
