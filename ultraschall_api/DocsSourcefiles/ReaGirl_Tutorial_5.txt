@@ -1,1 +1,55 @@
 Tutorial for draggable images
+
+In this tutorial, I will show you, how to make a gui, where an image is draggable to multiple destinations.
+It will have one image, that can be dragged and two other images and a label, which act as destinations for the dragged source-image.
+
+Let's start first with a basic-gui, that will show the source-image and have an empty run-function for the image.
+
+```
+dofile(reaper.GetResourcePath().."/UserPlugins/reagirl.lua")
+
+function Image_Runfunction(element_id, imagepath_plus_filename, drag_destination)
+  -- this function will be run when the image is clicked or dragged to a destination
+  if drag_destination==label_id then
+    -- if source-image is dragged to the label, set labeltext to 
+    -- filename of the source-image
+    image_filename = reagirl.Image_GetImageFilename(element_id)
+    reagirl.Label_SetLabelText(label_id, "Filename of source-image is: "..image_filename)
+  elseif drag_destination==image2_id then
+    -- if source_image is dragged to image2, change it's image to the
+    -- one of the source-image
+    image_filename = reagirl.Image_GetImageFilename(element_id)
+    reagirl.Image_Load(drag_destination, image_filename)
+  elseif drag_destination==image3_id then
+    -- if source_image is dragged to image2, change it's image to the
+    -- one of the source-image
+    image_filename = reagirl.Image_GetImageFilename(element_id)
+    reagirl.Image_Load(drag_destination, image_filename)
+  end
+end
+
+-- start a new gui
+reagirl.Gui_New()
+
+-- add the source-image, which we will draggable
+image1_id = reagirl.Image_Add(reaper.GetResourcePath().."/Data/track_icons/bass.png", 20, 100, 100, 100, "Bass-guitar", "an image of a bass guitar", Image_Runfunction)
+
+-- add some additional images and a label, that are the destinations for the dragging
+image2_id = reagirl.Image_Add(reaper.GetResourcePath().."/Data/track_icons/amp.png", 220, 50, 100, 100, "Amplifier", "an image of an amplifier", nil)
+image3_id = reagirl.Image_Add(reaper.GetResourcePath().."/Data/track_icons/congas.png", 220, 160, 100, 100, "Congas", "an image of congas", nil)
+label_id = reagirl.Label_Add(240, 10, "Nothing has been dragged to this label, yet", "A destination for the source-image to drag to", 0, false, nil)
+
+-- add the element_ids of image2-4_id as drag-destinations of image1_id
+reagirl.Image_SetDraggable(image1_id, true, {image2_id, image3_id, label_id})
+
+-- open gui
+reagirl.Gui_Open("ReaGirl Settings", "various settings for ReaGirl-Accessible Guis", 665, 310, nil, nil, nil)
+
+-- manage gui
+function main()
+  reagirl.Gui_Manage()
+  
+  if reagirl.Gui_IsOpen()==true then reaper.defer(main) end
+end
+main()
+```

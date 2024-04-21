@@ -27,6 +27,7 @@ TODO:
   - general: for functions that I do not expose to the user(like RoundRect), remove math.XXX()-functioncalls for improved performance.
   - mouse-wheel/mouse-hwheel: sometimes using mousewheel to drag sliders/options in drop down menu stops for no apparent reason
   - Check, if all ui-elements are properly drawn in disabled-mode
+  - General: when no run-function is provided, adjust the accessibility-hint acordingly(probably only for image)
   - InputBox: if they are too small, they aren't drawn properly
   - InputBox: when dragging the textselection to the left/right edge(during scrolling) the textselection isn't drawn properly(keeps text selected that is outside of scope)
               it will be drawn too far until the "source of the text-selection" is in view
@@ -2983,46 +2984,46 @@ function reagirl.UI_Element_GetSetSticky(element_id, is_set, sticky_x, sticky_y)
   return reagirl.Elements[element_id]["sticky_x"], reagirl.Elements[element_id]["sticky_y"]
 end
 
-function reagirl.UI_Element_GetSetAccessibilityHint(element_id, is_set, accessibility_hint)
+function reagirl.UI_Element_GetSetMeaningOfUIElement(element_id, is_set, meaningOfUI_Element)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>UI_Element_GetSetAccessibilityHint</slug>
+  <slug>UI_Element_GetSetMeaningOfUIElement</slug>
   <requires>
     ReaGirl=1.0
     Reaper=7
     Lua=5.4
   </requires>
-  <functioncall>string accessibility_hint = reagirl.UI_Element_GetSetAccessibilityHint(string element_id, boolean is_set, string accessibility_hint)</functioncall>
+  <functioncall>string meaningOfUI_Element = reagirl.UI_Element_GetSetMeaningOfUIElement(string element_id, boolean is_set, string meaningOfUI_Element)</functioncall>
   <description>
-    gets/sets the accessibility_hint of the ui-element, which will describe, how to use the ui-element to blind persons.
+    gets/sets the meaningOfUI_Element of the ui-element, which will describe, how to use the ui-element to blind persons.
   </description>
   <retvals>
-    string accessibility_hint - the accessibility_hint of the ui-element
+    string meaningOfUI_Element - the meaningOfUI_Element of the ui-element
   </retvals>
   <parameters>
-    string element_id - the id of the element, whose accessibility_hint you want to get/set
-    boolean is_set - true, set the accessibility_hint; false, only retrieve the current accessibility-message
-    string accessibility_hint - the accessibility_hint of the ui-element
+    string element_id - the id of the element, whose meaningOfUI_Element you want to get/set
+    boolean is_set - true, set the meaningOfUI_Element; false, only retrieve the current meaningOfUI_Element
+    string meaningOfUI_Element - the meaningOfUI_Element of the ui-element
   </parameters>
   <chapter_context>
     UI Elements
   </chapter_context>
   <target_document>ReaGirl_Docs</target_document>
   <source_document>reagirl_GuiEngine.lua</source_document>
-  <tags>ui-elements, set, get, accessibility_hint</tags>
+  <tags>ui-elements, set, get, accessibility_hint, meaningOfUI_Element</tags>
 </US_DocBloc>
 ]]
-  if type(element_id)~="string" then error("UI_Element_GetSetAccessibilityHint: #1 - must be a guid as string", 2) end
+  if type(element_id)~="string" then error("UI_Element_GetSetMeaningOfUIElement: #1 - must be a guid as string", 2) end
   element_id=reagirl.UI_Element_GetIDFromGuid(element_id)
-  if element_id==nil then error("UI_Element_GetSetAccessibilityHint: #1 - no such ui-element", 2) end
-  if reagirl.Elements[element_id]==nil then error("UI_Element_GetSetAccessibilityHint: #1 - no such ui-element", 2) end
-  if type(is_set)~="boolean" then error("UI_Element_GetSetAccessibilityHint: #2 - must be a boolean", 2) end
-  if is_set==true and type(accessibility_hint)~="string" then error("UI_Element_GetSetAccessibilityHint: #3 - must be a string when #2==true", 2) end
+  if element_id==nil then error("UI_Element_GetSetMeaningOfUIElement: #1 - no such ui-element", 2) end
+  if reagirl.Elements[element_id]==nil then error("UI_Element_GetSetMeaningOfUIElement: #1 - no such ui-element", 2) end
+  if type(is_set)~="boolean" then error("UI_Element_GetSetMeaningOfUIElement: #2 - must be a boolean", 2) end
+  if is_set==true and type(meaningOfUI_Element)~="string" then error("UI_Element_GetSetMeaningOfUIElement: #3 - must be a string when #2==true", 2) end
   
   if is_set==true then
-    reagirl.Elements[element_id]["AccHint"]=accessibility_hint
+    reagirl.Elements[element_id]["Description"]=meaningOfUI_Element
   end
-  return reagirl.Elements[element_id]["AccHint"]
+  return reagirl.Elements[element_id]["Description"]
 end
 
 function reagirl.UI_Element_IsElementAtMousePosition(element_id)
