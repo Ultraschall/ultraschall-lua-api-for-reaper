@@ -1,4 +1,4 @@
---dofile(reaper.GetResourcePath().."/UserPlugins/ultraschall_api.lua")
+dofile(reaper.GetResourcePath().."/UserPlugins/ultraschall_api.lua")
 
 -- DEBUG:
 --reaper.osara_outputMessage=nil
@@ -1749,6 +1749,8 @@ function reagirl.Gui_Manage()
   
   if #reagirl.Elements<reagirl.Elements.FocusedElement then reagirl.Elements.FocusedElement=1 end
   
+  reagirl.Window_State=gfx.getchar(65536)
+  
   -- Osara Override
   if reaper.GetExtState("ReaGirl", "osara_override")=="true" then 
     reagirl.osara_outputMessage=nil
@@ -1804,7 +1806,7 @@ function reagirl.Gui_Manage()
   reagirl.Window_RescaleIfNeeded()
   reagirl.UI_Elements_Boundaries()
   local scale=reagirl.Window_CurrentScale
-  local Window_State=gfx.getchar(65536)
+  --local Window_State=gfx.getchar(65536)
   
   -- initialize focus of first element, if not done already
   if reagirl.Elements["FocusedElement"]==nil then reagirl.Elements["FocusedElement"]=reagirl.UI_Element_GetNext(0) end
@@ -2003,7 +2005,7 @@ function reagirl.Gui_Manage()
          -- tooltip management
          if reagirl.TooltipWaitCounter==14 then
           local XX,YY=reaper.GetMousePosition()
-          if Window_State&8==8 then
+          if reagirl.Window_State&8==8 then
             reaper.TrackCtl_SetToolTip(reagirl.Elements[i]["Description"], XX+15, YY+10, true)
           end
           
@@ -2106,7 +2108,7 @@ function reagirl.Gui_Manage()
           if reagirl.Elements[reagirl.UI_Elements_HoveredElement]["GUI_Element_Type"]=="Edit" then
             description=reagirl.Elements[reagirl.UI_Elements_HoveredElement]["Text"]
           end
-          if Window_State&8==8 then
+          if reagirl.Window_State&8==8 then
             if reagirl.osara_outputMessage~=nil then
               reagirl.osara_outputMessage(reagirl.Elements[reagirl.UI_Elements_HoveredElement]["Name"].." "..description)
             end
@@ -5118,8 +5120,16 @@ function reagirl.InputBox_Manage(element_id, selected, hovered, clicked, mouse_c
   else
     if selected~="not selected" then
       element_storage["blink"]=element_storage["blink"]+1
-      if element_storage["blink"]>reagirl.InputBox_BlinkSpeed then element_storage["blink"]=0 end
-      if element_storage["blink"]==(reagirl.InputBox_BlinkSpeed>>1)+4 or element_storage["blink"]==1 then refresh=true end
+      if reagirl.Window_State&2==2 then
+        element_storage["continue_blink"]=true
+        if element_storage["blink"]>reagirl.InputBox_BlinkSpeed then element_storage["blink"]=0 end
+        if element_storage["blink"]==(reagirl.InputBox_BlinkSpeed>>1)+4 or element_storage["blink"]==1 then refresh=true end
+      elseif element_storage["continue_blink"]==true and reagirl.Window_State&2==0 then
+        element_storage["blink"]=0
+        element_storage["continue_blink"]=false
+        refresh=true
+      end
+       
     else
       element_storage["blink"]=0
     end
@@ -5270,6 +5280,7 @@ function reagirl.InputBox_Draw(element_id, selected, hovered, clicked, mouse_cap
     gfx.set(0.8)
   end
   local draw_offset=0
+  
   for i=element_storage.draw_offset, element_storage.draw_offset_end do
     if i>element_storage.Text:utf8_len() then break end
     local textw
@@ -5289,11 +5300,14 @@ function reagirl.InputBox_Draw(element_id, selected, hovered, clicked, mouse_cap
     else
       gfx.drawstr(element_storage.Text:utf8_sub(i,i))
     end
+    
     if selected~="not selected" and element_storage.hasfocus==true and element_storage.cursor_offset==i then 
       gfx.set(0.9843137254901961, 0.8156862745098039, 0)
       if element_storage["blink"]>0 and element_storage["blink"]<(reagirl.InputBox_BlinkSpeed>>1)+4 then
         local y3=y+(h-gfx.texth)/3
+        if reagirl.Window_State&2==2 then
           gfx.line(gfx.x, y3, gfx.x, y3+gfx.texth)
+        end
       end
       if element_storage.hasfocus==true then gfx.set(0.8) else gfx.set(0.5) end
     end
@@ -5302,7 +5316,7 @@ function reagirl.InputBox_Draw(element_id, selected, hovered, clicked, mouse_cap
   if selected~="not selected" and element_storage.cursor_offset==element_storage.draw_offset-1 then
     gfx.set(0.9843137254901961, 0.8156862745098039, 0)
     --gfx.set(1,0,0)
-    if element_storage["blink"]>0 and element_storage["blink"]<(reagirl.InputBox_BlinkSpeed>>1)+4 then
+    if reagirl.Window_State&2==2 and element_storage["blink"]>0 and element_storage["blink"]<(reagirl.InputBox_BlinkSpeed>>1)+4 then
       gfx.line(x+cap_w+dpi_scale+dpi_scale+dpi_scale, y+dpi_scale, x+cap_w+dpi_scale+dpi_scale+dpi_scale, y+gfx.texth)
     end
   end
