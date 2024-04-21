@@ -3515,19 +3515,19 @@ function reagirl.CheckBox_Add(x, y, caption, meaningOfUI_Element, default, run_f
   
   local slot=reagirl.UI_Element_GetNextFreeSlot()
   local slot2
-  if x==nil then 
+  if x==nil then
     if slot==1 or reagirl.UI_Element_NextLineY>0 then
       x=reagirl.UI_Element_NextX_Default
     elseif slot>1 then
       for i=slot-1, 1, -1 do
-        if reagirl.Elements[i]["IsDisabled"]==false then
+        if reagirl.Elements[i]["IsDecorative"]~=true then
           slot2=i
           break
         end
       end
       local x2=reagirl.Elements[slot2]["x"]
       local w2=reagirl.Elements[slot2]["w"]
-      if x2<0 and x2+w2+reagirl.UI_Element_NextX_Margin>0 then error("CheckBox_Add: param #1 - can't anchor ui-element closer to right side of window", 2) end
+      if x2<0 and x2+w2+reagirl.UI_Element_NextX_Margin>0 then error("Button_Add: param #1 - can't anchor ui-element closer to right side of window", 2) end
       x=x2+w2+reagirl.UI_Element_NextX_Margin
     end
   end
@@ -3543,7 +3543,7 @@ function reagirl.CheckBox_Add(x, y, caption, meaningOfUI_Element, default, run_f
       end
       local y2=reagirl.Elements[slot2]["y"]
       local h2=reagirl.Elements[slot2]["h"]
-      if y2<0 and y2+h2+reagirl.UI_Element_NextLineY>0 then error("CheckBox_Add: param #2 - can't anchor ui-element closer to bottom of window", 2) end
+      if y2<0 and y2+h2+reagirl.UI_Element_NextLineY>0 then error("Button_Add: param #2 - can't anchor ui-element closer to bottom of window", 2) end
       y=y2+reagirl.UI_Element_NextLineY
     end
   end  
@@ -3996,12 +3996,12 @@ function reagirl.Button_Add(x, y, w_margin, h_margin, caption, meaningOfUI_Eleme
   
   local slot=reagirl.UI_Element_GetNextFreeSlot()
   local slot2
-  if x==nil then 
+  if x==nil then
     if slot==1 or reagirl.UI_Element_NextLineY>0 then
       x=reagirl.UI_Element_NextX_Default
     elseif slot>1 then
       for i=slot-1, 1, -1 do
-        if reagirl.Elements[i]["IsDisabled"]==false then
+        if reagirl.Elements[i]["IsDecorative"]~=true then
           slot2=i
           break
         end
@@ -4379,19 +4379,19 @@ function reagirl.InputBox_Add(x, y, w, caption, Cap_width, meaningOfUI_Element, 
   
   local slot=reagirl.UI_Element_GetNextFreeSlot()
   local slot2
-  if x==nil then 
+  if x==nil then
     if slot==1 or reagirl.UI_Element_NextLineY>0 then
       x=reagirl.UI_Element_NextX_Default
     elseif slot>1 then
       for i=slot-1, 1, -1 do
-        if reagirl.Elements[i]["IsDisabled"]==false then
+        if reagirl.Elements[i]["IsDecorative"]~=true then
           slot2=i
           break
         end
       end
       local x2=reagirl.Elements[slot2]["x"]
       local w2=reagirl.Elements[slot2]["w"]
-      if x2<0 and x2+w2+reagirl.UI_Element_NextX_Margin>0 then error("InputBox_Add: param #1 - can't anchor ui-element closer to right side of window", 2) end
+      if x2<0 and x2+w2+reagirl.UI_Element_NextX_Margin>0 then error("Button_Add: param #1 - can't anchor ui-element closer to right side of window", 2) end
       x=x2+w2+reagirl.UI_Element_NextX_Margin
     end
   end
@@ -4407,10 +4407,10 @@ function reagirl.InputBox_Add(x, y, w, caption, Cap_width, meaningOfUI_Element, 
       end
       local y2=reagirl.Elements[slot2]["y"]
       local h2=reagirl.Elements[slot2]["h"]
-      if y2<0 and y2+h2+reagirl.UI_Element_NextLineY>0 then error("InputBox_Add: param #2 - can't anchor ui-element closer to bottom of window", 2) end
+      if y2<0 and y2+h2+reagirl.UI_Element_NextLineY>0 then error("Button_Add: param #2 - can't anchor ui-element closer to bottom of window", 2) end
       y=y2+reagirl.UI_Element_NextLineY
     end
-  end
+  end  
   reagirl.UI_Element_NextLineY=0
   --reagirl.UI_Element_NextX_Default=x
   
@@ -5613,19 +5613,19 @@ function reagirl.DropDownMenu_Add(x, y, w, caption, Cap_width, meaningOfUI_Eleme
   
   local slot=reagirl.UI_Element_GetNextFreeSlot()
   local slot2
-  if x==nil then 
+  if x==nil then
     if slot==1 or reagirl.UI_Element_NextLineY>0 then
       x=reagirl.UI_Element_NextX_Default
     elseif slot>1 then
       for i=slot-1, 1, -1 do
-        if reagirl.Elements[i]["IsDisabled"]==false then
+        if reagirl.Elements[i]["IsDecorative"]~=true then
           slot2=i
           break
         end
       end
       local x2=reagirl.Elements[slot2]["x"]
       local w2=reagirl.Elements[slot2]["w"]
-      if x2<0 and x2+w2+reagirl.UI_Element_NextX_Margin>0 then error("DropDownMenu_Add: param #1 - can't anchor ui-element closer to right side of window", 2) end
+      if x2<0 and x2+w2+reagirl.UI_Element_NextX_Margin>0 then error("Button_Add: param #1 - can't anchor ui-element closer to right side of window", 2) end
       x=x2+w2+reagirl.UI_Element_NextX_Margin
     end
   end
@@ -5641,10 +5641,10 @@ function reagirl.DropDownMenu_Add(x, y, w, caption, Cap_width, meaningOfUI_Eleme
       end
       local y2=reagirl.Elements[slot2]["y"]
       local h2=reagirl.Elements[slot2]["h"]
-      if y2<0 and y2+h2+reagirl.UI_Element_NextLineY>0 then error("DropDownMenu_Add: param #2 - can't anchor ui-element closer to bottom of window", 2) end
+      if y2<0 and y2+h2+reagirl.UI_Element_NextLineY>0 then error("Button_Add: param #2 - can't anchor ui-element closer to bottom of window", 2) end
       y=y2+reagirl.UI_Element_NextLineY
     end
-  end 
+  end  
   reagirl.UI_Element_NextLineY=0
   --reagirl.UI_Element_NextX_Default=x
   
@@ -6347,19 +6347,19 @@ function reagirl.Label_Add(x, y, label, meaningOfUI_Element, align, clickable, r
   local slot=reagirl.UI_Element_GetNextFreeSlot()
   
   local slot2
-  if x==nil then 
+  if x==nil then
     if slot==1 or reagirl.UI_Element_NextLineY>0 then
       x=reagirl.UI_Element_NextX_Default
     elseif slot>1 then
       for i=slot-1, 1, -1 do
-        if reagirl.Elements[i]["IsDisabled"]==false then
+        if reagirl.Elements[i]["IsDecorative"]~=true then
           slot2=i
           break
         end
       end
       local x2=reagirl.Elements[slot2]["x"]
       local w2=reagirl.Elements[slot2]["w"]
-      if x2<0 and x2+w2+reagirl.UI_Element_NextX_Margin>0 then error("Label_Add: param #1 - can't anchor ui-element closer to right side of window", 2) end
+      if x2<0 and x2+w2+reagirl.UI_Element_NextX_Margin>0 then error("Button_Add: param #1 - can't anchor ui-element closer to right side of window", 2) end
       x=x2+w2+reagirl.UI_Element_NextX_Margin
     end
   end
@@ -6375,7 +6375,7 @@ function reagirl.Label_Add(x, y, label, meaningOfUI_Element, align, clickable, r
       end
       local y2=reagirl.Elements[slot2]["y"]
       local h2=reagirl.Elements[slot2]["h"]
-      if y2<0 and y2+h2+reagirl.UI_Element_NextLineY>0 then error("Label_Add: param #2 - can't anchor ui-element closer to bottom of the window", 2) end
+      if y2<0 and y2+h2+reagirl.UI_Element_NextLineY>0 then error("Button_Add: param #2 - can't anchor ui-element closer to bottom of window", 2) end
       y=y2+reagirl.UI_Element_NextLineY
     end
   end  
@@ -6594,19 +6594,19 @@ function reagirl.Image_Add(image_filename, x, y, w, h, name, meaningOfUI_Element
   if run_function~=nil and type(run_function)~="function" then error("Image_Add: param #8 - must be either nil or a function", 2) end
   local slot=reagirl.UI_Element_GetNextFreeSlot()
   local slot2
-  if x==nil then 
+  if x==nil then
     if slot==1 or reagirl.UI_Element_NextLineY>0 then
       x=reagirl.UI_Element_NextX_Default
     elseif slot>1 then
       for i=slot-1, 1, -1 do
-        if reagirl.Elements[i]["IsDisabled"]==false then
+        if reagirl.Elements[i]["IsDecorative"]~=true then
           slot2=i
           break
         end
       end
       local x2=reagirl.Elements[slot2]["x"]
       local w2=reagirl.Elements[slot2]["w"]
-      if x2<0 and x2+w2+reagirl.UI_Element_NextX_Margin>0 then error("Image_Add: param #1 - can't anchor ui-element closer to right side of window", 2) end
+      if x2<0 and x2+w2+reagirl.UI_Element_NextX_Margin>0 then error("Button_Add: param #1 - can't anchor ui-element closer to right side of window", 2) end
       x=x2+w2+reagirl.UI_Element_NextX_Margin
     end
   end
@@ -6622,10 +6622,10 @@ function reagirl.Image_Add(image_filename, x, y, w, h, name, meaningOfUI_Element
       end
       local y2=reagirl.Elements[slot2]["y"]
       local h2=reagirl.Elements[slot2]["h"]
-      if y2<0 and y2+h2+reagirl.UI_Element_NextLineY>0 then error("Image_Add: param #2 - can't anchor ui-element closer to bottom side of window", 2) end
+      if y2<0 and y2+h2+reagirl.UI_Element_NextLineY>0 then error("Button_Add: param #2 - can't anchor ui-element closer to bottom of window", 2) end
       y=y2+reagirl.UI_Element_NextLineY
     end
-  end 
+  end  
   reagirl.UI_Element_NextLineY=0
   --reagirl.UI_Element_NextX_Default=x
   
@@ -8058,19 +8058,19 @@ function reagirl.Slider_Add(x, y, w, caption, Cap_width, meaningOfUI_Element, un
   
   local slot=reagirl.UI_Element_GetNextFreeSlot()
   local slot2
-  if x==nil then 
+  if x==nil then
     if slot==1 or reagirl.UI_Element_NextLineY>0 then
       x=reagirl.UI_Element_NextX_Default
     elseif slot>1 then
       for i=slot-1, 1, -1 do
-        if reagirl.Elements[i]["IsDisabled"]==false then
+        if reagirl.Elements[i]["IsDecorative"]~=true then
           slot2=i
           break
         end
       end
       local x2=reagirl.Elements[slot2]["x"]
       local w2=reagirl.Elements[slot2]["w"]
-      if x2<0 and x2+w2+reagirl.UI_Element_NextX_Margin>0 then error("Slider_Add: param #1 - can't anchor ui-element closer to right side of window", 2) end
+      if x2<0 and x2+w2+reagirl.UI_Element_NextX_Margin>0 then error("Button_Add: param #1 - can't anchor ui-element closer to right side of window", 2) end
       x=x2+w2+reagirl.UI_Element_NextX_Margin
     end
   end
@@ -8086,10 +8086,10 @@ function reagirl.Slider_Add(x, y, w, caption, Cap_width, meaningOfUI_Element, un
       end
       local y2=reagirl.Elements[slot2]["y"]
       local h2=reagirl.Elements[slot2]["h"]
-      if y2<0 and y2+h2+reagirl.UI_Element_NextLineY>0 then error("Slider_Add: param #2 - can't anchor ui-element closer to bottom of window", 2) end
+      if y2<0 and y2+h2+reagirl.UI_Element_NextLineY>0 then error("Button_Add: param #2 - can't anchor ui-element closer to bottom of window", 2) end
       y=y2+reagirl.UI_Element_NextLineY
     end
-  end 
+  end  
   reagirl.UI_Element_NextLineY=0
   --reagirl.UI_Element_NextX_Default=x
   
@@ -8884,19 +8884,19 @@ function reagirl.Tabs_Add(x, y, w_backdrop, h_backdrop, caption, meaningOfUI_Ele
   local slot=reagirl.UI_Element_GetNextFreeSlot()
 
   local slot2
-  if x==nil then 
+  if x==nil then
     if slot==1 or reagirl.UI_Element_NextLineY>0 then
       x=reagirl.UI_Element_NextX_Default
     elseif slot>1 then
       for i=slot-1, 1, -1 do
-        if reagirl.Elements[i]["IsDisabled"]==false then
+        if reagirl.Elements[i]["IsDecorative"]~=true then
           slot2=i
           break
         end
       end
       local x2=reagirl.Elements[slot2]["x"]
       local w2=reagirl.Elements[slot2]["w"]
-      if x2<0 and x2+w2+reagirl.UI_Element_NextX_Margin>0 then error("Tabs_Add: param #1 - can't anchor ui-element closer to right side of window", 2) end
+      if x2<0 and x2+w2+reagirl.UI_Element_NextX_Margin>0 then error("Button_Add: param #1 - can't anchor ui-element closer to right side of window", 2) end
       x=x2+w2+reagirl.UI_Element_NextX_Margin
     end
   end
@@ -8912,10 +8912,11 @@ function reagirl.Tabs_Add(x, y, w_backdrop, h_backdrop, caption, meaningOfUI_Ele
       end
       local y2=reagirl.Elements[slot2]["y"]
       local h2=reagirl.Elements[slot2]["h"]
-      if y2<0 and y2+h2+reagirl.UI_Element_NextLineY>0 then error("Tabs_Add: param #2 - can't anchor ui-element closer to bottom of window", 2) end
+      if y2<0 and y2+h2+reagirl.UI_Element_NextLineY>0 then error("Button_Add: param #2 - can't anchor ui-element closer to bottom of window", 2) end
       y=y2+reagirl.UI_Element_NextLineY
     end
-  end 
+  end  
+  reagirl.UI_Element_NextLineY=0
   reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0, 1)
   local tx, ty =gfx.measurestr(caption.."")
 
