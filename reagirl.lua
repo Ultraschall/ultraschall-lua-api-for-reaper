@@ -7204,7 +7204,7 @@ function reagirl.Image_Manage(element_id, selected, hovered, clicked, mouse_cap,
     reagirl.Draggable_Element=nil
   end
   
-  local draggable
+  local draggable, draggable2
   if element_storage["Draggable"]==true then draggable="Draggable " draggable2=" Use Ctrl plus alt plus Tab and Ctrl plus alt plus Tab to select the dragging-destinations and ctrl plus alt plus enter to drop the image into the dragging-destination." else draggable="" end
   return draggable..message
 end
