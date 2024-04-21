@@ -1,5 +1,9 @@
 dofile(reaper.GetResourcePath().."/UserPlugins/reagirl.lua")
 
+function DropDownMenu_RunFunction(element_id, menu_entry)
+  reaper.SetExtState("ReaGirl", "osara_override", tostring(menu_entry), true)
+end
+
 function BlinkSpeed(slider_id, value)
   if value==0 then
     reaper.SetExtState("ReaGirl", "FocusRectangle_BlinkSpeed", "", true)
@@ -81,12 +85,13 @@ reagirl.Button_Add(nil, nil, 0, 0, "Apply", "Apply the chosen scaling value.", b
 reagirl.NextLine(15)
 
 -- [[ Osara override ]]
-val6=reaper.GetExtState("ReaGirl", "osara_override", value, true)
-if val6=="true" then val6=true else val6=false end
+val6=tonumber(reaper.GetExtState("ReaGirl", "osara_override", value, true))
+if val6==nil then val6=1 end
 Label1=reagirl.Label_Add(nil, nil, "Osara", "Settings that influence the relationship between Osara and ReaGirl.", 0, false, nil)
 reagirl.NextLine()
 reagirl.Label_SetStyle(Label1, 6, 0, 0)
-checkbox_osara_id = reagirl.CheckBox_Add(nil, nil, "Ignore installed Osara", "Checking this will prevent from screenreader messages to be sent to Osara. You can also type directly into inputboxes.", val6, checkbox)
+--checkbox_osara_id = reagirl.CheckBox_Add(nil, nil, "Ignore installed Osara", "Checking this will prevent from screenreader messages to be sent to Osara. You can also type directly into inputboxes.", val6, checkbox)
+dropdownmenu_osara_id = reagirl.DropDownMenu_Add(nil, nil, -30, "Osara settings", 140, "Set Osara behavior and optionally show accessibility messages in the ReaScript-console(for debugging).", {"Ignore Osara", "Allow Osara, no debug message", "Allow Osara, show debug-messages"}, val6, DropDownMenu_RunFunction)
 
 reagirl.Background_GetSetColor(true,55,55,55)
 

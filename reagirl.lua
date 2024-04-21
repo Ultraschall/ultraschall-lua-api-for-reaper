@@ -2996,6 +2996,10 @@ function reagirl.UI_Element_GetSetMeaningOfUIElement(element_id, is_set, meaning
   <functioncall>string meaningOfUI_Element = reagirl.UI_Element_GetSetMeaningOfUIElement(string element_id, boolean is_set, string meaningOfUI_Element)</functioncall>
   <description>
     gets/sets the meaningOfUI_Element of the ui-element, which will describe, how to use the ui-element to blind persons.
+    
+    Very important when seting meaning_Of_UI_Elements for images: write into meaningOfUI_Element a small description of what the image shows. This will help blind people know, what the image means and what to do with it.
+    If you can't know what the image shows(an image viewer for instance) explain what's the purpose of the image like "cover image for the project" or something.
+    Keep in mind: blind people can't see the image so any kind of description will help them understand your script.
   </description>
   <retvals>
     string meaningOfUI_Element - the meaningOfUI_Element of the ui-element
@@ -6805,6 +6809,10 @@ function reagirl.Image_Add(image_filename, x, y, w, h, name, meaningOfUI_Element
   <functioncall>string image_guid = reagirl.Image_Add(string image_filename, integer x, integer y, integer w, integer h, string name, string meaning of UI_Element, function run_function)</functioncall>
   <description>
     Adds an image to the gui. This image can run a function when clicked on it. 
+    
+    Very important: write into meaningOfUI_Element a small description of what the image shows. This will help blind people know, what the image means and what to do with it.
+    If you can't know what the image shows(an image viewer for instance) explain what's the purpose of the image like "cover image for the project" or something.
+    Keep in mind: blind people can't see the image so any kind of description will help them understand your script.
     
     You can have different images for different scaling-ratios. You put them into the same folder and name them like:
     image-filename.png - 1x-scaling
