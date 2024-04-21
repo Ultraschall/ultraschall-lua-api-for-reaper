@@ -1767,7 +1767,7 @@ function reagirl.Gui_Manage()
   
   -- focus rectangle blinking
   if reaper.GetExtState("ReaGirl", "FocusRectangle_BlinkSpeed")=="" then
-    reagirl.FocusRectangle_BlinkSpeed=10
+    reagirl.FocusRectangle_BlinkSpeed=33
   else
     reagirl.FocusRectangle_BlinkSpeed=tonumber(reaper.GetExtState("ReaGirl", "FocusRectangle_BlinkSpeed"))
   end
@@ -2005,7 +2005,7 @@ function reagirl.Gui_Manage()
          -- tooltip management
          if reagirl.TooltipWaitCounter==14 then
           local XX,YY=reaper.GetMousePosition()
-          if reagirl.Window_State&8==8 then
+          if reagirl.Window_State&8==8 and reaper.GetExtState("ReaGirl", "show_tooltips")~="false" then
             reaper.TrackCtl_SetToolTip(reagirl.Elements[i]["Description"], XX+15, YY+10, true)
           end
           
@@ -2074,7 +2074,9 @@ function reagirl.Gui_Manage()
             if reagirl.Elements[i]["Cap_width"]~=nil then
               cap_w=reagirl.Elements[i]["Cap_width"]
             end
-            reaper.JS_Mouse_SetPosition(gfx.clienttoscreen(x2+cap_w+MoveItAllRight+4,y2+MoveItAllUp+4)) 
+            if reaper.GetExtState("ReaGirl", "osara_move_mouse")~="false" then
+              reaper.JS_Mouse_SetPosition(gfx.clienttoscreen(x2+cap_w+MoveItAllRight+4,y2+MoveItAllUp+4)) 
+            end
           end
         end
         reagirl.SetPosition_MousePositionX=gfx.mouse_x
@@ -2108,7 +2110,7 @@ function reagirl.Gui_Manage()
           if reagirl.Elements[reagirl.UI_Elements_HoveredElement]["GUI_Element_Type"]=="Edit" then
             description=reagirl.Elements[reagirl.UI_Elements_HoveredElement]["Text"]
           end
-          if reagirl.Window_State&8==8 then
+          if reagirl.Window_State&8==8 and reaper.GetExtState("ReaGirl", "osara_hover_mouse")~="false" then
             if reagirl.osara_outputMessage~=nil then
               reagirl.osara_outputMessage(reagirl.Elements[reagirl.UI_Elements_HoveredElement]["Name"].." "..description)
             end
