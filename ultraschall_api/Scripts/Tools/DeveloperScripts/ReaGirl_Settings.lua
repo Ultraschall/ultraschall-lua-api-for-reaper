@@ -19,10 +19,6 @@ end
 
 testtext=""
 
-function DropDownMenu_RunFunction(element_id, menu_entry)
-  reaper.SetExtState("ReaGirl", "osara_override", tostring(menu_entry), true)
-end
-
 function BlinkSpeed(slider_id, value)
   if value==0 then
     reaper.SetExtState("ReaGirl", "FocusRectangle_BlinkSpeed", "", true)
@@ -54,19 +50,26 @@ function button_apply(slider_id, value)
   value=reagirl.Slider_GetValue(slider_scale)
   if value==0 then value="" end
   reaper.SetExtState("ReaGirl", "scaling_override", value, true)
+  scaling_override=value
 end
 
 function checkbox(checkbox_id, checkstate)
+  override=true
   if checkbox_id==checkbox_osara_id then
     reaper.SetExtState("ReaGirl", "osara_override", tostring(checkstate), true)
+    osara_override=checkstate
   elseif checkbox_id==checkbox_osara_debug_id then
     reaper.SetExtState("ReaGirl", "osara_debug", tostring(checkstate), true)
+    osara_debug=checkstate
   elseif checkbox_id==checkbox_osara_move_mouse_id then
     reaper.SetExtState("ReaGirl", "osara_move_mouse", tostring(checkstate), true)
+    osara_move_mouse=checkstate
   elseif checkbox_id==checkbox_osara_hover_mouse_id then
     reaper.SetExtState("ReaGirl", "osara_hover_mouse", tostring(checkstate), true)
+    osara_hover_mouse=checkstate
   elseif checkbox_id==checkbox_tooltips_id then
     reaper.SetExtState("ReaGirl", "show_tooltips", tostring(checkstate), true)
+    show_tooltips=checkstate
   end
 end
 
@@ -97,7 +100,7 @@ function SetUpNewGui()
   
   reagirl.Slider_Add(nil, nil, 300, "Blink every", 140, "Set the speed of the blinking of the focus rectangle.", "seconds", 0.4, 3, 0.1, val/33, 1, BlinkSpeed)
   reagirl.NextLine()
-  reagirl.Slider_Add(nil, nil, 300, "Blinklength for", 140, "Set the length of the blinking of the focus rectangle.", "seconds", 0, 10, 1, val2, 0, BlinkTime)
+  reagirl.Slider_Add(nil, nil, 300, "Blinklength for", 140, "Set the duration of the blinking of the focus rectangle.", "seconds", 0, 10, 1, val2, 0, BlinkTime)
   
   -- [[ Blinking InputBox-Cursor ]]
   reagirl.NextLine(15)
@@ -127,8 +130,8 @@ function SetUpNewGui()
   reagirl.NextLine()
   reagirl.Label_SetStyle(Label1, 6, 0, 0)
   osara_override=reaper.GetExtState("ReaGirl", "osara_override")
-  if osara_override=="false" or osara_override=="" then osara_override=false else osara_override=true end
-  checkbox_osara_id = reagirl.CheckBox_Add(nil, nil, "Ignore installed Osara", "Checking this will prevent from screenreader messages to be sent to Osara. You can also type directly into inputboxes.", osara_override, checkbox)
+  if osara_override=="true" or osara_override=="" then osara_override=true else osara_override=false end
+  checkbox_osara_id = reagirl.CheckBox_Add(nil, nil, "Enable installed Osara", "Checking this will prevent from screenreader messages to be sent to Osara. You can also type directly into inputboxes.", osara_override, checkbox)
   
   reagirl.NextLine()
   osara_debug=reaper.GetExtState("ReaGirl", "osara_debug")
@@ -138,12 +141,12 @@ function SetUpNewGui()
   reagirl.NextLine()
   osara_move_mouse = reaper.GetExtState("ReaGirl", "osara_move_mouse")
   if osara_move_mouse=="" or osara_move_mouse=="true" then osara_move_mouse=true else osara_move_mouse=false end
-  checkbox_osara_move_mouse_id = reagirl.CheckBox_Add(nil, nil, "Move mouse when tabbing ui-elements", "Uncheck to prevent moving of the mouse when tabbing through ui-elements. This will make right-clicking for context menus more difficult, though.", osara_move_mouse, checkbox)
+  checkbox_osara_move_mouse_id = reagirl.CheckBox_Add(nil, nil, "Move mouse when tabbing ui-elements", "Uncheck to prevent moving of the mouse when tabbing through ui-elements. Unchecking will make right-clicking for context menus more difficult, though.", osara_move_mouse, checkbox)
   
   reagirl.NextLine()
   osara_hover_mouse = reaper.GetExtState("ReaGirl", "osara_hover_mouse")
   if osara_hover_mouse=="" or osara_hover_mouse=="true" then osara_hover_mouse=true else osara_hover_mouse=false end
-  checkbox_osara_hover_mouse_id = reagirl.CheckBox_Add(nil, nil, "Report hovered ui-elements", "When checked, ReaGirl will report ui-elements the mouse is hovering above. Uncheck to prevent that.", osara_hover_mouse, checkbox)
+  checkbox_osara_hover_mouse_id = reagirl.CheckBox_Add(nil, nil, "Report hovered ui-elements", "When checked, ReaGirl will report ui-elements the mouse is hovering above to the screenreader. Uncheck to prevent that.", osara_hover_mouse, checkbox)
 end
 
 SetUpNewGui()
@@ -156,13 +159,17 @@ function CheckIfSettingChanged()
   if osara_debug~=toboolean(reaper.GetExtState("ReaGirl", "osara_debug"), false) then 
     osara_debug=toboolean(reaper.GetExtState("ReaGirl", "osara_debug"), false)
     return true, 1
-  elseif osara_override~=toboolean(reaper.GetExtState("ReaGirl", "osara_override"), false) then
-    osara_override=toboolean(reaper.GetExtState("ReaGirl", "osara_override", false))
+  elseif osara_override~=toboolean(reaper.GetExtState("ReaGirl", "osara_override"), true) then
+    osara_override=toboolean(reaper.GetExtState("ReaGirl", "osara_override", true))
     return true, 2 
   elseif scaling_override~=tonumber(reaper.GetExtState("ReaGirl", "scaling_override")) then
-    scaling_override=tonumber(reaper.GetExtState("ReaGirl", "scaling_override"))
-    if scaling_override==nil then scaling_override=0 end
-    return true, 3, tonumber(reaper.GetExtState("ReaGirl", "scaling_override"))
+    if tonumber(reaper.GetExtState("ReaGirl", "scaling_override"))==nil and scaling_override~=0 then
+      scaling_override=tonumber(reaper.GetExtState("ReaGirl", "scaling_override"))
+      if scaling_override==nil then scaling_override=0 end
+      return true, 3
+    else
+      return false
+    end
   elseif osara_move_mouse~=toboolean(reaper.GetExtState("ReaGirl", "osara_move_mouse"), true) then
     return true, 4
   elseif osara_hover_mouse~=toboolean(reaper.GetExtState("ReaGirl", "osara_hover_mouse"), true) then
@@ -176,10 +183,12 @@ end
 
 function main()
   B,B1,B2=CheckIfSettingChanged()
-  if B==true then A=reaper.time_precise() testtext=reagirl.InputBox_GetText(input_id) i=reagirl.Elements.FocusedElement SetUpNewGui() newbuilt=true end
+  if B==true then A=reaper.time_precise() testtext=reagirl.InputBox_GetText(input_id) i=reagirl.Elements.FocusedElement if i==nil then i=1 end SetUpNewGui() reagirl.Elements.FocusedElement=i end
   reagirl.Gui_Manage()
-  if newbuilt==true then reagirl.Elements.FocusedElement=i newbuilt=nil end
-  
+  if B==true then
+    reagirl.Elements.FocusedElement=i
+    reagirl.Gui_ForceRefresh()
+  end
   if reagirl.Gui_IsOpen()==true then reaper.defer(main) end
 end
 main()

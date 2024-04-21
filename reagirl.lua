@@ -34,10 +34,10 @@ end
 reagirl.osara_outputMessage=reaper.osara_outputMessage
 reagirl.osara=reaper.osara_outputMessage
 
-if reaper.GetExtState("ReaGirl", "osara_override")=="true" then 
-  reagirl.osara_outputMessage=nil
-else
+if reaper.GetExtState("ReaGirl", "osara_override")=="" or reaper.GetExtState("ReaGirl", "osara_override")=="true"  then 
   reagirl.osara_outputMessage=reagirl.osara
+else
+  reagirl.osara_outputMessage=nil
 end
 
 function reagirl.Osara_Debug_Message(message)
@@ -1744,7 +1744,7 @@ function reagirl.Gui_Manage()
   -- initialize shit
   local message
   if reagirl.Gui_IsOpen()==false then return end
-  if reagirl.NewUI~=false then reagirl.NewUI=false reagirl.Elements.FocusedElement=1 end
+  if reagirl.NewUI~=false then reagirl.NewUI=false if reagirl.Elements.FocusedElement==nil then reagirl.Elements.FocusedElement=1 end end
   if #reagirl.Elements==0 then error("Gui_Manage: no ui-element available", -2) end
   
   if #reagirl.Elements<reagirl.Elements.FocusedElement then reagirl.Elements.FocusedElement=1 end
@@ -1752,10 +1752,10 @@ function reagirl.Gui_Manage()
   reagirl.Window_State=gfx.getchar(65536)
   
   -- Osara Override
-  if reaper.GetExtState("ReaGirl", "osara_override")=="true" then 
-    reagirl.osara_outputMessage=nil
+  if reaper.GetExtState("ReaGirl", "osara_override")=="" or reaper.GetExtState("ReaGirl", "osara_override")=="true"  then 
+    reagirl.osara_outputMessage=reagirl.osara
   else
-    reagirl.osara_outputMessage=reagirl.osara     
+    reagirl.osara_outputMessage=nil     
   end
   
   -- initialize cursor-blinkspeed
