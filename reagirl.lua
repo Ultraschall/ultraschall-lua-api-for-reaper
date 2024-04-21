@@ -1998,8 +1998,9 @@ function reagirl.Gui_Manage()
   local Scroll_Override_ScrollButtons=0
   if reagirl.Scroll_Override_ScrollButtons==true then Scroll_Override_ScrollButtons=4 end
   reagirl.UI_Elements_HoveredElement=-1
-  
-  local found_element
+    
+  local found_element, old_selection 
+  local restore=false
   for i=#reagirl.Elements-Scroll_Override_ScrollButtons, 1, -1 do
     if reagirl.Elements[i]["hidden"]~=true then
       local x2, y2, w2, h2
@@ -2047,7 +2048,7 @@ function reagirl.Gui_Manage()
          end
          
          -- focused/clicked ui-element-management
-         if (specific_clickstate=="FirstCLK") and reagirl.Elements[i]["IsDisabled"]==false and reagirl.Elements[i]["IsDecorative"]~=true then
+         if (specific_clickstate=="FirstCLK") and reagirl.Elements[i]["IsDisabled"]==false then
            if i~=reagirl.Elements["FocusedElement"] then
              init_message=reagirl.Elements[i]["Name"].." "..reagirl.Elements[i]["GUI_Element_Type"]:sub(1,-1).." "
              helptext=reagirl.Elements[i]["Description"]..", "..reagirl.Elements[i]["AccHint"]
@@ -2056,8 +2057,9 @@ function reagirl.Gui_Manage()
            end
            
            -- set found ui-element as focused and clicked
-           local old_selection=reagirl.Elements.FocusedElement
-             reagirl.Elements["FocusedElement"]=i
+           old_selection=reagirl.Elements.FocusedElement
+           if reagirl.Elements[i].IsDecorative==true then restore=true end
+           reagirl.Elements["FocusedElement"]=i
            if old_selection~=reagirl.Elements.FocusedElement then
              reagirl.ui_element_selected="first selected"
            else
@@ -2275,6 +2277,10 @@ function reagirl.Gui_Manage()
         if refresh==true then reagirl.Gui_ForceRefresh(10) end
       end
     end
+  end
+  
+  if restore==true then
+    reagirl.Elements.FocusedElement=old_selection
   end
   
   if specific_clickstate=="FirstCLK" then
@@ -6662,6 +6668,7 @@ function reagirl.Image_Add(image_filename, x, y, w, h, name, meaningOfUI_Element
   reagirl.Elements[slot]["Name"]=name
   reagirl.Elements[slot]["Text"]=name
   reagirl.Elements[slot]["IsDisabled"]=false
+  reagirl.Elements[slot]["IsDecorative"]=true
   reagirl.Elements[slot]["AccHint"]="Use Space or left mouse-click to select it."
   reagirl.Elements[slot]["ContextMenu_ACC"]=""
   reagirl.Elements[slot]["DropZoneFunction_ACC"]=""
