@@ -1,6 +1,8 @@
 dofile(reaper.GetResourcePath().."/UserPlugins/reagirl.lua")
 dofile(reaper.GetResourcePath().."/UserPlugins/ultraschall_api.lua")
 
+testtext=""
+
 function DropDownMenu_RunFunction(element_id, menu_entry)
   reaper.SetExtState("ReaGirl", "osara_override", tostring(menu_entry), true)
 end
@@ -75,7 +77,7 @@ function SetUpNewGui()
   if val3==nil then val3=33 end
   slider=reagirl.Slider_Add(nil, nil, 300, "Blink every", 140, "Set the speed of the blinking of the cursor.", "seconds", 0.4, 3, 0.1, val3/33, 1, CursorBlinkSpeed)
   reagirl.NextLine()
-  input_id = reagirl.InputBox_Add(nil, nil, 300, "Test input:", 140, "Input test text to check cursor blinking speed.", "", nil, nil)
+  input_id = reagirl.InputBox_Add(nil, nil, 300, "Test input:", 140, "Input text to check cursor blinking speed.", testtext, nil, nil)
   reagirl.InputBox_SetEmptyText(input_id, "Test blink-speed here...")
   
   -- [[ Scaling Override ]]
@@ -126,7 +128,7 @@ end
 
 function main()
   B,B1,B2=CheckIfSettingChanged()
-  if B==true then A=reaper.time_precise() SetUpNewGui() end
+  if B==true then A=reaper.time_precise() testtext=reagirl.InputBox_GetText(input_id) SetUpNewGui() end
   reagirl.Gui_Manage()
   
   if reagirl.Gui_IsOpen()==true then reaper.defer(main) end
