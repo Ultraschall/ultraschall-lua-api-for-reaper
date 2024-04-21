@@ -3599,7 +3599,6 @@ function reagirl.Checkbox_Add(x, y, caption, meaningOfUI_Element, default, run_f
   reagirl.Elements[slot]["DropZoneFunction_ACC"]=""
   reagirl.Elements[slot]["x"]=x
   reagirl.Elements[slot]["y"]=y
-  reagirl.Elements[slot]["z_buffer"]=128
   reagirl.Elements[slot]["w"]=math.tointeger(ty+tx)+9
   reagirl.Elements[slot]["h"]=math.tointeger(ty)+2
   reagirl.Elements[slot]["sticky_x"]=false
@@ -4079,7 +4078,6 @@ function reagirl.Button_Add(x, y, w_margin, h_margin, caption, meaningOfUI_Eleme
   reagirl.Elements[slot]["AccHint"]="Click with space or left mouseclick."
   reagirl.Elements[slot]["ContextMenu_ACC"]=""
   reagirl.Elements[slot]["DropZoneFunction_ACC"]=""
-  reagirl.Elements[slot]["z_buffer"]=128
   reagirl.Elements[slot]["x"]=x
   reagirl.Elements[slot]["y"]=y
   reagirl.Elements[slot]["w"]=math.tointeger(tx+15+w_margin)
@@ -4460,7 +4458,6 @@ function reagirl.Inputbox_Add(x, y, w, caption, Cap_width, meaningOfUI_Element, 
   reagirl.Elements[slot]["AccHint"]="Hit Enter to type text."
   reagirl.Elements[slot]["ContextMenu_ACC"]=""
   reagirl.Elements[slot]["DropZoneFunction_ACC"]=""
-  reagirl.Elements[slot]["z_buffer"]=128
   reagirl.Elements[slot]["Cap_width"]=Cap_width
   reagirl.Elements[slot]["x"]=x
   reagirl.Elements[slot]["y"]=y
@@ -5696,7 +5693,6 @@ function reagirl.DropDownMenu_Add(x, y, w, caption, Cap_width, meaningOfUI_Eleme
   reagirl.Elements[slot]["ContextMenu_ACC"]=""
   reagirl.Elements[slot]["DropZoneFunction_ACC"]=""
   reagirl.Elements[slot]["cap_w"]=math.tointeger(tx1)+5
-  reagirl.Elements[slot]["z_buffer"]=128
   reagirl.Elements[slot]["x"]=x
   reagirl.Elements[slot]["y"]=y
   reagirl.Elements[slot]["w"]=w
@@ -6431,7 +6427,6 @@ function reagirl.Label_Add(x, y, label, meaningOfUI_Element, align, clickable, r
   reagirl.Elements[slot]["AccHint"]=acc_clickable.."Ctrl+C to copy text into clipboard."
   reagirl.Elements[slot]["ContextMenu_ACC"]=""
   reagirl.Elements[slot]["DropZoneFunction_ACC"]=""
-  reagirl.Elements[slot]["z_buffer"]=128
   reagirl.Elements[slot]["x"]=x
   reagirl.Elements[slot]["y"]=y
   
@@ -6671,7 +6666,6 @@ function reagirl.Image_Add(image_filename, x, y, w, h, name, meaningOfUI_Element
   reagirl.Elements[slot]["AccHint"]="Use Space or left mouse-click to select it."
   reagirl.Elements[slot]["ContextMenu_ACC"]=""
   reagirl.Elements[slot]["DropZoneFunction_ACC"]=""
-  reagirl.Elements[slot]["z_buffer"]=128
   reagirl.Elements[slot]["x"]=x
   reagirl.Elements[slot]["y"]=y
   reagirl.Elements[slot]["w"]=w
@@ -8151,7 +8145,6 @@ function reagirl.Slider_Add(x, y, w, caption, Cap_width, meaningOfUI_Element, un
   reagirl.Elements[slot]["AccHint"]="Change via arrowkeys, home, end, pageup, pagedown."
   reagirl.Elements[slot]["ContextMenu_ACC"]=""
   reagirl.Elements[slot]["DropZoneFunction_ACC"]=""
-  reagirl.Elements[slot]["z_buffer"]=128
   reagirl.Elements[slot]["x"]=x
   reagirl.Elements[slot]["y"]=y
   reagirl.Elements[slot]["w"]=math.tointeger(w)--math.tointeger(ty+tx+4)
@@ -8968,7 +8961,6 @@ function reagirl.Tabs_Add(x, y, w_backdrop, h_backdrop, caption, meaningOfUI_Ele
   reagirl.Elements[slot]["AccHint"]="Switch tab using left/right arrow-keys."
   reagirl.Elements[slot]["ContextMenu_ACC"]=""
   reagirl.Elements[slot]["DropZoneFunction_ACC"]=""
-  reagirl.Elements[slot]["z_buffer"]=128
   reagirl.Elements[slot]["x"]=x
   reagirl.Elements[slot]["y"]=y
   reagirl.Elements[slot]["text_offset_x"]=20
