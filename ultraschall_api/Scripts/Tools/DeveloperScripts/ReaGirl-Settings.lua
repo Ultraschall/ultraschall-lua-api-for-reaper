@@ -96,11 +96,11 @@ checkbox_osara_id = reagirl.CheckBox_Add(nil, nil, "Ignore installed Osara", "Ch
 reagirl.NextLine()
 val7=reaper.GetExtState("ReaGirl", "osara_debug", value, true)
 if val7=="false" or val7=="" then val7=false else val7=true end
-checkbox_osara_debug_id = reagirl.CheckBox_Add(nil, nil, "Show Screenreader messages in console", "Checking this will show the screenreader messages in the console for debugging purposes.", val7, checkbox)
+checkbox_osara_debug_id = reagirl.CheckBox_Add(nil, nil, "Show screenreader messages in console", "Checking this will show the screenreader messages in the console for debugging purposes.", val7, checkbox)
 
 reagirl.Background_GetSetColor(true,55,55,55)
 
-reagirl.Gui_Open("ReaGirl Settings", "various settings for ReaGirl-Accessible Guis", 345, 320, nil, nil, nil)
+reagirl.Gui_Open("ReaGirl Settings (Reagirl v"..reagirl.GetVersion()..")", "various settings for ReaGirl-Accessible Guis", 345, 320, nil, nil, nil)
 
 function main()
   reagirl.Gui_Manage()

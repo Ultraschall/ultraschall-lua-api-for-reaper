@@ -6,6 +6,31 @@
 
 reagirl={}
 
+function reagirl.GetVersion()
+  --[[
+  <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+    <slug>GetVersion</slug>
+    <requires>
+      ReaGirl=1.0
+      Reaper=7
+      Lua=5.4
+    </requires>
+    <functioncall>number version = reagirl.GetVersion()</functioncall>
+    <description>
+      Returns the version-number of ReaGirl.
+    </description>
+    <retvals>
+      number version - the version-number of the installed ReaGirl
+    </retvals>
+    <chapter_context>
+      Misc
+    </chapter_context>
+    <tags>misc, get, version</tags>
+  </US_DocBloc>
+  --]]
+  return 1.0
+end
+
 reagirl.osara_outputMessage=reaper.osara_outputMessage
 reagirl.osara=reaper.osara_outputMessage
 

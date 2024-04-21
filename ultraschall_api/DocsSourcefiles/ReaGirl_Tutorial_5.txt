@@ -17,7 +17,7 @@ end
 reagirl.Gui_New()
 
 -- add the source-image, which we will draggable
-image1_id = reagirl.Image_Add(reaper.GetResourcePath().."/Data/track_icons/bass.png", 20, 100, 100, 100, "Bass-guitar", "an image of a bass guitar", Image_Runfunction)
+image_source_id = reagirl.Image_Add(reaper.GetResourcePath().."/Data/track_icons/bass.png", 20, 100, 100, 100, "Bass-guitar", "an image of a bass guitar", Image_Runfunction)
 
 
 -- open gui
@@ -32,7 +32,7 @@ end
 main()
 ```
 
-This will show our image of a bass guitar. Note, how the meaningOfUI_Element-parameter explains, that the image shows a bass-guitar. This is important for blind users, since they can't see the image and need to know, what the image looks like by you giving a short descriptin.
+This will show our image of a bass guitar. Note, how the meaningOfUI_Element-parameter explains, that the image shows a bass-guitar. This is important for blind users, since they can't see the image and need to know, what the image looks like by you giving a short description.
 Clicking the image does nothing yet, as well as trying to drag.
 Now, let's add our dragging-destinations, which will be a label and two images.
 
@@ -47,12 +47,12 @@ end
 reagirl.Gui_New()
 
 -- add the source-image, which we will draggable
-image1_id = reagirl.Image_Add(reaper.GetResourcePath().."/Data/track_icons/bass.png", 20, 100, 100, 100, "Bass-guitar", "an image of a bass guitar", Image_Runfunction)
+image_source_id = reagirl.Image_Add(reaper.GetResourcePath().."/Data/track_icons/bass.png", 20, 100, 100, 100, "Bass-guitar", "an image of a bass guitar", Image_Runfunction)
 
 -- add some additional images and a label, that are the destinations for the dragging
 label_id = reagirl.Label_Add(240, 10, "Nothing has been dragged to this label, yet", "A destination for the source-image to drag to", 0, false, nil)
-image2_id = reagirl.Image_Add(reaper.GetResourcePath().."/Data/track_icons/amp.png", 220, 50, 100, 100, "Amplifier", "an image of an amplifier", nil)
-image3_id = reagirl.Image_Add(reaper.GetResourcePath().."/Data/track_icons/congas.png", 220, 160, 100, 100, "Congas", "an image of congas", nil)
+image_dest1_id = reagirl.Image_Add(reaper.GetResourcePath().."/Data/track_icons/amp.png", 220, 50, 100, 100, "Amplifier", "an image of an amplifier", nil)
+image_dest2_id = reagirl.Image_Add(reaper.GetResourcePath().."/Data/track_icons/congas.png", 220, 160, 100, 100, "Congas", "an image of congas", nil)
 
 -- open gui
 reagirl.Gui_Open("ReaGirl Settings", "various settings for ReaGirl-Accessible Guis", 665, 310, nil, nil, nil)
@@ -83,15 +83,15 @@ end
 reagirl.Gui_New()
 
 -- add the source-image, which we will draggable
-image1_id = reagirl.Image_Add(reaper.GetResourcePath().."/Data/track_icons/bass.png", 20, 100, 100, 100, "Bass-guitar", "an image of a bass guitar", Image_Runfunction)
+image_source_id = reagirl.Image_Add(reaper.GetResourcePath().."/Data/track_icons/bass.png", 20, 100, 100, 100, "Bass-guitar", "an image of a bass guitar", Image_Runfunction)
 
 -- add some additional images and a label, that are the destinations for the dragging
 label_id = reagirl.Label_Add(240, 10, "Nothing has been dragged to this label, yet", "A destination for the source-image to drag to", 0, false, nil)
-image2_id = reagirl.Image_Add(reaper.GetResourcePath().."/Data/track_icons/amp.png", 220, 50, 100, 100, "Amplifier", "an image of an amplifier", nil)
-image3_id = reagirl.Image_Add(reaper.GetResourcePath().."/Data/track_icons/congas.png", 220, 160, 100, 100, "Congas", "an image of congas", nil)
+image_dest1_id = reagirl.Image_Add(reaper.GetResourcePath().."/Data/track_icons/amp.png", 220, 50, 100, 100, "Amplifier", "an image of an amplifier", nil)
+image_dest2_id = reagirl.Image_Add(reaper.GetResourcePath().."/Data/track_icons/congas.png", 220, 160, 100, 100, "Congas", "an image of congas", nil)
 
 -- add the element_ids of image2-4_id as drag-destinations of image1_id
-reagirl.Image_SetDraggable(image1_id, true, {image2_id, image3_id, label_id})
+reagirl.Image_SetDraggable(image_source_id, true, {label_id, image_dest1_id, image_dest2_id})
 
 -- open gui
 reagirl.Gui_Open("ReaGirl Settings", "various settings for ReaGirl-Accessible Guis", 665, 310, nil, nil, nil)
@@ -104,11 +104,11 @@ function main()
 end
 main()
 ```
-You can see, that we pass to it the element\_ids of the destinations, like label\_id, image2\_id and image3\_id.
+You can see, that we pass to it the element\_ids of the destinations, like label\_id, image\_dest1\_id and image\_dest2\_id.
 When you run this, you can drag the source-image of a bass-guitar around. You will see a smaller version of the image is shown at the mouse-cursor during dragging.
-When dropping the source-image to a destination, the run-function of the source-image Image\_Runfunction will be run and show a messagebox that tells you, onto which ui-element you dragged the source-image.
+When dropping the source-image to a destination, the run-function of the source-image Image\_Runfunction() will be run and shows a messagebox that tells you, onto which ui-element you dragged the source-image.
 It will use the function reagirl.UI\_Element\_GetSetCaption() to get the caption of the dragged ui-element.
-The run-function uses the third parameter, drag\_destination, which will be sent to run-functions, once the image it is associated with, is set to draggable, like image1\_id is in our case.
+The run-function uses the third parameter, drag\_destination. This parameter is sent to run-functions once the image it is associated with is set to draggable, like image\_source\_id in our case.
 
 Now, we want to make the label show the filename of the source-image when dropping the source-image onto it.
 
@@ -131,15 +131,15 @@ end
 reagirl.Gui_New()
 
 -- add the source-image, which we will draggable
-image1_id = reagirl.Image_Add(reaper.GetResourcePath().."/Data/track_icons/bass.png", 20, 100, 100, 100, "Bass-guitar", "an image of a bass guitar", Image_Runfunction)
+image_source_id = reagirl.Image_Add(reaper.GetResourcePath().."/Data/track_icons/bass.png", 20, 100, 100, 100, "Bass-guitar", "an image of a bass guitar", Image_Runfunction)
 
 -- add some additional images and a label, that are the destinations for the dragging
 label_id = reagirl.Label_Add(240, 10, "Nothing has been dragged to this label, yet", "A destination for the source-image to drag to", 0, false, nil)
-image2_id = reagirl.Image_Add(reaper.GetResourcePath().."/Data/track_icons/amp.png", 220, 50, 100, 100, "Amplifier", "an image of an amplifier", nil)
-image3_id = reagirl.Image_Add(reaper.GetResourcePath().."/Data/track_icons/congas.png", 220, 160, 100, 100, "Congas", "an image of congas", nil)
+image_dest1_id = reagirl.Image_Add(reaper.GetResourcePath().."/Data/track_icons/amp.png", 220, 50, 100, 100, "Amplifier", "an image of an amplifier", nil)
+image_dest2_id = reagirl.Image_Add(reaper.GetResourcePath().."/Data/track_icons/congas.png", 220, 160, 100, 100, "Congas", "an image of congas", nil)
 
 -- add the element_ids of image2-4_id as drag-destinations of image1_id
-reagirl.Image_SetDraggable(image1_id, true, {image2_id, image3_id, label_id})
+reagirl.Image_SetDraggable(image_source_id, true, {label_id, image_dest1_id, image_dest2_id})
 
 -- open gui
 reagirl.Gui_Open("ReaGirl Settings", "various settings for ReaGirl-Accessible Guis", 665, 310, nil, nil, nil)
@@ -153,8 +153,11 @@ end
 main()
 ```
 
-When we drag the source-image now to the label, the run-function Image\_Runfunction is run, in which we check the parameter drag\_destination against the element\_id label\_id.
-If the source-image has been dropped at the label(drag\_destination==label\_id) then we get the filename of the source-image and load it into the destination-image.
+When we drag the source-image now to the label, the run-function Image\_Runfunction() is run, in which we check the parameter drag\_destination against the element\_id label\_id.
+If the source-image has been dropped at the label(drag\_destination==label\_id) then we get the filename of the source-image and set the caption of the label to it.
+
+Nice.
+Now, let's alter the run-function even further. We will now make it, that dragging the source-image onto the destination-images will change the destination-images once the image was dropped on them.
 
 ```
 dofile(reaper.GetResourcePath().."/UserPlugins/reagirl.lua")
@@ -172,27 +175,23 @@ function Image_Runfunction(element_id, imagepath_plus_filename, drag_destination
     -- change meaningOfUI_Element to reflect, what the label shows now for blind users
     reagirl.UI_Element_GetSetMeaningOfUIElement(label_id, true, "An image of a bass-guitar")
   
-  elseif drag_destination==image2_id then
+  elseif drag_destination==image_dest1_id then
     -- if source_image is dragged to image2, change it's image to the
     -- one of the source-image
     
     -- get the filename of the source-image
     image_filename = reagirl.Image_GetImageFilename(element_id)
     -- load the filename of the source-image in the destination-image
-    reagirl.Image_Load(drag_destination, image_filename)
+    reagirl.Image_Load(image_dest1_id, image_filename)
     -- change meaningOfUI_Element to reflect, what the image shows now for blind users
-    reagirl.UI_Element_GetSetMeaningOfUIElement(drag_destination, true, "An image of a bass-guitar")
-  
-  elseif drag_destination==image3_id then
+  elseif drag_destination==image_dest2_id then
     -- if source_image is dragged to image2, change it's image to the
     -- one of the source-image
     
     -- get the filename of the source-image
     image_filename = reagirl.Image_GetImageFilename(element_id)
     -- load the filename of the source-image in the destination-image
-    reagirl.Image_Load(drag_destination, image_filename)
-    -- change meaningOfUI_Element to reflect, what the image shows now for blind users
-    reagirl.UI_Element_GetSetMeaningOfUIElement(drag_destination, true, "An image of a bass-guitar")
+    reagirl.Image_Load(image_dest2_id, image_filename)
   end
 end
 
@@ -200,15 +199,15 @@ end
 reagirl.Gui_New()
 
 -- add the source-image, which we will draggable
-image1_id = reagirl.Image_Add(reaper.GetResourcePath().."/Data/track_icons/bass.png", 20, 100, 100, 100, "Bass-guitar", "an image of a bass guitar", Image_Runfunction)
+image_source_id = reagirl.Image_Add(reaper.GetResourcePath().."/Data/track_icons/bass.png", 20, 100, 100, 100, "Bass-guitar", "an image of a bass guitar", Image_Runfunction)
 
 -- add some additional images and a label, that are the destinations for the dragging
 label_id = reagirl.Label_Add(240, 10, "Nothing has been dragged to this label, yet", "A destination for the source-image to drag to", 0, false, nil)
-image2_id = reagirl.Image_Add(reaper.GetResourcePath().."/Data/track_icons/amp.png", 220, 50, 100, 100, "Amplifier", "an image of an amplifier", nil)
-image3_id = reagirl.Image_Add(reaper.GetResourcePath().."/Data/track_icons/congas.png", 220, 160, 100, 100, "Congas", "an image of congas", nil)
+image_dest1_id = reagirl.Image_Add(reaper.GetResourcePath().."/Data/track_icons/amp.png", 220, 50, 100, 100, "Amplifier", "an image of an amplifier", nil)
+image_dest2_id = reagirl.Image_Add(reaper.GetResourcePath().."/Data/track_icons/congas.png", 220, 160, 100, 100, "Congas", "an image of congas", nil)
 
 -- add the element_ids of image2-4_id as drag-destinations of image1_id
-reagirl.Image_SetDraggable(image1_id, true, {image2_id, image3_id, label_id})
+reagirl.Image_SetDraggable(image_source_id, true, {label_id, image_dest1_id, image_dest2_id})
 
 -- open gui
 reagirl.Gui_Open("ReaGirl Settings", "various settings for ReaGirl-Accessible Guis", 665, 310, nil, nil, nil)
@@ -221,3 +220,88 @@ function main()
 end
 main()
 ```
+
+When we run this code, dropping the source-image onto one of the destination-images will now change the shown image.
+To achieve this, we checked in the run-function Image\_Runfunction() if the destination-ui-element(drag\_destination-parameter) was either the first destination image(image\_dest1\_id) or the second(image\_dest2\_id).
+If so, we get the filename of the source using reagirl.Image\_GetImageFilename() and load it using reagirl.Image\_Load() into the destination-image.
+
+Awesome, it's already looking good. But: there's one thing we missed:
+Remember that the description of the destination images was amp and conga? It still is, even though it's now showing a bass-guitar. That means, blind users didn't get, that the images was changed.
+Let's change that.
+We alter the run-function Image\_Runfunction() even further by adding reagirl.UI\_Element\_GetSetMeaningOfUIElement(). With that, we change the description now to "An image of a bass-guitar." so blind users know, that the images changed.
+We will also alter the label-description to tell blind users, that the label is now showing the filename+path of the image.
+
+Note: in the ReaGirl-Settings you find an option called "Show screenreader messages in console", which will show the messages sent to blind users in the ReaScript-console window.
+With that, you can check, whether the meaningOfUI_Element was correctly altered or is even reflecting the correct message.
+
+Ok, now that we altered the script, it looks like this now.
+
+```
+dofile(reaper.GetResourcePath().."/UserPlugins/reagirl.lua")
+
+function Image_Runfunction(element_id, imagepath_plus_filename, drag_destination)
+  -- this function will be run when the image is clicked or dragged to a destination
+  if drag_destination==label_id then
+    -- if source-image is dragged to the label, set labeltext to 
+    -- filename of the source-image
+    
+    -- get the filename of the source-image
+    image_filename = reagirl.Image_GetImageFilename(element_id) 
+    -- set label-text to filename of source-image
+    reagirl.Label_SetLabelText(label_id, "Filename of source-image is: "..image_filename) 
+    -- change meaningOfUI_Element to reflect, what the label shows now for blind users
+    reagirl.UI_Element_GetSetMeaningOfUIElement(label_id, true, "An image of a bass-guitar")
+  
+  elseif drag_destination==image_dest1_id then
+    -- if source_image is dragged to image2, change it's image to the
+    -- one of the source-image
+    
+    -- get the filename of the source-image
+    image_filename = reagirl.Image_GetImageFilename(element_id)
+    -- load the filename of the source-image in the destination-image
+    reagirl.Image_Load(image_dest1_id, image_filename)
+    -- change meaningOfUI_Element to reflect, what the image shows now for blind users
+    reagirl.UI_Element_GetSetMeaningOfUIElement(image_dest1_id, true, "An image of a bass-guitar")
+  
+  elseif drag_destination==image_dest2_id then
+    -- if source_image is dragged to image2, change it's image to the
+    -- one of the source-image
+    
+    -- get the filename of the source-image
+    image_filename = reagirl.Image_GetImageFilename(element_id)
+    -- load the filename of the source-image in the destination-image
+    reagirl.Image_Load(image_dest2_id, image_filename)
+    -- change meaningOfUI_Element to reflect, what the image shows now for blind users
+    reagirl.UI_Element_GetSetMeaningOfUIElement(image_dest2_id, true, "An image of a bass-guitar")
+  end
+end
+
+-- start a new gui
+reagirl.Gui_New()
+
+-- add the source-image, which we will draggable
+image_source_id = reagirl.Image_Add(reaper.GetResourcePath().."/Data/track_icons/bass.png", 20, 100, 100, 100, "Bass-guitar", "an image of a bass guitar", Image_Runfunction)
+
+-- add some additional images and a label, that are the destinations for the dragging
+label_id = reagirl.Label_Add(240, 10, "Nothing has been dragged to this label, yet", "A destination for the source-image to drag to", 0, false, nil)
+image_dest1_id = reagirl.Image_Add(reaper.GetResourcePath().."/Data/track_icons/amp.png", 220, 50, 100, 100, "Amplifier", "an image of an amplifier", nil)
+image_dest2_id = reagirl.Image_Add(reaper.GetResourcePath().."/Data/track_icons/congas.png", 220, 160, 100, 100, "Congas", "an image of congas", nil)
+
+-- add the element_ids of image2-4_id as drag-destinations of image1_id
+reagirl.Image_SetDraggable(image_source_id, true, {label_id, image_dest1_id, image_dest2_id})
+
+-- open gui
+reagirl.Gui_Open("ReaGirl Settings", "various settings for ReaGirl-Accessible Guis", 665, 310, nil, nil, nil)
+
+-- manage gui
+function main()
+  reagirl.Gui_Manage()
+  
+  if reagirl.Gui_IsOpen()==true then reaper.defer(main) end
+end
+main()
+```
+
+Great. Now we have a script that allows dragging a source-image to various destinations. It alters the images and labels when the source-image has been dropped.
+We also altered the screenreader-messages accordingly to reflect the changes, so blind users know, what has happened as well.
+With that, you know even more about how ReaGirl works.
