@@ -5301,7 +5301,7 @@ function reagirl.InputBox_Draw(element_id, selected, hovered, clicked, mouse_cap
     gfx.set(0.9843137254901961, 0.8156862745098039, 0)
     --gfx.set(1,0,0)
     if element_storage["blink"]>0 and element_storage["blink"]<(reagirl.InputBox_BlinkSpeed>>1)+4 then
-      gfx.line(x+cap_w+dpi_scale, y+dpi_scale, x+cap_w+dpi_scale, y+gfx.texth)
+      gfx.line(x+cap_w+dpi_scale+dpi_scale+dpi_scale, y+dpi_scale, x+cap_w+dpi_scale+dpi_scale+dpi_scale, y+gfx.texth)
     end
   end
 end
