@@ -1,4 +1,4 @@
---dofile(reaper.GetResourcePath().."/UserPlugins/ultraschall_api.lua")
+dofile(reaper.GetResourcePath().."/UserPlugins/ultraschall_api.lua")
 
 -- DEBUG:
 --reaper.osara_outputMessage=nil
@@ -4952,7 +4952,7 @@ function reagirl.InputBox_OnTyping(Key, Key_UTF, mouse_cap, element_storage)
         else
           element_storage.selection_endoffset=element_storage.cursor_offset
         end
-      elseif element_storage.cursor_offset>0 then
+      elseif element_storage.cursor_offset>=0 then
         element_storage.selection_startoffset=element_storage.cursor_offset
         element_storage.selection_endoffset=element_storage.cursor_offset
       end
@@ -5047,11 +5047,13 @@ function reagirl.InputBox_OnTyping(Key, Key_UTF, mouse_cap, element_storage)
   elseif Key==6579564.0 then
     -- Del Key
     if element_storage.selection_startoffset~=element_storage.selection_endoffset then
-      element_storage.Text=element_storage.Text:utf8_sub(1, element_storage.selection_startoffset)..element_storage.Text:utf8_sub(element_storage.selection_endoffset+1, -1)
+      --print2("1")
+      element_storage.Text=element_storage.Text:utf8_sub(0, element_storage.selection_startoffset)..element_storage.Text:utf8_sub(element_storage.selection_endoffset+1, -1)
       element_storage.cursor_offset=element_storage.selection_startoffset
       element_storage.selection_startoffset=element_storage.cursor_offset
       element_storage.selection_endoffset=element_storage.cursor_offset
     else
+      --print2("2")
       element_storage.Text=element_storage.Text:utf8_sub(1, element_storage.selection_startoffset)..element_storage.Text:utf8_sub(element_storage.selection_endoffset+2, -1)
     end
     reagirl.InputBox_ConsolidateCursorPos(element_storage)
