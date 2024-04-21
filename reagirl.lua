@@ -1175,7 +1175,7 @@ function reagirl.Gui_AtExit(run_func)
   reagirl.AtExit_RunFunc=run_func
 end
 
-function reagirl.AtEnter(run_func)
+function reagirl.Gui_AtEnter(run_func)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>AtEnter</slug>
@@ -1184,7 +1184,7 @@ function reagirl.AtEnter(run_func)
     Reaper=7
     Lua=5.4
   </requires>
-  <functioncall>reagirl.AtEnter(optional function run_func)</functioncall>
+  <functioncall>reagirl.Gui_AtEnter(optional function run_func)</functioncall>
   <description>
     Adds a function that shall be run when someone hits Enter while the gui is opened.
   </description>
@@ -1199,7 +1199,7 @@ function reagirl.AtEnter(run_func)
   <tags>functions, atenter, gui, function</tags>
 </US_DocBloc>
 ]]
-  if run_func~=nil and type(run_func)~="function" then error("AtEnter: param #1 - must be a function", -2) return end
+  if run_func~=nil and type(run_func)~="function" then error("Gui_AtEnter: param #1 - must be a function", -2) return end
   reagirl.AtEnter_RunFunc=run_func
 end
 
