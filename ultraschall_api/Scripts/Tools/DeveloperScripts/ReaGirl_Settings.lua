@@ -111,7 +111,7 @@ function SetUpNewGui()
   reagirl.NextLine(-2)
   show_tooltips = reaper.GetExtState("ReaGirl", "show_tooltips")
   if show_tooltips=="" or show_tooltips=="true" then show_tooltips=true else show_tooltips=false end
-  checkbox_tooltips_id = reagirl.CheckBox_Add(nil, nil, "Show tooltips when hovering above ui-element", "When checked, ReaGirl will show tooltips when hovering above ui-elements.", show_tooltips, checkbox)
+  checkbox_tooltips_id = reagirl.Checkbox_Add(nil, nil, "Show tooltips when hovering above ui-element", "When checked, ReaGirl will show tooltips when hovering above ui-elements.", show_tooltips, checkbox)
   
   reagirl.NextLine(10)
   Label1=reagirl.Label_Add(nil, nil, "Focus Rectangle", "Settings for the focus rectangle.", 0, false, nil)
@@ -137,7 +137,7 @@ function SetUpNewGui()
   if val3==nil then val3=33 end
   slider=reagirl.Slider_Add(nil, nil, 300, "Blink every", 140, "Set the speed of the blinking of the cursor.", "seconds", 0.4, 3, 0.1, val3/33, 1, CursorBlinkSpeed)
   reagirl.NextLine(-2)
-  input_id = reagirl.InputBox_Add(nil, nil, 300, "Test input:", 140, "Input text to check cursor blinking speed.", testtext, nil, nil)
+  input_id = reagirl.InputBox_Add(nil, nil, 315, "Test input:", 140, "Input text to check cursor blinking speed.", testtext, nil, nil)
   reagirl.InputBox_SetEmptyText(input_id, "Test blink-speed here...")
   
   -- [[ Scaling Override ]]
@@ -157,22 +157,22 @@ function SetUpNewGui()
   reagirl.Label_SetStyle(Label1, 6, 0, 0)
   osara_override=reaper.GetExtState("ReaGirl", "osara_override")
   if osara_override=="true" or osara_override=="" then osara_override=true else osara_override=false end
-  checkbox_osara_id = reagirl.CheckBox_Add(nil, nil, "Enable installed Osara", "Checking this will prevent from screenreader messages to be sent to Osara. You can also type directly into inputboxes.", osara_override, checkbox)
+  checkbox_osara_id = reagirl.Checkbox_Add(nil, nil, "Enable installed Osara", "Checking this will prevent from screenreader messages to be sent to Osara. You can also type directly into inputboxes.", osara_override, checkbox)
   
   reagirl.NextLine()
   osara_debug=reaper.GetExtState("ReaGirl", "osara_debug")
   if osara_debug=="false" or osara_debug=="" then osara_debug=false else osara_debug=true end
-  checkbox_osara_debug_id = reagirl.CheckBox_Add(nil, nil, "Show screenreader messages in console", "Checking this will show the screenreader messages in the console for debugging purposes.", osara_debug, checkbox)
+  checkbox_osara_debug_id = reagirl.Checkbox_Add(nil, nil, "Show screenreader messages in console", "Checking this will show the screenreader messages in the console for debugging purposes.", osara_debug, checkbox)
   
   reagirl.NextLine()
   osara_move_mouse = reaper.GetExtState("ReaGirl", "osara_move_mouse")
   if osara_move_mouse=="" or osara_move_mouse=="true" then osara_move_mouse=true else osara_move_mouse=false end
-  checkbox_osara_move_mouse_id = reagirl.CheckBox_Add(nil, nil, "Move mouse when tabbing ui-elements", "Uncheck to prevent moving of the mouse when tabbing through ui-elements. Unchecking will make right-clicking for context menus more difficult, though.", osara_move_mouse, checkbox)
+  checkbox_osara_move_mouse_id = reagirl.Checkbox_Add(nil, nil, "Move mouse when tabbing ui-elements", "Uncheck to prevent moving of the mouse when tabbing through ui-elements. Unchecking will make right-clicking for context menus more difficult, though.", osara_move_mouse, checkbox)
   
   reagirl.NextLine()
   osara_hover_mouse = reaper.GetExtState("ReaGirl", "osara_hover_mouse")
   if osara_hover_mouse=="" or osara_hover_mouse=="true" then osara_hover_mouse=true else osara_hover_mouse=false end
-  checkbox_osara_hover_mouse_id = reagirl.CheckBox_Add(nil, nil, "Report hovered ui-elements", "When checked, ReaGirl will report ui-elements the mouse is hovering above to the screenreader. Uncheck to prevent that.", osara_hover_mouse, checkbox)
+  checkbox_osara_hover_mouse_id = reagirl.Checkbox_Add(nil, nil, "Report hovered ui-elements", "When checked, ReaGirl will report ui-elements the mouse is hovering above to the screenreader. Uncheck to prevent that.", osara_hover_mouse, checkbox)
 end
 
 SetUpNewGui()

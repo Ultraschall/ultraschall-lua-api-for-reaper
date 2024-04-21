@@ -168,22 +168,22 @@ reagirl.Colors.TextFG_disabled={}
 reagirl.Colors.TextFG_disabled.r=0.6
 reagirl.Colors.TextFG_disabled.g=0.6
 reagirl.Colors.TextFG_disabled.b=0.6
-reagirl.Colors.CheckBox={}
-reagirl.Colors.CheckBox.r=0.9843137254901961
-reagirl.Colors.CheckBox.g=0.8156862745098039
-reagirl.Colors.CheckBox.b=0
-reagirl.Colors.CheckBox_rectangle={}
-reagirl.Colors.CheckBox_rectangle.r=0.45
-reagirl.Colors.CheckBox_rectangle.g=0.45
-reagirl.Colors.CheckBox_rectangle.b=0.45
-reagirl.Colors.CheckBox_disabled={}
-reagirl.Colors.CheckBox_disabled.r=0.5843137254901961
-reagirl.Colors.CheckBox_disabled.g=0.5843137254901961
-reagirl.Colors.CheckBox_disabled.b=0
-reagirl.Colors.CheckBox_background={}
-reagirl.Colors.CheckBox_background.r=0.234
-reagirl.Colors.CheckBox_background.g=0.234
-reagirl.Colors.CheckBox_background.b=0.234
+reagirl.Colors.Checkbox={}
+reagirl.Colors.Checkbox.r=0.9843137254901961
+reagirl.Colors.Checkbox.g=0.8156862745098039
+reagirl.Colors.Checkbox.b=0
+reagirl.Colors.Checkbox_rectangle={}
+reagirl.Colors.Checkbox_rectangle.r=0.45
+reagirl.Colors.Checkbox_rectangle.g=0.45
+reagirl.Colors.Checkbox_rectangle.b=0.45
+reagirl.Colors.Checkbox_disabled={}
+reagirl.Colors.Checkbox_disabled.r=0.5843137254901961
+reagirl.Colors.Checkbox_disabled.g=0.5843137254901961
+reagirl.Colors.Checkbox_disabled.b=0
+reagirl.Colors.Checkbox_background={}
+reagirl.Colors.Checkbox_background.r=0.234
+reagirl.Colors.Checkbox_background.g=0.234
+reagirl.Colors.Checkbox_background.b=0.234
 
 -- Cursor-Blinkspeed for inputboxes, live-settable in extstate ReaGirl -> InputBox_BlinkSpeed
 -- 7 and higher is supported
@@ -3498,16 +3498,16 @@ function reagirl.UI_Element_GetGuidFromID(id)
   end
 end
 
-function reagirl.CheckBox_Add(x, y, caption, meaningOfUI_Element, default, run_function)
+function reagirl.Checkbox_Add(x, y, caption, meaningOfUI_Element, default, run_function)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>CheckBox_Add</slug>
+  <slug>Checkbox_Add</slug>
   <requires>
     ReaGirl=1.0
     Reaper=7
     Lua=5.4
   </requires>
-  <functioncall>string checkbox_guid = reagirl.CheckBox_Add(integer x, integer y, integer w_margin, integer h_margin, string caption, string meaningOfUI_Element, function run_function)</functioncall>
+  <functioncall>string checkbox_guid = reagirl.Checkbox_Add(integer x, integer y, integer w_margin, integer h_margin, string caption, string meaningOfUI_Element, function run_function)</functioncall>
   <description>
     Adds a checkbox to a gui.
     
@@ -3531,13 +3531,13 @@ function reagirl.CheckBox_Add(x, y, caption, meaningOfUI_Element, default, run_f
   <tags>checkbox, add</tags>
 </US_DocBloc>
 --]]
-  if x~=nil and math.type(x)~="integer" then error("CheckBox_Add: param #1 - must be an integer", 2) end
-  if y~=nil and math.type(y)~="integer" then error("CheckBox_Add: param #2 - must be an integer", 2) end
-  if type(caption)~="string" then error("CheckBox_Add: param #3 - must be a string", 2) end
+  if x~=nil and math.type(x)~="integer" then error("Checkbox_Add: param #1 - must be an integer", 2) end
+  if y~=nil and math.type(y)~="integer" then error("Checkbox_Add: param #2 - must be an integer", 2) end
+  if type(caption)~="string" then error("Checkbox_Add: param #3 - must be a string", 2) end
   caption=string.gsub(caption, "[\n\r]", "")
-  if type(meaningOfUI_Element)~="string" then error("CheckBox_Add: param #4 - must be a string", 2) end
-  if type(default)~="boolean" then error("CheckBox_Add: param #5 - must be a boolean", 2) end
-  if run_function~=nil and type(run_function)~="function" then error("CheckBox_Add: param #6 - must be either nil or a function", 2) end
+  if type(meaningOfUI_Element)~="string" then error("Checkbox_Add: param #4 - must be a string", 2) end
+  if type(default)~="boolean" then error("Checkbox_Add: param #5 - must be a boolean", 2) end
+  if run_function~=nil and type(run_function)~="function" then error("Checkbox_Add: param #6 - must be either nil or a function", 2) end
   
   local slot=reagirl.UI_Element_GetNextFreeSlot()
   local slot2
@@ -3602,7 +3602,7 @@ function reagirl.CheckBox_Add(x, y, caption, meaningOfUI_Element, default, run_f
   reagirl.Elements[slot]["bottom_edge"]=true
   reagirl.Elements[slot]["checked"]=default
   reagirl.Elements[slot]["func_manage"]=reagirl.Checkbox_Manage
-  reagirl.Elements[slot]["func_draw"]=reagirl.CheckBox_Draw
+  reagirl.Elements[slot]["func_draw"]=reagirl.Checkbox_Draw
   reagirl.Elements[slot]["run_function"]=run_function
   reagirl.Elements[slot]["userspace"]={}
   return reagirl.Elements[slot]["Guid"]
@@ -3645,7 +3645,7 @@ function reagirl.Checkbox_Manage(element_id, selected, hovered, clicked, mouse_c
   end
 end
 
-function reagirl.CheckBox_Draw(element_id, selected, hovered, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
+function reagirl.Checkbox_Draw(element_id, selected, hovered, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
   reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0)
   gfx.x=x
   gfx.y=y
@@ -3654,17 +3654,17 @@ function reagirl.CheckBox_Draw(element_id, selected, hovered, clicked, mouse_cap
   
   local top=element_storage["top_edge"]
   local bottom=element_storage["bottom_edge"]
-  gfx.set(reagirl.Colors.CheckBox_rectangle.r, reagirl.Colors.CheckBox_rectangle.g, reagirl.Colors.CheckBox_rectangle.b)
+  gfx.set(reagirl.Colors.Checkbox_rectangle.r, reagirl.Colors.Checkbox_rectangle.g, reagirl.Colors.Checkbox_rectangle.b)
   reagirl.RoundRect(x, y, h, h, 2*scale-1, 1,1, false, false, false, false)
   
-  gfx.set(reagirl.Colors.CheckBox_background.r, reagirl.Colors.CheckBox_background.g, reagirl.Colors.CheckBox_background.b)
+  gfx.set(reagirl.Colors.Checkbox_background.r, reagirl.Colors.Checkbox_background.g, reagirl.Colors.Checkbox_background.b)
   reagirl.RoundRect(x+scale, y+scale, h-scale*2, h-scale*2, scale-1, 0, 1, false, false, false, false)
   
   if reagirl.Elements[element_id]["checked"]==true then
     if element_storage["IsDisabled"]==false then
-      gfx.set(reagirl.Colors.CheckBox.r, reagirl.Colors.CheckBox.g, reagirl.Colors.CheckBox.b)
+      gfx.set(reagirl.Colors.Checkbox.r, reagirl.Colors.Checkbox.g, reagirl.Colors.Checkbox.b)
     else
-      gfx.set(reagirl.Colors.CheckBox_disabled.r, reagirl.Colors.CheckBox_disabled.g, reagirl.Colors.CheckBox_disabled.b)
+      gfx.set(reagirl.Colors.Checkbox_disabled.r, reagirl.Colors.Checkbox_disabled.g, reagirl.Colors.Checkbox_disabled.b)
     end
     reagirl.RoundRect(x+(scale)*3, y+scale*3, h-scale*6, h-scale*6, 3*scale, 1, 1, top, bottom, true, true)
   end
