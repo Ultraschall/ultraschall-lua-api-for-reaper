@@ -65,9 +65,9 @@ end
 
 function CursorBlinkSpeed(slider_id, value)
   if value==1 then
-    reaper.SetExtState("ReaGirl", "InputBox_BlinkSpeed", "", true)
+    reaper.SetExtState("ReaGirl", "Inputbox_BlinkSpeed", "", true)
   else
-    reaper.SetExtState("ReaGirl", "InputBox_BlinkSpeed", math.floor(value*33), true)
+    reaper.SetExtState("ReaGirl", "Inputbox_BlinkSpeed", math.floor(value*33), true)
   end
   reagirl.FocusRectangle_BlinkStartTime=reaper.time_precise()
 end
@@ -128,17 +128,17 @@ function SetUpNewGui()
   reagirl.NextLine(-4)
   reagirl.Slider_Add(nil, nil, 300, "Blinklength for", 140, "Set the duration of the blinking of the focus rectangle.", "seconds", 0, 10, 1, val2, 0, BlinkTime)
   
-  -- [[ Blinking InputBox-Cursor ]]
+  -- [[ Blinking Inputbox-Cursor ]]
   reagirl.NextLine(15)
   Label1=reagirl.Label_Add(nil, nil, "Inputbox-Cursor", "Settings for the inputbox-cursor.", 0, false, nil)
   reagirl.Label_SetStyle(Label1, 6, 0, 0)
   reagirl.NextLine(-4)
-  val3=tonumber(reaper.GetExtState("ReaGirl", "InputBox_BlinkSpeed"))
+  val3=tonumber(reaper.GetExtState("ReaGirl", "Inputbox_BlinkSpeed"))
   if val3==nil then val3=33 end
   slider=reagirl.Slider_Add(nil, nil, 300, "Blink every", 140, "Set the speed of the blinking of the cursor.", "seconds", 0.4, 3, 0.1, val3/33, 1, CursorBlinkSpeed)
   reagirl.NextLine(-2)
-  input_id = reagirl.InputBox_Add(nil, nil, 315, "Test input:", 140, "Input text to check cursor blinking speed.", testtext, nil, nil)
-  reagirl.InputBox_SetEmptyText(input_id, "Test blink-speed here...")
+  input_id = reagirl.Inputbox_Add(nil, nil, 315, "Test input:", 140, "Input text to check cursor blinking speed.", testtext, nil, nil)
+  reagirl.Inputbox_SetEmptyText(input_id, "Test blink-speed here...")
   
   -- [[ Scaling Override ]]
   reagirl.NextLine(15)
@@ -209,7 +209,7 @@ end
 
 function main()
   B,B1,B2=CheckIfSettingChanged()
-  if B==true then A=reaper.time_precise() testtext=reagirl.InputBox_GetText(input_id) i=reagirl.Elements.FocusedElement if i==nil then i=1 end SetUpNewGui() reagirl.Elements.FocusedElement=i end
+  if B==true then A=reaper.time_precise() testtext=reagirl.Inputbox_GetText(input_id) i=reagirl.Elements.FocusedElement if i==nil then i=1 end SetUpNewGui() reagirl.Elements.FocusedElement=i end
   reagirl.Gui_Manage()
   if B==true then
     reagirl.Elements.FocusedElement=i
