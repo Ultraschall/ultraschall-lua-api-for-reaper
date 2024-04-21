@@ -2001,7 +2001,7 @@ function reagirl.Gui_Manage()
     
   local found_element, old_selection 
   local restore=false
-  for i=#reagirl.Elements-Scroll_Override_ScrollButtons, 1, -1 do
+  for i=1, #reagirl.Elements-Scroll_Override_ScrollButtons, 1 do
     if reagirl.Elements[i]["hidden"]~=true then
       local x2, y2, w2, h2
       if reagirl.Elements[i]["x"]<0 then x2=gfx.w+(reagirl.Elements[i]["x"]*scale) else x2=reagirl.Elements[i]["x"]*scale end
@@ -2349,7 +2349,7 @@ function reagirl.Gui_Draw(Key, Key_utf, clickstate, specific_clickstate, mouse_c
 
     -- draw all ui-elements
     
-    for i=1, #reagirl.Elements, 1 do
+    for i=#reagirl.Elements, 1, -1 do
       if reagirl.Elements[i]["hidden"]~=true then
         local x2, y2, w2, h2
         local w_add, h_add
