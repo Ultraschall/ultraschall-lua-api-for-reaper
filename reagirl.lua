@@ -1221,7 +1221,7 @@ function reagirl.ScrollBar_Right_Add()
   reagirl.Elements[#reagirl.Elements]["GUI_Element_Type"]="Scroll Bar"
   reagirl.Elements[#reagirl.Elements]["Name"]="Scroll bar right"
   reagirl.Elements[#reagirl.Elements]["Text"]=""
-  reagirl.Elements[#reagirl.Elements]["IsDecorative"]=false
+  reagirl.Elements[#reagirl.Elements]["IsDisabled"]=false
   reagirl.Elements[#reagirl.Elements]["Description"]="Scroll bar"
   reagirl.Elements[#reagirl.Elements]["AccHint"]="Scrolls the user interface up and down, using the arrowkeys"
   reagirl.Elements[#reagirl.Elements]["ContextMenu_ACC"]=""
@@ -1244,7 +1244,7 @@ function reagirl.ScrollBar_Right_Manage(element_id, selected, hovered, clicked, 
   -- ToDo: scrolling only from y+15 to y+h-30
   --       - adding scroll "marker"(probably in Draw-function)
   if reagirl.Scroll_Override_ScrollButtons==true then return "" end
-  if element_storage.IsDecorative==false and element_storage.a<=0.75 then element_storage.a=element_storage.a+.1 reagirl.Gui_ForceRefresh(44) end
+  if element_storage.IsDisabled==false and element_storage.a<=0.75 then element_storage.a=element_storage.a+.1 reagirl.Gui_ForceRefresh(44) end
   
   if selected~="not selected" and gfx.mouse_x>=x and gfx.mouse_x<=x+w then
     if element_storage.clickme~=true and mouse_cap&1==1 and gfx.mouse_y>=y and gfx.mouse_y<=element_storage.scrollstart then
@@ -1299,12 +1299,12 @@ function reagirl.ScrollBar_Right_Draw(element_id, selected, hovered, clicked, mo
   if reagirl.Scroll_Override_ScrollButtons==true then return "" end
   local scale=reagirl.Window_CurrentScale
   if reagirl.BoundaryY_Max>gfx.h then
-    element_storage.IsDecorative=false
+    element_storage.IsDisabled=false
   else
     element_storage.a=0 
-    if element_storage.IsDecorative==false then
+    if element_storage.IsDisabled==false then
       reagirl.UI_Element_SetNothingFocused()
-      element_storage.IsDecorative=true
+      element_storage.IsDisabled=true
     end
   end
   local oldr, oldg, oldb, olda = gfx.r, gfx.g, gfx.b, gfx.a
@@ -1330,7 +1330,7 @@ function reagirl.ScrollBar_Bottom_Add()
   reagirl.Elements[#reagirl.Elements]["GUI_Element_Type"]="Scroll Bar"
   reagirl.Elements[#reagirl.Elements]["Name"]="Scroll bar bottom"
   reagirl.Elements[#reagirl.Elements]["Text"]=""
-  reagirl.Elements[#reagirl.Elements]["IsDecorative"]=false
+  reagirl.Elements[#reagirl.Elements]["IsDisabled"]=false
   reagirl.Elements[#reagirl.Elements]["Description"]="Scroll bar"
   reagirl.Elements[#reagirl.Elements]["AccHint"]="Scrolls the user interface left and right, using the arrowkeys"
   reagirl.Elements[#reagirl.Elements]["ContextMenu_ACC"]=""
@@ -1354,7 +1354,7 @@ function reagirl.ScrollBar_Bottom_Manage(element_id, selected, hovered, clicked,
   -- ToDo: - scrolling only from x+15 to x+w-30
   --       - adding scroll "marker"(probably in Draw-function)
   if reagirl.Scroll_Override_ScrollButtons==true then return "" end
-  if element_storage.IsDecorative==false and element_storage.a<=0.75 then element_storage.a=element_storage.a+.1 reagirl.Gui_ForceRefresh(44) end
+  if element_storage.IsDisabled==false and element_storage.a<=0.75 then element_storage.a=element_storage.a+.1 reagirl.Gui_ForceRefresh(44) end
   local dpi_scale = reagirl.Window_GetCurrentScale()
   
   if selected~="not selected" and gfx.mouse_y>=y and gfx.mouse_y<=y+h then
@@ -1410,12 +1410,12 @@ function reagirl.ScrollBar_Bottom_Draw(element_id, selected, hovered, clicked, m
   if reagirl.Scroll_Override_ScrollButtons==true then return "" end
   local scale=reagirl.Window_CurrentScale
   if reagirl.BoundaryX_Max>gfx.w then
-    element_storage.IsDecorative=false
+    element_storage.IsDisabled=false
   else
     element_storage.a=0 
-    if element_storage.IsDecorative==false then
+    if element_storage.IsDisabled==false then
       reagirl.UI_Element_SetNothingFocused()
-      element_storage.IsDecorative=true
+      element_storage.IsDisabled=true
     end
   end
   local oldr, oldg, oldb, olda = gfx.r, gfx.g, gfx.b, gfx.a
@@ -2021,7 +2021,7 @@ function reagirl.Gui_Manage()
          end
          
          -- focused/clicked ui-element-management
-         if (specific_clickstate=="FirstCLK") and reagirl.Elements[i]["IsDecorative"]==false then
+         if (specific_clickstate=="FirstCLK") and reagirl.Elements[i]["IsDisabled"]==false then
            if i~=reagirl.Elements["FocusedElement"] then
              init_message=reagirl.Elements[i]["Name"].." "..reagirl.Elements[i]["GUI_Element_Type"]:sub(1,-1).." "
              helptext=reagirl.Elements[i]["Description"]..", "..reagirl.Elements[i]["AccHint"]
@@ -2193,7 +2193,7 @@ function reagirl.Gui_Manage()
       --if (x2+MoveItAllRight>=0 and x2+MoveItAllRight<=gfx.w) or (y2+MoveItAllUp>=0 and y2+MoveItAllUp<=gfx.h) or (x2+MoveItAllRight+w2>=0 and x2+MoveItAllRight+w2<=gfx.w) or (y2+MoveItAllUp+h2>=0 and y2+MoveItAllUp+h2<=gfx.h) then
       -- uncommented code: might improve performance by running only manage-functions of UI-elements, who are visible(though might be buggy)
       --                   but seems to work without it as well
-      if reagirl.Elements[i]["IsDecorative"]==false and reagirl.EditMode~=true then
+      if reagirl.Elements[i]["IsDisabled"]==false and reagirl.EditMode~=true then
         if i==reagirl.Elements["FocusedElement"] or ((((x2+reagirl.MoveItAllRight>0 and x2+reagirl.MoveItAllRight<=gfx.w) 
         or (x2+w2+reagirl.MoveItAllRight>0 and x2+w2+reagirl.MoveItAllRight<=gfx.w) 
         or (x2+reagirl.MoveItAllRight<=0 and x2+w2+reagirl.MoveItAllRight>=gfx.w))
@@ -2224,7 +2224,7 @@ function reagirl.Gui_Manage()
         end -- only run manage-functions of visible gui-elements
         
         -- output screenreader-message of ui-element
-        if reagirl.Elements["FocusedElement"]==i and reagirl.Elements[reagirl.Elements["FocusedElement"]]["IsDecorative"]==false and reagirl.old_osara_message~=message then
+        if reagirl.Elements["FocusedElement"]==i and reagirl.Elements[reagirl.Elements["FocusedElement"]]["IsDisabled"]==false and reagirl.old_osara_message~=message then
           
           if message==nil then message="" end
           
@@ -2678,7 +2678,7 @@ function reagirl.UI_Element_GetNext(startoffset)
   for i=1, #reagirl.Elements do
     count=count+1
     if count>#reagirl.Elements then count=1 end
-    if reagirl.Elements[count]~=nil and reagirl.Elements[count].IsDecorative==false and reagirl.Elements[count]["hidden"]~=true then 
+    if reagirl.Elements[count]~=nil and reagirl.Elements[count].IsDisabled==false and reagirl.Elements[count]["hidden"]~=true then 
       return count, reagirl.Elements[count].Guid 
     end
   end
@@ -2693,7 +2693,7 @@ function reagirl.UI_Element_GetPrevious(startoffset)
   for i=1, #reagirl.Elements do
     count=count-1
     if count<1 then count=#reagirl.Elements end
-    if reagirl.Elements[count].IsDecorative==false and reagirl.Elements[count]["hidden"]~=true then return count, reagirl.Elements[count].Guid end
+    if reagirl.Elements[count].IsDisabled==false and reagirl.Elements[count]["hidden"]~=true then return count, reagirl.Elements[count].Guid end
   end
   return -1, ""
 end
@@ -3520,7 +3520,7 @@ function reagirl.CheckBox_Add(x, y, caption, meaningOfUI_Element, default, run_f
       x=reagirl.UI_Element_NextX_Default
     elseif slot>1 then
       for i=slot-1, 1, -1 do
-        if reagirl.Elements[i]["IsDecorative"]==false then
+        if reagirl.Elements[i]["IsDisabled"]==false then
           slot2=i
           break
         end
@@ -3536,7 +3536,7 @@ function reagirl.CheckBox_Add(x, y, caption, meaningOfUI_Element, default, run_f
     y=reagirl.UI_Element_NextY_Default
     if slot>1 then
       for i=slot-1, 1, -1 do
-        if reagirl.Elements[i]["IsDecorative"]==false then
+        if reagirl.Elements[i]["IsDisabled"]==false then
           slot2=i
           break
         end
@@ -3560,7 +3560,7 @@ function reagirl.CheckBox_Add(x, y, caption, meaningOfUI_Element, default, run_f
   reagirl.Elements[slot]["GUI_Element_Type"]="Checkbox"
   reagirl.Elements[slot]["Name"]=caption
   reagirl.Elements[slot]["Text"]=caption
-  reagirl.Elements[slot]["IsDecorative"]=false
+  reagirl.Elements[slot]["IsDisabled"]=false
   reagirl.Elements[slot]["Description"]=meaningOfUI_Element
   reagirl.Elements[slot]["AccHint"]="Change checkstate with space or left mouse-click."
   reagirl.Elements[slot]["ContextMenu_ACC"]=""
@@ -3635,7 +3635,7 @@ function reagirl.CheckBox_Draw(element_id, selected, hovered, clicked, mouse_cap
   reagirl.RoundRect(x+scale, y+scale, h-scale*2, h-scale*2, scale-1, 0, 1, false, false, false, false)
   
   if reagirl.Elements[element_id]["checked"]==true then
-    if element_storage["IsDecorative"]==false then
+    if element_storage["IsDisabled"]==false then
       gfx.set(reagirl.Colors.CheckBox.r, reagirl.Colors.CheckBox.g, reagirl.Colors.CheckBox.b)
     else
       gfx.set(reagirl.Colors.CheckBox_disabled.r, reagirl.Colors.CheckBox_disabled.g, reagirl.Colors.CheckBox_disabled.b)
@@ -3659,86 +3659,11 @@ function reagirl.CheckBox_Draw(element_id, selected, hovered, clicked, mouse_cap
   gfx.set(reagirl.Colors.TextBG.r, reagirl.Colors.TextBG.g, reagirl.Colors.TextBG.b)
   gfx.drawstr(name)
   
-  if element_storage["IsDecorative"]==false then gfx.set(reagirl.Colors.TextFG.r, reagirl.Colors.TextFG.g, reagirl.Colors.TextFG.b) else gfx.set(reagirl.Colors.TextFG_disabled.r, reagirl.Colors.TextFG_disabled.g, reagirl.Colors.TextFG_disabled.b) end
+  if element_storage["IsDisabled"]==false then gfx.set(reagirl.Colors.TextFG.r, reagirl.Colors.TextFG.g, reagirl.Colors.TextFG.b) else gfx.set(reagirl.Colors.TextFG_disabled.r, reagirl.Colors.TextFG_disabled.g, reagirl.Colors.TextFG_disabled.b) end
   gfx.x=x+h+5*scale
   gfx.y=y+(h-gfx.texth)/2
   gfx.drawstr(name)
   reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0)
-end
-
-function reagirl.Checkbox_SetTopBottom(element_id, top, bottom)
---[[
-<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>Checkbox_SetTopBottom</slug>
-  <requires>
-    ReaGirl=1.0
-    Reaper=7
-    Lua=5.4
-  </requires>
-  <functioncall>reagirl.Checkbox_SetTopBottom(string element_id, boolean top, boolean bottom)</functioncall>
-  <description>
-    Sets a checkbox's top and bottom edges.
-  </description>
-  <parameters>
-    string element_id - the guid of the checkbox, whose rounded edges-state you want to set
-    boolean top - true, the top of the checkbox is rounded; false, top of the checkbox is square.
-    boolean bottom - true, the bottom of the checkbox is square; false, bottom of the checkbox is rounded.
-  </parameters>
-  <chapter_context>
-    Checkbox
-  </chapter_context>
-  <tags>checkbox, set, rounded edges, top, bottom</tags>
-</US_DocBloc>
---]]
-  if type(element_id)~="string" then error("Checkbox_SetTopBottom: param #1 - must be a string", 2) end
-  if reagirl.IsValidGuid(element_id, true)==nil then error("Checkbox_SetTopBottom: param #1 - must be a valid guid", 2) end
-  if type(top)~="boolean" then error("Checkbox_SetTopBottom: param #2 - must be a boolean", 2) end
-  if type(bottom)~="boolean" then error("Checkbox_SetTopBottom: param #3 - must be a boolean", 2) end
-  element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
-  if element_id==-1 then error("Checkbox_SetTopBottom: param #1 - no such ui-element", 2) end
-  if reagirl.Elements[element_id]["GUI_Element_Type"]~="Checkbox" then
-    error("Checkbox_SetTopBottom: param #1 - ui-element is not a checkbox", 2)
-  else
-    reagirl.Elements[element_id]["bottom_edge"]=bottom
-    reagirl.Elements[element_id]["top_edge"]=top
-    reagirl.Gui_ForceRefresh(15)
-  end
-end
-
-function reagirl.Checkbox_GetTopBottom(element_id)
---[[
-<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>Checkbox_GetTopBottom</slug>
-  <requires>
-    ReaGirl=1.0
-    Reaper=7
-    Lua=5.4
-  </requires>
-  <functioncall>boolean top, boolean bottom = reagirl.Checkbox_GetTopBottom(string element_id)</functioncall>
-  <description>
-    Gets a checkbox's rounded edges state.
-  </description>
-  <parameters>
-    string element_id - the guid of the checkbox, whose rounded edges-state you want to get
-  </parameters>
-  <retvals>
-    boolean top - true, the top of the checkbox is rounded; false, top of the checkbox is square.
-    boolean bottom - true, the bottom of the checkbox is square; false, bottom of the checkbox is rounded.
-  </retvals>
-  <chapter_context>
-    Checkbox
-  </chapter_context>
-  <tags>checkbox, get, rounded edges, top, bottom</tags>
-</US_DocBloc>
---]]
-  if type(element_id)~="string" then error("Checkbox_GetTopBottom: param #1 - must be a string", 2) end
-  if reagirl.IsValidGuid(element_id, true)==nil then error("Checkbox_GetTopBottom: param #1 - must be a valid guid", 2) end
-  element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
-  if reagirl.Elements[element_id]["GUI_Element_Type"]~="Checkbox" then
-    error("Checkbox_GetTopBottom: param #1 - ui-element is not a checkbox", 2)
-  else
-    return reagirl.Elements[element_id]["top_edge"], reagirl.Elements[element_id]["bottom_edge"]
-  end
 end
 
 function reagirl.Checkbox_SetCheckState(element_id, check_state)
@@ -3843,7 +3768,7 @@ function reagirl.Checkbox_SetDisabled(element_id, state)
   if reagirl.Elements[element_id]["GUI_Element_Type"]~="Checkbox" then
     error("Checkbox_SetDisabled: param #1 - ui-element is not a checkbox", 2)
   else
-    reagirl.Elements[element_id]["IsDecorative"]=state
+    reagirl.Elements[element_id]["IsDisabled"]=state
     reagirl.Gui_ForceRefresh(17)
   end
 end
@@ -3879,7 +3804,7 @@ function reagirl.Checkbox_GetDisabled(element_id)
   if reagirl.Elements[element_id]["GUI_Element_Type"]~="Checkbox" then
     error("Checkbox_GetDisabled: param #1 - ui-element is not a checkbox", 2)
   else
-    return reagirl.Elements[element_id]["IsDecorative"]
+    return reagirl.Elements[element_id]["IsDisabled"]
   end
 end
 
@@ -4012,7 +3937,7 @@ function reagirl.NextLine(y_offset)
   local slot=reagirl.UI_Element_GetNextFreeSlot()
   if reagirl.UI_Element_NextLineY==0 then
     for i=slot-1, 1, -1 do
-      if reagirl.Elements[i]["IsDecorative"]==false then
+      if reagirl.Elements[i]["IsDisabled"]==false then
         local x2, y2, w2, h2
         if reagirl.Elements[i]["y"]<0 then y2=gfx.h+(reagirl.Elements[i]["y"]) else y2=reagirl.Elements[i]["y"] end
         if reagirl.Elements[i]["h"]<0 then h2=gfx.h+(-y2+reagirl.Elements[i]["h"]) else h2=reagirl.Elements[i]["h"] end
@@ -4076,7 +4001,7 @@ function reagirl.Button_Add(x, y, w_margin, h_margin, caption, meaningOfUI_Eleme
       x=reagirl.UI_Element_NextX_Default
     elseif slot>1 then
       for i=slot-1, 1, -1 do
-        if reagirl.Elements[i]["IsDecorative"]==false then
+        if reagirl.Elements[i]["IsDisabled"]==false then
           slot2=i
           break
         end
@@ -4092,7 +4017,7 @@ function reagirl.Button_Add(x, y, w_margin, h_margin, caption, meaningOfUI_Eleme
     y=reagirl.UI_Element_NextY_Default
     if slot>1 then
       for i=slot-1, 1, -1 do
-        if reagirl.Elements[i]["IsDecorative"]==false then
+        if reagirl.Elements[i]["IsDisabled"]==false then
           slot2=i
           break
         end
@@ -4115,7 +4040,7 @@ function reagirl.Button_Add(x, y, w_margin, h_margin, caption, meaningOfUI_Eleme
   reagirl.Elements[slot]["GUI_Element_Type"]="Button"
   reagirl.Elements[slot]["Name"]=caption
   reagirl.Elements[slot]["Text"]=caption
-  reagirl.Elements[slot]["IsDecorative"]=false
+  reagirl.Elements[slot]["IsDisabled"]=false
   reagirl.Elements[slot]["sticky_x"]=false
   reagirl.Elements[slot]["sticky_y"]=false
   reagirl.Elements[slot]["Description"]=meaningOfUI_Element
@@ -4168,7 +4093,7 @@ function reagirl.Button_SetDisabled(element_id, state)
   if reagirl.Elements[element_id]["GUI_Element_Type"]~="Button" then
     error("Button_SetDisabled: param #1 - ui-element is not a button", 2)
   else
-    reagirl.Elements[element_id]["IsDecorative"]=state
+    reagirl.Elements[element_id]["IsDisabled"]=state
     reagirl.Gui_ForceRefresh(18)
   end
 end
@@ -4204,7 +4129,7 @@ function reagirl.Button_GetDisabled(element_id)
   if reagirl.Elements[element_id]["GUI_Element_Type"]~="Button" then
     error("Button_GetDisabled: param #1 - ui-element is not a button", 2)
   else
-    return reagirl.Elements[element_id]["IsDecorative"]
+    return reagirl.Elements[element_id]["IsDisabled"]
   end
 end
 
@@ -4345,7 +4270,7 @@ function reagirl.Button_Draw(element_id, selected, hovered, clicked, mouse_cap, 
     gfx.set(0.274) -- button-area
     reagirl.RoundRect(x+dpi_scale, y+dpi_scale, w+dpi_scale, h, (radius-1) * dpi_scale, 1, 1)
     
-    if element_storage["IsDecorative"]==false then
+    if element_storage["IsDisabled"]==false then
       gfx.x=x+(w-sw)/2+2+scale
     
       if reaper.GetOS():match("OS")~=nil then offset=1 end
@@ -4368,7 +4293,7 @@ function reagirl.Button_Draw(element_id, selected, hovered, clicked, mouse_cap, 
     reagirl.RoundRect((x + dpi_scale) * scale, (y) * scale, w-dpi_scale-dpi_scale, h-dpi_scale, (radius-1) * dpi_scale, 1, 1)
     
     local offset=0
-    if element_storage["IsDecorative"]==false then
+    if element_storage["IsDisabled"]==false then
       gfx.x=x+(w-sw)/2+1
       if reaper.GetOS():match("OS")~=nil then offset=1 end
       gfx.y=y+(h-sh)/2-dpi_scale
@@ -4459,7 +4384,7 @@ function reagirl.InputBox_Add(x, y, w, caption, Cap_width, meaningOfUI_Element, 
       x=reagirl.UI_Element_NextX_Default
     elseif slot>1 then
       for i=slot-1, 1, -1 do
-        if reagirl.Elements[i]["IsDecorative"]==false then
+        if reagirl.Elements[i]["IsDisabled"]==false then
           slot2=i
           break
         end
@@ -4475,7 +4400,7 @@ function reagirl.InputBox_Add(x, y, w, caption, Cap_width, meaningOfUI_Element, 
     y=reagirl.UI_Element_NextY_Default
     if slot>1 then
       for i=slot-1, 1, -1 do
-        if reagirl.Elements[i]["IsDecorative"]==false then
+        if reagirl.Elements[i]["IsDisabled"]==false then
           slot2=i
           break
         end
@@ -4499,7 +4424,7 @@ function reagirl.InputBox_Add(x, y, w, caption, Cap_width, meaningOfUI_Element, 
   reagirl.Elements[slot]["Name"]=caption
   reagirl.Elements[slot]["cap_w"]=math.tointeger(tx)+10
   reagirl.Elements[slot]["Description"]=meaningOfUI_Element
-  reagirl.Elements[slot]["IsDecorative"]=false
+  reagirl.Elements[slot]["IsDisabled"]=false
   reagirl.Elements[slot]["AccHint"]="Hit Enter to type text."
   reagirl.Elements[slot]["ContextMenu_ACC"]=""
   reagirl.Elements[slot]["DropZoneFunction_ACC"]=""
@@ -5255,7 +5180,7 @@ function reagirl.InputBox_Draw(element_id, selected, hovered, clicked, mouse_cap
   gfx.set(0.2)
   gfx.drawstr(name)
   
-  if element_storage["IsDecorative"]==false then gfx.set(0.8) else gfx.set(0.6) end
+  if element_storage["IsDisabled"]==false then gfx.set(0.8) else gfx.set(0.6) end
   gfx.x=x
   gfx.y=y+(h-gfx.texth)/2
   gfx.drawstr(name)
@@ -5271,7 +5196,7 @@ function reagirl.InputBox_Draw(element_id, selected, hovered, clicked, mouse_cap
   
   
   -- draw text
-  if element_storage["IsDecorative"]==false then gfx.set(0.8) else gfx.set(0.6) end
+  if element_storage["IsDisabled"]==false then gfx.set(0.8) else gfx.set(0.6) end
   gfx.x=x+cap_w+dpi_scale+dpi_scale+dpi_scale
   
   gfx.y=y+(h-gfx.texth)/2
@@ -5401,7 +5326,7 @@ function reagirl.InputBox_SetDisabled(element_id, state)
   if reagirl.Elements[element_id]["GUI_Element_Type"]~="Edit" then
     error("InputBox_SetDisabled: param #1 - ui-element is not an input-box", 2)
   else
-    reagirl.Elements[element_id]["IsDecorative"]=state
+    reagirl.Elements[element_id]["IsDisabled"]=state
     reagirl.Gui_ForceRefresh(24)
   end
 end
@@ -5437,7 +5362,7 @@ function reagirl.InputBox_GetDisabled(element_id)
   if reagirl.Elements[element_id]["GUI_Element_Type"]~="Edit" then
     error("InputBox_GetDisabled: param #1 - ui-element is not an input-box", 2)
   else
-    return reagirl.Elements[element_id]["IsDecorative"]
+    return reagirl.Elements[element_id]["IsDisabled"]
   end
 end
 
@@ -5693,7 +5618,7 @@ function reagirl.DropDownMenu_Add(x, y, w, caption, Cap_width, meaningOfUI_Eleme
       x=reagirl.UI_Element_NextX_Default
     elseif slot>1 then
       for i=slot-1, 1, -1 do
-        if reagirl.Elements[i]["IsDecorative"]==false then
+        if reagirl.Elements[i]["IsDisabled"]==false then
           slot2=i
           break
         end
@@ -5709,7 +5634,7 @@ function reagirl.DropDownMenu_Add(x, y, w, caption, Cap_width, meaningOfUI_Eleme
     y=reagirl.UI_Element_NextY_Default
     if slot>1 then
       for i=slot-1, 1, -1 do
-        if reagirl.Elements[i]["IsDecorative"]==false then
+        if reagirl.Elements[i]["IsDisabled"]==false then
           slot2=i
           break
         end
@@ -5734,7 +5659,7 @@ function reagirl.DropDownMenu_Add(x, y, w, caption, Cap_width, meaningOfUI_Eleme
   reagirl.Elements[slot]["Name"]=caption
   reagirl.Elements[slot]["Text"]=menuItems[menuSelectedItem]
   reagirl.Elements[slot]["Description"]=meaningOfUI_Element
-  reagirl.Elements[slot]["IsDecorative"]=false
+  reagirl.Elements[slot]["IsDisabled"]=false
   reagirl.Elements[slot]["AccHint"]="Select via arrow-keys."
   reagirl.Elements[slot]["ContextMenu_ACC"]=""
   reagirl.Elements[slot]["DropZoneFunction_ACC"]=""
@@ -5898,7 +5823,7 @@ function reagirl.DropDownMenu_Draw(element_id, selected, hovered, clicked, mouse
   
   gfx.x=x
   gfx.y=y+(h-gfx.texth)/2
-  if element_storage["IsDecorative"]==true then gfx.set(0.6) else gfx.set(0.8) end
+  if element_storage["IsDisabled"]==true then gfx.set(0.6) else gfx.set(0.8) end
   gfx.drawstr(element_storage["Name"])
   
   if reagirl.Elements[element_id]["pressed"]==true then
@@ -5919,7 +5844,7 @@ function reagirl.DropDownMenu_Draw(element_id, selected, hovered, clicked, mouse
     gfx.circle(x+dpi_scale+dpi_scale+w-h/2, (y+h+dpi_scale)-h/2, 3*dpi_scale, 1, 0)
     gfx.rect(x+dpi_scale+w-h+1*(dpi_scale-1), y+dpi_scale, dpi_scale, h+dpi_scale, 1)
     
-    if element_storage["IsDecorative"]==false then
+    if element_storage["IsDisabled"]==false then
       gfx.x=x+(4*dpi_scale)+cap_w+dpi_scale
       if reaper.GetOS():match("OS")~=nil then offset=1 end
       gfx.y=y+(h-gfx.texth)/2+dpi_scale
@@ -5938,7 +5863,7 @@ function reagirl.DropDownMenu_Draw(element_id, selected, hovered, clicked, mouse
     gfx.set(0.274) -- button-area
     reagirl.RoundRect(cap_w+x+dpi_scale, y, w-cap_w, h+dpi_scale, (radius-1) * dpi_scale, 1, 1)
     
-    if element_storage["IsDecorative"]==false then
+    if element_storage["IsDisabled"]==false then
       gfx.set(0.45)
     else
       gfx.set(0.35)
@@ -5948,7 +5873,7 @@ function reagirl.DropDownMenu_Draw(element_id, selected, hovered, clicked, mouse
     gfx.rect(x+w-h+1*(dpi_scale-1), y, dpi_scale, h+dpi_scale, 1)
     
     local offset=0
-    if element_storage["IsDecorative"]==false then
+    if element_storage["IsDisabled"]==false then
       gfx.x=x+(4*dpi_scale)+cap_w--+(w-sw)/2+1
       if reaper.GetOS():match("OS")~=nil then offset=1 end
       gfx.y=y+(h-gfx.texth)/2
@@ -6002,7 +5927,7 @@ function reagirl.DropDownMenu_SetDisabled(element_id, state)
   if reagirl.Elements[element_id]["GUI_Element_Type"]~="ComboBox" then
     error("DropDownMenu_SetDisabled: param #1 - ui-element is not a dropdown-menu", 2)
   else
-    reagirl.Elements[element_id]["IsDecorative"]=state
+    reagirl.Elements[element_id]["IsDisabled"]=state
     reagirl.Gui_ForceRefresh(977)
   end
 end
@@ -6038,7 +5963,7 @@ function reagirl.DropDownMenu_GetDisabled(element_id)
   if reagirl.Elements[element_id]["GUI_Element_Type"]~="ComboBox" then
     error("DropDownMenu_GetDisabled: param #1 - ui-element is not a dropdown-menu", 2)
   else
-    return reagirl.Elements[element_id]["IsDecorative"]
+    return reagirl.Elements[element_id]["IsDisabled"]
   end
 end
 
@@ -6427,7 +6352,7 @@ function reagirl.Label_Add(x, y, label, meaningOfUI_Element, align, clickable, r
       x=reagirl.UI_Element_NextX_Default
     elseif slot>1 then
       for i=slot-1, 1, -1 do
-        if reagirl.Elements[i]["IsDecorative"]==false then
+        if reagirl.Elements[i]["IsDisabled"]==false then
           slot2=i
           break
         end
@@ -6443,7 +6368,7 @@ function reagirl.Label_Add(x, y, label, meaningOfUI_Element, align, clickable, r
     y=reagirl.UI_Element_NextY_Default
     if slot>1 then
       for i=slot-1, 1, -1 do
-        if reagirl.Elements[i]["IsDecorative"]==false then
+        if reagirl.Elements[i]["IsDisabled"]==false then
           slot2=i
           break
         end
@@ -6470,7 +6395,7 @@ function reagirl.Label_Add(x, y, label, meaningOfUI_Element, align, clickable, r
   reagirl.Elements[slot]["Name"]=label
   reagirl.Elements[slot]["Text"]=""
   reagirl.Elements[slot]["Description"]=meaningOfUI_Element
-  reagirl.Elements[slot]["IsDecorative"]=false
+  reagirl.Elements[slot]["IsDisabled"]=false
   reagirl.Elements[slot]["AccHint"]=acc_clickable.."Ctrl+C to copy text into clipboard."
   reagirl.Elements[slot]["ContextMenu_ACC"]=""
   reagirl.Elements[slot]["DropZoneFunction_ACC"]=""
@@ -6602,260 +6527,6 @@ function reagirl.Label_Draw(element_id, selected, hovered, clicked, mouse_cap, m
   gfx.mode=old_mode
 end
 
-function reagirl.Rect_Add(x,y,w,h,r,g,b,a,filled)
---[[
-<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>Rect_Add</slug>
-  <requires>
-    ReaGirl=1.0
-    Reaper=7
-    Lua=5.4
-  </requires>
-  <functioncall>string rect_guid = reagirl.Rect_Add(integer x, integer y, integer w, integer h, integer r, integer g, integer b, integer a, integer filled)</functioncall>
-  <description>
-    Adds a decorative rectangle into the gui. It can be used to make the gui prettier but also to hide ui-elements from visibility(make them disabled first before hiding them with a rectangle!).
-    To do this, add the rectangle AFTER the gui-elements, that you want to hide.
-    
-    Don't use this as gui-element with functionality, like rectangles for drop-zones, as rectangles are NOT accessible for blind users of your gui.
-    Otherwise your element disappears for blind people.
-  </description>
-  <parameters>
-    integer x - the x position of the rectangle in pixels; negative anchors the rectangle to the right window-side
-    integer y - the y position of the rectangle in pixels; negative anchors the rectangle to the bottom window-side
-    integer w - the width of the rectangle in pixels
-    integer h - the height of the rectangle in pixels
-    integer r - the red-value of the rectangle, between 0 and 255
-    integer g - the green-value of the rectangle, between 0 and 255
-    integer b - the blue-value of the rectangle, between 0 and 255
-    integer a - the alpha-value of the rectangle, between 0 and 255
-    integer filled - 0, unfilled rectangle; 1, filled rectangle
-  </parameters>
-  <retvals>
-    string rect_guid - a guid that can be used for altering the rectangle-attributes
-  </retvals>
-  <chapter_context>
-    Rectangle
-  </chapter_context>
-  <tags>rectangle, add</tags>
-</US_DocBloc>
---]]
-  if math.type(x)~="integer" then error("Rect_Add: param #1 - must be an integer", 2) end
-  if math.type(y)~="integer" then error("Rect_Add: param #2 - must be an integer", 2) end
-  if math.type(w)~="integer" then error("Rect_Add: param #3 - must be an integer", 2) end
-  if math.type(h)~="integer" then error("Rect_Add: param #4 - must be an integer", 2) end
-  if math.type(r)~="integer" then error("Rect_Add: param #5 - must be an integer", 2) end
-  if math.type(g)~="integer" then error("Rect_Add: param #6 - must be an integer", 2) end
-  if math.type(b)~="integer" then error("Rect_Add: param #7 - must be an integer", 2) end
-  if math.type(a)~="integer" then error("Rect_Add: param #8 - must be an integer", 2) end
-  if math.type(filled)~="integer" then error("Rect_Add: param #9 - must be an integer", 2) end
-  
-  local slot=reagirl.UI_Element_GetNextFreeSlot()
-  table.insert(reagirl.Elements, slot, {})
-  reagirl.Elements[slot]["Guid"]=reaper.genGuid("")
-  reagirl.Elements[slot]["GUI_Element_Type"]="Rectangle"
-  reagirl.Elements[slot]["IsDecorative"]=true
-  reagirl.Elements[slot]["AccHint"]=""
-  reagirl.Elements[slot]["Description"]=""
-  reagirl.Elements[slot]["Text"]=""
-  reagirl.Elements[slot]["Name"]=""
-  reagirl.Elements[slot]["z_buffer"]=128
-  reagirl.Elements[slot]["x"]=x
-  reagirl.Elements[slot]["y"]=y
-  reagirl.Elements[slot]["w"]=w
-  reagirl.Elements[slot]["h"]=h
-  reagirl.Elements[slot]["r"]=1/255*r
-  reagirl.Elements[slot]["g"]=1/255*g
-  reagirl.Elements[slot]["b"]=1/255*b
-  reagirl.Elements[slot]["a"]=1/255*a
-  reagirl.Elements[slot]["sticky_x"]=false
-  reagirl.Elements[slot]["sticky_y"]=false
-  reagirl.Elements[slot]["filled"]=filled
-  reagirl.Elements[slot]["func_draw"]=reagirl.Rect_Draw
-  reagirl.Elements[slot]["run_function"]=reagirl.Dummy
-  reagirl.Elements[slot]["func_manage"]=reagirl.Dummy
-  return reagirl.Elements[slot]["Guid"]
-end
-
-function reagirl.Rect_SetColors(element_id, r, g, b, a)
---[[
-<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>Rect_SetColors</slug>
-  <requires>
-    ReaGirl=1.0
-    Reaper=7
-    Lua=5.4
-  </requires>
-  <functioncall>reagirl.Rect_SetColors(string element_id, integer r, integer g, integer b, integer a)</functioncall>
-  <description>
-    Sets the color of a rectangle.
-  </description>
-  <parameters>
-    string element_id - the guid of the rectangle, whose colors you want to set
-    integer r - the new red-value; 1-255
-    integer g - the new green-value; 1-255
-    integer b - the new blue-value; 1-255
-    integer a - the new alpha-value; 1-255
-  </parameters>
-  <chapter_context>
-    Rectangle
-  </chapter_context>
-  <tags>rectangle, set, color, alpha</tags>
-</US_DocBloc>
---]]
-  if type(element_id)~="string" then error("Rect_SetColors: param #1 - must be a string", 2) end
-  if reagirl.IsValidGuid(element_id, true)==nil then error("Rect_SetColors: param #1 - must be a valid guid", 2) end
-  if math.type(r)~="integer" then error("Rect_SetColors: param #2 - must be an integer", 2) end
-  if math.type(g)~="integer" then error("Rect_SetColors: param #3 - must be an integer", 2) end
-  if math.type(b)~="integer" then error("Rect_SetColors: param #4 - must be an integer", 2) end
-  if math.type(a)~="integer" then error("Rect_SetColors: param #5 - must be an integer", 2) end
-  element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
-  if element_id==-1 then error("Rect_SetColors: param #1 - no such ui-element", 2) end
-  if reagirl.Elements[element_id]["GUI_Element_Type"]~="Rectangle" then
-    error("Rect_SetColors: param #1 - ui-element is not a rectangle", 2)
-  else
-    reagirl.Elements[element_id]["r"]=1/255*r
-    reagirl.Elements[element_id]["g"]=1/255*g
-    reagirl.Elements[element_id]["b"]=1/255*b
-    reagirl.Elements[element_id]["a"]=1/255*a
-    reagirl.Gui_ForceRefresh(31)
-  end
-end
-
-function reagirl.Rect_GetColors(element_id)
---[[
-<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>Rect_GetColors</slug>
-  <requires>
-    ReaGirl=1.0
-    Reaper=7
-    Lua=5.4
-  </requires>
-  <functioncall>reagirl.Rect_GetColors(string element_id, integer r, integer g, integer b, integer a)</functioncall>
-  <description>
-    Sets the color of a rectangle.
-  </description>
-  <parameters>
-    string element_id - the guid of the rectangle, whose color-state you want to get
-  </parameters>
-  <retvals>
-    integer r - the new red-value; 1-255
-    integer g - the new green-value; 1-255
-    integer b - the new blue-value; 1-255
-    integer a - the new alpha-value; 1-255
-  </retvals>
-  <chapter_context>
-    Rectangle
-  </chapter_context>
-  <tags>rectangle, get, color, alpha</tags>
-</US_DocBloc>
---]]
-  if type(element_id)~="string" then error("Rect_GetColors: param #1 - must be a string", 2) end
-  if reagirl.IsValidGuid(element_id, true)==nil then error("Rect_SetColors: param #1 - must be a valid guid", 2) end
-  element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
-  if element_id==-1 then error("Rect_GetColors: param #1 - no such ui-element", 2) end
-  if reagirl.Elements[element_id]["GUI_Element_Type"]~="Rectangle" then
-    error("Rect_GetColors: param #1 - ui-element is not a rectangle", 2)
-  else
-    return reagirl.Elements[element_id]["r"]*255, reagirl.Elements[element_id]["g"]*255, reagirl.Elements[element_id]["b"]*255, reagirl.Elements[element_id]["a"]*255
-  end
-end
-
-function reagirl.Rect_Draw(element_id, selected, hovered, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
-  old_r, old_g, old_b, old_a = gfx.r, gfx.g, gfx.b, gfx.a
-  gfx.set(element_storage["r"], element_storage["g"], element_storage["b"], element_storage["a"])
-
-  gfx.rect(x, y, w, h, element_storage["filled"])
-  gfx.set(old_r, old_g, old_b, old_a)
-end
-
-
-function reagirl.Line_Add(x,y,x2,y2,r,g,b,a)
---[[
-<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>Line_Add</slug>
-  <requires>
-    ReaGirl=1.0
-    Reaper=7
-    Lua=5.4
-  </requires>
-  <functioncall>string line_guid = reagirl.Line_Add(integer x, integer y, integer x2, integer y2, integer r, integer g, integer b, integer a, integer filled)</functioncall>
-  <description>
-    Adds a decorative line into the gui. It can be used to visually separate different ui-element-categories from each other.
-  </description>
-  <parameters>
-    integer x - the x position of the line in pixels
-    integer y - the y position of the line in pixels
-    integer x2 - the second x-position of the line in pixels
-    integer y2 - the second y-position of the line in pixels
-    integer r - the red-value of the line, between 0 and 255
-    integer g - the green-value of the line, between 0 and 255
-    integer b - the blue-value of the line, between 0 and 255
-    integer a - the alpha-value of the line, between 0 and 255
-  </parameters>
-  <retvals>
-    string line_guid - a guid that can be used for altering the line-attributes
-  </retvals>
-  <chapter_context>
-    Line
-  </chapter_context>
-  <tags>line, add</tags>
-</US_DocBloc>
---]]
-  if math.type(x)~="integer" then error("Line_Add: param #1 - must be an integer", 2) end
-  if math.type(y)~="integer" then error("Line_Add: param #2 - must be an integer", 2) end
-  if math.type(x2)~="integer" then error("Line_Add: param #3 - must be an integer", 2) end
-  if math.type(y2)~="integer" then error("Line_Add: param #4 - must be an integer", 2) end
-  if math.type(r)~="integer" then error("Line_Add: param #5 - must be an integer", 2) end
-  if math.type(g)~="integer" then error("Line_Add: param #6 - must be an integer", 2) end
-  if math.type(b)~="integer" then error("Line_Add: param #7 - must be an integer", 2) end
-  if math.type(a)~="integer" then error("Line_Add: param #8 - must be an integer", 2) end
-  local slot=reagirl.UI_Element_GetNextFreeSlot()
-  table.insert(reagirl.Elements, slot, {})
-  reagirl.Elements[slot]["Guid"]=reaper.genGuid("")
-  reagirl.Elements[slot]["GUI_Element_Type"]="Line"
-  reagirl.Elements[slot]["IsDecorative"]=true
-  reagirl.Elements[slot]["AccHint"]=""
-  reagirl.Elements[slot]["Description"]=""
-  reagirl.Elements[slot]["Text"]=""
-  reagirl.Elements[slot]["Name"]=""
-  reagirl.Elements[slot]["z_buffer"]=128
-  reagirl.Elements[slot]["x"]=x
-  reagirl.Elements[slot]["y"]=y
-  reagirl.Elements[slot]["x2"]=x2
-  reagirl.Elements[slot]["y2"]=y2
-  reagirl.Elements[slot]["w"]=x2
-  reagirl.Elements[slot]["h"]=y2
-  reagirl.Elements[slot]["r"]=r
-  reagirl.Elements[slot]["g"]=g
-  reagirl.Elements[slot]["b"]=b
-  reagirl.Elements[slot]["a"]=a
-  reagirl.Elements[slot]["sticky_x"]=false
-  reagirl.Elements[slot]["sticky_y"]=false
-  reagirl.Elements[slot]["filled"]=filled
-  reagirl.Elements[slot]["func_draw"]=reagirl.Line_Draw
-  reagirl.Elements[slot]["run_function"]=reagirl.Dummy
-  reagirl.Elements[slot]["func_manage"]=reagirl.Label_Manage
-  return reagirl.Elements[slot]["Guid"]
-end
-
-function reagirl.Line_Draw(element_id, selected, hovered, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
-  local x2, y2, w2, h2
-  local scale=reagirl.Window_CurrentScale
-  gfx.set(element_storage["r"], element_storage["g"], element_storage["b"], element_storage["a"])
-  MoveItAllRight=reagirl.MoveItAllRight
-  local MoveItAllUp=reagirl.MoveItAllUp
-  if element_storage.sticky_x==true then MoveItAllRight=0 end
-  if element_storage.sticky_y==true then MoveItAllUp=0 end
-  
-  
-  if element_storage["x2"]<0 then x2=gfx.w+element_storage["x2"] else x2=element_storage["x2"] end
-  if element_storage["y2"]<0 then y2=gfx.h+element_storage["y2"] else y2=element_storage["y2"] end
-  
-  MoveIt={x,y,x2,y2, w2, h2}
-  gfx.line(x, y, x2*scale+MoveItAllRight, y2*scale+MoveItAllUp)
-end
-
-
 function reagirl.Image_Add(image_filename, x, y, w, h, name, meaningOfUI_Element, run_function)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
@@ -6928,7 +6599,7 @@ function reagirl.Image_Add(image_filename, x, y, w, h, name, meaningOfUI_Element
       x=reagirl.UI_Element_NextX_Default
     elseif slot>1 then
       for i=slot-1, 1, -1 do
-        if reagirl.Elements[i]["IsDecorative"]==false then
+        if reagirl.Elements[i]["IsDisabled"]==false then
           slot2=i
           break
         end
@@ -6944,7 +6615,7 @@ function reagirl.Image_Add(image_filename, x, y, w, h, name, meaningOfUI_Element
     y=reagirl.UI_Element_NextY_Default
     if slot>1 then
       for i=slot-1, 1, -1 do
-        if reagirl.Elements[i]["IsDecorative"]==false then
+        if reagirl.Elements[i]["IsDisabled"]==false then
           slot2=i
           break
         end
@@ -6964,7 +6635,7 @@ function reagirl.Image_Add(image_filename, x, y, w, h, name, meaningOfUI_Element
   reagirl.Elements[slot]["Description"]=meaningOfUI_Element
   reagirl.Elements[slot]["Name"]=name
   reagirl.Elements[slot]["Text"]=name
-  reagirl.Elements[slot]["IsDecorative"]=false
+  reagirl.Elements[slot]["IsDisabled"]=false
   reagirl.Elements[slot]["AccHint"]="Use Space or left mouse-click to select it."
   reagirl.Elements[slot]["ContextMenu_ACC"]=""
   reagirl.Elements[slot]["DropZoneFunction_ACC"]=""
@@ -7898,7 +7569,7 @@ function reagirl.ScrollButton_Right_Add()
   reagirl.Elements[#reagirl.Elements]["GUI_Element_Type"]="Scroll button"
   reagirl.Elements[#reagirl.Elements]["Name"]="Scroll right"
   reagirl.Elements[#reagirl.Elements]["Text"]=""
-  reagirl.Elements[#reagirl.Elements]["IsDecorative"]=false
+  reagirl.Elements[#reagirl.Elements]["IsDisabled"]=false
   reagirl.Elements[#reagirl.Elements]["Description"]="Scroll Right"
   reagirl.Elements[#reagirl.Elements]["AccHint"]="Scrolls the user interface to the right"
   reagirl.Elements[#reagirl.Elements]["ContextMenu_ACC"]=""
@@ -7919,7 +7590,7 @@ end
 
 function reagirl.ScrollButton_Right_Manage(element_id, selected, hovered, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
   if reagirl.Scroll_Override_ScrollButtons==true then return "" end
-  if element_storage.IsDecorative==false and element_storage.a<=0.75 then element_storage.a=element_storage.a+.1 reagirl.Gui_ForceRefresh(44) end
+  if element_storage.IsDisabled==false and element_storage.a<=0.75 then element_storage.a=element_storage.a+.1 reagirl.Gui_ForceRefresh(44) end
   if mouse_cap&1==1 and selected~="not selected" and gfx.mouse_x>=x and gfx.mouse_x<=x+w and gfx.mouse_y>=y and gfx.mouse_y<=y+h then
     reagirl.UI_Element_ScrollX(-2)
   elseif selected~="not selected" and Key==32 then
@@ -7933,12 +7604,12 @@ function reagirl.ScrollButton_Right_Draw(element_id, selected, hovered, clicked,
   local scale=reagirl.Window_CurrentScale
   local x_offset=-15*scale
   if reagirl.BoundaryX_Max>gfx.w then
-    element_storage.IsDecorative=false    
+    element_storage.IsDisabled=false    
   else
     element_storage.a=0 
-    if element_storage.IsDecorative==false then
+    if element_storage.IsDisabled==false then
       reagirl.UI_Element_SetNothingFocused()
-      element_storage.IsDecorative=true
+      element_storage.IsDisabled=true
     end
   end
   local oldr, oldg, oldb, olda = gfx.r, gfx.g, gfx.b, gfx.a
@@ -7962,7 +7633,7 @@ function reagirl.ScrollButton_Left_Add()
   reagirl.Elements[#reagirl.Elements]["GUI_Element_Type"]="Scroll button"
   reagirl.Elements[#reagirl.Elements]["Name"]="Scroll left"
   reagirl.Elements[#reagirl.Elements]["Text"]=""
-  reagirl.Elements[#reagirl.Elements]["IsDecorative"]=false
+  reagirl.Elements[#reagirl.Elements]["IsDisabled"]=false
   reagirl.Elements[#reagirl.Elements]["Description"]="Scroll left"
   reagirl.Elements[#reagirl.Elements]["AccHint"]="Scrolls the user interface to the left"
   reagirl.Elements[#reagirl.Elements]["ContextMenu_ACC"]=""
@@ -7983,7 +7654,7 @@ end
 
 function reagirl.ScrollButton_Left_Manage(element_id, selected, hovered, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
   if reagirl.Scroll_Override_ScrollButtons==true then return "" end
-  if element_storage.IsDecorative==false and element_storage.a<=0.75 then element_storage.a=element_storage.a+.1 reagirl.Gui_ForceRefresh(45) end
+  if element_storage.IsDisabled==false and element_storage.a<=0.75 then element_storage.a=element_storage.a+.1 reagirl.Gui_ForceRefresh(45) end
   if mouse_cap&1==1 and selected~="not selected" and gfx.mouse_x>=x and gfx.mouse_x<=x+w and gfx.mouse_y>=y and gfx.mouse_y<=y+h then
     reagirl.UI_Element_ScrollX(2)
   elseif selected~="not selected" and Key==32 then
@@ -7996,12 +7667,12 @@ function reagirl.ScrollButton_Left_Draw(element_id, selected, hovered, clicked, 
   if reagirl.Scroll_Override_ScrollButtons==true then return "" end
   local scale=reagirl.Window_CurrentScale
   if reagirl.BoundaryX_Max>gfx.w then
-    element_storage.IsDecorative=false
+    element_storage.IsDisabled=false
   else
     element_storage.a=0 
-    if element_storage.IsDecorative==false then
+    if element_storage.IsDisabled==false then
       reagirl.UI_Element_SetNothingFocused()
-      element_storage.IsDecorative=true
+      element_storage.IsDisabled=true
     end
   end
   local oldr, oldg, oldb, olda = gfx.r, gfx.g, gfx.b, gfx.a
@@ -8026,7 +7697,7 @@ function reagirl.ScrollButton_Up_Add()
   reagirl.Elements[#reagirl.Elements]["GUI_Element_Type"]="Scroll button"
   reagirl.Elements[#reagirl.Elements]["Name"]="Scroll Up"
   reagirl.Elements[#reagirl.Elements]["Text"]=""
-  reagirl.Elements[#reagirl.Elements]["IsDecorative"]=false
+  reagirl.Elements[#reagirl.Elements]["IsDisabled"]=false
   reagirl.Elements[#reagirl.Elements]["Description"]="Scroll up"
   reagirl.Elements[#reagirl.Elements]["AccHint"]="Scrolls the user interface upwards"
   reagirl.Elements[#reagirl.Elements]["ContextMenu_ACC"]=""
@@ -8047,7 +7718,7 @@ end
 
 function reagirl.ScrollButton_Up_Manage(element_id, selected, hovered, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
   if reagirl.Scroll_Override_ScrollButtons==true then return "" end
-  if element_storage.IsDecorative==false and element_storage.a<=0.75 then element_storage.a=element_storage.a+.1 reagirl.Gui_ForceRefresh(47) end
+  if element_storage.IsDisabled==false and element_storage.a<=0.75 then element_storage.a=element_storage.a+.1 reagirl.Gui_ForceRefresh(47) end
   if mouse_cap&1==1 and selected~="not selected" and gfx.mouse_x>=x and gfx.mouse_x<=x+w and gfx.mouse_y>=y and gfx.mouse_y<=y+h then
     reagirl.UI_Element_ScrollY(2)
   elseif selected~="not selected" and Key==32 then
@@ -8060,12 +7731,12 @@ function reagirl.ScrollButton_Up_Draw(element_id, selected, hovered, clicked, mo
   if reagirl.Scroll_Override_ScrollButtons==true then return "" end
   local scale=reagirl.Window_CurrentScale
   if reagirl.BoundaryY_Max>gfx.h then
-    element_storage.IsDecorative=false
+    element_storage.IsDisabled=false
   else
     element_storage.a=0 
-    if element_storage.IsDecorative==false then
+    if element_storage.IsDisabled==false then
       reagirl.UI_Element_SetNothingFocused()
-      element_storage.IsDecorative=true
+      element_storage.IsDisabled=true
     end
   end
   local oldr, oldg, oldb, olda = gfx.r, gfx.g, gfx.b, gfx.a
@@ -8089,7 +7760,7 @@ function reagirl.ScrollButton_Down_Add()
   reagirl.Elements[#reagirl.Elements]["GUI_Element_Type"]="Scroll button"
   reagirl.Elements[#reagirl.Elements]["Name"]="Scroll Down"
   reagirl.Elements[#reagirl.Elements]["Text"]=""
-  reagirl.Elements[#reagirl.Elements]["IsDecorative"]=false
+  reagirl.Elements[#reagirl.Elements]["IsDisabled"]=false
   reagirl.Elements[#reagirl.Elements]["Description"]="Scroll Down"
   reagirl.Elements[#reagirl.Elements]["AccHint"]="Scrolls the user interface downwards"
   reagirl.Elements[#reagirl.Elements]["ContextMenu_ACC"]=""
@@ -8111,7 +7782,7 @@ end
 function reagirl.ScrollButton_Down_Manage(element_id, selected, hovered, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
   if reagirl.Scroll_Override_ScrollButtons==true then return "" end
   
-  if element_storage.IsDecorative==false and element_storage.a<=0.75 then element_storage.a=element_storage.a+.1 reagirl.Gui_ForceRefresh(49) end
+  if element_storage.IsDisabled==false and element_storage.a<=0.75 then element_storage.a=element_storage.a+.1 reagirl.Gui_ForceRefresh(49) end
   if mouse_cap&1==1 and selected~="not selected" and gfx.mouse_x>=x and gfx.mouse_x<=x+w and gfx.mouse_y>=y and gfx.mouse_y<=y+h then
     reagirl.UI_Element_ScrollY(-2)
   elseif selected~="not selected" and Key==32 then
@@ -8124,12 +7795,12 @@ function reagirl.ScrollButton_Down_Draw(element_id, selected, hovered, clicked, 
   if reagirl.Scroll_Override_ScrollButtons==true then return "" end
   local scale=reagirl.Window_CurrentScale
   if reagirl.BoundaryY_Max>gfx.h then
-    element_storage.IsDecorative=false
+    element_storage.IsDisabled=false
   else
     element_storage.a=0 
-    if element_storage.IsDecorative==false then
+    if element_storage.IsDisabled==false then
       reagirl.UI_Element_SetNothingFocused()
-      element_storage.IsDecorative=true
+      element_storage.IsDisabled=true
     end
   end
   local oldr, oldg, oldb, olda = gfx.r, gfx.g, gfx.b, gfx.a
@@ -8392,7 +8063,7 @@ function reagirl.Slider_Add(x, y, w, caption, Cap_width, meaningOfUI_Element, un
       x=reagirl.UI_Element_NextX_Default
     elseif slot>1 then
       for i=slot-1, 1, -1 do
-        if reagirl.Elements[i]["IsDecorative"]==false then
+        if reagirl.Elements[i]["IsDisabled"]==false then
           slot2=i
           break
         end
@@ -8408,7 +8079,7 @@ function reagirl.Slider_Add(x, y, w, caption, Cap_width, meaningOfUI_Element, un
     y=reagirl.UI_Element_NextY_Default
     if slot>1 then
       for i=slot-1, 1, -1 do
-        if reagirl.Elements[i]["IsDecorative"]==false then
+        if reagirl.Elements[i]["IsDisabled"]==false then
           slot2=i
           break
         end
@@ -8443,7 +8114,7 @@ function reagirl.Slider_Add(x, y, w, caption, Cap_width, meaningOfUI_Element, un
   reagirl.Elements[slot]["Step"]=step
   reagirl.Elements[slot]["Default"]=default
   reagirl.Elements[slot]["CurValue"]=init_value
-  reagirl.Elements[slot]["IsDecorative"]=false
+  reagirl.Elements[slot]["IsDisabled"]=false
   reagirl.Elements[slot]["Description"]=meaningOfUI_Element
   reagirl.Elements[slot]["AccHint"]="Change via arrowkeys, home, end, pageup, pagedown."
   reagirl.Elements[slot]["ContextMenu_ACC"]=""
@@ -8631,7 +8302,7 @@ function reagirl.Slider_Draw(element_id, selected, hovered, clicked, mouse_cap, 
   
   gfx.x=x
   gfx.y=y+(h-gfx.texth)/2
-  if element_storage["IsDecorative"]==true then gfx.set(0.6) else gfx.set(0.8) end
+  if element_storage["IsDisabled"]==true then gfx.set(0.6) else gfx.set(0.8) end
   -- draw caption
   gfx.drawstr(element_storage["Name"])
   
@@ -8646,11 +8317,11 @@ function reagirl.Slider_Draw(element_id, selected, hovered, clicked, mouse_cap, 
     gfx.x=x+w-offset_unit+7*dpi_scale
     gfx.y=y+(h-gfx.texth)/2
   
-    if element_storage["IsDecorative"]==true then gfx.set(0.6) else gfx.set(0.8) end
+    if element_storage["IsDisabled"]==true then gfx.set(0.6) else gfx.set(0.8) end
     gfx.drawstr(" "..unit..element_storage["Unit"]) 
   end
 
-  if element_storage["IsDecorative"]==true then gfx.set(0.5) else gfx.set(0.7) end
+  if element_storage["IsDisabled"]==true then gfx.set(0.5) else gfx.set(0.7) end
   -- draw slider-area
   
   rect_w=w-offset_unit-offset_cap-5*dpi_scale
@@ -8663,7 +8334,7 @@ function reagirl.Slider_Draw(element_id, selected, hovered, clicked, mouse_cap, 
   gfx.set(0.5)
   reagirl.RoundRect(math.tointeger(x+offset_cap-dpi_scale), math.floor(y+(h-5*dpi_scale)/2), math.tointeger(w-offset_cap-offset_unit+dpi_scale+dpi_scale), math.tointeger(dpi_scale)*5, 2*math.tointeger(dpi_scale), 1, 1)
   
-  if element_storage["IsDecorative"]==true then gfx.set(0.6) else gfx.set(0.7) end
+  if element_storage["IsDisabled"]==true then gfx.set(0.6) else gfx.set(0.7) end
   reagirl.RoundRect(math.tointeger(x+offset_cap),math.floor(y+(h-3*dpi_scale)/2), math.tointeger(w-offset_cap-offset_unit), math.tointeger(dpi_scale)*3, dpi_scale, 1, 1)
   offset_cap=offset_cap+6*dpi_scale  
   gfx.set(0.584)
@@ -8671,7 +8342,7 @@ function reagirl.Slider_Draw(element_id, selected, hovered, clicked, mouse_cap, 
   gfx.set(0.2725490196078431)
   gfx.circle(x+offset_cap+step_current, y+h/2, 6*dpi_scale, 1, 1)
   
-  if element_storage["IsDecorative"]==true then
+  if element_storage["IsDisabled"]==true then
     gfx.set(0.584)
     gfx.set(0)
   else
@@ -8788,7 +8459,7 @@ function reagirl.Slider_SetDisabled(element_id, state)
   if reagirl.Elements[element_id]["GUI_Element_Type"]~="Slider" then
     error("Slider_SetDisabled: param #1 - ui-element is not a slider", 2)
   else
-    reagirl.Elements[element_id]["IsDecorative"]=state
+    reagirl.Elements[element_id]["IsDisabled"]=state
     reagirl.Gui_ForceRefresh(55)
   end
 end
@@ -8824,7 +8495,7 @@ function reagirl.Slider_GetDisabled(element_id)
   if reagirl.Elements[element_id]["GUI_Element_Type"]~="Slider" then
     error("Slider_GetValue: param #1 - ui-element is not a slider", 2)
   else
-    return reagirl.Elements[element_id]["IsDecorative"]
+    return reagirl.Elements[element_id]["IsDisabled"]
   end
 end
 
@@ -9218,7 +8889,7 @@ function reagirl.Tabs_Add(x, y, w_backdrop, h_backdrop, caption, meaningOfUI_Ele
       x=reagirl.UI_Element_NextX_Default
     elseif slot>1 then
       for i=slot-1, 1, -1 do
-        if reagirl.Elements[i]["IsDecorative"]==false then
+        if reagirl.Elements[i]["IsDisabled"]==false then
           slot2=i
           break
         end
@@ -9234,7 +8905,7 @@ function reagirl.Tabs_Add(x, y, w_backdrop, h_backdrop, caption, meaningOfUI_Ele
     y=reagirl.UI_Element_NextY_Default
     if slot>1 then
       for i=slot-1, 1, -1 do
-        if reagirl.Elements[i]["IsDecorative"]==false then
+        if reagirl.Elements[i]["IsDisabled"]==false then
           slot2=i
           break
         end
@@ -9259,7 +8930,7 @@ function reagirl.Tabs_Add(x, y, w_backdrop, h_backdrop, caption, meaningOfUI_Ele
   reagirl.Elements[slot]["Text"]=caption
   reagirl.Elements[slot]["TabNames"]=tab_names
   reagirl.Elements[slot]["TabSelected"]=selected_tab
-  reagirl.Elements[slot]["IsDecorative"]=false
+  reagirl.Elements[slot]["IsDisabled"]=false
   reagirl.Elements[slot]["Description"]=meaningOfUI_Element
   reagirl.Elements[slot]["AccHint"]="Switch tab using left/right arrow-keys."
   reagirl.Elements[slot]["ContextMenu_ACC"]=""
