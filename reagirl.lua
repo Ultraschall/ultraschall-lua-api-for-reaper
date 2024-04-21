@@ -6668,7 +6668,6 @@ function reagirl.Image_Add(image_filename, x, y, w, h, name, meaningOfUI_Element
   reagirl.Elements[slot]["Name"]=name
   reagirl.Elements[slot]["Text"]=name
   reagirl.Elements[slot]["IsDisabled"]=false
-  reagirl.Elements[slot]["IsDecorative"]=true
   reagirl.Elements[slot]["AccHint"]="Use Space or left mouse-click to select it."
   reagirl.Elements[slot]["ContextMenu_ACC"]=""
   reagirl.Elements[slot]["DropZoneFunction_ACC"]=""
