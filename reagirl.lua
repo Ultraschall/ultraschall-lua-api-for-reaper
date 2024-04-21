@@ -1,4 +1,4 @@
-dofile(reaper.GetResourcePath().."/UserPlugins/ultraschall_api.lua")
+--dofile(reaper.GetResourcePath().."/UserPlugins/ultraschall_api.lua")
 
 -- DEBUG:
 --reaper.osara_outputMessage=nil
