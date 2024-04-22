@@ -103,7 +103,7 @@ end
 function SetUpNewGui()
   reagirl.Gui_New()
   
-  Tabs=reagirl.Tabs_Add(10,10, 350, 380, "Tabs", "Choose settings", {"General", "Osara"}, 1, nil)
+  Tabs=reagirl.Tabs_Add(10,10, 335, 280, "Tabs", "Choose settings", {"General", "Osara"}, 1, nil)
   
   --[[ Blinking Focus Rectangle ]]
   Label_General=reagirl.Label_Add(nil, nil, "General", "General settings.", 0, false, nil)
@@ -118,7 +118,7 @@ function SetUpNewGui()
   Label_FocusRectangle=reagirl.Label_Add(nil, nil, "Focus Rectangle", "Settings for the focus rectangle.", 0, false, nil)
   reagirl.Label_SetStyle(Label_FocusRectangle, 6, 0, 0)
   
-  reagirl.NextLine(-4)
+  reagirl.NextLine()
   val=tonumber(reaper.GetExtState("ReaGirl", "FocusRectangle_BlinkSpeed"))
   if val==nil then val=33 end
   
@@ -133,7 +133,7 @@ function SetUpNewGui()
   reagirl.NextLine(15)
   Label_InputBox=reagirl.Label_Add(nil, nil, "Inputbox-Cursor", "Settings for the inputbox-cursor.", 0, false, nil)
   reagirl.Label_SetStyle(Label_InputBox, 6, 0, 0)
-  reagirl.NextLine(-4)
+  reagirl.NextLine(-3)
   val3=tonumber(reaper.GetExtState("ReaGirl", "Inputbox_BlinkSpeed"))
   if val3==nil then val3=33 end
   slider_blink_every_cursor=reagirl.Slider_Add(nil, nil, 300, "Blink every", 100, "Set the speed of the blinking of the cursor.", "seconds", 0.4, 5, 0.1, val3/33, 1, CursorBlinkSpeed)
@@ -188,7 +188,7 @@ SetUpNewGui()
 
 reagirl.Background_GetSetColor(true,55,55,55)
 
-reagirl.Gui_Open("ReaGirl Settings (Reagirl v"..reagirl.GetVersion()..")", "various settings for ReaGirl-Accessible Guis", 355, 390, nil, nil, nil)
+reagirl.Gui_Open("ReaGirl Settings (Reagirl v"..reagirl.GetVersion()..")", "various settings for ReaGirl-Accessible Guis", 355, 330, nil, nil, nil)
 
 function CheckIfSettingChanged()
   if osara_debug~=toboolean(reaper.GetExtState("ReaGirl", "osara_debug"), false) then 

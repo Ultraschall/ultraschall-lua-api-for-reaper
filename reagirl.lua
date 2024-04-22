@@ -2822,7 +2822,7 @@ function reagirl.UI_Element_GetNextXAndYPosition(x, y, functionname)
   end  
   reagirl.UI_Element_NextLineY=0
   reagirl.NextLine_triggered=nil
-  print_alt(tostring(x), tostring(y), tostring(slot))
+
   return x, y, slot3
 end
 
@@ -8827,7 +8827,7 @@ function reagirl.Tabs_Add(x, y, w_backdrop, h_backdrop, caption, meaningOfUI_Ele
   reagirl.Elements[slot]["func_draw"]=reagirl.Tabs_Draw
   reagirl.Elements[slot]["run_function"]=run_function
   reagirl.Elements[slot]["userspace"]={}
-  reagirl.UI_Element_NextX_Default=reagirl.UI_Element_NextX_Default+10
+  reagirl.UI_Element_NextX_Default=reagirl.UI_Element_NextX_Default+5
   
   reagirl.NextLine()
   return reagirl.Elements[slot]["Guid"]
