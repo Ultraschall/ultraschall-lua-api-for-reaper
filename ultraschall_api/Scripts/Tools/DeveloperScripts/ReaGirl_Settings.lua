@@ -103,9 +103,10 @@ end
 function SetUpNewGui()
   reagirl.Gui_New()
   
+  Tabs=reagirl.Tabs_Add(10,10, 350, 380, "Tabs", "Choose settings", {"General", "Osara"}, 1, nil)
+  
   --[[ Blinking Focus Rectangle ]]
-
-  Label1=reagirl.Label_Add(nil, nil, "General", "General settings.", 0, false, nil)
+  Label1=reagirl.Label_Add(100, nil, "General", "General settings.", 0, false, nil)
   reagirl.Label_SetStyle(Label1, 6, 0, 0)
 
   reagirl.NextLine(-2)
@@ -124,9 +125,9 @@ function SetUpNewGui()
   val2=tonumber(reaper.GetExtState("ReaGirl", "FocusRectangle_BlinkTime"))
   if val2==nil then val2=0 end
   
-  reagirl.Slider_Add(nil, nil, 300, "Blink every", 100, "Set the speed of the blinking of the focus rectangle.", "seconds", 0.4, 3, 0.1, val/33, 1, BlinkSpeed)
+  slider_blink_every = reagirl.Slider_Add(nil, nil, 300, "Blink every", 100, "Set the speed of the blinking of the focus rectangle.", "seconds", 0.4, 3, 0.1, val/33, 1, BlinkSpeed)
   reagirl.NextLine(-4)
-  reagirl.Slider_Add(nil, nil, 300, "Blink for", 100, "Set the duration of the blinking of the focus rectangle.", "seconds", 0, 10, 1, val2, 0, BlinkTime)
+  slider_blink_for = reagirl.Slider_Add(nil, nil, 300, "Blink for", 100, "Set the duration of the blinking of the focus rectangle.", "seconds", 0, 10, 1, val2, 0, BlinkTime)
   
   -- [[ Blinking Inputbox-Cursor ]]
   reagirl.NextLine(15)
@@ -135,7 +136,7 @@ function SetUpNewGui()
   reagirl.NextLine(-4)
   val3=tonumber(reaper.GetExtState("ReaGirl", "Inputbox_BlinkSpeed"))
   if val3==nil then val3=33 end
-  slider=reagirl.Slider_Add(nil, nil, 300, "Blink every", 100, "Set the speed of the blinking of the cursor.", "seconds", 0.4, 5, 0.1, val3/33, 1, CursorBlinkSpeed)
+  slider_blink_every_cursor=reagirl.Slider_Add(nil, nil, 300, "Blink every", 100, "Set the speed of the blinking of the cursor.", "seconds", 0.4, 5, 0.1, val3/33, 1, CursorBlinkSpeed)
   reagirl.NextLine(-2)
   input_id = reagirl.Inputbox_Add(nil, nil, 290, "Test input:", 100, "Input text to check cursor blinking speed.", testtext, nil, nil)
   reagirl.Inputbox_SetEmptyText(input_id, "Test blink-speed here...")
@@ -152,14 +153,17 @@ function SetUpNewGui()
   reagirl.NextLine(15)
   
   -- [[ Osara override ]]
+  
   Label1=reagirl.Label_Add(nil, nil, "Osara", "Settings that influence the relationship between Osara and ReaGirl.", 0, false, nil)
-  reagirl.NextLine(-4)
+  reagirl.NextLine()
   reagirl.Label_SetStyle(Label1, 6, 0, 0)
+  
   osara_override=reaper.GetExtState("ReaGirl", "osara_override")
   if osara_override=="true" or osara_override=="" then osara_override=true else osara_override=false end
   checkbox_osara_id = reagirl.Checkbox_Add(nil, nil, "Enable installed Osara", "Checking this will prevent from screenreader messages to be sent to Osara. You can also type directly into inputboxes.", osara_override, checkbox)
   
   reagirl.NextLine()
+  reagirl.Next_Y=1
   osara_debug=reaper.GetExtState("ReaGirl", "osara_debug")
   if osara_debug=="false" or osara_debug=="" then osara_debug=false else osara_debug=true end
   checkbox_osara_debug_id = reagirl.Checkbox_Add(nil, nil, "Show screenreader messages in console", "Checking this will show the screenreader messages in the console for debugging purposes.", osara_debug, checkbox)
@@ -173,6 +177,8 @@ function SetUpNewGui()
   osara_hover_mouse = reaper.GetExtState("ReaGirl", "osara_hover_mouse")
   if osara_hover_mouse=="" or osara_hover_mouse=="true" then osara_hover_mouse=true else osara_hover_mouse=false end
   checkbox_osara_hover_mouse_id = reagirl.Checkbox_Add(nil, nil, "Report hovered ui-elements", "When checked, ReaGirl will report ui-elements the mouse is hovering above to the screenreader. Uncheck to prevent that.", osara_hover_mouse, checkbox)
+  
+  reagirl.Tabs_SetUIElementsForTab(Tabs, 2, {Label1, checkbox_osara_id, checkbox_osara_debug_id, checkbox_osara_move_mouse_id, checkbox_osara_hover_mouse_id})
 end
 
 SetUpNewGui()
