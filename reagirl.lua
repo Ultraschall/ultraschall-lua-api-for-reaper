@@ -2350,10 +2350,32 @@ function reagirl.Gui_Draw(Key, Key_utf, clickstate, specific_clickstate, mouse_c
 
     -- draw Tab background
     if reagirl.Tabs_Count~=nil then
-      gfx.set(0.403921568627451)
-      gfx.rect(reagirl.Tab_Backdrop_x1, reagirl.Tab_Backdrop_y1, reagirl.Tab_Backdrop_w1, reagirl.Tab_Backdrop_h1, 1)
-      gfx.set(0.253921568627451)
-      gfx.rect(reagirl.Tab_Backdrop_x2, reagirl.Tab_Backdrop_y2, reagirl.Tab_Backdrop_w2, reagirl.Tab_Backdrop_h2, 1)
+      local i=reagirl.Tabs_Count
+      local w_add=reagirl.Elements[i]["bg_w"]
+      local h_add=reagirl.Elements[i]["bg_h"]
+      if reagirl.Elements[i]["x"]<0 then x2=gfx.w+(reagirl.Elements[i]["x"]*scale) else x2=reagirl.Elements[i]["x"]*scale end
+      if reagirl.Elements[i]["y"]<0 then y2=gfx.h+(reagirl.Elements[i]["y"]*scale) else y2=reagirl.Elements[i]["y"]*scale end
+    
+      if reagirl.Elements[i]["w"]<0 then w2=gfx.w+(-x2+(reagirl.Elements[i]["w"]+w_add)*scale) else w2=(reagirl.Elements[i]["w"]+w_add)*scale end
+      if reagirl.Elements[i]["h"]<0 then h2=gfx.h+(-y2+(reagirl.Elements[i]["h"]+h_add)*scale) else h2=(reagirl.Elements[i]["h"]+h_add)*scale end
+      
+      local selected="not selected"
+      if reagirl.Elements.FocusedElement==i then selected=reagirl.ui_element_selected end
+      local message=reagirl.Elements[i]["func_draw"](i, selected,
+        reagirl.UI_Elements_HoveredElement==i,
+        specific_clickstate,
+        gfx.mouse_cap,
+        {click_x, click_y, drag_x, drag_y, mouse_wheel, mouse_hwheel},
+        reagirl.Elements[i]["Name"],
+        reagirl.Elements[i]["Description"], 
+        math.floor(x2+reagirl.MoveItAllRight),
+        math.floor(y2+reagirl.MoveItAllUp),
+        math.floor(w2),
+        math.floor(h2),
+        Key,
+        Key_utf,
+        reagirl.Elements[i]
+      )
     end
     
     -- draw all ui-elements
@@ -2361,18 +2383,12 @@ function reagirl.Gui_Draw(Key, Key_utf, clickstate, specific_clickstate, mouse_c
     for i=#reagirl.Elements, 1, -1 do
       if reagirl.Elements[i]["hidden"]~=true then
         local x2, y2, w2, h2
-        local w_add, h_add
-        if reagirl.Elements[i]["GUI_Element_Type"]=="Tabs" then
-          w_add=reagirl.Elements[i]["bg_w"]
-          h_add=reagirl.Elements[i]["bg_h"]
-        end
-        if w_add==nil then w_add=0 end
-        if h_add==nil then h_add=0 end
+
         if reagirl.Elements[i]["x"]<0 then x2=gfx.w+(reagirl.Elements[i]["x"]*scale) else x2=reagirl.Elements[i]["x"]*scale end
         if reagirl.Elements[i]["y"]<0 then y2=gfx.h+(reagirl.Elements[i]["y"]*scale) else y2=reagirl.Elements[i]["y"]*scale end
         
-        if reagirl.Elements[i]["w"]<0 then w2=gfx.w+(-x2+(reagirl.Elements[i]["w"]+w_add)*scale) else w2=(reagirl.Elements[i]["w"]+w_add)*scale end
-        if reagirl.Elements[i]["h"]<0 then h2=gfx.h+(-y2+(reagirl.Elements[i]["h"]+h_add)*scale) else h2=(reagirl.Elements[i]["h"]+h_add)*scale end
+        if reagirl.Elements[i]["w"]<0 then w2=gfx.w+(-x2+(reagirl.Elements[i]["w"])*scale) else w2=(reagirl.Elements[i]["w"])*scale end
+        if reagirl.Elements[i]["h"]<0 then h2=gfx.h+(-y2+(reagirl.Elements[i]["h"])*scale) else h2=(reagirl.Elements[i]["h"])*scale end
 
   
         local MoveItAllUp=reagirl.MoveItAllUp  
@@ -2398,21 +2414,23 @@ function reagirl.Gui_Draw(Key, Key_utf, clickstate, specific_clickstate, mouse_c
         --AAAAA=AAAAA+1
           local selected="not selected"
           if reagirl.Elements.FocusedElement==i then selected=reagirl.ui_element_selected end
-          local message=reagirl.Elements[i]["func_draw"](i, selected,
-            reagirl.UI_Elements_HoveredElement==i,
-            specific_clickstate,
-            gfx.mouse_cap,
-            {click_x, click_y, drag_x, drag_y, mouse_wheel, mouse_hwheel},
-            reagirl.Elements[i]["Name"],
-            reagirl.Elements[i]["Description"], 
-            math.floor(x2+MoveItAllRight),
-            math.floor(y2+MoveItAllUp),
-            math.floor(w2),
-            math.floor(h2),
-            Key,
-            Key_utf,
-            reagirl.Elements[i]
-          )
+          if i~=reagirl.Tabs_Count then
+            local message=reagirl.Elements[i]["func_draw"](i, selected,
+              reagirl.UI_Elements_HoveredElement==i,
+              specific_clickstate,
+              gfx.mouse_cap,
+              {click_x, click_y, drag_x, drag_y, mouse_wheel, mouse_hwheel},
+              reagirl.Elements[i]["Name"],
+              reagirl.Elements[i]["Description"], 
+              math.floor(x2+MoveItAllRight),
+              math.floor(y2+MoveItAllUp),
+              math.floor(w2),
+              math.floor(h2),
+              Key,
+              Key_utf,
+              reagirl.Elements[i]
+            )
+          end
         end -- draw_only_necessary-elements
         if reagirl.Elements["FocusedElement"]~=-1 and reagirl.Elements["FocusedElement"]==i then
           --if reagirl.Elements[i]["GUI_Element_Type"]=="DropDownMenu" then --  if w2<20 then w2=20 end end
@@ -3533,9 +3551,9 @@ function reagirl.UI_Element_Remove(element_id)
   <tags>ui-elements, set, remove</tags>
 </US_DocBloc>
 ]]
-  if type(element_id)~="string" then error("UI_Element_SetSelected: #1 - must be a guid as string", 2) end
+  if type(element_id)~="string" then error("UI_Element_Remove: #1 - must be a guid as string", 2) end
   element_id=reagirl.UI_Element_GetIDFromGuid(element_id)
-  if element_id==nil then error("UI_Element_SetSelected: #1 - no such ui-element", 2) end
+  if element_id==nil then error("UI_Element_Remove: #1 - no such ui-element", 2) end
   if reagirl.Elements[element_id]["GUI_Element_Type"]=="Tabs" then
     reagirl.Tabs_Count=nil
   end
@@ -8766,7 +8784,7 @@ function reagirl.Tabs_Add(x, y, w_backdrop, h_backdrop, caption, meaningOfUI_Ele
 --]]
 
 -- Parameter Unit==nil means, no number of unit shown
-  if reagirl.Tabs_Count~=nil then error("Tabs_Add: only one tab per gui allowed", 2) end
+  if reagirl.Tabs_Count==1 then error("Tabs_Add: only one tab per gui allowed", 2) end
   if x~=nil and math.type(x)~="integer" then error("Tabs_Add: param #1 - must be an integer", 2) end
   if y~=nil and math.type(y)~="integer" then error("Tabs_Add: param #2 - must be an integer", 2) end
   if w_backdrop~=nil and math.type(w_backdrop)~="integer" then error("Tabs_Add: param #4 - must be an integer", 2) end
@@ -8842,7 +8860,7 @@ function reagirl.Tabs_Add(x, y, w_backdrop, h_backdrop, caption, meaningOfUI_Ele
   reagirl.Elements[slot]["userspace"]={}
   reagirl.UI_Element_NextX_Default=reagirl.UI_Element_NextX_Default+5
   
-  reagirl.Tabs_Count=0
+  reagirl.Tabs_Count=slot
   reagirl.NextLine()
   return reagirl.Elements[slot]["Guid"]
 end
@@ -9024,9 +9042,6 @@ function reagirl.Tabs_Manage(element_id, selected, hovered, clicked, mouse_cap, 
       end
     end
   end
-  
-  if reagirl.Tabs_Count<=2 then reagirl.Tabs_Count=reagirl.Tabs_Count+1 reagirl.Gui_ForceRefresh() end
-  
   if refresh==true then 
     reagirl.Gui_ForceRefresh(62) 
     if element_storage["run_function"]~=nil and skip_func~=true then 
@@ -9121,21 +9136,11 @@ function reagirl.Tabs_Draw(element_id, selected, hovered, clicked, mouse_cap, mo
     end
   
     gfx.set(0.403921568627451)
-    gfx.rect(x, y+element_storage["Tabs_Pos"][element_storage["TabSelected"] ]["h"], bg_w, 2*dpi_scale, 1)
+    gfx.rect(x, y+element_storage["Tabs_Pos"][element_storage["TabSelected"] ]["h"], bg_w, bg_h, 1)
   
-    gfx.set(0,1,0)
     gfx.set(0.253921568627451)
-    gfx.rect(x+dpi_scale, y+element_storage["Tabs_Pos"][element_storage["TabSelected"] ]["h"]+dpi_scale, bg_w-dpi_scale-dpi_scale, 2*dpi_scale, 1)
-    reagirl.Tab_Backdrop_x1=x
-    reagirl.Tab_Backdrop_y1=y+element_storage["Tabs_Pos"][element_storage["TabSelected"] ]["h"]
-    reagirl.Tab_Backdrop_w1=bg_w
-    reagirl.Tab_Backdrop_h1=bg_h
-    reagirl.Tab_Backdrop_x2=x+dpi_scale
-    reagirl.Tab_Backdrop_y2=y+element_storage["Tabs_Pos"][element_storage["TabSelected"] ]["h"]+dpi_scale
-    reagirl.Tab_Backdrop_w2=bg_w-dpi_scale-dpi_scale
-    reagirl.Tab_Backdrop_h2=bg_h-dpi_scale-dpi_scale
+    gfx.rect(x+dpi_scale, y+element_storage["Tabs_Pos"][element_storage["TabSelected"] ]["h"]+dpi_scale, bg_w-dpi_scale-dpi_scale, bg_h-dpi_scale-dpi_scale, 1)
   end
-  --]]
   gfx.set(0.253921568627451)
   -- ugly hack...ugh...
   local offset_tabline=0
