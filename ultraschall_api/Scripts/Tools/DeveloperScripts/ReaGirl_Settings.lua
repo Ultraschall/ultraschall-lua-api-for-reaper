@@ -163,7 +163,7 @@ function SetUpNewGui()
   checkbox_osara_id = reagirl.Checkbox_Add(nil, nil, "Enable installed Osara", "Checking this will prevent from screenreader messages to be sent to Osara. You can also type directly into inputboxes.", osara_override, checkbox)
   
   reagirl.NextLine()
-  reagirl.Next_Y=1
+  reagirl.AutoPosition_SetNextYToUIElement(slider_blink_every)
   osara_debug=reaper.GetExtState("ReaGirl", "osara_debug")
   if osara_debug=="false" or osara_debug=="" then osara_debug=false else osara_debug=true end
   checkbox_osara_debug_id = reagirl.Checkbox_Add(nil, nil, "Show screenreader messages in console", "Checking this will show the screenreader messages in the console for debugging purposes.", osara_debug, checkbox)

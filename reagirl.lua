@@ -8085,6 +8085,38 @@ function reagirl.UI_Element_SetHiddenFromTable(table_element_ids, visible)
   end
 end
 
+function reagirl.AutoPosition_SetNextYToUIElement(element_id)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>AutoPosition_SetNextYToUIElement</slug>
+  <requires>
+    ReaGirl=1.0
+    Reaper=7
+    Lua=5.4
+  </requires>
+  <functioncall>reagirl.AutoPosition_SetNextYToUIElement(string element_id)</functioncall>
+  <description>
+    Set the auto-positioning starting point on the y-axis to the position of a certain ui-element.
+    Means, auto-position will put the next ui-element underneath this one.
+  </description>
+  <parameters>
+     string element_id - the element-id of the ui-element, under which you want to place the next ui-element using auto-position 
+  </parameters>
+  <chapter_context>
+    Gui
+  </chapter_context>
+  <target_document>ReaGirl_Docs</target_document>
+  <source_document>reagirl_GuiEngine.lua</source_document>
+  <tags>functions, set, auto position, y-axis, next line</tags>
+</US_DocBloc>
+]]
+  if type(element_id)~="string" then error("AutoPosition_SetNextYToUIElement: param #1: must be a string", 2) return end
+  if reagirl.IsValidGuid(element_id, true)~=true then error("AutoPosition_SetNextYToUIElement: param #1: must be a valid element_id", 2) return end
+  element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
+  if element_id==-1 then error("AutoPosition_SetNextYToUIElement: param #1: no such ui-element", 2) return end
+  reagirl.Next_Y=element_id
+end
+
 
 function reagirl.Slider_Add(x, y, w, caption, Cap_width, meaningOfUI_Element, unit, start, stop, step, init_value, default, run_function)
 --[[
