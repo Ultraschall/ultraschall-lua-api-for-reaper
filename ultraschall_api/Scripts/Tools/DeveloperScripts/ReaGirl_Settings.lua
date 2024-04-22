@@ -186,7 +186,8 @@ end
 
 SetUpNewGui()
 
-reagirl.Background_GetSetColor(true,55,55,55)
+color=40
+reagirl.Background_GetSetColor(true,color,color,color)
 
 reagirl.Gui_Open("ReaGirl Settings (Reagirl v"..reagirl.GetVersion()..")", "various settings for ReaGirl-Accessible Guis", 355, 330, nil, nil, nil)
 

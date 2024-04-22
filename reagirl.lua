@@ -2349,7 +2349,7 @@ function reagirl.Gui_Draw(Key, Key_utf, clickstate, specific_clickstate, mouse_c
 
     -- draw all ui-elements
     
-    for i=1, #reagirl.Elements, 1 do
+    for i=#reagirl.Elements, 1, -1 do
       if reagirl.Elements[i]["hidden"]~=true then
         local x2, y2, w2, h2
         local w_add, h_add
@@ -8754,6 +8754,7 @@ function reagirl.Tabs_Add(x, y, w_backdrop, h_backdrop, caption, meaningOfUI_Ele
 --]]
 
 -- Parameter Unit==nil means, no number of unit shown
+  if reagirl.Tabs_Count==1 then error("Tabs_Add: only one tab per gui allowed", 2) end
   if x~=nil and math.type(x)~="integer" then error("Tabs_Add: param #1 - must be an integer", 2) end
   if y~=nil and math.type(y)~="integer" then error("Tabs_Add: param #2 - must be an integer", 2) end
   if w_backdrop~=nil and math.type(w_backdrop)~="integer" then error("Tabs_Add: param #4 - must be an integer", 2) end
@@ -8829,6 +8830,7 @@ function reagirl.Tabs_Add(x, y, w_backdrop, h_backdrop, caption, meaningOfUI_Ele
   reagirl.Elements[slot]["userspace"]={}
   reagirl.UI_Element_NextX_Default=reagirl.UI_Element_NextX_Default+5
   
+  reagirl.Tabs_Count=1
   reagirl.NextLine()
   return reagirl.Elements[slot]["Guid"]
 end
@@ -9076,7 +9078,8 @@ function reagirl.Tabs_Draw(element_id, selected, hovered, clicked, mouse_cap, mo
     gfx.set(0.8)
     gfx.drawstr(element_storage["TabNames"][i])
   end
-  -- backdrop
+  -- backdrop -- will be implemented into Gui_Draw
+  --[[
   if element_storage["w_background"]~="zero" and element_storage["h_background"]~="zero" then
     local offset_x=0
     local offset_y=0
@@ -9108,6 +9111,7 @@ function reagirl.Tabs_Draw(element_id, selected, hovered, clicked, mouse_cap, mo
     gfx.rect(x+dpi_scale, y+element_storage["Tabs_Pos"][element_storage["TabSelected"] ]["h"]+dpi_scale, bg_w-dpi_scale-dpi_scale, bg_h-dpi_scale-dpi_scale, 1)
     
   end
+  --]]
   gfx.set(0.253921568627451)
   -- ugly hack...ugh...
   local offset_tabline=0
