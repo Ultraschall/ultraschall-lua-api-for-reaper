@@ -1239,6 +1239,7 @@ function reagirl.Gui_New()
   reagirl.ScrollButton_Down_Add()
   reagirl.ScrollBar_Right_Add()
   reagirl.ScrollBar_Bottom_Add()
+  reagirl.Tabs_Count=nil
 end
 
 function reagirl.ScrollBar_Right_Add()
@@ -2347,6 +2348,14 @@ function reagirl.Gui_Draw(Key, Key_utf, clickstate, specific_clickstate, mouse_c
     gfx.rect(0,0,gfx.w,gfx.h,1)
     reagirl.Background_DrawImage()
 
+    -- draw Tab background
+    if reagirl.Tabs_Count~=nil then
+      gfx.set(0.403921568627451)
+      gfx.rect(reagirl.Tab_Backdrop_x1, reagirl.Tab_Backdrop_y1, reagirl.Tab_Backdrop_w1, reagirl.Tab_Backdrop_h1, 1)
+      gfx.set(0.253921568627451)
+      gfx.rect(reagirl.Tab_Backdrop_x2, reagirl.Tab_Backdrop_y2, reagirl.Tab_Backdrop_w2, reagirl.Tab_Backdrop_h2, 1)
+    end
+    
     -- draw all ui-elements
     
     for i=#reagirl.Elements, 1, -1 do
@@ -3527,6 +3536,9 @@ function reagirl.UI_Element_Remove(element_id)
   if type(element_id)~="string" then error("UI_Element_SetSelected: #1 - must be a guid as string", 2) end
   element_id=reagirl.UI_Element_GetIDFromGuid(element_id)
   if element_id==nil then error("UI_Element_SetSelected: #1 - no such ui-element", 2) end
+  if reagirl.Elements[element_id]["GUI_Element_Type"]=="Tabs" then
+    reagirl.Tabs_Count=nil
+  end
   table.remove(reagirl.Elements, element_id)
   if element_id<=reagirl.Elements["FocusedElement"] then
     reagirl.Elements["FocusedElement"]=reagirl.Elements["FocusedElement"]-1
@@ -8754,7 +8766,7 @@ function reagirl.Tabs_Add(x, y, w_backdrop, h_backdrop, caption, meaningOfUI_Ele
 --]]
 
 -- Parameter Unit==nil means, no number of unit shown
-  if reagirl.Tabs_Count==1 then error("Tabs_Add: only one tab per gui allowed", 2) end
+  if reagirl.Tabs_Count~=nil then error("Tabs_Add: only one tab per gui allowed", 2) end
   if x~=nil and math.type(x)~="integer" then error("Tabs_Add: param #1 - must be an integer", 2) end
   if y~=nil and math.type(y)~="integer" then error("Tabs_Add: param #2 - must be an integer", 2) end
   if w_backdrop~=nil and math.type(w_backdrop)~="integer" then error("Tabs_Add: param #4 - must be an integer", 2) end
@@ -8830,7 +8842,7 @@ function reagirl.Tabs_Add(x, y, w_backdrop, h_backdrop, caption, meaningOfUI_Ele
   reagirl.Elements[slot]["userspace"]={}
   reagirl.UI_Element_NextX_Default=reagirl.UI_Element_NextX_Default+5
   
-  reagirl.Tabs_Count=1
+  reagirl.Tabs_Count=0
   reagirl.NextLine()
   return reagirl.Elements[slot]["Guid"]
 end
@@ -9012,6 +9024,9 @@ function reagirl.Tabs_Manage(element_id, selected, hovered, clicked, mouse_cap, 
       end
     end
   end
+  
+  if reagirl.Tabs_Count<=2 then reagirl.Tabs_Count=reagirl.Tabs_Count+1 reagirl.Gui_ForceRefresh() end
+  
   if refresh==true then 
     reagirl.Gui_ForceRefresh(62) 
     if element_storage["run_function"]~=nil and skip_func~=true then 
@@ -9078,8 +9093,9 @@ function reagirl.Tabs_Draw(element_id, selected, hovered, clicked, mouse_cap, mo
     gfx.set(0.8)
     gfx.drawstr(element_storage["TabNames"][i])
   end
+  
   -- backdrop -- will be implemented into Gui_Draw
-  --[[
+  
   if element_storage["w_background"]~="zero" and element_storage["h_background"]~="zero" then
     local offset_x=0
     local offset_y=0
@@ -9105,11 +9121,19 @@ function reagirl.Tabs_Draw(element_id, selected, hovered, clicked, mouse_cap, mo
     end
   
     gfx.set(0.403921568627451)
-    gfx.rect(x, y+element_storage["Tabs_Pos"][element_storage["TabSelected"] ]["h"], bg_w, bg_h, 1)
+    gfx.rect(x, y+element_storage["Tabs_Pos"][element_storage["TabSelected"] ]["h"], bg_w, 2*dpi_scale, 1)
   
+    gfx.set(0,1,0)
     gfx.set(0.253921568627451)
-    gfx.rect(x+dpi_scale, y+element_storage["Tabs_Pos"][element_storage["TabSelected"] ]["h"]+dpi_scale, bg_w-dpi_scale-dpi_scale, bg_h-dpi_scale-dpi_scale, 1)
-    
+    gfx.rect(x+dpi_scale, y+element_storage["Tabs_Pos"][element_storage["TabSelected"] ]["h"]+dpi_scale, bg_w-dpi_scale-dpi_scale, 2*dpi_scale, 1)
+    reagirl.Tab_Backdrop_x1=x
+    reagirl.Tab_Backdrop_y1=y+element_storage["Tabs_Pos"][element_storage["TabSelected"] ]["h"]
+    reagirl.Tab_Backdrop_w1=bg_w
+    reagirl.Tab_Backdrop_h1=bg_h
+    reagirl.Tab_Backdrop_x2=x+dpi_scale
+    reagirl.Tab_Backdrop_y2=y+element_storage["Tabs_Pos"][element_storage["TabSelected"] ]["h"]+dpi_scale
+    reagirl.Tab_Backdrop_w2=bg_w-dpi_scale-dpi_scale
+    reagirl.Tab_Backdrop_h2=bg_h-dpi_scale-dpi_scale
   end
   --]]
   gfx.set(0.253921568627451)
