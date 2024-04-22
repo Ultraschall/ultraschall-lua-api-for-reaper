@@ -4316,7 +4316,7 @@ function reagirl.Button_Draw(element_id, selected, hovered, clicked, mouse_cap, 
     gfx.set(0.06) -- background 1
     reagirl.RoundRect((x)*scale, (y)*scale, w, h, radius * dpi_scale, 1, 1)
     
-    gfx.set(0.39) -- background 2
+    gfx.set(0.45) -- background 2
     reagirl.RoundRect(x*scale, (y - dpi_scale) * scale, w-dpi_scale, h, radius * dpi_scale, 1, 1)
     
     gfx.set(0.274) -- button-area
@@ -4334,12 +4334,14 @@ function reagirl.Button_Draw(element_id, selected, hovered, clicked, mouse_cap, 
       
       gfx.x=x+(w-sw)/2+1
       gfx.y=y+(h-sh)/2+1+offset-1
-      gfx.set(0.39)
+      gfx.y=y+(h-gfx.texth)/2+offset
+      gfx.set(0.09)
       gfx.drawstr(element_storage["Name"])
       
       gfx.x=x+(w-sw)/2+1
       gfx.y=y+(h-sh)/2+1+offset
-      gfx.set(0.06)
+      gfx.y=y+(h-gfx.texth)/2+offset-1
+      gfx.set(0.55)
       gfx.drawstr(element_storage["Name"])
     end
   end
