@@ -3568,7 +3568,7 @@ function reagirl.Checkbox_Add(x, y, caption, meaningOfUI_Element, default, run_f
     y=reagirl.UI_Element_NextY_Default
     if slot>1 then
       for i=slot-1, 1, -1 do
-        if reagirl.Elements[i]["IsDisabled"]==false then
+        if reagirl.Elements[i]["IsDecorative"]~=true then
           slot2=i
           break
         end
@@ -3968,7 +3968,7 @@ function reagirl.NextLine(y_offset)
   local slot=reagirl.UI_Element_GetNextFreeSlot()
   if reagirl.UI_Element_NextLineY==0 then
     for i=slot-1, 1, -1 do
-      if reagirl.Elements[i]["IsDisabled"]==false then
+      if reagirl.Elements[i]["IsDecorative"]~=true then
         local x2, y2, w2, h2
         if reagirl.Elements[i]["y"]<0 then y2=gfx.h+(reagirl.Elements[i]["y"]) else y2=reagirl.Elements[i]["y"] end
         if reagirl.Elements[i]["h"]<0 then h2=gfx.h+(-y2+reagirl.Elements[i]["h"]) else h2=reagirl.Elements[i]["h"] end
@@ -4048,7 +4048,7 @@ function reagirl.Button_Add(x, y, w_margin, h_margin, caption, meaningOfUI_Eleme
     y=reagirl.UI_Element_NextY_Default
     if slot>1 then
       for i=slot-1, 1, -1 do
-        if reagirl.Elements[i]["IsDisabled"]==false then
+        if reagirl.Elements[i]["IsDecorative"]~=true then
           slot2=i
           break
         end
@@ -4430,7 +4430,7 @@ function reagirl.Inputbox_Add(x, y, w, caption, Cap_width, meaningOfUI_Element, 
     y=reagirl.UI_Element_NextY_Default
     if slot>1 then
       for i=slot-1, 1, -1 do
-        if reagirl.Elements[i]["IsDisabled"]==false then
+        if reagirl.Elements[i]["IsDecorative"]~=true then
           slot2=i
           break
         end
@@ -5663,7 +5663,7 @@ function reagirl.DropDownMenu_Add(x, y, w, caption, Cap_width, meaningOfUI_Eleme
     y=reagirl.UI_Element_NextY_Default
     if slot>1 then
       for i=slot-1, 1, -1 do
-        if reagirl.Elements[i]["IsDisabled"]==false then
+        if reagirl.Elements[i]["IsDecorative"]~=true then
           slot2=i
           break
         end
@@ -6396,7 +6396,7 @@ function reagirl.Label_Add(x, y, label, meaningOfUI_Element, align, clickable, r
     y=reagirl.UI_Element_NextY_Default
     if slot>1 then
       for i=slot-1, 1, -1 do
-        if reagirl.Elements[i]["IsDisabled"]==false then
+        if reagirl.Elements[i]["IsDecorative"]~=true then
           slot2=i
           break
         end
@@ -6642,7 +6642,7 @@ function reagirl.Image_Add(image_filename, x, y, w, h, name, meaningOfUI_Element
     y=reagirl.UI_Element_NextY_Default
     if slot>1 then
       for i=slot-1, 1, -1 do
-        if reagirl.Elements[i]["IsDisabled"]==false then
+        if reagirl.Elements[i]["IsDecorative"]~=true then
           slot2=i
           break
         end
@@ -8105,7 +8105,7 @@ function reagirl.Slider_Add(x, y, w, caption, Cap_width, meaningOfUI_Element, un
     y=reagirl.UI_Element_NextY_Default
     if slot>1 then
       for i=slot-1, 1, -1 do
-        if reagirl.Elements[i]["IsDisabled"]==false then
+        if reagirl.Elements[i]["IsDecorative"]~=true then
           slot2=i
           break
         end
@@ -8930,7 +8930,7 @@ function reagirl.Tabs_Add(x, y, w_backdrop, h_backdrop, caption, meaningOfUI_Ele
     y=reagirl.UI_Element_NextY_Default
     if slot>1 then
       for i=slot-1, 1, -1 do
-        if reagirl.Elements[i]["IsDisabled"]==false then
+        if reagirl.Elements[i]["IsDecorative"]~=true then
           slot2=i
           break
         end
