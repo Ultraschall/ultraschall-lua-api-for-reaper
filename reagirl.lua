@@ -1240,6 +1240,11 @@ function reagirl.Gui_New()
   reagirl.ScrollBar_Right_Add()
   reagirl.ScrollBar_Bottom_Add()
   reagirl.Tabs_Count=nil
+  if reagirl.UI_Element_NextX_Default_temp==nil then
+    reagirl.UI_Element_NextX_Default_temp=reagirl.UI_Element_NextX_Default
+  else
+    reagirl.UI_Element_NextX_Default=reagirl.UI_Element_NextX_Default_temp
+  end
 end
 
 function reagirl.ScrollBar_Right_Add()
@@ -8858,7 +8863,8 @@ function reagirl.Tabs_Add(x, y, w_backdrop, h_backdrop, caption, meaningOfUI_Ele
   reagirl.Elements[slot]["func_draw"]=reagirl.Tabs_Draw
   reagirl.Elements[slot]["run_function"]=run_function
   reagirl.Elements[slot]["userspace"]={}
-  reagirl.UI_Element_NextX_Default=reagirl.UI_Element_NextX_Default+5
+
+  reagirl.UI_Element_NextX_Default=reagirl.UI_Element_NextX_Default+10
   
   reagirl.Tabs_Count=slot
   reagirl.NextLine()
