@@ -106,8 +106,8 @@ function SetUpNewGui()
   Tabs=reagirl.Tabs_Add(10,10, 350, 380, "Tabs", "Choose settings", {"General", "Osara"}, 1, nil)
   
   --[[ Blinking Focus Rectangle ]]
-  Label1=reagirl.Label_Add(100, nil, "General", "General settings.", 0, false, nil)
-  reagirl.Label_SetStyle(Label1, 6, 0, 0)
+  Label_General=reagirl.Label_Add(nil, nil, "General", "General settings.", 0, false, nil)
+  reagirl.Label_SetStyle(Label_General, 6, 0, 0)
 
   reagirl.NextLine(-2)
   show_tooltips = reaper.GetExtState("ReaGirl", "show_tooltips")
@@ -115,8 +115,8 @@ function SetUpNewGui()
   checkbox_tooltips_id = reagirl.Checkbox_Add(nil, nil, "Show tooltips when hovering above ui-element", "When checked, ReaGirl will show tooltips when hovering above ui-elements.", show_tooltips, checkbox)
   
   reagirl.NextLine(10)
-  Label1=reagirl.Label_Add(nil, nil, "Focus Rectangle", "Settings for the focus rectangle.", 0, false, nil)
-  reagirl.Label_SetStyle(Label1, 6, 0, 0)
+  Label_FocusRectangle=reagirl.Label_Add(nil, nil, "Focus Rectangle", "Settings for the focus rectangle.", 0, false, nil)
+  reagirl.Label_SetStyle(Label_FocusRectangle, 6, 0, 0)
   
   reagirl.NextLine(-4)
   val=tonumber(reaper.GetExtState("ReaGirl", "FocusRectangle_BlinkSpeed"))
@@ -131,8 +131,8 @@ function SetUpNewGui()
   
   -- [[ Blinking Inputbox-Cursor ]]
   reagirl.NextLine(15)
-  Label1=reagirl.Label_Add(nil, nil, "Inputbox-Cursor", "Settings for the inputbox-cursor.", 0, false, nil)
-  reagirl.Label_SetStyle(Label1, 6, 0, 0)
+  Label_InputBox=reagirl.Label_Add(nil, nil, "Inputbox-Cursor", "Settings for the inputbox-cursor.", 0, false, nil)
+  reagirl.Label_SetStyle(Label_InputBox, 6, 0, 0)
   reagirl.NextLine(-4)
   val3=tonumber(reaper.GetExtState("ReaGirl", "Inputbox_BlinkSpeed"))
   if val3==nil then val3=33 end
@@ -143,27 +143,30 @@ function SetUpNewGui()
   
   -- [[ Scaling Override ]]
   reagirl.NextLine(15)
-  Label1=reagirl.Label_Add(nil, nil, "Scaling", "Settings for the scaling-factor of ReaGirl-Guis", 0, false, nil)
-  reagirl.Label_SetStyle(Label1, 6, 0, 0)
+  Label_Scaling=reagirl.Label_Add(nil, nil, "Scaling", "Settings for the scaling-factor of ReaGirl-Guis", 0, false, nil)
+  reagirl.Label_SetStyle(Label_Scaling, 6, 0, 0)
   reagirl.NextLine(-4)
   scaling_override=tonumber(reaper.GetExtState("ReaGirl", "scaling_override", value, true))
   if scaling_override==nil then scaling_override2=0 else scaling_override2=scaling_override end
   slider_scale = reagirl.Slider_Add(nil, nil, 250, "Scale Override", 100, "Set the default scaling-factor for all ReaGirl-Gui-windows; 0 is auto-scaling.", nil, 0, 8, 1, scaling_override2, 0, ScaleOverride)
-  button=reagirl.Button_Add(nil, nil, 0, 0, "Apply", "Apply the chosen scaling value.", button_apply)
+  button_scale = reagirl.Button_Add(nil, nil, 0, 0, "Apply", "Apply the chosen scaling value.", button_apply)
   reagirl.NextLine(15)
   
+  reagirl.Tabs_SetUIElementsForTab(Tabs, 1, {Label_General, Label_FocusRectangle, checkbox_tooltips_id, slider_blink_every,
+                                             slider_blink_for, slider_blink_for, Label_InputBox, slider_blink_every_cursor,
+                                             input_id, Label_Scaling, slider_scale, button_scale})
+  
   -- [[ Osara override ]]
-  
-  Label1=reagirl.Label_Add(nil, nil, "Osara", "Settings that influence the relationship between Osara and ReaGirl.", 0, false, nil)
+  reagirl.AutoPosition_SetNextYToUIElement(Tabs)
+  Label_Osara=reagirl.Label_Add(nil, nil, "Osara", "Settings that influence the relationship between Osara and ReaGirl.", 0, false, nil)
   reagirl.NextLine()
-  reagirl.Label_SetStyle(Label1, 6, 0, 0)
-  
+  reagirl.Label_SetStyle(Label_Osara, 6, 0, 0)
+
   osara_override=reaper.GetExtState("ReaGirl", "osara_override")
   if osara_override=="true" or osara_override=="" then osara_override=true else osara_override=false end
   checkbox_osara_id = reagirl.Checkbox_Add(nil, nil, "Enable installed Osara", "Checking this will prevent from screenreader messages to be sent to Osara. You can also type directly into inputboxes.", osara_override, checkbox)
   
   reagirl.NextLine()
-  reagirl.AutoPosition_SetNextYToUIElement(slider_blink_every)
   osara_debug=reaper.GetExtState("ReaGirl", "osara_debug")
   if osara_debug=="false" or osara_debug=="" then osara_debug=false else osara_debug=true end
   checkbox_osara_debug_id = reagirl.Checkbox_Add(nil, nil, "Show screenreader messages in console", "Checking this will show the screenreader messages in the console for debugging purposes.", osara_debug, checkbox)
@@ -178,7 +181,7 @@ function SetUpNewGui()
   if osara_hover_mouse=="" or osara_hover_mouse=="true" then osara_hover_mouse=true else osara_hover_mouse=false end
   checkbox_osara_hover_mouse_id = reagirl.Checkbox_Add(nil, nil, "Report hovered ui-elements", "When checked, ReaGirl will report ui-elements the mouse is hovering above to the screenreader. Uncheck to prevent that.", osara_hover_mouse, checkbox)
   
-  reagirl.Tabs_SetUIElementsForTab(Tabs, 2, {Label1, checkbox_osara_id, checkbox_osara_debug_id, checkbox_osara_move_mouse_id, checkbox_osara_hover_mouse_id})
+  reagirl.Tabs_SetUIElementsForTab(Tabs, 2, {Label_Osara, checkbox_osara_id, checkbox_osara_debug_id, checkbox_osara_move_mouse_id, checkbox_osara_hover_mouse_id})
 end
 
 SetUpNewGui()
