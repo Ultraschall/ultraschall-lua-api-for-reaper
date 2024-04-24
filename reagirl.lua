@@ -75,6 +75,9 @@ end
 --]]
 --[[
 TODO: 
+  - ui-elements, who are anchored to right side/bottom of the window: when shrinking the window, they might scroll outside of left/top-side of the window
+    so you can't scroll to them. Maybe fix that?
+  - UI_Element_GetSetDimension - maybe restrict this to certain ui-elements
   - DropDownMenu: line "if gfx.mouse_x>=x+cap_w and gfx.mouse_x<=x+w and gfx.mouse_y>=y and gfx.mouse_y<=y+h then"
           in DropDownMenu_Manage occasionally produces nil-error on x for some reason...
           Maybe only after using EditMode?
@@ -3294,7 +3297,9 @@ function reagirl.UI_Element_GetSetDimension(element_id, is_set, w, h)
   </requires>
   <functioncall>integer w, integer h, integer true_w, integer true_h = reagirl.UI_Element_GetSetDimension(string element_id, boolean is_set, integer w, integer h)</functioncall>
   <description>
-    gets/sets the position of the ui-element
+    gets/sets the dimensions of the ui-element
+    
+    Note: be careful with this function, since setting width and height of ui-elements who don't support this can cause drawing issues with them or crashes with ReaGirl.
   </description>
   <retvals>
     integer w - the w-size of the ui-element
@@ -3316,6 +3321,7 @@ function reagirl.UI_Element_GetSetDimension(element_id, is_set, w, h)
   <tags>ui-elements, set, get, dimension</tags>
 </US_DocBloc>
 ]]
+  -- maybe restrict this to certain ui-elements
   if type(element_id)~="string" then error("UI_Element_GetSetDimension: #1 - must be a guid as string", 2) end
   element_id=reagirl.UI_Element_GetIDFromGuid(element_id)
   if element_id==nil then error("UI_Element_GetSetDimension: #1 - no such ui-element", 2) end

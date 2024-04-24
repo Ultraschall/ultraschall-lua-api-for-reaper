@@ -4,6 +4,8 @@ In this tutorial, I will show you, how to make a gui, where an image is draggabl
 It will have one image, that can be dragged and two other images and a label, which act as destinations for the dragged source-image.
 Dragging the source-image to the destination-images will change the destination-image to the one of the source image, while dragging to the label will show the filename+path of the source-image.
 
+Note: blind users can drag the image using Ctrl+Tab or Ctrl+Shift+Tab to select, to which ui-element the images shall be dragged to.
+
 Let's start first with a basic-gui, that will show the source-image and have an empty run-function for the image.
 
 ```
@@ -228,8 +230,11 @@ If so, we get the filename of the source using reagirl.Image\_GetImageFilename()
 Awesome, it's already looking good. But: there's one thing we missed:
 Remember that the description of the destination images was amp and conga? It still is, even though it's now showing a bass-guitar. That means, blind users didn't get, that the images was changed.
 Let's change that.
-We alter the run-function Image\_Runfunction() even further by adding reagirl.UI\_Element\_GetSetMeaningOfUIElement(). With that, we change the description now to "An image of a bass-guitar." so blind users know, that the images changed.
-We will also alter the label-description to tell blind users, that the label is now showing the filename+path of the image.
+For this, we need to alter the run-function Image\_Runfunction and add the two functions, reagirl.UI\_Element\_GetSetMeaningOfUIElement() and reagirl.UI\_Element\_GetSetCaption().
+The function reagirl.UI\_Element\_GetSetCaption() will change the caption, which is sent to blind users when hovering above a ui-element.
+The function reagirl.UI\_Element\_GetSetMeaningOfUIElement() will change the screenreader-message, which is sent to blind users when they are tabbing through the ui-elements.
+
+We need to alter the run-function for the images as well as the label.
 
 Note: in the ReaGirl-Settings you find an option called "Show screenreader messages in console", which will show the messages sent to blind users in the ReaScript-console window.
 With that, you can check, whether the meaningOfUI_Element was correctly altered or is even reflecting the correct message.
@@ -251,6 +256,7 @@ function Image_Runfunction(element_id, imagepath_plus_filename, drag_destination
     reagirl.Label_SetLabelText(label_id, "Filename of source-image is: "..image_filename) 
     -- change meaningOfUI_Element to reflect, what the label shows now for blind users
     reagirl.UI_Element_GetSetMeaningOfUIElement(label_id, true, "An image of a bass-guitar")
+    reagirl.UI_Element_GetSetCaption(label_id, "filename of the dragged image")
   
   elseif drag_destination==image_dest1_id then
     -- if source_image is dragged to image2, change it's image to the
@@ -262,6 +268,7 @@ function Image_Runfunction(element_id, imagepath_plus_filename, drag_destination
     reagirl.Image_Load(image_dest1_id, image_filename)
     -- change meaningOfUI_Element to reflect, what the image shows now for blind users
     reagirl.UI_Element_GetSetMeaningOfUIElement(image_dest1_id, true, "An image of a bass-guitar")
+    reagirl.UI_Element_GetSetCaption(image_dest1_id, "Image of a bass guitar")
   
   elseif drag_destination==image_dest2_id then
     -- if source_image is dragged to image2, change it's image to the
@@ -273,6 +280,7 @@ function Image_Runfunction(element_id, imagepath_plus_filename, drag_destination
     reagirl.Image_Load(image_dest2_id, image_filename)
     -- change meaningOfUI_Element to reflect, what the image shows now for blind users
     reagirl.UI_Element_GetSetMeaningOfUIElement(image_dest2_id, true, "An image of a bass-guitar")
+    reagirl.UI_Element_GetSetCaption(image_dest2_id, "Image of a bass guitar")
   end
 end
 
@@ -301,7 +309,9 @@ function main()
 end
 main()
 ```
+You'll notice, how we alter the screenreader-message using reagirl.UI\_Element\_GetSetMeaningOfUIElement() as well as the caption using reagirl.UI\_Element\_GetSetCaption().
+And when you run the script, tabbing through the ui-elements will now tell to blind users, which image has been used by image\_dest1\_id and image\_dest2\_id and label\_id.
 
 Great. Now we have a script that allows dragging a source-image to various destinations. It alters the images and labels when the source-image has been dropped.
-We also altered the screenreader-messages accordingly to reflect the changes, so blind users know, what has happened as well.
+We also altered the screenreader-messages accordingly to reflect the changes, so blind users know, what has happened with dragging as well.
 With that, you know even more about how ReaGirl works.
