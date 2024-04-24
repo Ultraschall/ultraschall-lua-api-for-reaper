@@ -3688,7 +3688,7 @@ function reagirl.Checkbox_Draw(element_id, selected, hovered, clicked, mouse_cap
   gfx.y=y
   local offset
   local scale=reagirl.Window_CurrentScale
-  
+  y=y+scale
   local top=element_storage["top_edge"]
   local bottom=element_storage["bottom_edge"]
   gfx.set(reagirl.Colors.Checkbox_rectangle.r, reagirl.Colors.Checkbox_rectangle.g, reagirl.Colors.Checkbox_rectangle.b)
@@ -3718,13 +3718,13 @@ function reagirl.Checkbox_Draw(element_id, selected, hovered, clicked, mouse_cap
   
   
   gfx.x=x+h+4*scale
-  gfx.y=y+scale+(h-gfx.texth)/2
+  gfx.y=y+scale+1+(h-gfx.texth)/2
   gfx.set(reagirl.Colors.TextBG.r, reagirl.Colors.TextBG.g, reagirl.Colors.TextBG.b)
   gfx.drawstr(name)
   
   if element_storage["IsDisabled"]==false then gfx.set(reagirl.Colors.TextFG.r, reagirl.Colors.TextFG.g, reagirl.Colors.TextFG.b) else gfx.set(reagirl.Colors.TextFG_disabled.r, reagirl.Colors.TextFG_disabled.g, reagirl.Colors.TextFG_disabled.b) end
   gfx.x=x+h+5*scale
-  gfx.y=y+(h-gfx.texth)/2
+  gfx.y=y+1+(h-gfx.texth)/2
   gfx.drawstr(name)
   reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0)
 end
@@ -5755,6 +5755,7 @@ end
 function reagirl.DropDownMenu_Draw(element_id, selected, hovered, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
   local dpi_scale, state
   local dpi_scale=reagirl.Window_CurrentScale
+  y=y+dpi_scale
   local cap_w=element_storage["cap_w"]
   if element_storage["Cap_width"]~=nil then
     cap_w=element_storage["Cap_width"]
@@ -6451,6 +6452,7 @@ function reagirl.Label_Draw(element_id, selected, hovered, clicked, mouse_cap, m
   local styles={66,73,77,79,83,85,86,89,90}
   styles[0]=0
   local dpi_scale=reagirl.Window_GetCurrentScale()
+  y=y+dpi_scale+dpi_scale+dpi_scale
   local style=styles[element_storage["style1"]]<<8
   style=style+styles[element_storage["style2"]]<<8
   style=style+styles[element_storage["style3"]]<<8
