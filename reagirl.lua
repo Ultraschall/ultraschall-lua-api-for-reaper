@@ -2358,7 +2358,7 @@ function reagirl.Gui_Draw(Key, Key_utf, clickstate, specific_clickstate, mouse_c
     gfx.rect(0,0,gfx.w,gfx.h,1)
     reagirl.Background_DrawImage()
 
-    -- draw Tab background
+    -- draw Tabs
     if reagirl.Tabs_Count~=nil then
       local i=reagirl.Tabs_Count
       local w_add=reagirl.Elements[i]["bg_w"]
@@ -2390,7 +2390,8 @@ function reagirl.Gui_Draw(Key, Key_utf, clickstate, specific_clickstate, mouse_c
     
     -- draw all ui-elements
     
-    for i=#reagirl.Elements, 1, -1 do
+    for i=#reagirl.Elements-6, 1, -1 do
+
       if reagirl.Elements[i]["hidden"]~=true then
         local x2, y2, w2, h2
 
@@ -2479,6 +2480,34 @@ function reagirl.Gui_Draw(Key, Key_utf, clickstate, specific_clickstate, mouse_c
           
         end
       end
+    end
+  
+    -- draw scrollbars and scrollbuttons
+    for i=#reagirl.Elements-5, #reagirl.Elements, 1 do
+      local selected="not selected"
+      if reagirl.Elements.FocusedElement==i then selected=reagirl.ui_element_selected end
+      
+      if reagirl.Elements[i]["x"]<0 then x2=gfx.w+(reagirl.Elements[i]["x"]*scale) else x2=reagirl.Elements[i]["x"]*scale end
+      if reagirl.Elements[i]["y"]<0 then y2=gfx.h+(reagirl.Elements[i]["y"]*scale) else y2=reagirl.Elements[i]["y"]*scale end
+    
+      if reagirl.Elements[i]["w"]<0 then w2=gfx.w+(-x2+(reagirl.Elements[i]["w"])*scale) else w2=(reagirl.Elements[i]["w"])*scale end
+      if reagirl.Elements[i]["h"]<0 then h2=gfx.h+(-y2+(reagirl.Elements[i]["h"])*scale) else h2=(reagirl.Elements[i]["h"])*scale end
+  
+      local message=reagirl.Elements[i]["func_draw"](i, selected,
+        reagirl.UI_Elements_HoveredElement==i,
+        specific_clickstate,
+        gfx.mouse_cap,
+        {click_x, click_y, drag_x, drag_y, mouse_wheel, mouse_hwheel},
+        reagirl.Elements[i]["Name"],
+        reagirl.Elements[i]["Description"], 
+        math.floor(x2),
+        math.floor(y2),
+        math.floor(w2),
+        math.floor(h2),
+        Key,
+        Key_utf,
+        reagirl.Elements[i]
+      )
     end
   end
   if reagirl.EditMode==true and reagirl.Gui_ForceRefreshState==true then
@@ -4019,7 +4048,7 @@ function reagirl.NextLine(y_offset)
   if UI_Element_NextLineY>reagirl.NextLine_Overflow then
     reagirl.UI_Element_NextLineY=UI_Element_NextLineY
   else
-    reagirl.UI_Element_NextLineY=reagirl.NextLine_Overflow
+    reagirl.UI_Element_NextLineY=reagirl.NextLine_Overflow+reagirl.Window_GetCurrentScale()+reagirl.Window_GetCurrentScale()
   end
   reagirl.NextLine_triggered=true
   reagirl.UI_Element_NextLineX=reagirl.UI_Element_NextX_Default
