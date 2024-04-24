@@ -2888,7 +2888,7 @@ function reagirl.UI_Element_GetNextXAndYPosition(x, y, functionname)
   end  
   reagirl.UI_Element_NextLineY=0
   reagirl.NextLine_triggered=nil
-
+  print_alt(slot, y, reagirl.UI_Element_NextY_Default)
   return x, y, slot3
 end
 
@@ -3660,10 +3660,10 @@ function reagirl.Checkbox_Add(x, y, caption, meaningOfUI_Element, default, run_f
   reagirl.Elements[slot]["ContextMenu_ACC"]=""
   reagirl.Elements[slot]["DropZoneFunction_ACC"]=""
   reagirl.Elements[slot]["x"]=x
-  reagirl.Elements[slot]["y"]=y+1
+  reagirl.Elements[slot]["y"]=y
   reagirl.Elements[slot]["w"]=math.tointeger(ty+tx)+9
   reagirl.Elements[slot]["h"]=math.tointeger(ty)--+reagirl.UI_Element_HeightMargin
-  if ty+2>reagirl.NextLine_Overflow then reagirl.NextLine_Overflow=math.tointeger(ty)+3 end
+  if ty>reagirl.NextLine_Overflow then reagirl.NextLine_Overflow=math.tointeger(ty) end
   reagirl.Elements[slot]["sticky_x"]=false
   reagirl.Elements[slot]["sticky_y"]=false
   reagirl.Elements[slot]["top_edge"]=true
@@ -3714,33 +3714,36 @@ function reagirl.Checkbox_Manage(element_id, selected, hovered, clicked, mouse_c
 end
 
 function reagirl.Checkbox_Draw(element_id, selected, hovered, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
+
   reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0)
   gfx.x=x
   gfx.y=y
   local offset
   local scale=reagirl.Window_CurrentScale
-  --y=y+scale
+  y=y+scale
   local top=element_storage["top_edge"]
   local bottom=element_storage["bottom_edge"]
   --gfx.set(1)
   --gfx.rect(x,y,w,h,1)
   --ABBA={gfx.measurestr(name)}
+
   gfx.set(reagirl.Colors.Checkbox_rectangle.r, reagirl.Colors.Checkbox_rectangle.g, reagirl.Colors.Checkbox_rectangle.b)
-  reagirl.RoundRect(x, y, h, h, 2*scale-1, 1,1, false, false, false, false)
+  reagirl.RoundRect(x, y-scale-scale, h, h, 2*scale-1, 1,1, false, false, false, false)
   
   gfx.set(reagirl.Colors.Checkbox_background.r, reagirl.Colors.Checkbox_background.g, reagirl.Colors.Checkbox_background.b)
-  reagirl.RoundRect(x+scale, y+scale, h-scale*2, h-scale*2, scale-1, 0, 1, false, false, false, false)
-  
-  if reagirl.Elements[element_id]["checked"]==true then
+  reagirl.RoundRect(x+scale, y-scale, h-scale*2, h-scale*2, scale-1, 0, 1, false, false, false, false)
+
+  if element_storage["checked"]==true then
     if element_storage["IsDisabled"]==false then
       gfx.set(reagirl.Colors.Checkbox.r, reagirl.Colors.Checkbox.g, reagirl.Colors.Checkbox.b)
     else
       gfx.set(reagirl.Colors.Checkbox_disabled.r, reagirl.Colors.Checkbox_disabled.g, reagirl.Colors.Checkbox_disabled.b)
     end
-    reagirl.RoundRect(x+(scale)*3, y+scale*3, h-scale*6, h-scale*6, 3*scale, 1, 1, top, bottom, true, true)
+    reagirl.RoundRect(x+(scale)*3, y+scale, h-scale*6, h-scale*6, 3*scale, 1, 1, top, bottom, true, true)
     
   end
   
+  local offset
   if scale==1 then offset=0
   elseif scale==2 then offset=2
   elseif scale==3 then offset=5
@@ -3762,6 +3765,7 @@ function reagirl.Checkbox_Draw(element_id, selected, hovered, clicked, mouse_cap
   gfx.y=y--+(h-gfx.texth)/2
   gfx.drawstr(name)
   reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0)
+  --]]
 end
 
 function reagirl.Checkbox_SetCheckState(element_id, check_state)
@@ -5206,7 +5210,7 @@ end
 function reagirl.Inputbox_Draw(element_id, selected, hovered, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
   local dpi_scale=reagirl.Window_GetCurrentScale()
   reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0)
-  --y=y+dpi_scale
+  y=y+dpi_scale
   local cap_w
   if element_storage["Cap_width"]==nil then
     cap_w=gfx.measurestr(element_storage["Name"])
@@ -5218,13 +5222,13 @@ function reagirl.Inputbox_Draw(element_id, selected, hovered, clicked, mouse_cap
   
   -- draw caption
   gfx.x=x+dpi_scale
-  gfx.y=y+dpi_scale+(h-gfx.texth)/2
+  gfx.y=y+dpi_scale--+dpi_scale+(h-gfx.texth)/2
   gfx.set(0.2)
   gfx.drawstr(name)
   
   if element_storage["IsDisabled"]==false then gfx.set(0.8) else gfx.set(0.6) end
   gfx.x=x
-  gfx.y=y+(h-gfx.texth)/2
+  gfx.y=y--+(h-gfx.texth)/2
   gfx.drawstr(name)
   
   local textw=gfx.measurechar("65")-1
@@ -5241,7 +5245,7 @@ function reagirl.Inputbox_Draw(element_id, selected, hovered, clicked, mouse_cap
   if element_storage["IsDisabled"]==false then gfx.set(0.8) else gfx.set(0.6) end
   gfx.x=x+cap_w+dpi_scale+dpi_scale+dpi_scale
   
-  gfx.y=y+(h-gfx.texth)/2
+  gfx.y=y--+(h-gfx.texth)/2
   if element_storage["Text"]:len()==0 then
     gfx.set(0.6)
     gfx.x=gfx.x+dpi_scale*5
@@ -5892,12 +5896,12 @@ function reagirl.DropDownMenu_Draw(element_id, selected, hovered, clicked, mouse
       if reaper.GetOS():match("OS")~=nil then offset=1 end
       
       gfx.x=x+(4*dpi_scale)+offset+cap_w--+(w-sw)/2+1
-      gfx.y=y+dpi_scale+(h-gfx.texth)/2+offset+2
+      gfx.y=y+2--+dpi_scale+(h-gfx.texth)/2+offset+2
       gfx.set(0.09)
       gfx.drawstr(menuentry,0,x+w-21*dpi_scale, gfx.y+gfx.texth)
       
       gfx.x=x+(4*dpi_scale)+offset+cap_w--+(w-sw)/2+1
-      gfx.y=y+dpi_scale+(h-gfx.texth)/2+offset
+      gfx.y=y--+dpi_scale+(h-gfx.texth)/2+offset
       gfx.set(0.55)
       gfx.drawstr(menuentry,0,x+w-21*dpi_scale, gfx.y+gfx.texth)
     end
