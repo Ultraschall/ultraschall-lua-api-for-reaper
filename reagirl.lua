@@ -3287,40 +3287,6 @@ function reagirl.UI_Element_GetSetPosition(element_id, is_set, x, y)
 end
 
 function reagirl.UI_Element_GetSetDimension(element_id, is_set, w, h)
---[[
-<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>UI_Element_GetSetDimension</slug>
-  <requires>
-    ReaGirl=1.0
-    Reaper=7
-    Lua=5.4
-  </requires>
-  <functioncall>integer w, integer h, integer true_w, integer true_h = reagirl.UI_Element_GetSetDimension(string element_id, boolean is_set, integer w, integer h)</functioncall>
-  <description>
-    gets/sets the dimensions of the ui-element
-    
-    Note: be careful with this function, since setting width and height of ui-elements who don't support this can cause drawing issues with them or crashes with ReaGirl.
-  </description>
-  <retvals>
-    integer w - the w-size of the ui-element
-    integer h - the h-size of the ui-element
-    integer actual_w - the actual current w-size resolved to the anchor-position including scaling
-    integer actual_h - the actual current h-size resolved to the anchor-position including scaling
-  </retvals>
-  <parameters>
-    string element_id - the id of the element, whose dimension you want to get/set
-    boolean is_set - true, set the dimension; false, only retrieve current dimensions
-    integer w - the w-size of the ui-element
-    integer h - the h-size of the ui-element
-  </parameters>
-  <chapter_context>
-    UI Elements
-  </chapter_context>
-  <target_document>ReaGirl_Docs</target_document>
-  <source_document>reagirl_GuiEngine.lua</source_document>
-  <tags>ui-elements, set, get, dimension</tags>
-</US_DocBloc>
-]]
   -- maybe restrict this to certain ui-elements
   if type(element_id)~="string" then error("UI_Element_GetSetDimension: #1 - must be a guid as string", 2) end
   element_id=reagirl.UI_Element_GetIDFromGuid(element_id)
@@ -5892,6 +5858,80 @@ function reagirl.DropDownMenu_Draw(element_id, selected, hovered, clicked, mouse
 
 end
 
+function reagirl.DropDownMenu_SetDimensions(element_id, width)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>DropDownMenu_SetDimensions</slug>
+  <requires>
+    ReaGirl=1.0
+    Reaper=7
+    Lua=5.4
+  </requires>
+  <functioncall>reagirl.DropDownMenu_SetDimensions(string element_id, optional integer width)</functioncall>
+  <description>
+    Sets the width of a dropdownmenu.
+  </description>
+  <parameters>
+    string element_id - the guid of the button, whose disability-state you want to set
+    optional integer width - the new width of the drop down menu; negative anchors to right window-edge; nil, keep current width
+  </parameters>
+  <chapter_context>
+    DropDown Menu
+  </chapter_context>
+  <tags>dropdown menu, set, width</tags>
+</US_DocBloc>
+--]]
+  if type(element_id)~="string" then error("DropDownMenu_SetDimensions: param #1 - must be a string", 2) end
+  if reagirl.IsValidGuid(element_id, true)==nil then error("DropDownMenu_SetDimensions: param #1 - must be a valid guid", 2) end
+  if width~=nil and math.type(width)~="integer" then error("DropDownMenu_SetDimensions: param #2 - must be either nil or an integer", 2) end
+  element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
+  if element_id==-1 then error("DropDownMenu_SetDimensions: param #1 - no such ui-element", 2) end
+  if reagirl.Elements[element_id]["GUI_Element_Type"]~="ComboBox" then
+    error("DropDownMenu_SetDimensions: param #1 - ui-element is not a drop down menu", 2)
+  else
+    if width~=nil then
+      reagirl.Elements[element_id]["w"]=width
+    end
+    reagirl.Gui_ForceRefresh(18.4)
+  end
+end
+
+function reagirl.DropDownMenu_GetDimensions(element_id)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>DropDownMenu_GetDimensions</slug>
+  <requires>
+    ReaGirl=1.0
+    Reaper=7
+    Lua=5.4
+  </requires>
+  <functioncall>integer width = reagirl.DropDownMenu_GetDimensions(string element_id)</functioncall>
+  <description>
+    Gets the width of a drop down menu.
+  </description>
+  <parameters>
+    string element_id - the guid of the drop down menu, whose disability-state you want to set
+  </parameters>
+  <retvals>
+    integer width - the width of the drop down menu; negative anchors to right window-edge
+  </retvals>
+  <chapter_context>
+    DropDown Menu
+  </chapter_context>
+  <tags>dropdown menu, get, width</tags>
+</US_DocBloc>
+--]]
+  if type(element_id)~="string" then error("DropDownMenu_GetDimensions: param #1 - must be a string", 2) end
+  if reagirl.IsValidGuid(element_id, true)==nil then error("DropDownMenu_GetDimensions: param #1 - must be a valid guid", 2) end
+  element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
+  if element_id==-1 then error("DropDownMenu_GetDimensions: param #1 - no such ui-element", 2) end
+  if reagirl.Elements[element_id]["GUI_Element_Type"]~="ComboBox" then
+    error("DropDownMenu_GetDimensions: param #1 - ui-element is not a drop down menu", 2)
+  else
+    return reagirl.Elements[element_id]["w"]
+  end
+end
+
 function reagirl.DropDownMenu_SetDisabled(element_id, state)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
@@ -6682,12 +6722,94 @@ function reagirl.Image_SetDraggable(element_id, draggable, destination_element_i
     end
   end
   local slot=reagirl.UI_Element_GetIDFromGuid(element_id)
+  if slot==-1 then error("Image_SetDraggable: #1 - no such ui-element") end
+  if reagirl.Elements[slot]["GUI_Element_Type"]~="Image" then error("Image_SetDraggable: #1 - ui-element is not an image") end
   reagirl.Elements[slot]["Draggable"]=draggable
   reagirl.Elements[slot]["DraggableDestinations"]=destination_element_ids
   if draggable==true then
     reagirl.Elements[slot]["AccHint"]=reagirl.Elements[slot]["AccHint"].."This image can be drag n dropped. Use ctrl+Tab and Ctrl+Shift+Tab to choose drop-destination. Use ctrl+Enter to drop it onto the destination."
   else
     reagirl.Elements[slot]["AccHint"]=reagirl.Elements[slot]["AccHint"]:utf8_sub(1,43)
+  end
+end
+
+function reagirl.Image_SetDimensions(element_id, width, height)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Image_SetDimensions</slug>
+  <requires>
+    ReaGirl=1.0
+    Reaper=7
+    Lua=5.4
+  </requires>
+  <functioncall>reagirl.Image_SetDimensions(string element_id, optional integer width, optional integer height)</functioncall>
+  <description>
+    Sets the width and height of an image.
+  </description>
+  <parameters>
+    string element_id - the guid of the image, whose disability-state you want to set
+    optional integer width - the new width of the image; negative anchors to right window-edge; nil, keep current width
+    optional integer height - the new height of the image; negative anchors to bottom window-edge; nil, keep current height
+  </parameters>
+  <chapter_context>
+    Image
+  </chapter_context>
+  <tags>image, set, width, height</tags>
+</US_DocBloc>
+--]]
+  if type(element_id)~="string" then error("Image_SetDimensions: param #1 - must be a string", 2) end
+  if reagirl.IsValidGuid(element_id, true)==nil then error("Image_SetDimensions: param #1 - must be a valid guid", 2) end
+  if width~=nil and math.type(width)~="integer" then error("Image_SetDimensions: param #2 - must be either nil or an integer", 2) end
+  if height~=nil and math.type(height)~="integer" then error("Image_SetDimensions: param #3 - must be either nil or an integer", 2) end
+  element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
+  if element_id==-1 then error("Image_SetDimensions: param #1 - no such ui-element", 2) end
+  if reagirl.Elements[element_id]["GUI_Element_Type"]~="Image" then
+    error("Image_SetDimensions: param #1 - ui-element is not an image", 2)
+  else
+    if width~=nil then
+      reagirl.Elements[element_id]["w"]=width
+    end
+    if height~=nil then
+      reagirl.Elements[element_id]["h"]=height
+    end
+    reagirl.Gui_ForceRefresh(18.3)
+  end
+end
+
+function reagirl.Image_GetDimensions(element_id)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Image_GetDimensions</slug>
+  <requires>
+    ReaGirl=1.0
+    Reaper=7
+    Lua=5.4
+  </requires>
+  <functioncall>integer width, integer height = reagirl.Image_GetDimensions(string element_id)</functioncall>
+  <description>
+    Gets the width and height of an image.
+  </description>
+  <parameters>
+    string element_id - the guid of the image, whose disability-state you want to set
+  </parameters>
+  <retvals>
+    integer width - the width of the image; negative anchors to right window-edge
+    integer height - the height of the image; negative anchors to bottom window-edge
+  </retvals>
+  <chapter_context>
+    Image
+  </chapter_context>
+  <tags>image, get, width, height</tags>
+</US_DocBloc>
+--]]
+  if type(element_id)~="string" then error("Image_GetDimensions: param #1 - must be a string", 2) end
+  if reagirl.IsValidGuid(element_id, true)==nil then error("Image_GetDimensions: param #1 - must be a valid guid", 2) end
+  element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
+  if element_id==-1 then error("Image_GetDimensions: param #1 - no such ui-element", 2) end
+  if reagirl.Elements[element_id]["GUI_Element_Type"]~="Image" then
+    error("Image_GetDimensions: param #1 - ui-element is not an image", 2)
+  else
+    return reagirl.Elements[element_id]["w"], reagirl.Elements[element_id]["h"]
   end
 end
 
@@ -8009,7 +8131,7 @@ function reagirl.Slider_Add(x, y, w, caption, Cap_width, meaningOfUI_Element, un
   caption=string.gsub(caption, "[\n\r]", "")
   if Cap_width~=nil and math.type(Cap_width)~="integer" then error("Slider_Add: param #5 - must be either nil or an integer", 2) end
   if type(meaningOfUI_Element)~="string" then error("Slider_Add: param #6 - must be a string", 2) end
-  if unit~=nil and type(unit)~="string" then error("Slider_Add: param #7 - must be a number", 2) end
+  if unit~=nil and type(unit)~="string" then error("Slider_Add: param #7 - must be a string", 2) end
   if unit==nil then unit="" end
   unit=string.gsub(unit, "[\n\r]", "")
   if type(start)~="number" then error("Slider_Add: param #8 - must be a number", 2) end
@@ -8279,6 +8401,80 @@ function reagirl.Slider_Draw(element_id, selected, hovered, clicked, mouse_cap, 
   end
 
   gfx.circle(x+offset_cap+step_current, y+h/2, 5*dpi_scale, 1, 1)  
+end
+
+function reagirl.Slider_SetDimensions(element_id, width)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Slider_SetDimensions</slug>
+  <requires>
+    ReaGirl=1.0
+    Reaper=7
+    Lua=5.4
+  </requires>
+  <functioncall>reagirl.Slider_SetDimensions(string element_id, optional integer width)</functioncall>
+  <description>
+    Sets the width of a slider.
+  </description>
+  <parameters>
+    string element_id - the guid of the slider, whose disability-state you want to set
+    optional integer width - the new width of the slider; negative anchors to right window-edge; nil, keep current width
+  </parameters>
+  <chapter_context>
+    Slider
+  </chapter_context>
+  <tags>slider, set, width</tags>
+</US_DocBloc>
+--]]
+  if type(element_id)~="string" then error("Slider_SetDimensions: param #1 - must be a string", 2) end
+  if reagirl.IsValidGuid(element_id, true)==nil then error("Slider_SetDimensions: param #1 - must be a valid guid", 2) end
+  if width~=nil and math.type(width)~="integer" then error("Slider_SetDimensions: param #2 - must be either nil or an integer", 2) end
+  element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
+  if element_id==-1 then error("Slider_SetDimensions: param #1 - no such ui-element", 2) end
+  if reagirl.Elements[element_id]["GUI_Element_Type"]~="Slider" then
+    error("Slider_SetDimensions: param #1 - ui-element is not a slider", 2)
+  else
+    if width~=nil then
+      reagirl.Elements[element_id]["w"]=width
+    end
+    reagirl.Gui_ForceRefresh(18.4)
+  end
+end
+
+function reagirl.Slider_GetDimensions(element_id)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Slider_GetDimensions</slug>
+  <requires>
+    ReaGirl=1.0
+    Reaper=7
+    Lua=5.4
+  </requires>
+  <functioncall>integer width = reagirl.Slider_GetDimensions(string element_id)</functioncall>
+  <description>
+    Gets the width of a slider.
+  </description>
+  <parameters>
+    string element_id - the guid of the slider, whose disability-state you want to set
+  </parameters>
+  <retvals>
+    integer width - the width of the slider; negative anchors to right window-edge
+  </retvals>
+  <chapter_context>
+    Slider
+  </chapter_context>
+  <tags>slider, get, width</tags>
+</US_DocBloc>
+--]]
+  if type(element_id)~="string" then error("Slider_GetDimensions: param #1 - must be a string", 2) end
+  if reagirl.IsValidGuid(element_id, true)==nil then error("Slider_GetDimensions: param #1 - must be a valid guid", 2) end
+  element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
+  if element_id==-1 then error("Slider_GetDimensions: param #1 - no such ui-element", 2) end
+  if reagirl.Elements[element_id]["GUI_Element_Type"]~="Slider" then
+    error("Slider_GetDimensions: param #1 - ui-element is not a drop down menu", 2)
+  else
+    return reagirl.Elements[element_id]["w"]
+  end
 end
 
 function reagirl.Slider_SetValue(element_id, value)
