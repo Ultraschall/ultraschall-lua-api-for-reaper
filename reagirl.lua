@@ -5843,19 +5843,16 @@ function reagirl.DropDownMenu_Draw(element_id, selected, hovered, clicked, mouse
     state=1*dpi_scale-1
     if offset==0 then offset=1 end
 
-    gfx.set(0.06) -- background 1
-    --reagirl.RoundRect(cap_w+x, y+dpi_scale, w-cap_w+dpi_scale+dpi_scale+dpi_scale+dpi_scale, h, (radius) * dpi_scale, 1, 1)
-    
     gfx.set(0.06) -- background 2
-    reagirl.RoundRect(cap_w+x, y, w-cap_w+dpi_scale+dpi_scale, h, (radius) * dpi_scale, 1, 1)
+    reagirl.RoundRect(cap_w+x, y, w-cap_w+dpi_scale+dpi_scale+dpi_scale, h, (radius) * dpi_scale, 1, 1)
     
     gfx.set(0.274) -- button-area
-    reagirl.RoundRect(cap_w+x+dpi_scale, y+dpi_scale, w-cap_w+dpi_scale, h, (radius-1) * dpi_scale, 1, 1)
+    reagirl.RoundRect(cap_w+x+dpi_scale, y+dpi_scale+dpi_scale, w-cap_w+dpi_scale, h, (radius-1) * dpi_scale, 1, 1)
     
     gfx.set(0.45)
     local circ=dpi_scale
-    gfx.circle(x+dpi_scale+dpi_scale+w-h/2, (y+h+dpi_scale)-h/2, 3*dpi_scale, 1, 0)
-    gfx.rect(x+dpi_scale+w-h+1*(dpi_scale-1), y+dpi_scale, dpi_scale, h+dpi_scale, 1)
+    gfx.circle(x+dpi_scale+dpi_scale+w-h/2, (y+h+dpi_scale+dpi_scale)-h/2, 3*dpi_scale, 1, 0)
+    gfx.rect(x+dpi_scale+w-h+1*(dpi_scale-1), y+dpi_scale+dpi_scale, dpi_scale, h+1, 1)
     
     if element_storage["IsDisabled"]==false then
       gfx.x=x+(4*dpi_scale)+cap_w+dpi_scale
@@ -5868,13 +5865,13 @@ function reagirl.DropDownMenu_Draw(element_id, selected, hovered, clicked, mouse
   else
     state=0
     gfx.set(0.06) -- background 1
-    reagirl.RoundRect(cap_w+x, y, w-cap_w+dpi_scale+dpi_scale, h+dpi_scale+dpi_scale, (radius) * dpi_scale, 1, 1)
+    reagirl.RoundRect(cap_w+x, y+dpi_scale, w-cap_w+dpi_scale+dpi_scale, h+dpi_scale+dpi_scale, (radius) * dpi_scale, 1, 1)
     
     gfx.set(0.45) -- background 2
-    reagirl.RoundRect(cap_w+x, y-dpi_scale, w-cap_w+dpi_scale, h+dpi_scale+dpi_scale, (radius) * dpi_scale, 1, 1)
+    reagirl.RoundRect(cap_w+x, y, w-cap_w+dpi_scale, h+dpi_scale+dpi_scale, (radius) * dpi_scale, 1, 1)
     
     gfx.set(0.274) -- button-area
-    reagirl.RoundRect(cap_w+x+dpi_scale, y, w-cap_w, h+dpi_scale, (radius-1) * dpi_scale, 1, 1)
+    reagirl.RoundRect(cap_w+x+dpi_scale, y+dpi_scale, w-cap_w, h+dpi_scale, (radius-1) * dpi_scale, 1, 1)
     
     if element_storage["IsDisabled"]==false then
       gfx.set(0.45)
@@ -5882,8 +5879,8 @@ function reagirl.DropDownMenu_Draw(element_id, selected, hovered, clicked, mouse
       gfx.set(0.35)
     end
     local circ=dpi_scale    
-    gfx.circle(x+w+dpi_scale-h/2, (y+h)-h/2, 3*dpi_scale, 1, 0)
-    gfx.rect(x+w-h+1*(dpi_scale-1), y, dpi_scale, h+dpi_scale, 1)
+    gfx.circle(x+w+dpi_scale-h/2, dpi_scale+(y+h)-h/2, 3*dpi_scale, 1, 0)
+    gfx.rect(x+w-h+1*(dpi_scale-1), y+dpi_scale, dpi_scale, h+dpi_scale, 1)
     
     local offset=0
     if element_storage["IsDisabled"]==false then
