@@ -3728,10 +3728,10 @@ function reagirl.Checkbox_Draw(element_id, selected, hovered, clicked, mouse_cap
   --ABBA={gfx.measurestr(name)}
 
   gfx.set(reagirl.Colors.Checkbox_rectangle.r, reagirl.Colors.Checkbox_rectangle.g, reagirl.Colors.Checkbox_rectangle.b)
-  reagirl.RoundRect(x, y-scale-scale, h, h, 2*scale-1, 1,1, false, false, false, false)
+  reagirl.RoundRect(x, y-scale, h, h, 2*scale-1, 1,1, false, false, false, false)
   
   gfx.set(reagirl.Colors.Checkbox_background.r, reagirl.Colors.Checkbox_background.g, reagirl.Colors.Checkbox_background.b)
-  reagirl.RoundRect(x+scale, y-scale, h-scale*2, h-scale*2, scale-1, 0, 1, false, false, false, false)
+  reagirl.RoundRect(x+scale, y, h-scale*2, h-scale*2, scale-1, 0, 1, false, false, false, false)
 
   if element_storage["checked"]==true then
     if element_storage["IsDisabled"]==false then
@@ -3739,7 +3739,7 @@ function reagirl.Checkbox_Draw(element_id, selected, hovered, clicked, mouse_cap
     else
       gfx.set(reagirl.Colors.Checkbox_disabled.r, reagirl.Colors.Checkbox_disabled.g, reagirl.Colors.Checkbox_disabled.b)
     end
-    reagirl.RoundRect(x+(scale)*3, y+scale, h-scale*6, h-scale*6, 3*scale, 1, 1, top, bottom, true, true)
+    reagirl.RoundRect(x+(scale)*3, y+scale+scale, h-scale*6, h-scale*6, 3*scale, 1, 1, top, bottom, true, true)
     
   end
   
