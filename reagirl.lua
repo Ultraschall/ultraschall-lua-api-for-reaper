@@ -3725,7 +3725,6 @@ function reagirl.Checkbox_Draw(element_id, selected, hovered, clicked, mouse_cap
   local bottom=element_storage["bottom_edge"]
   --gfx.set(1)
   --gfx.rect(x,y,w,h,1)
-  --ABBA={gfx.measurestr(name)}
 
   gfx.set(reagirl.Colors.Checkbox_rectangle.r, reagirl.Colors.Checkbox_rectangle.g, reagirl.Colors.Checkbox_rectangle.b)
   reagirl.RoundRect(x, y-scale, h, h, 2*scale-1, 1,1, false, false, false, false)
@@ -5235,10 +5234,10 @@ function reagirl.Inputbox_Draw(element_id, selected, hovered, clicked, mouse_cap
   
   -- draw rectangle around text
   gfx.set(0.45)
-  reagirl.RoundRect(x+cap_w, y, w-cap_w, h-dpi_scale, 2*dpi_scale-1, 0, 1)
+  reagirl.RoundRect(x+cap_w, y-dpi_scale-dpi_scale, w-cap_w, h+dpi_scale+dpi_scale+dpi_scale, 2*dpi_scale-1, 0, 1)
   
   gfx.set(0.234)
-  reagirl.RoundRect(x+dpi_scale+cap_w, y+dpi_scale, w-cap_w-dpi_scale-dpi_scale, h-dpi_scale-dpi_scale-dpi_scale, dpi_scale-1, 0, 1)
+  reagirl.RoundRect(x+dpi_scale+cap_w, y-dpi_scale, w-cap_w-dpi_scale-dpi_scale, h+dpi_scale, dpi_scale-1, 0, 1)
   
   
   -- draw text
@@ -8431,8 +8430,10 @@ function reagirl.Slider_Draw(element_id, selected, hovered, clicked, mouse_cap, 
   step_size=((rect_w/(element_storage["Stop"]-element_storage["Start"])/1))
   step_current=step_size*(element_storage["CurValue"]-element_storage["Start"])
   local offset_cap2=offset_cap+7*dpi_scale
+  
+  -- draw default-line
   gfx.set(0.584)
-  gfx.rect(x+offset_cap2+step_size*(element_storage["Default"]-element_storage["Start"]), y+dpi_scale+dpi_scale+dpi_scale+dpi_scale+dpi_scale, dpi_scale, h-dpi_scale-dpi_scale-dpi_scale-dpi_scale-dpi_scale-dpi_scale-dpi_scale-dpi_scale-dpi_scale, 1)
+  gfx.rect(x+offset_cap2+step_size*(element_storage["Default"]-element_storage["Start"]), y+dpi_scale+dpi_scale, dpi_scale, h-dpi_scale-dpi_scale-dpi_scale-dpi_scale, 1)
   offset_cap=offset_cap+dpi_scale
   gfx.set(0.5)
   reagirl.RoundRect(math.tointeger(x+offset_cap-dpi_scale), math.floor(y+(h-7*dpi_scale)/2), math.tointeger(w-offset_cap-offset_unit+dpi_scale+dpi_scale), math.tointeger(dpi_scale)*6, 2*math.tointeger(dpi_scale), 1, 1)
@@ -8441,9 +8442,9 @@ function reagirl.Slider_Draw(element_id, selected, hovered, clicked, mouse_cap, 
   reagirl.RoundRect(math.tointeger(x+offset_cap),math.floor(y+(h-5*dpi_scale)/2), math.tointeger(w-offset_cap-offset_unit), math.tointeger(dpi_scale)*4, dpi_scale, 1, 1)
   offset_cap=offset_cap+6*dpi_scale  
   gfx.set(0.584)
-  gfx.circle(x+offset_cap+step_current, math.floor(y+h/2)-dpi_scale, 7*dpi_scale, 1, 1)
+  gfx.circle(x+offset_cap+step_current, math.floor(y+h/2), 7*dpi_scale, 1, 1)
   gfx.set(0.2725490196078431)
-  gfx.circle(x+offset_cap+step_current, math.floor(y+h/2)-dpi_scale, 6*dpi_scale, 1, 1)
+  gfx.circle(x+offset_cap+step_current, math.floor(y+h/2), 6*dpi_scale, 1, 1)
   
   if element_storage["IsDisabled"]==true then
     gfx.set(0.584)
@@ -8451,8 +8452,8 @@ function reagirl.Slider_Draw(element_id, selected, hovered, clicked, mouse_cap, 
   else
     gfx.set(0.9843137254901961, 0.8156862745098039, 0)
   end
-  ABBA=math.floor(y+h/2)
-  gfx.circle(x+offset_cap+step_current, math.floor(y+h/2)-dpi_scale, 5*dpi_scale, 1, 1)  
+  
+  gfx.circle(x+offset_cap+step_current, math.floor(y+h/2), 5*dpi_scale, 1, 1)  
 end
 
 function reagirl.Slider_SetDimensions(element_id, width)
