@@ -103,7 +103,7 @@ end
 function SetUpNewGui()
   reagirl.Gui_New()
   
-  Tabs=reagirl.Tabs_Add(10,10, 335, 280, "Tabs", "Choose settings", {"General", "Osara"}, 1, nil)
+  Tabs=reagirl.Tabs_Add(10,10, 335, 260, "Tabs", "Choose settings", {"General", "Osara"}, 1, nil)
   
   --[[ Blinking Focus Rectangle ]]
   Label_General=reagirl.Label_Add(nil, nil, "General", "General settings.", 0, false, nil)
@@ -189,7 +189,7 @@ SetUpNewGui()
 color=40
 reagirl.Background_GetSetColor(true,color,color,color)
 
-reagirl.Gui_Open("ReaGirl Settings (Reagirl v"..reagirl.GetVersion()..")", "various settings for ReaGirl-Accessible Guis", 355, 330, nil, nil, nil)
+reagirl.Gui_Open("ReaGirl Settings (Reagirl v"..reagirl.GetVersion()..")", "various settings for ReaGirl-Accessible Guis", 355, 310, nil, nil, nil)
 
 function CheckIfSettingChanged()
   if osara_debug~=toboolean(reaper.GetExtState("ReaGirl", "osara_debug"), false) then 
