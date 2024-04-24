@@ -5279,7 +5279,8 @@ function reagirl.Inputbox_Draw(element_id, selected, hovered, clicked, mouse_cap
       if element_storage["blink"]>0 and element_storage["blink"]<(reagirl.Inputbox_BlinkSpeed>>1)+4 then
         local y3=y+(h-gfx.texth)/3
         if reagirl.Window_State&2==2 then
-          gfx.line(gfx.x, y3, gfx.x, y3+gfx.texth)
+          --gfx.line(gfx.x, y, gfx.x, y+gfx.texth-dpi_scale)
+          gfx.rect(gfx.x, y+dpi_scale, dpi_scale, gfx.texth-dpi_scale-dpi_scale)
         end
       end
       if element_storage.hasfocus==true then gfx.set(0.8) else gfx.set(0.5) end
@@ -5290,7 +5291,8 @@ function reagirl.Inputbox_Draw(element_id, selected, hovered, clicked, mouse_cap
     gfx.set(0.9843137254901961, 0.8156862745098039, 0)
     --gfx.set(1,0,0)
     if reagirl.Window_State&2==2 and element_storage["blink"]>0 and element_storage["blink"]<(reagirl.Inputbox_BlinkSpeed>>1)+4 then
-      gfx.line(x+cap_w+dpi_scale+dpi_scale+dpi_scale, y+dpi_scale, x+cap_w+dpi_scale+dpi_scale+dpi_scale, y+gfx.texth)
+      --gfx.line(x+cap_w+dpi_scale+dpi_scale+dpi_scale, y+dpi_scale, x+cap_w+dpi_scale+dpi_scale+dpi_scale, y+gfx.texth-dpi_scale)
+      gfx.rect(x+cap_w+dpi_scale+dpi_scale+dpi_scale, y+dpi_scale, dpi_scale, gfx.texth-dpi_scale-dpi_scale)
     end
   end
 end
