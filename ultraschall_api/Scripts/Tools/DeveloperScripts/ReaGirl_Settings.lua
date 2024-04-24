@@ -148,7 +148,7 @@ function SetUpNewGui()
   reagirl.NextLine(-4)
   scaling_override=tonumber(reaper.GetExtState("ReaGirl", "scaling_override", value, true))
   if scaling_override==nil then scaling_override2=0 else scaling_override2=scaling_override end
-  slider_scale = reagirl.Slider_Add(nil, nil, 250, "Scale Override", 100, "Set the default scaling-factor for all ReaGirl-Gui-windows; 0 is auto-scaling.", nil, 0, 8, 1, scaling_override2, 0, ScaleOverride)
+  slider_scale = reagirl.Slider_Add(nil, nil, 250, "Scale Override", 100, "Set the default scaling-factor for all ReaGirl-Gui-windows; 0, scaling depends automatically on the scaling-factor in the prefs or the presence of Retina/HiDPI.", nil, 0, 8, 1, scaling_override2, 0, ScaleOverride)
   button_scale = reagirl.Button_Add(nil, nil, 0, 0, "Apply", "Apply the chosen scaling value.", button_apply)
   reagirl.NextLine(15)
   
