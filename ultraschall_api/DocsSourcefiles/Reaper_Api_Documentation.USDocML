@@ -17798,14 +17798,16 @@
             
             Note: section and key are not case-sensitive
             
-            Important: always use a section-name, that is unique to you. For instance, add your name into the section-name, 
-            so it's less likely, that somebody else uses the same section and accidentally overwrites your keys.
-            Something like: "mespotine_MyCoolScript.lua"
-            
             Note: Do not use newlines in extstates, as they might be cut when rereading them using GetExtState!
                   Find workarounds, like \n -> \\n to store and \\n -> \n to get them again.
                   This is due limitations of the ini-file-format.
                   
+            Also note: special characters like cyrillic for instance, might not be written and correctly reread from extstates when persistent=true.
+            So encode them into a different encoding like hex-strings or BASE64.
+            
+            Important: always use a section-name, that is unique to you. For instance, add your name into the section-name, 
+            so it's less likely, that somebody else uses the same section and accidentally overwrites your keys.
+            Something like: "mespotine_MyCoolScript.lua"
                   
             Here are some of the sections used by ReaTeam-scripts and extensions. Don't use to avoid possible name-conflicts.
             If your section is missing, contact me and I'll add it too:

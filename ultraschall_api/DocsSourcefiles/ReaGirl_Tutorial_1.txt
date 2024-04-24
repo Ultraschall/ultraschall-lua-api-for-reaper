@@ -297,8 +297,8 @@ Let's add two inputboxes with the two run-functions(InputBox\_RunFunction\_Type 
   reagirl.Gui_New()
 
   -- add inputboxes to type in text
-  inputbox_name_of_setting = reagirl.InputBox_Add(30, 105, 300, "Name of the setting:", 150, "Type in here the name of the setting", "No title", InputBox_RunFunction_Enter, InputBox_RunFunction_Type)
-  inputbox_description_of_setting = reagirl.InputBox_Add(30, 130, 300, "Description of the setting:", 150, "Type in here a description of the setting", "No Description", InputBox_RunFunction_Enter, InputBox_RunFunction_Type)
+  inputbox_name_of_setting = reagirl.Inputbox_Add(30, 105, 300, "Name of the setting:", 150, "Type in here the name of the setting", "No title", InputBox_RunFunction_Enter, InputBox_RunFunction_Type)
+  inputbox_description_of_setting = reagirl.Inputbox_Add(30, 130, 300, "Description of the setting:", 150, "Type in here a description of the setting", "No Description", InputBox_RunFunction_Enter, InputBox_RunFunction_Type)
 
   -- add two checkboxes to the gui
   checkbox_mysetting = reagirl.Checkbox_Add(30, 150, "My setting", "How shall my setting be set?", true, Checkbox_RunFunction)
@@ -384,8 +384,8 @@ For this, we use the functions Label\_SetFontSize and Label\_SetStyle.
   reagirl.Label_SetStyle(label_header, 6, 0, 0) -- set the label to underlined
 
   -- add inputboxes to type in text
-  inputbox_name_of_setting = reagirl.InputBox_Add(30, 105, 300, "Name of the setting:", 150, "Type in here the name of the setting", "No title", InputBox_RunFunction_Enter, InputBox_RunFunction_Type)
-  inputbox_description_of_setting = reagirl.InputBox_Add(30, 130, 300, "Description of the setting:", 150, "Type in here a description of the setting", "No Description", InputBox_RunFunction_Enter, InputBox_RunFunction_Type)
+  inputbox_name_of_setting = reagirl.Inputbox_Add(30, 105, 300, "Name of the setting:", 150, "Type in here the name of the setting", "No title", InputBox_RunFunction_Enter, InputBox_RunFunction_Type)
+  inputbox_description_of_setting = reagirl.Inputbox_Add(30, 130, 300, "Description of the setting:", 150, "Type in here a description of the setting", "No Description", InputBox_RunFunction_Enter, InputBox_RunFunction_Type)
 
   -- add two checkboxes to the gui
   checkbox_mysetting = reagirl.Checkbox_Add(30, 150, "My setting", "How shall my setting be set?", true, Checkbox_RunFunction)
@@ -467,8 +467,8 @@ For this, we use the function reagirl.Button\_SetRadius in the following code, w
   reagirl.Label_SetStyle(label_header, 6, 0, 0) -- set the label to underlined
 
   -- add inputboxes to type in text
-  inputbox_name_of_setting = reagirl.InputBox_Add(30, 105, 300, "Name of the setting:", 150, "Type in here the name of the setting", "No title", InputBox_RunFunction_Enter, InputBox_RunFunction_Type)
-  inputbox_description_of_setting = reagirl.InputBox_Add(30, 130, 300, "Description of the setting:", 150, "Type in here a description of the setting", "No Description", InputBox_RunFunction_Enter, InputBox_RunFunction_Type)
+  inputbox_name_of_setting = reagirl.Inputbox_Add(30, 105, 300, "Name of the setting:", 150, "Type in here the name of the setting", "No title", InputBox_RunFunction_Enter, InputBox_RunFunction_Type)
+  inputbox_description_of_setting = reagirl.Inputbox_Add(30, 130, 300, "Description of the setting:", 150, "Type in here a description of the setting", "No Description", InputBox_RunFunction_Enter, InputBox_RunFunction_Type)
 
   -- add two checkboxes to the gui
   checkbox_mysetting = reagirl.Checkbox_Add(30, 150, "My setting", "How shall my setting be set?", true, Checkbox_RunFunction)
@@ -549,8 +549,8 @@ I'll choose to set it(true) to a grey tone(55).
   reagirl.Label_SetStyle(label_header, 6, 0, 0) -- set the label to underlined
 
   -- add inputboxes to type in text
-  inputbox_name_of_setting = reagirl.InputBox_Add(30, 105, 300, "Name of the setting:", 150, "Type in here the name of the setting", "No title", InputBox_RunFunction_Enter, InputBox_RunFunction_Type)
-  inputbox_description_of_setting = reagirl.InputBox_Add(30, 130, 300, "Description of the setting:", 150, "Type in here a description of the setting", "No Description", InputBox_RunFunction_Enter, InputBox_RunFunction_Type)
+  inputbox_name_of_setting = reagirl.Inputbox_Add(30, 105, 300, "Name of the setting:", 150, "Type in here the name of the setting", "No title", InputBox_RunFunction_Enter, InputBox_RunFunction_Type)
+  inputbox_description_of_setting = reagirl.Inputbox_Add(30, 130, 300, "Description of the setting:", 150, "Type in here a description of the setting", "No Description", InputBox_RunFunction_Enter, InputBox_RunFunction_Type)
 
   -- add two checkboxes to the gui
   checkbox_mysetting = reagirl.Checkbox_Add(30, 150, "My setting", "How shall my setting be set?", true, Checkbox_RunFunction)
@@ -635,8 +635,8 @@ To achieve this, just make the x/y-coordinate negative. In the case of our image
   reagirl.Label_SetStyle(label_header, 6, 0, 0) -- set the label to underlined
 
   -- add inputboxes to type in text
-  inputbox_name_of_setting = reagirl.InputBox_Add(30, 105, 300, "Name of the setting:", 150, "Type in here the name of the setting", "No title", InputBox_RunFunction_Enter, InputBox_RunFunction_Type)
-  inputbox_description_of_setting = reagirl.InputBox_Add(30, 130, 300, "Description of the setting:", 150, "Type in here a description of the setting", "No Description", InputBox_RunFunction_Enter, InputBox_RunFunction_Type)
+  inputbox_name_of_setting = reagirl.Inputbox_Add(30, 105, 300, "Name of the setting:", 150, "Type in here the name of the setting", "No title", InputBox_RunFunction_Enter, InputBox_RunFunction_Type)
+  inputbox_description_of_setting = reagirl.Inputbox_Add(30, 130, 300, "Description of the setting:", 150, "Type in here a description of the setting", "No Description", InputBox_RunFunction_Enter, InputBox_RunFunction_Type)
 
   -- add two checkboxes to the gui
   checkbox_mysetting = reagirl.Checkbox_Add(30, 150, "My setting", "How shall my setting be set?", true, Checkbox_RunFunction)
@@ -721,8 +721,8 @@ Let's link the width of the first inputbox to the right-side of the window(-50) 
   reagirl.Label_SetStyle(label_header, 6, 0, 0) -- set the label to underlined
 
   -- add inputboxes to type in text
-  inputbox_name_of_setting = reagirl.InputBox_Add(30, 105, -50, "Name of the setting:", 150, "Type in here the name of the setting", "No title", InputBox_RunFunction_Enter, InputBox_RunFunction_Type)
-  inputbox_description_of_setting = reagirl.InputBox_Add(30, 130, 300, "Description of the setting:", 150, "Type in here a description of the setting", "No Description", InputBox_RunFunction_Enter, InputBox_RunFunction_Type)
+  inputbox_name_of_setting = reagirl.Inputbox_Add(30, 105, -50, "Name of the setting:", 150, "Type in here the name of the setting", "No title", InputBox_RunFunction_Enter, InputBox_RunFunction_Type)
+  inputbox_description_of_setting = reagirl.Inputbox_Add(30, 130, 300, "Description of the setting:", 150, "Type in here a description of the setting", "No Description", InputBox_RunFunction_Enter, InputBox_RunFunction_Type)
 
   -- add two checkboxes to the gui
   checkbox_mysetting = reagirl.Checkbox_Add(30, 150, "My setting", "How shall my setting be set?", true, Checkbox_RunFunction)
@@ -757,7 +757,7 @@ Looking good. This way, the user can choose, how long the visible inputbox shall
 Images support this as well, so you can experiment by making x and y linked to the left/top of the window(positive value) and link width and height to the right/bottom of the window(negative value).
 That way, the size of the image changes the way the window is resized. You can also use reagirl.Image\_KeepAspectRatio() to keep the image from looking stretched(more on this in tutorial #3: "a basic image viewer with a drag'n'drop-zone and a context menu").
 
-When resizing the window to make it smaller, you probably noticed already, that the image is moving behind the inputboxes. It would be nice to have a way to prevent that.
+When resizing the window to make it smaller, you probably noticed already, that the image is moving behind the inputboxes at some point. It would be nice to have a way to prevent that.
 There's a way. The functions reagirl.Window\_ForceSize\_Minimum() and reagirl.Window\_ForceSize\_Maximum() set a minimum and maximum window-size. So the user cannot resize it bigger or smaller than that.
 Let's add them into our gui and set some reasonable boundaries.
 
@@ -811,8 +811,8 @@ Let's add them into our gui and set some reasonable boundaries.
   reagirl.Label_SetStyle(label_header, 6, 0, 0) -- set the label to underlined
 
   -- add inputboxes to type in text
-  inputbox_name_of_setting = reagirl.InputBox_Add(30, 105, -50, "Name of the setting:", 150, "Type in here the name of the setting", "No title", InputBox_RunFunction_Enter, InputBox_RunFunction_Type)
-  inputbox_description_of_setting = reagirl.InputBox_Add(30, 130, 300, "Description of the setting:", 150, "Type in here a description of the setting", "No Description", InputBox_RunFunction_Enter, InputBox_RunFunction_Type)
+  inputbox_name_of_setting = reagirl.Inputbox_Add(30, 105, -50, "Name of the setting:", 150, "Type in here the name of the setting", "No title", InputBox_RunFunction_Enter, InputBox_RunFunction_Type)
+  inputbox_description_of_setting = reagirl.Inputbox_Add(30, 130, 300, "Description of the setting:", 150, "Type in here a description of the setting", "No Description", InputBox_RunFunction_Enter, InputBox_RunFunction_Type)
 
   -- add two checkboxes to the gui
   checkbox_mysetting = reagirl.Checkbox_Add(30, 150, "My setting", "How shall my setting be set?", true, Checkbox_RunFunction)
@@ -828,7 +828,7 @@ Let's add them into our gui and set some reasonable boundaries.
   reagirl.Image_Add(reaper.GetResourcePath().."/Data/track_icons/bass.png", -150, -120, 100, 100, "A Bass guitar", "the graphics of a basss guitar", nil)
 
   -- let's force window-sizes
-  reagirl.Window_ForceSize_Minimum(550, 200) -- set the minimum size of the window
+  reagirl.Window_ForceSize_Minimum(550, 250) -- set the minimum size of the window
   reagirl.Window_ForceSize_Maximum(800, 400) -- set the maximum size of the window
 
   -- open the new gui

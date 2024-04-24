@@ -2741,7 +2741,7 @@ function reagirl.UI_Element_GetNext(startoffset)
   
   for i=1, #reagirl.Elements do
     count=count+1
-    if count>#reagirl.Elements then count=1 end
+    if count>#reagirl.Elements-6 then count=1 end
     if reagirl.Elements[count]~=nil and reagirl.Elements[count].IsDisabled==false and reagirl.Elements[count].IsDecorative~=true and reagirl.Elements[count]["hidden"]~=true then 
       return count, reagirl.Elements[count].Guid 
     end
@@ -2756,7 +2756,7 @@ function reagirl.UI_Element_GetPrevious(startoffset)
   local count=startoffset
   for i=1, #reagirl.Elements do
     count=count-1
-    if count<1 then count=#reagirl.Elements end
+    if count<1 then count=#reagirl.Elements-6 end
     if reagirl.Elements[count].IsDisabled==false and reagirl.Elements[count].IsDecorative~=true and reagirl.Elements[count]["hidden"]~=true then return count, reagirl.Elements[count].Guid end
   end
   return -1, ""

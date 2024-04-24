@@ -49,8 +49,8 @@ Our initial gui looks this way, now:
   reagirl.Gui_New()
 
   -- add inputboxes to type in text
-  inputbox_name_of_setting = reagirl.InputBox_Add(30, 105, 300, "Name of the setting:", 150, "Type in here the name of the setting", "No title", InputBox_RunFunction_Enter, InputBox_RunFunction_Type)
-  inputbox_description_of_setting = reagirl.InputBox_Add(30, 130, 300, "Description of the setting:", 150, "Type in here a description of the setting", "No Description", InputBox_RunFunction_Enter, InputBox_RunFunction_Type)
+  inputbox_name_of_setting = reagirl.Inputbox_Add(30, 105, 300, "Name of the setting:", 150, "Type in here the name of the setting", "No title", InputBox_RunFunction_Enter, InputBox_RunFunction_Type)
+  inputbox_description_of_setting = reagirl.Inputbox_Add(30, 130, 300, "Description of the setting:", 150, "Type in here a description of the setting", "No Description", InputBox_RunFunction_Enter, InputBox_RunFunction_Type)
 
   -- add two checkboxes to the gui
   checkbox_mysetting = reagirl.Checkbox_Add(30, 150, "My setting", "How shall my setting be set?", true, Checkbox_RunFunction)
@@ -133,8 +133,8 @@ Each table represents a tab, means: tab1 contains all element\_ids of the ui-ele
   tab3={} -- for the ui-elements in tab 3
   
   -- add inputboxes to type in text
-  tab1.inputbox_name_of_setting = reagirl.InputBox_Add(30, 105, 300, "Name of the setting:", 150, "Type in here the name of the setting", "No title", InputBox_RunFunction_Enter, InputBox_RunFunction_Type)
-  tab1.inputbox_description_of_setting = reagirl.InputBox_Add(30, 130, 300, "Description of the setting:", 150, "Type in here a description of the setting", "No Description", InputBox_RunFunction_Enter, InputBox_RunFunction_Type)
+  tab1.inputbox_name_of_setting = reagirl.Inputbox_Add(30, 105, 300, "Name of the setting:", 150, "Type in here the name of the setting", "No title", InputBox_RunFunction_Enter, InputBox_RunFunction_Type)
+  tab1.inputbox_description_of_setting = reagirl.Inputbox_Add(30, 130, 300, "Description of the setting:", 150, "Type in here a description of the setting", "No Description", InputBox_RunFunction_Enter, InputBox_RunFunction_Type)
 
   -- add two checkboxes to the gui
   tab2.checkbox_mysetting = reagirl.Checkbox_Add(30, 150, "My setting", "How shall my setting be set?", true, Checkbox_RunFunction)
@@ -239,8 +239,8 @@ Now, let's add the tabs-ui-element to the gui using the function reagirl.Tabs\_A
   reagirl.Tabs_Add(10, 10, 620, 187, "Tabs", "Different options in this dialog", {"Inputboxes", "Checkboxes", "Buttons"}, 1, Tab_RunFunction)
   
   -- add inputboxes to type in text
-  tab1.inputbox_name_of_setting = reagirl.InputBox_Add(30, 105, 300, "Name of the setting:", 150, "Type in here the name of the setting", "No title", InputBox_RunFunction_Enter, InputBox_RunFunction_Type)
-  tab1.inputbox_description_of_setting = reagirl.InputBox_Add(30, 130, 300, "Description of the setting:", 150, "Type in here a description of the setting", "No Description", InputBox_RunFunction_Enter, InputBox_RunFunction_Type)
+  tab1.inputbox_name_of_setting = reagirl.Inputbox_Add(30, 105, 300, "Name of the setting:", 150, "Type in here the name of the setting", "No title", InputBox_RunFunction_Enter, InputBox_RunFunction_Type)
+  tab1.inputbox_description_of_setting = reagirl.Inputbox_Add(30, 130, 300, "Description of the setting:", 150, "Type in here a description of the setting", "No Description", InputBox_RunFunction_Enter, InputBox_RunFunction_Type)
 
   -- add two checkboxes to the gui
   tab2.checkbox_mysetting = reagirl.Checkbox_Add(30, 150, "My setting", "How shall my setting be set?", true, Checkbox_RunFunction)
@@ -338,8 +338,8 @@ Here's how it looks like with reagirl.Tabs\_SetUIElementsForTab()
   tabs_id = reagirl.Tabs_Add(10, 10, 620, 187, "Tabs", "Different options in this dialog", {"Inputboxes", "Checkboxes", "Buttons"}, 1, Tab_RunFunction)
   
   -- add inputboxes to type in text
-  tab1.inputbox_name_of_setting = reagirl.InputBox_Add(30, 105, 300, "Name of the setting:", 150, "Type in here the name of the setting", "No title", InputBox_RunFunction_Enter, InputBox_RunFunction_Type)
-  tab1.inputbox_description_of_setting = reagirl.InputBox_Add(30, 130, 300, "Description of the setting:", 150, "Type in here a description of the setting", "No Description", InputBox_RunFunction_Enter, InputBox_RunFunction_Type)
+  tab1.inputbox_name_of_setting = reagirl.Inputbox_Add(30, 105, 300, "Name of the setting:", 150, "Type in here the name of the setting", "No title", InputBox_RunFunction_Enter, InputBox_RunFunction_Type)
+  tab1.inputbox_description_of_setting = reagirl.Inputbox_Add(30, 130, 300, "Description of the setting:", 150, "Type in here a description of the setting", "No Description", InputBox_RunFunction_Enter, InputBox_RunFunction_Type)
   
   -- add two checkboxes to the gui
   tab2.checkbox_mysetting = reagirl.Checkbox_Add(30, 150, "My setting", "How shall my setting be set?", true, Checkbox_RunFunction)
@@ -442,8 +442,8 @@ Here's how the run-functions look like, when they check against the table-entrie
   tabs_id = reagirl.Tabs_Add(10, 10, 620, 187, "Tabs", "Different options in this dialog", {"Inputboxes", "Checkboxes", "Buttons"}, 1, Tab_RunFunction)
   
   -- add inputboxes to type in text
-  tab1.inputbox_name_of_setting = reagirl.InputBox_Add(30, 105, 300, "Name of the setting:", 150, "Type in here the name of the setting", "No title", InputBox_RunFunction_Enter, InputBox_RunFunction_Type)
-  tab1.inputbox_description_of_setting = reagirl.InputBox_Add(30, 130, 300, "Description of the setting:", 150, "Type in here a description of the setting", "No Description", InputBox_RunFunction_Enter, InputBox_RunFunction_Type)
+  tab1.inputbox_name_of_setting = reagirl.Inputbox_Add(30, 105, 300, "Name of the setting:", 150, "Type in here the name of the setting", "No title", InputBox_RunFunction_Enter, InputBox_RunFunction_Type)
+  tab1.inputbox_description_of_setting = reagirl.Inputbox_Add(30, 130, 300, "Description of the setting:", 150, "Type in here a description of the setting", "No Description", InputBox_RunFunction_Enter, InputBox_RunFunction_Type)
   
   -- add two checkboxes to the gui
   tab2.checkbox_mysetting = reagirl.Checkbox_Add(30, 150, "My setting", "How shall my setting be set?", true, Checkbox_RunFunction)
@@ -550,8 +550,8 @@ It's simple: add them BUT don't add their ids to tab1, tab2 or tab3:
   tabs_id = reagirl.Tabs_Add(10, 10, 620, 187, "Tabs", "Different options in this dialog", {"Inputboxes", "Checkboxes", "Buttons"}, 1, Tab_RunFunction)
   
   -- add inputboxes to type in text
-  tab1.inputbox_name_of_setting = reagirl.InputBox_Add(30, 105, 300, "Name of the setting:", 150, "Type in here the name of the setting", "No title", InputBox_RunFunction_Enter, InputBox_RunFunction_Type)
-  tab1.inputbox_description_of_setting = reagirl.InputBox_Add(30, 130, 300, "Description of the setting:", 150, "Type in here a description of the setting", "No Description", InputBox_RunFunction_Enter, InputBox_RunFunction_Type)
+  tab1.inputbox_name_of_setting = reagirl.Inputbox_Add(30, 105, 300, "Name of the setting:", 150, "Type in here the name of the setting", "No title", InputBox_RunFunction_Enter, InputBox_RunFunction_Type)
+  tab1.inputbox_description_of_setting = reagirl.Inputbox_Add(30, 130, 300, "Description of the setting:", 150, "Type in here a description of the setting", "No Description", InputBox_RunFunction_Enter, InputBox_RunFunction_Type)
   
   -- add two checkboxes to the gui
   tab2.checkbox_mysetting = reagirl.Checkbox_Add(30, 150, "My setting", "How shall my setting be set?", true, Checkbox_RunFunction)
@@ -597,5 +597,6 @@ It's simple: add them BUT don't add their ids to tab1, tab2 or tab3:
 When you run this script, a checkbox and two buttons are added to the bottom of the window. And you can switch tabs, they will always be visible.
 And all we did was adding a checkbox and two more buttons, whose ids are stored into apply\_button, close\_button and global\_checkbox and not in tab1 or tab2 or tab3.
 We also altered the run-functions Button\_RunFunction and Checkbox\_RunFunction so clicking these ui-elements will also show a dialog.
+If you want, you can place the ui-elements properly into the upper part of the each tab as an excercise.
 
 Now you know everything you need to make guis with tabs in ReaGirl.
