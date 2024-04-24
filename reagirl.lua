@@ -8435,15 +8435,15 @@ function reagirl.Slider_Draw(element_id, selected, hovered, clicked, mouse_cap, 
   gfx.rect(x+offset_cap2+step_size*(element_storage["Default"]-element_storage["Start"]), y+dpi_scale+dpi_scale+dpi_scale+dpi_scale+dpi_scale, dpi_scale, h-dpi_scale-dpi_scale-dpi_scale-dpi_scale-dpi_scale-dpi_scale-dpi_scale-dpi_scale-dpi_scale, 1)
   offset_cap=offset_cap+dpi_scale
   gfx.set(0.5)
-  reagirl.RoundRect(math.tointeger(x+offset_cap-dpi_scale), math.floor(y+(h-6*dpi_scale)/2), math.tointeger(w-offset_cap-offset_unit+dpi_scale+dpi_scale), math.tointeger(dpi_scale)*6, 2*math.tointeger(dpi_scale), 1, 1)
+  reagirl.RoundRect(math.tointeger(x+offset_cap-dpi_scale), math.floor(y+(h-7*dpi_scale)/2), math.tointeger(w-offset_cap-offset_unit+dpi_scale+dpi_scale), math.tointeger(dpi_scale)*6, 2*math.tointeger(dpi_scale), 1, 1)
   
   if element_storage["IsDisabled"]==true then gfx.set(0.6) else gfx.set(0.7) end
-  reagirl.RoundRect(math.tointeger(x+offset_cap),math.floor(y+(h-4*dpi_scale)/2), math.tointeger(w-offset_cap-offset_unit), math.tointeger(dpi_scale)*4, dpi_scale, 1, 1)
+  reagirl.RoundRect(math.tointeger(x+offset_cap),math.floor(y+(h-5*dpi_scale)/2), math.tointeger(w-offset_cap-offset_unit), math.tointeger(dpi_scale)*4, dpi_scale, 1, 1)
   offset_cap=offset_cap+6*dpi_scale  
   gfx.set(0.584)
-  gfx.circle(x+offset_cap+step_current, math.floor(y+h/2), 7*dpi_scale, 1, 1)
+  gfx.circle(x+offset_cap+step_current, math.floor(y+h/2)-dpi_scale, 7*dpi_scale, 1, 1)
   gfx.set(0.2725490196078431)
-  gfx.circle(x+offset_cap+step_current, math.floor(y+h/2), 6*dpi_scale, 1, 1)
+  gfx.circle(x+offset_cap+step_current, math.floor(y+h/2)-dpi_scale, 6*dpi_scale, 1, 1)
   
   if element_storage["IsDisabled"]==true then
     gfx.set(0.584)
@@ -8452,7 +8452,7 @@ function reagirl.Slider_Draw(element_id, selected, hovered, clicked, mouse_cap, 
     gfx.set(0.9843137254901961, 0.8156862745098039, 0)
   end
   ABBA=math.floor(y+h/2)
-  gfx.circle(x+offset_cap+step_current, math.floor(y+h/2), 5*dpi_scale, 1, 1)  
+  gfx.circle(x+offset_cap+step_current, math.floor(y+h/2)-dpi_scale, 5*dpi_scale, 1, 1)  
 end
 
 function reagirl.Slider_SetDimensions(element_id, width)
