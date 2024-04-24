@@ -75,6 +75,9 @@ end
 --]]
 --[[
 TODO: 
+  - Label: when label is multiline, autpositioning doesn't correctly set the next line using nextline()
+  - put drop-down-list, slder and label into one line and they aren't properly aligned with auto-positioning
+        probably due different heights in drawing
   - ui-elements, who are anchored to right side/bottom of the window: when shrinking the window, they might scroll outside of left/top-side of the window
     so you can't scroll to them. Maybe fix that?
   - UI_Element_GetSetDimension - maybe restrict this to certain ui-elements
@@ -383,7 +386,7 @@ function reagirl.Gui_ReserveImageBuffer()
   <chapter_context>
     Gui
   </chapter_context>
-  <tags>gui, get, next line, defaults</tags>
+  <tags>gui, reserve, image buffer</tags>
 </US_DocBloc>
 --]]
   -- reserves an image buffer for custom UI elements
@@ -418,8 +421,8 @@ function reagirl.Gui_PreventScrollingForOneCycle(keyboard, mousewheel_swipe, scr
 </US_DocBloc>
 --]]
   if keyboard~=nil and type(keyboard)~="boolean" then error("Gui_PreventScrollingForOneCycle: param #1 - must be either nil or a a boolean") end
-  if mousewheel_swipe~=nil and type(mousewheel_swipe)~="boolean" then error("Gui_PreventScrollingForOneCycle: param #2 - must be either nil or a a boolean") end
-  if scroll_buttons~=nil and type(scroll_buttons)~="boolean" then error("Gui_PreventScrollingForOneCycle: param #3 - must be either nil or a a boolean") end
+  if mousewheel_swipe~=nil and type(mousewheel_swipe)~="boolean" then error("Gui_PreventScrollingForOneCycle: param #2 - must be either nil or a boolean") end
+  if scroll_buttons~=nil and type(scroll_buttons)~="boolean" then error("Gui_PreventScrollingForOneCycle: param #3 - must be either nil or a boolean") end
   
   if mousewheel_swipe~=nil and reagirl.Scroll_Override_MouseWheel~=true then
     reagirl.Scroll_Override_MouseWheel=mousewheel_swipe
@@ -443,7 +446,7 @@ function reagirl.Gui_PreventCloseViaEscForOneCycle()
   </requires>
   <functioncall>reagirl.Gui_PreventScrollingForOneCycle()</functioncall>
   <description>
-    Prevents the closing of the gui via esc-key for one cycle.
+    Prevents the closing of the gui via esc-key for one defer-cycle.
   </description>
   <chapter_context>
     UI Elements
@@ -465,12 +468,12 @@ function reagirl.Gui_PreventEnterForOneCycle()
   </requires>
   <functioncall>reagirl.Gui_PreventEnterForOneCycle()</functioncall>
   <description>
-    Prevents the user from hitting the enter-key for one cycle.
+    Prevents the user from hitting the enter-key for one cycle, so the run-function for the enter-key is not run in this cycle.
   </description>
   <chapter_context>
     UI Elements
   </chapter_context>
-  <tags>gui, set, override, prevent, enter key, escape</tags>
+  <tags>gui, set, override, prevent, enter key</tags>
 </US_DocBloc>
 --]]
   reagirl.Gui_PreventEnterForOneCycle_State=true
@@ -543,8 +546,6 @@ function reagirl.RoundRect(x, y, w, h, r, antialias, fill, square_top_left, squa
   <chapter_context>
     Misc
   </chapter_context>
-  <target_document>US_Api_GFX</target_document>
-  <source_document>ultraschall_gfx_engine.lua</source_document>
   <tags>gfx, functions, round rect, draw</tags>
 </US_DocBloc>
 ]]
@@ -552,10 +553,10 @@ function reagirl.RoundRect(x, y, w, h, r, antialias, fill, square_top_left, squa
   if math.type(y)~="integer" then error("RoundRect: param #2 - must be an integer", 2) end
   if math.type(w)~="integer" then error("RoundRect: param #3 - must be an integer", 2) end
   if math.type(h)~="integer" then error("RoundRect: param #4 - must be an integer", 2) end
-  if type(r)~="number" then error("RoundRect: param #5 - must be an integer", 2) end
+  if type(r)~="number" then error("RoundRect: param #5 - must be a number", 2) end
   --if r>12 then r=12 end
-  if type(antialias)~="number" then error("RoundRect: param #6 - must be an integer", 2) end
-  if type(fill)~="number" then error("RoundRect: param #7 - must be an integer", 2) end
+  if type(antialias)~="number" then error("RoundRect: param #6 - must be a number", 2) end
+  if type(fill)~="number" then error("RoundRect: param #7 - must be a number", 2) end
   if square_top_left~=nil     and type(square_top_left)~="boolean"     then error("RoundRect: param #8 - must be a boolean or nil", 2)  end
   if square_bottom_left~=nil  and type(square_bottom_left)~="boolean"  then error("RoundRect: param #9 - must be a boolean or nil", 2)  end
   if square_top_right~=nil    and type(square_top_right)~="boolean"    then error("RoundRect: param #10 - must be a boolean or nil", 2) end
@@ -697,8 +698,8 @@ function reagirl.BlitText_AdaptLineLength(text, x, y, width, height, align)
   if type(text)~="string" then error("GFX_BlitText_AdaptLineLength: #1 - must be a string", 2) end
   if math.type(x)~="integer" then error("GFX_BlitText_AdaptLineLength: #2 - must be an integer", 2) end
   if math.type(y)~="integer" then error("GFX_BlitText_AdaptLineLength: #3 - must be an integer", 2) end
-  if type(width)~="number" then error("GFX_BlitText_AdaptLineLength: #4 - must be an integer", 2) end
-  if height~=nil and type(height)~="number" then error("GFX_BlitText_AdaptLineLength: #5 - must be an integer", 2) end
+  if math.type(width)~="number" then error("GFX_BlitText_AdaptLineLength: #4 - must be an integer", 2) end
+  if height~=nil and math.type(height)~="number" then error("GFX_BlitText_AdaptLineLength: #5 - must be an integer", 2) end
   if align~=nil and math.type(align)~="integer" then error("GFX_BlitText_AdaptLineLength: 6 - must be an integer", 2) end
   local l=gfx.measurestr("A")
   if width<gfx.measurestr("A") then error("GFX_BlitText_AdaptLineLength: #4 - must be at least "..l.." pixels for this font.", -7) end
