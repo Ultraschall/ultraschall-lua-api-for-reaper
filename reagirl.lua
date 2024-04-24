@@ -5806,7 +5806,7 @@ end
 function reagirl.DropDownMenu_Draw(element_id, selected, hovered, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
   local dpi_scale, state
   local dpi_scale=reagirl.Window_CurrentScale
-  --y=y+dpi_scale
+  y=y+dpi_scale
   local cap_w=element_storage["cap_w"]
   if element_storage["Cap_width"]~=nil then
     cap_w=element_storage["Cap_width"]
@@ -5818,12 +5818,10 @@ function reagirl.DropDownMenu_Draw(element_id, selected, hovered, clicked, mouse
   gfx.y=y
   local menuentry=element_storage["MenuEntries"][element_storage["menuSelectedItem"]]
   
-  x=x+1
-  y=y+1
   gfx.x=x+cap_w
   gfx.y=y
-  w=w-5
-  h=h-5
+  --w=w-5
+  --h=h-5
   local radius=element_storage["radius"]
   reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0)
   
@@ -5832,12 +5830,12 @@ function reagirl.DropDownMenu_Draw(element_id, selected, hovered, clicked, mouse
   
   
   gfx.x=x+dpi_scale
-  gfx.y=y+dpi_scale+dpi_scale-1--+dpi_scale+(h-gfx.texth)/2
+  gfx.y=y+dpi_scale--+dpi_scale+(h-gfx.texth)/2
   gfx.set(0.2)
   gfx.drawstr(element_storage["Name"])
   
   gfx.x=x
-  gfx.y=y+dpi_scale-1--+dpi_scale+(h-gfx.texth)/2
+  gfx.y=y--+dpi_scale+(h-gfx.texth)/2
   if element_storage["IsDisabled"]==true then gfx.set(0.6) else gfx.set(0.8) end
   gfx.drawstr(element_storage["Name"])
   
@@ -5846,34 +5844,33 @@ function reagirl.DropDownMenu_Draw(element_id, selected, hovered, clicked, mouse
     if offset==0 then offset=1 end
 
     gfx.set(0.06) -- background 2
-    reagirl.RoundRect(cap_w+x, y, w-cap_w+dpi_scale+dpi_scale+dpi_scale, h, (radius) * dpi_scale, 1, 1)
+    reagirl.RoundRect(cap_w+x, y, w-cap_w+dpi_scale+dpi_scale+dpi_scale, h+dpi_scale, (radius) * dpi_scale, 1, 1)
     
     gfx.set(0.274) -- button-area
-    reagirl.RoundRect(cap_w+x+dpi_scale, y+dpi_scale+dpi_scale, w-cap_w+dpi_scale, h, (radius-1) * dpi_scale, 1, 1)
+    reagirl.RoundRect(cap_w+x+dpi_scale, y+dpi_scale+dpi_scale, w-cap_w+dpi_scale, h+dpi_scale, (radius-1) * dpi_scale, 1, 1)
     
     gfx.set(0.45)
     local circ=dpi_scale
-    gfx.circle(x+dpi_scale+dpi_scale+w-h/2, (y+h+dpi_scale+dpi_scale)-h/2, 3*dpi_scale, 1, 0)
-    gfx.rect(x+dpi_scale+w-h+1*(dpi_scale-1), y+dpi_scale+dpi_scale, dpi_scale, h+1, 1)
+    gfx.circle(x+dpi_scale+w-h/2, y+dpi_scale+dpi_scale+dpi_scale+dpi_scale+dpi_scale+dpi_scale+dpi_scale+dpi_scale, 3*dpi_scale, 1, 0)
+    gfx.rect(x-dpi_scale+w-h+2*(dpi_scale-1), y+dpi_scale+dpi_scale, dpi_scale, h-dpi_scale, 1)
     
-    if element_storage["IsDisabled"]==false then
-      gfx.x=x+(4*dpi_scale)+cap_w+dpi_scale
-      if reaper.GetOS():match("OS")~=nil then offset=1 end
-      gfx.y=y+dpi_scale+(h-gfx.texth)/2+dpi_scale
-      gfx.set(0.784)
-      gfx.drawstr(menuentry, 0, x+w-21*dpi_scale, gfx.y+gfx.texth)
-    end
+    
+    gfx.x=x+(4*dpi_scale)+cap_w+dpi_scale
+    if reaper.GetOS():match("OS")~=nil then offset=1 end
+    gfx.y=y+dpi_scale--+(h-gfx.texth)/2+dpi_scale
+    gfx.set(0.784)
+    gfx.drawstr(menuentry, 0, x+w-21*dpi_scale, gfx.y+gfx.texth)
     reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0)
   else
     state=0
     gfx.set(0.06) -- background 1
-    reagirl.RoundRect(cap_w+x, y+dpi_scale, w-cap_w+dpi_scale+dpi_scale, h+dpi_scale+dpi_scale, (radius) * dpi_scale, 1, 1)
+    reagirl.RoundRect(cap_w+x, y, w-cap_w+dpi_scale+dpi_scale, h, (radius) * dpi_scale, 1, 1)
     
     gfx.set(0.45) -- background 2
-    reagirl.RoundRect(cap_w+x, y, w-cap_w+dpi_scale, h+dpi_scale+dpi_scale, (radius) * dpi_scale, 1, 1)
+    reagirl.RoundRect(cap_w+x, y-dpi_scale, w-cap_w+dpi_scale, h, (radius) * dpi_scale, 1, 1)
     
     gfx.set(0.274) -- button-area
-    reagirl.RoundRect(cap_w+x+dpi_scale, y+dpi_scale, w-cap_w, h+dpi_scale, (radius-1) * dpi_scale, 1, 1)
+    reagirl.RoundRect(cap_w+x+dpi_scale, y, w-cap_w, h-dpi_scale, (radius-1) * dpi_scale, 1, 1)
     
     if element_storage["IsDisabled"]==false then
       gfx.set(0.45)
@@ -5881,14 +5878,14 @@ function reagirl.DropDownMenu_Draw(element_id, selected, hovered, clicked, mouse
       gfx.set(0.35)
     end
     local circ=dpi_scale    
-    gfx.circle(x+w+dpi_scale-h/2, dpi_scale+(y+h)-h/2, 3*dpi_scale, 1, 0)
-    gfx.rect(x+w-h+1*(dpi_scale-1), y+dpi_scale, dpi_scale, h+dpi_scale, 1)
+    gfx.circle(x+w-h/2, y+dpi_scale+dpi_scale+dpi_scale+dpi_scale+dpi_scale+dpi_scale+dpi_scale, 3*dpi_scale, 1, 0)
+    gfx.rect(x-dpi_scale-dpi_scale+w-h+2*(dpi_scale-1), y, dpi_scale, h-1, 1)
     
     local offset=0
     if element_storage["IsDisabled"]==false then
-      gfx.x=x+(4*dpi_scale)+cap_w--+(w-sw)/2+1
+      gfx.x=x+(4*dpi_scale)+cap_w
       if reaper.GetOS():match("OS")~=nil then offset=1 end
-      gfx.y=y+dpi_scale+(h-gfx.texth)/2
+      gfx.y=y
       gfx.set(0.784)
       gfx.drawstr(menuentry, 0, x+w-21*dpi_scale, gfx.y+gfx.texth)
     else
