@@ -218,3 +218,5 @@ So rule of thumb is:
 Toy around with it to get a grip on it.
 
 More on using autopositioning as blind scripter in a later chapter.
+
+In the next tutorial, I will explain to you, how to use auto-positioning with tabs.
