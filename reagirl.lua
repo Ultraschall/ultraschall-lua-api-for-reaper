@@ -1880,8 +1880,8 @@ function reagirl.Gui_Manage()
     if reagirl.Scroll_Override~=true then
       if gfx.mouse_cap&8==0 and Key==30064 then reagirl.UI_Element_ScrollY(2) end -- up
       if gfx.mouse_cap&8==0 and Key==1685026670 then reagirl.UI_Element_ScrollY(-2) end --down
-      if Key==1818584692.0 then reagirl.UI_Element_ScrollX(-2) end -- left
-      if Key==1919379572.0 then reagirl.UI_Element_ScrollX(2) end -- right
+      if Key==1818584692.0 then reagirl.UI_Element_ScrollX(2) end -- left
+      if Key==1919379572.0 then reagirl.UI_Element_ScrollX(-2) end -- right
       if Key==1885828464.0 then reagirl.UI_Element_ScrollY(20) end -- pgdown
       if Key==1885824110.0 then reagirl.UI_Element_ScrollY(-20) end -- pgup
       if gfx.mouse_cap&8==8 and Key==1818584692.0 then reagirl.UI_Element_ScrollX(20) end -- Shift+left  - pgleft
@@ -3660,10 +3660,10 @@ function reagirl.Checkbox_Add(x, y, caption, meaningOfUI_Element, default, run_f
   reagirl.Elements[slot]["ContextMenu_ACC"]=""
   reagirl.Elements[slot]["DropZoneFunction_ACC"]=""
   reagirl.Elements[slot]["x"]=x
-  reagirl.Elements[slot]["y"]=y
+  reagirl.Elements[slot]["y"]=y+1
   reagirl.Elements[slot]["w"]=math.tointeger(ty+tx)+9
-  reagirl.Elements[slot]["h"]=math.tointeger(ty)+2
-  if ty+2>reagirl.NextLine_Overflow then reagirl.NextLine_Overflow=math.tointeger(ty)+2 end
+  reagirl.Elements[slot]["h"]=math.tointeger(ty)--+reagirl.UI_Element_HeightMargin
+  if ty+2>reagirl.NextLine_Overflow then reagirl.NextLine_Overflow=math.tointeger(ty)+3 end
   reagirl.Elements[slot]["sticky_x"]=false
   reagirl.Elements[slot]["sticky_y"]=false
   reagirl.Elements[slot]["top_edge"]=true
@@ -3719,9 +3719,12 @@ function reagirl.Checkbox_Draw(element_id, selected, hovered, clicked, mouse_cap
   gfx.y=y
   local offset
   local scale=reagirl.Window_CurrentScale
-  y=y+scale
+  --y=y+scale
   local top=element_storage["top_edge"]
   local bottom=element_storage["bottom_edge"]
+  --gfx.set(1)
+  --gfx.rect(x,y,w,h,1)
+  --ABBA={gfx.measurestr(name)}
   gfx.set(reagirl.Colors.Checkbox_rectangle.r, reagirl.Colors.Checkbox_rectangle.g, reagirl.Colors.Checkbox_rectangle.b)
   reagirl.RoundRect(x, y, h, h, 2*scale-1, 1,1, false, false, false, false)
   
@@ -3735,6 +3738,7 @@ function reagirl.Checkbox_Draw(element_id, selected, hovered, clicked, mouse_cap
       gfx.set(reagirl.Colors.Checkbox_disabled.r, reagirl.Colors.Checkbox_disabled.g, reagirl.Colors.Checkbox_disabled.b)
     end
     reagirl.RoundRect(x+(scale)*3, y+scale*3, h-scale*6, h-scale*6, 3*scale, 1, 1, top, bottom, true, true)
+    
   end
   
   if scale==1 then offset=0
@@ -3749,13 +3753,13 @@ function reagirl.Checkbox_Draw(element_id, selected, hovered, clicked, mouse_cap
   
   
   gfx.x=x+h+4*scale
-  gfx.y=y+scale+1+(h-gfx.texth)/2
+  gfx.y=y+scale--+scale+(h-gfx.texth)/2
   gfx.set(reagirl.Colors.TextBG.r, reagirl.Colors.TextBG.g, reagirl.Colors.TextBG.b)
   gfx.drawstr(name)
   
   if element_storage["IsDisabled"]==false then gfx.set(reagirl.Colors.TextFG.r, reagirl.Colors.TextFG.g, reagirl.Colors.TextFG.b) else gfx.set(reagirl.Colors.TextFG_disabled.r, reagirl.Colors.TextFG_disabled.g, reagirl.Colors.TextFG_disabled.b) end
   gfx.x=x+h+5*scale
-  gfx.y=y+1+(h-gfx.texth)/2
+  gfx.y=y--+(h-gfx.texth)/2
   gfx.drawstr(name)
   reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0)
 end
@@ -4119,8 +4123,8 @@ function reagirl.Button_Add(x, y, w_margin, h_margin, caption, meaningOfUI_Eleme
   reagirl.Elements[slot]["x"]=x
   reagirl.Elements[slot]["y"]=y
   reagirl.Elements[slot]["w"]=math.tointeger(tx+15+w_margin)
-  reagirl.Elements[slot]["h"]=math.tointeger(ty+h_margin)+reagirl.UI_Element_HeightMargin
-  if math.tointeger(ty+h_margin)+reagirl.UI_Element_HeightMargin>reagirl.NextLine_Overflow then reagirl.NextLine_Overflow=math.tointeger(ty+h_margin)+reagirl.UI_Element_HeightMargin end
+  reagirl.Elements[slot]["h"]=math.tointeger(ty+h_margin)
+  if math.tointeger(ty+h_margin)>reagirl.NextLine_Overflow then reagirl.NextLine_Overflow=math.tointeger(ty+h_margin) end
   reagirl.Elements[slot]["w_margin"]=w_margin
   reagirl.Elements[slot]["h_margin"]=h_margin
   reagirl.Elements[slot]["radius"]=2
@@ -4325,7 +4329,7 @@ function reagirl.Button_Draw(element_id, selected, hovered, clicked, mouse_cap, 
   local sw,sh=gfx.measurestr(element_storage["Name"])
   
   local dpi_scale=reagirl.Window_CurrentScale
-  y=y+dpi_scale+dpi_scale
+  y=y+dpi_scale
   if reagirl.Elements[element_id]["pressed"]==true then
     local scale=reagirl.Window_CurrentScale-1
     state=1*dpi_scale-1
@@ -4366,21 +4370,21 @@ function reagirl.Button_Draw(element_id, selected, hovered, clicked, mouse_cap, 
     if element_storage["IsDisabled"]==false then
       gfx.x=x+(w-sw)/2+1
       if reaper.GetOS():match("OS")~=nil then offset=1 end
-      gfx.y=y+(h-sh)/2-dpi_scale
+      gfx.y=y--+(h-sh)/2-dpi_scale
       gfx.set(0.784)
       gfx.drawstr(element_storage["Name"])
     else
       if reaper.GetOS():match("OS")~=nil then offset=1 end
       
-      gfx.x=x+(w-sw)/2+1
+      gfx.x=x+(w-sw)/2+1+dpi_scale
       gfx.y=y+(h-sh)/2+1+offset-1
-      gfx.y=y+(h-gfx.texth)/2+offset
+      gfx.y=y+dpi_scale--(h-gfx.texth)/2+offset
       gfx.set(0.09)
       gfx.drawstr(element_storage["Name"])
       
       gfx.x=x+(w-sw)/2+1
-      gfx.y=y+(h-sh)/2+1+offset
-      gfx.y=y+(h-gfx.texth)/2+offset-1
+      
+      gfx.y=y--+(h-gfx.texth)/2+offset-1
       gfx.set(0.55)
       gfx.drawstr(element_storage["Name"])
     end
@@ -4470,8 +4474,8 @@ function reagirl.Inputbox_Add(x, y, w, caption, Cap_width, meaningOfUI_Element, 
   reagirl.Elements[slot]["x"]=x
   reagirl.Elements[slot]["y"]=y
   reagirl.Elements[slot]["w"]=w
-  reagirl.Elements[slot]["h"]=math.tointeger(ty)+reagirl.UI_Element_HeightMargin
-  if math.tointeger(ty)+reagirl.UI_Element_HeightMargin>reagirl.NextLine_Overflow then reagirl.NextLine_Overflow=math.tointeger(ty)+reagirl.UI_Element_HeightMargin end
+  reagirl.Elements[slot]["h"]=math.tointeger(ty)
+  if math.tointeger(ty)>reagirl.NextLine_Overflow then reagirl.NextLine_Overflow=math.tointeger(ty) end
   reagirl.Elements[slot]["blink"]=0
   reagirl.Elements[slot]["sticky_x"]=false
   reagirl.Elements[slot]["sticky_y"]=false
@@ -5202,7 +5206,7 @@ end
 function reagirl.Inputbox_Draw(element_id, selected, hovered, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
   local dpi_scale=reagirl.Window_GetCurrentScale()
   reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0)
-  y=y+dpi_scale
+  --y=y+dpi_scale
   local cap_w
   if element_storage["Cap_width"]==nil then
     cap_w=gfx.measurestr(element_storage["Name"])
@@ -5674,8 +5678,8 @@ function reagirl.DropDownMenu_Add(x, y, w, caption, Cap_width, meaningOfUI_Eleme
   reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0, 1)
   local tx,ty=gfx.measurestr(menuItems[menuSelectedItem])
   reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0)
-  reagirl.Elements[slot]["h"]=math.tointeger(ty)+reagirl.UI_Element_HeightMargin--math.tointeger(gfx.texth)
-  if math.tointeger(ty)+reagirl.UI_Element_HeightMargin>reagirl.NextLine_Overflow then reagirl.NextLine_Overflow=math.tointeger(ty)+reagirl.UI_Element_HeightMargin end
+  reagirl.Elements[slot]["h"]=math.tointeger(ty)--math.tointeger(gfx.texth)
+  if math.tointeger(ty)>reagirl.NextLine_Overflow then reagirl.NextLine_Overflow=math.tointeger(ty) end
   reagirl.Elements[slot]["radius"]=2
   reagirl.Elements[slot]["sticky_x"]=false
   reagirl.Elements[slot]["sticky_y"]=false
@@ -5796,7 +5800,7 @@ end
 function reagirl.DropDownMenu_Draw(element_id, selected, hovered, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
   local dpi_scale, state
   local dpi_scale=reagirl.Window_CurrentScale
-  y=y+dpi_scale
+  --y=y+dpi_scale
   local cap_w=element_storage["cap_w"]
   if element_storage["Cap_width"]~=nil then
     cap_w=element_storage["Cap_width"]
@@ -5822,12 +5826,12 @@ function reagirl.DropDownMenu_Draw(element_id, selected, hovered, clicked, mouse
   
   
   gfx.x=x+dpi_scale
-  gfx.y=y+dpi_scale+dpi_scale+(h-gfx.texth)/2
+  gfx.y=y+dpi_scale+dpi_scale-1--+dpi_scale+(h-gfx.texth)/2
   gfx.set(0.2)
   gfx.drawstr(element_storage["Name"])
   
   gfx.x=x
-  gfx.y=y+dpi_scale+(h-gfx.texth)/2
+  gfx.y=y+dpi_scale-1--+dpi_scale+(h-gfx.texth)/2
   if element_storage["IsDisabled"]==true then gfx.set(0.6) else gfx.set(0.8) end
   gfx.drawstr(element_storage["Name"])
   
@@ -6244,7 +6248,7 @@ function reagirl.Label_SetFontSize(element_id, font_size)
     local w,h=gfx.measurestr(reagirl.Elements[element_id]["Name"])
     reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0)
     reagirl.Elements[element_id]["w"]=math.tointeger(w)
-    reagirl.Elements[element_id]["h"]=math.tointeger(h)+reagirl.UI_Element_HeightMargin
+    reagirl.Elements[element_id]["h"]=math.tointeger(h)
   end
 end
 
@@ -6451,8 +6455,8 @@ function reagirl.Label_Add(x, y, label, meaningOfUI_Element, align, clickable, r
   reagirl.Elements[slot]["sticky_x"]=false
   reagirl.Elements[slot]["sticky_y"]=false
   reagirl.Elements[slot]["w"]=math.tointeger(w)
-  reagirl.Elements[slot]["h"]=math.tointeger(h)+reagirl.UI_Element_HeightMargin--math.tointeger(gfx.texth)
-  if math.tointeger(h)+reagirl.UI_Element_HeightMargin>reagirl.NextLine_Overflow then reagirl.NextLine_Overflow=math.tointeger(h)+reagirl.UI_Element_HeightMargin end
+  reagirl.Elements[slot]["h"]=math.tointeger(h)
+  if math.tointeger(h)>reagirl.NextLine_Overflow then reagirl.NextLine_Overflow=math.tointeger(h) end
   reagirl.Elements[slot]["align"]=align
   reagirl.Elements[slot]["style1"]=0
   reagirl.Elements[slot]["style2"]=0
@@ -6494,7 +6498,7 @@ function reagirl.Label_Draw(element_id, selected, hovered, clicked, mouse_cap, m
   local styles={66,73,77,79,83,85,86,89,90}
   styles[0]=0
   local dpi_scale=reagirl.Window_GetCurrentScale()
-  y=y+dpi_scale+dpi_scale+dpi_scale
+  y=y+dpi_scale
   local style=styles[element_storage["style1"]]<<8
   style=style+styles[element_storage["style2"]]<<8
   style=style+styles[element_storage["style3"]]<<8
@@ -8220,8 +8224,8 @@ function reagirl.Slider_Add(x, y, w, caption, Cap_width, meaningOfUI_Element, un
   reagirl.Elements[slot]["x"]=x
   reagirl.Elements[slot]["y"]=y
   reagirl.Elements[slot]["w"]=math.tointeger(w)--math.tointeger(ty+tx+4)
-  reagirl.Elements[slot]["h"]=math.tointeger(ty)+reagirl.UI_Element_HeightMargin
-  if math.tointeger(ty)+reagirl.UI_Element_HeightMargin>reagirl.NextLine_Overflow then reagirl.NextLine_Overflow=math.tointeger(ty)+reagirl.UI_Element_HeightMargin end
+  reagirl.Elements[slot]["h"]=math.tointeger(ty)
+  if math.tointeger(ty)>reagirl.NextLine_Overflow then reagirl.NextLine_Overflow=math.tointeger(ty) end
   reagirl.Elements[slot]["cap_w"]=math.tointeger(tx)
   reagirl.Elements[slot]["Cap_width"]=Cap_width
   
@@ -8395,12 +8399,12 @@ function reagirl.Slider_Draw(element_id, selected, hovered, clicked, mouse_cap, 
   element_storage["unit_w"]=offset_unit
   element_storage["slider_w"]=w-offset_cap-offset_unit
   gfx.x=x+dpi_scale
-  gfx.y=y+dpi_scale+(h-gfx.texth)/2
+  gfx.y=y+dpi_scale--+(h-gfx.texth)/2
   gfx.set(0.2)
   gfx.drawstr(element_storage["Name"])
   
   gfx.x=x
-  gfx.y=y+(h-gfx.texth)/2
+  gfx.y=y--+(h-gfx.texth)/2
   if element_storage["IsDisabled"]==true then gfx.set(0.6) else gfx.set(0.8) end
   -- draw caption
   gfx.drawstr(element_storage["Name"])
@@ -8437,9 +8441,9 @@ function reagirl.Slider_Draw(element_id, selected, hovered, clicked, mouse_cap, 
   reagirl.RoundRect(math.tointeger(x+offset_cap),math.floor(y+(h-4*dpi_scale)/2), math.tointeger(w-offset_cap-offset_unit), math.tointeger(dpi_scale)*4, dpi_scale, 1, 1)
   offset_cap=offset_cap+6*dpi_scale  
   gfx.set(0.584)
-  gfx.circle(x+offset_cap+step_current, y+h/2, 7*dpi_scale, 1, 1)
+  gfx.circle(x+offset_cap+step_current, math.floor(y+h/2), 7*dpi_scale, 1, 1)
   gfx.set(0.2725490196078431)
-  gfx.circle(x+offset_cap+step_current, y+h/2, 6*dpi_scale, 1, 1)
+  gfx.circle(x+offset_cap+step_current, math.floor(y+h/2), 6*dpi_scale, 1, 1)
   
   if element_storage["IsDisabled"]==true then
     gfx.set(0.584)
@@ -8447,8 +8451,8 @@ function reagirl.Slider_Draw(element_id, selected, hovered, clicked, mouse_cap, 
   else
     gfx.set(0.9843137254901961, 0.8156862745098039, 0)
   end
-
-  gfx.circle(x+offset_cap+step_current, y+h/2, 5*dpi_scale, 1, 1)  
+  ABBA=math.floor(y+h/2)
+  gfx.circle(x+offset_cap+step_current, math.floor(y+h/2), 5*dpi_scale, 1, 1)  
 end
 
 function reagirl.Slider_SetDimensions(element_id, width)
