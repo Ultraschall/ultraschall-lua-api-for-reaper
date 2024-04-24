@@ -5235,10 +5235,10 @@ function reagirl.Inputbox_Draw(element_id, selected, hovered, clicked, mouse_cap
   
   -- draw rectangle around text
   gfx.set(0.45)
-  reagirl.RoundRect(x+cap_w, y, w-cap_w, h-dpi_scale-dpi_scale, 2*dpi_scale-1, 0, 1)
+  reagirl.RoundRect(x+cap_w, y, w-cap_w, h-dpi_scale, 2*dpi_scale-1, 0, 1)
   
   gfx.set(0.234)
-  reagirl.RoundRect(x+dpi_scale+cap_w, y+dpi_scale, w-cap_w-dpi_scale-dpi_scale, h-dpi_scale-dpi_scale-dpi_scale-dpi_scale, dpi_scale-1, 0, 1)
+  reagirl.RoundRect(x+dpi_scale+cap_w, y+dpi_scale, w-cap_w-dpi_scale-dpi_scale, h-dpi_scale-dpi_scale-dpi_scale, dpi_scale-1, 0, 1)
   
   
   -- draw text
