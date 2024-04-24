@@ -2456,9 +2456,9 @@ function reagirl.Gui_Draw(Key, Key_utf, clickstate, specific_clickstate, mouse_c
             local dpi_scale=reagirl.Window_GetCurrentScale()
             gfx.a=reagirl.FocusRectangle_Alpha
             gfx.rect((x2+MoveItAllRight)-dpi_scale, (y2+MoveItAllUp-dpi_scale*2), (w2+dpi_scale*3), reagirl.Window_GetCurrentScale(), 1)
-            gfx.rect((x2+MoveItAllRight)-dpi_scale-dpi_scale, (y2+MoveItAllUp)-dpi_scale*2, reagirl.Window_GetCurrentScale(), h2+dpi_scale+dpi_scale+dpi_scale, 1)
-            gfx.rect((x2+MoveItAllRight)+w2+dpi_scale, (y2+MoveItAllUp)-dpi_scale*2+reagirl.Window_GetCurrentScale(), reagirl.Window_GetCurrentScale(), h2+dpi_scale+dpi_scale+dpi_scale, 1)
-            gfx.rect((x2+MoveItAllRight)-dpi_scale-dpi_scale, (y2+h2+dpi_scale+MoveItAllUp), (w2+dpi_scale*3), reagirl.Window_GetCurrentScale(), 1)
+            gfx.rect((x2+MoveItAllRight)-dpi_scale-dpi_scale, (y2+MoveItAllUp)-dpi_scale*2, reagirl.Window_GetCurrentScale(), h2+dpi_scale+dpi_scale+dpi_scale+dpi_scale, 1)
+            gfx.rect((x2+MoveItAllRight)+w2+dpi_scale, (y2+MoveItAllUp)-dpi_scale*2+reagirl.Window_GetCurrentScale(), reagirl.Window_GetCurrentScale(), h2+dpi_scale+dpi_scale+dpi_scale+dpi_scale, 1)
+            gfx.rect((x2+MoveItAllRight)-dpi_scale-dpi_scale, (y2+h2+dpi_scale+dpi_scale+MoveItAllUp), (w2+dpi_scale*3), reagirl.Window_GetCurrentScale(), 1)
             
             gfx.a=a
             reagirl.Focused_Rect_Override=nil
