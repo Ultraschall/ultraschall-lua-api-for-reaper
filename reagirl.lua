@@ -2748,10 +2748,10 @@ function reagirl.UI_Element_GetFocusRect()
     the first four retvals give the set-position(including possible negative values), the second four retvals give the actual window-coordinates.
   </description>
   <parameters>
-    integer x - the x-position of the focus-rectangle; negative, dock to the right windowborder
-    integer y - the y-position of the focus-rectangle; negative, dock to the bottom windowborder
-    integer w - the width of the focus-rectangle; negative, dock to the right windowborder
-    integer h - the height of the focus-rectangle; negative, dock to the bottom windowborder
+    integer x - the x-position of the focus-rectangle; negative, docked to the right windowborder
+    integer y - the y-position of the focus-rectangle; negative, docked to the bottom windowborder
+    integer w - the width of the focus-rectangle; negative, docked to the right windowborder
+    integer h - the height of the focus-rectangle; negative, docked to the bottom windowborder
     integer x2 - the actual x-position of the focus-rectangle
     integer y2 - the actual y-position of the focus-rectangle
     integer w2 - the actual width of the focus-rectangle
@@ -2898,7 +2898,7 @@ function reagirl.UI_Element_GetType(element_id)
     returns the type of the ui-element
   </description>
   <retvals>
-    string ui_type - the type of the ui-element, like "Button", "Image", "Checkbox", "DropDownMenu", etc
+    string ui_type - the type of the ui-element, like "Button", "Image", "Checkbox", "Edit" for InputBoxes and "ComboBox" for DropDownMenu, etc
   </retvals>
   <parameters>
     string element_id - the id of the element, whose type you want to get
@@ -2979,48 +2979,6 @@ function reagirl.UI_Element_GetNextXAndYPosition(x, y, functionname)
   return x, y, slot3
 end
 
-function reagirl.UI_Element_GetSetDescription(element_id, is_set, description)
---[[
-<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>UI_Element_GetSetDescription</slug>
-  <requires>
-    ReaGirl=1.0
-    Reaper=7
-    Lua=5.4
-  </requires>
-  <functioncall>string description = reagirl.UI_Element_GetSetDescription(string element_id, boolean is_set, string description)</functioncall>
-  <description>
-    gets/sets the description of the ui-element
-  </description>
-  <retvals>
-    string description - the description of the ui-element
-  </retvals>
-  <parameters>
-    string element_id - the id of the element, whose description you want to get/set
-    boolean is_set - true, set the description; false, only retrieve description
-    string description - the description of the ui-element
-  </parameters>
-  <chapter_context>
-    UI Elements
-  </chapter_context>
-  <target_document>ReaGirl_Docs</target_document>
-  <source_document>reagirl_GuiEngine.lua</source_document>
-  <tags>ui-elements, set, get, description</tags>
-</US_DocBloc>
-]]
-  if type(element_id)~="string" then error("UI_Element_GetSetDescription: param #1 - must be a guid as string", 2) end
-  element_id=reagirl.UI_Element_GetIDFromGuid(element_id)
-  if element_id==nil then error("UI_Element_GetSetDescription: param #1 - no such ui-element", 2) end
-  if reagirl.Elements[element_id]==nil then error("UI_Element_GetSetDescription: param #1 - no such ui-element", 2) end
-  if type(is_set)~="boolean" then error("UI_Element_GetSetDescription: param #2 - must be a boolean", 2) end
-  if is_set==true and type(description)~="string" then error("UI_Element_GetSetDescription: param #3 - must be a string when #2==true", 2) end
-  
-  if is_set==true then
-    reagirl.Elements[element_id]["Description"]=description
-  end
-  return reagirl.Elements[element_id]["Description"]
-end
-
 function reagirl.UI_Element_GetSet_ContextMenu(element_id, is_set, menu, menu_function)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
@@ -3030,13 +2988,13 @@ function reagirl.UI_Element_GetSet_ContextMenu(element_id, is_set, menu, menu_fu
     Reaper=7
     Lua=5.4
   </requires>
-  <functioncall>string menu, function menu_function = reagirl.UI_Element_GetSet_ContextMenu(string element_id, boolean is_set, string menu, function menu_function)</functioncall>
+  <functioncall>string menu, function menu_runfunction = reagirl.UI_Element_GetSet_ContextMenu(string element_id, boolean is_set, optional string menu, optional function menu_runfunction)</functioncall>
   <description>
     gets/sets the context-menu and context-menu-run-function of a ui-element.
     
     Setting this will show a context-menu, when the user rightclicks the ui-element.
     
-    The menu_function will be called with two parameters: 
+    The menu_runfunction will be called with two parameters: 
       string element_id - the guid of the ui-element, whose context-menu has been used
       integer selection - the index of the menu-item selected by the user
   </description>
@@ -3047,8 +3005,8 @@ function reagirl.UI_Element_GetSet_ContextMenu(element_id, is_set, menu, menu_fu
   <parameters>
     string element_id - the id of the element, whose context-menu you want to get/set
     boolean is_set - true, set the menu; false, only retrieve the current menu
-    string menu - sets a menu for this ui-element
-    function menu_function - sets a function that is called, after the user made a context-menu-selection
+    optional string menu - sets a menu for this ui-element; nil, no context-menu available
+    optional function menu_runfunction - sets a function that is called, after the user made a context-menu-selection; must be given when menu~=nil
   </parameters>
   <chapter_context>
     UI Elements
@@ -3063,8 +3021,8 @@ function reagirl.UI_Element_GetSet_ContextMenu(element_id, is_set, menu, menu_fu
   if element_id==nil then error("UI_Element_GetSet_ContextMenu: param #1 - no such ui-element", 2) end
   if reagirl.Elements[element_id]==nil then error("UI_Element_GetSet_ContextMenu: param #1 - no such ui-element", 2) end
   if type(is_set)~="boolean" then error("UI_Element_GetSet_ContextMenu: param #2 - must be a boolean", 2) end
-  if is_set==true and type(menu)~="string" then error("UI_Element_GetSet_ContextMenu: param #3 - must be a string when #2==true", 2) end
-  if is_set==true and type(menu_function)~="function" then error("UI_Element_GetSet_ContextMenu: param #4 - must be a function when #2==true", 2) end
+  if is_set==true and menu~=nil and type(menu)~="string" then error("UI_Element_GetSet_ContextMenu: param #3 - must be a string when #2==true", 2) end
+  if is_set==true and menu~=nil and type(menu_function)~="function" then error("UI_Element_GetSet_ContextMenu: param #4 - must be a function when #2==true", 2) end
   
   if is_set==true then
     reagirl.Elements[element_id]["ContextMenu"]=menu
@@ -3085,15 +3043,14 @@ function reagirl.UI_Element_GetSet_DropZoneFunction(element_id, is_set, dropzone
     Reaper=7
     Lua=5.4
   </requires>
-  <functioncall>function dropzone_function = reagirl.UI_Element_GetSet_DropZoneFunction(string element_id, boolean is_set, string dropzone_function)</functioncall>
+  <functioncall>function dropzone_function = reagirl.UI_Element_GetSet_DropZoneFunction(string element_id, boolean is_set, optional function dropzone_function)</functioncall>
   <description>
     gets/sets the dropzone-run-function of a ui-element.
     
     This will be called, when the user drag'n'drops files onto this ui-element.
-    Drop a hint in the accessibility-hint of the ui-element, so blind users know, a dropzone exists.
     
     The dropzone_function will be called with two parameters: 
-      string element_id - the guid of the ui-element, whose context-menu has been used
+      string element_id - the guid of the ui-element, on which files were dropped
       table filenames - a table with all dropped filenames
   </description>
   <retvals>
@@ -3102,7 +3059,7 @@ function reagirl.UI_Element_GetSet_DropZoneFunction(element_id, is_set, dropzone
   <parameters>
     string element_id - the id of the element, whose description you want to get/set
     boolean is_set - true, set the dropzone-function; false, only retrieve the dropzone-function
-    function dropzone_function - sets a function that is called, after the drag'n'dropped files onto this ui-element
+    optional function dropzone_function - sets a function that is called, after the drag'n'dropped files onto this ui-element; nil, removes drop-zone
   </parameters>
   <chapter_context>
     UI Elements
@@ -3117,7 +3074,7 @@ function reagirl.UI_Element_GetSet_DropZoneFunction(element_id, is_set, dropzone
   if element_id==nil then error("UI_Element_GetSet_DropZoneFunction: param #1 - no such ui-element", 2) end
   if reagirl.Elements[element_id]==nil then error("UI_Element_GetSet_DropZoneFunction: param #1 - no such ui-element", 2) end
   if type(is_set)~="boolean" then error("UI_Element_GetSet_DropZoneFunction: param #2 - must be a boolean", 2) end
-  if is_set==true and type(dropzone_function)~="function" then error("UI_Element_GetSet_DropZoneFunction: param #3 - must be a string when #2==true", 2) end
+  if is_set==true and dropzone_function~=nil and type(dropzone_function)~="function" then error("UI_Element_GetSet_DropZoneFunction: param #3 - must be a function when #2==true", 2) end
   
   if is_set==true then
     reagirl.Elements[element_id]["DropZoneFunction"]=dropzone_function
@@ -3170,7 +3127,7 @@ function reagirl.UI_Element_GetSetCaption(element_id, is_set, caption)
   end
   return reagirl.Elements[element_id]["Name"]
 end
-
+--mespotine
 function reagirl.UI_Element_GetSetVisibility(element_id, is_set, visible)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
@@ -3228,7 +3185,7 @@ function reagirl.UI_Element_GetSetSticky(element_id, is_set, sticky_x, sticky_y)
   </requires>
   <functioncall>boolean sticky_x, boolean sticky_y = reagirl.UI_Element_GetSetSticky(string element_id, boolean is_set, boolean sticky_x, boolean sticky_y)</functioncall>
   <description>
-    gets/sets the stickyness of the ui-element.
+    gets/sets the stickiness of the ui-element.
     
     Sticky-elements will not be moved by the global scrollbar-scrolling.
     
@@ -3245,7 +3202,7 @@ function reagirl.UI_Element_GetSetSticky(element_id, is_set, sticky_x, sticky_y)
   </retvals>
   <parameters>
     string element_id - the id of the element, whose stickiness you want to get/set
-    boolean is_set - true, set the name; false, only retrieve current stickyness of the ui-element
+    boolean is_set - true, set the stickiness; false, only retrieve current stickiness of the ui-element
     boolean sticky_x - true, x-movement is sticky; false, x-movement isn't sticky
     boolean sticky_y - true, y-movement is sticky; false, y-movement isn't sticky
   </parameters>
@@ -3441,6 +3398,8 @@ function reagirl.UI_Element_GetSetAllHorizontalOffset(is_set, x_offset)
   <functioncall>integer x_offset = reagirl.UI_Element_GetSetAllHorizontalOffset(boolean is_set, integer x_offset)</functioncall>
   <description>
     gets/sets the horizontal offset of all non-sticky ui-elements
+    
+    when setting, this scrolls all ui-elements on x-axis
   </description>
   <retvals>
     integer x_offset - the current horizontal offset of all ui-elements
@@ -3476,6 +3435,8 @@ function reagirl.UI_Element_GetSetAllVerticalOffset(is_set, y_offset)
   <functioncall>integer y_offset = reagirl.UI_Element_GetSetAllVerticalOffset(boolean is_set, integer y_offset)</functioncall>
   <description>
     gets/sets the vertical offset of all ui-elements
+    
+    when setting, this scrolls all ui-elements on y-axis
   </description>
   <retvals>
     integer y_offset - the current vertical offset of all non-sticky ui-elements
@@ -3508,7 +3469,7 @@ function reagirl.UI_Element_GetSetRunFunction(element_id, is_set, run_function)
     Reaper=7
     Lua=5.4
   </requires>
-  <functioncall>func run_function = reagirl.UI_Element_GetSetRunFunction(string element_id, boolean is_set, func run_function)</functioncall>
+  <functioncall>func run_function = reagirl.UI_Element_GetSetRunFunction(string element_id, boolean is_set, optional func run_function)</functioncall>
   <description>
     gets/sets the run_function of the ui-element, which will be run, when the ui-element is toggled
   </description>
@@ -3518,7 +3479,7 @@ function reagirl.UI_Element_GetSetRunFunction(element_id, is_set, run_function)
   <parameters>
     string element_id - the id of the element, whose run_function you want to get/set
     boolean is_set - true, set the run_function; false, only retrieve the current run_function
-    func run_function - the run function of the ui-element
+    optional func run_function - the run function of the ui-element
   </parameters>
   <chapter_context>
     UI Elements
@@ -3533,14 +3494,14 @@ function reagirl.UI_Element_GetSetRunFunction(element_id, is_set, run_function)
   if element_id==nil then error("UI_Element_GetSetRunFunction: param #1 - no such ui-element", 2) end
   if reagirl.Elements[element_id]==nil then error("UI_Element_GetSetRunFunction: param #1 - no such ui-element", 2) end
   if type(is_set)~="boolean" then error("UI_Element_GetSetRunFunction: param #2 - must be a boolean", 2) end
-  if is_set==true and type(run_function)~="function" then error("UI_Element_GetSetRunFunction: param #3 - must be a function, when #2==true", 2) end
+  if is_set==true and run_function~=nil and type(run_function)~="function" then error("UI_Element_GetSetRunFunction: param #3 - must be wither nil or a function, when #2==true", 2) end
   
   if is_set==true then
     reagirl.Elements[element_id]["run_function"]=run_function
   end
   return reagirl.Elements[element_id]["run_function"]
 end
-
+--mespotine
 function reagirl.UI_Element_Move(element_id, x, y)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
@@ -3554,7 +3515,7 @@ function reagirl.UI_Element_Move(element_id, x, y)
   <description>
     moves a ui-element to a new position
     
-    You can omit the parameters, that you want to keep at the same position/dimension.
+    You can omit the parameters, of those you want to keep at the same position.
   </description>
   <parameters>
     string element_id - the id of the element that you want to move
@@ -3636,7 +3597,7 @@ function reagirl.UI_Element_Remove(element_id)
   </chapter_context>
   <target_document>ReaGirl_Docs</target_document>
   <source_document>reagirl_GuiEngine.lua</source_document>
-  <tags>ui-elements, set, remove</tags>
+  <tags>ui-elements, remove</tags>
 </US_DocBloc>
 ]]
   if type(element_id)~="string" then error("UI_Element_Remove: param #1 - must be a guid as string", 2) end
@@ -3690,7 +3651,7 @@ function reagirl.Checkbox_Add(x, y, caption, meaningOfUI_Element, default, run_f
     Reaper=7
     Lua=5.4
   </requires>
-  <functioncall>string checkbox_guid = reagirl.Checkbox_Add(integer x, integer y, integer w_margin, integer h_margin, string caption, string meaningOfUI_Element, function run_function)</functioncall>
+  <functioncall>string checkbox_guid = reagirl.Checkbox_Add(integer x, integer y, string caption, string meaningOfUI_Element, optional function run_function)</functioncall>
   <description>
     Adds a checkbox to a gui.
     
@@ -3703,7 +3664,7 @@ function reagirl.Checkbox_Add(x, y, caption, meaningOfUI_Element, default, run_f
     string caption - the caption of the checkbox
     string meaningOfUI_Element - a description for accessibility users
     boolean default - true, set the checkbox checked; false, set the checkbox unchecked
-    function run_function - a function that shall be run when the checkbox is clicked; will get passed over the checkbox-element_id as first and the new checkstate as second parameter
+    optional function run_function - a function that shall be run when the checkbox is clicked; will get passed over the checkbox-element_id as first and the new checkstate as second parameter
   </parameters>
   <retvals>
     string checkbox_guid - a guid that can be used for altering the checkbox-attributes
@@ -3897,7 +3858,7 @@ function reagirl.Checkbox_GetCheckState(element_id)
     Gets a checkbox's current checked-state.
   </description>
   <parameters>
-    string element_id - the guid of the checkbox, whose rounded edges-state you want to get
+    string element_id - the guid of the checkbox, whose checkbox-state you want to get
   </parameters>
   <retvals>
     boolean check_state - true, checkbox is checked; false, the checkbox is unchecked
@@ -4045,7 +4006,7 @@ function reagirl.UI_Element_OnMouse(element_id, mouse_cap, mouse_event, mouse_x,
   gfx.mouse_hwheel=oldhwheel
   gfx.mouse_cap=oldmousecap
 end
-
+--mespotine
 function reagirl.UI_Element_Current_Position()
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
