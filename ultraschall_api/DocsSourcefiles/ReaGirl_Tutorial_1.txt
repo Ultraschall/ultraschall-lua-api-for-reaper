@@ -1,5 +1,3 @@
-IMAGE_ADD HAS BEEN CHANGED, SO SWITCH FILENAME-PARAMETER AFTER HEIGHT-PARAMETER ACCORDINGLY!!!
-
 ## First steps into ReaGirl
 
 When making a gui in ReaGirl, you basically have to work through 5 steps.
@@ -651,7 +649,7 @@ To achieve this, just make the x/y-coordinate negative. In the case of our image
   reagirl.Button_SetRadius(button_cancel_id, 0) -- make the cancel button square
 
   -- add an image of a bass guitar
-  reagirl.Image_Add(reaper.GetResourcePath().."/Data/track_icons/bass.png", -150, -120, 100, 100, "A Bass guitar", "the graphics of a basss guitar", nil)
+  reagirl.Image_Add(-150, -120, 100, 100, reaper.GetResourcePath().."/Data/track_icons/bass.png", "A Bass guitar", "the graphics of a basss guitar", nil)
 
   -- open the new gui
   reagirl.Gui_Open("The dialog", "This is a demo dialog with settings for tool xyz.", 640, 250)
@@ -737,7 +735,7 @@ Let's link the width of the first inputbox to the right-side of the window(-50) 
   reagirl.Button_SetRadius(button_cancel_id, 0) -- make the cancel button square
 
   -- add an image of a bass guitar
-  reagirl.Image_Add(reaper.GetResourcePath().."/Data/track_icons/bass.png", -150, -120, 100, 100, "A Bass guitar", "the graphics of a basss guitar", nil)
+  reagirl.Image_Add(-150, -120, 100, 100, reaper.GetResourcePath().."/Data/track_icons/bass.png", "A Bass guitar", "the graphics of a basss guitar", nil)
 
   -- open the new gui
   reagirl.Gui_Open("The dialog", "This is a demo dialog with settings for tool xyz.", 640, 250)
@@ -827,7 +825,7 @@ Let's add them into our gui and set some reasonable boundaries.
   reagirl.Button_SetRadius(button_cancel_id, 0) -- make the cancel button square
 
   -- add an image of a bass guitar
-  reagirl.Image_Add(reaper.GetResourcePath().."/Data/track_icons/bass.png", -150, -120, 100, 100, "A Bass guitar", "the graphics of a basss guitar", nil)
+  reagirl.Image_Add(-150, -120, 100, 100, reaper.GetResourcePath().."/Data/track_icons/bass.png", "A Bass guitar", "the graphics of a basss guitar", nil)
 
   -- let's force window-sizes
   reagirl.Window_ForceSize_Minimum(550, 250) -- set the minimum size of the window
