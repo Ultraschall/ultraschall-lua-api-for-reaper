@@ -1,3 +1,5 @@
+RECHECK ALL CODES, AS IMAGE_ADD HAS BEEN CHANGED. THERE ARE ALSO BUGS IN THEM WITH UI_Element_GetSetCaption missing is_set=true in parameter.
+
 Tutorial for draggable images
 
 In this tutorial, I will show you, how to make a gui, where an image is draggable to multiple destinations.

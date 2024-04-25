@@ -1,3 +1,5 @@
+IMAGE_ADD HAS BEEN CHANGED, SO SWITCH FILENAME-PARAMETER AFTER HEIGHT-PARAMETER ACCORDINGLY!!!
+
 ## First steps into ReaGirl
 
 When making a gui in ReaGirl, you basically have to work through 5 steps.
