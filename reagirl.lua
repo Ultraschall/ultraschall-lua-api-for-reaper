@@ -2096,7 +2096,7 @@ function reagirl.Gui_Manage()
       end
     end
   end
-  ABBA=found_element
+  
   if found_element==nil then
     for i=1, #reagirl.Elements-Scroll_Override_ScrollButtons, 1 do
       if reagirl.Elements[i]["hidden"]~=true then
