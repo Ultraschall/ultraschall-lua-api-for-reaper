@@ -2007,13 +2007,13 @@ function reagirl.Gui_Manage()
   local clickstate, specific_clickstate, mouse_cap, click_x, click_y, drag_x, drag_y, mouse_wheel, mouse_hwheel = reagirl.Mouse_GetCap(5, 10)
   -- finds out also, which ui-element shall be seen as clicked(only the last ui-element within click-area will be seen as clicked)
   -- changes the selected ui-element when clicked AND shows tooltip
-  local Scroll_Override_ScrollButtons=0
+  local Scroll_Override_ScrollButtons=6
   if reagirl.Scroll_Override_ScrollButtons==true then Scroll_Override_ScrollButtons=4 end
   reagirl.UI_Elements_HoveredElement=-1
     
   local found_element, old_selection 
   local restore=false
-  for i=1, #reagirl.Elements-Scroll_Override_ScrollButtons, 1 do
+  for i=#reagirl.Elements-Scroll_Override_ScrollButtons, #reagirl.Elements do
     if reagirl.Elements[i]["hidden"]~=true then
       local x2, y2, w2, h2
       if reagirl.Elements[i]["x"]<0 then x2=gfx.w+(reagirl.Elements[i]["x"]*scale) else x2=reagirl.Elements[i]["x"]*scale end
@@ -2021,7 +2021,7 @@ function reagirl.Gui_Manage()
       if reagirl.Elements[i]["w"]<0 then w2=gfx.w+(-x2+reagirl.Elements[i]["w"]*scale) else w2=reagirl.Elements[i]["w"]*scale end
       if reagirl.Elements[i]["h"]<0 then h2=gfx.h+(-y2+reagirl.Elements[i]["h"]*scale) else h2=reagirl.Elements[i]["h"]*scale end
       if reagirl.Elements[i]["GUI_Element_Type"]=="DropDownMenu" then if w2<20 then w2=20 end end
-
+  
       -- is any gui-element outside of the window
       local MoveItAllUp=reagirl.MoveItAllUp  
       local MoveItAllRight=reagirl.MoveItAllRight
@@ -2083,6 +2083,82 @@ function reagirl.Gui_Manage()
          end
          found_element=i
          break
+      end
+    end
+  end
+  ABBA=found_element
+  if found_element==nil then
+    for i=1, #reagirl.Elements-Scroll_Override_ScrollButtons, 1 do
+      if reagirl.Elements[i]["hidden"]~=true then
+        local x2, y2, w2, h2
+        if reagirl.Elements[i]["x"]<0 then x2=gfx.w+(reagirl.Elements[i]["x"]*scale) else x2=reagirl.Elements[i]["x"]*scale end
+        if reagirl.Elements[i]["y"]<0 then y2=gfx.h+(reagirl.Elements[i]["y"]*scale) else y2=reagirl.Elements[i]["y"]*scale end
+        if reagirl.Elements[i]["w"]<0 then w2=gfx.w+(-x2+reagirl.Elements[i]["w"]*scale) else w2=reagirl.Elements[i]["w"]*scale end
+        if reagirl.Elements[i]["h"]<0 then h2=gfx.h+(-y2+reagirl.Elements[i]["h"]*scale) else h2=reagirl.Elements[i]["h"]*scale end
+        if reagirl.Elements[i]["GUI_Element_Type"]=="DropDownMenu" then if w2<20 then w2=20 end end
+  
+        -- is any gui-element outside of the window
+        local MoveItAllUp=reagirl.MoveItAllUp  
+        local MoveItAllRight=reagirl.MoveItAllRight
+        if reagirl.Elements[i]["sticky_y"]==true then MoveItAllUp=0 end
+        if reagirl.Elements[i]["sticky_x"]==true then MoveItAllRight=0 end
+        
+        if x2+MoveItAllRight<reagirl.UI_Element_MinX then reagirl.UI_Element_MinX=x2+MoveItAllRight end
+        if y2<reagirl.UI_Element_MinY+MoveItAllUp then reagirl.UI_Element_MinY=y2+MoveItAllUp end
+        
+        if x2+MoveItAllRight+w2>reagirl.UI_Element_MaxW then reagirl.UI_Element_MaxW=x2+MoveItAllRight+w2 end
+        if y2+MoveItAllUp+h2>reagirl.UI_Element_MaxH then reagirl.UI_Element_MaxH=y2+h2+MoveItAllUp end
+      
+        -- show tooltip when hovering over a ui-element
+        -- also set clicked ui-element to the one at mouse-position, when specific_clickstate="FirstCLK"
+        if gfx.mouse_x>=x2+MoveItAllRight and
+           gfx.mouse_x<=x2+MoveItAllRight+w2 and
+           gfx.mouse_y>=y2+MoveItAllUp and
+           gfx.mouse_y<=y2+MoveItAllUp+h2 then
+           reagirl.UI_Elements_HoveredElement=i
+           -- tooltip management
+           if reagirl.TooltipWaitCounter==14 then
+            local XX,YY=reaper.GetMousePosition()
+            if reagirl.Window_State&8==8 and reaper.GetExtState("ReaGirl", "show_tooltips")~="false" then
+              reaper.TrackCtl_SetToolTip(reagirl.Elements[i]["Description"], XX+15, YY+10, true)
+            end
+            
+            if reagirl.SetPosition_MousePositionY~=gfx.mouse_y 
+            and reagirl.SetPosition_MousePositionY~=gfx.mouse_x 
+            and reagirl.Elements[i]["AccHoverMessage"]~=nil then
+              --reagirl.osara_outputMessage(reagirl.Elements[i]["AccHoverMessage"])
+              --reagirl.SetPosition_MousePositionX=-1
+              --reagirl.SetPosition_MousePositionY=-1
+            end
+            
+            --if reagirl.osara_outputMessage~=nil then reagirl.osara_outputMessage(reagirl.Elements[i]["Text"],2--[[:utf8_sub(1,20)]]) end
+           end
+           
+           -- focused/clicked ui-element-management
+           if (specific_clickstate=="FirstCLK") and reagirl.Elements[i]["IsDisabled"]==false then
+             if i~=reagirl.Elements["FocusedElement"] then
+               init_message=reagirl.Elements[i]["Name"].." "..reagirl.Elements[i]["GUI_Element_Type"]:sub(1,-1).." "
+               helptext=reagirl.Elements[i]["Description"]..", "..reagirl.Elements[i]["AccHint"]
+               reagirl.FocusRectangle_BlinkStartTime=reaper.time_precise()
+               reagirl.FocusRectangle_BlinkStop=nil
+             end
+             
+             -- set found ui-element as focused and clicked
+             old_selection=reagirl.Elements.FocusedElement
+             if reagirl.Elements[i].IsDecorative==true then restore=true end
+             reagirl.Elements["FocusedElement"]=i
+             if old_selection~=reagirl.Elements.FocusedElement then
+               reagirl.ui_element_selected="first selected"
+             else
+               reagirl.ui_element_selected="selected"
+             end
+             reagirl.Elements[i]["clicked"]=true
+             reagirl.UI_Element_SetFocusRect()
+             reagirl.Gui_ForceRefresh(9) 
+           end
+           found_element=i
+           break
+        end
       end
     end
   end
