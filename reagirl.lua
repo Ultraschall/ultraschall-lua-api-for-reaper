@@ -4053,10 +4053,11 @@ function reagirl.NextLine(y_offset)
     UI_Element_NextLineY=reagirl.UI_Element_NextLineY+reagirl.UI_Element_NextY_Margin
   end
   if UI_Element_NextLineY>reagirl.NextLine_Overflow then
-    reagirl.UI_Element_NextLineY=UI_Element_NextLineY+reagirl.Window_GetCurrentScale()+reagirl.Window_GetCurrentScale()
+    reagirl.UI_Element_NextLineY=UI_Element_NextLineY+2
   else
-    reagirl.UI_Element_NextLineY=reagirl.NextLine_Overflow+reagirl.Window_GetCurrentScale()+reagirl.Window_GetCurrentScale()
+    reagirl.UI_Element_NextLineY=reagirl.NextLine_Overflow+2
   end
+  reagirl.NextLine_Overflow=0
   reagirl.NextLine_triggered=true
   reagirl.UI_Element_NextLineX=reagirl.UI_Element_NextX_Default
 end
@@ -9122,7 +9123,7 @@ function reagirl.Tabs_Add(x, y, w_backdrop, h_backdrop, caption, meaningOfUI_Ele
   reagirl.UI_Element_NextX_Default=reagirl.UI_Element_NextX_Default+10
   
   reagirl.Tabs_Count=slot
-  reagirl.NextLine(-reagirl.Window_GetCurrentScale()-reagirl.Window_GetCurrentScale())
+  reagirl.NextLine(-2)
   return reagirl.Elements[slot]["Guid"]
 end
 
