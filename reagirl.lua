@@ -699,14 +699,14 @@ function reagirl.BlitText_AdaptLineLength(text, x, y, width, height, align)
   <tags>gfx, functions, blit, text, line breaks, adapt line length</tags>
 </US_DocBloc>
 ]]
-  if type(text)~="string" then error("GFX_BlitText_AdaptLineLength: #1 - must be a string", 2) end
-  if math.type(x)~="integer" then error("GFX_BlitText_AdaptLineLength: #2 - must be an integer", 2) end
-  if math.type(y)~="integer" then error("GFX_BlitText_AdaptLineLength: #3 - must be an integer", 2) end
-  if math.type(width)~="integer" then error("GFX_BlitText_AdaptLineLength: #4 - must be an integer", 2) end
-  if height~=nil and math.type(height)~="number" then error("GFX_BlitText_AdaptLineLength: #5 - must be either nil or an integer", 2) end
-  if align~=nil and math.type(align)~="integer" then error("GFX_BlitText_AdaptLineLength: 6 - must be either nil or an integer", 2) end
+  if type(text)~="string" then error("GFX_BlitText_AdaptLineLength: param #1 - must be a string", 2) end
+  if math.type(x)~="integer" then error("GFX_BlitText_AdaptLineLength: param #2 - must be an integer", 2) end
+  if math.type(y)~="integer" then error("GFX_BlitText_AdaptLineLength: param #3 - must be an integer", 2) end
+  if math.type(width)~="integer" then error("GFX_BlitText_AdaptLineLength: param #4 - must be an integer", 2) end
+  if height~=nil and math.type(height)~="number" then error("GFX_BlitText_AdaptLineLength: param #5 - must be either nil or an integer", 2) end
+  if align~=nil and math.type(align)~="integer" then error("GFX_BlitText_AdaptLineLength: param #6 - must be either nil or an integer", 2) end
   local l=gfx.measurestr("A")
-  if width<gfx.measurestr("A") then error("GFX_BlitText_AdaptLineLength: #4 - must be at least "..l.." pixels for this font.", -7) end
+  if width<gfx.measurestr("A") then error("GFX_BlitText_AdaptLineLength: param #4 - must be at least "..l.." pixels for this font.", -7) end
 
   if align==nil or align==0 then center=0 
   elseif align==1 then center=1 
@@ -768,20 +768,20 @@ function reagirl.ResizeImageKeepAspectRatio(image, neww, newh, bg_r, bg_g, bg_b)
   <tags>gfx, functions, resize, image</tags>
 </US_DocBloc>
 ]]
-  if math.type(image)~="integer" then error("ResizeImageKeepAspectRatio: #1 - must be an integer", 2) end
-  if math.type(neww)~="integer" then error("ResizeImageKeepAspectRatio: #2 - must be an integer", 2) end
-  if math.type(newh)~="integer" then error("ResizeImageKeepAspectRatio: #3 - must be an integer", 2) end
+  if math.type(image)~="integer" then error("ResizeImageKeepAspectRatio: param #1 - must be an integer", 2) end
+  if math.type(neww)~="integer" then error("ResizeImageKeepAspectRatio: param #2 - must be an integer", 2) end
+  if math.type(newh)~="integer" then error("ResizeImageKeepAspectRatio: param #3 - must be an integer", 2) end
   
-  if bg_r~=nil and type(bg_r)~="number" then error("ResizeImageKeepAspectRatio: #4 - must be either nil or a number", 2) end
+  if bg_r~=nil and type(bg_r)~="number" then error("ResizeImageKeepAspectRatio: param #4 - must be either nil or a number", 2) end
   if bg_r==nil then bg_r=0 end
-  if bg_g~=nil and type(bg_g)~="number" then error("ResizeImageKeepAspectRatio: #5 - must be either nil or a number", 2) end
+  if bg_g~=nil and type(bg_g)~="number" then error("ResizeImageKeepAspectRatio: param #5 - must be either nil or a number", 2) end
   if bg_g==nil then bg_g=0 end
-  if bg_b~=nil and type(bg_b)~="number" then error("ResizeImageKeepAspectRatio: #6 - must be either nil or a number", 2) end
+  if bg_b~=nil and type(bg_b)~="number" then error("ResizeImageKeepAspectRatio: param #6 - must be either nil or a number", 2) end
   if bg_b==nil then bg_b=0 end
   
-  if image<0 or image>1022 then error("ResizeImageKeepAspectRatio: #1 - must be between 0 and 1022", 2) end
-  if neww<0 or neww>8192 then error("ResizeImageKeepAspectRatio: #2 - must be between 0 and 8192", 2) end
-  if newh<0 or newh>8192 then error("ResizeImageKeepAspectRatio: #3 - must be between 0 and 8192", 2) end
+  if image<0 or image>1022 then error("ResizeImageKeepAspectRatio: param #1 - must be between 0 and 1022", 2) end
+  if neww<0 or neww>8192 then error("ResizeImageKeepAspectRatio: param #2 - must be between 0 and 8192", 2) end
+  if newh<0 or newh>8192 then error("ResizeImageKeepAspectRatio: param #3 - must be between 0 and 8192", 2) end
   
   local old_r, old_g, old_g=gfx.r, gfx.g, gfx.b  
   local old_dest=gfx.dest
@@ -868,12 +868,12 @@ function reagirl.Window_Open(...)
 </US_DocBloc>
 ]]
   local parms={...}
-  if type(parms[1])~="string" then error("Window_Open: #1 - must be a string", 2) end
-  if parms[2]~=nil and type(parms[2])~="number" then error("Window_Open: #2 - must be either nil or an integer", 2) end
-  if parms[3]~=nil and type(parms[3])~="number" then error("Window_Open: #3 - must be either nil or an integer", 2) end
-  if parms[4]~=nil and type(parms[4])~="number" then error("Window_Open: #4 - must be either nil or an integer", 2) end
-  if parms[5]~=nil and type(parms[5])~="number" then error("Window_Open: #5 - must be either nil or an integer", 2) end
-  if parms[6]~=nil and type(parms[6])~="number" then error("Window_Open: #6 - must be either nil or an integer", 2) end
+  if type(parms[1])~="string" then error("Window_Open: param #1 - must be a string", 2) end
+  if parms[2]~=nil and type(parms[2])~="number" then error("Window_Open: param #2 - must be either nil or an integer", 2) end
+  if parms[3]~=nil and type(parms[3])~="number" then error("Window_Open: param #3 - must be either nil or an integer", 2) end
+  if parms[4]~=nil and type(parms[4])~="number" then error("Window_Open: param #4 - must be either nil or an integer", 2) end
+  if parms[5]~=nil and type(parms[5])~="number" then error("Window_Open: param #5 - must be either nil or an integer", 2) end
+  if parms[6]~=nil and type(parms[6])~="number" then error("Window_Open: param #6 - must be either nil or an integer", 2) end
   
   local AAA, AAA2=reaper.ThemeLayout_GetLayout("tcp", -3)
   local minimum_scale_for_dpi, maximum_scale_for_dpi = 1,1--ultraschall.GetScaleRangeFromDpi(tonumber(AAA2))
@@ -1047,8 +1047,8 @@ function reagirl.Mouse_GetCap(doubleclick_wait, drag_wait)
   <tags>functions, mouse, mouse cap, leftclick, rightclick, doubleclick, drag, wheel, mousewheel, horizontal mousewheel</tags>
 </US_DocBloc>
 ]]
-  if doubleclick_wait~=nil and math.type(doubleclick_wait)~="integer" then error("Mouse_GetCap: #1 - must be nil or an integer", 2) end
-  if drag_wait~=nil and math.type(drag_wait)~="integer" then error("Mouse_GetCap: #2 - must be nil or an integer", 2) end
+  if doubleclick_wait~=nil and math.type(doubleclick_wait)~="integer" then error("Mouse_GetCap: param #1 - must be nil or an integer", 2) end
+  if drag_wait~=nil and math.type(drag_wait)~="integer" then error("Mouse_GetCap: param #2 - must be nil or an integer", 2) end
 
   -- prepare variables
   if reagirl.MouseCap==nil then
@@ -1550,8 +1550,8 @@ function reagirl.Window_SetCurrentScale(newscale)
   <tags>window, get, current scale</tags>
 </US_DocBloc>
 ]]
-  if newscale~=nil and math.type(newscale)~="integer" then error("Window_SetCurrentScale: #1 - must be either nil or an integer", 2) end
-  if newscale~=nil and (newscale<1 or newscale>8) then error("Window_SetCurrentScale: #1 - must be between 1 and 8", 2) end
+  if newscale~=nil and math.type(newscale)~="integer" then error("Window_SetCurrentScale: param #1 - must be either nil or an integer", 2) end
+  if newscale~=nil and (newscale<1 or newscale>8) then error("Window_SetCurrentScale: param #1 - must be between 1 and 8", 2) end
   if newscale==nil then reagirl.Window_CurrentScale_Override=nil
   else 
     reagirl.Window_OldScale=newscale
@@ -1617,12 +1617,12 @@ function reagirl.SetFont(idx, fontface, size, flags, scale_override)
   <tags>functions, set, font</tags>
 </US_DocBloc>
 ]]
-  if math.type(idx)~="integer" then error("SetFont: #1 - must be an integer", 2) end
-  if type(fontface)~="string" then error("SetFont: #2 - must be a string", 2) end
-  if math.type(size)~="integer" then error("SetFont: #3 - must be an integer", 2) end
-  if math.type(flags)~="integer" then error("SetFont: #4 - must be an integer", 2) end
-  if scale_override~=nil and math.type(scale_override)~="integer" then error("SetFont: #5 - must be either nil(for autoscale) or an integer", 2) end
-  if scale_override~=nil and (scale_override<1 or scale_override>8) then error("SetFont: #5 - must be between 1 and 8 or nil(for autoscale)", 2) end
+  if math.type(idx)~="integer" then error("SetFont: param #1 - must be an integer", 2) end
+  if type(fontface)~="string" then error("SetFont: param #2 - must be a string", 2) end
+  if math.type(size)~="integer" then error("SetFont: param #3 - must be an integer", 2) end
+  if math.type(flags)~="integer" then error("SetFont: param #4 - must be an integer", 2) end
+  if scale_override~=nil and math.type(scale_override)~="integer" then error("SetFont: param #5 - must be either nil(for autoscale) or an integer", 2) end
+  if scale_override~=nil and (scale_override<1 or scale_override>8) then error("SetFont: param #5 - must be between 1 and 8 or nil(for autoscale)", 2) end
   if scale_override~=nil then size=size*scale_override 
   else 
     if size~=nil then size=size*reagirl.Window_GetCurrentScale() end
@@ -1669,13 +1669,13 @@ function reagirl.Gui_Open(title, description, w, h, dock, x, y)
   <tags>functions, open, gui</tags>
 </US_DocBloc>
 ]]
-  if type(title)~="string" then error("Gui_Open: #1 - must be a string", 2) end
-  if type(description)~="string" then error("Gui_Open: #2 - must be a string", 2) end
-  if w~=nil and math.type(w)~="integer" then error("Gui_Open: #3 - must be either nil or an integer", 2) end
-  if h~=nil and math.type(h)~="integer" then error("Gui_Open: #4 - must be either nil or an integer", 2) end
-  if dock~=nil and math.type(dock)~="integer" then error("Gui_Open: #5 - must be either nil or an integer", 2) end
-  if x~=nil and math.type(x)~="integer" then error("Gui_Open: #6 - must be either nil or an integer", 2) end
-  if y~=nil and math.type(y)~="integer" then error("Gui_Open: #7 - must be either nil or an integer", 2) end
+  if type(title)~="string" then error("Gui_Open: param #1 - must be a string", 2) end
+  if type(description)~="string" then error("Gui_Open: param #2 - must be a string", 2) end
+  if w~=nil and math.type(w)~="integer" then error("Gui_Open: param #3 - must be either nil or an integer", 2) end
+  if h~=nil and math.type(h)~="integer" then error("Gui_Open: param #4 - must be either nil or an integer", 2) end
+  if dock~=nil and math.type(dock)~="integer" then error("Gui_Open: param #5 - must be either nil or an integer", 2) end
+  if x~=nil and math.type(x)~="integer" then error("Gui_Open: param #6 - must be either nil or an integer", 2) end
+  if y~=nil and math.type(y)~="integer" then error("Gui_Open: param #7 - must be either nil or an integer", 2) end
   local retval
   retval, reagirl.dpi = reaper.ThemeLayout_GetLayout("tcp", -3)
   if reagirl.dpi == "512" then
@@ -2705,12 +2705,12 @@ function reagirl.UI_Element_SetFocusRect(override, x, y, w, h)
 </US_DocBloc>
 ]]
   if override==nil then override=false end
-  if override~=nil and type(override)~="boolean" then error("UI_Element_SetFocusRect: #1 - must be either nil or a boolean", 2) end
+  if override~=nil and type(override)~="boolean" then error("UI_Element_SetFocusRect: param #1 - must be either nil or a boolean", 2) end
   if override==true then
-    if math.type(x)~="integer" then error("UI_Element_SetFocusRect: #2 - when override=nil then it must be an integer", 2) end
-    if math.type(y)~="integer" then error("UI_Element_SetFocusRect: #3 - when override=nil then it must be an integer", 2) end
-    if math.type(w)~="integer" then error("UI_Element_SetFocusRect: #4 - when override=nil then it must be an integer", 2) end
-    if math.type(h)~="integer" then error("UI_Element_SetFocusRect: #5 - when override=nil then it must be an integer", 2) end
+    if math.type(x)~="integer" then error("UI_Element_SetFocusRect: param #2 - when override=nil then it must be an integer", 2) end
+    if math.type(y)~="integer" then error("UI_Element_SetFocusRect: param #3 - when override=nil then it must be an integer", 2) end
+    if math.type(w)~="integer" then error("UI_Element_SetFocusRect: param #4 - when override=nil then it must be an integer", 2) end
+    if math.type(h)~="integer" then error("UI_Element_SetFocusRect: param #5 - when override=nil then it must be an integer", 2) end
   end
   
   if override==false then 
@@ -2911,10 +2911,10 @@ function reagirl.UI_Element_GetType(element_id)
   <tags>ui-elements, get, type</tags>
 </US_DocBloc>
 ]]
-  if type(element_id)~="string" then error("UI_Element_GetType: #1 - must be a guid as string", 2) end
+  if type(element_id)~="string" then error("UI_Element_GetType: param #1 - must be a guid as string", 2) end
   element_id=reagirl.UI_Element_GetIDFromGuid(element_id)
-  if element_id==-1 then error("UI_Element_GetType: #1 - no such ui-element", 2) end
-  if reagirl.Elements[element_id]==nil then error("UI_Element_GetType: #1 - no such ui-element", 2) end
+  if element_id==-1 then error("UI_Element_GetType: param #1 - no such ui-element", 2) end
+  if reagirl.Elements[element_id]==nil then error("UI_Element_GetType: param #1 - no such ui-element", 2) end
   if reagirl.Elements[element_id]~=nil then
     return reagirl.Elements[element_id]["GUI_Element_Type"]
   end
@@ -3008,12 +3008,12 @@ function reagirl.UI_Element_GetSetDescription(element_id, is_set, description)
   <tags>ui-elements, set, get, description</tags>
 </US_DocBloc>
 ]]
-  if type(element_id)~="string" then error("UI_Element_GetSetDescription: #1 - must be a guid as string", 2) end
+  if type(element_id)~="string" then error("UI_Element_GetSetDescription: param #1 - must be a guid as string", 2) end
   element_id=reagirl.UI_Element_GetIDFromGuid(element_id)
-  if element_id==nil then error("UI_Element_GetSetDescription: #1 - no such ui-element", 2) end
-  if reagirl.Elements[element_id]==nil then error("UI_Element_GetSetDescription: #1 - no such ui-element", 2) end
-  if type(is_set)~="boolean" then error("UI_Element_GetSetDescription: #2 - must be a boolean", 2) end
-  if is_set==true and type(description)~="string" then error("UI_Element_GetSetDescription: #3 - must be a string when #2==true", 2) end
+  if element_id==nil then error("UI_Element_GetSetDescription: param #1 - no such ui-element", 2) end
+  if reagirl.Elements[element_id]==nil then error("UI_Element_GetSetDescription: param #1 - no such ui-element", 2) end
+  if type(is_set)~="boolean" then error("UI_Element_GetSetDescription: param #2 - must be a boolean", 2) end
+  if is_set==true and type(description)~="string" then error("UI_Element_GetSetDescription: param #3 - must be a string when #2==true", 2) end
   
   if is_set==true then
     reagirl.Elements[element_id]["Description"]=description
@@ -3058,13 +3058,13 @@ function reagirl.UI_Element_GetSet_ContextMenu(element_id, is_set, menu, menu_fu
   <tags>ui-elements, set, get, context menu</tags>
 </US_DocBloc>
 ]]
-  if type(element_id)~="string" then error("UI_Element_GetSet_ContextMenu: #1 - must be a guid as string", 2) end
+  if type(element_id)~="string" then error("UI_Element_GetSet_ContextMenu: param #1 - must be a guid as string", 2) end
   element_id=reagirl.UI_Element_GetIDFromGuid(element_id)
-  if element_id==nil then error("UI_Element_GetSet_ContextMenu: #1 - no such ui-element", 2) end
-  if reagirl.Elements[element_id]==nil then error("UI_Element_GetSet_ContextMenu: #1 - no such ui-element", 2) end
-  if type(is_set)~="boolean" then error("UI_Element_GetSet_ContextMenu: #2 - must be a boolean", 2) end
-  if is_set==true and type(menu)~="string" then error("UI_Element_GetSet_ContextMenu: #3 - must be a string when #2==true", 2) end
-  if is_set==true and type(menu_function)~="function" then error("UI_Element_GetSet_ContextMenu: #4 - must be a function when #2==true", 2) end
+  if element_id==nil then error("UI_Element_GetSet_ContextMenu: param #1 - no such ui-element", 2) end
+  if reagirl.Elements[element_id]==nil then error("UI_Element_GetSet_ContextMenu: param #1 - no such ui-element", 2) end
+  if type(is_set)~="boolean" then error("UI_Element_GetSet_ContextMenu: param #2 - must be a boolean", 2) end
+  if is_set==true and type(menu)~="string" then error("UI_Element_GetSet_ContextMenu: param #3 - must be a string when #2==true", 2) end
+  if is_set==true and type(menu_function)~="function" then error("UI_Element_GetSet_ContextMenu: param #4 - must be a function when #2==true", 2) end
   
   if is_set==true then
     reagirl.Elements[element_id]["ContextMenu"]=menu
@@ -3112,12 +3112,12 @@ function reagirl.UI_Element_GetSet_DropZoneFunction(element_id, is_set, dropzone
   <tags>ui-elements, set, get, dropzone</tags>
 </US_DocBloc>
 ]]
-  if type(element_id)~="string" then error("UI_Element_GetSet_DropZoneFunction: #1 - must be a guid as string", 2) end
+  if type(element_id)~="string" then error("UI_Element_GetSet_DropZoneFunction: param #1 - must be a guid as string", 2) end
   element_id=reagirl.UI_Element_GetIDFromGuid(element_id)
-  if element_id==nil then error("UI_Element_GetSet_DropZoneFunction: #1 - no such ui-element", 2) end
-  if reagirl.Elements[element_id]==nil then error("UI_Element_GetSet_DropZoneFunction: #1 - no such ui-element", 2) end
-  if type(is_set)~="boolean" then error("UI_Element_GetSet_DropZoneFunction: #2 - must be a boolean", 2) end
-  if is_set==true and type(dropzone_function)~="function" then error("UI_Element_GetSet_DropZoneFunction: #3 - must be a string when #2==true", 2) end
+  if element_id==nil then error("UI_Element_GetSet_DropZoneFunction: param #1 - no such ui-element", 2) end
+  if reagirl.Elements[element_id]==nil then error("UI_Element_GetSet_DropZoneFunction: param #1 - no such ui-element", 2) end
+  if type(is_set)~="boolean" then error("UI_Element_GetSet_DropZoneFunction: param #2 - must be a boolean", 2) end
+  if is_set==true and type(dropzone_function)~="function" then error("UI_Element_GetSet_DropZoneFunction: param #3 - must be a string when #2==true", 2) end
   
   if is_set==true then
     reagirl.Elements[element_id]["DropZoneFunction"]=dropzone_function
@@ -3157,12 +3157,12 @@ function reagirl.UI_Element_GetSetCaption(element_id, is_set, caption)
   <tags>ui-elements, set, get, caption</tags>
 </US_DocBloc>
 ]]
-  if type(element_id)~="string" then error("UI_Element_GetSetCaption: #1 - must be a guid as string", 2) end
+  if type(element_id)~="string" then error("UI_Element_GetSetCaption: param #1 - must be a guid as string", 2) end
   element_id=reagirl.UI_Element_GetIDFromGuid(element_id)
-  if element_id==nil then error("UI_Element_GetSetCaption: #1 - no such ui-element", 2) end
-  if reagirl.Elements[element_id]==nil then error("UI_Element_GetSetCaption: #1 - no such ui-element", 2) end
-  if type(is_set)~="boolean" then error("UI_Element_GetSetCaption: #2 - must be a boolean", 2) end
-  if is_set==true and type(caption)~="string" then error("UI_Element_GetSetCaption: #3 - must be a string when #2==true", 2) end
+  if element_id==nil then error("UI_Element_GetSetCaption: param #1 - no such ui-element", 2) end
+  if reagirl.Elements[element_id]==nil then error("UI_Element_GetSetCaption: param #1 - no such ui-element", 2) end
+  if type(is_set)~="boolean" then error("UI_Element_GetSetCaption: param #2 - must be a boolean", 2) end
+  if is_set==true and type(caption)~="string" then error("UI_Element_GetSetCaption: param #3 - must be a string when #2==true", 2) end
   
   if is_set==true then
     caption=string.gsub(caption, "[\n\r]", "")
@@ -3200,12 +3200,12 @@ function reagirl.UI_Element_GetSetVisibility(element_id, is_set, visible)
   <tags>ui-elements, set, get, hidden, visibility</tags>
 </US_DocBloc>
 ]]
-  if type(element_id)~="string" then error("UI_Element_GetSetVisibility: #1 - must be a guid as string", 2) end
+  if type(element_id)~="string" then error("UI_Element_GetSetVisibility: param #1 - must be a guid as string", 2) end
   element_id=reagirl.UI_Element_GetIDFromGuid(element_id)
-  if element_id==nil then error("UI_Element_GetSetVisibility: #1 - no such ui-element", 2) end
-  if reagirl.Elements[element_id]==nil then error("UI_Element_GetSetVisibility: #1 - no such ui-element", 2) end
-  if type(is_set)~="boolean" then error("UI_Element_GetSetVisibility: #2 - must be a boolean", 2) end
-  if is_set==true and type(visible)~="boolean" then error("UI_Element_GetSetVisibility: #3 - must be a boolean when #2==true", 2) end
+  if element_id==nil then error("UI_Element_GetSetVisibility: param #1 - no such ui-element", 2) end
+  if reagirl.Elements[element_id]==nil then error("UI_Element_GetSetVisibility: param #1 - no such ui-element", 2) end
+  if type(is_set)~="boolean" then error("UI_Element_GetSetVisibility: param #2 - must be a boolean", 2) end
+  if is_set==true and type(visible)~="boolean" then error("UI_Element_GetSetVisibility: param #3 - must be a boolean when #2==true", 2) end
   
   if is_set==true then
     if visible==false then
@@ -3257,13 +3257,13 @@ function reagirl.UI_Element_GetSetSticky(element_id, is_set, sticky_x, sticky_y)
   <tags>ui-elements, set, get, sticky</tags>
 </US_DocBloc>
 ]]
-  if type(element_id)~="string" then error("UI_Element_GetSetSticky: #1 - must be a guid as string", 2) end
+  if type(element_id)~="string" then error("UI_Element_GetSetSticky: param #1 - must be a guid as string", 2) end
   element_id=reagirl.UI_Element_GetIDFromGuid(element_id)
-  if element_id==nil then error("UI_Element_GetSetSticky: #1 - no such ui-element", 2) end
-  if reagirl.Elements[element_id]==nil then error("UI_Element_GetSetSticky: #1 - no such ui-element", 2) end
-  if type(is_set)~="boolean" then error("UI_Element_GetSetSticky: #2 - must be a boolean", 2) end
-  if type(sticky_x)~="boolean" then error("UI_Element_GetSetSticky: #3 - must be a boolean", 2) end
-  if type(sticky_y)~="boolean" then error("UI_Element_GetSetSticky: #4 - must be a boolean", 2) end
+  if element_id==nil then error("UI_Element_GetSetSticky: param #1 - no such ui-element", 2) end
+  if reagirl.Elements[element_id]==nil then error("UI_Element_GetSetSticky: param #1 - no such ui-element", 2) end
+  if type(is_set)~="boolean" then error("UI_Element_GetSetSticky: param #2 - must be a boolean", 2) end
+  if type(sticky_x)~="boolean" then error("UI_Element_GetSetSticky: param #3 - must be a boolean", 2) end
+  if type(sticky_y)~="boolean" then error("UI_Element_GetSetSticky: param #4 - must be a boolean", 2) end
   
   if is_set==true then
     reagirl.Elements[element_id]["sticky_x"]=sticky_x
@@ -3307,12 +3307,12 @@ function reagirl.UI_Element_GetSetMeaningOfUIElement(element_id, is_set, meaning
   <tags>ui-elements, set, get, accessibility_hint, meaningOfUI_Element</tags>
 </US_DocBloc>
 ]]
-  if type(element_id)~="string" then error("UI_Element_GetSetMeaningOfUIElement: #1 - must be a guid as string", 2) end
+  if type(element_id)~="string" then error("UI_Element_GetSetMeaningOfUIElement: param #1 - must be a guid as string", 2) end
   element_id=reagirl.UI_Element_GetIDFromGuid(element_id)
-  if element_id==nil then error("UI_Element_GetSetMeaningOfUIElement: #1 - no such ui-element", 2) end
-  if reagirl.Elements[element_id]==nil then error("UI_Element_GetSetMeaningOfUIElement: #1 - no such ui-element", 2) end
-  if type(is_set)~="boolean" then error("UI_Element_GetSetMeaningOfUIElement: #2 - must be a boolean", 2) end
-  if is_set==true and type(meaningOfUI_Element)~="string" then error("UI_Element_GetSetMeaningOfUIElement: #3 - must be a string when #2==true", 2) end
+  if element_id==nil then error("UI_Element_GetSetMeaningOfUIElement: param #1 - no such ui-element", 2) end
+  if reagirl.Elements[element_id]==nil then error("UI_Element_GetSetMeaningOfUIElement: param #1 - no such ui-element", 2) end
+  if type(is_set)~="boolean" then error("UI_Element_GetSetMeaningOfUIElement: param #2 - must be a boolean", 2) end
+  if is_set==true and type(meaningOfUI_Element)~="string" then error("UI_Element_GetSetMeaningOfUIElement: param #3 - must be a string when #2==true", 2) end
   
   if is_set==true then
     reagirl.Elements[element_id]["Description"]=meaningOfUI_Element
@@ -3385,13 +3385,13 @@ function reagirl.UI_Element_GetSetPosition(element_id, is_set, x, y)
   <tags>ui-elements, set, get, position</tags>
 </US_DocBloc>
 ]]
-  if type(element_id)~="string" then error("UI_Element_GetSetPosition: #1 - must be a guid as string", 2) end
+  if type(element_id)~="string" then error("UI_Element_GetSetPosition: param #1 - must be a guid as string", 2) end
   element_id=reagirl.UI_Element_GetIDFromGuid(element_id)
-  if element_id==nil then error("UI_Element_GetSetPosition: #1 - no such ui-element", 2) end
-  if reagirl.Elements[element_id]==nil then error("UI_Element_GetSetPosition: #1 - no such ui-element", 2) end
-  if type(is_set)~="boolean" then error("UI_Element_GetSetPosition: #2 - must be a boolean", 2) end
-  if is_set==true and math.type(x)~="integer" then error("UI_Element_GetSetPosition: #3 - must be an integer when is_set==true", 2) end
-  if is_set==true and math.type(y)~="integer" then error("UI_Element_GetSetPosition: #4 - must be an integer when is_set==true", 2) end
+  if element_id==nil then error("UI_Element_GetSetPosition: param #1 - no such ui-element", 2) end
+  if reagirl.Elements[element_id]==nil then error("UI_Element_GetSetPosition: param #1 - no such ui-element", 2) end
+  if type(is_set)~="boolean" then error("UI_Element_GetSetPosition: param #2 - must be a boolean", 2) end
+  if is_set==true and math.type(x)~="integer" then error("UI_Element_GetSetPosition: param #3 - must be an integer when is_set==true", 2) end
+  if is_set==true and math.type(y)~="integer" then error("UI_Element_GetSetPosition: param #4 - must be an integer when is_set==true", 2) end
   
   if is_set==true then
     reagirl.Elements[element_id]["x"]=x
@@ -3407,13 +3407,13 @@ end
 
 function reagirl.UI_Element_GetSetDimension(element_id, is_set, w, h)
   -- maybe restrict this to certain ui-elements
-  if type(element_id)~="string" then error("UI_Element_GetSetDimension: #1 - must be a guid as string", 2) end
+  if type(element_id)~="string" then error("UI_Element_GetSetDimension: param #1 - must be a guid as string", 2) end
   element_id=reagirl.UI_Element_GetIDFromGuid(element_id)
-  if element_id==nil then error("UI_Element_GetSetDimension: #1 - no such ui-element", 2) end
-  if reagirl.Elements[element_id]==nil then error("UI_Element_GetSetDimension: #1 - no such ui-element", 2) end
-  if type(is_set)~="boolean" then error("UI_Element_GetSetDimension: #2 - must be a boolean", 2) end
-  if is_set==true and math.type(w)~="integer" then error("UI_Element_GetSetDimension: #3 - must be an integer when is_set==true", 2) end
-  if is_set==true and math.type(h)~="integer" then error("UI_Element_GetSetDimension: #4 - must be an integer when is_set==true", 2) end
+  if element_id==nil then error("UI_Element_GetSetDimension: param #1 - no such ui-element", 2) end
+  if reagirl.Elements[element_id]==nil then error("UI_Element_GetSetDimension: param #1 - no such ui-element", 2) end
+  if type(is_set)~="boolean" then error("UI_Element_GetSetDimension: param #2 - must be a boolean", 2) end
+  if is_set==true and math.type(w)~="integer" then error("UI_Element_GetSetDimension: param #3 - must be an integer when is_set==true", 2) end
+  if is_set==true and math.type(h)~="integer" then error("UI_Element_GetSetDimension: param #4 - must be an integer when is_set==true", 2) end
   
   local w2, h2, x2, y2
   local scale=reagirl.Window_GetCurrentScale()
@@ -3459,8 +3459,8 @@ function reagirl.UI_Element_GetSetAllHorizontalOffset(is_set, x_offset)
   <tags>ui-elements, set, get, horizontal offset</tags>
 </US_DocBloc>
 ]]
-  if type(is_set)~="boolean" then error("UI_Element_GetSetAllHorizontalOffset: #2 - must be a boolean", 2) end
-  if is_set==true and math.type(x_offset)~="integer" then error("UI_Element_GetSetAllHorizontalOffset: #3 - must be an integer when is_set==true", 2) end
+  if type(is_set)~="boolean" then error("UI_Element_GetSetAllHorizontalOffset: param #2 - must be a boolean", 2) end
+  if is_set==true and math.type(x_offset)~="integer" then error("UI_Element_GetSetAllHorizontalOffset: param #3 - must be an integer when is_set==true", 2) end
   
   if is_set==true then reagirl.MoveItAllRight=x_offset end
   return reagirl.MoveItAllRight
@@ -3494,8 +3494,8 @@ function reagirl.UI_Element_GetSetAllVerticalOffset(is_set, y_offset)
   <tags>ui-elements, set, get, vertical offset</tags>
 </US_DocBloc>
 ]]
-  if type(is_set)~="boolean" then error("UI_Element_GetSetAllVerticalOffset: #2 - must be a boolean", 2) end
-  if is_set==true and math.type(y_offset)~="integer" then error("UI_Element_GetSetAllVerticalOffset: #3 - must be an integer when is_set==true", 2) end
+  if type(is_set)~="boolean" then error("UI_Element_GetSetAllVerticalOffset: param #2 - must be a boolean", 2) end
+  if is_set==true and math.type(y_offset)~="integer" then error("UI_Element_GetSetAllVerticalOffset: param #3 - must be an integer when is_set==true", 2) end
   
   if is_set==true then reagirl.MoveItAllUp=y_offset end
   return reagirl.MoveItAllUp
@@ -3530,12 +3530,12 @@ function reagirl.UI_Element_GetSetRunFunction(element_id, is_set, run_function)
   <tags>ui-elements, set, get, run function</tags>
 </US_DocBloc>
 ]]
-  if type(element_id)~="string" then error("UI_Element_GetSetRunFunction: #1 - must be a guid as string", 2) end
+  if type(element_id)~="string" then error("UI_Element_GetSetRunFunction: param #1 - must be a guid as string", 2) end
   element_id=reagirl.UI_Element_GetIDFromGuid(element_id)
-  if element_id==nil then error("UI_Element_GetSetRunFunction: #1 - no such ui-element", 2) end
-  if reagirl.Elements[element_id]==nil then error("UI_Element_GetSetRunFunction: #1 - no such ui-element", 2) end
-  if type(is_set)~="boolean" then error("UI_Element_GetSetRunFunction: #2 - must be a boolean", 2) end
-  if is_set==true and type(run_function)~="function" then error("UI_Element_GetSetRunFunction: #3 - must be a function, when #2==true", 2) end
+  if element_id==nil then error("UI_Element_GetSetRunFunction: param #1 - no such ui-element", 2) end
+  if reagirl.Elements[element_id]==nil then error("UI_Element_GetSetRunFunction: param #1 - no such ui-element", 2) end
+  if type(is_set)~="boolean" then error("UI_Element_GetSetRunFunction: param #2 - must be a boolean", 2) end
+  if is_set==true and type(run_function)~="function" then error("UI_Element_GetSetRunFunction: param #3 - must be a function, when #2==true", 2) end
   
   if is_set==true then
     reagirl.Elements[element_id]["run_function"]=run_function
@@ -3571,9 +3571,9 @@ function reagirl.UI_Element_Move(element_id, x, y)
   <tags>ui-elements, set, move</tags>
 </US_DocBloc>
 ]]
-  if type(element_id)~="string" then error("UI_Element_Move: #1 - must be a guid as string", 2) end
+  if type(element_id)~="string" then error("UI_Element_Move: param #1 - must be a guid as string", 2) end
   element_id=reagirl.UI_Element_GetIDFromGuid(element_id)
-  if element_id==nil then error("UI_Element_Move: #1 - no such ui-element", 2) end
+  if element_id==nil then error("UI_Element_Move: param #1 - no such ui-element", 2) end
   if x~=nil and math.type(x)~="integer" then error("UI_Element_Move: param #2 - must be either nil or an integer", 2) end
   if y~=nil and math.type(y)~="integer" then error("UI_Element_Move: param #3 - must be either nil or an integer", 2) end
   if element_id<1 or element_id>#reagirl.Elements then error("UI_Element_Move: param #1 - no such UI-element", 2) end
@@ -3609,9 +3609,9 @@ function reagirl.UI_Element_SetSelected(element_id)
   <tags>ui-elements, set, selected</tags>
 </US_DocBloc>
 ]]
-  if type(element_id)~="string" then error("UI_Element_SetSelected: #1 - must be a guid as string", 2) end
+  if type(element_id)~="string" then error("UI_Element_SetSelected: param #1 - must be a guid as string", 2) end
   element_id=reagirl.UI_Element_GetIDFromGuid(element_id)
-  if element_id==nil then error("UI_Element_SetSelected: #1 - no such ui-element", 2) end
+  if element_id==nil then error("UI_Element_SetSelected: param #1 - no such ui-element", 2) end
   
   reagirl.Elements["FocusedElement"]=element_id
   reagirl.Gui_ForceRefresh(12)
@@ -3641,9 +3641,9 @@ function reagirl.UI_Element_Remove(element_id)
   <tags>ui-elements, set, remove</tags>
 </US_DocBloc>
 ]]
-  if type(element_id)~="string" then error("UI_Element_Remove: #1 - must be a guid as string", 2) end
+  if type(element_id)~="string" then error("UI_Element_Remove: param #1 - must be a guid as string", 2) end
   element_id=reagirl.UI_Element_GetIDFromGuid(element_id)
-  if element_id==nil then error("UI_Element_Remove: #1 - no such ui-element", 2) end
+  if element_id==nil then error("UI_Element_Remove: param #1 - no such ui-element", 2) end
   if reagirl.Elements[element_id]["GUI_Element_Type"]=="Tabs" then
     reagirl.Tabs_Count=nil
   end
@@ -6821,7 +6821,7 @@ function reagirl.Image_GetDraggable(element_id)
   if type(element_id)~="string" then error("Image_GetDraggable: param #1 - must be a string", 2) end
   if reagirl.IsValidGuid(element_id, true)==false then error("Image_GetDraggable: param #1 - must be a valid guid", 2) end
   element_id=reagirl.UI_Element_GetIDFromGuid(element_id)
-  if element_id==-1 then error("UI_Element_GetType: #1 - no such ui-element", 2) end
+  if element_id==-1 then error("UI_Element_GetType: param #1 - no such ui-element", 2) end
   
   if reagirl.Elements[element_id]["GUI_Element_Type"]~="Image" then
     error("Image_GetDraggable: param #1 - ui-element is not an image", 2)
@@ -6991,8 +6991,8 @@ function reagirl.Image_ReloadImage_Scaled(element_id)
   <tags>image, reload</tags>
 </US_DocBloc>
 --]]
-  if type(element_id)~="string" then error("Image_ReloadImage_Scaled: #1 - must be a string", 2) end
-  if reagirl.IsValidGuid(element_id, true)==false then error("Image_ReloadImage_Scaled: #1 - must be a valid guid", 2) end
+  if type(element_id)~="string" then error("Image_ReloadImage_Scaled: param #1 - must be a string", 2) end
+  if reagirl.IsValidGuid(element_id, true)==false then error("Image_ReloadImage_Scaled: param #1 - must be a valid guid", 2) end
   local slot=reagirl.UI_Element_GetIDFromGuid(element_id)
   
   element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
