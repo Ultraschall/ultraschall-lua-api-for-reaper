@@ -2857,7 +2857,7 @@ function reagirl.UI_Element_GetNextXAndYPosition(x, y, functionname)
       end
       local x2=reagirl.Elements[slot2]["x"]
       local w2=reagirl.Elements[slot2]["w"]
-      if x2<0 and x2+w2+reagirl.UI_Element_NextX_Margin>0 then error(functionname..": param #1 - can't anchor ui-element closer to right side of window", 2) end
+      if x2<0 and x2+w2+reagirl.UI_Element_NextX_Margin>0 then error(functionname..": param #1 - can't anchor ui-element closer to right side of window", 3) end
       x=x2+w2+reagirl.UI_Element_NextX_Margin
     end
   end
@@ -2883,7 +2883,7 @@ function reagirl.UI_Element_GetNextXAndYPosition(x, y, functionname)
       end
       local y2=reagirl.Elements[slot2]["y"]
       local h2=reagirl.Elements[slot2]["h"]
-      if y2<0 and y2+h2+reagirl.UI_Element_NextLineY>0 then error(functionname..": param #2 - can't anchor ui-element closer to bottom of window", 2) end
+      if y2<0 and y2+h2+reagirl.UI_Element_NextLineY>0 then error(functionname..": param #2 - can't anchor ui-element closer to bottom of window", 3) end
       y=y2+reagirl.UI_Element_NextLineY
     end
   end  
