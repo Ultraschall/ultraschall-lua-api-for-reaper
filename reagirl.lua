@@ -76,12 +76,11 @@ end
 --]]
 --[[
 TODO: 
-  - Label: when label is multiline, autpositioning doesn't correctly set the next line using nextline()
-  - put drop-down-list, slder and label into one line and they aren't properly aligned with auto-positioning
-        probably due different heights in drawing
+  - Dragging Images: rectangles around the drag-destination to signify, where to drag to, incl blinking
+  - UI-Elements that manage values(checkbox, slider, dropdownmenu, inputbox) should be linkable to extstates,
+            so if the extstate changes, the shown state changes and if the shown state is change, the extstate gets changed too
   - ui-elements, who are anchored to right side/bottom of the window: when shrinking the window, they might scroll outside of left/top-side of the window
     so you can't scroll to them. Maybe fix that?
-  - UI_Element_GetSetDimension - maybe restrict this to certain ui-elements
   - DropDownMenu: line "if gfx.mouse_x>=x+cap_w and gfx.mouse_x<=x+w and gfx.mouse_y>=y and gfx.mouse_y<=y+h then"
           in DropDownMenu_Manage occasionally produces nil-error on x for some reason...
           Maybe only after using EditMode?
@@ -97,6 +96,7 @@ TODO:
               it will be drawn too far until the "source of the text-selection" is in view
               -- I debugged it in Inputbox_OnMouseMove() and it seems to work now? 
   - Inputbox: allow "Unit" for stuff like " Enable processing on [16] CPUs". Currently you can't have CPUs or anything else as suffix right after the inputbox.
+          - but it's doable using labels...but dunno...
   - jumping to ui-elements outside window(means autoscroll to them) doesn't always work
     - ui-elements might still be out of view when jumping to them(x-coordinate outside of window for instance)
   - Slider: disappears when scrolling upwards/leftwards: because of the "only draw neccessary gui-elements"-code, which is buggy for some reason(still is existing?)
@@ -108,8 +108,6 @@ TODO:
             Needs this Osara-Issue to be done, if this is possible in the first place:
               https://github.com/jcsteh/osara/issues/961
   - DropZones: the target should be notified, which ui-element had been dragged to it
-  - Tabs: autobackground doesn't work with tutorial-examples. It's too small by ca 11 px.
-          -- seems to work now, but I think it needs more tests...
   
 !!For 10k-UI-Elements(already been tested)!!  
   - Gui_Manage
@@ -1794,6 +1792,14 @@ function reagirl.Gui_Manage()
     reagirl.osara_outputMessage=reagirl.osara
   else
     reagirl.osara_outputMessage=nil     
+  end
+  
+  if reaper.GetExtState("ReaGirl", "edit_mode")=="true" and reagirl.EditMode==false then
+    reagirl.EditMode=true
+    reagirl.Gui_ForceRefresh()
+  elseif reaper.GetExtState("ReaGirl", "edit_mode")=="false" and reagirl.EditMode==true then
+    reagirl.EditMode=false
+    reagirl.Gui_ForceRefresh()
   end
   
   -- initialize cursor-blinkspeed
