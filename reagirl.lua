@@ -3272,8 +3272,6 @@ function reagirl.UI_Element_GetSetSticky(element_id, is_set, sticky_x, sticky_y)
   return reagirl.Elements[element_id]["sticky_x"], reagirl.Elements[element_id]["sticky_y"]
 end
 
--- Mespotine
-
 function reagirl.UI_Element_GetSetMeaningOfUIElement(element_id, is_set, meaningOfUI_Element)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
@@ -3956,7 +3954,7 @@ function reagirl.Checkbox_SetDisabled(element_id, state)
     reagirl.Gui_ForceRefresh(17)
   end
 end
--- mespotine
+
 
 function reagirl.Checkbox_GetDisabled(element_id)
 --[[
@@ -5700,7 +5698,7 @@ function reagirl.Inputbox_GetCursorOffset(element_id)
   end
 end
 
--- mespotine
+
 
 function reagirl.DropDownMenu_Add(x, y, w, caption, Cap_width, meaningOfUI_Element, menuItems, menuSelectedItem, run_function)
 --[[
@@ -6884,7 +6882,7 @@ function reagirl.Image_SetDraggable(element_id, draggable, destination_element_i
   end
 end
 
--- mespotine
+
 
 function reagirl.Image_SetDimensions(element_id, width, height)
 --[[
@@ -7144,7 +7142,7 @@ function reagirl.Image_Draw(element_id, selected, hovered, clicked, mouse_cap, m
   gfx.y=oldy
   gfx.dest=olddest
 end
---mespotine
+
 function reagirl.Image_KeepAspectRatio(element_id, state)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
