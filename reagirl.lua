@@ -3789,7 +3789,7 @@ function reagirl.Checkbox_Manage(element_id, selected, hovered, clicked, mouse_c
   if element_storage["checked"]==false then unchecked="unchecked" end
   element_storage["AccHoverMessage"]=element_storage["Name"].." "..unchecked
   if reagirl.Elements[element_id]["checked"]==true then
-    return "checked. ", refresh
+    return " checked. ", refresh
   else
     return " not checked. ", refresh
   end
