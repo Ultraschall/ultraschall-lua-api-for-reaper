@@ -6352,6 +6352,87 @@ function reagirl.Label_SetFontSize(element_id, font_size)
   end
 end
 
+function reagirl.Label_GetAlignment(element_id)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Label_GetAlignement</slug>
+  <requires>
+    ReaGirl=1.0
+    Reaper=7
+    Lua=5.4
+  </requires>
+  <functioncall>integer alignment = reagirl.Label_GetAlignement(string element_id)</functioncall>
+  <description>
+    Gets the alignment of a label.
+  </description>
+  <retvals>
+    integer alignment - the alignment of the label
+                      - flags&1: center horizontally
+                      - flags&2: right justify
+                      - flags&4: center vertically
+                      - flags&8: bottom justify
+  </retvals>
+  <parameters>
+    string element_id - the id of the element, whose alignment you want to get
+  </parameters>
+  <chapter_context>
+    Label
+  </chapter_context>
+  <tags>label, get, alignment</tags>
+</US_DocBloc>
+--]]
+  if type(element_id)~="string" then error("Label_GetAlignement: param #1 - must be a string", 2) end
+  if reagirl.IsValidGuid(element_id, true)==nil then error("Label_GetAlignement: param #1 - must be a valid guid", 2) end
+  element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
+  if element_id==-1 then error("Label_GetAlignement: param #1 - no such ui-element", 2) end
+
+  if reagirl.Elements[element_id]["GUI_Element_Type"]:sub(-5,-1)~="Label" then
+    error("Label_GetAlignement: param #1 - ui-element is not a label", 2)
+  else
+    return reagirl.Elements[element_id]["align"]
+  end
+end
+
+function reagirl.Label_SetAlignment(element_id, alignment)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Label_SetAlignment</slug>
+  <requires>
+    ReaGirl=1.0
+    Reaper=7
+    Lua=5.4
+  </requires>
+  <functioncall>reagirl.Label_SetAlignment(string element_id, integer alignment)</functioncall>
+  <description>
+    Sets the font-size of a label.
+  </description>
+  <parameters>
+    string element_id - the id of the element, whose font-size you want to set
+    integer alignment - the alignment of the label
+                      - flags&1: center horizontally
+                      - flags&2: right justify
+                      - flags&4: center vertically
+                      - flags&8: bottom justify
+  </parameters>
+  <chapter_context>
+    Label
+  </chapter_context>
+  <tags>label, set, alignment</tags>
+</US_DocBloc>
+--]]
+  if type(element_id)~="string" then error("Label_SetAlignment: param #1 - must be a string", 2) end
+  if reagirl.IsValidGuid(element_id, true)==nil then error("Label_SetAlignment: param #1 - must be a valid guid", 2) end
+  if math.type(alignment)~="integer" then error("Label_SetAlignment: param #2 - must be an integer", 2) end
+  element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
+  if element_id==-1 then error("Label_SetAlignment: param #1 - no such ui-element", 2) end
+
+  if reagirl.Elements[element_id]["GUI_Element_Type"]:sub(-5,-1)~="Label" then
+    error("Label_SetAlignment: param #1 - ui-element is not a label", 2)
+  else
+    reagirl.Elements[element_id]["align"]=alignment
+  end
+end
+
 function reagirl.Label_SetStyle(element_id, style1, style2, style3)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
@@ -6598,10 +6679,6 @@ function reagirl.Label_Draw(element_id, selected, hovered, clicked, mouse_cap, m
   
   --print2(style)
   reagirl.SetFont(1, "Arial", element_storage["font_size"], style)
-  if selected~="not selected" then
-    local w2,h2=gfx.measurestr(name)  
-    reagirl.UI_Element_SetFocusRect(true, x, y, math.floor(w2), math.floor(h2))
-  end
   local olddest=gfx.dest
   local oldx, oldy = gfx.x, gfx.y
   local old_gfx_r=gfx.r
@@ -6613,6 +6690,10 @@ function reagirl.Label_Draw(element_id, selected, hovered, clicked, mouse_cap, m
   --gfx.dest=1001
   --gfx.set(0)
   --gfx.rect(0, 0, gfx.w, gfx.h, 1)
+  local w2,h2=gfx.measurestr(name)  
+  if selected~="not selected" then
+    reagirl.UI_Element_SetFocusRect(true, x, y, math.floor(w2), math.floor(h2))
+  end
   if element_storage["auto_breaks"]==true then
   --[[
   -- old code, might work now in most recent Reaper-version
@@ -6644,15 +6725,16 @@ function reagirl.Label_Draw(element_id, selected, hovered, clicked, mouse_cap, m
     gfx.set(col3)
     gfx.x=x+dpi_scale
     gfx.y=y+dpi_scale
-    gfx.drawstr(name, element_storage["align"])--, w, h)
+    gfx.drawstr(name, element_storage["align"], x+w, y+h)
     
     gfx.set(col,col,col2)
     gfx.x=x
     gfx.y=y
-    gfx.drawstr(name, element_storage["align"])--, w, h)
+    gfx.drawstr(name, element_storage["align"], x+w, y+h)
     
-    reagirl.SetFont(1, "Arial", element_storage["font_size"],0)
+    --reagirl.SetFont(1, "Arial", element_storage["font_size"],0)
   end
+  
   --[[gfx.dest=-1
   gfx.x=x
   gfx.y=y
