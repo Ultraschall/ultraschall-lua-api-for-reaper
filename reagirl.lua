@@ -9265,9 +9265,9 @@ function reagirl.Tabs_SetUIElementsForTab(element_id, tab_number, element_ids_ta
   </requires>
   <functioncall>reagirl.Tabs_SetUIElementsForTab(string element_id, integer tab_number, table element_ids_table)</functioncall>
   <description>
-    Sets the ui-elements for a table.
+    Sets the ui-elements for a tab from a table.
     
-    The table in the parameter table element_ids_table consists of all element_ids that shall be visible when this tab is selected.
+    The element_ids in the table element_ids_table consists of all ui-elements that shall be visible when this tab is selected.
   </description>
   <parameters>
     string element_id - the guid of the tabs, whose selected tab you want to set
@@ -9314,7 +9314,7 @@ function reagirl.Tabs_GetValue(element_id)
     Gets the selected tab of a tabs-element.
   </description>
   <parameters>
-    string element_id - the guid of the tabs, whose selected tab you want to set
+    string element_id - the guid of the tabs, whose selected tab you want to get
   </parameters>
   <retvals>
     integer selected_tab - the selected tab
