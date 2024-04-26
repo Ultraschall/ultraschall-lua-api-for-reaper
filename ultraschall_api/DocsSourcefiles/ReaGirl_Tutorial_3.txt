@@ -20,7 +20,7 @@ Let's start with basic code, which will show one of Reaper's images, a bass guit
   image_id = reagirl.Image_Add(10, 10, 100, 100, reaper.GetResourcePath().."/Data/track_icons/bass.png", "An image", "A user selectable image", Image_RunFunction)
   
   -- open the new gui
-  reagirl.Gui_Open("Image Viewer", "This is a demo image viewer.", 120, 120)
+  reagirl.Gui_Open("My Dialog Name", false, "Image Viewer", "This is a demo image viewer.", 120, 120)
 
   -- make the background grey
   reagirl.Background_GetSetColor(true, 55, 55, 55)
@@ -63,7 +63,7 @@ So, let's add a dropzone for our image, using the function reagirl.UI\_Element\_
   reagirl.UI_Element_GetSet_DropZoneFunction(image_id, true, Image_DropZone_RunFunction)
   
   -- open the new gui
-  reagirl.Gui_Open("Image Viewer", "This is a demo image viewer.", 120, 120)
+  reagirl.Gui_Open("My Dialog Name", false, "Image Viewer", "This is a demo image viewer.", 120, 120)
 
   -- make the background grey
   reagirl.Background_GetSetColor(true, 55, 55, 55)
@@ -106,7 +106,7 @@ What we would like to do next, is to change the shown image. For this, we alter 
   reagirl.UI_Element_GetSet_DropZoneFunction(image_id, true, Image_DropZone_RunFunction)
   
   -- open the new gui
-  reagirl.Gui_Open("Image Viewer", "This is a demo image viewer.", 120, 120)
+  reagirl.Gui_Open("My Dialog Name", false, "Image Viewer", "This is a demo image viewer.", 120, 120)
 
   -- make the background grey
   reagirl.Background_GetSetColor(true, 55, 55, 55)
@@ -159,7 +159,7 @@ Let's add a context-menu using reagirl.UI\_Element\_GetSet\_ContextMenu() includ
   reagirl.UI_Element_GetSet_ContextMenu(image_id, true, "Clear Image|Select a file", Image_ContextMenu_RunFunction)
   
   -- open the new gui
-  reagirl.Gui_Open("Image Viewer", "This is a demo image viewer.", 120, 120)
+  reagirl.Gui_Open("My Dialog Name", false, "Image Viewer", "This is a demo image viewer.", 120, 120)
 
   -- make the background grey
   reagirl.Background_GetSetColor(true, 55, 55, 55)
@@ -225,7 +225,7 @@ The first menu-entry will clear the image to be fully black, while the other one
   reagirl.UI_Element_GetSet_ContextMenu(image_id, true, "Clear Image|Select a file", Image_ContextMenu_RunFunction)
   
   -- open the new gui
-  reagirl.Gui_Open("Image Viewer", "This is a demo image viewer.", 120, 120)
+  reagirl.Gui_Open("My Dialog Name", false, "Image Viewer", "This is a demo image viewer.", 120, 120)
 
   -- make the background grey
   reagirl.Background_GetSetColor(true, 55, 55, 55)
@@ -289,7 +289,7 @@ We can achieve this with the function reagirl.Image\_KeepAspectRatio()
   reagirl.Image_KeepAspectRatio(image_id, true)
   
   -- open the new gui
-  reagirl.Gui_Open("Image Viewer", "This is a demo image viewer.", 120, 120)
+  reagirl.Gui_Open("My Dialog Name", false, "Image Viewer", "This is a demo image viewer.", 120, 120)
 
   -- make the background grey
   reagirl.Background_GetSetColor(true, 55, 55, 55)
@@ -362,7 +362,7 @@ First, we get the filename of the currently used image-file for the image using 
   reagirl.Image_KeepAspectRatio(image_id, true)
   
   -- open the new gui
-  reagirl.Gui_Open("Image Viewer", "This is a demo image viewer.", 120, 120)
+  reagirl.Gui_Open("My Dialog Name", false, "Image Viewer", "This is a demo image viewer.", 120, 120)
 
   -- make the background grey
   reagirl.Background_GetSetColor(true, 55, 55, 55)

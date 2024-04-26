@@ -1,3 +1,5 @@
+!!!ALIGN IN LABEL_ADD REMOVED!!!
+
 ## First steps into ReaGirl
 
 When making a gui in ReaGirl, you basically have to work through 5 steps.
@@ -115,7 +117,7 @@ Let's start with a basic gui, which will show one single button.
   -- Step 4: open the new gui with size 640x250 pixels, titled "The dialog". 
   -- In addition to the title, blind people will also get "This is a demo dialog with settings for tool xyz." 
   -- sent to their screenreaders.
-  reagirl.Gui_Open("The dialog", "This is a demo dialog with settings for tool xyz.", 640, 250)
+  reagirl.Gui_Open("My Dialog Name", false, "The dialog", "This is a demo dialog with settings for tool xyz.", 640, 250)
 
   -- Step 5: Write and run a defer-function, in which you call reagirl.Gui_Manage()
   function main()
@@ -135,9 +137,15 @@ Also note the parameter meaningOfUI\_Element, which is set to "Apply changes and
 And that's it, a simple gui with one button. Try it and experiment with it. Write a different text into the button. Alter the numbers in the parameters of reagirl.Button\_Add to see what happens.
 Don't worry about making mistakes. When you pass wrong parameters to ReaGirl-functions, they will tell you with an error message, what went wrong and where.
 
-You'll also note in the code, that reagirl.Button_Add() returns the element\_id as a returnvalue that I put into the variable button\_ok\_id. We will use this later on.
+You'll note in the code, that reagirl.Button_Add() returns the element\_id as a returnvalue that I put into the variable button\_ok\_id. We will use this later on.
 
-Now that you fiddled around with it, how about adding a second button?
+As a sidenote: ReaGirl stores in the background the position, size and dockstate of the window, so you can reopen it the next time with the old position, size and dockstate.
+This will be done by the first two parameters of reagirl.Gui\_New(). The first parameter is a name for your window that should be a unique one like "Mespotine_My gui Window", which will be used by ReaGirl as a settings name to store position, size and dockstate in the background.
+The second parameter sets, if the window shall be reopened with the old position, size and dockstate. Set it to false to open always with the position you give in reagirl.Gui\_Open() or set it to true to reopen it with the old position, size and dockstate.
+Try it. Set the second parameter in reagirl.Gui\_Open() to true and run the script. Move it, resize it and then close it. When you run the script again, the window reopens at the position where you closed it.
+In the tutorials, we will set the second parameter to false so the examples always behave the same. But in your scripts, you can do what works best for you.
+
+Ok, now that you fiddled around with the example, how about adding a second button?
 For this, we add a second Button\_Add-function for a Cancel-button. We'll also give it the same run-function like the first button. The returned element\_id of the cancel-button we put into the variable button\_cancel\_id.
 It's looks like the following code.
 
@@ -160,7 +168,7 @@ It's looks like the following code.
   button_cancel_id = reagirl.Button_Add(70, 200, 0, 0, "Cancel", "Discard changes and close dialog", Button_RunFunction)
 
   -- open the new gui
-  reagirl.Gui_Open("The dialog", "This is a demo dialog with settings for tool xyz.", 640, 250)
+  reagirl.Gui_Open("My Dialog Name", false, "The dialog", "This is a demo dialog with settings for tool xyz.", 640, 250)
 
   function main()
     -- a function that runs the gui-manage function in the background, so the gui is updated correctly
@@ -219,7 +227,7 @@ We also add a run-function for it called Checkbox\_RunFunction, which will pop u
   button_cancel_id = reagirl.Button_Add(70, 200, 0, 0, "Cancel", "Discard changes and close dialog", Button_RunFunction)
 
   -- open the new gui
-  reagirl.Gui_Open("The dialog", "This is a demo dialog with settings for tool xyz.", 640, 250)
+  reagirl.Gui_Open("My Dialog Name", false, "The dialog", "This is a demo dialog with settings for tool xyz.", 640, 250)
 
   function main()
     -- a function that runs the gui-manage function in the background, so the gui is updated correctly
@@ -309,7 +317,7 @@ Let's add two inputboxes with the two run-functions(InputBox\_RunFunction\_Type 
   button_cancel_id = reagirl.Button_Add(70, 200, 0, 0, "Cancel", "Discard changes and close dialog", Button_RunFunction)
 
   -- open the new gui
-  reagirl.Gui_Open("The dialog", "This is a demo dialog with settings for tool xyz.", 640, 250)
+  reagirl.Gui_Open("My Dialog Name", false, "The dialog", "This is a demo dialog with settings for tool xyz.", 640, 250)
 
   function main()
     -- a function that runs the gui-manage function in the background, so the gui is updated correctly
@@ -379,7 +387,7 @@ For this, we use the functions Label\_SetFontSize and Label\_SetStyle.
   reagirl.Gui_New()
 
   -- add a textlabel to the top of the gui
-  label_header=reagirl.Label_Add(30, 50, "This is a settings dialog", "Set the settings, as you wish", 0, false, nil)
+  label_header=reagirl.Label_Add(30, 50, "This is a settings dialog", "Set the settings, as you wish", false, nil)
   reagirl.Label_SetFontSize(label_header, 40) -- set the font-size of the label to 40
   reagirl.Label_SetStyle(label_header, 6, 0, 0) -- set the label to underlined
 
@@ -396,7 +404,7 @@ For this, we use the functions Label\_SetFontSize and Label\_SetStyle.
   button_cancel_id = reagirl.Button_Add(70, 200, 0, 0, "Cancel", "Discard changes and close dialog", Button_RunFunction)  
 
   -- open the new gui
-  reagirl.Gui_Open("The dialog", "This is a demo dialog with settings for tool xyz.", 640, 250)
+  reagirl.Gui_Open("My Dialog Name", false, "The dialog", "This is a demo dialog with settings for tool xyz.", 640, 250)
 
   function main()
     -- a function that runs the gui-manage function in the background, so the gui is updated correctly
@@ -462,7 +470,7 @@ For this, we use the function reagirl.Button\_SetRadius in the following code, w
   reagirl.Gui_New()
 
   -- add a textlabel to the top of the gui
-  label_header=reagirl.Label_Add(30, 50, "This is a settings dialog", "Set the settings, as you wish", 0, false, nil)
+  label_header=reagirl.Label_Add(30, 50, "This is a settings dialog", "Set the settings, as you wish", false, nil)
   reagirl.Label_SetFontSize(label_header, 40) -- set the font-size of the label to 40
   reagirl.Label_SetStyle(label_header, 6, 0, 0) -- set the label to underlined
 
@@ -481,7 +489,7 @@ For this, we use the function reagirl.Button\_SetRadius in the following code, w
   reagirl.Button_SetRadius(button_cancel_id, 0) -- make the cancel button square
 
   -- open the new gui
-  reagirl.Gui_Open("The dialog", "This is a demo dialog with settings for tool xyz.", 640, 250)
+  reagirl.Gui_Open("My Dialog Name", false, "The dialog", "This is a demo dialog with settings for tool xyz.", 640, 250)
 
   function main()
     -- a function that runs the gui-manage function in the background, so the gui is updated correctly
@@ -544,7 +552,7 @@ I'll choose to set it(true) to a grey tone(55).
   reagirl.Gui_New()
 
   -- add a textlabel to the top of the gui
-  label_header=reagirl.Label_Add(30, 50, "This is a settings dialog", "Set the settings, as you wish", 0, false, nil)
+  label_header=reagirl.Label_Add(30, 50, "This is a settings dialog", "Set the settings, as you wish", false, nil)
   reagirl.Label_SetFontSize(label_header, 40) -- set the font-size of the label to 40
   reagirl.Label_SetStyle(label_header, 6, 0, 0) -- set the label to underlined
 
@@ -566,7 +574,7 @@ I'll choose to set it(true) to a grey tone(55).
   reagirl.Background_GetSetColor(true, 55, 55, 55)
 
   -- open the new gui
-  reagirl.Gui_Open("The dialog", "This is a demo dialog with settings for tool xyz.", 640, 250)
+  reagirl.Gui_Open("My Dialog Name", false, "The dialog", "This is a demo dialog with settings for tool xyz.", 640, 250)
 
   function main()
     -- a function that runs the gui-manage function in the background, so the gui is updated correctly
@@ -630,7 +638,7 @@ To achieve this, just make the x/y-coordinate negative. In the case of our image
   reagirl.Gui_New()  
 
   -- add a textlabel to the top of the gui
-  label_header=reagirl.Label_Add(30, 50, "This is a settings dialog", "Set the settings, as you wish", 0, false, nil)
+  label_header=reagirl.Label_Add(30, 50, "This is a settings dialog", "Set the settings, as you wish", false, nil)
   reagirl.Label_SetFontSize(label_header, 40) -- set the font-size of the label to 40
   reagirl.Label_SetStyle(label_header, 6, 0, 0) -- set the label to underlined
 
@@ -652,7 +660,7 @@ To achieve this, just make the x/y-coordinate negative. In the case of our image
   reagirl.Image_Add(-150, -120, 100, 100, reaper.GetResourcePath().."/Data/track_icons/bass.png", "A Bass guitar", "the graphics of a basss guitar", nil)
 
   -- open the new gui
-  reagirl.Gui_Open("The dialog", "This is a demo dialog with settings for tool xyz.", 640, 250)
+  reagirl.Gui_Open("My Dialog Name", false, "The dialog", "This is a demo dialog with settings for tool xyz.", 640, 250)
 
   -- make the background grey
   reagirl.Background_GetSetColor(true, 55, 55, 55)
@@ -716,7 +724,7 @@ Let's link the width of the first inputbox to the right-side of the window(-50) 
   reagirl.Gui_New()  
 
   -- add a textlabel to the top of the gui
-  label_header=reagirl.Label_Add(30, 50, "This is a settings dialog", "Set the settings, as you wish", 0, false, nil)
+  label_header=reagirl.Label_Add(30, 50, "This is a settings dialog", "Set the settings, as you wish", false, nil)
   reagirl.Label_SetFontSize(label_header, 40) -- set the font-size of the label to 40
   reagirl.Label_SetStyle(label_header, 6, 0, 0) -- set the label to underlined
 
@@ -738,7 +746,7 @@ Let's link the width of the first inputbox to the right-side of the window(-50) 
   reagirl.Image_Add(-150, -120, 100, 100, reaper.GetResourcePath().."/Data/track_icons/bass.png", "A Bass guitar", "the graphics of a basss guitar", nil)
 
   -- open the new gui
-  reagirl.Gui_Open("The dialog", "This is a demo dialog with settings for tool xyz.", 640, 250)
+  reagirl.Gui_Open("My Dialog Name", false, "The dialog", "This is a demo dialog with settings for tool xyz.", 640, 250)
 
   -- make the background grey
   reagirl.Background_GetSetColor(true, 55, 55, 55)
@@ -806,7 +814,7 @@ Let's add them into our gui and set some reasonable boundaries.
   reagirl.Gui_New()
 
   -- add a textlabel to the top of the gui
-  label_header=reagirl.Label_Add(30, 50, "This is a settings dialog", "Set the settings, as you wish", 0, false, nil)
+  label_header=reagirl.Label_Add(30, 50, "This is a settings dialog", "Set the settings, as you wish", false, nil)
   reagirl.Label_SetFontSize(label_header, 40) -- set the font-size of the label to 40
   reagirl.Label_SetStyle(label_header, 6, 0, 0) -- set the label to underlined
 
@@ -832,7 +840,7 @@ Let's add them into our gui and set some reasonable boundaries.
   reagirl.Window_ForceSize_Maximum(800, 400) -- set the maximum size of the window
 
   -- open the new gui
-  reagirl.Gui_Open("The dialog", "This is a demo dialog with settings for tool xyz.", 640, 250)
+  reagirl.Gui_Open("My Dialog Name", false, "The dialog", "This is a demo dialog with settings for tool xyz.", 640, 250)
 
   -- make the background grey
   reagirl.Background_GetSetColor(true, 55, 55, 55)

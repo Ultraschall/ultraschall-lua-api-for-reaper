@@ -40,7 +40,7 @@ Tutorial for Enter/ESC-Key/AtExit
   button = reagirl.Button_Add(260, 4, 0, 0, "Store", "Store percentage setting", Button_RunFunction)
 
   -- open the new gui
-  reagirl.Gui_Open("The dialog", "This is a demo dialog with settings for tool xyz.", 325, 40)
+  reagirl.Gui_Open("My Dialog Name", false, "The dialog", "This is a demo dialog with settings for tool xyz.", 325, 40)
 
   -- make the background grey
   reagirl.Background_GetSetColor(true, 55, 55, 55)

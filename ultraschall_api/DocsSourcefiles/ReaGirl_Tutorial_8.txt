@@ -1,3 +1,5 @@
+##Tutorial autopositioning with tabs
+
   dofile(reaper.GetResourcePath().."/UserPlugins/reagirl.lua")
   
   -- create new gui
@@ -41,7 +43,7 @@
   tab4.button = reagirl.Button_Add(nil, nil, 0, 0, "Store 2", "Store 2", nil)
 
   -- open the new gui
-  reagirl.Gui_Open("The dialog", "This is a demo dialog with settings for tool xyz.", 425, 240)
+  reagirl.Gui_Open("My Dialog Name", false, "The dialog", "This is a demo dialog with settings for tool xyz.", 425, 240)
 
   -- make the background grey
   reagirl.Background_GetSetColor(true, 55, 55, 55)
