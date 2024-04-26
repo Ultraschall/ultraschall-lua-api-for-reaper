@@ -76,6 +76,7 @@ end
 --]]
 --[[
 TODO: 
+  - Image: Image_GetImageFilename - add that it also returns the scaled-image-filename
   - EdgeCase: when the scrollbars dis(!)appear while dragging the slider, the slider doesn't drag anymore
               -- see this with a slider -100 to 100 that sets x and y of a button in a way, that scrollbars
                  are drawn when the button is outside of the window(x and y -2 for instance)
@@ -975,7 +976,7 @@ function reagirl.Window_RescaleIfNeeded()
     reagirl.Window_OldScale=scale
   end
   if reagirl.Window_CurrentScale==nil then reagirl.Window_CurrentScale=scale end
-  
+  local retval
   if reagirl.Window_CurrentScale~=scale then
     local unscaled_w = gfx.w/reagirl.Window_CurrentScale
     local unscaled_h = gfx.h/reagirl.Window_CurrentScale
@@ -991,11 +992,12 @@ function reagirl.Window_RescaleIfNeeded()
     reagirl.MoveItAllRight=0
     for i=1, #reagirl.Elements do 
       if reagirl.Elements[i]["GUI_Element_Type"]=="Image" then
-        reagirl.Image_ReloadImage_Scaled(reagirl.Elements[i]["Guid"])
+        retval=reagirl.Image_ReloadImage_Scaled(reagirl.Elements[i]["Guid"])
       end
     end
     reagirl.Gui_ForceRefresh(1)
   end
+  return retval
 end
 
 function reagirl.Mouse_GetCap(doubleclick_wait, drag_wait)
@@ -4007,16 +4009,16 @@ function reagirl.UI_Element_OnMouse(element_id, mouse_cap, mouse_event, mouse_x,
   gfx.mouse_cap=oldmousecap
 end
 --mespotine
-function reagirl.UI_Element_Current_Position()
+function reagirl.UI_Element_Last_Element_Current_Position()
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>UI_Element_Current_Position</slug>
+  <slug>UI_Element_Last_Element_Current_Position</slug>
   <requires>
     ReaGirl=1.0
     Reaper=7
     Lua=5.4
   </requires>
-  <functioncall>integer last_x, integer last_y, integer last_w, integer last_h = reagirl.UI_Element_Current_Position()</functioncall>
+  <functioncall>integer last_x, integer last_y, integer last_w, integer last_h = reagirl.UI_Element_Last_Element_Current_Position()</functioncall>
   <description>
     Returns the x and y position as well as width and height of the last added ui-element.
   </description>
@@ -4029,7 +4031,7 @@ function reagirl.UI_Element_Current_Position()
   <chapter_context>
     UI Elements
   </chapter_context>
-  <tags>ui-elements, get, current position, width, height</tags>
+  <tags>ui-elements, get, last ui-element, current position, width, height</tags>
 </US_DocBloc>
 --]]
   local slot=reagirl.UI_Element_GetNextFreeSlot()
@@ -4066,7 +4068,7 @@ function reagirl.NextLine(y_offset)
   </requires>
   <functioncall>reagirl.NextLine(integer y_offset)</functioncall>
   <description>
-    Starts a new line, when autopositioning ui-elements using the add-functions.
+    Starts a new line, when autopositioning ui-elements using the _add-functions.
   </description>
   <parameters>
     integer y_offset - an additional y-offset, by which the next line shall be moved downwards; nil, for no offset
@@ -4115,21 +4117,23 @@ function reagirl.Button_Add(x, y, w_margin, h_margin, caption, meaningOfUI_Eleme
     Reaper=7
     Lua=5.4
   </requires>
-  <functioncall>string button_guid = reagirl.Button_Add(optional integer x, optional integer y, integer w_margin, integer h_margin, string caption, string meaningOfUI_Element, function run_function)</functioncall>
+  <functioncall>string button_guid = reagirl.Button_Add(optional integer x, optional integer y, integer w_margin, integer h_margin, string caption, string meaningOfUI_Element, optional function run_function)</functioncall>
   <description>
     Adds a button to a gui.
     
     You can autoposition the button by setting x and/or y to nil, which will position the new button after the last ui-element.
     To autoposition into the next line, use reagirl.NextLine()
+    
+    The run-function gets as parameter the element_id of the pressed button that uses this run-function.
   </description>
   <parameters>
     optional integer x - the x position of the button in pixels; negative anchors the button to the right window-side; nil, autoposition after the last ui-element(see description)
     optional integer y - the y position of the button in pixels; negative anchors the button to the bottom window-side; nil, autoposition after the last ui-element(see description)
-    integer w_margin - a margin left and right of the text
-    integer h_margin - a margin top and bottom of the text
+    integer w_margin - a margin left and right of the caption
+    integer h_margin - a margin top and bottom of the caption
     string caption - the caption of the button
     string meaningOfUI_Element - a description for accessibility users
-    function run_function - a function that shall be run when the button is clicked; will get the button-element_id passed over as first parameter
+    optional function run_function - a function that shall be run when the button is clicked; will get the button-element_id passed over as first parameter; nil, no run-function fo this button
   </parameters>
   <retvals>
     string button_guid - a guid that can be used for altering the button-attributes
@@ -4454,7 +4458,7 @@ function reagirl.Inputbox_Add(x, y, w, caption, Cap_width, meaningOfUI_Element, 
     Reaper=7
     Lua=5.4
   </requires>
-  <functioncall>string inputbox_guid = reagirl.Inputbox_Add(integer x, integer y, integer w, string caption, optional integer cap_width, string meaningOfUI_Element, optional string Default, function run_function_enter, function run_function_type)</functioncall>
+  <functioncall>string inputbox_guid = reagirl.Inputbox_Add(optional integer x, optional integer y, integer w, string caption, optional integer cap_width, string meaningOfUI_Element, optional string Default, optional function run_function_enter, function run_function_type)</functioncall>
   <description>
     Adds an inputbox to a gui.
     
@@ -4467,9 +4471,10 @@ function reagirl.Inputbox_Add(x, y, w, caption, Cap_width, meaningOfUI_Element, 
     
     Important:
     Screenreader users get an additional dialog shown when entering text, that will NOT run the run-function for typed text. This is due some limitations in Reaper's API and can't be circumvented.
-    So don't rely only on the run_function_type but also add a run_function_enter, when you want to use the value immediately when typed in your script(like setting as a setting into an ini-file).
-    Otherwise blind users might be able to enter text but it will be ignored at hitting enter by your code, which would be unfortunate.
+    So you can't rely only on the run_function_type but also need to add a run_function_enter, when you want to use the value immediately when typed in your script(like setting as a setting into an ini-file).
+    Otherwise blind users would be able to enter text but it will be ignored at hitting enter by your code, which would be unfortunate.
     
+    The run-functions get as parameters the element_id and the currently entered text as parameters.
   </description>
   <parameters>
     optional integer x - the x position of the inputbox in pixels; negative anchors the inputbox to the right window-side; nil, autoposition after the last ui-element(see description)
@@ -4479,7 +4484,7 @@ function reagirl.Inputbox_Add(x, y, w, caption, Cap_width, meaningOfUI_Element, 
     optional integer cap_width - the width of the caption to set the actual inputbox to a fixed position; nil, put inputbox directly after caption
     string meaningOfUI_Element - a description for accessibility users
     optional string Default - the "typed text" that the inputbox shall contain
-    function run_function_enter - a function that is run when the user hits enter in the inputbox(always used, even for screenreader users)
+    optional function run_function_enter - a function that is run when the user hits enter in the inputbox(always used, even for screenreader users)
     function run_function_type - a function that is run when the user types into the inputbox(only used if no screenreader is used)
   </parameters>
   <retvals>
@@ -4570,16 +4575,16 @@ function reagirl.Inputbox_SetPassword(element_id, password)
     Reaper=7
     Lua=5.4
   </requires>
-  <functioncall>reagirl.Inputbox_SetPassword(string element_id, boolean top)</functioncall>
+  <functioncall>reagirl.Inputbox_SetPassword(string element_id, boolean password_state)</functioncall>
   <description>
     Sets an inputbox to show * instead of the text(for password entry, etc)
   </description>
   <parameters>
     string element_id - the guid of the inputbox, that you want to set to password-input
-    boolean password - true, set the inputbox to show * instead of the actual text; false, show normal text
+    boolean password_state - true, set the inputbox to show * instead of the actual text; false, show normal text
   </parameters>
   <chapter_context>
-    Checkbox
+    Inputbox
   </chapter_context>
   <tags>inputbox, set, password</tags>
 </US_DocBloc>
@@ -4610,7 +4615,7 @@ function reagirl.Inputbox_GetPassword(element_id)
     Reaper=7
     Lua=5.4
   </requires>
-  <functioncall>reagirl.Inputbox_GetPassword(string element_id, boolean top)</functioncall>
+  <functioncall>reagirl.Inputbox_GetPassword(string element_id, boolean password_state)</functioncall>
   <description>
     gets an inputbox to show * instead of the text(for password entry, etc)
   </description>
@@ -4618,10 +4623,10 @@ function reagirl.Inputbox_GetPassword(element_id)
     string element_id - the guid of the inputbox, whose password-input-state you want to get
   </parameters>
   <retvals>
-    boolean password - true, the inputbox shows * instead of the actual text; false, shows normal text
+    boolean password_state - true, the inputbox shows * instead of the actual text; false, shows normal text
   </retvals>
   <chapter_context>
-    Checkbox
+    Inputbox
   </chapter_context>
   <tags>inputbox, get, password</tags>
 </US_DocBloc>
@@ -5435,7 +5440,7 @@ function reagirl.Inputbox_GetDisabled(element_id)
     Reaper=7
     Lua=5.4
   </requires>
-  <functioncall>boolean retval = reagirl.Inputbox_GetDisabled(string element_id)</functioncall>
+  <functioncall>boolean state = reagirl.Inputbox_GetDisabled(string element_id)</functioncall>
   <description>
     Gets an inputbox's disabled(non clickable)-state.
   </description>
@@ -5632,7 +5637,7 @@ function reagirl.Inputbox_GetCursorOffset(element_id)
     Reaper=7
     Lua=5.4
   </requires>
-  <functioncall>string text = reagirl.Inputbox_GetCursorOffset(string element_id)</functioncall>
+  <functioncall>integer cursor_offset = reagirl.Inputbox_GetCursorOffset(string element_id)</functioncall>
   <description>
     Gets an inputbox's current cursor offset.
   </description>
@@ -5645,7 +5650,7 @@ function reagirl.Inputbox_GetCursorOffset(element_id)
   <chapter_context>
     Inputbox
   </chapter_context>
-  <tags>inputbox, get, selected, text</tags>
+  <tags>inputbox, get, cursor offset</tags>
 </US_DocBloc>
 --]]
   if type(element_id)~="string" then error("Inputbox_GetCursorOffset: param #1 - must be a string", 2) end
@@ -5670,23 +5675,25 @@ function reagirl.DropDownMenu_Add(x, y, w, caption, Cap_width, meaningOfUI_Eleme
     Reaper=7
     Lua=5.4
   </requires>
-  <functioncall>string dropdown-menu_guid = reagirl.DropDownMenu_Add(optional integer x, optional integer y, integer w, string caption, optional integer Cap_width, string meaningOfUI_Element, table menuItems, integer menuSelectedItem, function run_function)</functioncall>
+  <functioncall>string dropdown-menu_guid = reagirl.DropDownMenu_Add(optional integer x, optional integer y, integer w, string caption, optional integer Cap_width, string meaningOfUI_Element, table menuItems, integer menuSelectedItem, optional function run_function)</functioncall>
   <description>
     Adds a dropdown-menu to a gui.
     
     You can autoposition the dropdown-menu by setting x and/or y to nil, which will position the new dropdown-menu after the last ui-element.
     To autoposition into the next line, use reagirl.NextLine()
+    
+    The run-function gets as parameters the element_id as well as the selected menu_entry_number.
   </description>
   <parameters>
     optional integer x - the x position of the dropdown-menu in pixels; negative anchors the dropdown-menu to the right window-side; nil, autoposition after the last ui-element(see description)
     optional integer y - the y position of the dropdown-menu in pixels; negative anchors the dropdown-menu to the bottom window-side; nil, autoposition after the last ui-element(see description)
     integer w - the width of the dropdown-menu; negative links width to the right-edge of the window
-    string caption - the name of the dropdown-menu
+    string caption - the caption of the dropdown-menu, shown to the left of the drop down menu
     optional integer Cap_width - the width of the caption to set the actual menu to a fixed position; nil, put menu directly after caption
     string meaningOfUI_Element - a description for accessibility users
     table menuItems - a table, where every entry is a menu-item
     integer menuSelectedItem - the index of the pre-selected menu-item
-    function run_function - a function that shall be run when the menu is clicked/a new entry is selected; will get the dropdown-menu-element_id passed over as first parameter
+    optional function run_function - a function that shall be run when the menu is clicked/a new entry is selected; will get the dropdown-menu-element_id passed over as first parameter and the selected menu_item as second parameter
   </parameters>
   <retvals>
     string dropdown-menu_guid - a guid that can be used for altering the dropdown-menu-attributes
@@ -5973,7 +5980,7 @@ function reagirl.DropDownMenu_SetDimensions(element_id, width)
     Sets the width of a dropdownmenu.
   </description>
   <parameters>
-    string element_id - the guid of the button, whose disability-state you want to set
+    string element_id - the guid of the drop down menu, whose width-state you want to set
     optional integer width - the new width of the drop down menu; negative anchors to right window-edge; nil, keep current width
   </parameters>
   <chapter_context>
@@ -6011,7 +6018,7 @@ function reagirl.DropDownMenu_GetDimensions(element_id)
     Gets the width of a drop down menu.
   </description>
   <parameters>
-    string element_id - the guid of the drop down menu, whose disability-state you want to set
+    string element_id - the guid of the drop down menu, whose width-state you want to set
   </parameters>
   <retvals>
     integer width - the width of the drop down menu; negative anchors to right window-edge
@@ -6044,7 +6051,7 @@ function reagirl.DropDownMenu_SetDisabled(element_id, state)
   </requires>
   <functioncall>reagirl.DropDownMenu_SetDisabled(string element_id, boolean state)</functioncall>
   <description>
-    Sets a droppdown-menu as disabled(non clickable).
+    Sets a drop down menu as disabled(non clickable)-state.
   </description>
   <parameters>
     string element_id - the guid of the dropdown-menu, whose disability-state you want to set
@@ -6078,7 +6085,7 @@ function reagirl.DropDownMenu_GetDisabled(element_id)
     Reaper=7
     Lua=5.4
   </requires>
-  <functioncall>boolean retval = reagirl.DropDownMenu_GetDisabled(string element_id)</functioncall>
+  <functioncall>boolean state = reagirl.DropDownMenu_GetDisabled(string element_id)</functioncall>
   <description>
     Gets a dropdown-menu's disabled(non clickable)-state.
   </description>
@@ -6119,7 +6126,7 @@ function reagirl.DropDownMenu_GetMenuItems(element_id)
     Gets a dropdown-menu's menu-items and the index of the currently selected menu-item.
   </description>
   <parameters>
-    string element_id - the guid of the dropdown-menu, whose menuitems/default you want to get
+    string element_id - the guid of the dropdown-menu, whose menuitems/currently selected item you want to get
   </parameters>
   <retvals>
     table menuItems - a table that holds all menu-items
@@ -6155,17 +6162,15 @@ function reagirl.DropDownMenu_SetMenuItems(element_id, menuItems, menuSelectedIt
     Reaper=7
     Lua=5.4
   </requires>
-  <functioncall>table menuItems, integer menuSelectedItem = reagirl.DropDownMenu_SetMenuItems(string element_id)</functioncall>
+  <functioncall>reagirl.DropDownMenu_SetMenuItems(string element_id, table menuItems, integer menuSelectedItem)</functioncall>
   <description>
-    Gets a dropdown-menu's menuitems and the index of the currently selected menu-item.
+    Sets a dropdown-menu's menuitems and the index of the currently selected menu-item.
   </description>
   <parameters>
-    string element_id - the guid of the dropdown-menu, whose menuitems/default you want to get
-  </parameters>
-  <retvals>
+    string element_id - the guid of the dropdown-menu, whose menuitems/selected menu-item you want to set
     table menuItems - an indexed table with all the menu-items
     integer menuSelectedItem - the index of the pre-selected menu-item
-  </retvals>
+  </parameters>
   <chapter_context>
     DropDown Menu
   </chapter_context>
@@ -6190,6 +6195,7 @@ function reagirl.DropDownMenu_SetMenuItems(element_id, menuItems, menuSelectedIt
     reagirl.Gui_ForceRefresh(29)
   end
 end
+
 
 function reagirl.Label_SetLabelText(element_id, label)
 --[[
@@ -6322,7 +6328,7 @@ function reagirl.Label_SetStyle(element_id, style1, style2, style3)
   <description>
     Sets the style of a label.
     
-    You can combine different styles with each other in style1 through style4.
+    You can combine different styles with each other in style1 through style3.
   </description>
   <parameters>
     string element_id - the id of the element, whose label-style you want to set
@@ -6365,7 +6371,6 @@ function reagirl.Label_SetStyle(element_id, style1, style2, style3)
     reagirl.Elements[element_id]["style1"]=style1
     reagirl.Elements[element_id]["style2"]=style2
     reagirl.Elements[element_id]["style3"]=style3
-    reagirl.Elements[element_id]["style4"]=style4
     
     --[[local styles={66,73,77,79,83,85,86,89,90}
     styles[0]=0
@@ -6436,7 +6441,7 @@ function reagirl.Label_GetStyle(element_id)
   end
 end
   
-function reagirl.Label_Add(x, y, label, meaningOfUI_Element, align, clickable, run_function)
+function reagirl.Label_Add(x, y, label, meaningOfUI_Element, clickable, run_function)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>Label_Add</slug>
@@ -6445,7 +6450,7 @@ function reagirl.Label_Add(x, y, label, meaningOfUI_Element, align, clickable, r
     Reaper=7
     Lua=5.4
   </requires>
-  <functioncall>reagirl.Label_Add(string label, integer x, integer y, string meaningOfUI_Element, integer align, boolean clickable, function run_function)</functioncall>
+  <functioncall>reagirl.Label_Add(optional integer x, optional integer y, string label, string meaningOfUI_Element, boolean clickable, optional function run_function)</functioncall>
   <description>
     Adds a label to the gui.
     
@@ -6457,13 +6462,8 @@ function reagirl.Label_Add(x, y, label, meaningOfUI_Element, align, clickable, r
     optional integer y - the y position of the label in pixels; negative anchors the label to the bottom window-side; nil, autoposition after the last ui-element(see description)
     string label - the text of the label
     string meaningOfUI_Element - a description of the label for accessibility users
-    integer align - 0, not centered or justified
-                  - flags&1: center horizontally
-                  - flags&2: right justify
-                  - flags&4: center vertically
-                  - flags&8: bottom justify
     boolean clickable - true, the text is a clickable link-text; false or nil, the label-text is normal text
-    function run_function - a function that gets run when clicking the link-text(clickable=true)
+    optional function run_function - a function that gets run when clicking the link-text(clickable=true)
   </parameters>
   <chapter_context>
     Label
@@ -6475,7 +6475,6 @@ function reagirl.Label_Add(x, y, label, meaningOfUI_Element, align, clickable, r
   if y~=nil and math.type(y)~="integer" then error("Label_Add: param #2 - must be either nil or an integer", 2) end
   if type(label)~="string" then error("Label_Add: param #3 - must be a string", 2) end
   if type(meaningOfUI_Element)~="string" then error("Label_Add: param #4 - must be a string", 2) end
-  if math.type(align)~="integer" then error("Label_Add: param #5 - must be an integer", 2) end
   if clickable==nil then clickable=false end
   if type(clickable)~="boolean" then error("Label_Add: param #6 - must be a boolean", 2) end
   if run_function==nil then run_function=reagirl.Dummy end
@@ -6511,7 +6510,7 @@ function reagirl.Label_Add(x, y, label, meaningOfUI_Element, align, clickable, r
   reagirl.Elements[slot]["w"]=math.tointeger(w)
   reagirl.Elements[slot]["h"]=math.tointeger(h)
   if math.tointeger(h)>reagirl.NextLine_Overflow then reagirl.NextLine_Overflow=math.tointeger(h) end
-  reagirl.Elements[slot]["align"]=align
+  reagirl.Elements[slot]["align"]=0
   reagirl.Elements[slot]["style1"]=0
   reagirl.Elements[slot]["style2"]=0
   reagirl.Elements[slot]["style3"]=0
@@ -6522,7 +6521,7 @@ function reagirl.Label_Add(x, y, label, meaningOfUI_Element, align, clickable, r
   
   return reagirl.Elements[slot]["Guid"]
 end
-
+-- mespotine
 function reagirl.Label_Manage(element_id, selected, hovered, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
   -- drop files for accessibility using a file-requester, after typing ctrl+shift+f
   if reagirl.osara_outputMessage~=nil and element_storage["DropZoneFunction"]~=nil and Key==6 and mouse_cap==12 then
@@ -6614,7 +6613,8 @@ function reagirl.Label_Draw(element_id, selected, hovered, clicked, mouse_cap, m
     gfx.x=x
     gfx.y=y
     gfx.drawstr(name, element_storage["align"])--, w, h)
-    reagirl.SetFont(1, "Arial", element_storage["font_size"], 0)
+    
+    reagirl.SetFont(1, "Arial", element_storage["font_size"],0)
   end
   --[[gfx.dest=-1
   gfx.x=x
@@ -6630,7 +6630,7 @@ function reagirl.Label_Draw(element_id, selected, hovered, clicked, mouse_cap, m
   gfx.mode=old_mode
 end
 
-function reagirl.Image_Add(x, y, w, h, image_filename, name, meaningOfUI_Element, run_function)
+function reagirl.Image_Add(x, y, w, h, image_filename, caption, meaningOfUI_Element, run_function)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>Image_Add</slug>
@@ -6639,7 +6639,7 @@ function reagirl.Image_Add(x, y, w, h, image_filename, name, meaningOfUI_Element
     Reaper=7
     Lua=5.4
   </requires>
-  <functioncall>string image_guid = reagirl.Image_Add(integer x, integer y, integer w, integer h, string image_filename, string name, string meaning of UI_Element, function run_function)</functioncall>
+  <functioncall>string image_guid = reagirl.Image_Add(integer x, integer y, integer w, integer h, string image_filename, string caption, string meaning of UI_Element, optional function run_function)</functioncall>
   <description>
     Adds an image to the gui. This image can run a function when clicked on it. 
     
@@ -6660,22 +6660,24 @@ function reagirl.Image_Add(x, y, w, h, image_filename, name, meaningOfUI_Element
     If a filename doesn't exist, it reverts to the default one for 1x-scaling.
     
     The run_function will get three parameters: the guid of the image, the filename of the image 
-    and an optional third parameter, the element_id of the destination, whereto the image has been 
+    and an optional third parameter, the element_id of the destination, where the image has been 
     dragged to(if dragging is enabled, see Image_GetDraggable and Image_SetDraggable for enabling 
     dragging of the image to a destination ui-element).
     
-    You can autoposition the checkbox by setting x and/or y to nil, which will position the new checkbox after the last ui-element.
+    You can autoposition the image by setting x and/or y to nil, which will position the new image after the last ui-element.
     To autoposition into the next line, use reagirl.NextLine()
+    
+    If you want to force the image to be displayed with correctaspect ratio, see Image_KeepAspectRatio.
   </description>
   <parameters>
-    integer x - the x position of the image in pixels; nil, autoposition after the last ui-element(see description)
-    integer y - the y position of the image in pixels; nil, autoposition after the last ui-element(see description)
+    optional integer x - the x position of the image in pixels; nil, autoposition after the last ui-element(see description)
+    optional integer y - the y position of the image in pixels; nil, autoposition after the last ui-element(see description)
     integer w - the width of the image in pixels(might result in stretched images!)
     integer h - the height of the image in pixels(might result in stretched images!)
     string image_filename - the filename of the imagefile to be shown
-    string name - a descriptive name for the image
+    string caption - a descriptive name for the image
     string meaningOfUI_Element - a description of the meaning of this image for accessibility users
-    function run_function - a function that is run when the image is clicked; will get the image-element-id as first parameter and the image-filename passed as second parameter
+    optional function run_function - a function that is run when the image is clicked; will get the image-element-id as first parameter and the image-filename passed as second parameter
   </parameters>
   <retvals>
     string image_guid - a guid that can be used for altering the image-attributes
@@ -6686,13 +6688,12 @@ function reagirl.Image_Add(x, y, w, h, image_filename, name, meaningOfUI_Element
   <tags>image, add</tags>
 </US_DocBloc>
 --]]
-  
   if x~=nil and math.type(x)~="integer" then error("Image_Add: param #1 - must be either nil or an integer", 2) end
   if y~=nil and math.type(y)~="integer" then error("Image_Add: param #2 - must be either nil or an integer", 2) end
   if math.type(w)~="integer" then error("Image_Add: param #3 - must be an integer", 2) end
   if math.type(h)~="integer" then error("Image_Add: param #4 - must be an integer", 2) end
   if type(image_filename)~="string" then error("Image_Add: param #5 - must be a string", 2) end
-  if type(name)~="string" then error("Image_Add: param #6 - must be a string", 2) end
+  if type(caption)~="string" then error("Image_Add: param #6 - must be a string", 2) end
   if type(meaningOfUI_Element)~="string" then error("Image_Add: param #7 - must be a string", 2) end
   if run_function==nil then run_function=reagirl.Dummy end
   if run_function~=nil and type(run_function)~="function" then error("Image_Add: param #8 - must be either nil or a function", 2) end
@@ -6704,8 +6705,8 @@ function reagirl.Image_Add(x, y, w, h, image_filename, name, meaningOfUI_Element
   reagirl.Elements[slot]["Guid"]=reaper.genGuid("")
   reagirl.Elements[slot]["GUI_Element_Type"]="Image"
   reagirl.Elements[slot]["Description"]=meaningOfUI_Element
-  reagirl.Elements[slot]["Name"]=name
-  reagirl.Elements[slot]["Text"]=name
+  reagirl.Elements[slot]["Name"]=caption
+  reagirl.Elements[slot]["Text"]=caption
   reagirl.Elements[slot]["IsDisabled"]=false
   reagirl.Elements[slot]["AccHint"]="Use Space or left mouse-click to select it."
   reagirl.Elements[slot]["ContextMenu_ACC"]=""
@@ -6739,7 +6740,7 @@ function reagirl.Image_Add(x, y, w, h, image_filename, name, meaningOfUI_Element
     image_filename=path.."/"..scale.."00/"..filename
   end
   local AImage=gfx.loadimg(reagirl.Elements[slot]["Image_Storage"], image_filename)
-
+  reagirl.Elements[slot]["Image_Filename_Scaled"]=image_filename
   gfx.dest=-1
   return reagirl.Elements[slot]["Guid"]
 end
@@ -6761,12 +6762,12 @@ function reagirl.Image_GetDraggable(element_id)
     the image will get a third parameter, holding the element_id of the destination-ui-element of the dragging. 
     Otherwise this third parameter will be nil.
     
-    Add a note in the accessibility-hint and the name of the image/caption of the ui-element, which clarifies, which ui-element is a source 
+    Add a note in the meaningOfUI_element and the name of the image/caption of the ui-element, which clarifies, which ui-element is a source 
     and which is a target for dragging operations, so blind users know, which image can be dragged and whereto.
     Otherwise, blind users will not know what to do!
   </description>
   <parameters>
-    string element_id - the image-element, whose dragable state you want toe retrieve
+    string element_id - the image-element, whose dragable state you want to get
   </parameters>
   <retvals>
     boolean draggable - true, image is draggable; false, image is not draggable
@@ -6806,12 +6807,12 @@ function reagirl.Image_SetDraggable(element_id, draggable, destination_element_i
     the image will get a third parameter, holding the element_id of the destination-ui-element of the dragging. 
     Otherwise this third parameter will be nil.
     
-    Add a note in the accessibility-hint and the name of the image/caption of the ui-element, which clarifies, which ui-element is a source 
+    Add a note in the meaningOfUI_element and the name of the image/caption of the ui-element, which clarifies, which ui-element is a source 
     and which is a target for dragging operations, so blind users know, which image can be dragged and whereto.
     Otherwise, blind users will not know what to do!
   </description>
   <parameters>
-    string element_id - the image-element, whose dragable state you want toe retrieve
+    string element_id - the image-element, whose dragable state you want to set
     boolean draggable - true, image is draggable; false, image is not draggable
     table destination_element_ids - a table with all guids of the ui-elements, where the image can be dragged to
   </parameters>
@@ -6859,7 +6860,7 @@ function reagirl.Image_SetDimensions(element_id, width, height)
     Sets the width and height of an image.
   </description>
   <parameters>
-    string element_id - the guid of the image, whose disability-state you want to set
+    string element_id - the guid of the image, whose width and height you want to set
     optional integer width - the new width of the image; negative anchors to right window-edge; nil, keep current width
     optional integer height - the new height of the image; negative anchors to bottom window-edge; nil, keep current height
   </parameters>
@@ -6970,6 +6971,7 @@ function reagirl.Image_ReloadImage_Scaled(element_id)
   elseif reaper.file_exists(path.."/"..scale.."00/"..filename) then
     image_filename=path.."/"..scale.."00/"..filename
   end
+  
   gfx.dest=reagirl.Elements[element_id]["Image_Storage"]
   
   local image=reagirl.Elements[element_id]["Image_Storage"]
@@ -6977,6 +6979,7 @@ function reagirl.Image_ReloadImage_Scaled(element_id)
   gfx.set(0)
   gfx.rect(0,0,8192,8192,1)
   gfx.set(r,g,b,a)
+  reagirl.Elements[element_id]["Image_Filename_Scaled"]=image_filename
   local AImage=gfx.loadimg(image, image_filename )
   if AImage==-1 then return false end
 
@@ -7118,7 +7121,7 @@ function reagirl.Image_KeepAspectRatio(element_id, state)
     Set if the image shall keep its aspect ratio when shown.
   </description>
   <parameters>
-    string element_id - the guid of the image
+    string element_id - the guid of the image, whose aspect ratio you want to set
     boolean state - true, keep aspect ratio; false, stretch to meet dimensions of the image
   </parameters>
   <chapter_context>
@@ -7139,7 +7142,7 @@ function reagirl.Image_KeepAspectRatio(element_id, state)
     reagirl.Elements[element_id]["KeepAspectRatio"]=state    
   end
 end
-
+--mespotine
 function reagirl.Image_GetImageFilename(element_id)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
@@ -7149,22 +7152,21 @@ function reagirl.Image_GetImageFilename(element_id)
     Reaper=7
     Lua=5.4
   </requires>
-  <functioncall>reagirl.Image_GetImageFilename(string element_id)</functioncall>
+  <functioncall>string filename, string filename_scaled = reagirl.Image_GetImageFilename(string element_id)</functioncall>
   <description>
     Returns the filename of the currently loaded image.
-    
-    It will only return the regular filename, not a scaled file!
   </description>
   <parameters>
-    string element_id - the guid of the image
+    string element_id - the guid of the image whose filename you want to get
   </parameters>
   <retvals>
     string filename - the filename of the currently loaded image
+    string filename_scale - if the gui is scaled>1, this will hold the filename of the loaded scaled image
   </retvals>
   <chapter_context>
     Image
   </chapter_context>
-  <tags>image, set, keep, aspect ratio</tags>
+  <tags>image, get, filename</tags>
 </US_DocBloc>
 --]]  
   if type(element_id)~="string" then error("Image_GetImageFilename: param #1 - must be a string", 2) end
@@ -7175,7 +7177,7 @@ function reagirl.Image_GetImageFilename(element_id)
   if reagirl.Elements[element_id]["GUI_Element_Type"]~="Image" then
     error("Image_GetImageFilename: param #1 - ui-element is not an image", 2)
   else
-    return reagirl.Elements[element_id]["Image_Filename"]
+    return reagirl.Elements[element_id]["Image_Filename"], reagirl.Elements[element_id]["Image_Filename_Scaled"]
   end
 end
 
@@ -7201,7 +7203,7 @@ function reagirl.Image_ClearToColor(element_id, r, g, b)
   <chapter_context>
     Image
   </chapter_context>
-  <tags>image, clear</tags>
+  <tags>image, clear, to color</tags>
 </US_DocBloc>
 --]]  
   if type(element_id)~="string" then error("Image_ClearToColor: param #1 - must be a string", 2) end
@@ -7226,6 +7228,7 @@ function reagirl.Image_ClearToColor(element_id, r, g, b)
     gfx.b=oldb
     gfx.dest=oldgfx_dest
     reagirl.Elements[element_id]["Image_Filename"]=""
+    reagirl.Elements[element_id]["Image_Filename_Scaled"]=""
   end
 end
 
@@ -7252,11 +7255,11 @@ function reagirl.Image_Load(element_id, image_filename)
     image-filename-7x.png - 7x-scaling
     image-filename-8x.png - 8x-scaling
     
-    If a filename doesn't exist, it reverts to the default one for 1x-scaling.
+    If a scaled-filename doesn't exist, the function reverts to the default one for 1x-scaling.
   </description>
   <parameters>
     string element_id - the guid of the image
-    string image_filename - the filename of the imagefile to be shown
+    string image_filename - the filename of the imagefile to be loaded
   </parameters>
   <chapter_context>
     Image
@@ -7293,7 +7296,7 @@ function reagirl.Background_GetSetColor(is_set, r, g, b)
   </requires>
   <functioncall>integer red, integer green, integer blue = reagirl.Background_GetSetColor(boolean is_set, integer red, integer green, integer blue)</functioncall>
   <description>
-    Gets/Sets the color if the background.
+    Gets/Sets the color of the background.
   </description>
   <parameters>
     boolean is_set - true, set the new background-color; false, only retrieve the current background-color
@@ -7301,6 +7304,11 @@ function reagirl.Background_GetSetColor(is_set, r, g, b)
     integer green - the new green-color; 0-255
     integer blue - the new blue-color; 0-255
   </parameters>
+  <retvals>
+    integer red - the current red-color of the background
+    integer green - the current green-color of the background
+    integer blue - the current blue-color of the background
+  </retvals>
   <chapter_context>
     Background
   </chapter_context>
@@ -7322,6 +7330,7 @@ end
 
 
 function reagirl.Background_GetSetImage(filename, x, y, scaled, fixed_x, fixed_y)
+-- unfinished
 --[[
 <  US _DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>Background_GetSetImage</slug>
@@ -7496,7 +7505,7 @@ function reagirl.Window_ForceSize_Maximum(MaxW, MaxH)
   <chapter_context>
     Window
   </chapter_context>
-  <tags>window, set, force size, minimum</tags>
+  <tags>window, set, force size, maximum</tags>
 </US_DocBloc>
 --]]
   if math.type(MaxW)~="integer" then error("Window_ForceSize_Maximum: MinW - must be an integer", 2) end
@@ -8051,7 +8060,7 @@ function reagirl.UI_Element_GetHovered()
   </requires>
   <functioncall>string element_guid = reagirl.UI_Element_GetHovered()</functioncall>
   <description>
-    Get the ui-element-guid, at where the mouse is currently hovering above. 
+    Get the ui-element-guid, where the mouse is currently.
   </description>
   <retvals>
     string element_id - the element-id of the currently hovered ui-element
@@ -8107,7 +8116,7 @@ function reagirl.UI_Element_SetFocused(element_id)
   </requires>
   <functioncall>reagirl.UI_Element_SetFocused(string element_id)</functioncall>
   <description>
-    Set an ui-element-guid focused. 
+    Set an ui-element focused. 
   </description>
   <parameters>
     string element_id - the id of the ui-element, which you want to set to focused
@@ -8142,7 +8151,7 @@ function reagirl.UI_Element_SetHiddenFromTable(table_element_ids, visible)
     Set ui-elements stored in a table to hidden or visible.
   </description>
   <parameters>
-     table table_element_ids - a table with element_ids that you want to hide or make visible
+     table table_element_ids - a table with all element_ids that you want to hide or make visible
      boolean visible - true, set all ui-elements in table_element_ids to visible; false, set them to hidden
   </parameters>
   <chapter_context>
@@ -8174,17 +8183,18 @@ function reagirl.AutoPosition_SetNextYToUIElement(element_id)
   <functioncall>reagirl.AutoPosition_SetNextYToUIElement(string element_id)</functioncall>
   <description>
     Set the auto-positioning starting point on the y-axis to the position of a certain ui-element.
-    Means, auto-position will put the next ui-element underneath this one when using reagirl.NextLine() or place it into the same line otherwise.
+    
+    Means, autpositioning will place the next ui-element either underneath(when using reagirl.NextLine()) or to the right of element_id.
   </description>
   <parameters>
-     string element_id - the element-id of the ui-element, under which you want to place the next ui-element using auto-position 
+     string element_id - the element-id of the ui-element, whose position shall be the starting point for the next audopositioned ui-elements 
   </parameters>
   <chapter_context>
     Gui
   </chapter_context>
   <target_document>ReaGirl_Docs</target_document>
   <source_document>reagirl_GuiEngine.lua</source_document>
-  <tags>functions, set, auto position, y-axis, next line</tags>
+  <tags>functions, set, auto position, next line</tags>
 </US_DocBloc>
 ]]
   if type(element_id)~="string" then error("AutoPosition_SetNextYToUIElement: param #1: must be a string", 2) return end

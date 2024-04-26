@@ -1,4 +1,4 @@
-RECHECK ALL CODES, AS IMAGE_ADD HAS BEEN CHANGED. THERE ARE ALSO BUGS IN THEM WITH UI_Element_GetSetCaption missing is_set=true in parameter.
+!!!ALIGN IN LABEL_ADD REMOVED!!!
 
 Tutorial for draggable images
 

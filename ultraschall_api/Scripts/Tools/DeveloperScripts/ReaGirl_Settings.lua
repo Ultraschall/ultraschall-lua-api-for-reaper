@@ -106,7 +106,7 @@ function SetUpNewGui()
   Tabs=reagirl.Tabs_Add(10,10, 335, 260, "Tabs", "Choose settings", {"General", "Osara"}, 1, nil)
   
   --[[ Blinking Focus Rectangle ]]
-  Label_General=reagirl.Label_Add(nil, nil, "General", "General settings.", 0, false, nil)
+  Label_General=reagirl.Label_Add(nil, nil, "General", "General settings.", false, nil)
   reagirl.Label_SetStyle(Label_General, 6, 0, 0)
 
   reagirl.NextLine()
@@ -115,7 +115,7 @@ function SetUpNewGui()
   checkbox_tooltips_id = reagirl.Checkbox_Add(nil, nil, "Show tooltips when hovering above ui-element", "When checked, ReaGirl will show tooltips when hovering above ui-elements.", show_tooltips, checkbox)
   
   reagirl.NextLine(10)
-  Label_FocusRectangle=reagirl.Label_Add(nil, nil, "Focus Rectangle", "Settings for the focus rectangle.", 0, false, nil)
+  Label_FocusRectangle=reagirl.Label_Add(nil, nil, "Focus Rectangle", "Settings for the focus rectangle.", false, nil)
   reagirl.Label_SetStyle(Label_FocusRectangle, 6, 0, 0)
   
   reagirl.NextLine()
@@ -131,7 +131,7 @@ function SetUpNewGui()
   
   -- [[ Blinking Inputbox-Cursor ]]
   reagirl.NextLine(15)
-  Label_InputBox=reagirl.Label_Add(nil, nil, "Inputbox-Cursor", "Settings for the inputbox-cursor.", 0, false, nil)
+  Label_InputBox=reagirl.Label_Add(nil, nil, "Inputbox-Cursor", "Settings for the inputbox-cursor.", false, nil)
   reagirl.Label_SetStyle(Label_InputBox, 6, 0, 0)
   reagirl.NextLine()
   val3=tonumber(reaper.GetExtState("ReaGirl", "Inputbox_BlinkSpeed"))
@@ -143,7 +143,7 @@ function SetUpNewGui()
   
   -- [[ Scaling Override ]]
   reagirl.NextLine(15)
-  Label_Scaling=reagirl.Label_Add(nil, nil, "Scaling", "Settings for the scaling-factor of ReaGirl-Guis", 0, false, nil)
+  Label_Scaling=reagirl.Label_Add(nil, nil, "Scaling", "Settings for the scaling-factor of ReaGirl-Guis", false, nil)
   reagirl.Label_SetStyle(Label_Scaling, 6, 0, 0)
   reagirl.NextLine()
   scaling_override=tonumber(reaper.GetExtState("ReaGirl", "scaling_override", value, true))
@@ -158,7 +158,7 @@ function SetUpNewGui()
   
   -- [[ Osara override ]]
   reagirl.AutoPosition_SetNextYToUIElement(Tabs)
-  Label_Osara=reagirl.Label_Add(nil, nil, "Osara", "Settings that influence the relationship between Osara and ReaGirl.", 0, false, nil)
+  Label_Osara=reagirl.Label_Add(nil, nil, "Osara", "Settings that influence the relationship between Osara and ReaGirl.", false, nil)
   reagirl.NextLine()
   reagirl.Label_SetStyle(Label_Osara, 6, 0, 0)
 
