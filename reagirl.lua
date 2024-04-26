@@ -2275,11 +2275,13 @@ function reagirl.Gui_Manage()
           if reagirl.Elements[reagirl.UI_Elements_HoveredElement]["GUI_Element_Type"]=="Edit" then
             description=reagirl.Elements[reagirl.UI_Elements_HoveredElement]["Text"]
           end
-          if reagirl.Window_State&8==8 and reaper.GetExtState("ReaGirl", "osara_hover_mouse")~="false" then
-            if reagirl.osara_outputMessage~=nil then
-              reagirl.osara_outputMessage(reagirl.Elements[reagirl.UI_Elements_HoveredElement]["Name"].." "..description)
+          if reagirl.Elements[reagirl.UI_Elements_HoveredElement]["GUI_Element_Type"]~="Tabs" then
+            if reagirl.Window_State&8==8 and reaper.GetExtState("ReaGirl", "osara_hover_mouse")~="false" then
+              if reagirl.osara_outputMessage~=nil then
+                reagirl.osara_outputMessage(reagirl.Elements[reagirl.UI_Elements_HoveredElement]["Name"].." "..description)
+              end
+              reagirl.Osara_Debug_Message(reagirl.Elements[reagirl.UI_Elements_HoveredElement]["Name"].." "..description)
             end
-            reagirl.Osara_Debug_Message(reagirl.Elements[reagirl.UI_Elements_HoveredElement]["Name"].." "..description)
           end
         end
       end
@@ -9431,6 +9433,23 @@ function reagirl.Tabs_Manage(element_id, selected, hovered, clicked, mouse_cap, 
     if retval==true then element_storage["DropZoneFunction"](element_storage["Guid"], {filenames}) refresh=true end
   end
   
+  -- hover management for the tabs
+  if hovered==true then
+    if element_storage["Tabs_Pos"]~=nil then
+      for i=1, #element_storage["Tabs_Pos"] do
+        if gfx.mouse_y>=y and gfx.mouse_y<=element_storage["Tabs_Pos"][i]["h"]+y then
+          if gfx.mouse_x>=element_storage["Tabs_Pos"][i]["x"] and gfx.mouse_x<=element_storage["Tabs_Pos"][i]["x"]+element_storage["Tabs_Pos"][i]["w"] then
+            --element_storage["AccHoverMessage"]=element_storage["TabNames"][i]
+            local selected=""
+            if element_storage["TabSelected"]==i then selected=" selected" end
+            --reagirl.Elements["GlobalAccHoverMessage"]=element_storage["TabNames"][i].." tab "..selected.."Tudelu"
+            acc_message=element_storage["TabNames"][i].." tab"..selected.."."
+          end
+        end
+      end
+    end
+  end
+  
   -- click management for the tabs
   local refresh
   if element_storage["Tabs_Pos"]==nil then reagirl.Gui_ForceRefresh(61) end
@@ -9440,6 +9459,7 @@ function reagirl.Tabs_Manage(element_id, selected, hovered, clicked, mouse_cap, 
         if gfx.mouse_x>=element_storage["Tabs_Pos"][i]["x"] and gfx.mouse_x<=element_storage["Tabs_Pos"][i]["x"]+element_storage["Tabs_Pos"][i]["w"] then
           if element_storage["TabSelected"]~=i then
             element_storage["TabSelected"]=i
+            acc_message=element_storage["TabNames"][i].." tab selected."
             element_storage["TabRefresh"]=true
             refresh=true
           end
@@ -9455,6 +9475,7 @@ function reagirl.Tabs_Manage(element_id, selected, hovered, clicked, mouse_cap, 
       element_storage["TabsSelected_MouseJump"]=element_storage["TabSelected"]
       refresh=true
       element_storage["TabRefresh"]=true
+      acc_message=element_storage["TabNames"][element_storage["TabSelected"]].." tab selected."
     end
   end
   if selected~="not selected" and Key==1818584692.0 then
@@ -9463,6 +9484,7 @@ function reagirl.Tabs_Manage(element_id, selected, hovered, clicked, mouse_cap, 
       element_storage["TabsSelected_MouseJump"]=element_storage["TabSelected"]
       refresh=true
       element_storage["TabRefresh"]=true
+      acc_message=element_storage["TabNames"][element_storage["TabSelected"]].." tab selected."
     end
   end
   
@@ -9471,19 +9493,6 @@ function reagirl.Tabs_Manage(element_id, selected, hovered, clicked, mouse_cap, 
     reagirl.Gui_PreventScrollingForOneCycle(true, false)
   end
   
-  -- hover management for the tabs
-  if hovered==true then
-    if element_storage["Tabs_Pos"]~=nil then
-      for i=1, #element_storage["Tabs_Pos"] do
-        if gfx.mouse_y>=y and gfx.mouse_y<=element_storage["Tabs_Pos"][i]["h"]+y then
-          if gfx.mouse_x>=element_storage["Tabs_Pos"][i]["x"] and gfx.mouse_x<=element_storage["Tabs_Pos"][i]["x"]+element_storage["Tabs_Pos"][i]["w"] then
-            --element_storage["AccHoverMessage"]=element_storage["TabNames"][i]
-            reagirl.Elements["GlobalAccHoverMessage"]=element_storage["TabNames"][i]
-          end
-        end
-      end
-    end
-  end
   if refresh==true then 
     reagirl.Gui_ForceRefresh(62) 
     if element_storage["run_function"]~=nil and skip_func~=true then 
@@ -9500,7 +9509,13 @@ function reagirl.Tabs_Manage(element_id, selected, hovered, clicked, mouse_cap, 
     element_storage["TabRefresh"]=false
   end
   
-  return element_storage["TabNames"][element_storage["TabSelected"]].." tab selected", refresh
+  if selected=="first selected" then
+    element_storage["TabsSelected_MouseJump"]=element_storage["TabSelected"]
+    refresh=true
+  end
+  
+  --return element_storage["TabNames"][element_storage["TabSelected"]].." tab selected", refresh
+  return acc_message, refresh
 end
 
 
