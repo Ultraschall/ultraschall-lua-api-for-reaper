@@ -1637,7 +1637,7 @@ function reagirl.SetFont(idx, fontface, size, flags, scale_override)
   return size
 end
 
-function reagirl.Gui_Open(title, description, w, h, dock, x, y)
+function reagirl.Gui_Open(name, restore_old_window_state, title, description, w, h, dock, x, y)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>Gui_Open</slug>
@@ -1647,15 +1647,20 @@ function reagirl.Gui_Open(title, description, w, h, dock, x, y)
     JS=0.963
     Lua=5.4
   </requires>
-  <functioncall>integer window_open, optional hwnd window_handler = reagirl.Gui_Open(string title, string description, optional integer w, optional integer h, optional integer dock, optional integer x, optional integer y)</functioncall>
+  <functioncall>integer window_open, optional hwnd window_handler = reagirl.Gui_Open(string name, boolean restore_old_window_state, string title, string description, optional integer w, optional integer h, optional integer dock, optional integer x, optional integer y)</functioncall>
   <description>
     Opens a gui-window. If x and/or y are not given, it will be opened centered.
+    
+    ReaGirl stores in the background the position, size and dockstate of the window. Set restore_old_window_state=true to automatically reopen the window with the position, size and dockstate of the window when it was closed the last time.
   </description>
   <retvals>
     number retval - 1.0, if window is opened
     optional hwnd window_handler - a hwnd-window-handler for this window; only returned, with JS-extension installed!
   </retvals>
   <parameters>
+    string name - name, will be used to store window position, size and dockstate when window is closed; make this name unique to your script like with your name as prefix for instance; newlines are not allowed
+    boolean restore_old_window_state - true, restore the window position, size and dockstate when the window last got closed
+                                     - false, always open with the same position, size and dockstate
     string title - the title of the window
     string description - a description of what this dialog does, for blind users
     optional integer w - the width of the window; nil=640
@@ -1672,13 +1677,15 @@ function reagirl.Gui_Open(title, description, w, h, dock, x, y)
   <tags>functions, open, gui</tags>
 </US_DocBloc>
 ]]
-  if type(title)~="string" then error("Gui_Open: param #1 - must be a string", 2) end
-  if type(description)~="string" then error("Gui_Open: param #2 - must be a string", 2) end
-  if w~=nil and math.type(w)~="integer" then error("Gui_Open: param #3 - must be either nil or an integer", 2) end
-  if h~=nil and math.type(h)~="integer" then error("Gui_Open: param #4 - must be either nil or an integer", 2) end
-  if dock~=nil and math.type(dock)~="integer" then error("Gui_Open: param #5 - must be either nil or an integer", 2) end
-  if x~=nil and math.type(x)~="integer" then error("Gui_Open: param #6 - must be either nil or an integer", 2) end
-  if y~=nil and math.type(y)~="integer" then error("Gui_Open: param #7 - must be either nil or an integer", 2) end
+  if type(name)~="string" then error("Gui_Open: param #1 - must be a string", 2) end
+  if type(restore_old_window_state)~="boolean" then error("Gui_Open: param #2 - must be a string", 2) end
+  if type(title)~="string" then error("Gui_Open: param #3 - must be a string", 2) end
+  if type(description)~="string" then error("Gui_Open: param #4 - must be a string", 2) end
+  if w~=nil and math.type(w)~="integer" then error("Gui_Open: param #5 - must be either nil or an integer", 2) end
+  if h~=nil and math.type(h)~="integer" then error("Gui_Open: param #6 - must be either nil or an integer", 2) end
+  if dock~=nil and math.type(dock)~="integer" then error("Gui_Open: param #7 - must be either nil or an integer", 2) end
+  if x~=nil and math.type(x)~="integer" then error("Gui_Open: param #8 - must be either nil or an integer", 2) end
+  if y~=nil and math.type(y)~="integer" then error("Gui_Open: param #9 - must be either nil or an integer", 2) end
   local retval
   retval, reagirl.dpi = reaper.ThemeLayout_GetLayout("tcp", -3)
   if reagirl.dpi == "512" then
@@ -1687,22 +1694,41 @@ function reagirl.Gui_Open(title, description, w, h, dock, x, y)
     reagirl.dpi_scale = 0
   end
   
+  name=string.gsub(name, "[\n\r]", "")
   reagirl.IsWindowOpen_attribute=true
   reagirl.Gui_ForceRefresh(2)
   
-  reagirl.Window_Title=title
-  reagirl.Window_Description=description
-  reagirl.Window_x=x
-  reagirl.Window_y=y
-  reagirl.Window_w=w
-  reagirl.Window_h=h
-  reagirl.Window_dock=dock
+  if restore_old_window_state==false or (restore_old_window_state==true and reaper.GetExtState("Reagirl_Window_"..name, "stored")=="") then
+    reagirl.Window_name=name
+    reagirl.Window_Title=title
+    reagirl.Window_Description=description
+    reagirl.Window_x=x
+    reagirl.Window_y=y
+    reagirl.Window_w=w
+    reagirl.Window_h=h
+    reagirl.Window_dock=dock
+  else
+    reagirl.Window_Title=title
+    reagirl.Window_Description=description
+    --ReaGirl_Window_my_dialog
+    reagirl.Window_name=name
+    reagirl.Window_x=tonumber(reaper.GetExtState("Reagirl_Window_"..name, "x"))
+    reagirl.Window_y=tonumber(reaper.GetExtState("Reagirl_Window_"..name, "y"))
+    reagirl.Window_w=tonumber(reaper.GetExtState("Reagirl_Window_"..name, "w"))
+    reagirl.Window_h=tonumber(reaper.GetExtState("Reagirl_Window_"..name, "h"))
+    reagirl.Window_dock=tonumber(reaper.GetExtState("Reagirl_Window_"..name, "dock"))
+    x=reagirl.Window_x
+    y=reagirl.Window_y
+    w=reagirl.Window_w
+    h=reagirl.Window_h
+    dock=reagirl.Window_dock
+    
+  end
   
   if reagirl.Window_ForceMinSize_Toggle==nil then reagirl.Window_ForceMinSize_Toggle=false end
   reagirl.osara_init_message=false
   --reagirl.FocusRectangle_BlinkStartTime=nil
   reagirl.FocusRectangle_BlinkStartTime=reaper.time_precise()
-  
   return reagirl.Window_Open(title, w, h, dock, x, y)
 end
 
@@ -1793,6 +1819,16 @@ function reagirl.Gui_Manage()
   if #reagirl.Elements<reagirl.Elements.FocusedElement then reagirl.Elements.FocusedElement=1 end
   
   reagirl.Window_State=gfx.getchar(65536)
+  
+  -- store position, size and dockstate of window for next opening
+  local dock,x,y,w,h=gfx.dock(-1,0,0,0,0)
+  reaper.SetExtState("Reagirl_Window_"..reagirl.Window_name, "stored", "true", true)
+  reaper.SetExtState("Reagirl_Window_"..reagirl.Window_name, "x", x, true)
+  reaper.SetExtState("Reagirl_Window_"..reagirl.Window_name, "y", y, true)
+  reaper.SetExtState("Reagirl_Window_"..reagirl.Window_name, "w", w, true)
+  reaper.SetExtState("Reagirl_Window_"..reagirl.Window_name, "h", h, true)
+  reaper.SetExtState("Reagirl_Window_"..reagirl.Window_name, "dock", dock, true)
+  --]]
   
   -- Osara Override
   if reaper.GetExtState("ReaGirl", "osara_override")=="" or reaper.GetExtState("ReaGirl", "osara_override")=="true"  then 
@@ -7711,37 +7747,6 @@ function reagirl.UI_Elements_Boundaries()
   if oldmaxx~=reagirl.BoundaryX_Max or oldmaxy~=reagirl.BoundaryY_Max then
     reagirl.Gui_ForceRefresh(12345)
   end
-end 
-
-function reagirl.DockState_Update(name)
-  -- sets the dockstate into extstates
-  local dockstate=tonumber(reaper.GetExtState("ReaGirl_"..name, "dockstate"))--gfx.dock
-  if dockstate==nil then dockstate=0 end
-  if dockstate~=gfx.dock(-1) then
-    reaper.SetExtState("ReaGirl_"..name, "dockstate", gfx.dock(-1), true)
-  end
-end
-
-function reagirl.DockState_Retrieve(name)
-  -- retrieves the dockstate from the extstate and sets it
-  local dockstate=tonumber(reaper.GetExtState("ReaGirl_"..name, "dockstate"))--gfx.dock
-  if dockstate==nil then dockstate=0 end
-  return math.tointeger(dockstate)
-end
-
-function reagirl.DockState_Update_Project(name)
-  -- sets the dockstate into project extstates
-  local dockstate=tonumber(reaper.GetProjExtState(0, "ReaGirl_"..name, "dockstate"))--gfx.dock
-  if dockstate==nil then dockstate=0 end
-  if dockstate~=gfx.dock(-1) then
-    reaper.SetProjExtState(0, "ReaGirl_"..name, "dockstate", gfx.dock(-1), true)
-  end
-end
-
-function reagirl.DockState_RetrieveAndSet_Project(name)
-  -- retrieves the dockstate from the project extstate and sets it
-  local dockstate=tonumber(reaper.GetProjExtState(0, "ReaGirl_"..name, "dockstate"))--gfx.dock
-  gfx.dock(dockstate)
 end
 
 function reagirl.ScrollButton_Right_Add()
