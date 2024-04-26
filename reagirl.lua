@@ -76,6 +76,7 @@ end
 --]]
 --[[
 TODO: 
+  - DockState: partly implemented but seems not to work yet properly
   - Image: Image_GetImageFilename - add that it also returns the scaled-image-filename
   - EdgeCase: when the scrollbars dis(!)appear while dragging the slider, the slider doesn't drag anymore
               -- see this with a slider -100 to 100 that sets x and y of a button in a way, that scrollbars
@@ -2693,10 +2694,10 @@ function reagirl.UI_Element_SetFocusRect(override, x, y, w, h)
   </description>
   <parameters>
     optional boolean override - I forgot...
-    integer x - the x-position of the focus-rectangle; negative, dock to the right windowborder
-    integer y - the y-position of the focus-rectangle; negative, dock to the bottom windowborder
-    integer w - the width of the focus-rectangle; negative, dock to the right windowborder
-    integer h - the height of the focus-rectangle; negative, dock to the bottom windowborder
+    integer x - the x-position of the focus-rectangle; negative, anchor to the right windowborder
+    integer y - the y-position of the focus-rectangle; negative, anchor to the bottom windowborder
+    integer w - the width of the focus-rectangle; negative, anchor to the right windowborder
+    integer h - the height of the focus-rectangle; negative, anchor to the bottom windowborder
   </parameters>
   <chapter_context>
     UI Elements
@@ -2750,10 +2751,10 @@ function reagirl.UI_Element_GetFocusRect()
     the first four retvals give the set-position(including possible negative values), the second four retvals give the actual window-coordinates.
   </description>
   <parameters>
-    integer x - the x-position of the focus-rectangle; negative, docked to the right windowborder
-    integer y - the y-position of the focus-rectangle; negative, docked to the bottom windowborder
-    integer w - the width of the focus-rectangle; negative, docked to the right windowborder
-    integer h - the height of the focus-rectangle; negative, docked to the bottom windowborder
+    integer x - the x-position of the focus-rectangle; negative, anchored to the right windowborder
+    integer y - the y-position of the focus-rectangle; negative, anchored to the bottom windowborder
+    integer w - the width of the focus-rectangle; negative, anchored to the right windowborder
+    integer h - the height of the focus-rectangle; negative, anchored to the bottom windowborder
     integer x2 - the actual x-position of the focus-rectangle
     integer y2 - the actual y-position of the focus-rectangle
     integer w2 - the actual width of the focus-rectangle
@@ -8204,7 +8205,7 @@ function reagirl.AutoPosition_SetNextYToUIElement(element_id)
   reagirl.Next_Y=element_id
 end
 
-
+-- mespotine
 function reagirl.Slider_Add(x, y, w, caption, Cap_width, meaningOfUI_Element, unit, start, stop, step, init_value, default, run_function)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
@@ -8214,7 +8215,7 @@ function reagirl.Slider_Add(x, y, w, caption, Cap_width, meaningOfUI_Element, un
     Reaper=7
     Lua=5.4
   </requires>
-  <functioncall>string slider_guid = reagirl.Slider_Add(integer x, integer y, integer w, string caption, optional integer cap_width, string meaningOfUI_Element, optional string unit, number start, number stop, number step, number init_value, number default, function run_function)</functioncall>
+  <functioncall>string slider_guid = reagirl.Slider_Add(optional integer x, optional integer y, integer w, string caption, optional integer cap_width, string meaningOfUI_Element, optional string unit, number start, number stop, number step, number init_value, number default, optional function run_function)</functioncall>
   <description>
     Adds a slider to a gui.
     
@@ -8225,6 +8226,8 @@ function reagirl.Slider_Add(x, y, w, caption, Cap_width, meaningOfUI_Element, un
     Note: when setting the unit to nil, no unit and number will be shown at the end of the slider.
     
     Also note: when the number of steps is too many to be shown in a narrow slider, step-values may be skipped.
+    
+    The run-function will get as parameters the element_id of the slider that uses this run-function as well as the current slider-value.
   </description>
   <parameters>
     optional integer x - the x position of the slider in pixels; negative anchors the slider to the right window-side; nil, autoposition after the last ui-element(see description)
@@ -8238,7 +8241,7 @@ function reagirl.Slider_Add(x, y, w, caption, Cap_width, meaningOfUI_Element, un
     number step - the stepsize until the next value within the slider
     number init_value - the initial value of the slider
     number default - the default value of the slider
-    function run_function - a function that shall be run when the slider is clicked; will get passed over the slider-element_id as first and the new slider-value as second parameter
+    optional function run_function - a function that shall be run when the slider is dragged; will get passed over the slider-element_id as first and the new slider-value as second parameter
   </parameters>
   <retvals>
     string slider_guid - a guid that can be used for altering the slider-attributes
@@ -8548,7 +8551,7 @@ function reagirl.Slider_SetDimensions(element_id, width)
     Sets the width of a slider.
   </description>
   <parameters>
-    string element_id - the guid of the slider, whose disability-state you want to set
+    string element_id - the guid of the slider, whose width you want to set
     integer width - the new width of the slider; negative anchors to right window-edge; nil, keep current width
   </parameters>
   <chapter_context>
@@ -8586,7 +8589,7 @@ function reagirl.Slider_GetDimensions(element_id)
     Gets the width of a slider.
   </description>
   <parameters>
-    string element_id - the guid of the slider, whose disability-state you want to set
+    string element_id - the guid of the slider, whose width you want to get
   </parameters>
   <retvals>
     integer width - the width of the slider; negative anchors to right window-edge
@@ -8720,7 +8723,7 @@ function reagirl.Slider_SetDisabled(element_id, state)
     reagirl.Gui_ForceRefresh(55)
   end
 end
-
+--mespotine
 function reagirl.Slider_GetDisabled(element_id)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
@@ -8972,7 +8975,7 @@ function reagirl.Slider_GetMaximum(element_id)
     number max_value - the current maximum-value set in the slider
   </retvals>
   <chapter_context>
-    Checkbox
+    Slider
   </chapter_context>
   <tags>slider, get, maximum, value</tags>
 </US_DocBloc>
@@ -8999,13 +9002,13 @@ function reagirl.Slider_ResetToDefaultValue(element_id)
   </requires>
   <functioncall>reagirl.Slider_ResetToDefaultValue(string element_id)</functioncall>
   <description>
-    Resets the current set value of the slider to the default one.
+    Resets the current set value of the slider to the default value.
   </description>
   <parameters>
     string element_id - the guid of the slider, whose current value you want to reset to default
   </parameters>
   <chapter_context>
-    Checkbox
+    Slider
   </chapter_context>
   <tags>slider, reset, value, default</tags>
 </US_DocBloc>
@@ -9023,8 +9026,9 @@ function reagirl.Slider_ResetToDefaultValue(element_id)
 end
 
 function reagirl.NextLine_SetMargin(x_margin, y_margin)
+-- needs more checks
 --[[
-<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+<US _DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>NextLine_SetMargin</slug>
   <requires>
     ReaGirl=1.0
@@ -9056,8 +9060,9 @@ function reagirl.NextLine_SetMargin(x_margin, y_margin)
 end
 
 function reagirl.NextLine_GetMargin()
+-- needs more checks
 --[[
-<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+<US_  DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>NextLine_GetMargin</slug>
   <requires>
     ReaGirl=1.0
@@ -9090,7 +9095,7 @@ function reagirl.Tabs_Add(x, y, w_backdrop, h_backdrop, caption, meaningOfUI_Ele
     Reaper=7
     Lua=5.4
   </requires>
-  <functioncall>string tabs_guid = reagirl.Tabs_Add(integer x, integer y, integer w, integer w_backdrop, integer h_backdrop, string caption, string meaningOfUI_Element, table tab_names, integer selected_tab, function run_function)</functioncall>
+  <functioncall>string tabs_guid = reagirl.Tabs_Add(optional integer x, optional integer y, integer w, integer w_backdrop, integer h_backdrop, string caption, string meaningOfUI_Element, table tab_names, integer selected_tab, optional function run_function)</functioncall>
   <description>
     Adds a tab to a gui.
     
@@ -9101,7 +9106,9 @@ function reagirl.Tabs_Add(x, y, w_backdrop, h_backdrop, caption, meaningOfUI_Ele
     When set to autosize, it will enclose ui-elements currently visible in the gui.
     If you don't want a background, set w_background or h_background to 0.
     
-    Keep in mind, that using auto-sizing of the background might lead to smaller backgrounds than the tabs themselves!
+    Keep in mind, that using auto-sizing of the background might lead to smaller backgrounds than the tabs themselves when there's only a few ui-elements available!
+    
+    The run-function will get as parameters the tab's element-id as well as the clicked tab as second and the clicked tab-name as third parameter..
   </description>
   <parameters>
     optional integer x - the x position of the tab in pixels; negative anchors the tab to the right window-side; nil, autoposition after the last ui-element(see description)
@@ -9112,10 +9119,10 @@ function reagirl.Tabs_Add(x, y, w_backdrop, h_backdrop, caption, meaningOfUI_Ele
     string meaningOfUI_Element - a description for accessibility users
     table tab_names - an indexed table with all tab-names 
     integer selected_tab - the index of the currently selected tab; 1-based
-    function run_function - a function that shall be run when a tab is clicked/selected via keys; 
-                          - will get passed over the tab-element_id as first and 
-                          - the new selected tab as second parameter as well as 
-                          - the selected tab-name as third parameter
+    optional function run_function - a function that shall be run when a tab is clicked/selected via keys; 
+                                   - will get passed over the tab-element_id as first and 
+                                   - the new selected tab as second parameter as well as 
+                                   - the selected tab-name as third parameter
   </parameters>
   <retvals>
     string tabs_guid - a guid that can be used for altering the tab-attributes
@@ -9209,7 +9216,7 @@ function reagirl.Tabs_Add(x, y, w_backdrop, h_backdrop, caption, meaningOfUI_Ele
   reagirl.NextLine(-2)
   return reagirl.Elements[slot]["Guid"]
 end
-
+-- mespotine
 function reagirl.Tabs_SetValue(element_id, selected_tab)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
@@ -9358,6 +9365,7 @@ function reagirl.Tabs_Manage(element_id, selected, hovered, clicked, mouse_cap, 
   if selected~="not selected" and Key==1919379572.0 then 
     if element_storage["TabSelected"]+1~=#element_storage["TabNames"]+1 then
       element_storage["TabSelected"]=element_storage["TabSelected"]+1
+      element_storage["TabsSelected_MouseJump"]=element_storage["TabSelected"]
       refresh=true
       element_storage["TabRefresh"]=true
     end
@@ -9365,6 +9373,7 @@ function reagirl.Tabs_Manage(element_id, selected, hovered, clicked, mouse_cap, 
   if selected~="not selected" and Key==1818584692.0 then
     if element_storage["TabSelected"]-1~=0 then
       element_storage["TabSelected"]=element_storage["TabSelected"]-1
+      element_storage["TabsSelected_MouseJump"]=element_storage["TabSelected"]
       refresh=true
       element_storage["TabRefresh"]=true
     end
@@ -9440,7 +9449,13 @@ function reagirl.Tabs_Draw(element_id, selected, hovered, clicked, mouse_cap, mo
     
     
     if i==element_storage["TabSelected"] then offset=dpi_scale gfx.set(0.253921568627451) else offset=0 gfx.set(0.153921568627451) end
-
+    if reagirl.osara_outputMessage~=nil and selected~="not selected" and i==element_storage["TabsSelected_MouseJump"] then
+      if reaper.GetExtState("ReaGirl", "osara_move_mouse")~="false" then
+        local x,y=gfx.clienttoscreen(math.tointeger(x+x_offset), y+4)
+        reaper.JS_Mouse_SetPosition(x, y)
+        element_storage["TabsSelected_MouseJump"]=nil
+      end
+    end
     -- store the dimensions and positions of individual tabs for the manage-function
     element_storage["Tabs_Pos"][i]["x"]=math.tointeger(x+x_offset-text_offset_x)
     element_storage["Tabs_Pos"][i]["w"]=math.tointeger(tx+text_offset_x+text_offset_x)-1
@@ -9448,7 +9463,7 @@ function reagirl.Tabs_Draw(element_id, selected, hovered, clicked, mouse_cap, mo
     
     x_offset=x_offset+math.tointeger(tx)+text_offset_x+text_offset_x+dpi_scale*2
     if selected~="not selected" and i==element_storage["TabSelected"] then
-      reagirl.UI_Element_SetFocusRect(true, math.tointeger(gfx.x), y+text_offset_y, math.tointeger(tx), math.tointeger(ty))
+        reagirl.UI_Element_SetFocusRect(true, math.tointeger(gfx.x), y+text_offset_y, math.tointeger(tx), math.tointeger(ty))
     end
     
     gfx.set(0.8)
