@@ -106,6 +106,10 @@ Devtools={
 "/Tools/DeveloperScripts/ultraschall_developertool_TrackStateChunk_to_Clipboard_first_selected_track.lua",
 "/Tools/DeveloperScripts/ultraschall_developertool_TrackStateChunk_to_Clipboard_track_under_mouse.lua"}
 
+IgnoreFiles={
+"/ultraschall_api/Scripts/Tools/DeveloperScripts/Ultraschall_StateInspector/Ultraschall-Inspector.ini"
+}
+
 _,_,_, Devtools = ultraschall.GetAllRecursiveFilesAndSubdirectories(SourceDir.."/ultraschall_api/Scripts/Tools/DeveloperScripts/")
 SourceDir=string.gsub(SourceDir,"\\", "/")
 for i=#Devtools, 1, -1 do
@@ -406,6 +410,22 @@ for i=#files_array, 1, -1 do
     table.remove(files_array, i)
   end
 end
+
+for i=#files_array, 1, -1 do
+  if files_array[i]:match("Ultraschall%-Inspector%.ini") then table.remove(files_array, i) end
+end
+
+--[[ 
+-- check, if file is removed sucessfully from list
+for i=#files_array, 1, -1 do
+  if files_array[i]:match("Ultraschall%-Inspector%.ini") then
+    print2(files_array[i])
+  end
+end
+--]]
+
+--if lol==nil then return end
+
 
 --if lol==nil then return end
 -- generate ReaPack-indexfile

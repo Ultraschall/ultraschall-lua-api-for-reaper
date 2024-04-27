@@ -2740,6 +2740,10 @@ function reagirl.Gui_Draw(Key, Key_utf, clickstate, specific_clickstate, mouse_c
     if gfx.mouse_x<0 then reagirl.UI_Element_ScrollX(2) end
     if gfx.mouse_y>gfx.h then reagirl.UI_Element_ScrollY(-2) end
     if gfx.mouse_y<0 then reagirl.UI_Element_ScrollY(2) end
+    if gfx.mouse_x>0 and gfx.mouse_x<gfx.w and gfx.mouse_y>0 and gfx.mouse_y<gfx.h then
+      reagirl.MoveItAllUp_Delta=0
+      reagirl.MoveItAllRight_Delta=0
+    end
   else
     reagirl.Gui_ForceRefreshState=false
     reagirl.Blink_DragDestinations=0
