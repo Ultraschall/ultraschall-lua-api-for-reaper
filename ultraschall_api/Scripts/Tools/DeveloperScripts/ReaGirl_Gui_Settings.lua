@@ -185,9 +185,9 @@ function SetUpNewGui()
   if drag_blinking==nil then drag_blinking=0 end
   tab1.slider_blink_every_draggable=reagirl.Slider_Add(nil, nil, 300, "Blink every", 100, "Set the speed of the blinking of the drag-destinations; 0=no blinking.", "seconds", 0, 5, 0.1, drag_blinking/33, 0, DragBlinkSpeed)
   reagirl.NextLine()
-  tab1.image_source=reagirl.Image_Add(50,nil,50,50,reaper.GetResourcePath().."/Data/track_icons/bass.png", "The sun always shines", "on tv", Image)
-  tab1.image_middle=reagirl.Image_Add(160,nil,25,25,reaper.GetResourcePath().."/Data/track_icons/folder_right.png", "The sun always shines", "on tv",nil)
-  tab1.image_dest=reagirl.Image_Add(250,nil,50,50,reaper.GetResourcePath().."/Data/track_icons/mic_dynamic_1.png", "The sun always shines", "on tv",nil)
+  tab1.image_source=reagirl.Image_Add(50,nil,50,50,reaper.GetResourcePath().."/Data/track_icons/bass.png", "The source-image, an image of abass guitar.", "Drag this source bass-guitar to the microphone.", Image)
+  tab1.image_middle=reagirl.Image_Add(160,nil,25,25,reaper.GetResourcePath().."/Data/track_icons/folder_right.png", "Graphics with an arrow pointing to the drag-destination of the bass-guitar.", "Graphics with an arrow pointing to the drag-destination of the bass-guitar.",nil)
+  tab1.image_dest=reagirl.Image_Add(250,nil,50,50,reaper.GetResourcePath().."/Data/track_icons/mic_dynamic_1.png", "The destination image, an image of a microphone.", "The destination image, drag the bass-guitar over here.",nil)
   reagirl.Image_SetDraggable(tab1.image_source, true, {tab1.image_dest})
   
   
