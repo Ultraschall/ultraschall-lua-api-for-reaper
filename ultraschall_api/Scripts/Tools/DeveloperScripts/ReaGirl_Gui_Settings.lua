@@ -25,6 +25,7 @@
 ]] 
 
 dofile(reaper.GetResourcePath().."/UserPlugins/reagirl.lua")
+reagirl.Settings_Override=true
 dofile(reaper.GetResourcePath().."/UserPlugins/ultraschall_api.lua")
 
 function toboolean(value, default)
@@ -219,7 +220,7 @@ end
 
 function main()
   B,B1,B2=CheckIfSettingChanged()
-  if B==true then A=reaper.time_precise() testtext=reagirl.Inputbox_GetText(input_id) i=reagirl.Elements.FocusedElement if i==nil then i=1 end SetUpNewGui() reagirl.Elements.FocusedElement=i end
+  if B==true then A=reaper.time_precise() testtext=reagirl.Inputbox_GetText(tab1.input_id) i=reagirl.Elements.FocusedElement if i==nil then i=1 end SetUpNewGui() reagirl.Elements.FocusedElement=i end
   reagirl.Gui_Manage()
   if B==true then
     reagirl.Elements.FocusedElement=i

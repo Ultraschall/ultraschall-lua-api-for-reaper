@@ -61,7 +61,7 @@ end
 reagirl.osara_outputMessage=reaper.osara_outputMessage
 reagirl.osara=reaper.osara_outputMessage
 
-if reaper.GetExtState("ReaGirl", "osara_override")=="" or reaper.GetExtState("ReaGirl", "osara_override")=="true"  then 
+if reaper.GetExtState("ReaGirl", "osara_override")=="" or reaper.GetExtState("ReaGirl", "osara_override")=="true" or reagirl.Settings_Override==true then 
   reagirl.osara_outputMessage=reagirl.osara
 else
   reagirl.osara_outputMessage=nil
@@ -1831,7 +1831,7 @@ function reagirl.Gui_Manage()
   --]]
   
   -- Osara Override
-  if reaper.GetExtState("ReaGirl", "osara_override")=="" or reaper.GetExtState("ReaGirl", "osara_override")=="true"  then 
+  if reaper.GetExtState("ReaGirl", "osara_override")=="" or reaper.GetExtState("ReaGirl", "osara_override")=="true" or reagirl.Settings_Override==true then 
     reagirl.osara_outputMessage=reagirl.osara
   else
     reagirl.osara_outputMessage=nil     
