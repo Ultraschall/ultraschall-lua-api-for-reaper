@@ -25,7 +25,7 @@
 ]] 
 
 
---dofile(reaper.GetResourcePath().."/UserPlugins/ultraschall_api.lua")
+dofile(reaper.GetResourcePath().."/UserPlugins/ultraschall_api.lua")
 
 -- DEBUG:
 --reaper.osara_outputMessage=nil
@@ -2491,6 +2491,7 @@ function reagirl.Gui_Draw(Key, Key_utf, clickstate, specific_clickstate, mouse_c
       local i=reagirl.Tabs_Count
       local w_add=reagirl.Elements[i]["bg_w"]
       local h_add=reagirl.Elements[i]["bg_h"]
+      local x2, y2, w2, h2
       if reagirl.Elements[i]["x"]<0 then x2=gfx.w+(reagirl.Elements[i]["x"]*scale) else x2=reagirl.Elements[i]["x"]*scale end
       if reagirl.Elements[i]["y"]<0 then y2=gfx.h+(reagirl.Elements[i]["y"]*scale) else y2=reagirl.Elements[i]["y"]*scale end
     
@@ -2613,6 +2614,7 @@ function reagirl.Gui_Draw(Key, Key_utf, clickstate, specific_clickstate, mouse_c
     -- draw scrollbars and scrollbuttons
     for i=#reagirl.Elements-5, #reagirl.Elements, 1 do
       local selected="not selected"
+      local x2,y2,h2,w2
       if reagirl.Elements.FocusedElement==i then selected=reagirl.ui_element_selected end
       
       if reagirl.Elements[i]["x"]<0 then x2=gfx.w+(reagirl.Elements[i]["x"]*scale) else x2=reagirl.Elements[i]["x"]*scale end
@@ -2703,9 +2705,40 @@ function reagirl.Gui_Draw(Key, Key_utf, clickstate, specific_clickstate, mouse_c
       gfx.a=oldgfxa
       reagirl.Elements[reagirl.Draggable_Element]["mouse_x"]=-1
       reagirl.Elements[reagirl.Draggable_Element]["mouse_y"]=-1
+      local blink_length=tonumber(reaper.GetExtState("ReaGirl", "highlight_drag_destination_blink"))
+      if blink_length==nil then blink_length=0 end
+      gfx.rect(100,300,50,50,0)
+      local x2, w2, y2, h2
+      if reaper.GetExtState("ReaGirl", "highlight_drag_destinations")~="false" then
+        if reagirl.Blink_DragDestinations<=blink_length then
+          local scale=reagirl.Window_GetCurrentScale()
+          local oldr,oldg,oldb,olda=gfx.r, gfx.g, gfx.b, gfx.a
+          reaper.ClearConsole()
+          for i=1, #reagirl.Elements[reagirl.Draggable_Element]["DraggableDestinations"] do
+            local element_id=reagirl.Elements[reagirl.Draggable_Element]["DraggableDestinations"][i]
+            element_id=reagirl.UI_Element_GetIDFromGuid(element_id)
+            
+            --print(reagirl.Elements[reagirl.Draggable_Element]["DraggableDestinations"][i])
+            if reagirl.Elements[element_id]["x"]<0 then x2=gfx.w+(reagirl.Elements[element_id]["x"]*scale) else x2=reagirl.Elements[element_id]["x"]*scale end
+            if reagirl.Elements[element_id]["y"]<0 then y2=gfx.h+(reagirl.Elements[element_id]["y"]*scale) else y2=reagirl.Elements[element_id]["y"]*scale end
+            if reagirl.Elements[element_id]["w"]<0 then w2=gfx.w+(-x2+reagirl.Elements[element_id]["w"]*scale) else w2=reagirl.Elements[element_id]["w"]*scale end
+            if reagirl.Elements[element_id]["h"]<0 then h2=gfx.h+(-y2+reagirl.Elements[element_id]["h"]*scale) else h2=reagirl.Elements[element_id]["h"]*scale end
+            gfx.set(1,1,1,0.2)
+            
+            gfx.rect(x2+reagirl.MoveItAllRight,y2+reagirl.MoveItAllUp,w2,h2,1)
+            gfx.set(0,0,0,0.4)
+            gfx.rect(x2+reagirl.MoveItAllRight,y2+reagirl.MoveItAllUp,w2,h2,0)
+          end
+        end
+        reagirl.Blink_DragDestinations=reagirl.Blink_DragDestinations+1
+        if reagirl.Blink_DragDestinations>blink_length*2 then 
+          reagirl.Blink_DragDestinations=0
+        end
+      end
     end
   else
     reagirl.Gui_ForceRefreshState=false
+    reagirl.Blink_DragDestinations=0
   end
   
   
@@ -6853,8 +6886,14 @@ function reagirl.Image_Add(x, y, w, h, image_filename, caption, meaningOfUI_Elem
   gfx.set(r,g,b,a)
   local scale=reagirl.Window_CurrentScale
   
+  if reaper.file_exists(image_filename)==false then error("Image_Add: param #5 - file not found", 2) end
   local path, filename = string.gsub(image_filename, "\\", "/"):match("(.*)(/.*)")
-
+  --if filename==nil then error("Image_Add: param #5 - can't load file")
+  if filename==nil then filename=image_filename path="" end
+  local filename2, filename3=image_filename:match("(.*)%."), image_filename:match(".*(%..*)")
+  if filename2==nil or filename3==nil then
+    error("Image_Add: param #4 - filename has no extension", 2)
+  end
   if reaper.file_exists(image_filename:match("(.*)%.").."-"..scale.."x"..image_filename:match(".*(%..*)"))==true then
     image_filename=image_filename:match("(.*)%.").."-"..scale.."x"..image_filename:match(".*(%..*)")
   elseif reaper.file_exists(path.."/"..scale.."00/"..filename) then
@@ -7398,7 +7437,15 @@ function reagirl.Image_Load(element_id, image_filename)
   if reagirl.Elements[element_id]["GUI_Element_Type"]~="Image" then
     error("Image_Load: param #1 - ui-element is not an image", 2)
   else
+    if reaper.file_exists(image_filename)==false then error("Image_Add: param #5 - file not found", 2) end
+    
+    local filename2, filename3=image_filename:match("(.*)%."), image_filename:match(".*(%..*)")
+    if filename2==nil or filename3==nil then
+      error("Image_Add: param #4 - filename has no extension", 2)
+    end
+    
     reagirl.Elements[element_id]["Image_Filename"]=image_filename
+    
     reagirl.Image_ReloadImage_Scaled(el_id)
     reagirl.Gui_ForceRefresh(32)
   end
@@ -9433,6 +9480,7 @@ function reagirl.Tabs_Manage(element_id, selected, hovered, clicked, mouse_cap, 
     if retval==true then element_storage["DropZoneFunction"](element_storage["Guid"], {filenames}) refresh=true end
   end
   
+  local acc_message=""
   -- hover management for the tabs
   if hovered==true then
     if element_storage["Tabs_Pos"]~=nil then

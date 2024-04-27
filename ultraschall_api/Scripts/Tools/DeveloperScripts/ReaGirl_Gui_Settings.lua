@@ -25,6 +25,7 @@
 ]] 
 
 dofile(reaper.GetResourcePath().."/UserPlugins/reagirl.lua")
+
 reagirl.Settings_Override=true
 dofile(reaper.GetResourcePath().."/UserPlugins/ultraschall_api.lua")
 
@@ -46,6 +47,12 @@ end
 
 testtext=""
 
+function Image(element_id, filename, drag_destination)
+  if drag_destination==tab1.image_dest then
+    reaper.MB("Successfully dragged", "Dragged", 0)
+  end
+end
+
 function BlinkSpeed(slider_id, value)
   if value==0 then
     reaper.SetExtState("ReaGirl", "FocusRectangle_BlinkSpeed", "", true)
@@ -62,6 +69,14 @@ function BlinkTime(slider_id, value)
     reaper.SetExtState("ReaGirl", "FocusRectangle_BlinkTime", value, true)
   end
   reagirl.FocusRectangle_BlinkStartTime=reaper.time_precise()
+end
+
+function DragBlinkSpeed(element_id, value)
+  if value==0 then
+    reaper.SetExtState("ReaGirl", "highlight_drag_destination_blink", "", true)
+  else
+    reaper.SetExtState("ReaGirl", "highlight_drag_destination_blink", value*33, true)
+  end
 end
 
 function CursorBlinkSpeed(slider_id, value)
@@ -97,6 +112,9 @@ function checkbox(checkbox_id, checkstate)
   elseif checkbox_id==tab1.checkbox_tooltips_id then
     reaper.SetExtState("ReaGirl", "show_tooltips", tostring(checkstate), true)
     show_tooltips=checkstate
+  elseif checkbox_id==tab1.checkbox_highlight_drag_destinations then
+    reaper.SetExtState("ReaGirl", "highlight_drag_destinations", tostring(checkstate), true)
+    highlight_drag_destinations=checkstate
   end
 end
 
@@ -104,7 +122,7 @@ end
 function SetUpNewGui()
   reagirl.Gui_New()
   
-  Tabs=reagirl.Tabs_Add(10,10, 335, 260, "General settings", "Choose settings", {"General", "Osara"}, 1, nil)
+  Tabs=reagirl.Tabs_Add(10, 10, 335, 390, "General settings", "Choose settings", {"General", "Osara"}, 1, nil)
   
   tab1={}
   --[[ Blinking Focus Rectangle ]]
@@ -154,11 +172,31 @@ function SetUpNewGui()
   tab1.button_scale = reagirl.Button_Add(nil, nil, 0, 0, "Apply", "Apply the chosen scaling value", button_apply)
   reagirl.NextLine(15)
   
+  -- [[ Blinking Drag-Destinations ]]
+  reagirl.NextLine(15)
+  tab1.Label_Draggable_UI_Elements=reagirl.Label_Add(nil, nil, "Draggable UI-elements", "Settings for draggable ui-elements.", false, nil)
+  reagirl.Label_SetStyle(tab1.Label_Draggable_UI_Elements, 6, 0, 0)
+  reagirl.NextLine()
+  highlight_drag_destinations = reaper.GetExtState("ReaGirl", "highlight_drag_destinations")
+  if highlight_drag_destinations=="" or highlight_drag_destinations=="true" then highlight_drag_destinations=true else highlight_drag_destinations=false end
+  tab1.checkbox_highlight_drag_destinations = reagirl.Checkbox_Add(nil, nil, "Highlight drag-destinations", "When checked, ReaGirl will highlight the ui-elements, where you can drag a draggable ui-element to, like Images for instance.", highlight_drag_destinations, checkbox)
+  reagirl.NextLine()
+  drag_blinking=tonumber(reaper.GetExtState("ReaGirl", "highlight_drag_destination_blink"))
+  if drag_blinking==nil then drag_blinking=0 end
+  tab1.slider_blink_every_draggable=reagirl.Slider_Add(nil, nil, 300, "Blink every", 100, "Set the speed of the blinking of the drag-destinations; 0=no blinking.", "seconds", 0, 5, 0.1, drag_blinking/33, 0, DragBlinkSpeed)
+  reagirl.NextLine()
+  tab1.image_source=reagirl.Image_Add(50,nil,50,50,reaper.GetResourcePath().."/Data/track_icons/bass.png", "The sun always shines", "on tv", Image)
+  tab1.image_middle=reagirl.Image_Add(160,nil,25,25,reaper.GetResourcePath().."/Data/track_icons/folder_right.png", "The sun always shines", "on tv",nil)
+  tab1.image_dest=reagirl.Image_Add(250,nil,50,50,reaper.GetResourcePath().."/Data/track_icons/mic_dynamic_1.png", "The sun always shines", "on tv",nil)
+  reagirl.Image_SetDraggable(tab1.image_source, true, {tab1.image_dest})
+  
+  
   reagirl.Tabs_SetUIElementsForTab(Tabs, 1, tab1)
   
   -- [[ Osara override ]]
   tabs2={}
   reagirl.AutoPosition_SetNextYToUIElement(Tabs)
+  reagirl.NextLine()
   tabs2.Label_Osara=reagirl.Label_Add(nil, nil, "Osara", "Settings that influence the relationship between Osara and ReaGirl.", false, nil)
   reagirl.NextLine()
   reagirl.Label_SetStyle(tabs2.Label_Osara, 6, 0, 0)
@@ -190,7 +228,7 @@ SetUpNewGui()
 color=40
 reagirl.Background_GetSetColor(true,color,color,color)
 
-reagirl.Gui_Open("ReaGirl_Settings", true, "ReaGirl Settings (Reagirl v"..reagirl.GetVersion()..")", "various settings for ReaGirl-Accessible Guis", 355, 310, nil, nil, nil)
+reagirl.Gui_Open("ReaGirl_Settings", true, "ReaGirl Settings (Reagirl v"..reagirl.GetVersion()..")", "various settings for ReaGirl-Accessible Guis", 355, 435, nil, nil, nil)
 
 function CheckIfSettingChanged()
   if osara_debug~=toboolean(reaper.GetExtState("ReaGirl", "osara_debug"), false) then 
