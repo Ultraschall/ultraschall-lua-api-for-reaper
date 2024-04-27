@@ -1904,7 +1904,7 @@ function reagirl.Gui_Manage()
     if reagirl.Elements["FocusedElement"]~=-1 then
       if reagirl.Elements[1]~=nil then
         reagirl.osara_init_message=reagirl.Window_Title.. "-dialog, ".. reagirl.Window_Description..". ".. reagirl.Elements[reagirl.Elements["FocusedElement"]]["Name"].." ".. reagirl.Elements[reagirl.Elements["FocusedElement"]]["GUI_Element_Type"]
-        helptext=reagirl.Elements[reagirl.Elements["FocusedElement"]]["Description"]..". "..reagirl.Elements[reagirl.Elements["FocusedElement"]]["AccHint"]
+        helptext=reagirl.Elements[reagirl.Elements["FocusedElement"]]["Description"]..""..reagirl.Elements[reagirl.Elements["FocusedElement"]]["AccHint"]
       else
         reagirl.osara_init_message=reagirl.Window_Title.."-dialog, "..reagirl.Window_Description..". "
       end
