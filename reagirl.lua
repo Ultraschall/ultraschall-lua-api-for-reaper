@@ -9489,6 +9489,9 @@ function reagirl.Tabs_Manage(element_id, selected, hovered, clicked, mouse_cap, 
   end
   
   local acc_message=""
+  if selected~="not selected" then
+    acc_message=element_storage["TabNames"][element_storage["TabSelected"]].." tab selected."
+  end
   -- hover management for the tabs
   if hovered==true then
     if element_storage["Tabs_Pos"]~=nil then
@@ -9496,10 +9499,12 @@ function reagirl.Tabs_Manage(element_id, selected, hovered, clicked, mouse_cap, 
         if gfx.mouse_y>=y and gfx.mouse_y<=element_storage["Tabs_Pos"][i]["h"]+y then
           if gfx.mouse_x>=element_storage["Tabs_Pos"][i]["x"] and gfx.mouse_x<=element_storage["Tabs_Pos"][i]["x"]+element_storage["Tabs_Pos"][i]["w"] then
             --element_storage["AccHoverMessage"]=element_storage["TabNames"][i]
-            local selected=""
-            if element_storage["TabSelected"]==i then selected=" selected" end
-            --reagirl.Elements["GlobalAccHoverMessage"]=element_storage["TabNames"][i].." tab "..selected.."Tudelu"
-            acc_message=element_storage["TabNames"][i].." tab"..selected.."."
+            local selected1=""
+            if element_storage["TabSelected"]==i then selected1=" selected" end
+            acc_message=element_storage["TabNames"][i].." tab"..selected1.."."
+            if selected=="not selected" then
+              reagirl.Elements["GlobalAccHoverMessage"]=element_storage["TabNames"][i].." tab "..selected1.."Tudelu"
+            end
           end
         end
       end

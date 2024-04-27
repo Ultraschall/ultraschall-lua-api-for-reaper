@@ -350,6 +350,7 @@ Has now 1663 functions, with X new ones and two fewer ones(!)
   - Rendering: GetRenderCFG\_Settings\_RAW - gets settings of a RAW-renderformat-renderstring
 
 #### Changes from 4.9 to 5  
+  - Developer Tools: State Inspector - restores the loaded slot when reopening; ini-file doesn't get overwritten anymore after updating US_API
 
 ---
 
