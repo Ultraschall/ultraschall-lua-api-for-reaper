@@ -2002,7 +2002,7 @@ function reagirl.Gui_Manage()
     if reagirl.Elements["FocusedElement"]~=-1 then
       if reagirl.Elements["FocusedElement"]>#reagirl.Elements then reagirl.Elements["FocusedElement"]=1 end 
       init_message=reagirl.Elements[reagirl.Elements["FocusedElement"]]["Name"].." "..reagirl.Elements[reagirl.Elements["FocusedElement"]]["GUI_Element_Type"]..". "
-      helptext=reagirl.Elements[reagirl.Elements["FocusedElement"]]["Description"]..", "..reagirl.Elements[reagirl.Elements["FocusedElement"]]["AccHint"]
+      helptext=reagirl.Elements[reagirl.Elements["FocusedElement"]]["Description"].." "..reagirl.Elements[reagirl.Elements["FocusedElement"]]["AccHint"]
       if reagirl.Elements["FocusedElement"]<=#reagirl.Elements-6 then
         reagirl.UI_Element_ScrollToUIElement(reagirl.Elements[reagirl.Elements["FocusedElement"]].Guid) -- buggy, should scroll to ui-element...
       end
@@ -8602,7 +8602,7 @@ function reagirl.Slider_Manage(element_id, selected, hovered, clicked, mouse_cap
     end
   end
   element_storage["AccHoverMessage"]=element_storage["Name"].." "..element_storage["CurValue"]
-  return element_storage["CurValue"], refresh
+  return element_storage["CurValue"]..".", refresh
 end
 
 

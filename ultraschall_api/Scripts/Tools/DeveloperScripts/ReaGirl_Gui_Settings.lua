@@ -126,7 +126,7 @@ function SetUpNewGui()
   
   tab1={}
   --[[ Blinking Focus Rectangle ]]
-  tab1.Label_General=reagirl.Label_Add(nil, nil, "General", "General settings.", false, nil)
+  tab1.Label_General=reagirl.Label_Add(nil, nil, "General", "General settings", false, nil)
   reagirl.Label_SetStyle(tab1.Label_General, 6, 0, 0)
 
   reagirl.NextLine()
@@ -189,7 +189,8 @@ function SetUpNewGui()
   tab1.image_middle=reagirl.Image_Add(160,nil,25,25,reaper.GetResourcePath().."/Data/track_icons/folder_right.png", "Graphics with an arrow pointing to the drag-destination of the bass-guitar.", "Graphics with an arrow pointing to the drag-destination of the bass-guitar.",nil)
   tab1.image_dest=reagirl.Image_Add(250,nil,50,50,reaper.GetResourcePath().."/Data/track_icons/mic_dynamic_1.png", "The destination image, an image of a microphone.", "The destination image, drag the bass-guitar over here.",nil)
   reagirl.Image_SetDraggable(tab1.image_source, true, {tab1.image_dest})
-  
+  --reagirl.NextLine()
+  --tab1.ddm = reagirl.DropDownMenu_Add(nil,nil,300,"TUdelu", nil, "Test menu", {"One", "Two", "Three"}, 1, nil)
   
   reagirl.Tabs_SetUIElementsForTab(Tabs, 1, tab1)
   
