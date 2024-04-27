@@ -55,8 +55,8 @@ Now, let's add first ui-elements: a checkbox and a slider. I will also add two r
   reagirl.Gui_New()
 
   -- add a checkbox and a slider to the gui
-  checkbox_disableSlider_id = reagirl.Checkbox_Add(30, 50, "Activated", "Check to activate slider", true, Checkbox_RunFunction)
-  slider_id = reagirl.Slider_Add(200, 50, -20, "I am a slider", nil, "A slider to set a value", "%", 20, 200, 1, 25, 100, Slider_RunFunction)
+  checkbox_disableSlider_id = reagirl.Checkbox_Add(30, 50, "Activated", "Check to activate slider.", true, Checkbox_RunFunction)
+  slider_id = reagirl.Slider_Add(200, 50, -20, "I am a slider", nil, "A slider to set a value.", "%", 20, 200, 1, 25, 100, Slider_RunFunction)
 
   -- open the new gui
   reagirl.Gui_Open("My Dialog Name", false, "The dialog", "This is a demo dialog with settings for tool xyz.", 640, 120)
@@ -102,8 +102,8 @@ We will use the element\_id of the slider called slider\_id to adress it in reag
   reagirl.Gui_New()
 
   -- add a checkbox and a slider to the gui
-  checkbox_disableSlider_id = reagirl.Checkbox_Add(30, 50, "Activated", "Check to activate slider", true, Checkbox_RunFunction)
-  slider_id = reagirl.Slider_Add(200, 50, -20, "I am a slider", nil, "A slider to set a value", "%", 20, 200, 1, 25, 100, Slider_RunFunction)
+  checkbox_disableSlider_id = reagirl.Checkbox_Add(30, 50, "Activated", "Check to activate slider.", true, Checkbox_RunFunction)
+  slider_id = reagirl.Slider_Add(200, 50, -20, "I am a slider", nil, "A slider to set a value.", "%", 20, 200, 1, 25, 100, Slider_RunFunction)
 
   -- open the new gui
   reagirl.Gui_Open("My Dialog Name", false, "The dialog", "This is a demo dialog with settings for tool xyz.", 640, 120)
@@ -158,12 +158,12 @@ Let's see, how the gui looks now.
   reagirl.Gui_New()
 
   -- add a checkbox and a slider to the gui
-  checkbox_disableSlider_id = reagirl.Checkbox_Add(30, 50, "Activated", "Check to activate slider", true, Checkbox_RunFunction)
-  slider_id = reagirl.Slider_Add(200, 50, -20, "I am a slider", nil, "A slider to set a value", "%", 20, 200, 1, 25, 100, Slider_RunFunction)
+  checkbox_disableSlider_id = reagirl.Checkbox_Add(30, 50, "Activated", "Check to activate slider.", true, Checkbox_RunFunction)
+  slider_id = reagirl.Slider_Add(200, 50, -20, "I am a slider", nil, "A slider to set a value.", "%", 20, 200, 1, 25, 100, Slider_RunFunction)
 
   -- add a checkbox and a drop-down-menu to the gui
-  checkbox_disableDropDownMenu_id = reagirl.Checkbox_Add(30, 72, "Activated", "Check to activate drop-down-menu", false, Checkbox_RunFunction)
-  dropdownmenu_id = reagirl.DropDownMenu_Add(200, 72, -20, "I am a dropdownmenu", nil, "A Drop Down Menu to choose from", {"Entry 1 - The first entry", "Entry 2 - The second entry", "Entry 3 - The third entry"}, 2, DropDownMenu_RunFunction)
+  checkbox_disableDropDownMenu_id = reagirl.Checkbox_Add(30, 72, "Activated", "Check to activate drop-down-menu.", false, Checkbox_RunFunction)
+  dropdownmenu_id = reagirl.DropDownMenu_Add(200, 72, -20, "I am a dropdownmenu", nil, "A Drop Down Menu to choose from.", {"Entry 1 - The first entry", "Entry 2 - The second entry", "Entry 3 - The third entry"}, 2, DropDownMenu_RunFunction)
 
   -- open the new gui
   reagirl.Gui_Open("My Dialog Name", false, "The dialog", "This is a demo dialog with settings for tool xyz.", 640, 120)
@@ -221,12 +221,12 @@ It's basically done the same way, as we did for the slider. However, we use now 
   reagirl.Gui_New()
 
   -- add a checkbox and a slider to the gui
-  checkbox_disableSlider_id = reagirl.Checkbox_Add(30, 50, "Activated", "Check to activate slider", true, Checkbox_RunFunction)
-  slider_id = reagirl.Slider_Add(200, 50, -20, "I am a slider", nil, "A slider to set a value", "%", 20, 200, 1, 25, 100, Slider_RunFunction)
+  checkbox_disableSlider_id = reagirl.Checkbox_Add(30, 50, "Activated", "Check to activate slider.", true, Checkbox_RunFunction)
+  slider_id = reagirl.Slider_Add(200, 50, -20, "I am a slider", nil, "A slider to set a value.", "%", 20, 200, 1, 25, 100, Slider_RunFunction)
 
   -- add a checkbox and a drop-down-menu to the gui
-  checkbox_disableDropDownMenu_id = reagirl.Checkbox_Add(30, 72, "Activated", "Check to activate drop-down-menu", false, Checkbox_RunFunction)
-  dropdownmenu_id = reagirl.DropDownMenu_Add(200, 72, -20, "I am a dropdownmenu", nil, "A Drop Down Menu to choose from", {"Entry 1 - The first entry", "Entry 2 - The second entry", "Entry 3 - The third entry"}, 2, DropDownMenu_RunFunction)
+  checkbox_disableDropDownMenu_id = reagirl.Checkbox_Add(30, 72, "Activated", "Check to activate drop-down-menu.", false, Checkbox_RunFunction)
+  dropdownmenu_id = reagirl.DropDownMenu_Add(200, 72, -20, "I am a dropdownmenu", nil, "A Drop Down Menu to choose from.", {"Entry 1 - The first entry", "Entry 2 - The second entry", "Entry 3 - The third entry"}, 2, DropDownMenu_RunFunction)
 
   -- open the new gui
   reagirl.Gui_Open("My Dialog Name", false, "The dialog", "This is a demo dialog with settings for tool xyz.", 640, 120)
@@ -287,16 +287,16 @@ Here's how the code looks like now.
   reagirl.Gui_New()
 
   -- add a checkbox and a slider to the gui
-  checkbox_disableSlider_id = reagirl.Checkbox_Add(30, 50, "Activated", "Check to activate slider", true, Checkbox_RunFunction)
-  slider_id = reagirl.Slider_Add(200, 50, -20, "I am a slider", nil, "A slider to set a value", "%", 20, 200, 1, 25, 100, Slider_RunFunction)
+  checkbox_disableSlider_id = reagirl.Checkbox_Add(30, 50, "Activated", "Check to activate slider.", true, Checkbox_RunFunction)
+  slider_id = reagirl.Slider_Add(200, 50, -20, "I am a slider", nil, "A slider to set a value.", "%", 20, 200, 1, 25, 100, Slider_RunFunction)
 
   -- add a checkbox and a drop-down-menu to the gui
-  checkbox_disableDropDownMenu_id = reagirl.Checkbox_Add(30, 72, "Activated", "Check to activate drop-down-menu", false, Checkbox_RunFunction)
-  dropdownmenu_id = reagirl.DropDownMenu_Add(200, 72, -20, "I am a dropdownmenu", nil, "A Drop Down Menu to choose from", {"Entry 1 - The first entry", "Entry 2 - The second entry", "Entry 3 - The third entry"}, 2, DropDownMenu_RunFunction)
+  checkbox_disableDropDownMenu_id = reagirl.Checkbox_Add(30, 72, "Activated", "Check to activate drop-down-menu.", false, Checkbox_RunFunction)
+  dropdownmenu_id = reagirl.DropDownMenu_Add(200, 72, -20, "I am a dropdownmenu", nil, "A Drop Down Menu to choose from.", {"Entry 1 - The first entry", "Entry 2 - The second entry", "Entry 3 - The third entry"}, 2, DropDownMenu_RunFunction)
   reagirl.DropDownMenu_SetDisabled(dropdownmenu_id, true) -- set drop-down-menu to disabled
 
   -- open the new gui
-  reagirl.Gui_Open("The dialog", "This is a demo dialog with settings for tool xyz.", 640, 120)
+  reagirl.Gui_Open("My Dialog Name", false, "The dialog", "This is a demo dialog with settings for tool xyz.", 640, 120)
 
   function main()
     -- a function that runs the gui-manage function in the background, so the gui is updated correctly

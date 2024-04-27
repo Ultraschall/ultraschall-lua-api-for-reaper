@@ -1662,7 +1662,7 @@ function reagirl.Gui_Open(name, restore_old_window_state, title, description, w,
     boolean restore_old_window_state - true, restore the window position, size and dockstate when the window last got closed
                                      - false, always open with the same position, size and dockstate
     string title - the title of the window
-    string description - a description of what this dialog does, for blind users
+    string description - a description of what this dialog does, for blind users. Make it a sentence.
     optional integer w - the width of the window; nil=640
     optional integer h - the height of the window; nil=400
     optional integer dock - the dockstate of the window; 0, undocked; 1, docked; nil=undocked
@@ -1678,10 +1678,10 @@ function reagirl.Gui_Open(name, restore_old_window_state, title, description, w,
 </US_DocBloc>
 ]]
   if type(name)~="string" then error("Gui_Open: param #1 - must be a string", 2) end
-  if type(restore_old_window_state)~="boolean" then error("Gui_Open: param #2 - must be a string", 2) end
+  if type(restore_old_window_state)~="boolean" then error("Gui_Open: param #2 - must be a boolean", 2) end
   if type(title)~="string" then error("Gui_Open: param #3 - must be a string", 2) end
   if type(description)~="string" then error("Gui_Open: param #4 - must be a string", 2) end
-  if description:sub(-1,-1)~="." then error("Gui_Open: param #4 - must end on a . like a regular sentence.", 2) end
+  if description:sub(-1,-1)~="." and description:sub(-1,-1)~="?" then error("Gui_Open: param #4 - must end on a . like a regular sentence.", 2) end
   if w~=nil and math.type(w)~="integer" then error("Gui_Open: param #5 - must be either nil or an integer", 2) end
   if h~=nil and math.type(h)~="integer" then error("Gui_Open: param #6 - must be either nil or an integer", 2) end
   if dock~=nil and math.type(dock)~="integer" then error("Gui_Open: param #7 - must be either nil or an integer", 2) end
@@ -2080,6 +2080,7 @@ function reagirl.Gui_Manage()
   local found_element, old_selection 
   local restore=false
   for i=#reagirl.Elements-Scroll_Override_ScrollButtons, #reagirl.Elements do
+    if i==0 then break end
     if reagirl.Elements[i]["hidden"]~=true then
       local x2, y2, w2, h2
       if reagirl.Elements[i]["x"]<0 then x2=gfx.w+(reagirl.Elements[i]["x"]*scale) else x2=reagirl.Elements[i]["x"]*scale end
@@ -3354,12 +3355,12 @@ function reagirl.UI_Element_GetSetMeaningOfUIElement(element_id, is_set, meaning
     Keep in mind: blind people can't see the image so any kind of description will help them understand your script.
   </description>
   <retvals>
-    string meaningOfUI_Element - the meaningOfUI_Element of the ui-element
+    string meaningOfUI_Element - the meaningOfUI_Element of the ui-element(for tooltips and blind users). Make it a sentence that ends with . or ?
   </retvals>
   <parameters>
     string element_id - the id of the element, whose meaningOfUI_Element you want to get/set
     boolean is_set - true, set the meaningOfUI_Element; false, only retrieve the current meaningOfUI_Element
-    string meaningOfUI_Element - the meaningOfUI_Element of the ui-element
+    string meaningOfUI_Element - the meaningOfUI_Element of the ui-element(for tooltips and blind users). Make it a sentence that ends with . or ?
   </parameters>
   <chapter_context>
     UI Elements
@@ -3375,7 +3376,7 @@ function reagirl.UI_Element_GetSetMeaningOfUIElement(element_id, is_set, meaning
   if reagirl.Elements[element_id]==nil then error("UI_Element_GetSetMeaningOfUIElement: param #1 - no such ui-element", 2) end
   if type(is_set)~="boolean" then error("UI_Element_GetSetMeaningOfUIElement: param #2 - must be a boolean", 2) end
   if is_set==true and type(meaningOfUI_Element)~="string" then error("UI_Element_GetSetMeaningOfUIElement: param #3 - must be a string when #2==true", 2) end
-  if meaningofUI_Element:sub(-1,-1)~="." then error("UI_Element_GetSetMeaningOfUIElement: param #3 - must end on a . like a regular sentence.", 2) end
+  if meaningOfUI_Element:sub(-1,-1)~="." and meaningOfUI_Element:sub(-1,-1)~="?" then error("UI_Element_GetSetMeaningOfUIElement: param #3 - must end on a . like a regular sentence.", 2) end
   if is_set==true then
     reagirl.Elements[element_id]["Description"]=meaningOfUI_Element
   end
@@ -3769,7 +3770,7 @@ function reagirl.Checkbox_Add(x, y, caption, meaningOfUI_Element, default, run_f
     optional integer x - the x position of the checkbox in pixels; negative anchors the checkbox to the right window-side; nil, autoposition after the last ui-element(see description)
     optional integer y - the y position of the checkbox in pixels; negative anchors the checkbox to the bottom window-side; nil, autoposition after the last ui-element(see description)
     string caption - the caption of the checkbox
-    string meaningOfUI_Element - a description for accessibility users
+    string meaningOfUI_Element - the meaningOfUI_Element of the ui-element(for tooltips and blind users). Make it a sentence that ends with . or ?
     boolean default - true, set the checkbox checked; false, set the checkbox unchecked
     optional function run_function - a function that shall be run when the checkbox is clicked; will get passed over the checkbox-element_id as first and the new checkstate as second parameter
   </parameters>
@@ -3787,7 +3788,7 @@ function reagirl.Checkbox_Add(x, y, caption, meaningOfUI_Element, default, run_f
   if type(caption)~="string" then error("Checkbox_Add: param #3 - must be a string", 2) end
   caption=string.gsub(caption, "[\n\r]", "")
   if type(meaningOfUI_Element)~="string" then error("Checkbox_Add: param #4 - must be a string", 2) end
-  if meaningOfUI_Element:sub(-1,-1)~="." then error("Checkbox_Add: param #4 - must end on a . like a regular sentence.", 2) end
+  if meaningOfUI_Element:sub(-1,-1)~="." and meaningOfUI_Element:sub(-1,-1)~="?" then error("Checkbox_Add: param #4 - must end on a . like a regular sentence.", 2) end
   if type(default)~="boolean" then error("Checkbox_Add: param #5 - must be a boolean", 2) end
   if run_function~=nil and type(run_function)~="function" then error("Checkbox_Add: param #6 - must be either nil or a function", 2) end
   
@@ -4238,7 +4239,7 @@ function reagirl.Button_Add(x, y, w_margin, h_margin, caption, meaningOfUI_Eleme
     integer w_margin - a margin left and right of the caption
     integer h_margin - a margin top and bottom of the caption
     string caption - the caption of the button
-    string meaningOfUI_Element - a description for accessibility users
+    string meaningOfUI_Element - the meaningOfUI_Element of the ui-element(for tooltips and blind users). Make it a sentence that ends with . or ?
     optional function run_function - a function that shall be run when the button is clicked; will get the button-element_id passed over as first parameter; nil, no run-function fo this button
   </parameters>
   <retvals>
@@ -4257,7 +4258,7 @@ function reagirl.Button_Add(x, y, w_margin, h_margin, caption, meaningOfUI_Eleme
   if type(caption)~="string" then error("Button_Add: param #5 - must be a string", 2) end
   caption=string.gsub(caption, "[\n\r]", "")
   if type(meaningOfUI_Element)~="string" then error("Button_Add: param #6 - must be a string", 2) end
-  if meaningOfUI_Element:sub(-1,-1)~="." then error("Button_Add: param #6 - must end on a . like a regular sentence.", 2) end
+  if meaningOfUI_Element:sub(-1,-1)~="." and meaningOfUI_Element:sub(-1,-1)~="?" then error("Button_Add: param #6 - must end on a . like a regular sentence.", 2) end
   if run_function~=nil and type(run_function)~="function" then error("Button_Add: param #7 - must be either nil or a function", 2) end
   
   local x,y,slot=reagirl.UI_Element_GetNextXAndYPosition(x, y, "Button_Add")
@@ -4589,7 +4590,7 @@ function reagirl.Inputbox_Add(x, y, w, caption, Cap_width, meaningOfUI_Element, 
     integer w - the width of the inputbox in pixels
     string caption - the caption of the inpubox
     optional integer cap_width - the width of the caption to set the actual inputbox to a fixed position; nil, put inputbox directly after caption
-    string meaningOfUI_Element - a description for accessibility users
+    string meaningOfUI_Element - the meaningOfUI_Element of the ui-element(for tooltips and blind users). Make it a sentence that ends with . or ?
     optional string Default - the "typed text" that the inputbox shall contain
     optional function run_function_enter - a function that is run when the user hits enter in the inputbox(always used, even for screenreader users)
     function run_function_type - a function that is run when the user types into the inputbox(only used if no screenreader is used)
@@ -4610,7 +4611,7 @@ function reagirl.Inputbox_Add(x, y, w, caption, Cap_width, meaningOfUI_Element, 
   caption=string.gsub(caption, "[\n\r]", "")
   if Cap_width~=nil and math.type(Cap_width)~="integer" then error("Inputbox_Add: param #5 - must be either nil or an integer", 2) end
   if type(meaningOfUI_Element)~="string" then error("Inputbox_Add: param #6 - must be a string", 2) end
-  if meaningOfUI_Element:sub(-1,-1)~="." then error("Inputbox_Add: param #6 - must end on a . like a regular sentence.", 2) end
+  if meaningOfUI_Element:sub(-1,-1)~="." and meaningOfUI_Element:sub(-1,-1)~="?" then error("Inputbox_Add: param #6 - must end on a . like a regular sentence.", 2) end
   if type(Default)~="string" then error("Inputbox_Add: param #7 - must be a string", 2) end
   if run_function_enter~=nil and type(run_function_enter)~="function" then error("Inputbox_Add: param #8 - must be either nil or a function", 2) end
   if run_function_type~=nil and type(run_function_type)~="function" then error("Inputbox_Add: param #9 - must be either nil or a function", 2) end
@@ -5798,7 +5799,7 @@ function reagirl.DropDownMenu_Add(x, y, w, caption, Cap_width, meaningOfUI_Eleme
     integer w - the width of the dropdown-menu; negative links width to the right-edge of the window
     string caption - the caption of the dropdown-menu, shown to the left of the drop down menu
     optional integer Cap_width - the width of the caption to set the actual menu to a fixed position; nil, put menu directly after caption
-    string meaningOfUI_Element - a description for accessibility users
+    string meaningOfUI_Element - the meaningOfUI_Element of the ui-element(for tooltips and blind users). Make it a sentence that ends with . or ?
     table menuItems - a table, where every entry is a menu-item
     integer menuSelectedItem - the index of the pre-selected menu-item
     optional function run_function - a function that shall be run when the menu is clicked/a new entry is selected; will get the dropdown-menu-element_id passed over as first parameter and the selected menu_item as second parameter
@@ -5819,7 +5820,7 @@ function reagirl.DropDownMenu_Add(x, y, w, caption, Cap_width, meaningOfUI_Eleme
   caption=string.gsub(caption, "[\n\r]", "")
   if Cap_width~=nil and math.type(Cap_width)~="integer" then error("DropDownMenu_Add: param #5 - must be either nil or an integer", 2) end
   if type(meaningOfUI_Element)~="string" then error("DropDownMenu_Add: param #6 - must be a string", 2) end
-  if meaningOfUI_Element:sub(-1,-1)~="." then error("DropDownMenu_Add: param #6 - must end on a . like a regular sentence.", 2) end
+  if meaningOfUI_Element:sub(-1,-1)~="." and meaningOfUI_Element:sub(-1,-1)~="?" then error("DropDownMenu_Add: param #6 - must end on a . like a regular sentence.", 2) end
   if type(menuItems)~="table" then error("DropDownMenu_Add: param #7 - must be a table", 2) end
   for i=1, #menuItems do
     menuItems[i]=tostring(menuItems[i])
@@ -6651,7 +6652,7 @@ function reagirl.Label_Add(x, y, label, meaningOfUI_Element, clickable, run_func
     optional integer x - the x position of the label in pixels; negative anchors the label to the right window-side; nil, autoposition after the last ui-element(see description)
     optional integer y - the y position of the label in pixels; negative anchors the label to the bottom window-side; nil, autoposition after the last ui-element(see description)
     string label - the text of the label
-    string meaningOfUI_Element - a description of the label for accessibility users
+    string meaningOfUI_Element - the meaningOfUI_Element of the ui-element(for tooltips and blind users). Make it a sentence that ends with . or ?
     boolean clickable - true, the text is a clickable link-text; false or nil, the label-text is normal text
     optional function run_function - a function that gets run when clicking the link-text(clickable=true)
   </parameters>
@@ -6665,7 +6666,7 @@ function reagirl.Label_Add(x, y, label, meaningOfUI_Element, clickable, run_func
   if y~=nil and math.type(y)~="integer" then error("Label_Add: param #2 - must be either nil or an integer", 2) end
   if type(label)~="string" then error("Label_Add: param #3 - must be a string", 2) end
   if type(meaningOfUI_Element)~="string" then error("Label_Add: param #4 - must be a string", 2) end
-  if meaningOfUI_Element:sub(-1,-1)~="." then error("Label_Add: param #4 - must end on a . like a regular sentence.", 2) end
+  if meaningOfUI_Element:sub(-1,-1)~="." and meaningOfUI_Element:sub(-1,-1)~="?" then error("Label_Add: param #4 - must end on a . like a regular sentence.", 2) end
   if clickable==nil then clickable=false end
   if type(clickable)~="boolean" then error("Label_Add: param #6 - must be a boolean", 2) end
   if run_function==nil then run_function=reagirl.Dummy end
@@ -6868,7 +6869,7 @@ function reagirl.Image_Add(x, y, w, h, image_filename, caption, meaningOfUI_Elem
     integer h - the height of the image in pixels(might result in stretched images!)
     string image_filename - the filename of the imagefile to be shown
     string caption - a descriptive name for the image
-    string meaningOfUI_Element - a description of the meaning of this image for accessibility users
+    string meaningOfUI_Element - the meaningOfUI_Element of the ui-element(for tooltips and blind users). Make it a sentence that ends with . or ?
     optional function run_function - a function that is run when the image is clicked; will get the image-element-id as first parameter and the image-filename passed as second parameter
   </parameters>
   <retvals>
@@ -6887,7 +6888,7 @@ function reagirl.Image_Add(x, y, w, h, image_filename, caption, meaningOfUI_Elem
   if type(image_filename)~="string" then error("Image_Add: param #5 - must be a string", 2) end
   if type(caption)~="string" then error("Image_Add: param #6 - must be a string", 2) end
   if type(meaningOfUI_Element)~="string" then error("Image_Add: param #7 - must be a string", 2) end
-  if meaningOfUI_Element:sub(-1,-1)~="." then error("Image_Add: param #7 - must end on a . like a regular sentence.", 2) end
+  if meaningOfUI_Element:sub(-1,-1)~="." and meaningOfUI_Element:sub(-1,-1)~="?" then error("Image_Add: param #7 - must end on a . like a regular sentence.", 2) end
   if run_function==nil then run_function=reagirl.Dummy end
   if run_function~=nil and type(run_function)~="function" then error("Image_Add: param #8 - must be either nil or a function", 2) end
   
@@ -8409,7 +8410,7 @@ function reagirl.Slider_Add(x, y, w, caption, Cap_width, meaningOfUI_Element, un
     optional integer y - the y position of the slider in pixels; negative anchors the slider to the bottom window-side; nil, autoposition after the last ui-element(see description)
     string caption - the caption of the slider
     optional integer cap_width - the width of the caption to set the actual slider to a fixed position; nil, put slider directly after caption
-    string meaningOfUI_Element - a description for accessibility users
+    string meaningOfUI_Element - the meaningOfUI_Element of the ui-element(for tooltips and blind users). Make it a sentence that ends with . or ?
     optional string unit - the unit shown next to the number the slider is currently set to
     number start - the minimum value of the slider
     number stop - the maximum value of the slider
@@ -8436,7 +8437,7 @@ function reagirl.Slider_Add(x, y, w, caption, Cap_width, meaningOfUI_Element, un
   caption=string.gsub(caption, "[\n\r]", "")
   if Cap_width~=nil and math.type(Cap_width)~="integer" then error("Slider_Add: param #5 - must be either nil or an integer", 2) end
   if type(meaningOfUI_Element)~="string" then error("Slider_Add: param #6 - must be a string", 2) end
-  if meaningOfUI_Element:sub(-1,-1)~="." then error("Slider_Add: param #6 - must end on a . like a regular sentence.", 2) end
+  if meaningOfUI_Element:sub(-1,-1)~="." and meaningOfUI_Element:sub(-1,-1)~="?" then error("Slider_Add: param #6 - must end on a . like a regular sentence.", 2) end
   if unit~=nil and type(unit)~="string" then error("Slider_Add: param #7 - must be a string", 2) end
   if unit==nil then unit="" end
   unit=string.gsub(unit, "[\n\r]", "")
@@ -9292,7 +9293,7 @@ function reagirl.Tabs_Add(x, y, w_backdrop, h_backdrop, caption, meaningOfUI_Ele
     optional integer w_backdrop - the width of the tab's backdrop; negative, anchor it to the right window-edge; nil, autosize the backdrop to the gui-elements currently shown
     optional integer h_backdrop - the height of the tab's backdrop; negative, anchor it to the bottom window-edge; nil, autosize the backdrop to the gui-elements currently shown
     string caption - the caption of the tab
-    string meaningOfUI_Element - a description for accessibility users
+    string meaningOfUI_Element - the meaningOfUI_Element of the ui-element(for tooltips and blind users). Make it a sentence that ends with . or ?
     table tab_names - an indexed table with all tab-names 
     integer selected_tab - the index of the currently selected tab; 1-based
     optional function run_function - a function that shall be run when a tab is clicked/selected via keys; 
@@ -9314,19 +9315,19 @@ function reagirl.Tabs_Add(x, y, w_backdrop, h_backdrop, caption, meaningOfUI_Ele
   if reagirl.Tabs_Count==1 then error("Tabs_Add: only one tab per gui allowed", 2) end
   if x~=nil and math.type(x)~="integer" then error("Tabs_Add: param #1 - must be either nil or an integer", 2) end
   if y~=nil and math.type(y)~="integer" then error("Tabs_Add: param #2 - must be either nil or an integer", 2) end
-  if w_backdrop~=nil and math.type(w_backdrop)~="integer" then error("Tabs_Add: param #4 - must be either nil or an integer", 2) end
-  if h_backdrop~=nil and math.type(h_backdrop)~="integer" then error("Tabs_Add: param #5 - must be either nil or an integer", 2) end
-  if type(caption)~="string" then error("Tabs_Add: param #6 - must be a string", 2) end
+  if w_backdrop~=nil and math.type(w_backdrop)~="integer" then error("Tabs_Add: param #3 - must be either nil or an integer", 2) end
+  if h_backdrop~=nil and math.type(h_backdrop)~="integer" then error("Tabs_Add: param #4 - must be either nil or an integer", 2) end
+  if type(caption)~="string" then error("Tabs_Add: param #5 - must be a string", 2) end
   caption=string.gsub(caption, "[\n\r]", "")
-  if type(meaningOfUI_Element)~="string" then error("Tabs_Add: param #7 - must be a string", 2) end
-  if meaningOfUI_Element:sub(-1,-1)~="." then error("Tabs_Add: param #7 - must end on a . like a regular sentence.", 2) end
-  if type(tab_names)~="table" then error("Tabs_Add: param #8 - must be a table", 2) end
+  if type(meaningOfUI_Element)~="string" then error("Tabs_Add: param #6 - must be a string", 2) end
+  if meaningOfUI_Element:sub(-1,-1)~="." and meaningOfUI_Element:sub(-1,-1)~="?" then error("Tabs_Add: param #6 - must end on a . like a regular sentence.", 2) end
+  if type(tab_names)~="table" then error("Tabs_Add: param #7 - must be a table", 2) end
   for i=1, #tab_names do
     tab_names[i]=tostring(tab_names[i])
     tab_names[i]=string.gsub(tab_names[i], "[\n\r]", "")
   end
-  if math.type(selected_tab)~="integer" then error("Tabs_Add: param #9 - must be an integer", 2) end
-  if run_function~=nil and type(run_function)~="function" then error("Tabs_Add: param #10 - must be either nil or a function", 2) end
+  if math.type(selected_tab)~="integer" then error("Tabs_Add: param #8 - must be an integer", 2) end
+  if run_function~=nil and type(run_function)~="function" then error("Tabs_Add: param #9 - must be either nil or a function", 2) end
   
   local x,y,slot=reagirl.UI_Element_GetNextXAndYPosition(x, y, "Tabs_Add")
   --reagirl.UI_Element_NextX_Default=x

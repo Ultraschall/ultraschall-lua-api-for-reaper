@@ -112,7 +112,7 @@ Let's start with a basic gui, which will show one single button.
   -- add an ok-button to the gui at x-position 30 and y-position 200 with the run-function Button_RunFunction
   -- The meaningOfUI_Element-parameter "Apply changes and close dialog" will be shown as tooltip 
   -- and sent to a screenreader for blind people.
-  button_ok_id = reagirl.Button_Add(30, 200, 0, 0, "OK", "Apply changes and close dialog", Button_RunFunction)
+  button_ok_id = reagirl.Button_Add(30, 200, 0, 0, "OK", "Apply changes and close dialog.", Button_RunFunction)
   
   -- Step 4: open the new gui with size 640x250 pixels, titled "The dialog". 
   -- In addition to the title, blind people will also get "This is a demo dialog with settings for tool xyz." 
@@ -164,8 +164,8 @@ It's looks like the following code.
   -- create new gui
   reagirl.Gui_New()
   -- add an ok-button and a cancel button to the gui
-  button_ok_id = reagirl.Button_Add(30, 200, 0, 0, "OK", "Apply changes and close dialog", Button_RunFunction)
-  button_cancel_id = reagirl.Button_Add(70, 200, 0, 0, "Cancel", "Discard changes and close dialog", Button_RunFunction)
+  button_ok_id = reagirl.Button_Add(30, 200, 0, 0, "OK", "Apply changes and close dialog.", Button_RunFunction)
+  button_cancel_id = reagirl.Button_Add(70, 200, 0, 0, "Cancel", "Discard changes and close dialog.", Button_RunFunction)
 
   -- open the new gui
   reagirl.Gui_Open("My Dialog Name", false, "The dialog", "This is a demo dialog with settings for tool xyz.", 640, 250)
@@ -223,8 +223,8 @@ We also add a run-function for it called Checkbox\_RunFunction, which will pop u
   checkbox_remember = reagirl.Checkbox_Add(30, 170, "Remember chosen setting", "Shall this setting be used as future default?", true, Checkbox_RunFunction)
 
   -- add an ok-button and a cancel button to the gui
-  button_ok_id = reagirl.Button_Add(30, 200, 0, 0, "OK", "Apply changes and close dialog", Button_RunFunction)
-  button_cancel_id = reagirl.Button_Add(70, 200, 0, 0, "Cancel", "Discard changes and close dialog", Button_RunFunction)
+  button_ok_id = reagirl.Button_Add(30, 200, 0, 0, "OK", "Apply changes and close dialog.", Button_RunFunction)
+  button_cancel_id = reagirl.Button_Add(70, 200, 0, 0, "Cancel", "Discard changes and close dialog.", Button_RunFunction)
 
   -- open the new gui
   reagirl.Gui_Open("My Dialog Name", false, "The dialog", "This is a demo dialog with settings for tool xyz.", 640, 250)
@@ -305,16 +305,16 @@ Let's add two inputboxes with the two run-functions(InputBox\_RunFunction\_Type 
   reagirl.Gui_New()
 
   -- add inputboxes to type in text
-  inputbox_name_of_setting = reagirl.Inputbox_Add(30, 105, 300, "Name of the setting:", 150, "Type in here the name of the setting", "No title", InputBox_RunFunction_Enter, InputBox_RunFunction_Type)
-  inputbox_description_of_setting = reagirl.Inputbox_Add(30, 130, 300, "Description of the setting:", 150, "Type in here a description of the setting", "No Description", InputBox_RunFunction_Enter, InputBox_RunFunction_Type)
+  inputbox_name_of_setting = reagirl.Inputbox_Add(30, 105, 300, "Name of the setting:", 150, "Type in here the name of the setting.", "No title", InputBox_RunFunction_Enter, InputBox_RunFunction_Type)
+  inputbox_description_of_setting = reagirl.Inputbox_Add(30, 130, 300, "Description of the setting:", 150, "Type in here a description of the setting.", "No Description", InputBox_RunFunction_Enter, InputBox_RunFunction_Type)
 
   -- add two checkboxes to the gui
   checkbox_mysetting = reagirl.Checkbox_Add(30, 150, "My setting", "How shall my setting be set?", true, Checkbox_RunFunction)
   checkbox_remember = reagirl.Checkbox_Add(30, 170, "Remember chosen setting", "Shall this setting be used as future default?", true, Checkbox_RunFunction)
 
   -- add an ok-button and a cancel button to the gui
-  button_ok_id = reagirl.Button_Add(30, 200, 0, 0, "OK", "Apply changes and close dialog", Button_RunFunction)
-  button_cancel_id = reagirl.Button_Add(70, 200, 0, 0, "Cancel", "Discard changes and close dialog", Button_RunFunction)
+  button_ok_id = reagirl.Button_Add(30, 200, 0, 0, "OK", "Apply changes and close dialog.", Button_RunFunction)
+  button_cancel_id = reagirl.Button_Add(70, 200, 0, 0, "Cancel", "Discard changes and close dialog.", Button_RunFunction)
 
   -- open the new gui
   reagirl.Gui_Open("My Dialog Name", false, "The dialog", "This is a demo dialog with settings for tool xyz.", 640, 250)
@@ -387,21 +387,21 @@ For this, we use the functions Label\_SetFontSize and Label\_SetStyle.
   reagirl.Gui_New()
 
   -- add a textlabel to the top of the gui
-  label_header=reagirl.Label_Add(30, 50, "This is a settings dialog", "Set the settings, as you wish", false, nil)
+  label_header=reagirl.Label_Add(30, 50, "This is a settings dialog", "Set the settings, as you wish.", false, nil)
   reagirl.Label_SetFontSize(label_header, 40) -- set the font-size of the label to 40
   reagirl.Label_SetStyle(label_header, 6, 0, 0) -- set the label to underlined
 
   -- add inputboxes to type in text
-  inputbox_name_of_setting = reagirl.Inputbox_Add(30, 105, 300, "Name of the setting:", 150, "Type in here the name of the setting", "No title", InputBox_RunFunction_Enter, InputBox_RunFunction_Type)
-  inputbox_description_of_setting = reagirl.Inputbox_Add(30, 130, 300, "Description of the setting:", 150, "Type in here a description of the setting", "No Description", InputBox_RunFunction_Enter, InputBox_RunFunction_Type)
+  inputbox_name_of_setting = reagirl.Inputbox_Add(30, 105, 300, "Name of the setting:", 150, "Type in here the name of the setting.", "No title", InputBox_RunFunction_Enter, InputBox_RunFunction_Type)
+  inputbox_description_of_setting = reagirl.Inputbox_Add(30, 130, 300, "Description of the setting:", 150, "Type in here a description of the setting.", "No Description", InputBox_RunFunction_Enter, InputBox_RunFunction_Type)
 
   -- add two checkboxes to the gui
   checkbox_mysetting = reagirl.Checkbox_Add(30, 150, "My setting", "How shall my setting be set?", true, Checkbox_RunFunction)
   checkbox_remember = reagirl.Checkbox_Add(30, 170, "Remember chosen setting", "Shall this setting be used as future default?", true, Checkbox_RunFunction)
 
   -- add an ok-button and a cancel button to the gui
-  button_ok_id = reagirl.Button_Add(30, 200, 0, 0, "OK", "Apply changes and close dialog", Button_RunFunction)
-  button_cancel_id = reagirl.Button_Add(70, 200, 0, 0, "Cancel", "Discard changes and close dialog", Button_RunFunction)  
+  button_ok_id = reagirl.Button_Add(30, 200, 0, 0, "OK", "Apply changes and close dialog.", Button_RunFunction)
+  button_cancel_id = reagirl.Button_Add(70, 200, 0, 0, "Cancel", "Discard changes and close dialog.", Button_RunFunction)  
 
   -- open the new gui
   reagirl.Gui_Open("My Dialog Name", false, "The dialog", "This is a demo dialog with settings for tool xyz.", 640, 250)
@@ -470,21 +470,21 @@ For this, we use the function reagirl.Button\_SetRadius in the following code, w
   reagirl.Gui_New()
 
   -- add a textlabel to the top of the gui
-  label_header=reagirl.Label_Add(30, 50, "This is a settings dialog", "Set the settings, as you wish", false, nil)
+  label_header=reagirl.Label_Add(30, 50, "This is a settings dialog", "Set the settings, as you wish.", false, nil)
   reagirl.Label_SetFontSize(label_header, 40) -- set the font-size of the label to 40
   reagirl.Label_SetStyle(label_header, 6, 0, 0) -- set the label to underlined
 
   -- add inputboxes to type in text
-  inputbox_name_of_setting = reagirl.Inputbox_Add(30, 105, 300, "Name of the setting:", 150, "Type in here the name of the setting", "No title", InputBox_RunFunction_Enter, InputBox_RunFunction_Type)
-  inputbox_description_of_setting = reagirl.Inputbox_Add(30, 130, 300, "Description of the setting:", 150, "Type in here a description of the setting", "No Description", InputBox_RunFunction_Enter, InputBox_RunFunction_Type)
+  inputbox_name_of_setting = reagirl.Inputbox_Add(30, 105, 300, "Name of the setting:", 150, "Type in here the name of the setting.", "No title", InputBox_RunFunction_Enter, InputBox_RunFunction_Type)
+  inputbox_description_of_setting = reagirl.Inputbox_Add(30, 130, 300, "Description of the setting:", 150, "Type in here a description of the setting.", "No Description", InputBox_RunFunction_Enter, InputBox_RunFunction_Type)
 
   -- add two checkboxes to the gui
   checkbox_mysetting = reagirl.Checkbox_Add(30, 150, "My setting", "How shall my setting be set?", true, Checkbox_RunFunction)
   checkbox_remember = reagirl.Checkbox_Add(30, 170, "Remember chosen setting", "Shall this setting be used as future default?", true, Checkbox_RunFunction)
 
   -- add an ok-button and a cancel button to the gui
-  button_ok_id = reagirl.Button_Add(30, 200, 0, 0, "OK", "Apply changes and close dialog", Button_RunFunction)
-  button_cancel_id = reagirl.Button_Add(70, 200, 0, 0, "Cancel", "Discard changes and close dialog", Button_RunFunction)
+  button_ok_id = reagirl.Button_Add(30, 200, 0, 0, "OK", "Apply changes and close dialog.", Button_RunFunction)
+  button_cancel_id = reagirl.Button_Add(70, 200, 0, 0, "Cancel", "Discard changes and close dialog.", Button_RunFunction)
   reagirl.Button_SetRadius(button_ok_id, 20)    -- make the ok-button rounder
   reagirl.Button_SetRadius(button_cancel_id, 0) -- make the cancel button square
 
@@ -552,21 +552,21 @@ I'll choose to set it(true) to a grey tone(55).
   reagirl.Gui_New()
 
   -- add a textlabel to the top of the gui
-  label_header=reagirl.Label_Add(30, 50, "This is a settings dialog", "Set the settings, as you wish", false, nil)
+  label_header=reagirl.Label_Add(30, 50, "This is a settings dialog", "Set the settings, as you wish.", false, nil)
   reagirl.Label_SetFontSize(label_header, 40) -- set the font-size of the label to 40
   reagirl.Label_SetStyle(label_header, 6, 0, 0) -- set the label to underlined
 
   -- add inputboxes to type in text
-  inputbox_name_of_setting = reagirl.Inputbox_Add(30, 105, 300, "Name of the setting:", 150, "Type in here the name of the setting", "No title", InputBox_RunFunction_Enter, InputBox_RunFunction_Type)
-  inputbox_description_of_setting = reagirl.Inputbox_Add(30, 130, 300, "Description of the setting:", 150, "Type in here a description of the setting", "No Description", InputBox_RunFunction_Enter, InputBox_RunFunction_Type)
+  inputbox_name_of_setting = reagirl.Inputbox_Add(30, 105, 300, "Name of the setting:", 150, "Type in here the name of the setting.", "No title", InputBox_RunFunction_Enter, InputBox_RunFunction_Type)
+  inputbox_description_of_setting = reagirl.Inputbox_Add(30, 130, 300, "Description of the setting:", 150, "Type in here a description of the setting.", "No Description", InputBox_RunFunction_Enter, InputBox_RunFunction_Type)
 
   -- add two checkboxes to the gui
   checkbox_mysetting = reagirl.Checkbox_Add(30, 150, "My setting", "How shall my setting be set?", true, Checkbox_RunFunction)
   checkbox_remember = reagirl.Checkbox_Add(30, 170, "Remember chosen setting", "Shall this setting be used as future default?", true, Checkbox_RunFunction)
 
   -- add an ok-button and a cancel button to the gui
-  button_ok_id = reagirl.Button_Add(30, 200, 0, 0, "OK", "Apply changes and close dialog", Button_RunFunction)
-  button_cancel_id = reagirl.Button_Add(70, 200, 0, 0, "Cancel", "Discard changes and close dialog", Button_RunFunction)
+  button_ok_id = reagirl.Button_Add(30, 200, 0, 0, "OK", "Apply changes and close dialog.", Button_RunFunction)
+  button_cancel_id = reagirl.Button_Add(70, 200, 0, 0, "Cancel", "Discard changes and close dialog.", Button_RunFunction)
   reagirl.Button_SetRadius(button_ok_id, 20)    -- make the ok-button rounder
   reagirl.Button_SetRadius(button_cancel_id, 0) -- make the cancel button square
 
@@ -638,26 +638,26 @@ To achieve this, just make the x/y-coordinate negative. In the case of our image
   reagirl.Gui_New()  
 
   -- add a textlabel to the top of the gui
-  label_header=reagirl.Label_Add(30, 50, "This is a settings dialog", "Set the settings, as you wish", false, nil)
+  label_header=reagirl.Label_Add(30, 50, "This is a settings dialog", "Set the settings, as you wish.", false, nil)
   reagirl.Label_SetFontSize(label_header, 40) -- set the font-size of the label to 40
   reagirl.Label_SetStyle(label_header, 6, 0, 0) -- set the label to underlined
 
   -- add inputboxes to type in text
-  inputbox_name_of_setting = reagirl.Inputbox_Add(30, 105, 300, "Name of the setting:", 150, "Type in here the name of the setting", "No title", InputBox_RunFunction_Enter, InputBox_RunFunction_Type)
-  inputbox_description_of_setting = reagirl.Inputbox_Add(30, 130, 300, "Description of the setting:", 150, "Type in here a description of the setting", "No Description", InputBox_RunFunction_Enter, InputBox_RunFunction_Type)
+  inputbox_name_of_setting = reagirl.Inputbox_Add(30, 105, 300, "Name of the setting:", 150, "Type in here the name of the setting.", "No title", InputBox_RunFunction_Enter, InputBox_RunFunction_Type)
+  inputbox_description_of_setting = reagirl.Inputbox_Add(30, 130, 300, "Description of the setting:", 150, "Type in here a description of the setting.", "No Description", InputBox_RunFunction_Enter, InputBox_RunFunction_Type)
 
   -- add two checkboxes to the gui
   checkbox_mysetting = reagirl.Checkbox_Add(30, 150, "My setting", "How shall my setting be set?", true, Checkbox_RunFunction)
   checkbox_remember = reagirl.Checkbox_Add(30, 170, "Remember chosen setting", "Shall this setting be used as future default?", true, Checkbox_RunFunction)
 
   -- add an ok-button and a cancel button to the gui
-  button_ok_id = reagirl.Button_Add(30, 200, 0, 0, "OK", "Apply changes and close dialog", Button_RunFunction)
-  button_cancel_id = reagirl.Button_Add(70, 200, 0, 0, "Cancel", "Discard changes and close dialog", Button_RunFunction)
+  button_ok_id = reagirl.Button_Add(30, 200, 0, 0, "OK", "Apply changes and close dialog.", Button_RunFunction)
+  button_cancel_id = reagirl.Button_Add(70, 200, 0, 0, "Cancel", "Discard changes and close dialog.", Button_RunFunction)
   reagirl.Button_SetRadius(button_ok_id, 20)    -- make the ok-button rounder
   reagirl.Button_SetRadius(button_cancel_id, 0) -- make the cancel button square
 
   -- add an image of a bass guitar
-  reagirl.Image_Add(-150, -120, 100, 100, reaper.GetResourcePath().."/Data/track_icons/bass.png", "A Bass guitar", "the graphics of a basss guitar", nil)
+  reagirl.Image_Add(-150, -120, 100, 100, reaper.GetResourcePath().."/Data/track_icons/bass.png", "A Bass guitar", "An image of a bass guitar.", nil)
 
   -- open the new gui
   reagirl.Gui_Open("My Dialog Name", false, "The dialog", "This is a demo dialog with settings for tool xyz.", 640, 250)
@@ -724,26 +724,26 @@ Let's link the width of the first inputbox to the right-side of the window(-50) 
   reagirl.Gui_New()  
 
   -- add a textlabel to the top of the gui
-  label_header=reagirl.Label_Add(30, 50, "This is a settings dialog", "Set the settings, as you wish", false, nil)
+  label_header=reagirl.Label_Add(30, 50, "This is a settings dialog", "Set the settings, as you wish.", false, nil)
   reagirl.Label_SetFontSize(label_header, 40) -- set the font-size of the label to 40
   reagirl.Label_SetStyle(label_header, 6, 0, 0) -- set the label to underlined
 
   -- add inputboxes to type in text
-  inputbox_name_of_setting = reagirl.Inputbox_Add(30, 105, -50, "Name of the setting:", 150, "Type in here the name of the setting", "No title", InputBox_RunFunction_Enter, InputBox_RunFunction_Type)
-  inputbox_description_of_setting = reagirl.Inputbox_Add(30, 130, 300, "Description of the setting:", 150, "Type in here a description of the setting", "No Description", InputBox_RunFunction_Enter, InputBox_RunFunction_Type)
+  inputbox_name_of_setting = reagirl.Inputbox_Add(30, 105, -50, "Name of the setting:", 150, "Type in here the name of the setting.", "No title", InputBox_RunFunction_Enter, InputBox_RunFunction_Type)
+  inputbox_description_of_setting = reagirl.Inputbox_Add(30, 130, 300, "Description of the setting:", 150, "Type in here a description of the setting.", "No Description", InputBox_RunFunction_Enter, InputBox_RunFunction_Type)
 
   -- add two checkboxes to the gui
   checkbox_mysetting = reagirl.Checkbox_Add(30, 150, "My setting", "How shall my setting be set?", true, Checkbox_RunFunction)
   checkbox_remember = reagirl.Checkbox_Add(30, 170, "Remember chosen setting", "Shall this setting be used as future default?", true, Checkbox_RunFunction)
 
   -- add an ok-button and a cancel button to the gui
-  button_ok_id = reagirl.Button_Add(30, 200, 0, 0, "OK", "Apply changes and close dialog", Button_RunFunction)
-  button_cancel_id = reagirl.Button_Add(70, 200, 0, 0, "Cancel", "Discard changes and close dialog", Button_RunFunction)
+  button_ok_id = reagirl.Button_Add(30, 200, 0, 0, "OK", "Apply changes and close dialog.", Button_RunFunction)
+  button_cancel_id = reagirl.Button_Add(70, 200, 0, 0, "Cancel", "Discard changes and close dialog.", Button_RunFunction)
   reagirl.Button_SetRadius(button_ok_id, 20)    -- make the ok-button rounder
   reagirl.Button_SetRadius(button_cancel_id, 0) -- make the cancel button square
 
   -- add an image of a bass guitar
-  reagirl.Image_Add(-150, -120, 100, 100, reaper.GetResourcePath().."/Data/track_icons/bass.png", "A Bass guitar", "the graphics of a basss guitar", nil)
+  reagirl.Image_Add(-150, -120, 100, 100, reaper.GetResourcePath().."/Data/track_icons/bass.png", "A Bass guitar", "An image of a bass guitar.", nil)
 
   -- open the new gui
   reagirl.Gui_Open("My Dialog Name", false, "The dialog", "This is a demo dialog with settings for tool xyz.", 640, 250)
@@ -814,26 +814,26 @@ Let's add them into our gui and set some reasonable boundaries.
   reagirl.Gui_New()
 
   -- add a textlabel to the top of the gui
-  label_header=reagirl.Label_Add(30, 50, "This is a settings dialog", "Set the settings, as you wish", false, nil)
+  label_header=reagirl.Label_Add(30, 50, "This is a settings dialog", "Set the settings, as you wish.", false, nil)
   reagirl.Label_SetFontSize(label_header, 40) -- set the font-size of the label to 40
   reagirl.Label_SetStyle(label_header, 6, 0, 0) -- set the label to underlined
 
   -- add inputboxes to type in text
-  inputbox_name_of_setting = reagirl.Inputbox_Add(30, 105, -50, "Name of the setting:", 150, "Type in here the name of the setting", "No title", InputBox_RunFunction_Enter, InputBox_RunFunction_Type)
-  inputbox_description_of_setting = reagirl.Inputbox_Add(30, 130, 300, "Description of the setting:", 150, "Type in here a description of the setting", "No Description", InputBox_RunFunction_Enter, InputBox_RunFunction_Type)
+  inputbox_name_of_setting = reagirl.Inputbox_Add(30, 105, -50, "Name of the setting:", 150, "Type in here the name of the setting.", "No title", InputBox_RunFunction_Enter, InputBox_RunFunction_Type)
+  inputbox_description_of_setting = reagirl.Inputbox_Add(30, 130, 300, "Description of the setting:", 150, "Type in here a description of the setting.", "No Description", InputBox_RunFunction_Enter, InputBox_RunFunction_Type)
 
   -- add two checkboxes to the gui
   checkbox_mysetting = reagirl.Checkbox_Add(30, 150, "My setting", "How shall my setting be set?", true, Checkbox_RunFunction)
   checkbox_remember = reagirl.Checkbox_Add(30, 170, "Remember chosen setting", "Shall this setting be used as future default?", true, Checkbox_RunFunction)
 
   -- add an ok-button and a cancel button to the gui
-  button_ok_id = reagirl.Button_Add(30, 200, 0, 0, "OK", "Apply changes and close dialog", Button_RunFunction)
-  button_cancel_id = reagirl.Button_Add(70, 200, 0, 0, "Cancel", "Discard changes and close dialog", Button_RunFunction)
+  button_ok_id = reagirl.Button_Add(30, 200, 0, 0, "OK", "Apply changes and close dialog.", Button_RunFunction)
+  button_cancel_id = reagirl.Button_Add(70, 200, 0, 0, "Cancel", "Discard changes and close dialog.", Button_RunFunction)
   reagirl.Button_SetRadius(button_ok_id, 20)    -- make the ok-button rounder
   reagirl.Button_SetRadius(button_cancel_id, 0) -- make the cancel button square
 
   -- add an image of a bass guitar
-  reagirl.Image_Add(-150, -120, 100, 100, reaper.GetResourcePath().."/Data/track_icons/bass.png", "A Bass guitar", "the graphics of a basss guitar", nil)
+  reagirl.Image_Add(-150, -120, 100, 100, reaper.GetResourcePath().."/Data/track_icons/bass.png", "A Bass guitar", "An image of a bass guitar.", nil)
 
   -- let's force window-sizes
   reagirl.Window_ForceSize_Minimum(550, 250) -- set the minimum size of the window

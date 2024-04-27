@@ -17,7 +17,7 @@ Let's start with basic code, which will show one of Reaper's images, a bass guit
   reagirl.Gui_New()
   
   -- add the image of a bass guitar to this gui
-  image_id = reagirl.Image_Add(10, 10, 100, 100, reaper.GetResourcePath().."/Data/track_icons/bass.png", "An image", "A user selectable image", Image_RunFunction)
+  image_id = reagirl.Image_Add(10, 10, 100, 100, reaper.GetResourcePath().."/Data/track_icons/bass.png", "An image", "A user selectable image.", Image_RunFunction)
   
   -- open the new gui
   reagirl.Gui_Open("My Dialog Name", false, "Image Viewer", "This is a demo image viewer.", 120, 120)
@@ -58,7 +58,7 @@ So, let's add a dropzone for our image, using the function reagirl.UI\_Element\_
   reagirl.Gui_New()
   
   -- add the image of a bass guitar to this gui
-  image_id = reagirl.Image_Add(10, 10, 100, 100, reaper.GetResourcePath().."/Data/track_icons/bass.png", "An image", "A user selectable image", Image_RunFunction)
+  image_id = reagirl.Image_Add(10, 10, 100, 100, reaper.GetResourcePath().."/Data/track_icons/bass.png", "An image", "A user selectable image.", Image_RunFunction)
   -- add a dropzone for dropped files for this image
   reagirl.UI_Element_GetSet_DropZoneFunction(image_id, true, Image_DropZone_RunFunction)
   
@@ -101,7 +101,7 @@ What we would like to do next, is to change the shown image. For this, we alter 
   reagirl.Gui_New()
   
   -- add the image of a bass guitar to this gui
-  image_id = reagirl.Image_Add(10, 10, 100, 100, reaper.GetResourcePath().."/Data/track_icons/bass.png", "An image", "A user selectable image", Image_RunFunction)
+  image_id = reagirl.Image_Add(10, 10, 100, 100, reaper.GetResourcePath().."/Data/track_icons/bass.png", "An image", "A user selectable image.", Image_RunFunction)
   -- add a dropzone for dropped files for this image
   reagirl.UI_Element_GetSet_DropZoneFunction(image_id, true, Image_DropZone_RunFunction)
   
@@ -152,7 +152,7 @@ Let's add a context-menu using reagirl.UI\_Element\_GetSet\_ContextMenu() includ
   reagirl.Gui_New()
   
   -- add the image of a bass guitar to this gui
-  image_id = reagirl.Image_Add(10, 10, 100, 100, reaper.GetResourcePath().."/Data/track_icons/bass.png", "An image", "A user selectable image", Image_RunFunction)
+  image_id = reagirl.Image_Add(10, 10, 100, 100, reaper.GetResourcePath().."/Data/track_icons/bass.png", "An image", "A user selectable image.", Image_RunFunction)
   -- add a dropzone for dropped files for this image
   reagirl.UI_Element_GetSet_DropZoneFunction(image_id, true, Image_DropZone_RunFunction)
   -- add a context-menu to this image
@@ -218,7 +218,7 @@ The first menu-entry will clear the image to be fully black, while the other one
   reagirl.Gui_New()
   
   -- add the image of a bass guitar to this gui
-  image_id = reagirl.Image_Add(10, 10, 100, 100, reaper.GetResourcePath().."/Data/track_icons/bass.png", "An image", "A user selectable image", Image_RunFunction)
+  image_id = reagirl.Image_Add(10, 10, 100, 100, reaper.GetResourcePath().."/Data/track_icons/bass.png", "An image", "A user selectable image.", Image_RunFunction)
   -- add a dropzone for dropped files for this image
   reagirl.UI_Element_GetSet_DropZoneFunction(image_id, true, Image_DropZone_RunFunction)
   -- add a context-menu to this image
@@ -280,7 +280,7 @@ We can achieve this with the function reagirl.Image\_KeepAspectRatio()
   reagirl.Gui_New()
   
   -- add the image of a bass guitar to this gui
-  image_id = reagirl.Image_Add(10, 10, 100, 100, reaper.GetResourcePath().."/Data/track_icons/bass.png", "An image", "A user selectable image", Image_RunFunction)
+  image_id = reagirl.Image_Add(10, 10, 100, 100, reaper.GetResourcePath().."/Data/track_icons/bass.png", "An image", "A user selectable image.", Image_RunFunction)
   -- add a dropzone for dropped files for this image
   reagirl.UI_Element_GetSet_DropZoneFunction(image_id, true, Image_DropZone_RunFunction)
   -- add a context-menu to this image
@@ -353,7 +353,7 @@ First, we get the filename of the currently used image-file for the image using 
   reagirl.Gui_New()
   
   -- add the image of a bass guitar to this gui
-  image_id = reagirl.Image_Add(10, 10, 100, 100, reaper.GetResourcePath().."/Data/track_icons/bass.png", "An image", "A user selectable image", Image_RunFunction)
+  image_id = reagirl.Image_Add(10, 10, 100, 100, reaper.GetResourcePath().."/Data/track_icons/bass.png", "An image", "A user selectable image.", Image_RunFunction)
   -- add a dropzone for dropped files for this image
   reagirl.UI_Element_GetSet_DropZoneFunction(image_id, true, Image_DropZone_RunFunction)
   -- add a context-menu to this image

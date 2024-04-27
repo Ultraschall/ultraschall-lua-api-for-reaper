@@ -37,7 +37,7 @@ Tutorial for Enter/ESC-Key/AtExit
   -- add the slider with the slider-value stored in old_slider_value
   slider_percentage = reagirl.Slider_Add(4, 4, 250, "Percentage", 140, "Set the percentage.", nil, 0, 8, 1, old_slider_value, 0, nil)
   -- add a store button
-  button = reagirl.Button_Add(260, 4, 0, 0, "Store", "Store percentage setting", Button_RunFunction)
+  button = reagirl.Button_Add(260, 4, 0, 0, "Store", "Store percentage setting.", Button_RunFunction)
 
   -- open the new gui
   reagirl.Gui_Open("My Dialog Name", false, "The dialog", "This is a demo dialog with settings for tool xyz.", 325, 40)
