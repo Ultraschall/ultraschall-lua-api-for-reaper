@@ -1,5 +1,3 @@
-!!!ALIGN IN LABEL_ADD REMOVED!!!
-
 Tutorial for draggable images
 
 In this tutorial, I will show you, how to make a gui, where an image is draggable to multiple destinations.
@@ -25,7 +23,7 @@ image_source_id = reagirl.Image_Add(20, 100, 100, 100, reaper.GetResourcePath().
 
 
 -- open gui
-reagirl.Gui_Open("My Dialog Name", false, "ReaGirl Settings", "various settings for ReaGirl-Accessible Guis", 665, 310, nil, nil, nil)
+reagirl.Gui_Open("My Dialog Name", false, "ReaGirl Tutorial", "Tutorial for draggable images", 665, 310, nil, nil, nil)
 
 -- manage gui
 function main()
@@ -59,7 +57,7 @@ image_dest1_id = reagirl.Image_Add(220, 50, 100, 100, reaper.GetResourcePath()..
 image_dest2_id = reagirl.Image_Add(220, 160, 100, 100, reaper.GetResourcePath().."/Data/track_icons/congas.png", "Congas", "an image of congas", nil)
 
 -- open gui
-reagirl.Gui_Open("My Dialog Name", false, "ReaGirl Settings", "various settings for ReaGirl-Accessible Guis", 665, 310, nil, nil, nil)
+reagirl.Gui_Open("My Dialog Name", false, "ReaGirl Tutorial", "Tutorial for draggable images", 665, 310, nil, nil, nil)
 
 -- manage gui
 function main()
@@ -98,7 +96,7 @@ image_dest2_id = reagirl.Image_Add(220, 160, 100, 100, reaper.GetResourcePath().
 reagirl.Image_SetDraggable(image_source_id, true, {label_id, image_dest1_id, image_dest2_id})
 
 -- open gui
-reagirl.Gui_Open("My Dialog Name", false, "ReaGirl Settings", "various settings for ReaGirl-Accessible Guis", 665, 310, nil, nil, nil)
+reagirl.Gui_Open("My Dialog Name", false, "ReaGirl Tutorial", "Tutorial for draggable images", 665, 310, nil, nil, nil)
 
 -- manage gui
 function main()
@@ -146,7 +144,7 @@ image_dest2_id = reagirl.Image_Add(220, 160, 100, 100, reaper.GetResourcePath().
 reagirl.Image_SetDraggable(image_source_id, true, {label_id, image_dest1_id, image_dest2_id})
 
 -- open gui
-reagirl.Gui_Open("My Dialog Name", false, "ReaGirl Settings", "various settings for ReaGirl-Accessible Guis", 665, 310, nil, nil, nil)
+reagirl.Gui_Open("My Dialog Name", false, "ReaGirl Tutorial", "Tutorial for draggable images", 665, 310, nil, nil, nil)
 
 -- manage gui
 function main()
@@ -211,7 +209,7 @@ image_dest2_id = reagirl.Image_Add(220, 160, 100, 100, reaper.GetResourcePath().
 reagirl.Image_SetDraggable(image_source_id, true, {label_id, image_dest1_id, image_dest2_id})
 
 -- open gui
-reagirl.Gui_Open("My Dialog Name", false, "ReaGirl Settings", "various settings for ReaGirl-Accessible Guis", 665, 310, nil, nil, nil)
+reagirl.Gui_Open("My Dialog Name", false, "ReaGirl Tutorial", "Tutorial for draggable images", 665, 310, nil, nil, nil)
 
 -- manage gui
 function main()
@@ -297,7 +295,7 @@ image_dest2_id = reagirl.Image_Add(220, 160, 100, 100, reaper.GetResourcePath().
 reagirl.Image_SetDraggable(image_source_id, true, {label_id, image_dest1_id, image_dest2_id})
 
 -- open gui
-reagirl.Gui_Open("My Dialog Name", false, "ReaGirl Settings", "various settings for ReaGirl-Accessible Guis", 665, 310, nil, nil, nil)
+reagirl.Gui_Open("My Dialog Name", false, "ReaGirl Tutorial", "Tutorial for draggable images", 665, 310, nil, nil, nil)
 
 -- manage gui
 function main()

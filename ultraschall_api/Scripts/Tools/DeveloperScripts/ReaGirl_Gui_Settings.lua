@@ -122,7 +122,7 @@ end
 function SetUpNewGui()
   reagirl.Gui_New()
   
-  Tabs=reagirl.Tabs_Add(10, 10, 335, 390, "General settings", "Choose settings", {"General", "Osara"}, 1, nil)
+  Tabs=reagirl.Tabs_Add(10, 10, 335, 390, "General settings", "", {"General", "Osara"}, 1, nil)
   
   tab1={}
   --[[ Blinking Focus Rectangle ]]

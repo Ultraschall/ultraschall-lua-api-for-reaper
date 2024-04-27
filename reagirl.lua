@@ -1904,7 +1904,7 @@ function reagirl.Gui_Manage()
     if reagirl.Elements["FocusedElement"]~=-1 then
       if reagirl.Elements[1]~=nil then
         reagirl.osara_init_message=reagirl.Window_Title.. "-dialog, ".. reagirl.Window_Description..". ".. reagirl.Elements[reagirl.Elements["FocusedElement"]]["Name"].." ".. reagirl.Elements[reagirl.Elements["FocusedElement"]]["GUI_Element_Type"]
-        helptext=reagirl.Elements[reagirl.Elements["FocusedElement"]]["Description"]..", "..reagirl.Elements[reagirl.Elements["FocusedElement"]]["AccHint"]
+        helptext=reagirl.Elements[reagirl.Elements["FocusedElement"]]["Description"]..". "..reagirl.Elements[reagirl.Elements["FocusedElement"]]["AccHint"]
       else
         reagirl.osara_init_message=reagirl.Window_Title.."-dialog, "..reagirl.Window_Description..". "
       end
@@ -1968,7 +1968,7 @@ function reagirl.Gui_Manage()
   
   if Key==26161 then 
     if reagirl.osara_outputMessage~=nil then
-      reagirl.osara_outputMessage(reagirl.Elements[reagirl.Elements["FocusedElement"]]["Description"]) 
+      reagirl.osara_outputMessage(reagirl.Elements[reagirl.Elements["FocusedElement"]]["Description"]..". "..reagirl.Elements[reagirl.Elements["FocusedElement"]]["AccHint"]) 
     end
   end -- F1 help message for osara
   
@@ -3109,7 +3109,7 @@ function reagirl.UI_Element_GetSet_ContextMenu(element_id, is_set, menu, menu_fu
   if is_set==true then
     reagirl.Elements[element_id]["ContextMenu"]=menu
     reagirl.Elements[element_id]["ContextMenuFunction"]=menu_function
-    reagirl.Elements[element_id]["ContextMenu_ACC"]="Right click for a context menu."
+    reagirl.Elements[element_id]["ContextMenu_ACC"]="Right click for context menu."
   else
     reagirl.Elements[element_id]["ContextMenu_ACC"]=""
   end
@@ -3779,7 +3779,7 @@ function reagirl.Checkbox_Add(x, y, caption, meaningOfUI_Element, default, run_f
   reagirl.Elements[slot]["Text"]=caption
   reagirl.Elements[slot]["IsDisabled"]=false
   reagirl.Elements[slot]["Description"]=meaningOfUI_Element
-  reagirl.Elements[slot]["AccHint"]="Change checkstate with space or left mouse-click."
+  reagirl.Elements[slot]["AccHint"]="Space or left mouse-click to change checkstate."
   reagirl.Elements[slot]["ContextMenu_ACC"]=""
   reagirl.Elements[slot]["DropZoneFunction_ACC"]=""
   reagirl.Elements[slot]["x"]=x
@@ -6658,7 +6658,7 @@ function reagirl.Label_Add(x, y, label, meaningOfUI_Element, clickable, run_func
   reagirl.Elements[slot]["Text"]=""
   reagirl.Elements[slot]["Description"]=meaningOfUI_Element
   reagirl.Elements[slot]["IsDisabled"]=false
-  reagirl.Elements[slot]["AccHint"]=acc_clickable.."Ctrl+C to copy text into clipboard."
+  reagirl.Elements[slot]["AccHint"]=acc_clickable.."Ctrl+C copies text to clipboard."
   reagirl.Elements[slot]["ContextMenu_ACC"]=""
   reagirl.Elements[slot]["DropZoneFunction_ACC"]=""
   reagirl.Elements[slot]["x"]=x
@@ -6870,7 +6870,7 @@ function reagirl.Image_Add(x, y, w, h, image_filename, caption, meaningOfUI_Elem
   reagirl.Elements[slot]["Name"]=caption
   reagirl.Elements[slot]["Text"]=caption
   reagirl.Elements[slot]["IsDisabled"]=false
-  reagirl.Elements[slot]["AccHint"]="Use Space or left mouse-click to select it."
+  reagirl.Elements[slot]["AccHint"]="Space or left mouse-click to select. "
   reagirl.Elements[slot]["ContextMenu_ACC"]=""
   reagirl.Elements[slot]["DropZoneFunction_ACC"]=""
   reagirl.Elements[slot]["x"]=x
@@ -7006,7 +7006,7 @@ function reagirl.Image_SetDraggable(element_id, draggable, destination_element_i
   reagirl.Elements[slot]["Draggable"]=draggable
   reagirl.Elements[slot]["DraggableDestinations"]=destination_element_ids
   if draggable==true then
-    reagirl.Elements[slot]["AccHint"]=reagirl.Elements[slot]["AccHint"].."This image can be drag n dropped. Use ctrl+Tab and Ctrl+Shift+Tab to choose drop-destination. Use ctrl+Enter to drop it onto the destination."
+    reagirl.Elements[slot]["AccHint"]=reagirl.Elements[slot]["AccHint"].."Image draggable with Ctrl+Tab and Ctrl+Shift+Tab to choose drag-destination and ctrl+Enter to drop it there."
   else
     reagirl.Elements[slot]["AccHint"]=reagirl.Elements[slot]["AccHint"]:utf8_sub(1,43)
   end
@@ -7229,7 +7229,7 @@ function reagirl.Image_Manage(element_id, selected, hovered, clicked, mouse_cap,
   end
   
   local draggable, draggable2
-  if element_storage["Draggable"]==true then draggable="Draggable " draggable2=" Use Ctrl plus alt plus Tab and Ctrl plus alt plus Tab to select the dragging-destinations and ctrl plus alt plus enter to drop the image into the dragging-destination." else draggable="" end
+  if element_storage["Draggable"]==true then draggable="Draggable,. " draggable2=" Use Ctrl plus alt plus Tab and Ctrl plus alt plus Tab to select the dragging-destinations and ctrl plus alt plus enter to drop the image into the dragging-destination." else draggable="" end
   return draggable..message
 end
 
@@ -9315,7 +9315,7 @@ function reagirl.Tabs_Add(x, y, w_backdrop, h_backdrop, caption, meaningOfUI_Ele
   reagirl.Elements[slot]["TabSelected"]=selected_tab
   reagirl.Elements[slot]["IsDisabled"]=false
   reagirl.Elements[slot]["Description"]=meaningOfUI_Element
-  reagirl.Elements[slot]["AccHint"]="Switch tab using left/right arrow-keys."
+  reagirl.Elements[slot]["AccHint"]="Switch using arrow-keys."
   reagirl.Elements[slot]["ContextMenu_ACC"]=""
   reagirl.Elements[slot]["DropZoneFunction_ACC"]=""
   reagirl.Elements[slot]["x"]=x
