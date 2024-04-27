@@ -1681,6 +1681,7 @@ function reagirl.Gui_Open(name, restore_old_window_state, title, description, w,
   if type(restore_old_window_state)~="boolean" then error("Gui_Open: param #2 - must be a string", 2) end
   if type(title)~="string" then error("Gui_Open: param #3 - must be a string", 2) end
   if type(description)~="string" then error("Gui_Open: param #4 - must be a string", 2) end
+  if description:sub(-1,-1)~="." then error("Gui_Open: param #4 - must end on a . like a regular sentence.", 2) end
   if w~=nil and math.type(w)~="integer" then error("Gui_Open: param #5 - must be either nil or an integer", 2) end
   if h~=nil and math.type(h)~="integer" then error("Gui_Open: param #6 - must be either nil or an integer", 2) end
   if dock~=nil and math.type(dock)~="integer" then error("Gui_Open: param #7 - must be either nil or an integer", 2) end
@@ -1904,7 +1905,11 @@ function reagirl.Gui_Manage()
     if reagirl.Elements["FocusedElement"]~=-1 then
       if reagirl.Elements[1]~=nil then
         reagirl.osara_init_message=reagirl.Window_Title.. "-dialog, ".. reagirl.Window_Description..". ".. reagirl.Elements[reagirl.Elements["FocusedElement"]]["Name"].." ".. reagirl.Elements[reagirl.Elements["FocusedElement"]]["GUI_Element_Type"]
-        helptext=reagirl.Elements[reagirl.Elements["FocusedElement"]]["Description"]..""..reagirl.Elements[reagirl.Elements["FocusedElement"]]["AccHint"]
+        local acc_message=""
+        if reaper.GetExtState("ReaGirl", "osara_enable_accmessage")~="false" then
+          acc_message=reagirl.Elements[reagirl.Elements["FocusedElement"]]["AccHint"]
+        end
+        helptext=reagirl.Elements[reagirl.Elements["FocusedElement"]]["Description"].." "..acc_message
       else
         reagirl.osara_init_message=reagirl.Window_Title.."-dialog, "..reagirl.Window_Description..". "
       end
@@ -1968,7 +1973,11 @@ function reagirl.Gui_Manage()
   
   if Key==26161 then 
     if reagirl.osara_outputMessage~=nil then
-      reagirl.osara_outputMessage(reagirl.Elements[reagirl.Elements["FocusedElement"]]["Description"]..". "..reagirl.Elements[reagirl.Elements["FocusedElement"]]["AccHint"]) 
+      local acc_message=""
+      if reaper.GetExtState("ReaGirl", "osara_enable_accmessage")~="false" then
+        acc_message=reagirl.Elements[reagirl.Elements["FocusedElement"]]["AccHint"]
+      end
+      reagirl.osara_outputMessage(reagirl.Elements[reagirl.Elements["FocusedElement"]]["Description"].." "..acc_message)
     end
   end -- F1 help message for osara
   
@@ -2002,7 +2011,11 @@ function reagirl.Gui_Manage()
     if reagirl.Elements["FocusedElement"]~=-1 then
       if reagirl.Elements["FocusedElement"]>#reagirl.Elements then reagirl.Elements["FocusedElement"]=1 end 
       init_message=reagirl.Elements[reagirl.Elements["FocusedElement"]]["Name"].." "..reagirl.Elements[reagirl.Elements["FocusedElement"]]["GUI_Element_Type"]..". "
-      helptext=reagirl.Elements[reagirl.Elements["FocusedElement"]]["Description"].." "..reagirl.Elements[reagirl.Elements["FocusedElement"]]["AccHint"]
+      local acc_message=""
+      if reaper.GetExtState("ReaGirl", "osara_enable_accmessage")~="false" then
+        acc_message=reagirl.Elements[reagirl.Elements["FocusedElement"]]["AccHint"]
+      end
+      helptext=reagirl.Elements[reagirl.Elements["FocusedElement"]]["Description"].." "..acc_message
       if reagirl.Elements["FocusedElement"]<=#reagirl.Elements-6 then
         reagirl.UI_Element_ScrollToUIElement(reagirl.Elements[reagirl.Elements["FocusedElement"]].Guid) -- buggy, should scroll to ui-element...
       end
@@ -2031,7 +2044,11 @@ function reagirl.Gui_Manage()
       if reagirl.Elements["FocusedElement"]<1 then reagirl.Elements["FocusedElement"]=#reagirl.Elements end
       init_message=reagirl.Elements[reagirl.Elements["FocusedElement"]]["Name"].." "..
       reagirl.Elements[reagirl.Elements["FocusedElement"]]["GUI_Element_Type"]..". "
-      helptext=reagirl.Elements[reagirl.Elements["FocusedElement"]]["Description"]..", "..reagirl.Elements[reagirl.Elements["FocusedElement"]]["AccHint"]
+      local acc_message=""
+      if reaper.GetExtState("ReaGirl", "osara_enable_accmessage")~="false" then
+        acc_message=reagirl.Elements[reagirl.Elements["FocusedElement"]]["AccHint"]
+      end
+      helptext=reagirl.Elements[reagirl.Elements["FocusedElement"]]["Description"].." "..acc_message
       reagirl.old_osara_message=""
       if reagirl.Elements["FocusedElement"]<=#reagirl.Elements-6 then
         reagirl.UI_Element_ScrollToUIElement(reagirl.Elements[reagirl.Elements["FocusedElement"]].Guid) -- buggy, should scroll to ui-element...
@@ -2096,7 +2113,7 @@ function reagirl.Gui_Manage()
           if reagirl.Window_State&8==8 and reaper.GetExtState("ReaGirl", "show_tooltips")~="false" then
             reaper.TrackCtl_SetToolTip(reagirl.Elements[i]["Description"], XX+15, YY+10, true)
           end
-          
+
           if reagirl.SetPosition_MousePositionY~=gfx.mouse_y 
           and reagirl.SetPosition_MousePositionY~=gfx.mouse_x 
           and reagirl.Elements[i]["AccHoverMessage"]~=nil then
@@ -2112,7 +2129,11 @@ function reagirl.Gui_Manage()
          if (specific_clickstate=="FirstCLK") and reagirl.Elements[i]["IsDisabled"]==false then
            if i~=reagirl.Elements["FocusedElement"] then
              init_message=reagirl.Elements[i]["Name"].." "..reagirl.Elements[i]["GUI_Element_Type"]:sub(1,-1).." "
-             helptext=reagirl.Elements[i]["Description"]..", "..reagirl.Elements[i]["AccHint"]
+             local acc_message=""
+             if reaper.GetExtState("ReaGirl", "osara_enable_accmessage")~="false" then
+               acc_message=reagirl.Elements[i]["AccHint"]
+             end
+             helptext=reagirl.Elements[i]["Description"].." "..acc_message
              reagirl.FocusRectangle_BlinkStartTime=reaper.time_precise()
              reagirl.FocusRectangle_BlinkStop=nil
            end
@@ -2187,7 +2208,11 @@ function reagirl.Gui_Manage()
            if (specific_clickstate=="FirstCLK") and reagirl.Elements[i]["IsDisabled"]==false then
              if i~=reagirl.Elements["FocusedElement"] then
                init_message=reagirl.Elements[i]["Name"].." "..reagirl.Elements[i]["GUI_Element_Type"]:sub(1,-1).." "
-               helptext=reagirl.Elements[i]["Description"]..", "..reagirl.Elements[i]["AccHint"]
+               local acc_message=""
+               if reaper.GetExtState("ReaGirl", "osara_enable_accmessage")~="false" then
+                 acc_message=reagirl.Elements[i]["AccHint"]
+               end
+               helptext=reagirl.Elements[i]["Description"].." "..acc_message
                reagirl.FocusRectangle_BlinkStartTime=reaper.time_precise()
                reagirl.FocusRectangle_BlinkStop=nil
              end
@@ -2403,9 +2428,9 @@ function reagirl.Gui_Manage()
             acc_message=reagirl.Elements[reagirl.Elements["FocusedElement"]]["ContextMenu_ACC"]..reagirl.Elements[reagirl.Elements["FocusedElement"]]["DropZoneFunction_ACC"]
           end
           if reagirl.osara_outputMessage~=nil then
-            reagirl.osara_outputMessage(reagirl.osara_init_message..""..init_message.." "..message.." "..helptext..acc_message)
+            reagirl.osara_outputMessage(reagirl.osara_init_message.." "..init_message.." "..message.." "..helptext..acc_message)
           end
-          reagirl.Osara_Debug_Message(reagirl.osara_init_message..""..init_message.." "..message.." "..helptext..acc_message)
+          reagirl.Osara_Debug_Message(reagirl.osara_init_message.." "..init_message.." "..message.." "..helptext..acc_message)
           reagirl.old_osara_message=message
           reagirl.osara_init_message=""
         end
@@ -3109,7 +3134,7 @@ function reagirl.UI_Element_GetSet_ContextMenu(element_id, is_set, menu, menu_fu
   if is_set==true then
     reagirl.Elements[element_id]["ContextMenu"]=menu
     reagirl.Elements[element_id]["ContextMenuFunction"]=menu_function
-    reagirl.Elements[element_id]["ContextMenu_ACC"]="Right click for context menu."
+    reagirl.Elements[element_id]["ContextMenu_ACC"]=" Right click for context menu."
   else
     reagirl.Elements[element_id]["ContextMenu_ACC"]=""
   end
@@ -3350,7 +3375,7 @@ function reagirl.UI_Element_GetSetMeaningOfUIElement(element_id, is_set, meaning
   if reagirl.Elements[element_id]==nil then error("UI_Element_GetSetMeaningOfUIElement: param #1 - no such ui-element", 2) end
   if type(is_set)~="boolean" then error("UI_Element_GetSetMeaningOfUIElement: param #2 - must be a boolean", 2) end
   if is_set==true and type(meaningOfUI_Element)~="string" then error("UI_Element_GetSetMeaningOfUIElement: param #3 - must be a string when #2==true", 2) end
-  
+  if meaningofUI_Element:sub(-1,-1)~="." then error("UI_Element_GetSetMeaningOfUIElement: param #3 - must end on a . like a regular sentence.", 2) end
   if is_set==true then
     reagirl.Elements[element_id]["Description"]=meaningOfUI_Element
   end
@@ -3762,6 +3787,7 @@ function reagirl.Checkbox_Add(x, y, caption, meaningOfUI_Element, default, run_f
   if type(caption)~="string" then error("Checkbox_Add: param #3 - must be a string", 2) end
   caption=string.gsub(caption, "[\n\r]", "")
   if type(meaningOfUI_Element)~="string" then error("Checkbox_Add: param #4 - must be a string", 2) end
+  if meaningOfUI_Element:sub(-1,-1)~="." then error("Checkbox_Add: param #4 - must end on a . like a regular sentence.", 2) end
   if type(default)~="boolean" then error("Checkbox_Add: param #5 - must be a boolean", 2) end
   if run_function~=nil and type(run_function)~="function" then error("Checkbox_Add: param #6 - must be either nil or a function", 2) end
   
@@ -4231,6 +4257,7 @@ function reagirl.Button_Add(x, y, w_margin, h_margin, caption, meaningOfUI_Eleme
   if type(caption)~="string" then error("Button_Add: param #5 - must be a string", 2) end
   caption=string.gsub(caption, "[\n\r]", "")
   if type(meaningOfUI_Element)~="string" then error("Button_Add: param #6 - must be a string", 2) end
+  if meaningOfUI_Element:sub(-1,-1)~="." then error("Button_Add: param #6 - must end on a . like a regular sentence.", 2) end
   if run_function~=nil and type(run_function)~="function" then error("Button_Add: param #7 - must be either nil or a function", 2) end
   
   local x,y,slot=reagirl.UI_Element_GetNextXAndYPosition(x, y, "Button_Add")
@@ -4583,6 +4610,7 @@ function reagirl.Inputbox_Add(x, y, w, caption, Cap_width, meaningOfUI_Element, 
   caption=string.gsub(caption, "[\n\r]", "")
   if Cap_width~=nil and math.type(Cap_width)~="integer" then error("Inputbox_Add: param #5 - must be either nil or an integer", 2) end
   if type(meaningOfUI_Element)~="string" then error("Inputbox_Add: param #6 - must be a string", 2) end
+  if meaningOfUI_Element:sub(-1,-1)~="." then error("Inputbox_Add: param #6 - must end on a . like a regular sentence.", 2) end
   if type(Default)~="string" then error("Inputbox_Add: param #7 - must be a string", 2) end
   if run_function_enter~=nil and type(run_function_enter)~="function" then error("Inputbox_Add: param #8 - must be either nil or a function", 2) end
   if run_function_type~=nil and type(run_function_type)~="function" then error("Inputbox_Add: param #9 - must be either nil or a function", 2) end
@@ -5791,6 +5819,7 @@ function reagirl.DropDownMenu_Add(x, y, w, caption, Cap_width, meaningOfUI_Eleme
   caption=string.gsub(caption, "[\n\r]", "")
   if Cap_width~=nil and math.type(Cap_width)~="integer" then error("DropDownMenu_Add: param #5 - must be either nil or an integer", 2) end
   if type(meaningOfUI_Element)~="string" then error("DropDownMenu_Add: param #6 - must be a string", 2) end
+  if meaningOfUI_Element:sub(-1,-1)~="." then error("DropDownMenu_Add: param #6 - must end on a . like a regular sentence.", 2) end
   if type(menuItems)~="table" then error("DropDownMenu_Add: param #7 - must be a table", 2) end
   for i=1, #menuItems do
     menuItems[i]=tostring(menuItems[i])
@@ -6636,6 +6665,7 @@ function reagirl.Label_Add(x, y, label, meaningOfUI_Element, clickable, run_func
   if y~=nil and math.type(y)~="integer" then error("Label_Add: param #2 - must be either nil or an integer", 2) end
   if type(label)~="string" then error("Label_Add: param #3 - must be a string", 2) end
   if type(meaningOfUI_Element)~="string" then error("Label_Add: param #4 - must be a string", 2) end
+  if meaningOfUI_Element:sub(-1,-1)~="." then error("Label_Add: param #4 - must end on a . like a regular sentence.", 2) end
   if clickable==nil then clickable=false end
   if type(clickable)~="boolean" then error("Label_Add: param #6 - must be a boolean", 2) end
   if run_function==nil then run_function=reagirl.Dummy end
@@ -6857,6 +6887,7 @@ function reagirl.Image_Add(x, y, w, h, image_filename, caption, meaningOfUI_Elem
   if type(image_filename)~="string" then error("Image_Add: param #5 - must be a string", 2) end
   if type(caption)~="string" then error("Image_Add: param #6 - must be a string", 2) end
   if type(meaningOfUI_Element)~="string" then error("Image_Add: param #7 - must be a string", 2) end
+  if meaningOfUI_Element:sub(-1,-1)~="." then error("Image_Add: param #7 - must end on a . like a regular sentence.", 2) end
   if run_function==nil then run_function=reagirl.Dummy end
   if run_function~=nil and type(run_function)~="function" then error("Image_Add: param #8 - must be either nil or a function", 2) end
   
@@ -8405,6 +8436,7 @@ function reagirl.Slider_Add(x, y, w, caption, Cap_width, meaningOfUI_Element, un
   caption=string.gsub(caption, "[\n\r]", "")
   if Cap_width~=nil and math.type(Cap_width)~="integer" then error("Slider_Add: param #5 - must be either nil or an integer", 2) end
   if type(meaningOfUI_Element)~="string" then error("Slider_Add: param #6 - must be a string", 2) end
+  if meaningOfUI_Element:sub(-1,-1)~="." then error("Slider_Add: param #6 - must end on a . like a regular sentence.", 2) end
   if unit~=nil and type(unit)~="string" then error("Slider_Add: param #7 - must be a string", 2) end
   if unit==nil then unit="" end
   unit=string.gsub(unit, "[\n\r]", "")
@@ -8442,7 +8474,7 @@ function reagirl.Slider_Add(x, y, w, caption, Cap_width, meaningOfUI_Element, un
   reagirl.Elements[slot]["CurValue"]=init_value
   reagirl.Elements[slot]["IsDisabled"]=false
   reagirl.Elements[slot]["Description"]=meaningOfUI_Element
-  reagirl.Elements[slot]["AccHint"]="Change via arrowkeys, home, end, pageup, pagedown."
+  reagirl.Elements[slot]["AccHint"]="Change via arrowkeys, home, end, pageUp, pageDown."
   reagirl.Elements[slot]["ContextMenu_ACC"]=""
   reagirl.Elements[slot]["DropZoneFunction_ACC"]=""
   reagirl.Elements[slot]["x"]=x
@@ -9287,6 +9319,7 @@ function reagirl.Tabs_Add(x, y, w_backdrop, h_backdrop, caption, meaningOfUI_Ele
   if type(caption)~="string" then error("Tabs_Add: param #6 - must be a string", 2) end
   caption=string.gsub(caption, "[\n\r]", "")
   if type(meaningOfUI_Element)~="string" then error("Tabs_Add: param #7 - must be a string", 2) end
+  if meaningOfUI_Element:sub(-1,-1)~="." then error("Tabs_Add: param #7 - must end on a . like a regular sentence.", 2) end
   if type(tab_names)~="table" then error("Tabs_Add: param #8 - must be a table", 2) end
   for i=1, #tab_names do
     tab_names[i]=tostring(tab_names[i])
@@ -9493,7 +9526,7 @@ function reagirl.Tabs_Manage(element_id, selected, hovered, clicked, mouse_cap, 
     acc_message=element_storage["TabNames"][element_storage["TabSelected"]].." tab selected."
   end
   -- hover management for the tabs
-  if hovered==true then
+  if hovered==true and reaper.GetExtState("ReaGirl", "osara_hover_mouse")~="false" then
     if element_storage["Tabs_Pos"]~=nil then
       for i=1, #element_storage["Tabs_Pos"] do
         if gfx.mouse_y>=y and gfx.mouse_y<=element_storage["Tabs_Pos"][i]["h"]+y then

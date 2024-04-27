@@ -122,11 +122,11 @@ end
 function SetUpNewGui()
   reagirl.Gui_New()
   
-  Tabs=reagirl.Tabs_Add(10, 10, 335, 390, "General settings", "", {"General", "Osara"}, 1, nil)
+  Tabs=reagirl.Tabs_Add(10, 10, 335, 390, "Settings", "General Settings.", {"General", "Osara"}, 1, nil)
   
   tab1={}
   --[[ Blinking Focus Rectangle ]]
-  tab1.Label_General=reagirl.Label_Add(nil, nil, "General", "General settings", false, nil)
+  tab1.Label_General=reagirl.Label_Add(nil, nil, "General", "General settings.", false, nil)
   reagirl.Label_SetStyle(tab1.Label_General, 6, 0, 0)
 
   reagirl.NextLine()
@@ -163,13 +163,13 @@ function SetUpNewGui()
   
   -- [[ Scaling Override ]]
   reagirl.NextLine(15)
-  tab1.Label_Scaling=reagirl.Label_Add(nil, nil, "Scaling", "Settings for the scaling-factor of ReaGirl-Guis", false, nil)
+  tab1.Label_Scaling=reagirl.Label_Add(nil, nil, "Scaling", "Settings for the scaling-factor of ReaGirl-Guis.", false, nil)
   reagirl.Label_SetStyle(tab1.Label_Scaling, 6, 0, 0)
   reagirl.NextLine()
   scaling_override=tonumber(reaper.GetExtState("ReaGirl", "scaling_override", value, true))
   if scaling_override==nil then scaling_override2=0 else scaling_override2=scaling_override end
   tab1.slider_scale = reagirl.Slider_Add(nil, nil, 250, "Scale Override", 100, "Set the default scaling-factor for all ReaGirl-Gui-windows; 0, scaling depends automatically on the scaling-factor in the prefs or the presence of Retina/HiDPI.", nil, 0, 8, 1, scaling_override2, 0, ScaleOverride)
-  tab1.button_scale = reagirl.Button_Add(nil, nil, 0, 0, "Apply", "Apply the chosen scaling value", button_apply)
+  tab1.button_scale = reagirl.Button_Add(nil, nil, 0, 0, "Apply", "Apply the chosen scaling value.", button_apply)
   reagirl.NextLine(15)
   
   -- [[ Blinking Drag-Destinations ]]
@@ -185,12 +185,12 @@ function SetUpNewGui()
   if drag_blinking==nil then drag_blinking=0 end
   tab1.slider_blink_every_draggable=reagirl.Slider_Add(nil, nil, 300, "Blink every", 100, "Set the speed of the blinking of the drag-destinations; 0=no blinking.", "seconds", 0, 5, 0.1, drag_blinking/33, 0, DragBlinkSpeed)
   reagirl.NextLine()
-  tab1.image_source=reagirl.Image_Add(50,nil,50,50,reaper.GetResourcePath().."/Data/track_icons/bass.png", "The source-image, an image of abass guitar.", "Drag this source bass-guitar to the microphone.", Image)
+  tab1.image_source=reagirl.Image_Add(50,nil,50,50,reaper.GetResourcePath().."/Data/track_icons/bass.png", "The source-image, an image of a bass guitar.", "Drag this source bass-guitar to the microphone.", Image)
   tab1.image_middle=reagirl.Image_Add(160,nil,25,25,reaper.GetResourcePath().."/Data/track_icons/folder_right.png", "Graphics with an arrow pointing to the drag-destination of the bass-guitar.", "Graphics with an arrow pointing to the drag-destination of the bass-guitar.",nil)
   tab1.image_dest=reagirl.Image_Add(250,nil,50,50,reaper.GetResourcePath().."/Data/track_icons/mic_dynamic_1.png", "The destination image, an image of a microphone.", "The destination image, drag the bass-guitar over here.",nil)
   reagirl.Image_SetDraggable(tab1.image_source, true, {tab1.image_dest})
   --reagirl.NextLine()
-  --tab1.ddm = reagirl.DropDownMenu_Add(nil,nil,300,"TUdelu", nil, "Test menu", {"One", "Two", "Three"}, 1, nil)
+  --tab1.ddm = reagirl.DropDownMenu_Add(nil,nil,300,"TUdelu", nil, "Test menu.", {"One", "Two", "Three"}, 1, nil)
   
   reagirl.Tabs_SetUIElementsForTab(Tabs, 1, tab1)
   
@@ -206,6 +206,8 @@ function SetUpNewGui()
   if osara_override=="true" or osara_override=="" then osara_override=true else osara_override=false end
   tabs2.checkbox_osara_id = reagirl.Checkbox_Add(nil, nil, "Enable installed Osara", "Checking this will prevent from screenreader messages to be sent to Osara. You can also type directly into inputboxes.", osara_override, checkbox)
   
+  reagirl.UI_Element_GetSet_ContextMenu(tabs2.checkbox_osara_id, true, "Hudel|Dudel", print)
+  
   reagirl.NextLine()
   osara_debug=reaper.GetExtState("ReaGirl", "osara_debug")
   if osara_debug=="false" or osara_debug=="" then osara_debug=false else osara_debug=true end
@@ -220,7 +222,7 @@ function SetUpNewGui()
   osara_hover_mouse = reaper.GetExtState("ReaGirl", "osara_hover_mouse")
   if osara_hover_mouse=="" or osara_hover_mouse=="true" then osara_hover_mouse=true else osara_hover_mouse=false end
   tabs2.checkbox_osara_hover_mouse_id = reagirl.Checkbox_Add(nil, nil, "Report hovered ui-elements", "When checked, ReaGirl will report ui-elements the mouse is hovering above to the screenreader. Uncheck to prevent that.", osara_hover_mouse, checkbox)
-  
+
   reagirl.Tabs_SetUIElementsForTab(Tabs, 2, tabs2)
 end
 
@@ -229,7 +231,7 @@ SetUpNewGui()
 color=40
 reagirl.Background_GetSetColor(true,color,color,color)
 
-reagirl.Gui_Open("ReaGirl_Settings", true, "ReaGirl Settings (Reagirl v"..reagirl.GetVersion()..")", "various settings for ReaGirl-Accessible Guis", 355, 435, nil, nil, nil)
+reagirl.Gui_Open("ReaGirl_Settings", true, "ReaGirl Settings (Reagirl v"..reagirl.GetVersion()..")", "various settings for ReaGirl-Accessible Guis.", 355, 435, nil, nil, nil)
 
 function CheckIfSettingChanged()
   if osara_debug~=toboolean(reaper.GetExtState("ReaGirl", "osara_debug"), false) then 
