@@ -2491,6 +2491,7 @@ function reagirl.Gui_Manage()
     end
     if specific_clickstate=="DBLCLK" then 
       local retval, retval_csv = reaper.GetUserInputs("Enter new name", 1, "extrawidth=300", reagirl.Elements[reagirl.EditMode_FocusedElement]["Name"])
+      reagirl.Window_SetFocus()
       if retval==true then
         reagirl.Elements[reagirl.EditMode_FocusedElement]["Name"]=retval_csv
         reagirl.Gui_ForceRefresh(981)
@@ -2522,6 +2523,10 @@ function reagirl.Gui_Manage()
   
   -- go over to draw the ui-elements
   reagirl.Gui_Draw(Key, Key_utf, clickstate, specific_clickstate, mouse_cap, click_x, click_y, drag_x, drag_y, mouse_wheel, mouse_hwheel)
+  if reagirl.Window_SetFocus_Trigger==true then
+    reagirl.Window_SetFocus()
+    reagirl.Window_SetFocus_Trigger=nil
+  end
 end
 
 function reagirl.Gui_Draw(Key, Key_utf, clickstate, specific_clickstate, mouse_cap, click_x, click_y, drag_x, drag_y, mouse_wheel, mouse_hwheel)
@@ -3857,6 +3862,7 @@ function reagirl.Checkbox_Manage(element_id, selected, hovered, clicked, mouse_c
   -- drop files for accessibility using a file-requester, after typing ctrl+shift+f
   if reagirl.osara_outputMessage~=nil and element_storage["DropZoneFunction"]~=nil and Key==6 and mouse_cap==12 then
     local retval, filenames = reaper.GetUserFileNameForRead("", "Choose file to drop into "..element_storage["Name"], "")
+    reagirl.Window_SetFocus()
     if retval==true then element_storage["DropZoneFunction"](element_storage["Guid"], {filenames}) refresh=true reagirl.Gui_ForceRefresh(979) end
   end
   
@@ -4477,6 +4483,7 @@ function reagirl.Button_Manage(element_id, selected, hovered, clicked, mouse_cap
   -- drop files for accessibility using a file-requester, after typing ctrl+shift+f
   if reagirl.osara_outputMessage~=nil and element_storage["DropZoneFunction"]~=nil and Key==6 and mouse_cap==12 then
     local retval, filenames = reaper.GetUserFileNameForRead("", "Choose file to drop into "..element_storage["Name"], "")
+    reagirl.Window_SetFocus()
     if retval==true then element_storage["DropZoneFunction"](element_storage["Guid"], {filenames}) refresh=true end
   end
   
@@ -5257,6 +5264,7 @@ function reagirl.Inputbox_Manage(element_id, selected, hovered, clicked, mouse_c
   -- drop files for accessibility using a file-requester, after typing ctrl+shift+f
   if reagirl.osara_outputMessage~=nil and element_storage["DropZoneFunction"]~=nil and Key==6 and mouse_cap==12 then
     local retval, filenames = reaper.GetUserFileNameForRead("", "Choose file to drop into "..element_storage["Name"], "")
+    reagirl.Window_SetFocus()
     if retval==true then element_storage["DropZoneFunction"](element_storage["Guid"], {filenames}) refresh=true end
   end
   
@@ -5265,6 +5273,7 @@ function reagirl.Inputbox_Manage(element_id, selected, hovered, clicked, mouse_c
     reagirl.Gui_PreventEnterForOneCycle()
     if selected~="not selected" and (Key==13 or (mouse_cap&1==1 and gfx.mouse_x>=x and gfx.mouse_x<=x+w and gfx.mouse_y>=y and gfx.mouse_y<=y+h)) then
       local retval, text = reaper.GetUserInputs("Enter or edit the text", 1, element_storage["password"]..",extrawidth=150", element_storage.Text)
+      reagirl.Window_SetFocus_Trigger=true
       --element_storage.draw_offset=1
       --reagirl.Inputbox_Calculate_DrawOffset(true, element_storage)
       if retval==true then
@@ -5902,6 +5911,7 @@ function reagirl.DropDownMenu_Manage(element_id, selected, hovered, clicked, mou
   -- drop files for accessibility using a file-requester, after typing ctrl+shift+f
   if reagirl.osara_outputMessage~=nil and element_storage["DropZoneFunction"]~=nil and Key==6 and mouse_cap==12 then
     local retval, filenames = reaper.GetUserFileNameForRead("", "Choose file to drop into "..element_storage["Name"], "")
+    reagirl.Window_SetFocus()
     if retval==true then element_storage["DropZoneFunction"](element_storage["Guid"], {filenames}) refresh=true end
   end
   
@@ -6743,6 +6753,7 @@ function reagirl.Label_Manage(element_id, selected, hovered, clicked, mouse_cap,
   -- drop files for accessibility using a file-requester, after typing ctrl+shift+f
   if reagirl.osara_outputMessage~=nil and element_storage["DropZoneFunction"]~=nil and Key==6 and mouse_cap==12 then
     local retval, filenames = reaper.GetUserFileNameForRead("", "Choose file to drop into "..element_storage["Name"], "")
+    reagirl.Window_SetFocus()
     if retval==true then element_storage["DropZoneFunction"](element_storage["Guid"], {filenames}) refresh=true end
   end
   
@@ -7217,6 +7228,7 @@ function reagirl.Image_Manage(element_id, selected, hovered, clicked, mouse_cap,
   -- drop files for accessibility using a file-requester, after typing ctrl+shift+f
   if reagirl.osara_outputMessage~=nil and element_storage["DropZoneFunction"]~=nil and Key==6 and mouse_cap==12 then
     local retval, filenames = reaper.GetUserFileNameForRead("", "Choose file to drop into "..element_storage["Name"], "")
+    reagirl.Window_SetFocus()
     if retval==true then element_storage["DropZoneFunction"](element_storage["Guid"], {filenames}) refresh=true end
   end
   
@@ -8528,6 +8540,7 @@ function reagirl.Slider_Manage(element_id, selected, hovered, clicked, mouse_cap
   -- drop files for accessibility using a file-requester, after typing ctrl+shift+f
   if reagirl.osara_outputMessage~=nil and element_storage["DropZoneFunction"]~=nil and Key==6 and mouse_cap==12 then
     local retval, filenames = reaper.GetUserFileNameForRead("", "Choose file to drop into "..element_storage["Name"], "")
+    reagirl.Window_SetFocus()
     if retval==true then element_storage["DropZoneFunction"](element_storage["Guid"], {filenames}) refresh=true end
   end
   
@@ -9544,6 +9557,7 @@ function reagirl.Tabs_Manage(element_id, selected, hovered, clicked, mouse_cap, 
   -- drop files for accessibility using a file-requester, after typing ctrl+shift+f
   if reagirl.osara_outputMessage~=nil and element_storage["DropZoneFunction"]~=nil and Key==6 and mouse_cap==12 then
     local retval, filenames = reaper.GetUserFileNameForRead("", "Choose file to drop into "..element_storage["Name"], "")
+    reagirl.Window_SetFocus()
     if retval==true then element_storage["DropZoneFunction"](element_storage["Guid"], {filenames}) refresh=true end
   end
   
