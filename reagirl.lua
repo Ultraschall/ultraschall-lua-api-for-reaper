@@ -910,8 +910,7 @@ function reagirl.Window_Open(...)
       parms[6]=(D-parms[3])/2
     end
     
-    
-    if reaper.JS_Window_SetTitle~=nil then 
+    if reaper.JS_Window_SetTitle==nil then 
       local B=gfx.init(table.unpack(parms)) 
       return B 
     end
@@ -925,7 +924,6 @@ function reagirl.Window_Open(...)
     -- use that found, unused windowtitle as temporary windowtitle
     parms[1]=parms[1]..freeslot
     
-
     -- open window  
     retval=gfx.init(table.unpack(parms))
     
@@ -942,6 +940,33 @@ function reagirl.Window_Open(...)
   end
   
   return retval, reagirl.GFX_WindowHWND
+end
+
+function reagirl.Window_SetFocus()
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Window_SetFocus</slug>
+  <requires>
+    ReaGirl=1.0
+    Reaper=7
+    JS=0.964
+    Lua=5.4
+  </requires>
+  <functioncall>reagirl.Window_SetFocus()</functioncall>
+  <description>
+    Sets window focus back to the ReaGirl-gui-window.
+  </description>
+  <chapter_context>
+    Window
+  </chapter_context>
+  <target_document>ReaGirl_Docs</target_document>
+  <source_document>reagirl_GuiEngine.lua</source_document>
+  <tags>refocus, focus, window, hwnd</tags>
+</US_DocBloc>
+]]
+  if reaper.JS_Window_SetFocus~=nil then
+    reaper.JS_Window_SetFocus(reagirl.GFX_WindowHWND)
+  end
 end
 
 function reagirl.Window_RescaleIfNeeded()

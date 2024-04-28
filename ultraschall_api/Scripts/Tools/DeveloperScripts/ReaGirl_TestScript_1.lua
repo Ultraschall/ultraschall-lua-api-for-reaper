@@ -71,6 +71,7 @@ function button(element_id)
   elseif butt2==element_id then
     reaper.MB("Second button pressed", "Button pressed", 0)
   end
+  reagirl.Window_SetFocus()
 end
 
 reagirl.Gui_New()
