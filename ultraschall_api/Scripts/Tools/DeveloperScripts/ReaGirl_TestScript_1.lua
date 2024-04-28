@@ -96,6 +96,8 @@ reagirl.NextLine(5)
 butt1=reagirl.Button_Add(nil, nil, 0, 0, "Button #1", "The first button.", button)
 butt2=reagirl.Button_Add(nil, nil, 0, 0, "Button #2", "The second button.", button)
 
+reagirl.Background_GetSetColor(true, 55, 55, 55)
+
 reagirl.Gui_Open("ReaGirl Testdialog #1", false, "ReaGirl Testdialog #1", "a test dialog that features all available ui-elements.", 355, 165, nil, nil, nil)
 
 function main()
