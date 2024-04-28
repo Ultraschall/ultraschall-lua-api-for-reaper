@@ -24,6 +24,6 @@
 ################################################################################
 ]] 
 
-reaper.MB("Edit Mode is experimental and not really finished. \n\nDrag the ui-elements around. Use mousewheel/swiping to change size of ui-elements.\n\nEdit Mode will be applied to all currently opened ReaGirl-Guis.", "ReaGirl-EditMode(Experimental)", 0)
+reaper.MB("Edit Mode is experimental and not really finished. \n\nDrag the ui-elements around. Use mousewheel/swiping to change size of ui-elements.\nDouble click to edit caption.\nHit G to show a grid.\n\nEdit Mode will be applied to all currently opened ReaGirl-Guis.", "ReaGirl-EditMode(Experimental)", 0)
 
 reaper.SetExtState("ReaGirl", "edit_mode", tostring(true), true)

@@ -1904,14 +1904,14 @@ function reagirl.Gui_Manage()
   if reagirl.osara_init_message==false then
     if reagirl.Elements["FocusedElement"]~=-1 then
       if reagirl.Elements[1]~=nil then
-        reagirl.osara_init_message=reagirl.Window_Title.. "-dialog, ".. reagirl.Window_Description..". ".. reagirl.Elements[reagirl.Elements["FocusedElement"]]["Name"].." ".. reagirl.Elements[reagirl.Elements["FocusedElement"]]["GUI_Element_Type"]
+        reagirl.osara_init_message=reagirl.Window_Title.. "-dialog, ".. reagirl.Window_Description.." ".. reagirl.Elements[reagirl.Elements["FocusedElement"]]["Name"].." ".. reagirl.Elements[reagirl.Elements["FocusedElement"]]["GUI_Element_Type"]
         local acc_message=""
         if reaper.GetExtState("ReaGirl", "osara_enable_accmessage")~="false" then
           acc_message=reagirl.Elements[reagirl.Elements["FocusedElement"]]["AccHint"]
         end
         helptext=reagirl.Elements[reagirl.Elements["FocusedElement"]]["Description"].." "..acc_message
       else
-        reagirl.osara_init_message=reagirl.Window_Title.."-dialog, "..reagirl.Window_Description..". "
+        reagirl.osara_init_message=reagirl.Window_Title.."-dialog, "..reagirl.Window_Description.." "
       end
     end
   end
@@ -8635,7 +8635,7 @@ function reagirl.Slider_Manage(element_id, selected, hovered, clicked, mouse_cap
     end
   end
   element_storage["AccHoverMessage"]=element_storage["Name"].." "..element_storage["CurValue"]
-  return element_storage["CurValue"]..".", refresh
+  return element_storage["CurValue"].." "..element_storage["Unit"]..". ", refresh
 end
 
 
