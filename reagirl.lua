@@ -5396,10 +5396,10 @@ function reagirl.Inputbox_Draw(element_id, selected, hovered, clicked, mouse_cap
   
   -- draw rectangle around text
   gfx.set(0.45)
-  reagirl.RoundRect(x+cap_w, y-dpi_scale-dpi_scale, w-cap_w, h+dpi_scale+dpi_scale+dpi_scale, 2*dpi_scale-1, 0, 1)
+  reagirl.RoundRect(x+cap_w-dpi_scale, y-dpi_scale-dpi_scale, w-cap_w+dpi_scale+dpi_scale, h+dpi_scale+dpi_scale+dpi_scale, 2*dpi_scale-1, 0, 1)
   
   gfx.set(0.234)
-  reagirl.RoundRect(x+dpi_scale+cap_w, y-dpi_scale, w-cap_w-dpi_scale-dpi_scale, h+dpi_scale, dpi_scale-1, 0, 1)
+  reagirl.RoundRect(x+cap_w, y-dpi_scale, w-cap_w, h+dpi_scale, dpi_scale-1, 0, 1)
   
   
   -- draw text
@@ -6689,7 +6689,7 @@ function reagirl.Label_Add(x, y, label, meaningOfUI_Element, clickable, run_func
   reagirl.Elements[slot]["Text"]=""
   reagirl.Elements[slot]["Description"]=meaningOfUI_Element
   reagirl.Elements[slot]["IsDisabled"]=false
-  reagirl.Elements[slot]["AccHint"]=acc_clickable.."Ctrl+C copies text to clipboard."
+  reagirl.Elements[slot]["AccHint"]=acc_clickable.."Ctrl+C copies label-text to clipboard."
   reagirl.Elements[slot]["ContextMenu_ACC"]=""
   reagirl.Elements[slot]["DropZoneFunction_ACC"]=""
   reagirl.Elements[slot]["x"]=x
