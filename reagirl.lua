@@ -76,13 +76,11 @@ end
 --]]
 --[[
 TODO: 
-  - DockState: partly implemented but seems not to work yet properly
-  - Image: Image_GetImageFilename - add that it also returns the scaled-image-filename
+  - Draggable UI-Elements other than Image: use reagirl.DragImageSlot to draw the dragging-image, which will be blit by the Gui_Draw-function
   - EdgeCase: when the scrollbars dis(!)appear while dragging the slider, the slider doesn't drag anymore
               -- see this with a slider -100 to 100 that sets x and y of a button in a way, that scrollbars
                  are drawn when the button is outside of the window(x and y -2 for instance)
                needs to be fixed or is it igual?
-  - Dragging Images: rectangles around the drag-destination to signify, where to drag to, incl blinking
   - UI-Elements that manage values(checkbox, slider, dropdownmenu, inputbox) should be linkable to extstates,
             so if the extstate changes, the shown state changes and if the shown state is change, the extstate gets changed too
   - ui-elements, who are anchored to right side/bottom of the window: when shrinking the window, they might scroll outside of left/top-side of the window
@@ -94,8 +92,7 @@ TODO:
             9.87654 // 1 | 0
             1.23456 // 1 | 0
   - general: for functions that I do not expose to the user(like RoundRect), remove math.XXX()-functioncalls for improved performance.
-  - mouse-wheel/mouse-hwheel: sometimes using mousewheel to drag sliders/options in drop down menu stops for no apparent reason
-  - Check, if all ui-elements are properly drawn in disabled-mode
+  - mouse-wheel/mouse-hwheel: sometimes using mousewheel to drag sliders/options in drop down menu stops for no apparent reason; probably fixed now, was due to scrolling issue
   - General: when no run-function is provided, adjust the accessibility-hint acordingly(probably only for image)
   - Inputbox: if they are too small, they aren't drawn properly
   - Inputbox: when dragging the textselection to the left/right edge(during scrolling) the textselection isn't drawn properly(keeps text selected that is outside of scope)
@@ -402,6 +399,8 @@ function reagirl.Gui_ReserveImageBuffer()
   reagirl.MaxImage=reagirl.MaxImage+1
   return reagirl.MaxImage
 end
+
+reagirl.DragImageSlot=reagirl.Gui_ReserveImageBuffer()
 
 function reagirl.Gui_PreventScrollingForOneCycle(keyboard, mousewheel_swipe, scroll_buttons)
 --[[
@@ -2754,10 +2753,12 @@ function reagirl.Gui_Draw(Key, Key_utf, clickstate, specific_clickstate, mouse_c
   if reagirl.Draggable_Element~=nil then
     if gfx.mouse_x~=reagirl.Elements[reagirl.Draggable_Element]["mouse_x"] or
        gfx.mouse_y~=reagirl.Elements[reagirl.Draggable_Element]["mouse_y"] then
-      local imgw, imgh = gfx.getimgdim(reagirl.Elements[reagirl.Draggable_Element]["Image_Storage"])
+      local image_slot=reagirl.DragImageSlot
+      if reagirl.Elements[reagirl.Draggable_Element]["GUI_Element_Type"]=="Image" then image_slot=reagirl.Elements[reagirl.Draggable_Element]["Image_Storage"] end
+      local imgw, imgh = gfx.getimgdim(image_slot)
       local oldgfxa=gfx.a
       gfx.a=0.7
-      gfx.blit(reagirl.Elements[reagirl.Draggable_Element]["Image_Storage"],1,0,0,0,imgw,imgh,gfx.mouse_x,gfx.mouse_y,50,50)
+      gfx.blit(image_slot,1,0,0,0,imgw,imgh,gfx.mouse_x,gfx.mouse_y,50,50)
       gfx.a=oldgfxa
       reagirl.Elements[reagirl.Draggable_Element]["mouse_x"]=-1
       reagirl.Elements[reagirl.Draggable_Element]["mouse_y"]=-1
