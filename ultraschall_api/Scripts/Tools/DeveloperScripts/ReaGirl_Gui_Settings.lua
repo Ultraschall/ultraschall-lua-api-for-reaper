@@ -122,7 +122,8 @@ end
 function SetUpNewGui()
   reagirl.Gui_New()
   
-  Tabs=reagirl.Tabs_Add(10, 10, 335, 390, "Settings", "General Settings.", {"General", "Osara"}, 1, nil)
+  if tabnumber==nil then tabnumber=1 end
+  Tabs=reagirl.Tabs_Add(10, 10, 335, 390, "Settings", "General Settings.", {"General", "Osara"}, tabnumber, nil)
   
   tab1={}
   --[[ Blinking Focus Rectangle ]]
@@ -261,7 +262,7 @@ end
 
 function main()
   B,B1,B2=CheckIfSettingChanged()
-  if B==true then A=reaper.time_precise() testtext=reagirl.Inputbox_GetText(tab1.input_id) i=reagirl.Elements.FocusedElement if i==nil then i=1 end SetUpNewGui() reagirl.Elements.FocusedElement=i end
+  if B==true then A=reaper.time_precise() testtext=reagirl.Inputbox_GetText(tab1.input_id) i=reagirl.Elements.FocusedElement if i==nil then i=1 end tabnumber=reagirl.Tabs_GetSelected(Tabs) SetUpNewGui() reagirl.Elements.FocusedElement=i end
   reagirl.Gui_Manage()
   if B==true then
     reagirl.Elements.FocusedElement=i

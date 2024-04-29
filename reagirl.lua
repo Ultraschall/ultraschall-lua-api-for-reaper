@@ -9433,16 +9433,16 @@ function reagirl.Tabs_Add(x, y, w_backdrop, h_backdrop, caption, meaningOfUI_Ele
   return reagirl.Elements[slot]["Guid"]
 end
 -- mespotine
-function reagirl.Tabs_SetValue(element_id, selected_tab)
+function reagirl.Tabs_SetSelected(element_id, selected_tab)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>Tabs_SetValue</slug>
+  <slug>Tabs_SetSelected</slug>
   <requires>
     ReaGirl=1.0
     Reaper=7
     Lua=5.4
   </requires>
-  <functioncall>reagirl.Tabs_SetValue(string element_id, integer selected_tab)</functioncall>
+  <functioncall>reagirl.Tabs_SetSelected(string element_id, integer selected_tab)</functioncall>
   <description>
     Sets the selected tab of a tabs-element.
   </description>
@@ -9456,15 +9456,15 @@ function reagirl.Tabs_SetValue(element_id, selected_tab)
   <tags>tabs, set, selected tab</tags>
 </US_DocBloc>
 --]]
-  if type(element_id)~="string" then error("Tabs_SetValue: param #1 - must be a string", 2) end
-  if reagirl.IsValidGuid(element_id, true)==nil then error("Tabs_SetValue: param #1 - must be a valid guid", 2) end
-  if math.type(selected_tab)~="integer" then error("Tabs_SetValue: param #2 - must be an integer", 2) end
+  if type(element_id)~="string" then error("Tabs_SetSelected: param #1 - must be a string", 2) end
+  if reagirl.IsValidGuid(element_id, true)==nil then error("Tabs_SetSelected: param #1 - must be a valid guid", 2) end
+  if math.type(selected_tab)~="integer" then error("Tabs_SetSelected: param #2 - must be an integer", 2) end
   element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
-  if element_id==-1 then error("Tabs_SetValue: param #1 - no such ui-element", 2) end
+  if element_id==-1 then error("Tabs_SetSelected: param #1 - no such ui-element", 2) end
   if reagirl.Elements[element_id]["GUI_Element_Type"]~="Tabs" then
-    error("Tabs_SetValue: param #1 - ui-element is not a tab", 2)
+    error("Tabs_SetSelected: param #1 - ui-element is not a tab", 2)
   else
-    if selected_tab<1 or selected_tab>#reagirl.Elements[element_id]["TabNames"] then error("Tabs_SetValue: param #2 - no such tab", 2) end
+    if selected_tab<1 or selected_tab>#reagirl.Elements[element_id]["TabNames"] then error("Tabs_SetSelected: param #2 - no such tab", 2) end
     reagirl.Elements[element_id]["TabSelected"]=selected_tab
     reagirl.Gui_ForceRefresh(60)
   end
@@ -9516,16 +9516,16 @@ function reagirl.Tabs_SetUIElementsForTab(element_id, tab_number, element_ids_ta
   end
 end
 
-function reagirl.Tabs_GetValue(element_id)
+function reagirl.Tabs_GetSelected(element_id)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>Tabs_GetValue</slug>
+  <slug>Tabs_GetSelected</slug>
   <requires>
     ReaGirl=1.0
     Reaper=7
     Lua=5.4
   </requires>
-  <functioncall>number value = reagirl.Tabs_GetValue(string element_id)</functioncall>
+  <functioncall>number value = reagirl.Tabs_GetSelected(string element_id)</functioncall>
   <description>
     Gets the selected tab of a tabs-element.
   </description>
@@ -9541,12 +9541,12 @@ function reagirl.Tabs_GetValue(element_id)
   <tags>tabs, get, selected tab</tags>
 </US_DocBloc>
 --]]
-  if type(element_id)~="string" then error("Tabs_GetValue: param #1 - must be a string", 2) end
-  if reagirl.IsValidGuid(element_id, true)==nil then error("Tabs_GetValue: param #1 - must be a valid guid", 2) end
+  if type(element_id)~="string" then error("Tabs_GetSelected: param #1 - must be a string", 2) end
+  if reagirl.IsValidGuid(element_id, true)==nil then error("Tabs_GetSelected: param #1 - must be a valid guid", 2) end
   element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
-  if element_id==-1 then error("Tabs_GetValue: param #1 - no such ui-element", 2) end
+  if element_id==-1 then error("Tabs_GetSelected: param #1 - no such ui-element", 2) end
   if reagirl.Elements[element_id]["GUI_Element_Type"]~="Tabs" then
-    error("Tabs_GetValue: param #1 - ui-element is not tabs", 2)
+    error("Tabs_GetSelected: param #1 - ui-element is not tabs", 2)
   else
     return reagirl.Elements[element_id]["TabSelected"]
   end
@@ -9996,7 +9996,5 @@ function reagirl.Base64_Decoder(source_string)
   if decoded_string:sub(-1,-1)=="\0" then decoded_string=decoded_string:sub(1,-2) end
   return decoded_string
 end
-
 reagirl.Gui_New()
-
 --- End of ReaGirl-functions
