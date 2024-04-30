@@ -2770,7 +2770,7 @@ function reagirl.Gui_Draw(Key, Key_utf, clickstate, specific_clickstate, mouse_c
         if reagirl.Blink_DragDestinations<=blink_length then
           local scale=reagirl.Window_GetCurrentScale()
           local oldr,oldg,oldb,olda=gfx.r, gfx.g, gfx.b, gfx.a
-          reaper.ClearConsole()
+          --reaper.ClearConsole()
           for i=1, #reagirl.Elements[reagirl.Draggable_Element]["DraggableDestinations"] do
             local element_id=reagirl.Elements[reagirl.Draggable_Element]["DraggableDestinations"][i]
             element_id=reagirl.UI_Element_GetIDFromGuid(element_id)

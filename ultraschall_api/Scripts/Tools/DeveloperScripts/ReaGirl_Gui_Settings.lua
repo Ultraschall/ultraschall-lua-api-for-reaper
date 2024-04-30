@@ -271,3 +271,4 @@ function main()
   if reagirl.Gui_IsOpen()==true then reaper.defer(main) end
 end
 main()
+--reaper.ShowConsoleMsg("Tudelu")
