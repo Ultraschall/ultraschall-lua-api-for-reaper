@@ -6789,7 +6789,7 @@ function reagirl.Label_Manage(element_id, selected, hovered, clicked, mouse_cap,
       end
   end
   if element_storage["Draggable"]==true and element_storage.DraggableDestinations~=nil then
-    if selected~="not selected" and gfx.mouse_cap==4 and Key==9 then
+    if selected~="not selected" and gfx.mouse_cap==12 and Key==1885828464.0 then
       if element_storage.Draggable_DestAccessibility==nil then 
         element_storage.Draggable_DestAccessibility=1 
       else
@@ -6800,7 +6800,7 @@ function reagirl.Label_Manage(element_id, selected, hovered, clicked, mouse_cap,
       end
       local id = reagirl.UI_Element_GetIDFromGuid(element_storage.DraggableDestinations[element_storage.Draggable_DestAccessibility])
       reagirl.Elements["GlobalAccHoverMessage"]="Drop to "..reagirl.Elements[id]["Name"]
-    elseif selected~="not selected" and gfx.mouse_cap==12 and Key==9 then
+    elseif selected~="not selected" and gfx.mouse_cap==12 and Key==1885824110.0 then
       if element_storage.Draggable_DestAccessibility==nil then 
         element_storage.Draggable_DestAccessibility=1 
       else
@@ -6811,7 +6811,7 @@ function reagirl.Label_Manage(element_id, selected, hovered, clicked, mouse_cap,
       end
       local id = reagirl.UI_Element_GetIDFromGuid(element_storage.DraggableDestinations[element_storage.Draggable_DestAccessibility])
       reagirl.Elements["GlobalAccHoverMessage"]="Drop to "..reagirl.Elements[id]["Name"]
-    elseif selected~="not selected" and gfx.mouse_cap==4 and Key==13 then
+    elseif selected~="not selected" and gfx.mouse_cap==12 and Key==13 then
       if element_storage.Draggable_DestAccessibility==nil then 
         element_storage.Draggable_DestAccessibility=1 
       end
@@ -7046,7 +7046,7 @@ function reagirl.Label_SetDraggable(element_id, draggable, destination_element_i
   reagirl.Elements[slot]["Draggable"]=draggable
   reagirl.Elements[slot]["DraggableDestinations"]=destination_element_ids
   if draggable==true then
-    reagirl.Elements[slot]["AccHint"]=reagirl.Elements[slot]["AccHint"].."Label draggable with Ctrl+Tab and Ctrl+Shift+Tab to choose drag-destination and ctrl+Enter to drop it there."
+    reagirl.Elements[slot]["AccHint"]=reagirl.Elements[slot]["AccHint"].."Label draggable with Ctrl+Shift+PageUp and Ctrl+Shift+PageDown to choose drag-destination and ctrl+Shift+Enter to drop it at the destination."
   else
     reagirl.Elements[slot]["AccHint"]=reagirl.Elements[slot]["AccHint"]:utf8_sub(1,43)
   end
@@ -7267,7 +7267,7 @@ function reagirl.Image_SetDraggable(element_id, draggable, destination_element_i
   reagirl.Elements[slot]["Draggable"]=draggable
   reagirl.Elements[slot]["DraggableDestinations"]=destination_element_ids
   if draggable==true then
-    reagirl.Elements[slot]["AccHint"]=reagirl.Elements[slot]["AccHint"].."Image draggable with Ctrl+Tab and Ctrl+Shift+Tab to choose drag-destination and ctrl+Enter to drop it there."
+    reagirl.Elements[slot]["AccHint"]=reagirl.Elements[slot]["AccHint"].."Image draggable with Ctrl+Shift+PageUp and Ctrl+Shift+PageDown to choose drag-destination and ctrl+Shift+Enter to drop it at the destination."
   else
     reagirl.Elements[slot]["AccHint"]=reagirl.Elements[slot]["AccHint"]:utf8_sub(1,43)
   end
@@ -7432,8 +7432,8 @@ function reagirl.Image_Manage(element_id, selected, hovered, clicked, mouse_cap,
     message=""
   end
   if selected~="not selected" and 
-    (Key==32 or mouse_cap==1) and 
-    (gfx.mouse_x>=x and gfx.mouse_x<=x+w and gfx.mouse_y>=y and gfx.mouse_y<=y+h) 
+    (Key==32 or Key==13) or (mouse_cap==1 and 
+    gfx.mouse_x>=x and gfx.mouse_x<=x+w and gfx.mouse_y>=y and gfx.mouse_y<=y+h) 
     and clicked=="FirstCLK" and
     element_storage["run_function"]~=nil then 
     --print("1")
@@ -7445,7 +7445,7 @@ function reagirl.Image_Manage(element_id, selected, hovered, clicked, mouse_cap,
       end
   end
   if element_storage["Draggable"]==true and element_storage.DraggableDestinations~=nil then
-    if selected~="not selected" and gfx.mouse_cap==4 and Key==9 then
+    if selected~="not selected" and gfx.mouse_cap==12 and Key==1885828464.0 then
       if element_storage.Draggable_DestAccessibility==nil then 
         element_storage.Draggable_DestAccessibility=1 
       else
@@ -7456,7 +7456,7 @@ function reagirl.Image_Manage(element_id, selected, hovered, clicked, mouse_cap,
       end
       local id = reagirl.UI_Element_GetIDFromGuid(element_storage.DraggableDestinations[element_storage.Draggable_DestAccessibility])
       reagirl.Elements["GlobalAccHoverMessage"]="Drop to "..reagirl.Elements[id]["Name"]
-    elseif selected~="not selected" and gfx.mouse_cap==12 and Key==9 then
+    elseif selected~="not selected" and gfx.mouse_cap==12 and Key==1885824110.0 then
       if element_storage.Draggable_DestAccessibility==nil then 
         element_storage.Draggable_DestAccessibility=1 
       else
@@ -7467,7 +7467,7 @@ function reagirl.Image_Manage(element_id, selected, hovered, clicked, mouse_cap,
       end
       local id = reagirl.UI_Element_GetIDFromGuid(element_storage.DraggableDestinations[element_storage.Draggable_DestAccessibility])
       reagirl.Elements["GlobalAccHoverMessage"]="Drop to "..reagirl.Elements[id]["Name"]
-    elseif selected~="not selected" and gfx.mouse_cap==4 and Key==13 then
+    elseif selected~="not selected" and gfx.mouse_cap==12 and Key==13 then
       if element_storage.Draggable_DestAccessibility==nil then 
         element_storage.Draggable_DestAccessibility=1 
       end
