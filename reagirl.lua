@@ -3193,7 +3193,7 @@ function reagirl.UI_Element_GetSet_ContextMenu(element_id, is_set, menu, menu_fu
   if is_set==true then
     reagirl.Elements[element_id]["ContextMenu"]=menu
     reagirl.Elements[element_id]["ContextMenuFunction"]=menu_function
-    reagirl.Elements[element_id]["ContextMenu_ACC"]=" Right click for context menu."
+    reagirl.Elements[element_id]["ContextMenu_ACC"]=" Right click for context menu. "
   else
     reagirl.Elements[element_id]["ContextMenu_ACC"]=""
   end
@@ -3244,7 +3244,7 @@ function reagirl.UI_Element_GetSet_DropZoneFunction(element_id, is_set, dropzone
   
   if is_set==true then
     reagirl.Elements[element_id]["DropZoneFunction"]=dropzone_function
-    reagirl.Elements[element_id]["DropZoneFunction_ACC"]="You can drop files on this UI-element and use control + shift + F for a file-selection dialog."
+    reagirl.Elements[element_id]["DropZoneFunction_ACC"]="You can drop files on this UI-element or use control + shift + F for a file-selection dialog."
   else
     reagirl.Elements[element_id]["DropZoneFunction_ACC"]=""
   end
