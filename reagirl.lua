@@ -28,7 +28,7 @@
 --dofile(reaper.GetResourcePath().."/UserPlugins/ultraschall_api.lua")
 
 -- DEBUG:
-reaper.osara_outputMessage=nil
+--reaper.osara_outputMessage=nil
 
 reagirl={}
 reagirl.MaxImage=-1
@@ -75,6 +75,8 @@ end
 --]]
 --[[
 TODO: 
+  - Ultraschall API: add function to set SetExtState("ReaGirl","ReFocusWindow"), which will set the focus of an opened ReaGirl-window.
+  -- for instance reaper.SetExtState("ReaGirl","ReFocusWindow","ReaGirl_Settings",false) sets focus to ReaGirl Settings.
   - Draggable UI-Elements other than Image: use reagirl.DragImageSlot to draw the dragging-image, which will be blit by the Gui_Draw-function
   - EdgeCase: when the scrollbars dis(!)appear while dragging the slider, the slider doesn't drag anymore
               -- see this with a slider -100 to 100 that sets x and y of a button in a way, that scrollbars
@@ -1721,6 +1723,9 @@ function reagirl.Gui_Open(name, restore_old_window_state, title, description, w,
   reagirl.IsWindowOpen_attribute=true
   reagirl.Gui_ForceRefresh(2)
   
+  if reaper.GetExtState("ReaGirl", "osara_enable_accmessage")~="false" and reaper.GetExtState("ReaGirl", "osara_move_mouse")~="false" then
+    description=description.." When tabbing, mouse moves to tabbed ui-element."
+  end
   if restore_old_window_state==false or (restore_old_window_state==true and reaper.GetExtState("Reagirl_Window_"..name, "stored")=="") then
     reagirl.Window_name=name
     reagirl.Window_Title=title
@@ -1852,6 +1857,11 @@ function reagirl.Gui_Manage()
   reaper.SetExtState("Reagirl_Window_"..reagirl.Window_name, "h", h, true)
   reaper.SetExtState("Reagirl_Window_"..reagirl.Window_name, "dock", dock, true)
   --]]
+  
+  if reaper.GetExtState("ReaGirl", "ReFocusWindow")==reagirl.Window_name then
+    reagirl.Window_SetFocus()
+    reaper.SetExtState("ReaGirl", "ReFocusWindow","",false)
+  end
   
   -- Osara Override
   if reaper.GetExtState("ReaGirl", "osara_override")=="" or reaper.GetExtState("ReaGirl", "osara_override")=="true" or reagirl.Settings_Override==true then 

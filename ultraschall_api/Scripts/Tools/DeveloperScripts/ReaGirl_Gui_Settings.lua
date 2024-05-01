@@ -65,6 +65,9 @@ function button_apply_and_close()
   reaper.SetExtState("ReaGirl", "osara_move_mouse", tostring(reagirl.Checkbox_GetCheckState(tabs2.checkbox_osara_move_mouse_id)), true)
   reaper.SetExtState("ReaGirl", "highlight_drag_destinations", tostring(reagirl.Checkbox_GetCheckState(tabs2.checkbox_osara_hover_mouse_id)), true)
   reaper.SetExtState("ReaGirl", "osara_hover_mouse", tostring(reagirl.Checkbox_GetCheckState(tab1.checkbox_highlight_drag_destinations)), true)
+  reaper.SetExtState("ReaGirl", "osara_enable_accmessage", tostring(reagirl.Checkbox_GetCheckState(tabs2.checkbox_osara_enable_acc_help)), true)
+
+reaper.GetExtState("ReaGirl", "osara_enable_accmessage")
 
   if reagirl.Slider_GetValue(tab1.slider_blink_every)==1 then val="" else val=math.floor(reagirl.Slider_GetValue(tab1.slider_blink_every)*33) end
   reaper.SetExtState("ReaGirl", "FocusRectangle_BlinkSpeed", val, true)
@@ -192,6 +195,11 @@ function SetUpNewGui()
   osara_hover_mouse = reaper.GetExtState("ReaGirl", "osara_hover_mouse")
   if osara_hover_mouse=="" or osara_hover_mouse=="true" then osara_hover_mouse=true else osara_hover_mouse=false end
   tabs2.checkbox_osara_hover_mouse_id = reagirl.Checkbox_Add(nil, nil, "Report hovered ui-elements", "When checked, ReaGirl will report ui-elements the mouse is hovering above to the screen reader. Uncheck to prevent that.", osara_hover_mouse, checkbox)
+  
+  reagirl.NextLine()
+  osara_enable_accmessage = reaper.GetExtState("ReaGirl", "osara_enable_accmessage")
+  if osara_enable_accmessage=="" or osara_enable_accmessage=="true" then osara_enable_accmessage=true else osara_enable_accmessage=false end
+  tabs2.checkbox_osara_enable_acc_help = reagirl.Checkbox_Add(nil, nil, "Enable screen reader help-messages for ui-elements.", "When checked, a short description on how to use a tabbed ui-element will be send to the screen reader as well. Uncheck to turn off the help-messages.", osara_enable_accmessage, checkbox)
 
   reagirl.Tabs_SetUIElementsForTab(Tabs, 2, tabs2)
   
@@ -227,6 +235,8 @@ function CheckIfSettingChanged()
     return true, 5
   elseif show_tooltips~=toboolean(reaper.GetExtState("ReaGirl", "show_tooltips"), true) then
     return true, 6
+  elseif osara_enable_accmessage~=toboolean(reaper.GetExtState("ReaGirl", "osara_enable_accmessage"), true) then
+    return true, 7
   else
     return false
   end

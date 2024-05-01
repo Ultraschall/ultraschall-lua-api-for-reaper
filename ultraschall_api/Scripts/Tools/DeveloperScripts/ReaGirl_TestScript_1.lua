@@ -76,7 +76,8 @@ end
 
 reagirl.Gui_New()
 
-reagirl.Label_Add(nil, nil, "A label with some text", "Labels are there to describe things in the gui.", false, nil)
+label=reagirl.Label_Add(nil, nil, "A label with some text", "Labels are there to describe things in the gui.", false, nil)
+reagirl.UI_Element_GetSet_ContextMenu(label, true, "A|Context|Menu", button)
 reagirl.NextLine()
 
 reagirl.Checkbox_Add(nil, nil, "Checkbox #1", "The first checkbox.", true, nil)

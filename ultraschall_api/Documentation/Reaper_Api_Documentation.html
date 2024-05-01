@@ -2058,14 +2058,16 @@ Persistant states are stored into the reaper-extstate.ini in the resources-folde
 <br>
 Note: section and key are not case-sensitive<br>
 <br>
-Important: always use a section-name, that is unique to you. For instance, add your name into the section-name, <br>
-so it's less likely, that somebody else uses the same section and accidentally overwrites your keys.<br>
-Something like: "mespotine_MyCoolScript.lua"<br>
-<br>
 Note: Do not use newlines in extstates, as they might be cut when rereading them using GetExtState!<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Find workarounds, like \n -> \\n to store and \\n -> \n to get them again.<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;This is due limitations of the ini-file-format.<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+Also note: special characters like cyrillic for instance, might not be written and correctly reread from extstates when persistent=true.<br>
+So encode them into a different encoding like hex-strings or BASE64.<br>
+<br>
+Important: always use a section-name, that is unique to you. For instance, add your name into the section-name, <br>
+so it's less likely, that somebody else uses the same section and accidentally overwrites your keys.<br>
+Something like: "mespotine_MyCoolScript.lua"<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
 Here are some of the sections used by ReaTeam-scripts and extensions. Don't use to avoid possible name-conflicts.<br>
 If your section is missing, contact me and I'll add it too:<br>
