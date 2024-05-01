@@ -74,6 +74,12 @@ function button(element_id)
   reagirl.Window_SetFocus()
 end
 
+function Image(element_id, filename, dragged_element_id)
+  if dragged_element_id==image_dest then
+    reaper.MB("Successfully dragged", "", 0)
+  end
+end
+
 reagirl.Gui_New()
 
 label=reagirl.Label_Add(nil, nil, "A label with some text", "Labels are there to describe things in the gui.", false, nil)
@@ -92,6 +98,11 @@ reagirl.NextLine()
 reagirl.DropDownMenu_Add(nil,nil, -20,"Drop Down Menu", 100, "A test Drop Down Menu or Combo Box as it's probably known.", {"First menu entry", "The second menu entry", "A third menu entry"}, 1, nil)
 reagirl.NextLine()
 reagirl.Inputbox_Add(nil, nil, -20, "An input box:", 100, "Input some text in here.", "", nil, nil)
+reagirl.NextLine()
+  image_source=reagirl.Image_Add(50,nil,50,50,reaper.GetResourcePath().."/Data/track_icons/double_bass.png", "The source-image, an image of a double bass.", "Drag this double bass to the microphone.", Image)
+  image_middle=reagirl.Image_Add(160,nil,25,25,reaper.GetResourcePath().."/Data/track_icons/folder_right.png", "Graphics with an arrow pointing to the drag-destination of the double bass.", "Graphics with an arrow pointing to the drag-destination of the double bass.",nil)
+  image_dest=reagirl.Image_Add(250,nil,50,50,reaper.GetResourcePath().."/Data/track_icons/mic_dynamic_1.png", "The destination image, an image of a microphone.", "The destination image, drag the double bass over here.",nil)
+  reagirl.Image_SetDraggable(image_source, true, {image_dest})
 
 reagirl.NextLine(5)
 butt1=reagirl.Button_Add(nil, nil, 0, 0, "Button #1", "The first button.", button)
@@ -99,7 +110,7 @@ butt2=reagirl.Button_Add(nil, nil, 0, 0, "Button #2", "The second button.", butt
 
 reagirl.Background_GetSetColor(true, 55, 55, 55)
 
-reagirl.Gui_Open("ReaGirl Testdialog #1", false, "ReaGirl Testdialog #1", "a test dialog that features all available ui-elements.", 355, 165, nil, nil, nil)
+reagirl.Gui_Open("ReaGirl Testdialog #1", false, "ReaGirl Testdialog #1", "a test dialog that features all available ui-elements.", 355, 225, nil, nil, nil)
 
 function main()
   reagirl.Gui_Manage()

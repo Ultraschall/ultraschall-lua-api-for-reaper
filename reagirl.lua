@@ -7060,7 +7060,7 @@ function reagirl.Label_SetDraggable(element_id, draggable, destination_element_i
   reagirl.Elements[slot]["Draggable"]=draggable
   reagirl.Elements[slot]["DraggableDestinations"]=destination_element_ids
   if draggable==true then
-    reagirl.Elements[slot]["AccHint"]=reagirl.Elements[slot]["AccHint"].."Label draggable with Ctrl+Shift+PageUp and Ctrl+Shift+PageDown to choose drag-destination and ctrl+Shift+Enter to drop it at the destination."
+    reagirl.Elements[slot]["AccHint"]=reagirl.Elements[slot]["AccHint"].."Choose drag destination with Ctrl+Shift+PageUp and Ctrl+Shift+PageDown and hit ctrl+Shift+Enter to drop it at destination."
   else
     reagirl.Elements[slot]["AccHint"]=reagirl.Elements[slot]["AccHint"]:utf8_sub(1,43)
   end
@@ -7281,7 +7281,7 @@ function reagirl.Image_SetDraggable(element_id, draggable, destination_element_i
   reagirl.Elements[slot]["Draggable"]=draggable
   reagirl.Elements[slot]["DraggableDestinations"]=destination_element_ids
   if draggable==true then
-    reagirl.Elements[slot]["AccHint"]=reagirl.Elements[slot]["AccHint"].."Image draggable with Ctrl+Shift+PageUp and Ctrl+Shift+PageDown to choose drag-destination and ctrl+Shift+Enter to drop it at the destination."
+    reagirl.Elements[slot]["AccHint"]=reagirl.Elements[slot]["AccHint"].."Choose drag destination with Ctrl+Shift+PageUp and Ctrl+Shift+PageDown and hit ctrl+Shift+Enter to drop it at destination."
   else
     reagirl.Elements[slot]["AccHint"]=reagirl.Elements[slot]["AccHint"]:utf8_sub(1,43)
   end
