@@ -51,6 +51,7 @@ function Image(element_id, filename, drag_destination)
   if drag_destination==tab1.image_dest then
     reaper.MB("Successfully dragged", "Dragged", 0)
   end
+--  print2("")
 end
 
 function Label(A,B,C)
@@ -115,7 +116,7 @@ function SetUpNewGui()
   tab1.slider_blink_every = reagirl.Slider_Add(nil, nil, 300, "Blink every", 100, "Set the speed of the blinking of the focus rectangle.", "seconds", 0.4, 3, 0.1, val/33, 1, BlinkSpeed)
   reagirl.NextLine(-4)
   tab1.slider_blink_for = reagirl.Slider_Add(nil, nil, 300, "Blink for", 100, "Set the duration of the blinking of the focus rectangle.", "seconds", 0, 10, 1, val2, 0, BlinkTime)
-  reagirl.UI_Element_GetSet_ContextMenu(tab1.slider_blink_every, true, "Tudel|Loo", huch)
+  
   
   -- [[ Blinking Inputbox-Cursor ]]
   reagirl.NextLine(15)
@@ -156,6 +157,7 @@ function SetUpNewGui()
   tab1.image_middle=reagirl.Image_Add(160,nil,25,25,reaper.GetResourcePath().."/Data/track_icons/folder_right.png", "Graphics with an arrow pointing to the drag-destination of the double bass.", "Graphics with an arrow pointing to the drag-destination of the double bass.",nil)
   tab1.image_dest=reagirl.Image_Add(250,nil,50,50,reaper.GetResourcePath().."/Data/track_icons/mic_dynamic_1.png", "The destination image, an image of a microphone.", "The destination image, drag the double bass over here.",nil)
   reagirl.Image_SetDraggable(tab1.image_source, true, {tab1.image_dest})
+  --reagirl.UI_Element_GetSet_ContextMenu(tab1.image_source, true, "Tudel|Loo", huch)
   --reagirl.NextLine()
   --tab1.ddm = reagirl.DropDownMenu_Add(nil,nil,300,"TUdelu", nil, "Test menu.", {"One", "Two", "Three"}, 1, nil)
   --reagirl.Label_SetDraggable(tab1.Label_General, true, {tab1.image_dest})

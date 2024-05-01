@@ -28,7 +28,7 @@
 --dofile(reaper.GetResourcePath().."/UserPlugins/ultraschall_api.lua")
 
 -- DEBUG:
---reaper.osara_outputMessage=nil
+reaper.osara_outputMessage=nil
 
 reagirl={}
 reagirl.MaxImage=-1
@@ -5318,7 +5318,7 @@ function reagirl.Inputbox_Manage(element_id, selected, hovered, clicked, mouse_c
     if element_storage.cursor_offset==-1 and clicked~="DBLCLK" then 
       element_storage.cursor_offset=element_storage.Text:utf8_len() 
     end
-    if selected=="first selected" then
+    if selected=="first selected" and mouse_cap==1 then
       element_storage["cursor_offset"]=element_storage["Text"]:utf8_len()
       element_storage["draw_offset_end"]=element_storage["Text"]:utf8_len()
       element_storage["selection_endoffset"]=element_storage["Text"]:utf8_len()
@@ -5332,7 +5332,7 @@ function reagirl.Inputbox_Manage(element_id, selected, hovered, clicked, mouse_c
     gfx.setfont(1, "Arial", reagirl.Font_Size, 0)
   
     
-    if selected~="not selected" and (gfx.mouse_x>=x and gfx.mouse_y>=y and gfx.mouse_x<=x+w and gfx.mouse_y<=y+h) then 
+    if selected~="not selected" and mouse_cap==1 and (gfx.mouse_x>=x and gfx.mouse_y>=y and gfx.mouse_x<=x+w and gfx.mouse_y<=y+h) then 
       -- mousewheel scroll the text inside the input-box via hmousewheel(doesn't work properly, yet)
       reagirl.Gui_PreventScrollingForOneCycle(true, true, false)
       if mouse_attributes[6]>0 then 
@@ -5360,17 +5360,17 @@ function reagirl.Inputbox_Manage(element_id, selected, hovered, clicked, mouse_c
       element_storage.h2=h
       refreshme=clicked
       -- mouse management
-      if selected~="not selected" and clicked=="FirstCLK" then 
+      if selected~="not selected" and clicked=="FirstCLK" and mouse_cap==1 then 
         element_storage["hasfocus"]=true
         if reagirl.mouse.down==false then 
           reagirl.Inputbox_OnMouseDown(mouse_cap, element_storage) 
           refresh=true
         end
-      elseif selected~="not selected" and clicked=="DBLCLK" then
+      elseif selected~="not selected" and clicked=="DBLCLK" and mouse_cap==1 then
         reagirl.Inputbox_OnMouseDoubleClick(mouse_cap, element_storage)
         refresh=true
         element_storage["hasfocus"]=true
-      elseif selected~="not selected" and reagirl.mouse.down==true then
+      elseif selected~="not selected" and reagirl.mouse.down==true and mouse_cap==1 then
         reagirl.Inputbox_OnMouseUp(mouse_cap, element_storage)
         refresh=true
         element_storage["hasfocus"]=true
