@@ -8901,12 +8901,12 @@ function reagirl.Slider_Draw(element_id, selected, hovered, clicked, mouse_cap, 
   -- draw unit
   local unit=reagirl.FormatNumber(element_storage["CurValue"], 3)
   if element_storage["Unit"]~=nil then 
-    gfx.x=x+w-offset_unit+8*dpi_scale
+    gfx.x=x+w-offset_unit+9*dpi_scale
     gfx.y=y+dpi_scale+(h-gfx.texth)/2
     gfx.set(0.2)
     gfx.drawstr(" "..unit..element_storage["Unit"])
     
-    gfx.x=x+w-offset_unit+7*dpi_scale
+    gfx.x=x+w-offset_unit+8*dpi_scale
     gfx.y=y+(h-gfx.texth)/2
   
     if element_storage["IsDisabled"]==true then gfx.set(0.6) else gfx.set(0.8) end

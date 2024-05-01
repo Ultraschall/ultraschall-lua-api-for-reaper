@@ -53,73 +53,29 @@ function Image(element_id, filename, drag_destination)
   end
 end
 
-function BlinkSpeed(slider_id, value)
-  if value==0 then
-    reaper.SetExtState("ReaGirl", "FocusRectangle_BlinkSpeed", "", true)
-  else
-    reaper.SetExtState("ReaGirl", "FocusRectangle_BlinkSpeed", math.floor(value*33), true)
-  end
-  reagirl.FocusRectangle_BlinkStartTime=reaper.time_precise()
-end
-
-function BlinkTime(slider_id, value)
-  if value==0 then
-    reaper.SetExtState("ReaGirl", "FocusRectangle_BlinkTime", "", true)
-  else
-    reaper.SetExtState("ReaGirl", "FocusRectangle_BlinkTime", value, true)
-  end
-  reagirl.FocusRectangle_BlinkStartTime=reaper.time_precise()
-end
-
-function DragBlinkSpeed(element_id, value)
-  if value==0 then
-    reaper.SetExtState("ReaGirl", "highlight_drag_destination_blink", "", true)
-  else
-    reaper.SetExtState("ReaGirl", "highlight_drag_destination_blink", value*33, true)
-  end
-end
-
-function CursorBlinkSpeed(slider_id, value)
-  if value==1 then
-    reaper.SetExtState("ReaGirl", "Inputbox_BlinkSpeed", "", true)
-  else
-    reaper.SetExtState("ReaGirl", "Inputbox_BlinkSpeed", math.floor(value*33), true)
-  end
-  reagirl.FocusRectangle_BlinkStartTime=reaper.time_precise()
-end
-
-function button_apply(button_id, value)
-  value=reagirl.Slider_GetValue(tab1.slider_scale)
-  if value==0 then value="" end
-  reaper.SetExtState("ReaGirl", "scaling_override", value, true)
-  scaling_override=value
-end
-
 function button_apply_and_close()
+  reaper.SetExtState("ReaGirl", "show_tooltips", tostring(reagirl.Checkbox_GetCheckState(tab1.checkbox_tooltips_id)), true)
+  reaper.SetExtState("ReaGirl", "osara_override", tostring(reagirl.Checkbox_GetCheckState(tabs2.checkbox_osara_id)), true)
+  reaper.SetExtState("ReaGirl", "osara_debug", tostring(reagirl.Checkbox_GetCheckState(tabs2.checkbox_osara_debug_id)), true)
+  reaper.SetExtState("ReaGirl", "osara_move_mouse", tostring(reagirl.Checkbox_GetCheckState(tabs2.checkbox_osara_move_mouse_id)), true)
+  reaper.SetExtState("ReaGirl", "highlight_drag_destinations", tostring(reagirl.Checkbox_GetCheckState(tabs2.checkbox_osara_hover_mouse_id)), true)
+  reaper.SetExtState("ReaGirl", "osara_hover_mouse", tostring(reagirl.Checkbox_GetCheckState(tab1.checkbox_highlight_drag_destinations)), true)
+
+  if reagirl.Slider_GetValue(tab1.slider_blink_every)==1 then val="" else val=math.floor(reagirl.Slider_GetValue(tab1.slider_blink_every)*33) end
+  reaper.SetExtState("ReaGirl", "FocusRectangle_BlinkSpeed", val, true)
+  if reagirl.Slider_GetValue(tab1.slider_blink_for)==0 then val="" else val=math.floor(reagirl.Slider_GetValue(tab1.slider_blink_for)) end
+  reaper.SetExtState("ReaGirl", "FocusRectangle_BlinkTime", val, true)
+  if reagirl.Slider_GetValue(tab1.slider_blink_every_cursor)==1 then val="" else val=math.floor(reagirl.Slider_GetValue(tab1.slider_blink_every_cursor)*33) end
+  reaper.SetExtState("ReaGirl", "Inputbox_BlinkSpeed", val, true)
+  if reagirl.Slider_GetValue(tab1.slider_scale)==0 then val="" else val=math.floor(reagirl.Slider_GetValue(tab1.slider_scale)) end
+  reaper.SetExtState("ReaGirl", "scaling_override", val, true)
+  if reagirl.Slider_GetValue(tab1.slider_blink_every_draggable)==0 then val="" else val=math.floor(reagirl.Slider_GetValue(tab1.slider_blink_every_draggable)*33) end
+  reaper.SetExtState("ReaGirl", "highlight_drag_destination_blink", val, true)
   reagirl.Gui_Close()
 end
 
-function checkbox(checkbox_id, checkstate)
-  override=true
-  if checkbox_id==tabs2.checkbox_osara_id then
-    reaper.SetExtState("ReaGirl", "osara_override", tostring(checkstate), true)
-    osara_override=checkstate
-  elseif checkbox_id==tabs2.checkbox_osara_debug_id then
-    reaper.SetExtState("ReaGirl", "osara_debug", tostring(checkstate), true)
-    osara_debug=checkstate
-  elseif checkbox_id==tabs2.checkbox_osara_move_mouse_id then
-    reaper.SetExtState("ReaGirl", "osara_move_mouse", tostring(checkstate), true)
-    osara_move_mouse=checkstate
-  elseif checkbox_id==tabs2.checkbox_osara_hover_mouse_id then
-    reaper.SetExtState("ReaGirl", "osara_hover_mouse", tostring(checkstate), true)
-    osara_hover_mouse=checkstate
-  elseif checkbox_id==tab1.checkbox_tooltips_id then
-    reaper.SetExtState("ReaGirl", "show_tooltips", tostring(checkstate), true)
-    show_tooltips=checkstate
-  elseif checkbox_id==tab1.checkbox_highlight_drag_destinations then
-    reaper.SetExtState("ReaGirl", "highlight_drag_destinations", tostring(checkstate), true)
-    highlight_drag_destinations=checkstate
-  end
+function button_cancel()
+  reagirl.Gui_Close()
 end
 
 function SetUpNewGui()
@@ -172,8 +128,7 @@ function SetUpNewGui()
   reagirl.NextLine()
   scaling_override=tonumber(reaper.GetExtState("ReaGirl", "scaling_override", value, true))
   if scaling_override==nil then scaling_override2=0 else scaling_override2=scaling_override end
-  tab1.slider_scale = reagirl.Slider_Add(nil, nil, 250, "Scale Override", 100, "Set the default scaling-factor for all ReaGirl-Gui-windows; 0, scaling depends automatically on the scaling-factor in the prefs or the presence of Retina/HiDPI.", nil, 0, 8, 1, scaling_override2, 0, ScaleOverride)
-  tab1.button_scale = reagirl.Button_Add(nil, nil, 0, 0, "Apply", "Apply the chosen scaling value.", button_apply)
+  tab1.slider_scale = reagirl.Slider_Add(nil, nil, 305, "Scale Override", 100, "Set the default scaling-factor for all ReaGirl-Gui-windows; 0, scaling depends automatically on the scaling-factor in the prefs or the presence of Retina/HiDPI.", nil, 0, 8, 1, scaling_override2, 0, ScaleOverride)
   reagirl.NextLine(15)
   
   -- [[ Blinking Drag-Destinations ]]
@@ -230,7 +185,8 @@ function SetUpNewGui()
 
   reagirl.Tabs_SetUIElementsForTab(Tabs, 2, tabs2)
   
-  button_cose = reagirl.Button_Add(-115, 435, 0, 0, "Apply and Close", "Apply the chosen settings and close window.", button_apply_and_close)
+  button_apply_and_close_id = reagirl.Button_Add(-180, 435, 0, 0, "Apply and Close", "Apply the chosen settings and close window.", button_apply_and_close)
+  button_cancel_id = reagirl.Button_Add(-65, 435, 0, 0, "Cancel", "Simply close without applying the settings.", button_cancel)
 end
 
 SetUpNewGui()
