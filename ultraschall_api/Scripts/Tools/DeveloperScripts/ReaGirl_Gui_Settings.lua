@@ -88,11 +88,15 @@ function CursorBlinkSpeed(slider_id, value)
   reagirl.FocusRectangle_BlinkStartTime=reaper.time_precise()
 end
 
-function button_apply(slider_id, value)
+function button_apply(button_id, value)
   value=reagirl.Slider_GetValue(tab1.slider_scale)
   if value==0 then value="" end
   reaper.SetExtState("ReaGirl", "scaling_override", value, true)
   scaling_override=value
+end
+
+function button_apply_and_close()
+  reagirl.Gui_Close()
 end
 
 function checkbox(checkbox_id, checkstate)
@@ -122,7 +126,7 @@ function SetUpNewGui()
   reagirl.Gui_New()
   
   if tabnumber==nil then tabnumber=1 end
-  Tabs=reagirl.Tabs_Add(10, 10, 335, 390, "Settings", "General Settings.", {"General", "Accessibility", "HUCH", "TUCH"}, tabnumber, nil)
+  Tabs=reagirl.Tabs_Add(10, 10, 335, 390, "Settings", "General Settings.", {"General", "Accessibility"}, tabnumber, nil)
   
   tab1={}
   --[[ Blinking Focus Rectangle ]]
@@ -225,6 +229,8 @@ function SetUpNewGui()
   tabs2.checkbox_osara_hover_mouse_id = reagirl.Checkbox_Add(nil, nil, "Report hovered ui-elements", "When checked, ReaGirl will report ui-elements the mouse is hovering above to the screen reader. Uncheck to prevent that.", osara_hover_mouse, checkbox)
 
   reagirl.Tabs_SetUIElementsForTab(Tabs, 2, tabs2)
+  
+  button_cose = reagirl.Button_Add(-115, 435, 0, 0, "Apply and Close", "Apply the chosen settings and close window.", button_apply_and_close)
 end
 
 SetUpNewGui()
@@ -232,7 +238,7 @@ SetUpNewGui()
 color=40
 reagirl.Background_GetSetColor(true,color,color,color)
 
-reagirl.Gui_Open("ReaGirl_Settings", true, "ReaGirl Settings (Reagirl v"..reagirl.GetVersion()..")", "various settings for ReaGirl-Accessible Guis.", 355, 435, nil, nil, nil)
+reagirl.Gui_Open("ReaGirl_Settings", false, "ReaGirl Settings (Reagirl v"..reagirl.GetVersion()..")", "various settings for ReaGirl-Accessible Guis.", 355, 465, nil, nil, nil)
 
 function CheckIfSettingChanged()
   if osara_debug~=toboolean(reaper.GetExtState("ReaGirl", "osara_debug"), false) then 

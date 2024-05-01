@@ -4495,7 +4495,7 @@ function reagirl.Button_Manage(element_id, selected, hovered, clicked, mouse_cap
     if retval==true then element_storage["DropZoneFunction"](element_storage["Guid"], {filenames}) refresh=true end
   end
   
-  if selected~="not selected" and Key==32 then 
+  if selected~="not selected" and (Key==32 or Key==13) then 
     element_storage["pressed"]=true
     message=""
     reagirl.Gui_ForceRefresh(20)
