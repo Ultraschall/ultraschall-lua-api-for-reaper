@@ -2288,7 +2288,10 @@ function reagirl.Gui_Manage()
               cap_w=reagirl.Elements[i]["Cap_width"]
             end
             if reaper.GetExtState("ReaGirl", "osara_move_mouse")~="false" then
-              reaper.JS_Mouse_SetPosition(gfx.clienttoscreen(x2+cap_w+MoveItAllRight+4,y2+MoveItAllUp+4)) 
+              if reagirl.MouseJump_Skip==nil then
+                reaper.JS_Mouse_SetPosition(gfx.clienttoscreen(x2+cap_w+MoveItAllRight+4,y2+MoveItAllUp+4)) 
+              end
+              
             end
           end
         end
@@ -9794,7 +9797,37 @@ function reagirl.Tabs_Manage(element_id, selected, hovered, clicked, mouse_cap, 
     end
   end
   
-  if selected~="not selected" and Key==1919379572.0 then 
+  if Key==9 and gfx.mouse_cap==4 then
+    -- ctrl+tab work globally !!! UX-convention!!!
+    -- cycle through tabs forward
+    element_storage["TabSelected"]=element_storage["TabSelected"]+1
+    if element_storage["TabSelected"]>#element_storage["TabNames"] then
+      element_storage["TabSelected"]=1
+    end
+    refresh=true
+    element_storage["TabRefresh"]=true
+    acc_message=element_storage["TabNames"][element_storage["TabSelected"]].." tab selected."
+    element_storage["TabsSelected_MouseJump"]=element_storage["TabSelected"]
+    reagirl.UI_Element_SetFocused(element_storage["Guid"])
+    reagirl.MouseJump_Skip=true
+  end
+  
+  if Key==9 and gfx.mouse_cap==12 then
+    -- ctrl+Shift+tab work globally !!! UX-convention!!!
+    -- cycle through tabs backward
+    element_storage["TabSelected"]=element_storage["TabSelected"]-1
+    if element_storage["TabSelected"]<1 then
+      element_storage["TabSelected"]=#element_storage["TabNames"]
+    end
+    refresh=true
+    element_storage["TabRefresh"]=true
+    acc_message=element_storage["TabNames"][element_storage["TabSelected"]].." tab selected."
+    element_storage["TabsSelected_MouseJump"]=element_storage["TabSelected"]
+    reagirl.UI_Element_SetFocused(element_storage["Guid"])
+    reagirl.MouseJump_Skip=true
+  end
+  
+  if (selected~="not selected" and Key==1919379572.0) then 
     if element_storage["TabSelected"]+1~=#element_storage["TabNames"]+1 then
       element_storage["TabSelected"]=element_storage["TabSelected"]+1
       element_storage["TabsSelected_MouseJump"]=element_storage["TabSelected"]

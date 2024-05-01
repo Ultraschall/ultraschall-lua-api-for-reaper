@@ -122,7 +122,7 @@ function SetUpNewGui()
   reagirl.Gui_New()
   
   if tabnumber==nil then tabnumber=1 end
-  Tabs=reagirl.Tabs_Add(10, 10, 335, 390, "Settings", "General Settings.", {"General", "Accessibility"}, tabnumber, nil)
+  Tabs=reagirl.Tabs_Add(10, 10, 335, 390, "Settings", "General Settings.", {"General", "Accessibility", "HUCH", "TUCH"}, tabnumber, nil)
   
   tab1={}
   --[[ Blinking Focus Rectangle ]]
