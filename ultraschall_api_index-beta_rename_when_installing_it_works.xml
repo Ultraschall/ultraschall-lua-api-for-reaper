@@ -475,6 +475,7 @@
 	<source main="true" file="/ReaGirl_Gui_Settings_Tooltips_Disable.lua" type="script">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5//ultraschall_api/Scripts//Tools/DeveloperScripts//ReaGirl_Gui_Settings_Tooltips_Disable.lua</source>
 	<source main="true" file="/ReaGirl_Gui_Settings_Tooltips_Enable.lua" type="script">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5//ultraschall_api/Scripts//Tools/DeveloperScripts//ReaGirl_Gui_Settings_Tooltips_Enable.lua</source>
 	<source main="true" file="/ReaGirl_TestScript_1.lua" type="script">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5//ultraschall_api/Scripts//Tools/DeveloperScripts//ReaGirl_TestScript_1.lua</source>
+	<source main="true" file="/ReaGirl_TestScript_2.lua" type="script">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5//ultraschall_api/Scripts//Tools/DeveloperScripts//ReaGirl_TestScript_2.lua</source>
 	<source main="true" file="/ultraschall_developertool_ActionlistToIni-Converter.lua" type="script">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5//ultraschall_api/Scripts//Tools/DeveloperScripts//ultraschall_developertool_ActionlistToIni-Converter.lua</source>
 	<source main="true" file="/ultraschall_developertool_CheckForNewConfigVars.lua" type="script">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5//ultraschall_api/Scripts//Tools/DeveloperScripts//ultraschall_developertool_CheckForNewConfigVars.lua</source>
 	<source main="true" file="/ultraschall_developertool_CheckPlugins.h_ForNewAndMissingFunctions.lua" type="script">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5//ultraschall_api/Scripts//Tools/DeveloperScripts//ultraschall_developertool_CheckPlugins.h_ForNewAndMissingFunctions.lua</source>
@@ -583,7 +584,7 @@ Ultraschall API}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b\ab\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
-a 1689 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 55909 from 01.05.2024 22:10:46).}
+a 1689 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 55909 from 01.05.2024 23:42:49).}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3

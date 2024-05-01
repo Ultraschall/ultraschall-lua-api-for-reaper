@@ -1936,7 +1936,7 @@ function reagirl.Gui_Manage()
   if reagirl.osara_init_message==false then
     if reagirl.Elements["FocusedElement"]~=-1 then
       if reagirl.Elements[1]~=nil then
-        reagirl.osara_init_message=reagirl.Window_Title.. "-dialog, ".. reagirl.Window_Description.." ".. reagirl.Elements[reagirl.Elements["FocusedElement"]]["Name"].." ".. reagirl.Elements[reagirl.Elements["FocusedElement"]]["GUI_Element_Type"]
+        reagirl.osara_init_message=reagirl.Window_Title.. "-dialog, ".. reagirl.Window_Description.." ".. reagirl.Elements[reagirl.Elements["FocusedElement"]]["Name"].." ".. reagirl.Elements[reagirl.Elements["FocusedElement"]]["GUI_Element_Type"]..". "
         local acc_message=""
         if reaper.GetExtState("ReaGirl", "osara_enable_accmessage")~="false" then
           acc_message=reagirl.Elements[reagirl.Elements["FocusedElement"]]["AccHint"]
@@ -2461,7 +2461,7 @@ function reagirl.Gui_Manage()
           --print(init_message)
           local acc_message=""
           if init_message~="" then
-            acc_message=reagirl.Elements[reagirl.Elements["FocusedElement"]]["ContextMenu_ACC"]..reagirl.Elements[reagirl.Elements["FocusedElement"]]["DropZoneFunction_ACC"]
+            acc_message=""--reagirl.Elements[reagirl.Elements["FocusedElement"]]["ContextMenu_ACC"]..reagirl.Elements[reagirl.Elements["FocusedElement"]]["DropZoneFunction_ACC"]
           end
           if reagirl.osara_outputMessage~=nil then
             reagirl.osara_outputMessage(reagirl.osara_init_message.." "..init_message.." "..message.." "..helptext..acc_message)

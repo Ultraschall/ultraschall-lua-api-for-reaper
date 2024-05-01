@@ -76,7 +76,9 @@ end
 
 function Image(element_id, filename, dragged_element_id)
   if dragged_element_id==image_dest then
-    reaper.MB("Successfully dragged", "", 0)
+    reaper.MB("Successfully dragged to image 2", "", 0)
+  elseif dragged_element_id==image_middle then
+    reaper.MB("Successfully dragged to image 1", "", 0)
   end
 end
 
@@ -99,11 +101,12 @@ reagirl.DropDownMenu_Add(nil,nil, -20,"Drop Down Menu", 100, "A test Drop Down M
 reagirl.NextLine()
 reagirl.Inputbox_Add(nil, nil, -20, "An input box:", 100, "Input some text in here.", "", nil, nil)
 reagirl.NextLine()
-  image_source=reagirl.Image_Add(50,nil,50,50,reaper.GetResourcePath().."/Data/track_icons/double_bass.png", "The source-image, an image of a double bass.", "Drag this double bass to the microphone.", Image)
-  image_middle=reagirl.Image_Add(160,nil,25,25,reaper.GetResourcePath().."/Data/track_icons/folder_right.png", "Graphics with an arrow pointing to the drag-destination of the double bass.", "Graphics with an arrow pointing to the drag-destination of the double bass.",nil)
-  image_dest=reagirl.Image_Add(250,nil,50,50,reaper.GetResourcePath().."/Data/track_icons/mic_dynamic_1.png", "The destination image, an image of a microphone.", "The destination image, drag the double bass over here.",nil)
-  reagirl.Image_SetDraggable(image_source, true, {image_dest})
+  image_source=reagirl.Image_Add(50,nil,50,50,reaper.GetResourcePath().."/Data/track_icons/double_bass.png", "The source-image, an image of a double bass.", "Drag this double bass to one of the two images.", Image)
+  image_middle=reagirl.Image_Add(160,nil,25,25,reaper.GetResourcePath().."/Data/track_icons/folder_right.png", "The first destination image.", "Image of a folder with an arrow pointing right.",nil)
+  image_dest=reagirl.Image_Add(250,nil,50,50,reaper.GetResourcePath().."/Data/track_icons/mic_dynamic_1.png", "The second destination image.", "Image of a microphone.",nil)
+  reagirl.Image_SetDraggable(image_source, true, {image_middle, image_dest})
 
+reagirl.Label_SetDraggable(label, true, {image_source, image_middle, image_dest})
 reagirl.NextLine(5)
 butt1=reagirl.Button_Add(nil, nil, 0, 0, "Button #1", "The first button.", button)
 butt2=reagirl.Button_Add(nil, nil, 0, 0, "Button #2", "The second button.", button)
