@@ -154,7 +154,7 @@ function SetUpNewGui()
   reagirl.Image_SetDraggable(tab1.image_source, true, {tab1.image_dest})
   --reagirl.NextLine()
   --tab1.ddm = reagirl.DropDownMenu_Add(nil,nil,300,"TUdelu", nil, "Test menu.", {"One", "Two", "Three"}, 1, nil)
-  --reagirl.Label_SetDraggable(tab1.Label_General, true, {tab1.image_dest, tab1.checkbox_tooltips_id})
+  --reagirl.Label_SetDraggable(tab1.Label_General, true, {tab1.image_dest})
   
   reagirl.Tabs_SetUIElementsForTab(Tabs, 1, tab1)
   
@@ -168,7 +168,7 @@ function SetUpNewGui()
 
   osara_override=reaper.GetExtState("ReaGirl", "osara_override")
   if osara_override=="true" or osara_override=="" then osara_override=true else osara_override=false end
-  tabs2.checkbox_osara_id = reagirl.Checkbox_Add(nil, nil, "Enable screen reader support(requires OSARA)", "Checking this will provide feedback to screen readers as you navigate. Feedback is delivered through OSARA.", osara_override, checkbox)
+  tabs2.checkbox_osara_id = reagirl.Checkbox_Add(nil, nil, "Enable screen reader support(requires OSARA)", "Checking this will provide feedback to screen readers as you navigate. Feedback is delivered through OSARA so please make sure you have that installed.", osara_override, checkbox)
   
   --reagirl.UI_Element_GetSet_ContextMenu(tabs2.checkbox_osara_id, true, "Hudel|Dudel", print)
   

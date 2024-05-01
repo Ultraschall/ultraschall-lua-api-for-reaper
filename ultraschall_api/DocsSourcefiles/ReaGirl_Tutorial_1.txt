@@ -80,7 +80,7 @@ Don't bother with scrolling your ui-elements. This is done by ReaGirl. So if a u
 
 Also don't bother about scaling like Retina/HiDPI or something. This is also done by ReaGirl automatically. So if the user chooses to run your script on Retina/HiDPI-displays or even with an altered scaling set in the preferences, your gui will change automatically.
 
-Since one of the key-features in ReaGirl is accessibility for blind people, most of the stuff needed for screenreader-management is done by ReaGirl itself. You just need to set the parameters meaningOfUI\_Element properly by giving a short and precise explanation, what the ui-element is doing and why. This will be shown as tooltip and also communicated to blind users via screenreader. This happens automatically, so you don't need to do much more.
+Since one of the key-features in ReaGirl is accessibility for blind people, most of the stuff needed for screen reader-management is done by ReaGirl itself. You just need to set the parameters meaningOfUI\_Element properly by giving a short and precise explanation, what the ui-element is doing and why. This will be shown as tooltip and also communicated to blind users via screen reader. This happens automatically, so you don't need to do much more.
 There's a chapter dedicated on best practices for accessible guis later, if you want to improve on things further.
 
 In the next chapters, I will take you through some basic tutorials on how making a gui is done in practice.
@@ -111,12 +111,12 @@ Let's start with a basic gui, which will show one single button.
   -- Step 3: add the ui-elements to the gui
   -- add an ok-button to the gui at x-position 30 and y-position 200 with the run-function Button_RunFunction
   -- The meaningOfUI_Element-parameter "Apply changes and close dialog" will be shown as tooltip 
-  -- and sent to a screenreader for blind people.
+  -- and sent to a screen reader for blind people.
   button_ok_id = reagirl.Button_Add(30, 200, 0, 0, "OK", "Apply changes and close dialog.", Button_RunFunction)
   
   -- Step 4: open the new gui with size 640x250 pixels, titled "The dialog". 
   -- In addition to the title, blind people will also get "This is a demo dialog with settings for tool xyz." 
-  -- sent to their screenreaders.
+  -- sent to their screen readers.
   reagirl.Gui_Open("My Dialog Name", false, "The dialog", "This is a demo dialog with settings for tool xyz.", 640, 250)
 
   -- Step 5: Write and run a defer-function, in which you call reagirl.Gui_Manage()
@@ -133,7 +133,7 @@ Let's start with a basic gui, which will show one single button.
 ```  
 You see the 5 steps I mentioned in the first steps-chapter detailed out in the script. 
 This adds a button and the run-function Button\_RunFunction which is run when the user hits the button.
-Also note the parameter meaningOfUI\_Element, which is set to "Apply changes and close dialog". This parameter will be shown as a tooltip. It will also tell blind users, what the ui-element is supposed to do and why via screenreader. So if you add your own ui-elements, add a short and descriptive explanation into this parameter which says more than just "ok". Blind users will thank you for that.
+Also note the parameter meaningOfUI\_Element, which is set to "Apply changes and close dialog". This parameter will be shown as a tooltip. It will also tell blind users, what the ui-element is supposed to do and why via screen reader. So if you add your own ui-elements, add a short and descriptive explanation into this parameter which says more than just "ok". Blind users will thank you for that.
 And that's it, a simple gui with one button. Try it and experiment with it. Write a different text into the button. Alter the numbers in the parameters of reagirl.Button\_Add to see what happens.
 Don't worry about making mistakes. When you pass wrong parameters to ReaGirl-functions, they will tell you with an error message, what went wrong and where.
 

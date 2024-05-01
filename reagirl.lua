@@ -2394,7 +2394,7 @@ function reagirl.Gui_Manage()
     reagirl.Gui_ForceRefresh(984)
   end
   
-  -- run all gui-element-management functions once. They shall decide, if a refresh is needed, provide the osara-screenreader-message and everything
+  -- run all gui-element-management functions once. They shall decide, if a refresh is needed, provide the osara-screen reader-message and everything
   -- this is also the code, where a clickstate of a selected ui-element is interpreted
   for i=#reagirl.Elements, 1, -1 do
     if reagirl.Elements[i]["hidden"]~=true then
@@ -2441,7 +2441,7 @@ function reagirl.Gui_Manage()
           --print_update(message)
         end -- only run manage-functions of visible gui-elements
         
-        -- output screenreader-message of ui-element
+        -- output screen reader-message of ui-element
         if reagirl.Elements["FocusedElement"]==i and reagirl.Elements[reagirl.Elements["FocusedElement"]]["IsDisabled"]==false and reagirl.old_osara_message~=message then
           
           if message==nil then message="" end
@@ -4618,7 +4618,7 @@ function reagirl.Inputbox_Add(x, y, w, caption, Cap_width, meaningOfUI_Element, 
     Unlike other ui-elements, this one has the option for two run_functions, one for when the user hits enter in the inputbox and one for when the user types anything into the inputbox.
     
     Important:
-    Screenreader users get an additional dialog shown when entering text, that will NOT run the run-function for typed text. This is due some limitations in Reaper's API and can't be circumvented.
+    Screen reader users get an additional dialog shown when entering text, that will NOT run the run-function for typed text. This is due some limitations in Reaper's API and can't be circumvented.
     So you can't rely only on the run_function_type but also need to add a run_function_enter, when you want to use the value immediately when typed in your script(like setting as a setting into an ini-file).
     Otherwise blind users would be able to enter text but it will be ignored at hitting enter by your code, which would be unfortunate.
     
@@ -4632,8 +4632,8 @@ function reagirl.Inputbox_Add(x, y, w, caption, Cap_width, meaningOfUI_Element, 
     optional integer cap_width - the width of the caption to set the actual inputbox to a fixed position; nil, put inputbox directly after caption
     string meaningOfUI_Element - the meaningOfUI_Element of the ui-element(for tooltips and blind users). Make it a sentence that ends with . or ?
     optional string Default - the "typed text" that the inputbox shall contain
-    optional function run_function_enter - a function that is run when the user hits enter in the inputbox(always used, even for screenreader users)
-    function run_function_type - a function that is run when the user types into the inputbox(only used if no screenreader is used)
+    optional function run_function_enter - a function that is run when the user hits enter in the inputbox(always used, even for screen reader users)
+    function run_function_type - a function that is run when the user types into the inputbox(only used if no screen reader is used)
   </parameters>
   <retvals>
     string inputbox_guid - a guid that can be used for altering the inputbox-attributes
@@ -6799,7 +6799,8 @@ function reagirl.Label_Manage(element_id, selected, hovered, clicked, mouse_cap,
         end
       end
       local id = reagirl.UI_Element_GetIDFromGuid(element_storage.DraggableDestinations[element_storage.Draggable_DestAccessibility])
-      reagirl.Elements["GlobalAccHoverMessage"]="Drop to "..reagirl.Elements[id]["Name"]
+      reagirl.Elements.GlobalAccHoverMessageOld=""
+      reagirl.Elements["GlobalAccHoverMessage"]="Dropdestination: "..reagirl.Elements[id]["Name"].." Destination "..element_storage.Draggable_DestAccessibility.." of "..#element_storage.DraggableDestinations
     elseif selected~="not selected" and gfx.mouse_cap==12 and Key==1885824110.0 then
       if element_storage.Draggable_DestAccessibility==nil then 
         element_storage.Draggable_DestAccessibility=1 
@@ -6810,7 +6811,8 @@ function reagirl.Label_Manage(element_id, selected, hovered, clicked, mouse_cap,
         end
       end
       local id = reagirl.UI_Element_GetIDFromGuid(element_storage.DraggableDestinations[element_storage.Draggable_DestAccessibility])
-      reagirl.Elements["GlobalAccHoverMessage"]="Drop to "..reagirl.Elements[id]["Name"]
+      reagirl.Elements.GlobalAccHoverMessageOld=""
+      reagirl.Elements["GlobalAccHoverMessage"]="Dropdestination: "..reagirl.Elements[id]["Name"].." Destination "..element_storage.Draggable_DestAccessibility.." of "..#element_storage.DraggableDestinations
     elseif selected~="not selected" and gfx.mouse_cap==12 and Key==13 then
       if element_storage.Draggable_DestAccessibility==nil then 
         element_storage.Draggable_DestAccessibility=1 
@@ -7455,7 +7457,8 @@ function reagirl.Image_Manage(element_id, selected, hovered, clicked, mouse_cap,
         end
       end
       local id = reagirl.UI_Element_GetIDFromGuid(element_storage.DraggableDestinations[element_storage.Draggable_DestAccessibility])
-      reagirl.Elements["GlobalAccHoverMessage"]="Drop to "..reagirl.Elements[id]["Name"]
+      reagirl.Elements.GlobalAccHoverMessageOld=""
+      reagirl.Elements["GlobalAccHoverMessage"]="Dropdestination: "..reagirl.Elements[id]["Name"].." Destination "..element_storage.Draggable_DestAccessibility.." of "..#element_storage.DraggableDestinations
     elseif selected~="not selected" and gfx.mouse_cap==12 and Key==1885824110.0 then
       if element_storage.Draggable_DestAccessibility==nil then 
         element_storage.Draggable_DestAccessibility=1 
@@ -7466,7 +7469,8 @@ function reagirl.Image_Manage(element_id, selected, hovered, clicked, mouse_cap,
         end
       end
       local id = reagirl.UI_Element_GetIDFromGuid(element_storage.DraggableDestinations[element_storage.Draggable_DestAccessibility])
-      reagirl.Elements["GlobalAccHoverMessage"]="Drop to "..reagirl.Elements[id]["Name"]
+      reagirl.Elements.GlobalAccHoverMessageOld=""
+      reagirl.Elements["GlobalAccHoverMessage"]="Dropdestination: "..reagirl.Elements[id]["Name"].." Destination "..element_storage.Draggable_DestAccessibility.." of "..#element_storage.DraggableDestinations
     elseif selected~="not selected" and gfx.mouse_cap==12 and Key==13 then
       if element_storage.Draggable_DestAccessibility==nil then 
         element_storage.Draggable_DestAccessibility=1 
