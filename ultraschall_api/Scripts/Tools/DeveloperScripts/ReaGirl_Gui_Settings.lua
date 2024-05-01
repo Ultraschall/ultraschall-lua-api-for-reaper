@@ -82,6 +82,8 @@ function button_cancel()
   reagirl.Gui_Close()
 end
 
+function huch() end
+
 function SetUpNewGui()
   reagirl.Gui_New()
   
@@ -92,6 +94,7 @@ function SetUpNewGui()
   --[[ Blinking Focus Rectangle ]]
   tab1.Label_General=reagirl.Label_Add(nil, nil, "General", "General settings.", false, nil)
   reagirl.Label_SetStyle(tab1.Label_General, 6, 0, 0)
+  --reagirl.UI_Element_GetSet_ContextMenu(tab1.Label_General, true, "Tudel|Loo", huch)
 
   reagirl.NextLine()
   show_tooltips = reaper.GetExtState("ReaGirl", "show_tooltips")
@@ -112,6 +115,7 @@ function SetUpNewGui()
   tab1.slider_blink_every = reagirl.Slider_Add(nil, nil, 300, "Blink every", 100, "Set the speed of the blinking of the focus rectangle.", "seconds", 0.4, 3, 0.1, val/33, 1, BlinkSpeed)
   reagirl.NextLine(-4)
   tab1.slider_blink_for = reagirl.Slider_Add(nil, nil, 300, "Blink for", 100, "Set the duration of the blinking of the focus rectangle.", "seconds", 0, 10, 1, val2, 0, BlinkTime)
+  reagirl.UI_Element_GetSet_ContextMenu(tab1.slider_blink_every, true, "Tudel|Loo", huch)
   
   -- [[ Blinking Inputbox-Cursor ]]
   reagirl.NextLine(15)

@@ -6837,9 +6837,11 @@ function reagirl.Label_Manage(element_id, selected, hovered, clicked, mouse_cap,
   if element_storage["clickable"]==true and (Key==13 or gfx.mouse_cap&1==1) and selected~="not selected" and gfx.mouse_x>=x and gfx.mouse_x<=x+w and gfx.mouse_y>=y and gfx.mouse_y<=y+h then
     if element_storage["run_function"]~=nil then reagirl.Elements[element_id]["run_function"](element_storage["Guid"]) end
   end
+  local contextmenu=""
+  --if element_storage["ContextMenu"]~=nil then contextmenu="Has Contextmanu." end
   local draggable=""
   if element_storage["Draggable"]==true then draggable="Draggable,. " draggable2=" Use Ctrl plus alt plus Tab and Ctrl plus alt plus Tab to select the dragging-destinations and ctrl plus alt plus enter to drop the image into the dragging-destination." else draggable="" end
-  return draggable.." ", false
+  return draggable..contextmenu.." ", false
 end
 
 function reagirl.Label_Draw(element_id, selected, hovered, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
@@ -8779,12 +8781,12 @@ function reagirl.Slider_Manage(element_id, selected, hovered, clicked, mouse_cap
       dh=10
       --]]
       
-      if (clicked=="FirstCLK" or clicked=="DRAG") and gfx.mouse_x>=x+offset_cap-10*dpi_scale and gfx.mouse_x<=x+offset_cap then
+      if (clicked=="FirstCLK" or clicked=="DRAG") and mouse_cap==1 and gfx.mouse_x>=x+offset_cap-10*dpi_scale and gfx.mouse_x<=x+offset_cap then
         element_storage["CurValue"]=element_storage["Start"]
-      elseif (clicked=="FirstCLK" or clicked=="DRAG") and gfx.mouse_x>=x+w-offset_unit and gfx.mouse_x<=x+w-offset_unit+10*dpi_scale then
+      elseif (clicked=="FirstCLK" or clicked=="DRAG") and mouse_cap==1 and gfx.mouse_x>=x+w-offset_unit and gfx.mouse_x<=x+w-offset_unit+10*dpi_scale then
         element_storage["CurValue"]=element_storage["Stop"]
         
-      else
+      elseif mouse_cap==1 then
       
         element_storage["TempValue"]=element_storage["CurValue"]     
         if slider_x2>=0 and slider_x2<=element_storage["slider_w"] then
@@ -8827,7 +8829,7 @@ function reagirl.Slider_Manage(element_id, selected, hovered, clicked, mouse_cap
      gfx.mouse_x<=x+w-offset_unit+5*dpi_scale and --x+w and 
      gfx.mouse_y>=y and 
      gfx.mouse_y<=y+h then
-    if clicked=="DBLCLK" then
+    if mouse_cap==1 and clicked=="DBLCLK" then
       element_storage["CurValue"]=element_storage["Default"]
       refresh=true
     end
