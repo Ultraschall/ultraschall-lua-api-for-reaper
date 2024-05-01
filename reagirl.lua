@@ -2460,13 +2460,23 @@ function reagirl.Gui_Manage()
           -- DropZoneFunction_ACC
           --print(init_message)
           local acc_message=""
+          local contextmenu=reagirl.Elements[reagirl.Elements["FocusedElement"]]["ContextMenu_ACC"]
+          local dropfiles=reagirl.Elements[reagirl.Elements["FocusedElement"]]["DropZoneFunction_ACC"]
           if init_message~="" then
             acc_message=""--reagirl.Elements[reagirl.Elements["FocusedElement"]]["ContextMenu_ACC"]..reagirl.Elements[reagirl.Elements["FocusedElement"]]["DropZoneFunction_ACC"]
           end
-          if reagirl.osara_outputMessage~=nil then
-            reagirl.osara_outputMessage(reagirl.osara_init_message.." "..init_message.." "..message.." "..helptext..acc_message)
+          if reaper.GetExtState("ReaGirl", "osara_enable_accmessage")=="false" then
+            if reagirl.Elements[reagirl.Elements["FocusedElement"]]["ContextMenu_ACC"]~="" then
+              contextmenu=" Has Contextmenu."
+            end
+            if reagirl.Elements[reagirl.Elements["FocusedElement"]]["DropZoneFunction_ACC"]~="" then
+              dropfiles=" Allows dropping of files."
+            end
           end
-          reagirl.Osara_Debug_Message(reagirl.osara_init_message.." "..init_message.." "..message.." "..helptext..acc_message)
+          if reagirl.osara_outputMessage~=nil then
+            reagirl.osara_outputMessage(reagirl.osara_init_message.." "..init_message.." "..message.." "..helptext..acc_message..contextmenu..dropfiles)
+          end
+          reagirl.Osara_Debug_Message(reagirl.osara_init_message.." "..init_message.." "..message.." "..helptext..acc_message..contextmenu..dropfiles)
           reagirl.old_osara_message=message
           reagirl.osara_init_message=""
         end
