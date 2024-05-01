@@ -122,7 +122,7 @@ function SetUpNewGui()
   reagirl.Gui_New()
   
   if tabnumber==nil then tabnumber=1 end
-  Tabs=reagirl.Tabs_Add(10, 10, 335, 390, "Settings", "General Settings.", {"General", "Osara"}, tabnumber, nil)
+  Tabs=reagirl.Tabs_Add(10, 10, 335, 390, "Settings", "General Settings.", {"General", "Accessibility"}, tabnumber, nil)
   
   tab1={}
   --[[ Blinking Focus Rectangle ]]
@@ -199,20 +199,16 @@ function SetUpNewGui()
   tabs2={}
   reagirl.AutoPosition_SetNextYToUIElement(Tabs)
   reagirl.NextLine()
-  tabs2.Label_Osara=reagirl.Label_Add(nil, nil, "Osara", "Settings that influence the relationship between Osara and ReaGirl.", false, nil)
-  reagirl.NextLine()
-  reagirl.Label_SetStyle(tabs2.Label_Osara, 6, 0, 0)
-
   osara_override=reaper.GetExtState("ReaGirl", "osara_override")
   if osara_override=="true" or osara_override=="" then osara_override=true else osara_override=false end
-  tabs2.checkbox_osara_id = reagirl.Checkbox_Add(nil, nil, "Enable installed Osara", "Checking this will prevent from screenreader messages to be sent to Osara. You can also type directly into inputboxes.", osara_override, checkbox)
+  tabs2.checkbox_osara_id = reagirl.Checkbox_Add(nil, nil, "Enable screen reader support(requires OSARA)", "Checking this will provide feedback to screen readers as you navigate. Feedback is delivered through OSARA.", osara_override, checkbox)
   
   --reagirl.UI_Element_GetSet_ContextMenu(tabs2.checkbox_osara_id, true, "Hudel|Dudel", print)
   
   reagirl.NextLine()
   osara_debug=reaper.GetExtState("ReaGirl", "osara_debug")
   if osara_debug=="false" or osara_debug=="" then osara_debug=false else osara_debug=true end
-  tabs2.checkbox_osara_debug_id = reagirl.Checkbox_Add(nil, nil, "Show screenreader messages in console", "Checking this will show the screenreader messages in the console for debugging purposes.", osara_debug, checkbox)
+  tabs2.checkbox_osara_debug_id = reagirl.Checkbox_Add(nil, nil, "Show screen reader messages in console(debug)", "Checking this will show the screen reader messages in the console for debugging purposes.", osara_debug, checkbox)
   
   reagirl.NextLine()
   osara_move_mouse = reaper.GetExtState("ReaGirl", "osara_move_mouse")
@@ -222,7 +218,7 @@ function SetUpNewGui()
   reagirl.NextLine()
   osara_hover_mouse = reaper.GetExtState("ReaGirl", "osara_hover_mouse")
   if osara_hover_mouse=="" or osara_hover_mouse=="true" then osara_hover_mouse=true else osara_hover_mouse=false end
-  tabs2.checkbox_osara_hover_mouse_id = reagirl.Checkbox_Add(nil, nil, "Report hovered ui-elements", "When checked, ReaGirl will report ui-elements the mouse is hovering above to the screenreader. Uncheck to prevent that.", osara_hover_mouse, checkbox)
+  tabs2.checkbox_osara_hover_mouse_id = reagirl.Checkbox_Add(nil, nil, "Report hovered ui-elements", "When checked, ReaGirl will report ui-elements the mouse is hovering above to the screen reader. Uncheck to prevent that.", osara_hover_mouse, checkbox)
 
   reagirl.Tabs_SetUIElementsForTab(Tabs, 2, tabs2)
 end

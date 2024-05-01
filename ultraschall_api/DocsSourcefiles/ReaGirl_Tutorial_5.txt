@@ -310,4 +310,6 @@ And when you run the script, tabbing through the ui-elements will now tell to bl
 
 Great. Now we have a script that allows dragging a source-image to various destinations. It alters the images and labels when the source-image has been dropped.
 We also altered the screenreader-messages accordingly to reflect the changes, so blind users know, what has happened with dragging as well.
-With that, you know even more about how ReaGirl works.
+
+In this tutorial, we made images draggable, but you can also make labels draggable. The only difference is, that for labels, the run-function is getting the destination-element\_id as second parameter instead of the third.
+The rest is the same.
