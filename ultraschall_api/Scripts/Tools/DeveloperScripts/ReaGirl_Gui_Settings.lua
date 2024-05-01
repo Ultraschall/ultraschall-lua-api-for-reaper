@@ -118,7 +118,6 @@ function checkbox(checkbox_id, checkstate)
   end
 end
 
-
 function SetUpNewGui()
   reagirl.Gui_New()
   
@@ -192,6 +191,7 @@ function SetUpNewGui()
   reagirl.Image_SetDraggable(tab1.image_source, true, {tab1.image_dest})
   --reagirl.NextLine()
   --tab1.ddm = reagirl.DropDownMenu_Add(nil,nil,300,"TUdelu", nil, "Test menu.", {"One", "Two", "Three"}, 1, nil)
+  --reagirl.Label_SetDraggable(tab1.Label_General, true, {tab1.image_dest, tab1.checkbox_tooltips_id})
   
   reagirl.Tabs_SetUIElementsForTab(Tabs, 1, tab1)
   

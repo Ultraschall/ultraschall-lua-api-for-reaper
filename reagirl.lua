@@ -30,9 +30,8 @@
 -- DEBUG:
 --reaper.osara_outputMessage=nil
 
-
 reagirl={}
-
+reagirl.MaxImage=-1
 function reagirl.GetVersion()
   --[[
   <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
@@ -394,7 +393,6 @@ function reagirl.Gui_ReserveImageBuffer()
 --]]
   -- reserves an image buffer for custom UI elements
   -- returns -1 if no buffer can be reserved anymore
-  if reagirl.MaxImage==nil then reagirl.MaxImage=1 end
   if reagirl.MaxImage>=1000 then return -1 end
   reagirl.MaxImage=reagirl.MaxImage+1
   return reagirl.MaxImage
@@ -2751,15 +2749,21 @@ function reagirl.Gui_Draw(Key, Key_utf, clickstate, specific_clickstate, mouse_c
   end
   
   if reagirl.Draggable_Element~=nil then
+    --ABBA=reaper.time_precise()
     if gfx.mouse_x~=reagirl.Elements[reagirl.Draggable_Element]["mouse_x"] or
        gfx.mouse_y~=reagirl.Elements[reagirl.Draggable_Element]["mouse_y"] then
       local image_slot=reagirl.DragImageSlot
-      if reagirl.Elements[reagirl.Draggable_Element]["GUI_Element_Type"]=="Image" then image_slot=reagirl.Elements[reagirl.Draggable_Element]["Image_Storage"] end
+      local resize=1
+      local mode=1
+      if reagirl.Elements[reagirl.Draggable_Element]["GUI_Element_Type"]=="Image" then image_slot=reagirl.Elements[reagirl.Draggable_Element]["Image_Storage"] resize=0.5 mode=0 end
       local imgw, imgh = gfx.getimgdim(image_slot)
       local oldgfxa=gfx.a
       gfx.a=0.7
-      gfx.blit(image_slot,1,0,0,0,imgw,imgh,gfx.mouse_x,gfx.mouse_y,50,50)
+      local oldmode=gfx.mode
+      gfx.mode=mode
+      gfx.blit(image_slot,1,0,0,0,imgw,imgh,gfx.mouse_x,gfx.mouse_y,imgw*resize,imgh*resize)
       gfx.a=oldgfxa
+      gfx.mode=oldmode
       reagirl.Elements[reagirl.Draggable_Element]["mouse_x"]=-1
       reagirl.Elements[reagirl.Draggable_Element]["mouse_y"]=-1
       local blink_length=tonumber(reaper.GetExtState("ReaGirl", "highlight_drag_destination_blink"))
@@ -6703,7 +6707,6 @@ function reagirl.Label_Add(x, y, label, meaningOfUI_Element, clickable, run_func
   if type(label)~="string" then error("Label_Add: param #3 - must be a string", 2) end
   if type(meaningOfUI_Element)~="string" then error("Label_Add: param #4 - must be a string", 2) end
   if meaningOfUI_Element:sub(-1,-1)~="." and meaningOfUI_Element:sub(-1,-1)~="?" then error("Label_Add: param #4 - must end on a . like a regular sentence.", 2) end
-  if clickable==nil then clickable=false end
   if type(clickable)~="boolean" then error("Label_Add: param #6 - must be a boolean", 2) end
   if run_function==nil then run_function=reagirl.Dummy end
   if type(run_function)~="function" then error("Label_Add: param #6 - must be either nil or a function", 2) end
@@ -6768,10 +6771,70 @@ function reagirl.Label_Manage(element_id, selected, hovered, clicked, mouse_cap,
     gfx.y=oldy
     --if selection==1 then reaper.CF_SetClipboard(name) end
   end
+  
+  if selected~="not selected" and 
+    (Key==32 or mouse_cap==1) and 
+    (gfx.mouse_x>=x and gfx.mouse_x<=x+w and gfx.mouse_y>=y and gfx.mouse_y<=y+h) 
+    and clicked=="FirstCLK" and
+    element_storage["run_function"]~=nil then 
+    --print("1")
+      element_storage["clickstate"]="clicked"
+      if element_storage["Draggable"]==true and hovered==true then
+        reagirl.Draggable_Element=element_id
+        element_storage["mouse_x"]=gfx.mouse_x
+        element_storage["mouse_y"]=gfx.mouse_y
+      end
+  end
+  if element_storage["Draggable"]==true and element_storage.DraggableDestinations~=nil then
+    if selected~="not selected" and gfx.mouse_cap==4 and Key==9 then
+      if element_storage.Draggable_DestAccessibility==nil then 
+        element_storage.Draggable_DestAccessibility=1 
+      else
+        element_storage.Draggable_DestAccessibility=element_storage.Draggable_DestAccessibility+1
+        if element_storage.Draggable_DestAccessibility>#element_storage.DraggableDestinations then
+          element_storage.Draggable_DestAccessibility=1
+        end
+      end
+      local id = reagirl.UI_Element_GetIDFromGuid(element_storage.DraggableDestinations[element_storage.Draggable_DestAccessibility])
+      reagirl.Elements["GlobalAccHoverMessage"]="Drop to "..reagirl.Elements[id]["Name"]
+    elseif selected~="not selected" and gfx.mouse_cap==12 and Key==9 then
+      if element_storage.Draggable_DestAccessibility==nil then 
+        element_storage.Draggable_DestAccessibility=1 
+      else
+        element_storage.Draggable_DestAccessibility=element_storage.Draggable_DestAccessibility-1
+        if element_storage.Draggable_DestAccessibility<1 then
+          element_storage.Draggable_DestAccessibility=#element_storage.DraggableDestinations
+        end
+      end
+      local id = reagirl.UI_Element_GetIDFromGuid(element_storage.DraggableDestinations[element_storage.Draggable_DestAccessibility])
+      reagirl.Elements["GlobalAccHoverMessage"]="Drop to "..reagirl.Elements[id]["Name"]
+    elseif selected~="not selected" and gfx.mouse_cap==4 and Key==13 then
+      if element_storage.Draggable_DestAccessibility==nil then 
+        element_storage.Draggable_DestAccessibility=1 
+      end
+      element_storage["run_function"](element_storage["Guid"], element_storage.DraggableDestinations[element_storage.Draggable_DestAccessibility]) 
+      local id = reagirl.UI_Element_GetIDFromGuid(element_storage.DraggableDestinations[element_storage.Draggable_DestAccessibility])
+      reagirl.Elements["GlobalAccHoverMessage"]="Dropped onto "..reagirl.Elements[id]["Name"]
+    end
+  end
+  if element_storage["clickstate"]=="clicked" and mouse_cap&1==0 then
+    element_storage["clickstate"]=nil
+    if element_storage["Draggable"]==true and (element_storage["mouse_x"]~=gfx.mouse_x or element_storage["mouse_y"]~=gfx.mouse_y) then
+      for i=1, #element_storage["DraggableDestinations"] do
+        if reagirl.UI_Element_IsElementAtMousePosition(element_storage["DraggableDestinations"][i])==true then
+          element_storage["run_function"](element_storage["Guid"], element_storage["DraggableDestinations"][i]) 
+        end
+      end
+    end
+    reagirl.Draggable_Element=nil
+  end
+  --]]
   if element_storage["clickable"]==true and (Key==13 or gfx.mouse_cap&1==1) and selected~="not selected" and gfx.mouse_x>=x and gfx.mouse_x<=x+w and gfx.mouse_y>=y and gfx.mouse_y<=y+h then
     if element_storage["run_function"]~=nil then reagirl.Elements[element_id]["run_function"](element_storage["Guid"]) end
   end
-  return " ", false
+  local draggable=""
+  if element_storage["Draggable"]==true then draggable="Draggable,. " draggable2=" Use Ctrl plus alt plus Tab and Ctrl plus alt plus Tab to select the dragging-destinations and ctrl plus alt plus enter to drop the image into the dragging-destination." else draggable="" end
+  return draggable.." ", false
 end
 
 function reagirl.Label_Draw(element_id, selected, hovered, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
@@ -6805,6 +6868,7 @@ function reagirl.Label_Draw(element_id, selected, hovered, clicked, mouse_cap, m
   if selected~="not selected" then
     reagirl.UI_Element_SetFocusRect(true, x, y, math.floor(w2), math.floor(h2))
   end
+  
   if element_storage["auto_breaks"]==true then
   --[[
   -- old code, might work now in most recent Reaper-version
@@ -6843,6 +6907,32 @@ function reagirl.Label_Draw(element_id, selected, hovered, clicked, mouse_cap, m
     gfx.y=y
     gfx.drawstr(name, element_storage["align"], x+w, y+h)
     
+    if selected~="not selected" then
+      local olddest=gfx.dest
+      gfx.dest=reagirl.DragImageSlot
+      local tx,ty=gfx.measurestr(name)
+      gfx.setimgdim(reagirl.DragImageSlot, tx, ty)
+      gfx.set(0)
+      gfx.rect(0,0,tx,ty,1)
+      local col=0.8
+      local col2=0.8
+      local col3=0.2
+      if element_storage["clickable"]==true then 
+        col=0.4
+        col2=0.8
+        col3=0.2
+      end
+      gfx.set(col3)
+      gfx.x=0+dpi_scale
+      gfx.y=0+dpi_scale
+      gfx.drawstr(name, element_storage["align"])
+      
+      gfx.set(col,col,col2)
+      gfx.x=0
+      gfx.y=0
+      gfx.drawstr(name, element_storage["align"])
+      gfx.dest=olddest
+    end
     --reagirl.SetFont(1, "Arial", element_storage["font_size"],0)
   end
   
@@ -6858,6 +6948,105 @@ function reagirl.Label_Draw(element_id, selected, hovered, clicked, mouse_cap, m
   gfx.y=oldy
   gfx.set(old_gfx_r, old_gfx_g, old_gfx_b, old_gfx_a)
   gfx.mode=old_mode
+end
+
+function reagirl.Label_GetDraggable(element_id)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Label_GetDraggable</slug>
+  <requires>
+    ReaGirl=1.0
+    Reaper=7
+    Lua=5.4
+  </requires>
+  <functioncall>boolean draggable = reagirl.Label_GetDraggable(string element_id)</functioncall>
+  <description>
+    Gets the current draggable state of a label.
+    
+    When draggable==true: if the user drags the label onto a different ui-element, the run_function of 
+    the label will get a second parameter, holding the element_id of the destination-ui-element of the dragging. 
+    Otherwise this second parameter will be nil.
+    
+    Add a note in the meaningOfUI_element of the label of the ui-element, which clarifies, which ui-element is a source 
+    and which is a target for dragging operations, so blind users know, which label can be dragged and whereto.
+    Otherwise, blind users will not know what to do!
+  </description>
+  <parameters>
+    string element_id - the label-element, whose dragable state you want to get
+  </parameters>
+  <retvals>
+    boolean draggable - true, label is draggable; false, label is not draggable
+  </retvals>
+  <chapter_context>
+    Label
+  </chapter_context>
+  <tags>label, get, draggable</tags>
+</US_DocBloc>
+--]]
+  if type(element_id)~="string" then error("Label_GetDraggable: param #1 - must be a string", 2) end
+  if reagirl.IsValidGuid(element_id, true)==false then error("Label_GetDraggable: param #1 - must be a valid guid", 2) end
+  element_id=reagirl.UI_Element_GetIDFromGuid(element_id)
+  if element_id==-1 then error("Label_GetDraggable: param #1 - no such ui-element", 2) end
+  
+  if reagirl.Elements[element_id]["GUI_Element_Type"]~="Label" then
+    error("Label_GetDraggable: param #1 - ui-element is not an image", 2)
+  else
+    return reagirl.Elements[element_id]["Draggable"]==true
+  end
+end
+
+function reagirl.Label_SetDraggable(element_id, draggable, destination_element_ids)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Label_SetDraggable</slug>
+  <requires>
+    ReaGirl=1.0
+    Reaper=7
+    Lua=5.4
+  </requires>
+  <functioncall>reagirl.Label_SetDraggable(string element_id, boolean draggable, table destination_element_ids)</functioncall>
+  <description>
+    Sets the current draggable state of a label.
+    
+    When draggable==true: if the user drags the label onto a different ui-element, the run_function of 
+    the label will get a second parameter, holding the element_id of the destination-ui-element of the dragging. 
+    Otherwise this second parameter will be nil.
+    
+    Add a note in the meaningOfUI_element of the ui-element, which clarifies, which ui-element is a source 
+    and which is a target for dragging operations, so blind users know, which label can be dragged and whereto.
+    Otherwise, blind users will not know what to do!
+  </description>
+  <parameters>
+    string element_id - the label-element, whose dragable state you want to set
+    boolean draggable - true, label is draggable; false, label is not draggable
+    table destination_element_ids - a table with all guids of the ui-elements, where the label can be dragged to
+  </parameters>
+  <chapter_context>
+    Label
+  </chapter_context>
+  <tags>label, set, draggable</tags>
+</US_DocBloc>
+--]]
+  if type(element_id)~="string" then error("Label_SetDraggable: param #1 - must be a string", 2) end
+  if reagirl.IsValidGuid(element_id, true)==false then error("Label_SetDraggable: param #1 - must be a valid guid", 2) end
+  if reagirl.UI_Element_GetType(element_id)~="Label" then error("Label_SetDraggable: param #1 - UI-element is not a label", 2) end
+  if type(draggable)~="boolean" then error("Label_SetDraggable: param #2 - must be a boolean", 2) end
+  if type(destination_element_ids)~="table" then error("Label_SetDraggable: param #2 - must be a table", 2) end
+  for i=1, #destination_element_ids do
+    if reagirl.IsValidGuid(destination_element_ids[i], true)==false then
+      error("Label_SetDraggable: param #2 - all entries in the table must be valid guids", 2)
+    end
+  end
+  local slot=reagirl.UI_Element_GetIDFromGuid(element_id)
+  if slot==-1 then error("Label_SetDraggable: param #1 - no such ui-element") end
+  if reagirl.Elements[slot]["GUI_Element_Type"]~="Label" then error("Label_SetDraggable: param #1 - ui-element is not an label") end
+  reagirl.Elements[slot]["Draggable"]=draggable
+  reagirl.Elements[slot]["DraggableDestinations"]=destination_element_ids
+  if draggable==true then
+    reagirl.Elements[slot]["AccHint"]=reagirl.Elements[slot]["AccHint"].."Label draggable with Ctrl+Tab and Ctrl+Shift+Tab to choose drag-destination and ctrl+Enter to drop it there."
+  else
+    reagirl.Elements[slot]["AccHint"]=reagirl.Elements[slot]["AccHint"]:utf8_sub(1,43)
+  end
 end
 
 function reagirl.Image_Add(x, y, w, h, image_filename, caption, meaningOfUI_Element, run_function)
@@ -7018,7 +7207,7 @@ function reagirl.Image_GetDraggable(element_id)
   if type(element_id)~="string" then error("Image_GetDraggable: param #1 - must be a string", 2) end
   if reagirl.IsValidGuid(element_id, true)==false then error("Image_GetDraggable: param #1 - must be a valid guid", 2) end
   element_id=reagirl.UI_Element_GetIDFromGuid(element_id)
-  if element_id==-1 then error("UI_Element_GetType: param #1 - no such ui-element", 2) end
+  if element_id==-1 then error("Image_GetDraggable: param #1 - no such ui-element", 2) end
   
   if reagirl.Elements[element_id]["GUI_Element_Type"]~="Image" then
     error("Image_GetDraggable: param #1 - ui-element is not an image", 2)
@@ -8723,9 +8912,9 @@ function reagirl.Slider_Draw(element_id, selected, hovered, clicked, mouse_cap, 
   if element_storage["IsDisabled"]==true then gfx.set(0.5) else gfx.set(0.7) end
   -- draw slider-area
   
-  rect_w=w-offset_unit-offset_cap-5*dpi_scale
-  step_size=((rect_w/(element_storage["Stop"]-element_storage["Start"])/1))
-  step_current=step_size*(element_storage["CurValue"]-element_storage["Start"])
+  local rect_w=w-offset_unit-offset_cap-5*dpi_scale
+  local step_size=((rect_w/(element_storage["Stop"]-element_storage["Start"])/1))
+  local step_current=step_size*(element_storage["CurValue"]-element_storage["Start"])
   local offset_cap2=offset_cap+7*dpi_scale
   
   -- draw default-line
