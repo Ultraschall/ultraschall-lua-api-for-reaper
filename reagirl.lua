@@ -3841,7 +3841,7 @@ function reagirl.Checkbox_Add(x, y, caption, meaningOfUI_Element, default, run_f
   reagirl.Elements[slot]["Text"]=caption
   reagirl.Elements[slot]["IsDisabled"]=false
   reagirl.Elements[slot]["Description"]=meaningOfUI_Element
-  reagirl.Elements[slot]["AccHint"]="Space or left mouse-click to change checkstate."
+  reagirl.Elements[slot]["AccHint"]="Space or left mouse-click to toggle checkbox."
   reagirl.Elements[slot]["ContextMenu_ACC"]=""
   reagirl.Elements[slot]["DropZoneFunction_ACC"]=""
   reagirl.Elements[slot]["x"]=x
@@ -6761,7 +6761,7 @@ function reagirl.Label_Manage(element_id, selected, hovered, clicked, mouse_cap,
     if retval==true then element_storage["DropZoneFunction"](element_storage["Guid"], {filenames}) refresh=true end
   end
   
-  --if Key==3 and selected==true then reaper.CF_SetClipboard(name) end
+  if Key==3 and selected~="not selected" then reaper.CF_SetClipboard(name) end
   if gfx.mouse_cap&2==2 and selected~="not selected" and gfx.mouse_x>=x and gfx.mouse_x<=x+w and gfx.mouse_y>=y and gfx.mouse_y<=y+h then
     local oldx, oldy=gfx.x, gfx.y
     gfx.x=gfx.mouse_x

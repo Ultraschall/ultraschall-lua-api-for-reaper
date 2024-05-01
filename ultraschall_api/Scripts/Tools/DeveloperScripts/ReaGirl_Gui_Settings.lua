@@ -199,6 +199,10 @@ function SetUpNewGui()
   tabs2={}
   reagirl.AutoPosition_SetNextYToUIElement(Tabs)
   reagirl.NextLine()
+  tabs2.Label_Osara=reagirl.Label_Add(nil, nil, "General settings", "Settings that influence accessibility.", false, nil)
+  reagirl.NextLine()
+  reagirl.Label_SetStyle(tabs2.Label_Osara, 6, 0, 0)
+
   osara_override=reaper.GetExtState("ReaGirl", "osara_override")
   if osara_override=="true" or osara_override=="" then osara_override=true else osara_override=false end
   tabs2.checkbox_osara_id = reagirl.Checkbox_Add(nil, nil, "Enable screen reader support(requires OSARA)", "Checking this will provide feedback to screen readers as you navigate. Feedback is delivered through OSARA.", osara_override, checkbox)
