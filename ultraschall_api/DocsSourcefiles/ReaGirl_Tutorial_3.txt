@@ -52,8 +52,6 @@ So, let's add a dropzone for our image, using the function reagirl.UI\_Element\_
   function Image_DropZone_RunFunction(element_id, dropped_filenames_table)
     -- this function will be called everytime a file is dropped onto the image
     reaper.MB(dropped_filenames_table[1], "First dropped file", 0)
-    -- force focus back to ReaGirl-window after reaper.MB() is closed
-    reagirl.Window_SetFocus()
   end
   
   -- create new gui
@@ -148,8 +146,6 @@ Let's add a context-menu using reagirl.UI\_Element\_GetSet\_ContextMenu() includ
     -- this function will be called when the user opens up 
     -- the context-menu of the image and makes a choice
     reaper.MB("The user chose menuentry "..menu_entry_selection, "Menu chosen", 0)
-    -- force focus back to ReaGirl-window after reaper.MB() is closed
-    reagirl.Window_SetFocus()
   end
   
   -- create new gui
@@ -212,8 +208,6 @@ The first menu-entry will clear the image to be fully black, while the other one
               reaper.GetUserFileNameForRead(reaper.GetResourcePath().."/Data/track_icons/", 
                                             "Choose an image to load", 
                                             "*.png;*.jpg")
-      -- force focus back to ReaGirl-window after reaper.GetUserFilenameForRead() is closed
-      reagirl.Window_SetFocus()
       if retval==true then
         reagirl.Image_Load(element_id, filename)  
       end
@@ -276,8 +270,6 @@ We can achieve this with the function reagirl.Image\_KeepAspectRatio()
               reaper.GetUserFileNameForRead(reaper.GetResourcePath().."/Data/track_icons/", 
                                             "Choose an image to load", 
                                             "*.png;*.jpg")
-      -- force focus back to ReaGirl-window after reaper.GetUserFileNameForRead() is closed
-      reagirl.Window_SetFocus()
       if retval==true then
         reagirl.Image_Load(element_id, filename)  
       end
@@ -351,8 +343,6 @@ First, we get the filename of the currently used image-file for the image using 
               reaper.GetUserFileNameForRead(reaper.GetResourcePath().."/Data/track_icons/", 
                                             "Choose an image to load", 
                                             "*.png;*.jpg")
-      -- force focus back to ReaGirl-window after reaper.GetUserFileNameForRead() is closed
-      reagirl.Window_SetFocus()
       if retval==true then
         reagirl.Image_Load(element_id, filename)  
       end

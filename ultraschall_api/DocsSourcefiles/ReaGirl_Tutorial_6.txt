@@ -16,8 +16,6 @@ Tutorial for Enter/ESC-Key/AtExit
     -- it stores the setting, shows a success-message and closes the gui
     reaper.SetExtState("My_Setting", "My_Key", reagirl.Slider_GetValue(slider_percentage), true)
     reaper.MB("Entered new percentage", "Success", 0)
-    -- force focus back to ReaGirl-window after reaper.MB() is closed
-    reagirl.Window_SetFocus()
     reagirl.Gui_Close()
   end
   
@@ -26,8 +24,6 @@ Tutorial for Enter/ESC-Key/AtExit
     
     -- it will show an aborted dialog
     reaper.MB("Aborted setting the percentage.", "Abort", 0)
-    -- force focus back to ReaGirl-window after reaper.MB() is closed
-    reagirl.Window_SetFocus()
   end
 
   -- create new gui

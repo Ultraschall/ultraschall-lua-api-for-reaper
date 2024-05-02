@@ -79,8 +79,6 @@ dofile(reaper.GetResourcePath().."/UserPlugins/reagirl.lua")
 function Image_Runfunction(element_id, imagepath_plus_filename, drag_destination)
   -- this function will be run when the image is clicked or dragged to a destination
   reaper.MB("Dragged to: "..reagirl.UI_Element_GetSetCaption(drag_destination, false, ""), "", 0)
-  -- force focus back to ReaGirl-window after reaper.MB() is closed
-    reagirl.Window_SetFocus()
 end
 
 -- start a new gui
@@ -231,11 +229,11 @@ Remember that the description of the destination images was amp and conga? It st
 Let's change that.
 For this, we need to alter the run-function Image\_Runfunction and add the two functions, reagirl.UI\_Element\_GetSetMeaningOfUIElement() and reagirl.UI\_Element\_GetSetCaption().
 The function reagirl.UI\_Element\_GetSetCaption() will change the caption, which is sent to blind users when hovering above a ui-element.
-The function reagirl.UI\_Element\_GetSetMeaningOfUIElement() will change the screen reader-message, which is sent to blind users when they are tabbing through the ui-elements.
+The function reagirl.UI\_Element\_GetSetMeaningOfUIElement() will change the screenreader-message, which is sent to blind users when they are tabbing through the ui-elements.
 For the label we don't need to change the caption, since label-text and caption is the same.
 We need to alter the run-function for the images as well as the label.
 
-Note: in the ReaGirl-Settings you find an option called "Show screen reader messages in console(debug)", which will show the messages sent to blind users in the ReaScript-console window.
+Note: in the ReaGirl-Settings you find an option called "Show screenreader messages in console", which will show the messages sent to blind users in the ReaScript-console window.
 With that, you can check, whether the meaningOfUI_Element was correctly altered or is even reflecting the correct message.
 
 Ok, now that we altered the script, it looks like this now.
@@ -307,11 +305,11 @@ function main()
 end
 main()
 ```
-You'll notice, how we alter the screen reader-message using reagirl.UI\_Element\_GetSetMeaningOfUIElement() as well as the caption using reagirl.UI\_Element\_GetSetCaption().
+You'll notice, how we alter the screenreader-message using reagirl.UI\_Element\_GetSetMeaningOfUIElement() as well as the caption using reagirl.UI\_Element\_GetSetCaption().
 And when you run the script, tabbing through the ui-elements will now tell to blind users, which image has been used by image\_dest1\_id and image\_dest2\_id and label\_id.
 
 Great. Now we have a script that allows dragging a source-image to various destinations. It alters the images and labels when the source-image has been dropped.
-We also altered the screen reader-messages accordingly to reflect the changes, so blind users know, what has happened with dragging as well.
+We also altered the screenreader-messages accordingly to reflect the changes, so blind users know, what has happened with dragging as well.
 
 In this tutorial, we made images draggable, but you can also make labels draggable. The only difference is, that for labels, the run-function is getting the destination-element\_id as second parameter instead of the third.
 The rest is the same.

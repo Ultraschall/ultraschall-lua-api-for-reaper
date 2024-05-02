@@ -123,6 +123,88 @@ TODO:
     
 --]]
 
+-- let's force some of Reaper's/JS-extension functions to return window-focus to ReaGirl-window
+reagirl.GetUserInputs=reaper.GetUserInputs
+reagirl.GetUserFileNameForRead=reaper.GetUserFileNameForRead
+reagirl.GR_SelectColor=reaper.GR_SelectColor
+reagirl.MB=reaper.MB
+reagirl.ShowMessageBox=reaper.ShowMessageBox
+reagirl.DoActionShortcutDialog=reaper.DoActionShortcutDialog
+reagirl.JS_Dialog_BrowseForFolder=reaper.JS_Dialog_BrowseForFolder
+reagirl.JS_Dialog_BrowseForOpenFiles=reaper.JS_Dialog_BrowseForOpenFiles
+reagirl.JS_Dialog_BrowseForSaveFile=reaper.JS_Dialog_BrowseForOpenFiles
+reagirl.JS_Actions_DoShortcutDialog=reaper.JS_Actions_DoShortcutDialog
+
+function reaper.GetUserInputs(...)
+  local retvals={pcall(reagirl.GetUserInputs, table.unpack({...}))}
+  if retvals[1]==false then error("GetUserInputs: "..retvals[2], 2) end
+  reagirl.Window_SetFocus()
+  return table.unpack(retvals)
+end
+
+function reaper.GetUserFileNameForRead(...)
+  local retvals={pcall(reagirl.GetUserFileNameForRead, table.unpack({...}))}
+  if retvals[1]==false then error("GetUserFileNameForRead: "..retvals[2], 2) end
+  reagirl.Window_SetFocus()
+  return table.unpack(retvals)
+end
+
+function reaper.GR_SelectColor(...)
+  local retvals={pcall(reagirl.GR_SelectColor, table.unpack({...}))}
+  if retvals[1]==false then error("GR_SelectColor: "..retvals[2], 2) end
+  reagirl.Window_SetFocus()
+  return table.unpack(retvals)
+end
+
+function reaper.MB(...)
+  local retvals={pcall(reagirl.MB, table.unpack({...}))}
+  if retvals[1]==false then error("MB: "..retvals[2], 2) end
+  reagirl.Window_SetFocus()
+  return table.unpack(retvals)
+end
+
+function reaper.ShowMessageBox(...)
+  local retvals={pcall(reagirl.ShowMessageBox, table.unpack({...}))}
+  if retvals[1]==false then error("ShowMessageBox: "..retvals[2], 2) end
+  reagirl.Window_SetFocus()
+  return table.unpack(retvals)
+end
+
+function reaper.DoActionShortcutDialog(...)
+  local retvals={pcall(reagirl.DoActionShortcutDialog, table.unpack({...}))}
+  if retvals[1]==false then error("DoActionShortcutDialog: "..retvals[2], 2) end
+  reagirl.Window_SetFocus()
+  return table.unpack(retvals)
+end
+
+function reaper.JS_Dialog_BrowseForFolder(...)
+  local retvals={pcall(reagirl.JS_Dialog_BrowseForFolder, table.unpack({...}))}
+  if retvals[1]==false then error("JS_Dialog_BrowseForFolder: "..retvals[2], 2) end
+  reagirl.Window_SetFocus()
+  return table.unpack(retvals)
+end
+
+function reaper.JS_Dialog_BrowseForOpenFiles(...)
+  local retvals={pcall(reagirl.JS_Dialog_BrowseForOpenFiles, table.unpack({...}))}
+  if retvals[1]==false then error("JS_Dialog_BrowseForOpenFiles: "..retvals[2], 2) end
+  reagirl.Window_SetFocus()
+  return table.unpack(retvals)
+end
+
+function reaper.JS_Dialog_BrowseForSaveFile(...)
+  local retvals={pcall(reagirl.JS_Dialog_BrowseForSaveFile, table.unpack({...}))}
+  if retvals[1]==false then error("JS_Dialog_BrowseForSaveFile: "..retvals[2], 2) end
+  reagirl.Window_SetFocus()
+  return table.unpack(retvals)
+end
+
+function reaper.JS_Actions_DoShortcutDialog(...)
+  local retvals={pcall(reagirl.JS_Actions_DoShortcutDialog, table.unpack({...}))}
+  if retvals[1]==false then error("JS_Actions_DoShortcutDialog: "..retvals[2], 2) end
+  reagirl.Window_SetFocus()
+  return table.unpack(retvals)
+end
+
 reagirl.Elements={}
 reagirl.NextLine_Overflow=0 -- will be set when a ui-element in a line is higher than usual
 reagirl.EditMode=false
@@ -2462,6 +2544,7 @@ function reagirl.Gui_Manage()
           local acc_message=""
           local contextmenu=reagirl.Elements[reagirl.Elements["FocusedElement"]]["ContextMenu_ACC"]
           local dropfiles=reagirl.Elements[reagirl.Elements["FocusedElement"]]["DropZoneFunction_ACC"]
+          local draggable=""
           if init_message~="" then
             acc_message=""--reagirl.Elements[reagirl.Elements["FocusedElement"]]["ContextMenu_ACC"]..reagirl.Elements[reagirl.Elements["FocusedElement"]]["DropZoneFunction_ACC"]
           end
@@ -2472,11 +2555,14 @@ function reagirl.Gui_Manage()
             if reagirl.Elements[reagirl.Elements["FocusedElement"]]["DropZoneFunction_ACC"]~="" then
               dropfiles=" Allows dropping of files."
             end
+            if reagirl.Elements[reagirl.Elements["FocusedElement"]]["Draggable"]==true then 
+              draggable=" Draggable. " 
+            end
           end
           if reagirl.osara_outputMessage~=nil then
-            reagirl.osara_outputMessage(reagirl.osara_init_message.." "..init_message.." "..message.." "..helptext..acc_message..contextmenu..dropfiles)
+            reagirl.osara_outputMessage(reagirl.osara_init_message.." "..init_message.." "..message.." "..helptext..draggable..acc_message..contextmenu..dropfiles)
           end
-          reagirl.Osara_Debug_Message(reagirl.osara_init_message.." "..init_message.." "..message.." "..helptext..acc_message..contextmenu..dropfiles)
+          reagirl.Osara_Debug_Message(reagirl.osara_init_message.." "..init_message.." "..message.." "..helptext..draggable..acc_message..contextmenu..dropfiles)
           reagirl.old_osara_message=message
           reagirl.osara_init_message=""
         end
@@ -6751,7 +6837,7 @@ function reagirl.Label_Add(x, y, label, meaningOfUI_Element, clickable, run_func
   reagirl.Elements[slot]["Text"]=""
   reagirl.Elements[slot]["Description"]=meaningOfUI_Element
   reagirl.Elements[slot]["IsDisabled"]=false
-  reagirl.Elements[slot]["AccHint"]=acc_clickable.."Ctrl+C copies label-text to clipboard."
+  reagirl.Elements[slot]["AccHint"]=acc_clickable.."Ctrl+C copies label-text to clipboard. "
   reagirl.Elements[slot]["ContextMenu_ACC"]=""
   reagirl.Elements[slot]["DropZoneFunction_ACC"]=""
   reagirl.Elements[slot]["x"]=x
@@ -6860,7 +6946,7 @@ function reagirl.Label_Manage(element_id, selected, hovered, clicked, mouse_cap,
   local contextmenu=""
   --if element_storage["ContextMenu"]~=nil then contextmenu="Has Contextmanu." end
   local draggable=""
-  if element_storage["Draggable"]==true then draggable="Draggable,. " draggable2=" Use Ctrl plus alt plus Tab and Ctrl plus alt plus Tab to select the dragging-destinations and ctrl plus alt plus enter to drop the image into the dragging-destination." else draggable="" end
+  --if element_storage["Draggable"]==true then draggable="Draggable,. " draggable2=" Use Ctrl plus alt plus Tab and Ctrl plus alt plus Tab to select the dragging-destinations and ctrl plus alt plus enter to drop the image into the dragging-destination." else draggable="" end
   return draggable..contextmenu.." ", false
 end
 
@@ -7516,8 +7602,8 @@ function reagirl.Image_Manage(element_id, selected, hovered, clicked, mouse_cap,
     reagirl.Draggable_Element=nil
   end
   
-  local draggable, draggable2
-  if element_storage["Draggable"]==true then draggable="Draggable,. " draggable2=" Use Ctrl plus alt plus Tab and Ctrl plus alt plus Tab to select the dragging-destinations and ctrl plus alt plus enter to drop the image into the dragging-destination." else draggable="" end
+  local draggable, draggable2 = "", ""
+  --if element_storage["Draggable"]==true then draggable="Draggable,. " draggable2=" Use Ctrl plus alt plus Tab and Ctrl plus alt plus Tab to select the dragging-destinations and ctrl plus alt plus enter to drop the image into the dragging-destination." else draggable="" end
   return draggable..message
 end
 

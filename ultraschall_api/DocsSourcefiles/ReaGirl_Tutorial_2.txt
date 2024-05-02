@@ -15,8 +15,6 @@ Our initial gui looks this way, now:
     elseif pressed_button_id==button_cancel_id then
       reaper.MB("Cancel Button is pressed", "Cancel Button", 0)
     end
-    -- force focus back to ReaGirl-window after reaper.MB() is closed
-    reagirl.Window_SetFocus()
   end
 
   function Checkbox_RunFunction(checked_checkbox_id, checkstate)
@@ -26,8 +24,6 @@ Our initial gui looks this way, now:
     elseif checked_checkbox_id==checkbox_mysetting then
       reaper.MB("Checkbox \"my Setting\" is "..tostring(checkstate), "Checkbox-State changed", 0)
     end
-    -- force focus back to ReaGirl-window after reaper.MB() is closed
-    reagirl.Window_SetFocus()
   end
 
   function InputBox_RunFunction_Type(inputbox_id, entered_text)
@@ -47,8 +43,6 @@ Our initial gui looks this way, now:
     elseif inputbox_id==inputbox_description_of_setting then
       reaper.MB(entered_text, "The typed text into DESCRIPTION was", 0)
     end
-    -- force focus back to ReaGirl-window after reaper.MB() is closed
-    reagirl.Window_SetFocus()
   end
 
   -- create new gui
@@ -100,8 +94,6 @@ Each table represents a tab, means: tab1 contains all element\_ids of the ui-ele
     elseif pressed_button_id==button_cancel_id then
       reaper.MB("Cancel Button is pressed", "Cancel Button", 0)
     end
-    -- force focus back to ReaGirl-window after reaper.MB() is closed
-    reagirl.Window_SetFocus()
   end
 
   function Checkbox_RunFunction(checked_checkbox_id, checkstate)
@@ -111,8 +103,6 @@ Each table represents a tab, means: tab1 contains all element\_ids of the ui-ele
     elseif checked_checkbox_id==checkbox_mysetting then
       reaper.MB("Checkbox \"my Setting\" is "..tostring(checkstate), "Checkbox-State changed", 0)
     end
-    -- force focus back to ReaGirl-window after reaper.MB() is closed
-    reagirl.Window_SetFocus()
   end
 
   function InputBox_RunFunction_Type(inputbox_id, entered_text)
@@ -132,8 +122,6 @@ Each table represents a tab, means: tab1 contains all element\_ids of the ui-ele
     elseif inputbox_id==inputbox_description_of_setting then
       reaper.MB(entered_text, "The typed text into DESCRIPTION was", 0)
     end
-    -- force focus back to ReaGirl-window after reaper.MB() is closed
-    reagirl.Window_SetFocus()
   end
 
   -- create new gui
@@ -203,8 +191,6 @@ Now, let's add the tabs-ui-element to the gui using the function reagirl.Tabs\_A
     elseif pressed_button_id==button_cancel_id then
       reaper.MB("Cancel Button is pressed", "Cancel Button", 0)
     end
-    -- force focus back to ReaGirl-window after reaper.MB() is closed
-    reagirl.Window_SetFocus()
   end
 
   function Checkbox_RunFunction(checked_checkbox_id, checkstate)
@@ -214,8 +200,6 @@ Now, let's add the tabs-ui-element to the gui using the function reagirl.Tabs\_A
     elseif checked_checkbox_id==checkbox_mysetting then
       reaper.MB("Checkbox \"my Setting\" is "..tostring(checkstate), "Checkbox-State changed", 0)
     end
-    -- force focus back to ReaGirl-window after reaper.MB() is closed
-    reagirl.Window_SetFocus()
   end
 
   function InputBox_RunFunction_Type(inputbox_id, entered_text)
@@ -235,16 +219,12 @@ Now, let's add the tabs-ui-element to the gui using the function reagirl.Tabs\_A
     elseif inputbox_id==inputbox_description_of_setting then
       reaper.MB(entered_text, "The typed text into DESCRIPTION was", 0)
     end
-    -- force focus back to ReaGirl-window after reaper.MB() is closed
-    reagirl.Window_SetFocus()
   end
   
   
   function Tab_RunFunction(tab_id, tab_selected, tab_name_selected)
     -- this function is run, when tabs are switched
     reaper.MB("Tab #"..tab_selected.." with name "..tab_name_selected.." is selected.", "Tabs", 0)
-    -- force focus back to ReaGirl-window after reaper.MB() is closed
-    reagirl.Window_SetFocus()
   end
 
   -- create new gui
@@ -311,8 +291,6 @@ Here's how it looks like with reagirl.Tabs\_SetUIElementsForTab()
     elseif pressed_button_id==button_cancel_id then
       reaper.MB("Cancel Button is pressed", "Cancel Button", 0)
     end
-    -- force focus back to ReaGirl-window after reaper.MB() is closed
-    reagirl.Window_SetFocus()
   end
 
   function Checkbox_RunFunction(checked_checkbox_id, checkstate)
@@ -322,8 +300,6 @@ Here's how it looks like with reagirl.Tabs\_SetUIElementsForTab()
     elseif checked_checkbox_id==checkbox_mysetting then
       reaper.MB("Checkbox \"my Setting\" is "..tostring(checkstate), "Checkbox-State changed", 0)
     end
-    -- force focus back to ReaGirl-window after reaper.MB() is closed
-    reagirl.Window_SetFocus()
   end
 
   function InputBox_RunFunction_Type(inputbox_id, entered_text)
@@ -343,8 +319,6 @@ Here's how it looks like with reagirl.Tabs\_SetUIElementsForTab()
     elseif inputbox_id==inputbox_description_of_setting then
       reaper.MB(entered_text, "The typed text into DESCRIPTION was", 0)
     end
-    -- force focus back to ReaGirl-window after reaper.MB() is closed
-    reagirl.Window_SetFocus()
   end
   
   
@@ -421,8 +395,6 @@ Here's how the run-functions look like, when they check against the table-entrie
     elseif pressed_button_id==tab3.button_cancel_id then
       reaper.MB("Cancel Button is pressed", "Cancel Button", 0)
     end
-    -- force focus back to ReaGirl-window after reaper.MB() is closed
-    reagirl.Window_SetFocus()
   end
 
   function Checkbox_RunFunction(checked_checkbox_id, checkstate)
@@ -432,8 +404,6 @@ Here's how the run-functions look like, when they check against the table-entrie
     elseif checked_checkbox_id==tab2.checkbox_mysetting then
       reaper.MB("Checkbox \"my Setting\" is "..tostring(checkstate), "Checkbox-State changed", 0)
     end
-    -- force focus back to ReaGirl-window after reaper.MB() is closed
-    reagirl.Window_SetFocus()
   end
 
   function InputBox_RunFunction_Type(inputbox_id, entered_text)
@@ -453,8 +423,6 @@ Here's how the run-functions look like, when they check against the table-entrie
     elseif inputbox_id==tab1.inputbox_description_of_setting then
       reaper.MB(entered_text, "The typed text into DESCRIPTION was", 0)
     end
-    -- force focus back to ReaGirl-window after reaper.MB() is closed
-    reagirl.Window_SetFocus()
   end
   
   
@@ -533,8 +501,6 @@ It's simple: add them BUT don't add their ids to tab1, tab2 or tab3:
     elseif pressed_button_id==close_button then
       reaper.MB("Close Button is pressed", "Close Button", 0)
     end
-    -- force focus back to ReaGirl-window after reaper.MB() is closed
-    reagirl.Window_SetFocus()
   end
 
   function Checkbox_RunFunction(checked_checkbox_id, checkstate)
@@ -546,8 +512,6 @@ It's simple: add them BUT don't add their ids to tab1, tab2 or tab3:
     elseif checked_checkbox_id==global_checkbox then
       reaper.MB("Checkbox \"Apply only to project\" is "..tostring(checkstate), "Checkbox-State changed", 0)
     end
-    -- force focus back to ReaGirl-window after reaper.MB() is closed
-    reagirl.Window_SetFocus()
   end
 
   function InputBox_RunFunction_Type(inputbox_id, entered_text)
@@ -567,8 +531,6 @@ It's simple: add them BUT don't add their ids to tab1, tab2 or tab3:
     elseif inputbox_id==tab1.inputbox_description_of_setting then
       reaper.MB(entered_text, "The typed text into DESCRIPTION was", 0)
     end
-    -- force focus back to ReaGirl-window after reaper.MB() is closed
-    reagirl.Window_SetFocus()
   end
   
   

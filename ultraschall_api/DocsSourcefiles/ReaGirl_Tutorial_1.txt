@@ -80,7 +80,7 @@ Don't bother with scrolling your ui-elements. This is done by ReaGirl. So if a u
 
 Also don't bother about scaling like Retina/HiDPI or something. This is also done by ReaGirl automatically. So if the user chooses to run your script on Retina/HiDPI-displays or even with an altered scaling set in the preferences, your gui will change automatically.
 
-Since one of the key-features in ReaGirl is accessibility for blind people, most of the stuff needed for screen reader-management is done by ReaGirl itself. You just need to set the parameters meaningOfUI\_Element properly by giving a short and precise explanation, what the ui-element is doing and why. This will be shown as tooltip and also communicated to blind users via screen reader. This happens automatically, so you don't need to do much more.
+Since one of the key-features in ReaGirl is accessibility for blind people, most of the stuff needed for screenreader-management is done by ReaGirl itself. You just need to set the parameters meaningOfUI\_Element properly by giving a short and precise explanation, what the ui-element is doing and why. This will be shown as tooltip and also communicated to blind users via screenreader. This happens automatically, so you don't need to do much more.
 There's a chapter dedicated on best practices for accessible guis later, if you want to improve on things further.
 
 In the next chapters, I will take you through some basic tutorials on how making a gui is done in practice.
@@ -103,9 +103,6 @@ Let's start with a basic gui, which will show one single button.
   function Button_RunFunction(pressed_button_id)
     -- this function is run, when a button is pressed
     reaper.MB("Button has been pressed", "Pressed", 0)
-    
-    -- force focus back to ReaGirl-window after reaper.MB() is closed
-    reagirl.Window_SetFocus()
   end
 
   -- Step 2: create new gui
@@ -114,12 +111,12 @@ Let's start with a basic gui, which will show one single button.
   -- Step 3: add the ui-elements to the gui
   -- add an ok-button to the gui at x-position 30 and y-position 200 with the run-function Button_RunFunction
   -- The meaningOfUI_Element-parameter "Apply changes and close dialog" will be shown as tooltip 
-  -- and sent to a screen reader for blind people.
+  -- and sent to a screenreader for blind people.
   button_ok_id = reagirl.Button_Add(30, 200, 0, 0, "OK", "Apply changes and close dialog.", Button_RunFunction)
   
   -- Step 4: open the new gui with size 640x250 pixels, titled "The dialog". 
   -- In addition to the title, blind people will also get "This is a demo dialog with settings for tool xyz." 
-  -- sent to their screen readers.
+  -- sent to their screenreaders.
   reagirl.Gui_Open("My Dialog Name", false, "The dialog", "This is a demo dialog with settings for tool xyz.", 640, 250)
 
   -- Step 5: Write and run a defer-function, in which you call reagirl.Gui_Manage()
@@ -136,7 +133,7 @@ Let's start with a basic gui, which will show one single button.
 ```  
 You see the 5 steps I mentioned in the first steps-chapter detailed out in the script. 
 This adds a button and the run-function Button\_RunFunction which is run when the user hits the button.
-Also note the parameter meaningOfUI\_Element, which is set to "Apply changes and close dialog". This parameter will be shown as a tooltip. It will also tell blind users, what the ui-element is supposed to do and why via screen reader. So if you add your own ui-elements, add a short and descriptive explanation into this parameter which says more than just "ok". Blind users will thank you for that.
+Also note the parameter meaningOfUI\_Element, which is set to "Apply changes and close dialog". This parameter will be shown as a tooltip. It will also tell blind users, what the ui-element is supposed to do and why via screenreader. So if you add your own ui-elements, add a short and descriptive explanation into this parameter which says more than just "ok". Blind users will thank you for that.
 And that's it, a simple gui with one button. Try it and experiment with it. Write a different text into the button. Alter the numbers in the parameters of reagirl.Button\_Add to see what happens.
 Don't worry about making mistakes. When you pass wrong parameters to ReaGirl-functions, they will tell you with an error message, what went wrong and where.
 
@@ -162,8 +159,6 @@ It's looks like the following code.
     elseif pressed_button_id==button_cancel_id then
       reaper.MB("Cancel Button is pressed", "Cancel Button", 0)
     end
-    -- force focus back to ReaGirl-window after reaper.MB() is closed
-    reagirl.Window_SetFocus()
   end
 
   -- create new gui
@@ -209,8 +204,6 @@ We also add a run-function for it called Checkbox\_RunFunction, which will pop u
     elseif pressed_button_id==button_cancel_id then
       reaper.MB("Cancel Button is pressed", "Cancel Button", 0)
     end
-    -- force focus back to ReaGirl-window after reaper.MB() is closed
-    reagirl.Window_SetFocus()
   end
 
   function Checkbox_RunFunction(checked_checkbox_id, checkstate)
@@ -220,8 +213,6 @@ We also add a run-function for it called Checkbox\_RunFunction, which will pop u
     elseif checked_checkbox_id==checkbox_mysetting then
       reaper.MB("Checkbox \"my Setting\" is "..tostring(checkstate), "Checkbox-State changed", 0)
     end
-    -- force focus back to ReaGirl-window after reaper.MB() is closed
-    reagirl.Window_SetFocus()
   end
 
   -- create new gui
@@ -280,8 +271,6 @@ Let's add two inputboxes with the two run-functions(InputBox\_RunFunction\_Type 
     elseif pressed_button_id==button_cancel_id then
       reaper.MB("Cancel Button is pressed", "Cancel Button", 0)
     end
-    -- force focus back to ReaGirl-window after reaper.MB() is closed
-    reagirl.Window_SetFocus()
   end
 
   function Checkbox_RunFunction(checked_checkbox_id, checkstate)
@@ -291,8 +280,6 @@ Let's add two inputboxes with the two run-functions(InputBox\_RunFunction\_Type 
     elseif checked_checkbox_id==checkbox_mysetting then
       reaper.MB("Checkbox \"My Setting\" is "..tostring(checkstate), "Checkbox-State changed", 0)
     end
-    -- force focus back to ReaGirl-window after reaper.MB() is closed
-    reagirl.Window_SetFocus()
   end
 
   function InputBox_RunFunction_Type(inputbox_id, entered_text)
@@ -312,8 +299,6 @@ Let's add two inputboxes with the two run-functions(InputBox\_RunFunction\_Type 
     elseif inputbox_id==inputbox_description_of_setting then
       reaper.MB(entered_text, "The typed text into DESCRIPTION was", 0)
     end
-    -- force focus back to ReaGirl-window after reaper.MB() is closed
-    reagirl.Window_SetFocus()
   end
 
   -- create new gui
@@ -367,8 +352,6 @@ For this, we use the functions Label\_SetFontSize and Label\_SetStyle.
     elseif pressed_button_id==button_cancel_id then
       reaper.MB("Cancel Button is pressed", "Cancel Button", 0)
     end
-    -- force focus back to ReaGirl-window after reaper.MB() is closed
-    reagirl.Window_SetFocus()
   end
 
   function Checkbox_RunFunction(checked_checkbox_id, checkstate)
@@ -378,8 +361,6 @@ For this, we use the functions Label\_SetFontSize and Label\_SetStyle.
     elseif checked_checkbox_id==checkbox_mysetting then
       reaper.MB("Checkbox \"my Setting\" is "..tostring(checkstate), "Checkbox-State changed", 0)
     end
-    -- force focus back to ReaGirl-window after reaper.MB() is closed
-    reagirl.Window_SetFocus()
   end
 
   function InputBox_RunFunction_Type(inputbox_id, entered_text)
@@ -399,8 +380,6 @@ For this, we use the functions Label\_SetFontSize and Label\_SetStyle.
     elseif inputbox_id==inputbox_description_of_setting then
       reaper.MB(entered_text, "The typed text into DESCRIPTION was", 0)
     end
-    -- force focus back to ReaGirl-window after reaper.MB() is closed
-    reagirl.Window_SetFocus()
   end
 
 
@@ -456,8 +435,6 @@ For this, we use the function reagirl.Button\_SetRadius in the following code, w
     elseif pressed_button_id==button_cancel_id then
       reaper.MB("Cancel Button is pressed", "Cancel Button", 0)
     end
-    -- force focus back to ReaGirl-window after reaper.MB() is closed
-    reagirl.Window_SetFocus()
   end
 
   function Checkbox_RunFunction(checked_checkbox_id, checkstate)
@@ -467,8 +444,6 @@ For this, we use the function reagirl.Button\_SetRadius in the following code, w
     elseif checked_checkbox_id==checkbox_mysetting then
       reaper.MB("Checkbox \"my Setting\" is "..tostring(checkstate), "Checkbox-State changed", 0)
     end
-    -- force focus back to ReaGirl-window after reaper.MB() is closed
-    reagirl.Window_SetFocus()
   end
 
   function InputBox_RunFunction_Type(inputbox_id, entered_text)
@@ -488,8 +463,6 @@ For this, we use the function reagirl.Button\_SetRadius in the following code, w
     elseif inputbox_id==inputbox_description_of_setting then
       reaper.MB(entered_text, "The typed text into DESCRIPTION was", 0)
     end
-    -- force focus back to ReaGirl-window after reaper.MB() is closed
-    reagirl.Window_SetFocus()
   end
 
 
@@ -544,8 +517,6 @@ I'll choose to set it(true) to a grey tone(55).
     elseif pressed_button_id==button_cancel_id then
       reaper.MB("Cancel Button is pressed", "Cancel Button", 0)
     end
-    -- force focus back to ReaGirl-window after reaper.MB() is closed
-    reagirl.Window_SetFocus()
   end
 
   function Checkbox_RunFunction(checked_checkbox_id, checkstate)
@@ -555,8 +526,6 @@ I'll choose to set it(true) to a grey tone(55).
     elseif checked_checkbox_id==checkbox_mysetting then
       reaper.MB("Checkbox \"my Setting\" is "..tostring(checkstate), "Checkbox-State changed", 0)
     end
-    -- force focus back to ReaGirl-window after reaper.MB() is closed
-    reagirl.Window_SetFocus()
   end
 
   function InputBox_RunFunction_Type(inputbox_id, entered_text)
@@ -576,8 +545,6 @@ I'll choose to set it(true) to a grey tone(55).
     elseif inputbox_id==inputbox_description_of_setting then
       reaper.MB(entered_text, "The typed text into DESCRIPTION was", 0)
     end
-    -- force focus back to ReaGirl-window after reaper.MB() is closed
-    reagirl.Window_SetFocus()
   end
 
 
@@ -636,8 +603,6 @@ To achieve this, just make the x/y-coordinate negative. In the case of our image
     elseif pressed_button_id==button_cancel_id then
       reaper.MB("Cancel Button is pressed", "Cancel Button", 0)
     end
-    -- force focus back to ReaGirl-window after reaper.MB() is closed
-    reagirl.Window_SetFocus()
   end
 
   function Checkbox_RunFunction(checked_checkbox_id, checkstate)
@@ -647,8 +612,6 @@ To achieve this, just make the x/y-coordinate negative. In the case of our image
     elseif checked_checkbox_id==checkbox_mysetting then
       reaper.MB("Checkbox \"my Setting\" is "..tostring(checkstate), "Checkbox-State changed", 0)
     end
-    -- force focus back to ReaGirl-window after reaper.MB() is closed
-    reagirl.Window_SetFocus()
   end
 
   function InputBox_RunFunction_Type(inputbox_id, entered_text)
@@ -668,8 +631,6 @@ To achieve this, just make the x/y-coordinate negative. In the case of our image
     elseif inputbox_id==inputbox_description_of_setting then
       reaper.MB(entered_text, "The typed text into DESCRIPTION was", 0)
     end
-    -- force focus back to ReaGirl-window after reaper.MB() is closed
-    reagirl.Window_SetFocus()
   end
 
 
@@ -728,8 +689,6 @@ Let's link the width of the first inputbox to the right-side of the window(-50) 
     elseif pressed_button_id==button_cancel_id then
       reaper.MB("Cancel Button is pressed", "Cancel Button", 0)
     end
-    -- force focus back to ReaGirl-window after reaper.MB() is closed
-    reagirl.Window_SetFocus()
   end
 
   function Checkbox_RunFunction(checked_checkbox_id, checkstate)
@@ -739,8 +698,6 @@ Let's link the width of the first inputbox to the right-side of the window(-50) 
     elseif checked_checkbox_id==checkbox_mysetting then
       reaper.MB("Checkbox \"my Setting\" is "..tostring(checkstate), "Checkbox-State changed", 0)
     end
-    -- force focus back to ReaGirl-window after reaper.MB() is closed
-    reagirl.Window_SetFocus()
   end
 
   function InputBox_RunFunction_Type(inputbox_id, entered_text)
@@ -760,8 +717,6 @@ Let's link the width of the first inputbox to the right-side of the window(-50) 
     elseif inputbox_id==inputbox_description_of_setting then
       reaper.MB(entered_text, "The typed text into DESCRIPTION was", 0)
     end
-    -- force focus back to ReaGirl-window after reaper.MB() is closed
-    reagirl.Window_SetFocus()
   end
 
 
@@ -824,8 +779,6 @@ Let's add them into our gui and set some reasonable boundaries.
     elseif pressed_button_id==button_cancel_id then
       reaper.MB("Cancel Button is pressed", "Cancel Button", 0)
     end
-    -- force focus back to ReaGirl-window after reaper.MB() is closed
-    reagirl.Window_SetFocus()
   end
 
   function Checkbox_RunFunction(checked_checkbox_id, checkstate)
@@ -835,8 +788,6 @@ Let's add them into our gui and set some reasonable boundaries.
     elseif checked_checkbox_id==checkbox_mysetting then
       reaper.MB("Checkbox \"my Setting\" is "..tostring(checkstate), "Checkbox-State changed", 0)
     end
-    -- force focus back to ReaGirl-window after reaper.MB() is closed
-    reagirl.Window_SetFocus()
   end
 
   function InputBox_RunFunction_Type(inputbox_id, entered_text)
@@ -856,8 +807,6 @@ Let's add them into our gui and set some reasonable boundaries.
     elseif inputbox_id==inputbox_description_of_setting then
       reaper.MB(entered_text, "The typed text into DESCRIPTION was", 0)
     end
-    -- force focus back to ReaGirl-window after reaper.MB() is closed
-    reagirl.Window_SetFocus()
   end
 
 

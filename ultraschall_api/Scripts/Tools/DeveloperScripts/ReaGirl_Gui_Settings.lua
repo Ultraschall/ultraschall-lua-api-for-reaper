@@ -199,7 +199,7 @@ function SetUpNewGui()
   reagirl.NextLine()
   osara_enable_accmessage = reaper.GetExtState("ReaGirl", "osara_enable_accmessage")
   if osara_enable_accmessage=="" or osara_enable_accmessage=="true" then osara_enable_accmessage=true else osara_enable_accmessage=false end
-  tabs2.checkbox_osara_enable_acc_help = reagirl.Checkbox_Add(nil, nil, "Enable screen reader help-messages for ui-elements.", "When checked, a short description on how to use a tabbed ui-element will be send to the screen reader as well. Uncheck to turn off the help-messages.", osara_enable_accmessage, checkbox)
+  tabs2.checkbox_osara_enable_acc_help = reagirl.Checkbox_Add(nil, nil, "Enable screen reader help-messages", "When checked, a short description on how to use a tabbed ui-element will be send to the screen reader as well. Uncheck to turn off the help-messages.", osara_enable_accmessage, checkbox)
 
   reagirl.Tabs_SetUIElementsForTab(Tabs, 2, tabs2)
   
