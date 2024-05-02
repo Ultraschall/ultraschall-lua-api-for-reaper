@@ -83,10 +83,23 @@ function Image(element_id, filename, dragged_element_id)
   --reagirl.Window_SetFocus()
 end
 
+function label(element_id, dragged_element_id)
+  if dragged_element_id==image_dest then
+    reaper.MB("Successfully dragged to image 2", "", 0)
+  elseif dragged_element_id==image_middle then
+    reaper.MB("Successfully dragged to image 1", "", 0)
+  elseif dragged_element_id==image_source then
+    reaper.MB("Successfully dragged to source-image ", "", 0)
+  elseif element_id==label2 then
+    reaper.MB("Clickable label clicked", "", 0)
+  end
+end
+
 reagirl.Gui_New()
 
-label=reagirl.Label_Add(nil, nil, "A label with some text", "Labels are there to describe things in the gui.", false, nil)
-reagirl.UI_Element_GetSet_ContextMenu(label, true, "A|Context|Menu", button)
+label1=reagirl.Label_Add(nil, nil, "A label with some text", "Labels are there to describe things in the gui.", false, label)
+label2=reagirl.Label_Add(nil, nil, "A clickable label", "Clickable linktext.", true, label)
+reagirl.UI_Element_GetSet_ContextMenu(label1, true, "A|Context|Menu", button)
 reagirl.NextLine()
 
 reagirl.Checkbox_Add(nil, nil, "Checkbox #1", "The first checkbox.", true, nil)
@@ -107,7 +120,7 @@ reagirl.NextLine()
   image_dest=reagirl.Image_Add(250,nil,50,50,reaper.GetResourcePath().."/Data/track_icons/mic_dynamic_1.png", "The second destination image.", "Image of a microphone.",nil)
   reagirl.Image_SetDraggable(image_source, true, {image_middle, image_dest})
 
-reagirl.Label_SetDraggable(label, true, {image_source, image_middle, image_dest})
+reagirl.Label_SetDraggable(label1, true, {image_source, image_middle, image_dest})
 reagirl.NextLine(5)
 butt1=reagirl.Button_Add(nil, nil, 0, 0, "Button #1", "The first button.", button)
 butt2=reagirl.Button_Add(nil, nil, 0, 0, "Button #2", "The second button.", button)
