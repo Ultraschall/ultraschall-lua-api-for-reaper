@@ -3244,10 +3244,12 @@ function reagirl.UI_Element_GetNextXAndYPosition(x, y, functionname)
     local h2=reagirl.Elements[reagirl.Next_Y]["h"]
     if reagirl.Elements[reagirl.Next_Y]["GUI_Element_Type"]=="Tabs" then
       taboffset=3
+    else 
+      taboffset=4
     end
     reagirl.Next_Y=nil
     if y2<0 and y2+h2+reagirl.UI_Element_NextLineY>0 then error(functionname..": param #2 - can't anchor ui-element closer to bottom of window", 2) end
-    y=y2+h2+taboffset+4
+    y=y2+h2+taboffset
   elseif y==nil then 
     y=reagirl.UI_Element_NextY_Default
     if slot>1 then
