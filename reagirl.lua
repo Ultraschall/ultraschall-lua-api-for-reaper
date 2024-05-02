@@ -75,6 +75,8 @@ end
 --]]
 --[[
 TODO: 
+  - Gui_Open - w and h parameters=nil mean, make the size of the window big enough to fit all ui-elements
+  - 
   - Ultraschall API: add function to set SetExtState("ReaGirl","ReFocusWindow"), which will set the focus of an opened ReaGirl-window.
   -- for instance reaper.SetExtState("ReaGirl","ReFocusWindow","ReaGirl_Settings",false) sets focus to ReaGirl Settings.
   - Draggable UI-Elements other than Image: use reagirl.DragImageSlot to draw the dragging-image, which will be blit by the Gui_Draw-function
@@ -1780,8 +1782,8 @@ function reagirl.Gui_Open(name, restore_old_window_state, title, description, w,
                                      - false, always open with the same position, size and dockstate
     string title - the title of the window
     string description - a description of what this dialog does, for blind users. Make it a sentence.
-    optional integer w - the width of the window; nil=640
-    optional integer h - the height of the window; nil=400
+    integer w - the width of the window
+    integer h - the height of the window
     optional integer dock - the dockstate of the window; 0, undocked; 1, docked; nil=undocked
     optional integer x - the x-position of the window; nil=x-centered
     optional integer y - the y-position of the window; nil=y-centered
@@ -1799,8 +1801,8 @@ function reagirl.Gui_Open(name, restore_old_window_state, title, description, w,
   if type(title)~="string" then error("Gui_Open: param #3 - must be a string", 2) end
   if type(description)~="string" then error("Gui_Open: param #4 - must be a string", 2) end
   if description:sub(-1,-1)~="." and description:sub(-1,-1)~="?" then error("Gui_Open: param #4 - must end on a . like a regular sentence.", 2) end
-  if w~=nil and math.type(w)~="integer" then error("Gui_Open: param #5 - must be either nil or an integer", 2) end
-  if h~=nil and math.type(h)~="integer" then error("Gui_Open: param #6 - must be either nil or an integer", 2) end
+  if math.type(w)~="integer" then error("Gui_Open: param #5 - must be either nil or an integer", 2) end
+  if math.type(h)~="integer" then error("Gui_Open: param #6 - must be either nil or an integer", 2) end
   if dock~=nil and math.type(dock)~="integer" then error("Gui_Open: param #7 - must be either nil or an integer", 2) end
   if x~=nil and math.type(x)~="integer" then error("Gui_Open: param #8 - must be either nil or an integer", 2) end
   if y~=nil and math.type(y)~="integer" then error("Gui_Open: param #9 - must be either nil or an integer", 2) end
@@ -8296,6 +8298,89 @@ function reagirl.UI_Elements_Boundaries()
   if oldmaxx~=reagirl.BoundaryX_Max or oldmaxy~=reagirl.BoundaryY_Max then
     reagirl.Gui_ForceRefresh(12345)
   end
+end
+
+function reagirl.Gui_GetBoundaries()
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Gui_GetBoundaries</slug>
+  <requires>
+    ReaGirl=1.0
+    Reaper=7
+    Lua=5.4
+  </requires>
+  <functioncall>reagirl.Gui_GetBoundaries()</functioncall>
+  <description>
+    Returns the current boundaries of the ui-elements. Means, from 0 to the the farthest ui-element-width/height at right/bottom edge of the gui-window.
+    These boundaries are where the scrolling happens. If the boundaries are smaller/equal window size, all ui-elements are visible in the window and therefore no scrolling happens.
+    
+    The first four retvals return the boundaries of all visible ui-elements, the last four return the boundaries of all ui-elements, including invisible.
+    Sticky ui-elements will be ignored.
+  </description>
+  <retals>
+    integer minmum_visible_x - the minimum x of the currently visible ui-elements(usually 0)
+    integer maximum_visible_x - the maximum x of the currently visible ui-elements
+    integer minmum_visible_y - the minimum y of the currently visible ui-elements(usually 0)
+    integer maximum_visible_y - the maximum y of the currently visible ui-elements
+    integer minmum_all_x - the minimum x of all ui-elements(usually 0)
+    integer maximum_all_x - the maximum x of all ui-elements
+    integer minmum_all_y - the minimum y of all visible ui-elements(usually 0)
+    integer maximum_all_y - the maximum y of all visible ui-elements
+  </retvals>
+  <chapter_context>
+    Gui
+  </chapter_context>
+  <target_document>ReaGirl_Docs</target_document>
+  <source_document>reagirl_GuiEngine.lua</source_document>
+  <tags>gui, functions, get, boundaries</tags>
+</US_DocBloc>
+]]
+  local minx=0
+  local maxx=0
+  local miny=0
+  local maxy=0
+  local scale=reagirl.Window_GetCurrentScale()
+  for i=1, #reagirl.Elements do
+    if reagirl.Elements[i].hidden~=true then
+      if reagirl.Elements[i].sticky_x==false or reagirl.Elements[i].sticky_y==false then
+        local x2, y2, w2, h2
+        if reagirl.Elements[i]["x"]*scale<0 then x2=gfx.w+reagirl.Elements[i]["x"]*scale else x2=reagirl.Elements[i]["x"]*scale end
+        if reagirl.Elements[i]["y"]*scale<0 then y2=gfx.h+reagirl.Elements[i]["y"]*scale else y2=reagirl.Elements[i]["y"]*scale end
+        if reagirl.Elements[i]["w"]*scale<0 then w2=gfx.w-x2+reagirl.Elements[i]["w"]*scale else w2=reagirl.Elements[i]["w"]*scale end
+        if reagirl.Elements[i]["GUI_Element_Type"]=="ComboBox" then if w2<20 then w2=20 end end -- Correct for DropDownMenu?
+        if reagirl.Elements[i]["h"]*scale<0 then h2=gfx.h-y2+reagirl.Elements[i]["h"]*scale else h2=reagirl.Elements[i]["h"]*scale end
+        if x2<minx then minx=x2 end
+        if w2+x2>maxx then maxx=w2+x2 end
+        
+        if y2<miny then miny=y2 end
+        if h2+y2>maxy then maxy=h2+y2 end
+        --MINY=miny
+        --MAXY=maxy
+      end
+    end
+  end
+  local minx2=0
+  local maxx2=0
+  local miny2=0
+  local maxy2=0
+  for i=1, #reagirl.Elements do
+    if reagirl.Elements[i].sticky_x==false or reagirl.Elements[i].sticky_y==false then
+      local x2, y2, w2, h2
+      if reagirl.Elements[i]["x"]*scale<0 then x2=gfx.w+reagirl.Elements[i]["x"]*scale else x2=reagirl.Elements[i]["x"]*scale end
+      if reagirl.Elements[i]["y"]*scale<0 then y2=gfx.h+reagirl.Elements[i]["y"]*scale else y2=reagirl.Elements[i]["y"]*scale end
+      if reagirl.Elements[i]["w"]*scale<0 then w2=gfx.w-x2+reagirl.Elements[i]["w"]*scale else w2=reagirl.Elements[i]["w"]*scale end
+      if reagirl.Elements[i]["GUI_Element_Type"]=="ComboBox" then if w2<20 then w2=20 end end -- Correct for DropDownMenu?
+      if reagirl.Elements[i]["h"]*scale<0 then h2=gfx.h-y2+reagirl.Elements[i]["h"]*scale else h2=reagirl.Elements[i]["h"]*scale end
+      if x2<minx2 then minx2=x2 end
+      if w2+x2>maxx2 then maxx2=w2+x2 end
+      
+      if y2<miny2 then miny2=y2 end
+      if h2+y2>maxy2 then maxy2=h2+y2 end
+      --MINY=miny
+      --MAXY=maxy
+    end
+  end
+  return math.floor(minx), math.floor(maxx), math.floor(miny), math.floor(maxy), math.floor(minx2), math.floor(maxx2), math.floor(miny2), math.floor(maxy2)
 end
 
 function reagirl.ScrollButton_Right_Add()
