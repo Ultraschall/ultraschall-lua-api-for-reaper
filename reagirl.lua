@@ -138,13 +138,16 @@ reagirl.JS_Actions_DoShortcutDialog=reaper.JS_Actions_DoShortcutDialog
 function reaper.GetUserInputs(...)
   local retvals={pcall(reagirl.GetUserInputs, table.unpack({...}))}
   if retvals[1]==false then error("GetUserInputs: "..retvals[2], 2) end
+  table.remove(retvals, 1)
   reagirl.Window_SetFocus()
   return table.unpack(retvals)
 end
 
+
 function reaper.GetUserFileNameForRead(...)
   local retvals={pcall(reagirl.GetUserFileNameForRead, table.unpack({...}))}
   if retvals[1]==false then error("GetUserFileNameForRead: "..retvals[2], 2) end
+  table.remove(retvals, 1)
   reagirl.Window_SetFocus()
   return table.unpack(retvals)
 end
@@ -152,6 +155,7 @@ end
 function reaper.GR_SelectColor(...)
   local retvals={pcall(reagirl.GR_SelectColor, table.unpack({...}))}
   if retvals[1]==false then error("GR_SelectColor: "..retvals[2], 2) end
+  table.remove(retvals, 1)
   reagirl.Window_SetFocus()
   return table.unpack(retvals)
 end
@@ -159,6 +163,7 @@ end
 function reaper.MB(...)
   local retvals={pcall(reagirl.MB, table.unpack({...}))}
   if retvals[1]==false then error("MB: "..retvals[2], 2) end
+  table.remove(retvals, 1)
   reagirl.Window_SetFocus()
   return table.unpack(retvals)
 end
@@ -166,6 +171,7 @@ end
 function reaper.ShowMessageBox(...)
   local retvals={pcall(reagirl.ShowMessageBox, table.unpack({...}))}
   if retvals[1]==false then error("ShowMessageBox: "..retvals[2], 2) end
+  table.remove(retvals, 1)
   reagirl.Window_SetFocus()
   return table.unpack(retvals)
 end
@@ -173,6 +179,7 @@ end
 function reaper.DoActionShortcutDialog(...)
   local retvals={pcall(reagirl.DoActionShortcutDialog, table.unpack({...}))}
   if retvals[1]==false then error("DoActionShortcutDialog: "..retvals[2], 2) end
+  table.remove(retvals, 1)
   reagirl.Window_SetFocus()
   return table.unpack(retvals)
 end
@@ -180,6 +187,7 @@ end
 function reaper.JS_Dialog_BrowseForFolder(...)
   local retvals={pcall(reagirl.JS_Dialog_BrowseForFolder, table.unpack({...}))}
   if retvals[1]==false then error("JS_Dialog_BrowseForFolder: "..retvals[2], 2) end
+  table.remove(retvals, 1)
   reagirl.Window_SetFocus()
   return table.unpack(retvals)
 end
@@ -187,6 +195,7 @@ end
 function reaper.JS_Dialog_BrowseForOpenFiles(...)
   local retvals={pcall(reagirl.JS_Dialog_BrowseForOpenFiles, table.unpack({...}))}
   if retvals[1]==false then error("JS_Dialog_BrowseForOpenFiles: "..retvals[2], 2) end
+  table.remove(retvals, 1)
   reagirl.Window_SetFocus()
   return table.unpack(retvals)
 end
@@ -194,6 +203,7 @@ end
 function reaper.JS_Dialog_BrowseForSaveFile(...)
   local retvals={pcall(reagirl.JS_Dialog_BrowseForSaveFile, table.unpack({...}))}
   if retvals[1]==false then error("JS_Dialog_BrowseForSaveFile: "..retvals[2], 2) end
+  table.remove(retvals, 1)
   reagirl.Window_SetFocus()
   return table.unpack(retvals)
 end
@@ -201,6 +211,7 @@ end
 function reaper.JS_Actions_DoShortcutDialog(...)
   local retvals={pcall(reagirl.JS_Actions_DoShortcutDialog, table.unpack({...}))}
   if retvals[1]==false then error("JS_Actions_DoShortcutDialog: "..retvals[2], 2) end
+  table.remove(retvals, 1)
   reagirl.Window_SetFocus()
   return table.unpack(retvals)
 end
@@ -10334,3 +10345,5 @@ function reagirl.Base64_Decoder(source_string)
 end
 reagirl.Gui_New()
 --- End of ReaGirl-functions
+
+--print2(reaper.GetUserInputs("", 1, "", ""))

@@ -22,11 +22,10 @@
       reagirl.Image_ClearToColor(element_id, 0, 0, 0)
     elseif menu_entry_selection==2 then
       -- if user chose the second menu-entry, allow to load an image using a file requester
-      local retval, filename = 
+      retval, filename = 
               reaper.GetUserFileNameForRead(reaper.GetResourcePath().."/Data/track_icons/", 
                                             "Choose an image to load", 
                                             "*.png;*.jpg")
-      reagirl.Window_SetFocus()
       if retval==true then
         reagirl.Image_Load(element_id, filename)  
       end

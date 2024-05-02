@@ -71,7 +71,7 @@ function button(element_id)
   elseif butt2==element_id then
     reaper.MB("Second button pressed", "Button pressed", 0)
   end
-  reagirl.Window_SetFocus()
+  --reagirl.Window_SetFocus()
 end
 
 function Image(element_id, filename, dragged_element_id)
@@ -80,7 +80,7 @@ function Image(element_id, filename, dragged_element_id)
   elseif dragged_element_id==image_middle then
     reaper.MB("Successfully dragged to image 1", "", 0)
   end
-  reagirl.Window_SetFocus()
+  --reagirl.Window_SetFocus()
 end
 
 reagirl.Gui_New()
