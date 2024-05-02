@@ -79,6 +79,8 @@ dofile(reaper.GetResourcePath().."/UserPlugins/reagirl.lua")
 function Image_Runfunction(element_id, imagepath_plus_filename, drag_destination)
   -- this function will be run when the image is clicked or dragged to a destination
   reaper.MB("Dragged to: "..reagirl.UI_Element_GetSetCaption(drag_destination, false, ""), "", 0)
+  -- force focus back to ReaGirl-window after reaper.MB() is closed
+    reagirl.Window_SetFocus()
 end
 
 -- start a new gui

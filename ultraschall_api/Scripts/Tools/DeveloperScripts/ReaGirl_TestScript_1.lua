@@ -80,6 +80,7 @@ function Image(element_id, filename, dragged_element_id)
   elseif dragged_element_id==image_middle then
     reaper.MB("Successfully dragged to image 1", "", 0)
   end
+  reagirl.Window_SetFocus()
 end
 
 reagirl.Gui_New()

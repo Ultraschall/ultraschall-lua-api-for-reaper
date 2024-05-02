@@ -152,6 +152,8 @@ Let's see, how the gui looks now.
   function DropDownMenu_RunFunction(used_dropdownmenu_id, selected_menuitem, selected_name)
     -- this function is run, when the user selects a menu-entry
     reaper.MB("Dropdownmenu entry #"..selected_menuitem.." - "..selected_name, "", 0)
+    -- force focus back to ReaGirl-window after reaper.MB() is closed
+    reagirl.Window_SetFocus()
   end
 
   -- create new gui
@@ -215,6 +217,8 @@ It's basically done the same way, as we did for the slider. However, we use now 
   function DropDownMenu_RunFunction(used_dropdownmenu_id, selected_menuitem, selected_name)
     -- this function is run, when the user selects a menu-entry
     reaper.MB("Dropdownmenu entry #"..selected_menuitem.." - "..selected_name, "", 0)
+    -- force focus back to ReaGirl-window after reaper.MB() is closed
+    reagirl.Window_SetFocus()
   end
 
   -- create new gui
@@ -281,6 +285,8 @@ Here's how the code looks like now.
   function DropDownMenu_RunFunction(used_dropdownmenu_id, selected_menuitem, selected_name)
     -- this function is run, when the user selects a menu-entry
     reaper.MB("Dropdownmenu entry #"..selected_menuitem.." - "..selected_name, "", 0)
+    -- force focus back to ReaGirl-window after reaper.MB() is closed
+    reagirl.Window_SetFocus()
   end
 
   -- create new gui

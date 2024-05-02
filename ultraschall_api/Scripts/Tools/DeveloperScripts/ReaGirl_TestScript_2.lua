@@ -26,6 +26,7 @@
               reaper.GetUserFileNameForRead(reaper.GetResourcePath().."/Data/track_icons/", 
                                             "Choose an image to load", 
                                             "*.png;*.jpg")
+      reagirl.Window_SetFocus()
       if retval==true then
         reagirl.Image_Load(element_id, filename)  
       end
