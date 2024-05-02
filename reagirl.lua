@@ -2237,7 +2237,19 @@ function reagirl.Gui_Manage()
          if reagirl.TooltipWaitCounter==14 then
           local XX,YY=reaper.GetMousePosition()
           if reagirl.Window_State&8==8 and reaper.GetExtState("ReaGirl", "show_tooltips")~="false" then
-            reaper.TrackCtl_SetToolTip(reagirl.Elements[i]["Description"], XX+15, YY+10, true)
+            local contextmenu=""
+            local dropfiles=""
+            local draggable=""
+            if reagirl.Elements[i]["ContextMenu_ACC"]~="" then
+              contextmenu="Has context-menu. "
+            end
+            if reagirl.Elements[i]["DropZoneFunction_ACC"]~="" then
+              dropfiles="Allows dropping of files. "
+            end
+            if reagirl.Elements[i]["Draggable"]==true then 
+              draggable="Draggable. " 
+            end
+            reaper.TrackCtl_SetToolTip(reagirl.Elements[i]["Description"].." "..draggable..contextmenu..dropfiles, XX+15, YY+10, true)
           end
 
           if reagirl.SetPosition_MousePositionY~=gfx.mouse_y 
@@ -2315,8 +2327,21 @@ function reagirl.Gui_Manage()
            -- tooltip management
            if reagirl.TooltipWaitCounter==14 then
             local XX,YY=reaper.GetMousePosition()
+            
             if reagirl.Window_State&8==8 and reaper.GetExtState("ReaGirl", "show_tooltips")~="false" then
-              reaper.TrackCtl_SetToolTip(reagirl.Elements[i]["Description"], XX+15, YY+10, true)
+              local contextmenu=""
+              local dropfiles=""
+              local draggable=""
+              if reagirl.Elements[i]["ContextMenu_ACC"]~="" then
+                contextmenu="Has context-menu. "
+              end
+              if reagirl.Elements[i]["DropZoneFunction_ACC"]~="" then
+                dropfiles="Allows dropping of files. "
+              end
+              if reagirl.Elements[i]["Draggable"]==true then 
+                draggable="Draggable. " 
+              end
+              reaper.TrackCtl_SetToolTip(reagirl.Elements[i]["Description"].." "..draggable..contextmenu..dropfiles, XX+15, YY+10, true)
             end
             
             if reagirl.SetPosition_MousePositionY~=gfx.mouse_y 
