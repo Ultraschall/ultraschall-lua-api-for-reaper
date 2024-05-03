@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="55909.00" author="Meo Mespotine">
+      <version name="55910.00" author="Meo Mespotine">
 	<source file="reagirl.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5//reagirl.lua</source>
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5//ultraschall_api_readme.txt</source>
@@ -457,8 +457,8 @@
 	<source main="true" file="/ReaGirl_Gui_Settings_Hovered_UI_Element_Enable_Report.lua" type="script">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5//ultraschall_api/Scripts//Tools/DeveloperScripts//ReaGirl_Gui_Settings_Hovered_UI_Element_Enable_Report.lua</source>
 	<source main="true" file="/ReaGirl_Gui_Settings_Move_Mouse_When_Tabbing_Disable.lua" type="script">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5//ultraschall_api/Scripts//Tools/DeveloperScripts//ReaGirl_Gui_Settings_Move_Mouse_When_Tabbing_Disable.lua</source>
 	<source main="true" file="/ReaGirl_Gui_Settings_Move_Mouse_When_Tabbing_Enable.lua" type="script">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5//ultraschall_api/Scripts//Tools/DeveloperScripts//ReaGirl_Gui_Settings_Move_Mouse_When_Tabbing_Enable.lua</source>
-	<source main="true" file="/ReaGirl_Gui_Settings_Screen_Reader_Helpmessage_Disable .lua" type="script">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5//ultraschall_api/Scripts//Tools/DeveloperScripts//ReaGirl_Gui_Settings_Screen_Reader_Helpmessage_Disable .lua</source>
-	<source main="true" file="/ReaGirl_Gui_Settings_Screen_Reader_Helpmessage_Enable .lua" type="script">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5//ultraschall_api/Scripts//Tools/DeveloperScripts//ReaGirl_Gui_Settings_Screen_Reader_Helpmessage_Enable .lua</source>
+	<source main="true" file="/ReaGirl_Gui_Settings_Screen_Reader_Helpmessage_Disable.lua" type="script">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5//ultraschall_api/Scripts//Tools/DeveloperScripts//ReaGirl_Gui_Settings_Screen_Reader_Helpmessage_Disable.lua</source>
+	<source main="true" file="/ReaGirl_Gui_Settings_Screen_Reader_Helpmessage_Enable.lua" type="script">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5//ultraschall_api/Scripts//Tools/DeveloperScripts//ReaGirl_Gui_Settings_Screen_Reader_Helpmessage_Enable.lua</source>
 	<source main="true" file="/ReaGirl_Gui_Settings_Screen_Reader_Messages_Disable.lua" type="script">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5//ultraschall_api/Scripts//Tools/DeveloperScripts//ReaGirl_Gui_Settings_Screen_Reader_Messages_Disable.lua</source>
 	<source main="true" file="/ReaGirl_Gui_Settings_Screen_Reader_Messages_Enable.lua" type="script">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5//ultraschall_api/Scripts//Tools/DeveloperScripts//ReaGirl_Gui_Settings_Screen_Reader_Messages_Enable.lua</source>
 	<source main="true" file="/ReaGirl_Gui_Settings_Screen_Reader_Messages_Hide_From_Console.lua" type="script">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5//ultraschall_api/Scripts//Tools/DeveloperScripts//ReaGirl_Gui_Settings_Screen_Reader_Messages_Hide_From_Console.lua</source>
@@ -584,7 +584,7 @@ Ultraschall API}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b\ab\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
-a 1689 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 55909 from 02.05.2024 20:43:23).}
+a 1689 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 55910 from 03.05.2024 19:57:00).}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
