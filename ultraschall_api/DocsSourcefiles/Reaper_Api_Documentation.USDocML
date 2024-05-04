@@ -43634,10 +43634,40 @@
         </requires>
         <description indent="default">
             Specify 0 resource_id and custom_cursor_name from https://www.reaper.fm/sdk/cursors/cursors.php (e.g. 'arrow') to set the cursor. Alternatively can specify resource_id for a Windows cursor or built-in REAPER cursor.
+            
+                101, enter text
+                102, hourglass
+                103, cross
+                104, arrow up
+                105, arrows to left up AND right down
+                106, arrows to left down AND right up
+                107, arrows to left AND right
+                108, arrows to up AND down
+                109, arrows to up, down, left and right
+                110, stop sign
+                111, arrow with hourglass
+                112, arrow with question mark
+                113, a pen
+                114, hand with index finger pointing
+                115, a square
+                116, arrow with cd
+                32642, diagonal arrow left up and right down
+                32642, diagonal arrow left down and right up
+                32652, scrolling vertical
+                32653, scrolling vertical
+                32654, scrolling all directions
+                32655, scrolling only upwards
+                32656, scrolling downwards
+                32657, scrolling leftwards
+                32658, scrolling rightwards
+                32659, scrolling left/up-wards diagonal
+                32660, scrolling right/up-wards diagonal
+                32661, scrolling left/down-wards diagonal
+                32662, scrolling right/down-wards diagonal
         </description>
         <parameters>
-            resource_id - 
-            custom_cursor_name - 
+            optional integer resource_id - an id for the cursor
+            optional string custom_cursor_name - the name of the cursor
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>Reaper_Api_Documentation.USDocML</source_document>
@@ -46724,7 +46754,6 @@ Mespotine
                 32660, scrolling right/up-wards diagonal
                 32661, scrolling left/down-wards diagonal
                 32662, scrolling right/down-wards diagonal
-                
                 
             works only with gfx-window opened.
         </description>
