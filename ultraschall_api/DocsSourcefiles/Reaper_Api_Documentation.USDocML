@@ -46711,6 +46711,20 @@ Mespotine
                 114, hand with index finger pointing
                 115, a square
                 116, arrow with cd
+                32642, diagonal arrow left up and right down
+                32642, diagonal arrow left down and right up
+                32652, scrolling vertical
+                32653, scrolling vertical
+                32654, scrolling all directions
+                32655, scrolling only upwards
+                32656, scrolling downwards
+                32657, scrolling leftwards
+                32658, scrolling rightwards
+                32659, scrolling left/up-wards diagonal
+                32660, scrolling right/up-wards diagonal
+                32661, scrolling left/down-wards diagonal
+                32662, scrolling right/down-wards diagonal
+                
                 
             works only with gfx-window opened.
         </description>

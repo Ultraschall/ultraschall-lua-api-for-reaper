@@ -5417,10 +5417,16 @@ function reagirl.Inputbox_Manage(element_id, selected, hovered, clicked, mouse_c
     if retval==true then element_storage["DropZoneFunction"](element_storage["Guid"], {filenames}) refresh=true end
   end
   
-  if hovered==true and selected=="not selected" and gfx.mouse_cap==0 then
-    gfx.setcursor(101)
-  elseif hovered==true and selected~="not selected" then
-    gfx.setcursor(101)
+  if hovered==true then
+    if gfx.mouse_x>=x+element_storage.Cap_width then
+      if selected=="not selected" and gfx.mouse_cap==0 then
+        gfx.setcursor(101)
+      elseif selected~="not selected" then
+        gfx.setcursor(101)
+      end
+    else
+      gfx.setcursor(1)
+    end
   end
   
   local blink_refresh=false
