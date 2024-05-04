@@ -5419,6 +5419,8 @@ function reagirl.Inputbox_Manage(element_id, selected, hovered, clicked, mouse_c
   
   if hovered==true and selected=="not selected" and gfx.mouse_cap==0 then
     gfx.setcursor(101)
+  elseif hovered==true and selected~="not selected" then
+    gfx.setcursor(101)
   end
   
   local blink_refresh=false
