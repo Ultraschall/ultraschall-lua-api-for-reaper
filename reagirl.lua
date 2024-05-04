@@ -2046,6 +2046,7 @@ function reagirl.Gui_Manage()
   -- reset clicked state
   --for i=1, #reagirl.Elements do reagirl.Elements[i]["clicked"]=false end
   
+  
   -- [[ Keyboard Management ]]
   local Key, Key_utf=gfx.getchar()
   
@@ -2671,6 +2672,9 @@ function reagirl.Gui_Manage()
     reagirl.Window_SetFocus()
     reagirl.Window_SetFocus_Trigger=nil
   end
+  if reagirl.UI_Elements_HoveredElement==-1 and gfx.mouse_cap==0 then
+    gfx.setcursor(1)
+  end
 end
 
 function reagirl.Gui_Draw(Key, Key_utf, clickstate, specific_clickstate, mouse_cap, click_x, click_y, drag_x, drag_y, mouse_wheel, mouse_hwheel)
@@ -2908,7 +2912,7 @@ function reagirl.Gui_Draw(Key, Key_utf, clickstate, specific_clickstate, mouse_c
       gfx.a=0.7
       local oldmode=gfx.mode
       gfx.mode=mode
-      gfx.blit(image_slot,1,0,0,0,imgw,imgh,gfx.mouse_x,gfx.mouse_y,imgw*resize,imgh*resize)
+      gfx.blit(image_slot,1,0,0,0,imgw,imgh,gfx.mouse_x-20,gfx.mouse_y-20,imgw*resize,imgh*resize)
       gfx.a=oldgfxa
       gfx.mode=oldmode
       reagirl.Elements[reagirl.Draggable_Element]["mouse_x"]=-1
@@ -5406,20 +5410,15 @@ end
 
 function reagirl.Inputbox_Manage(element_id, selected, hovered, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
   local refresh=false
-  if hovered==true then
-    -- test code for changing the mouse-cursor to textedit-cursor
-    -- must be done with a different code-logic, as this flickers
-    -- the interception must be done somewhere else
-     -- reaper.JS_WindowMessage_Intercept(track_window, "WM_SETCURSOR", false)
-     -- local B1=reaper.JS_Mouse_LoadCursor(220)
-     -- reaper.JS_Mouse_SetCursor(B1) 
-     -- reaper.JS_WindowMessage_Release(track_window, "WM_SETCURSOR")
-  end
   -- drop files for accessibility using a file-requester, after typing ctrl+shift+f
   if reagirl.osara_outputMessage~=nil and element_storage["DropZoneFunction"]~=nil and Key==6 and mouse_cap==12 then
     local retval, filenames = reaper.GetUserFileNameForRead("", "Choose file to drop into "..element_storage["Name"], "")
     reagirl.Window_SetFocus()
     if retval==true then element_storage["DropZoneFunction"](element_storage["Guid"], {filenames}) refresh=true end
+  end
+  
+  if hovered==true and selected=="not selected" and gfx.mouse_cap==0 then
+    gfx.setcursor(101)
   end
   
   local blink_refresh=false
@@ -6910,6 +6909,14 @@ function reagirl.Label_Manage(element_id, selected, hovered, clicked, mouse_cap,
     if retval==true then element_storage["DropZoneFunction"](element_storage["Guid"], {filenames}) refresh=true end
   end
   
+  if hovered==true then
+    if element_storage["clickable"]==true then
+      gfx.setcursor(114)
+    elseif element_storage["DraggableDestinations"]~=nil then
+      gfx.setcursor(114)
+    end
+  end
+  
   if Key==3 and selected~="not selected" then reaper.CF_SetClipboard(name) end
   if gfx.mouse_cap&2==2 and selected~="not selected" and gfx.mouse_x>=x and gfx.mouse_x<=x+w and gfx.mouse_y>=y and gfx.mouse_y<=y+h then
     local oldx, oldy=gfx.x, gfx.y
@@ -6932,6 +6939,7 @@ function reagirl.Label_Manage(element_id, selected, hovered, clicked, mouse_cap,
         reagirl.Draggable_Element=element_id
         element_storage["mouse_x"]=gfx.mouse_x
         element_storage["mouse_y"]=gfx.mouse_y
+        gfx.setcursor(114)
       end
   end
   if element_storage["Draggable"]==true and element_storage.DraggableDestinations~=nil then
@@ -7574,6 +7582,14 @@ function reagirl.Image_Manage(element_id, selected, hovered, clicked, mouse_cap,
     reagirl.Window_SetFocus()
     if retval==true then element_storage["DropZoneFunction"](element_storage["Guid"], {filenames}) refresh=true end
   end
+
+  if hovered==true then
+    if element_storage["clickable"]==true then
+      gfx.setcursor(114)
+    elseif element_storage["DraggableDestinations"]~=nil then
+      gfx.setcursor(114)
+    end
+  end
   
   local message
   if selected~="not selected" then
@@ -7592,6 +7608,7 @@ function reagirl.Image_Manage(element_id, selected, hovered, clicked, mouse_cap,
         reagirl.Draggable_Element=element_id
         element_storage["mouse_x"]=gfx.mouse_x
         element_storage["mouse_y"]=gfx.mouse_y
+        gfx.setcursor(114)
       end
   end
   if element_storage["Draggable"]==true and element_storage.DraggableDestinations~=nil then

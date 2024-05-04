@@ -1205,8 +1205,8 @@
         </chapter_context>
         <tags>shortcuts, count</tags>
         <changelog>
-          Reaper 6.71 - exposed to ReaScript-API
           Reaper 6.72 - section allows now the section-numbers as parameter section
+          Reaper 6.71 - exposed to ReaScript-API
         </changelog>
     </US_DocBloc>
 
@@ -3536,8 +3536,8 @@
         </chapter_context>
         <tags>shortcuts, delete</tags>
         <changelog>
-            Reaper 6.71 - exposed to ReaScript-API
             Reaper 6.72 - section allows now the section-numbers as parameter section
+            Reaper 6.71 - exposed to ReaScript-API
         </changelog>
     </US_DocBloc>
 
@@ -4027,8 +4027,8 @@
         </chapter_context>
         <tags>shortcuts, add, edit</tags>
         <changelog>
-            Reaper 6.71 - exposed to ReaScript-API
             Reaper 6.72 - section allows now the section-numbers as parameter section
+            Reaper 6.71 - exposed to ReaScript-API
         </changelog>
     </US_DocBloc>
     
@@ -5443,8 +5443,8 @@
         </chapter_context>
         <tags>shortcuts, get, description</tags>
         <changelog>
-            Reaper 6.71 - exposed to ReaScript-API
             Reaper 6.72 - section allows now the section-numbers as parameter section; removed Lua-parameters desc, desclen
+            Reaper 6.71 - exposed to ReaScript-API
         </changelog>
     </US_DocBloc>
 
@@ -10724,7 +10724,6 @@
         <tags>miscellaneous, get, thing, from point</tags>
         <changelog>
             Reaper 6.54 - hidden envelopes can now be found correctly
-                        
         </changelog>
     </US_DocBloc>
 
@@ -17397,8 +17396,8 @@
         </chapter_context>
         <tags>shortcuts, count</tags>
         <changelog>
-            Reaper 6.71 - exposed to ReaScript-API
             Reaper 6.72 - section allows now the section-numbers as parameter section
+            Reaper 6.71 - exposed to ReaScript-API
         </changelog>
     </US_DocBloc>
 
@@ -20599,10 +20598,12 @@
         <functioncall prog_lang="lua">integer retval = reaper.TakeFX_AddByName(MediaItem_Take take, string fxname, integer instantiate)</functioncall>
         <functioncall prog_lang="python">Int retval = RPR_TakeFX_AddByName(MediaItem_Take take, String fxname, Int instantiate)</functioncall>
         <requires>
-            Reaper=6.12
+            Reaper=7.00
         </requires>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
             Adds or queries the position of a named FX in a take. See [TrackFX\_AddByName()](#TrackFX_AddByName) for information on fxname and instantiate. 
+            
+            FX indices can have 0x2000000 added to them, in which case they will be used to address FX in containers. To address a container, the 1-based subitem is multiplied by one plus the count of the FX chain and added to the 1-based container item index. e.g. to address the third item in the container at the second position of the track FX chain for tr, the index would be 0x2000000 + 3*(TrackFX_GetCount(tr)+1) + 2. This can be extended to sub-containers using TrackFX_GetNamedConfigParm with container_count and similar logic.
         </description>
         <retvals>
             integer retval - 
@@ -20620,6 +20621,7 @@
         </chapter_context>
         <tags></tags>
         <changelog>
+          Reaper 7.00 - added support for fx-containers
           Reaper 6.70 - improve behavior with Track/TakeFX_AddByName() for JSFX [t=271878]
         </changelog>
     </US_DocBloc>
@@ -20632,10 +20634,10 @@
         <functioncall prog_lang="lua">boolean retval = reaper.TakeFX_EndParamEdit(MediaItem_Take take, integer fx, integer param)</functioncall>
         <functioncall prog_lang="python">Boolean retval = RPR_TakeFX_EndParamEdit(MediaItem_Take take, Int fx, Int param)</functioncall>
         <requires>
-            Reaper=5.62
+            Reaper=7.00
         </requires>
         <description prog_lang="*">
-
+          FX indices can have 0x2000000 added to them, in which case they will be used to address FX in containers. To address a container, the 1-based subitem is multiplied by one plus the count of the FX chain and added to the 1-based container item index. e.g. to address the third item in the container at the second position of the track FX chain for tr, the index would be 0x2000000 + 3*(TrackFX_GetCount(tr)+1) + 2. This can be extended to sub-containers using TrackFX_GetNamedConfigParm with container_count and similar logic.
         </description>
         <retvals>
             boolean retval - 
@@ -20653,6 +20655,7 @@
         </chapter_context>
         <tags></tags>
         <changelog>
+          Reaper 7.00 - added support for fx-containers
         </changelog>
     </US_DocBloc>
 
@@ -20664,10 +20667,12 @@
         <functioncall prog_lang="lua">boolean retval, string buf = reaper.TakeFX_FormatParamValue(MediaItem_Take take, integer fx, integer param, number val)</functioncall>
         <functioncall prog_lang="python">(Boolean retval, MediaItem_Take take, Int fx, Int param, Float val, String bufOut, Int bufOut_sz) = RPR_TakeFX_FormatParamValue(take, fx, param, val, bufOut, bufOut_sz)</functioncall>
         <requires>
-            Reaper=6.37
+            Reaper=7.00
         </requires>
         <description prog_lang="*">
             Note: only works with FX that support Cockos VST extensions.
+            
+            FX indices can have 0x2000000 added to them, in which case they will be used to address FX in containers. To address a container, the 1-based subitem is multiplied by one plus the count of the FX chain and added to the 1-based container item index. e.g. to address the third item in the container at the second position of the track FX chain for tr, the index would be 0x2000000 + 3*(TrackFX_GetCount(tr)+1) + 2. This can be extended to sub-containers using TrackFX_GetNamedConfigParm with container_count and similar logic.
         </description>
         <retvals>
             boolean retval - 
@@ -20687,6 +20692,7 @@
         </chapter_context>
         <tags></tags>
         <changelog>
+          Reaper 7.00 - added support for fx-containers
         </changelog>
     </US_DocBloc>
 
@@ -20698,10 +20704,12 @@
         <functioncall prog_lang="lua">boolean retval, string buf = reaper.TakeFX_FormatParamValueNormalized(MediaItem_Take take, integer fx, integer param, number value, string buf)</functioncall>
         <functioncall prog_lang="python">(Boolean retval, MediaItem_Take take, Int fx, Int param, Float value, String buf, Int buf_sz) = RPR_TakeFX_FormatParamValueNormalized(take, fx, param, value, buf, buf_sz)</functioncall>
         <requires>
-            Reaper=5.62
+            Reaper=7.00
         </requires>
         <description prog_lang="*">
             Note: only works with FX that support Cockos VST extensions.
+            
+            FX indices can have 0x2000000 added to them, in which case they will be used to address FX in containers. To address a container, the 1-based subitem is multiplied by one plus the count of the FX chain and added to the 1-based container item index. e.g. to address the third item in the container at the second position of the track FX chain for tr, the index would be 0x2000000 + 3*(TrackFX_GetCount(tr)+1) + 2. This can be extended to sub-containers using TrackFX_GetNamedConfigParm with container_count and similar logic.
         </description>
         <retvals>
             boolean retval - 
@@ -20722,6 +20730,7 @@
         </chapter_context>
         <tags></tags>
         <changelog>
+          Reaper 7.00 - added support for fx-containers
         </changelog>
     </US_DocBloc>
 
@@ -20733,10 +20742,12 @@
         <functioncall prog_lang="lua">integer retval = reaper.TakeFX_GetChainVisible(MediaItem_Take take)</functioncall>
         <functioncall prog_lang="python">Int retval = RPR_TakeFX_GetChainVisible(MediaItem_Take take)</functioncall>
         <requires>
-            Reaper=5.62
+            Reaper=7.00
         </requires>
         <description prog_lang="*">
             returns index of effect visible in chain, or -1 for chain hidden, or -2 for chain visible but no effect selected
+            
+            FX indices can have 0x2000000 added to them, in which case they will be used to address FX in containers. To address a container, the 1-based subitem is multiplied by one plus the count of the FX chain and added to the 1-based container item index. e.g. to address the third item in the container at the second position of the track FX chain for tr, the index would be 0x2000000 + 3*(TrackFX_GetCount(tr)+1) + 2. This can be extended to sub-containers using TrackFX_GetNamedConfigParm with container_count and similar logic.
         </description>
         <retvals>
             integer retval - 
@@ -20752,6 +20763,7 @@
         </chapter_context>
         <tags></tags>
         <changelog>
+          Reaper 7.00 - added support for fx-containers
         </changelog>
     </US_DocBloc>
 
@@ -20763,10 +20775,10 @@
         <functioncall prog_lang="lua">integer retval = reaper.TakeFX_GetCount(MediaItem_Take take)</functioncall>
         <functioncall prog_lang="python">Int retval = RPR_TakeFX_GetCount(MediaItem_Take take)</functioncall>
         <requires>
-            Reaper=5.62
+            Reaper=7.00
         </requires>
         <description prog_lang="*">
-
+          FX indices can have 0x2000000 added to them, in which case they will be used to address FX in containers. To address a container, the 1-based subitem is multiplied by one plus the count of the FX chain and added to the 1-based container item index. e.g. to address the third item in the container at the second position of the track FX chain for tr, the index would be 0x2000000 + 3*(TrackFX_GetCount(tr)+1) + 2. This can be extended to sub-containers using TrackFX_GetNamedConfigParm with container_count and similar logic.
         </description>
         <retvals>
             integer retval - 
@@ -20782,6 +20794,7 @@
         </chapter_context>
         <tags></tags>
         <changelog>
+          Reaper 7.00 - added support for fx-containers
         </changelog>
     </US_DocBloc>
 
@@ -20793,10 +20806,12 @@
         <functioncall prog_lang="lua">boolean retval = reaper.TakeFX_GetEnabled(MediaItem_Take take, integer fx)</functioncall>
         <functioncall prog_lang="python">Boolean retval = RPR_TakeFX_GetEnabled(MediaItem_Take take, Int fx)</functioncall>
         <requires>
-            Reaper=5.62
+            Reaper=7.00
         </requires>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
             See [TakeFX\_SetEnabled](#TakeFX_SetEnabled)
+            
+            FX indices can have 0x2000000 added to them, in which case they will be used to address FX in containers. To address a container, the 1-based subitem is multiplied by one plus the count of the FX chain and added to the 1-based container item index. e.g. to address the third item in the container at the second position of the track FX chain for tr, the index would be 0x2000000 + 3*(TrackFX_GetCount(tr)+1) + 2. This can be extended to sub-containers using TrackFX_GetNamedConfigParm with container_count and similar logic.
         </description>
         <retvals>
             boolean retval - 
@@ -20813,6 +20828,7 @@
         </chapter_context>
         <tags></tags>
         <changelog>
+          Reaper 7.00 - added support for fx-containers
         </changelog>
     </US_DocBloc>
 
@@ -20824,10 +20840,12 @@
         <functioncall prog_lang="lua">TrackEnvelope env = reaper.TakeFX_GetEnvelope(MediaItem_Take take, integer fxindex, integer parameterindex, boolean create)</functioncall>
         <functioncall prog_lang="python">TrackEnvelope env = RPR_TakeFX_GetEnvelope(MediaItem_Take take, Int fxindex, Int parameterindex, Boolean create)</functioncall>
         <requires>
-            Reaper=5.62
+            Reaper=7.00
         </requires>
         <description prog_lang="*">
             Returns the FX parameter envelope. If the envelope does not exist and create=true, the envelope will be created.
+            
+            FX indices can have 0x2000000 added to them, in which case they will be used to address FX in containers. To address a container, the 1-based subitem is multiplied by one plus the count of the FX chain and added to the 1-based container item index. e.g. to address the third item in the container at the second position of the track FX chain for tr, the index would be 0x2000000 + 3*(TrackFX_GetCount(tr)+1) + 2. This can be extended to sub-containers using TrackFX_GetNamedConfigParm with container_count and similar logic.
         </description>
         <retvals>
             TrackEnvelope env - 
@@ -20846,6 +20864,7 @@
         </chapter_context>
         <tags></tags>
         <changelog>
+          Reaper 7.00 - added support for fx-containers
         </changelog>
     </US_DocBloc>
 
@@ -20857,10 +20876,12 @@
         <functioncall prog_lang="lua">HWND hwnd = reaper.TakeFX_GetFloatingWindow(MediaItem_Take take, integer index)</functioncall>
         <functioncall prog_lang="python">HWND hwnd = RPR_TakeFX_GetFloatingWindow(MediaItem_Take take, Int index)</functioncall>
         <requires>
-            Reaper=5.62
+            Reaper=7.00
         </requires>
         <description prog_lang="*">
             returns HWND of floating window for effect index, if any
+            
+            FX indices can have 0x2000000 added to them, in which case they will be used to address FX in containers. To address a container, the 1-based subitem is multiplied by one plus the count of the FX chain and added to the 1-based container item index. e.g. to address the third item in the container at the second position of the track FX chain for tr, the index would be 0x2000000 + 3*(TrackFX_GetCount(tr)+1) + 2. This can be extended to sub-containers using TrackFX_GetNamedConfigParm with container_count and similar logic.
         </description>
         <retvals>
             HWND hwd - 
@@ -20877,6 +20898,7 @@
         </chapter_context>
         <tags></tags>
         <changelog>
+          Reaper 7.00 - added support for fx-containers
         </changelog>
     </US_DocBloc>
 
@@ -20888,10 +20910,10 @@
         <functioncall prog_lang="lua">boolean retval, string buf = reaper.TakeFX_GetFormattedParamValue(MediaItem_Take take, integer fx, integer param, string buf)</functioncall>
         <functioncall prog_lang="python">(Boolean retval, MediaItem_Take take, Int fx, Int param, String buf, Int buf_sz) = RPR_TakeFX_GetFormattedParamValue(take, fx, param, buf, buf_sz)</functioncall>
         <requires>
-            Reaper=5.62
+            Reaper=7.00
         </requires>
         <description prog_lang="*">
-
+          FX indices can have 0x2000000 added to them, in which case they will be used to address FX in containers. To address a container, the 1-based subitem is multiplied by one plus the count of the FX chain and added to the 1-based container item index. e.g. to address the third item in the container at the second position of the track FX chain for tr, the index would be 0x2000000 + 3*(TrackFX_GetCount(tr)+1) + 2. This can be extended to sub-containers using TrackFX_GetNamedConfigParm with container_count and similar logic.
         </description>
         <retvals>
             boolean retval - 
@@ -20911,6 +20933,7 @@
         </chapter_context>
         <tags></tags>
         <changelog>
+          Reaper 7.00 - added support for fx-containers
         </changelog>
     </US_DocBloc>
 
@@ -20922,10 +20945,10 @@
         <functioncall prog_lang="lua">string GUID = reaper.TakeFX_GetFXGUID(MediaItem_Take take, integer fx)</functioncall>
         <functioncall prog_lang="python">String GUID = RPR_TakeFX_GetFXGUID(MediaItem_Take take, Int fx)</functioncall>
         <requires>
-            Reaper=5.62
+            Reaper=7.00
         </requires>
         <description prog_lang="*">
-
+          FX indices can have 0x2000000 added to them, in which case they will be used to address FX in containers. To address a container, the 1-based subitem is multiplied by one plus the count of the FX chain and added to the 1-based container item index. e.g. to address the third item in the container at the second position of the track FX chain for tr, the index would be 0x2000000 + 3*(TrackFX_GetCount(tr)+1) + 2. This can be extended to sub-containers using TrackFX_GetNamedConfigParm with container_count and similar logic.
         </description>
         <retvals>
             string GUID - 
@@ -20942,6 +20965,7 @@
         </chapter_context>
         <tags></tags>
         <changelog>
+          Reaper 7.00 - added support for fx-containers
         </changelog>
     </US_DocBloc>
 
@@ -20953,10 +20977,10 @@
         <functioncall prog_lang="lua">boolean retval, string buf = reaper.TakeFX_GetFXName(MediaItem_Take take, integer fx)</functioncall>
         <functioncall prog_lang="python">(Boolean retval, MediaItem_Take take, Int fx, String bufOut, Int bufOut_sz) = RPR_TakeFX_GetFXName(take, fx, bufOut, bufOut_sz)</functioncall>
         <requires>
-            Reaper=6.37
+            Reaper=7.00
         </requires>
         <description prog_lang="*">
-
+          FX indices can have 0x2000000 added to them, in which case they will be used to address FX in containers. To address a container, the 1-based subitem is multiplied by one plus the count of the FX chain and added to the 1-based container item index. e.g. to address the third item in the container at the second position of the track FX chain for tr, the index would be 0x2000000 + 3*(TrackFX_GetCount(tr)+1) + 2. This can be extended to sub-containers using TrackFX_GetNamedConfigParm with container_count and similar logic.
         </description>
         <retvals>
             boolean retval - 
@@ -20974,6 +20998,7 @@
         </chapter_context>
         <tags></tags>
         <changelog>
+          Reaper 7.00 - added support for fx-containers
         </changelog>
     </US_DocBloc>
 
@@ -20985,7 +21010,7 @@
         <functioncall prog_lang="lua">integer retval, integer inputPins, integer outputPins = reaper.TakeFX_GetIOSize(MediaItem_Take take, integer fx)</functioncall>
         <functioncall prog_lang="python">(Int retval, MediaItem_Take take, Int fx, Int inputPinsOut, Int outputPinsOut) = RPR_TakeFX_GetIOSize(take, fx, inputPinsOut, outputPinsOut)</functioncall>
         <requires>
-            Reaper=6.43
+            Reaper=7.00
         </requires>
         <description prog_lang="*">
             gets the number of input/output pins for FX if available, returns plug-in type or -1 on error
@@ -20998,6 +21023,8 @@
             6, "Video Processor"
             7, "CLAP"
             8, "Container"
+            
+            FX indices can have 0x2000000 added to them, in which case they will be used to address FX in containers. To address a container, the 1-based subitem is multiplied by one plus the count of the FX chain and added to the 1-based container item index. e.g. to address the third item in the container at the second position of the track FX chain for tr, the index would be 0x2000000 + 3*(TrackFX_GetCount(tr)+1) + 2. This can be extended to sub-containers using TrackFX_GetNamedConfigParm with container_count and similar logic.
         </description>
         <retvals>
             integer retval - 
@@ -21016,6 +21043,7 @@
         </chapter_context>
         <tags></tags>
         <changelog>
+            Reaper 7.00 - added support for fx-containers
             Reaper 6.43 - the following retvals and parameters are not optional anymore:
                         - CPP: inputPinsOut, outputPinsOut
                         - EEL2: inputPins, outputPins
@@ -21032,7 +21060,7 @@
         <functioncall prog_lang="lua">boolean retval, string buf = reaper.TakeFX_GetNamedConfigParm(MediaItem_Take take, integer fx, string parmname)</functioncall>
         <functioncall prog_lang="python">(Boolean retval, MediaItem_Take take, Int fx, String parmname, String bufOutNeedBig, Int bufOutNeedBig_sz) = RPR_TakeFX_GetNamedConfigParm(take, fx, parmname, bufOutNeedBig, bufOutNeedBig_sz)</functioncall>
         <requires>
-            Reaper=6.74
+            Reaper=7.00
         </requires>
         <description prog_lang="*">
             gets plug-in specific named configuration value (returns true on success)
@@ -21054,6 +21082,14 @@
               param.X.learn.[midi1,midi2,osc] : first two bytes of MIDI message, or OSC string if set
               param.X.learn.mode : absolution/relative mode flag (0: Absolute, 1: 127=-1,1=+1, 2: 63=-1, 65=+1, 3: 65=-1, 1=+1, 4: toggle if nonzero)
               param.X.learn.flags : &1=selected track only, &2=soft takeover, &4=focused FX only, &8=LFO retrigger, &16=visible FX only
+              param.X.container_map.fx_index : index of FX contained in container
+              param.X.container_map.fx_parm : parameter index of parameter of FX contained in container
+              param.X.container_map.aliased_name : name of parameter (if user-renamed, otherwise fails)
+              
+              container_nch : number of internal channels for container
+              container_nch_in : number of input pins for container
+              container_nch_out : number of output pints for container
+              container_nch_feedback : number of internal feedback channels enabled in container
               
               BANDTYPEx, BANDENABLEDx : band configuration [ReaEQ]
               THRESHOLD, CEILING, TRUEPEAK : [ReaLlmit]
@@ -21067,6 +21103,8 @@
               instance_oversample_shift : instance oversampling shift amount, 0=none, 1=~96k, 2=~192k, etc. When setting requires playback stop/start to take effect
               chain_oversample_shift : chain oversampling shift amount, 0=none, 1=~96k, 2=~192k, etc. When setting requires playback stop/start to take effect
               chain_pdc_mode : chain PDC mode (0=classic, 1=new-default, 2=ignore PDC, 3=hwcomp-master)
+              
+              FX indices can have 0x2000000 added to them, in which case they will be used to address FX in containers. To address a container, the 1-based subitem is multiplied by one plus the count of the FX chain and added to the 1-based container item index. e.g. to address the third item in the container at the second position of the track FX chain for tr, the index would be 0x2000000 + 3*(TrackFX_GetCount(tr)+1) + 2. This can be extended to sub-containers using TrackFX_GetNamedConfigParm with container_count and similar logic.
         </description>
         <retvals>
             boolean retval - 
@@ -21085,6 +21123,7 @@
         </chapter_context>
         <tags></tags>
         <changelog>
+          Reaper 7.00 - added support for fx-containers
           Reaper 6.74 - added support for x,y coordinates of acs
           Reaper 6.72 - added support for autobypass, instance oversample shift, chain oversample shift and chain pdc-mode
           Reaper 6.71 - added support for parameter modulation/linking; vst/videoprocessor-data getting
@@ -21099,10 +21138,10 @@
         <functioncall prog_lang="lua">integer retval = reaper.TakeFX_GetNumParams(MediaItem_Take take, integer fx)</functioncall>
         <functioncall prog_lang="python">Int retval = RPR_TakeFX_GetNumParams(MediaItem_Take take, Int fx)</functioncall>
         <requires>
-            Reaper=5.62
+            Reaper=7.00
         </requires>
         <description prog_lang="*">
-
+          FX indices can have 0x2000000 added to them, in which case they will be used to address FX in containers. To address a container, the 1-based subitem is multiplied by one plus the count of the FX chain and added to the 1-based container item index. e.g. to address the third item in the container at the second position of the track FX chain for tr, the index would be 0x2000000 + 3*(TrackFX_GetCount(tr)+1) + 2. This can be extended to sub-containers using TrackFX_GetNamedConfigParm with container_count and similar logic.
         </description>
         <retvals>
             integer retval - 
@@ -21119,6 +21158,7 @@
         </chapter_context>
         <tags></tags>
         <changelog>
+          Reaper 7.00 - added support for fx-containers
         </changelog>
     </US_DocBloc>
 
@@ -21130,10 +21170,12 @@
         <functioncall prog_lang="lua">boolean retval = reaper.TakeFX_GetOpen(MediaItem_Take take, integer fx)</functioncall>
         <functioncall prog_lang="python">Boolean retval = RPR_TakeFX_GetOpen(MediaItem_Take take, Int fx)</functioncall>
         <requires>
-            Reaper=5.62
+            Reaper=7.00
         </requires>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
             Returns true if this FX UI is open in the FX chain window or a floating window. See [TakeFX\_SetOpen](#TakeFX_SetOpen)
+            
+            FX indices can have 0x2000000 added to them, in which case they will be used to address FX in containers. To address a container, the 1-based subitem is multiplied by one plus the count of the FX chain and added to the 1-based container item index. e.g. to address the third item in the container at the second position of the track FX chain for tr, the index would be 0x2000000 + 3*(TrackFX_GetCount(tr)+1) + 2. This can be extended to sub-containers using TrackFX_GetNamedConfigParm with container_count and similar logic.
         </description>
         <retvals>
             boolean retval - 
@@ -21150,6 +21192,7 @@
         </chapter_context>
         <tags></tags>
         <changelog>
+          Reaper 7.00 - added support for fx-containers
         </changelog>
     </US_DocBloc>
 
@@ -21161,10 +21204,10 @@
         <functioncall prog_lang="lua">number retval, number minval, number maxval = reaper.TakeFX_GetParam(MediaItem_Take take, integer fx, integer param)</functioncall>
         <functioncall prog_lang="python">(Float retval, MediaItem_Take take, Int fx, Int param, Float minvalOut, Float maxvalOut) = RPR_TakeFX_GetParam(take, fx, param, minvalOut, maxvalOut)</functioncall>
         <requires>
-            Reaper=5.62
+            Reaper=7.00
         </requires>
         <description prog_lang="*">
-
+          FX indices can have 0x2000000 added to them, in which case they will be used to address FX in containers. To address a container, the 1-based subitem is multiplied by one plus the count of the FX chain and added to the 1-based container item index. e.g. to address the third item in the container at the second position of the track FX chain for tr, the index would be 0x2000000 + 3*(TrackFX_GetCount(tr)+1) + 2. This can be extended to sub-containers using TrackFX_GetNamedConfigParm with container_count and similar logic.
         </description>
         <retvals>
             number retval - 
@@ -21184,6 +21227,7 @@
         </chapter_context>
         <tags></tags>
         <changelog>
+          Reaper 7.00 - added support for fx-containers
         </changelog>
     </US_DocBloc>
 
@@ -21195,10 +21239,10 @@
         <functioncall prog_lang="lua">boolean retval, number step, number smallstep, number largestep, boolean istoggle = reaper.TakeFX_GetParameterStepSizes(MediaItem_Take take, integer fx, integer param)</functioncall>
         <functioncall prog_lang="python">(Boolean retval, MediaItem_Take take, Int fx, Int param, Float stepOut, Float smallstepOut, Float largestepOut, Boolean istoggleOut) = RPR_TakeFX_GetParameterStepSizes(take, fx, param, stepOut, smallstepOut, largestepOut, istoggleOut)</functioncall>
         <requires>
-            Reaper=5.62
+            Reaper=7.00
         </requires>
         <description prog_lang="*">
-
+          FX indices can have 0x2000000 added to them, in which case they will be used to address FX in containers. To address a container, the 1-based subitem is multiplied by one plus the count of the FX chain and added to the 1-based container item index. e.g. to address the third item in the container at the second position of the track FX chain for tr, the index would be 0x2000000 + 3*(TrackFX_GetCount(tr)+1) + 2. This can be extended to sub-containers using TrackFX_GetNamedConfigParm with container_count and similar logic.
         </description>
         <retvals>
             boolean retval - 
@@ -21220,6 +21264,7 @@
         </chapter_context>
         <tags></tags>
         <changelog>
+          Reaper 7.00 - added support for fx-containers
         </changelog>
     </US_DocBloc>
 
@@ -21231,10 +21276,10 @@
         <functioncall prog_lang="lua">number retval, number minval, number maxval, number midval = reaper.TakeFX_GetParamEx(MediaItem_Take take, integer fx, integer param)</functioncall>
         <functioncall prog_lang="python">(Float retval, MediaItem_Take take, Int fx, Int param, Float minvalOut, Float maxvalOut, Float midvalOut) = RPR_TakeFX_GetParamEx(take, fx, param, minvalOut, maxvalOut, midvalOut)</functioncall>
         <requires>
-            Reaper=5.62
+            Reaper=7.00
         </requires>
         <description prog_lang="*">
-
+          FX indices can have 0x2000000 added to them, in which case they will be used to address FX in containers. To address a container, the 1-based subitem is multiplied by one plus the count of the FX chain and added to the 1-based container item index. e.g. to address the third item in the container at the second position of the track FX chain for tr, the index would be 0x2000000 + 3*(TrackFX_GetCount(tr)+1) + 2. This can be extended to sub-containers using TrackFX_GetNamedConfigParm with container_count and similar logic.
         </description>
         <retvals>
             number retval - 
@@ -21255,6 +21300,7 @@
         </chapter_context>
         <tags></tags>
         <changelog>
+          Reaper 7.00 - added support for fx-containers
         </changelog>
     </US_DocBloc>
 
@@ -21266,10 +21312,12 @@
         <functioncall prog_lang="lua">integer param = reaper.TakeFX_GetParamFromIdent(MediaItem_Take take, integer fx, string ident_str)</functioncall>
         <functioncall prog_lang="python">Int retval = RPR_TakeFX_GetParamFromIdent(MediaItem_Take take, Int fx, String ident_str)</functioncall>
         <requires>
-            Reaper=6.37
+            Reaper=7.00
         </requires>
         <description prog_lang="*">
             gets the parameter index from an identifying string (:wet, :bypass, or a string returned from GetParamIdent), or -1 if unknown.
+            
+            FX indices can have 0x2000000 added to them, in which case they will be used to address FX in containers. To address a container, the 1-based subitem is multiplied by one plus the count of the FX chain and added to the 1-based container item index. e.g. to address the third item in the container at the second position of the track FX chain for tr, the index would be 0x2000000 + 3*(TrackFX_GetCount(tr)+1) + 2. This can be extended to sub-containers using TrackFX_GetNamedConfigParm with container_count and similar logic.
         </description>
         <retvals>
             integer param - 
@@ -21287,6 +21335,7 @@
         </chapter_context>
         <tags></tags>
         <changelog>
+          Reaper 7.00 - added support for fx-containers
         </changelog>
     </US_DocBloc>
 
@@ -21298,10 +21347,12 @@
         <functioncall prog_lang="lua">boolean retval, string buf = reaper.TakeFX_GetParamIdent(MediaItem_Take take, integer fx, integer param)</functioncall>
         <functioncall prog_lang="python">(Boolean retval, MediaItem_Take take, Int fx, Int param, String bufOut, Int bufOut_sz) = RPR_TakeFX_GetParamIdent(take, fx, param, bufOut, bufOut_sz)</functioncall>
         <requires>
-            Reaper=6.37
+            Reaper=7.00
         </requires>
         <description prog_lang="*">
             gets an identifying string for the parameter
+            
+            FX indices can have 0x2000000 added to them, in which case they will be used to address FX in containers. To address a container, the 1-based subitem is multiplied by one plus the count of the FX chain and added to the 1-based container item index. e.g. to address the third item in the container at the second position of the track FX chain for tr, the index would be 0x2000000 + 3*(TrackFX_GetCount(tr)+1) + 2. This can be extended to sub-containers using TrackFX_GetNamedConfigParm with container_count and similar logic.
         </description>
         <retvals>
             boolean retval - 
@@ -21320,6 +21371,7 @@
         </chapter_context>
         <tags></tags>
         <changelog>
+          Reaper 7.00 - added support for fx-containers
         </changelog>
     </US_DocBloc>
 
@@ -21331,10 +21383,10 @@
         <functioncall prog_lang="lua">boolean retval, string buf = reaper.TakeFX_GetParamName(MediaItem_Take take, integer fx, integer param)</functioncall>
         <functioncall prog_lang="python">(Boolean retval, MediaItem_Take take, Int fx, Int param, String bufOut, Int bufOut_sz) = RPR_TakeFX_GetParamName(take, fx, param, bufOut, bufOut_sz)</functioncall>
         <requires>
-            Reaper=6.37
+            Reaper=7.00
         </requires>
         <description prog_lang="*">
-
+          FX indices can have 0x2000000 added to them, in which case they will be used to address FX in containers. To address a container, the 1-based subitem is multiplied by one plus the count of the FX chain and added to the 1-based container item index. e.g. to address the third item in the container at the second position of the track FX chain for tr, the index would be 0x2000000 + 3*(TrackFX_GetCount(tr)+1) + 2. This can be extended to sub-containers using TrackFX_GetNamedConfigParm with container_count and similar logic.
         </description>
         <retvals>
             boolean retval - 
@@ -21353,6 +21405,7 @@
         </chapter_context>
         <tags></tags>
         <changelog>
+          Reaper 7.00 - added support for fx-containers
         </changelog>
     </US_DocBloc>
 
@@ -21364,10 +21417,10 @@
         <functioncall prog_lang="lua">number retval = reaper.TakeFX_GetParamNormalized(MediaItem_Take take, integer fx, integer param)</functioncall>
         <functioncall prog_lang="python">Float retval = RPR_TakeFX_GetParamNormalized(MediaItem_Take take, Int fx, Int param)</functioncall>
         <requires>
-            Reaper=5.62
+            Reaper=7.00
         </requires>
         <description prog_lang="*">
-
+          FX indices can have 0x2000000 added to them, in which case they will be used to address FX in containers. To address a container, the 1-based subitem is multiplied by one plus the count of the FX chain and added to the 1-based container item index. e.g. to address the third item in the container at the second position of the track FX chain for tr, the index would be 0x2000000 + 3*(TrackFX_GetCount(tr)+1) + 2. This can be extended to sub-containers using TrackFX_GetNamedConfigParm with container_count and similar logic.
         </description>
         <retvals>
             number retval - 
@@ -21385,6 +21438,7 @@
         </chapter_context>
         <tags></tags>
         <changelog>
+          Reaper 7.00 - added support for fx-containers
         </changelog>
     </US_DocBloc>
 
@@ -21396,10 +21450,12 @@
         <functioncall prog_lang="lua">integer retval, integer high32 = reaper.TakeFX_GetPinMappings(MediaItem_Take take, integer fx, integer isoutput, integer pin)</functioncall>
         <functioncall prog_lang="python">(Int retval, MediaItem_Take take, Int fx, Int isoutput, Int pin, Int high32Out) = RPR_TakeFX_GetPinMappings(take, fx, isoutput, pin, high32Out)</functioncall>
         <requires>
-            Reaper=6.43
+            Reaper=7.00
         </requires>
         <description prog_lang="*">
             gets the effective channel mapping bitmask for a particular pin. high32Out will be set to the high 32 bits
+            
+            FX indices can have 0x2000000 added to them, in which case they will be used to address FX in containers. To address a container, the 1-based subitem is multiplied by one plus the count of the FX chain and added to the 1-based container item index. e.g. to address the third item in the container at the second position of the track FX chain for tr, the index would be 0x2000000 + 3*(TrackFX_GetCount(tr)+1) + 2. This can be extended to sub-containers using TrackFX_GetNamedConfigParm with container_count and similar logic.
         </description>
         <retvals>
             integer retval - 
@@ -21419,11 +21475,12 @@
         </chapter_context>
         <tags></tags>
         <changelog>
-            Reaper 6.43 - the following retvals and parameters aren't optional anymore
-                        - CPP: high32Out
-                        - EEL2: high32
-                        - Lua: high32
-                        - Python: high32Out
+          Reaper 7.00 - added support for fx-containers
+          Reaper 6.43 - the following retvals and parameters aren't optional anymore
+                      - CPP: high32Out
+                      - EEL2: high32
+                      - Lua: high32
+                      - Python: high32Out
         </changelog>
     </US_DocBloc>
  
@@ -21435,7 +21492,7 @@
         <functioncall prog_lang="lua">boolean retval, string presetname = reaper.TakeFX_GetPreset(MediaItem_Take take, integer fx)</functioncall>
         <functioncall prog_lang="python">(Boolean retval, MediaItem_Take take, Int fx, String presetnameOut, Int presetnameOut_sz) = RPR_TakeFX_GetPreset(take, fx, presetnameOut, presetnameOut_sz)</functioncall>
         <requires>
-            Reaper=6.37
+            Reaper=7.00
         </requires>
         <description>
             Get the name of the preset currently showing in the REAPER dropdown, or the full path to a factory preset file for VST3 plug-ins (.vstpreset). 
@@ -21443,6 +21500,8 @@
             Returns false if the current FX parameters do not exactly match the preset (in other words, if the user loaded the preset but moved the knobs afterward). 
             
             See TakeFX_SetPreset
+            
+            FX indices can have 0x2000000 added to them, in which case they will be used to address FX in containers. To address a container, the 1-based subitem is multiplied by one plus the count of the FX chain and added to the 1-based container item index. e.g. to address the third item in the container at the second position of the track FX chain for tr, the index would be 0x2000000 + 3*(TrackFX_GetCount(tr)+1) + 2. This can be extended to sub-containers using TrackFX_GetNamedConfigParm with container_count and similar logic.
         </description>
         <retvals>
             boolean retval - true, the fx-parameters match preset; false, the fx-parameters do not match preset(see description for more details)
@@ -21464,6 +21523,7 @@
         </chapter_context>
         <tags></tags>
         <changelog>
+          Reaper 7.00 - added support for fx-containers
         </changelog>
     </US_DocBloc>
 
@@ -21475,10 +21535,12 @@
         <functioncall prog_lang="lua">integer retval, integer numberOfPresets = reaper.TakeFX_GetPresetIndex(MediaItem_Take take, integer fx)</functioncall>
         <functioncall prog_lang="python">(Int retval, MediaItem_Take take, Int fx, Int numberOfPresetsOut) = RPR_TakeFX_GetPresetIndex(take, fx, numberOfPresetsOut)</functioncall>
         <requires>
-            Reaper=5.62
+            Reaper=7.00
         </requires>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
             Returns current preset index, or -1 if error. numberOfPresetsOut will be set to total number of presets available. See [TakeFX\_SetPresetByIndex](#TakeFX_SetPresetByIndex)
+            
+            FX indices can have 0x2000000 added to them, in which case they will be used to address FX in containers. To address a container, the 1-based subitem is multiplied by one plus the count of the FX chain and added to the 1-based container item index. e.g. to address the third item in the container at the second position of the track FX chain for tr, the index would be 0x2000000 + 3*(TrackFX_GetCount(tr)+1) + 2. This can be extended to sub-containers using TrackFX_GetNamedConfigParm with container_count and similar logic.
         </description>
         <retvals>
             integer retval - 
@@ -21496,6 +21558,7 @@
         </chapter_context>
         <tags></tags>
         <changelog>
+          Reaper 7.00 - added support for fx-containers
         </changelog>
     </US_DocBloc>
 
@@ -21507,10 +21570,10 @@
         <functioncall prog_lang="lua">string fn = reaper.TakeFX_GetUserPresetFilename(MediaItem_Take take, integer fx)</functioncall>
         <functioncall prog_lang="python">(MediaItem_Take take, Int fx, String fnOut, Int fnOut_sz) = RPR_TakeFX_GetUserPresetFilename(take, fx, fnOut, fnOut_sz)</functioncall>
         <requires>
-            Reaper=6.37
+            Reaper=7.00
         </requires>
         <description prog_lang="*">
-
+          FX indices can have 0x2000000 added to them, in which case they will be used to address FX in containers. To address a container, the 1-based subitem is multiplied by one plus the count of the FX chain and added to the 1-based container item index. e.g. to address the third item in the container at the second position of the track FX chain for tr, the index would be 0x2000000 + 3*(TrackFX_GetCount(tr)+1) + 2. This can be extended to sub-containers using TrackFX_GetNamedConfigParm with container_count and similar logic.
         </description>
         <retvals>
             string fn - 
@@ -21527,6 +21590,7 @@
         </chapter_context>
         <tags></tags>
         <changelog>
+          Reaper 7.00 - added support for fx-containers
         </changelog>
     </US_DocBloc>
 
@@ -21538,10 +21602,12 @@
         <functioncall prog_lang="lua">boolean retval = reaper.TakeFX_NavigatePresets(MediaItem_Take take, integer fx, integer presetmove)</functioncall>
         <functioncall prog_lang="python">Boolean retval = RPR_TakeFX_NavigatePresets(MediaItem_Take take, Int fx, Int presetmove)</functioncall>
         <requires>
-            Reaper=5.62
+            Reaper=7.00
         </requires>
         <description prog_lang="*">
             presetmove==1 activates the next preset, presetmove==-1 activates the previous preset, etc.
+            
+            FX indices can have 0x2000000 added to them, in which case they will be used to address FX in containers. To address a container, the 1-based subitem is multiplied by one plus the count of the FX chain and added to the 1-based container item index. e.g. to address the third item in the container at the second position of the track FX chain for tr, the index would be 0x2000000 + 3*(TrackFX_GetCount(tr)+1) + 2. This can be extended to sub-containers using TrackFX_GetNamedConfigParm with container_count and similar logic.
         </description>
         <retvals>
             boolean retval - 
@@ -21559,6 +21625,7 @@
         </chapter_context>
         <tags></tags>
         <changelog>
+          Reaper 7.00 - added support for fx-containers
         </changelog>
     </US_DocBloc>
 
@@ -21570,10 +21637,12 @@
         <functioncall prog_lang="lua">reaper.TakeFX_SetEnabled(MediaItem_Take take, integer fx, boolean enabled)</functioncall>
         <functioncall prog_lang="python">RPR_TakeFX_SetEnabled(MediaItem_Take take, Int fx, Boolean enabled)</functioncall>
         <requires>
-            Reaper=5.62
+            Reaper=7.00
         </requires>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
             See [TakeFX\_GetEnabled](#TakeFX_GetEnabled)
+            
+            FX indices can have 0x2000000 added to them, in which case they will be used to address FX in containers. To address a container, the 1-based subitem is multiplied by one plus the count of the FX chain and added to the 1-based container item index. e.g. to address the third item in the container at the second position of the track FX chain for tr, the index would be 0x2000000 + 3*(TrackFX_GetCount(tr)+1) + 2. This can be extended to sub-containers using TrackFX_GetNamedConfigParm with container_count and similar logic.
         </description>
         <parameters>
             MediaItem_Take take - 
@@ -21588,6 +21657,7 @@
         </chapter_context>
         <tags></tags>
         <changelog>
+          Reaper 7.00 - added support for fx-containers
         </changelog>
     </US_DocBloc>
 
@@ -21599,7 +21669,7 @@
         <functioncall prog_lang="lua">boolean retval = reaper.TakeFX_SetNamedConfigParm(MediaItem_Take take, integer fx, string parmname, string value)</functioncall>
         <functioncall prog_lang="python">Boolean retval = RPR_TakeFX_SetNamedConfigParm(MediaItem_Take take, Int fx, String parmname, String value)</functioncall>
         <requires>
-            Reaper=6.74
+            Reaper=7.00
         </requires>
         <description prog_lang="*">
             sets plug-in specific named configuration value (returns true on success).
@@ -21615,7 +21685,15 @@
             param.X.learn.[midi1,midi2,osc] : first two bytes of MIDI message, or OSC string if set
             param.X.learn.mode : absolution/relative mode flag (0: Absolute, 1: 127=-1,1=+1, 2: 63=-1, 65=+1, 3: 65=-1, 1=+1, 4: toggle if nonzero)
             param.X.learn.flags : &1=selected track only, &2=soft takeover, &4=focused FX only, &8=LFO retrigger, &16=visible FX only
+            param.X.container_map.fx_index : index of FX contained in container
+            param.X.container_map.fx_parm : parameter index of parameter of FX contained in container
+            param.X.container_map.aliased_name : name of parameter (if user-renamed, otherwise fails)
             
+            container_nch : number of internal channels for container
+            container_nch_in : number of input pins for container
+            container_nch_out : number of output pints for container
+            container_nch_feedback : number of internal feedback channels enabled in container
+              
             BANDTYPEx, BANDENABLEDx : band configuration [ReaEQ]
             THRESHOLD, CEILING, TRUEPEAK : [ReaLlmit]
             NUMCHANNELS, NUMSPEAKERS, RESETCHANNELS : [ReaSurroundPan]
@@ -21628,6 +21706,8 @@
             instance_oversample_shift : instance oversampling shift amount, 0=none, 1=~96k, 2=~192k, etc. When setting requires playback stop/start to take effect
             chain_oversample_shift : chain oversampling shift amount, 0=none, 1=~96k, 2=~192k, etc. When setting requires playback stop/start to take effect
             chain_pdc_mode : chain PDC mode (0=classic, 1=new-default, 2=ignore PDC, 3=hwcomp-master)
+            
+            FX indices can have 0x2000000 added to them, in which case they will be used to address FX in containers. To address a container, the 1-based subitem is multiplied by one plus the count of the FX chain and added to the 1-based container item index. e.g. to address the third item in the container at the second position of the track FX chain for tr, the index would be 0x2000000 + 3*(TrackFX_GetCount(tr)+1) + 2. This can be extended to sub-containers using TrackFX_GetNamedConfigParm with container_count and similar logic.
         </description>
         <retvals>
             boolean retval - 
@@ -21646,6 +21726,7 @@
         </chapter_context>
         <tags></tags>
         <changelog>
+          Reaper 7.00 - added support for fx-containers
           Reaper 6.74 - added support for x,y coordinates of acs
           Reaper 6.72 - added support for autobypass, instance oversample shift, chain oversample shift and chain pdc-mode
           Reaper 6.71 - added support for parameter modulation/linking; vst/videoprocessor-data setting
@@ -21660,10 +21741,12 @@
         <functioncall prog_lang="lua">reaper.TakeFX_SetOpen(MediaItem_Take take, integer fx, boolean open)</functioncall>
         <functioncall prog_lang="python">RPR_TakeFX_SetOpen(MediaItem_Take take, Int fx, Boolean open)</functioncall>
         <requires>
-            Reaper=5.62
+            Reaper=7.00
         </requires>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
             Open this FX UI. See [TakeFX\_GetOpen](#TakeFX_GetOpen)
+            
+            FX indices can have 0x2000000 added to them, in which case they will be used to address FX in containers. To address a container, the 1-based subitem is multiplied by one plus the count of the FX chain and added to the 1-based container item index. e.g. to address the third item in the container at the second position of the track FX chain for tr, the index would be 0x2000000 + 3*(TrackFX_GetCount(tr)+1) + 2. This can be extended to sub-containers using TrackFX_GetNamedConfigParm with container_count and similar logic.
         </description>
         <parameters>
             MediaItem_Take take - 
@@ -21678,6 +21761,7 @@
         </chapter_context>
         <tags></tags>
         <changelog>
+          Reaper 7.00 - added support for fx-containers
         </changelog>
     </US_DocBloc>
 
@@ -21689,10 +21773,10 @@
         <functioncall prog_lang="lua">boolean retval = reaper.TakeFX_SetParam(MediaItem_Take take, integer fx, integer param, number val)</functioncall>
         <functioncall prog_lang="python">Boolean retval = RPR_TakeFX_SetParam(MediaItem_Take take, Int fx, Int param, Float val)</functioncall>
         <requires>
-            Reaper=5.62
+            Reaper=7.00
         </requires>
         <description prog_lang="*">
-
+          FX indices can have 0x2000000 added to them, in which case they will be used to address FX in containers. To address a container, the 1-based subitem is multiplied by one plus the count of the FX chain and added to the 1-based container item index. e.g. to address the third item in the container at the second position of the track FX chain for tr, the index would be 0x2000000 + 3*(TrackFX_GetCount(tr)+1) + 2. This can be extended to sub-containers using TrackFX_GetNamedConfigParm with container_count and similar logic.
         </description>
         <retvals>
             boolean retval - 
@@ -21711,6 +21795,7 @@
         </chapter_context>
         <tags></tags>
         <changelog>
+          Reaper 7.00 - added support for fx-containers
         </changelog>
     </US_DocBloc>
 
@@ -21722,10 +21807,10 @@
         <functioncall prog_lang="lua">boolean retval = reaper.TakeFX_SetParamNormalized(MediaItem_Take take, integer fx, integer param, number value)</functioncall>
         <functioncall prog_lang="python">Boolean retval = RPR_TakeFX_SetParamNormalized(MediaItem_Take take, Int fx, Int param, Float value)</functioncall>
         <requires>
-            Reaper=5.62
+            Reaper=7.00
         </requires>
         <description prog_lang="*">
-
+          FX indices can have 0x2000000 added to them, in which case they will be used to address FX in containers. To address a container, the 1-based subitem is multiplied by one plus the count of the FX chain and added to the 1-based container item index. e.g. to address the third item in the container at the second position of the track FX chain for tr, the index would be 0x2000000 + 3*(TrackFX_GetCount(tr)+1) + 2. This can be extended to sub-containers using TrackFX_GetNamedConfigParm with container_count and similar logic.
         </description>
         <retvals>
             boolean retval - 
@@ -21744,6 +21829,7 @@
         </chapter_context>
         <tags></tags>
         <changelog>
+          Reaper 7.00 - added support for fx-containers
         </changelog>
     </US_DocBloc>
 
@@ -21755,10 +21841,12 @@
         <functioncall prog_lang="lua">boolean retval = reaper.TakeFX_SetPinMappings(MediaItem_Take tk, integer fx, integer is, integer pin, integer low32bits, integer hi32bits)</functioncall>
         <functioncall prog_lang="python">Boolean retval = RPR_TakeFX_SetPinMappings(MediaItem_Take tk, Int fx, Int isOutput, Int pin, Int low32bits, Int hi32bits)</functioncall>
         <requires>
-            Reaper=5.62
+            Reaper=7.00
         </requires>
         <description prog_lang="*">
             sets the channel mapping bitmask for a particular pin. returns false if unsupported (not all types of plug-ins support this capability)
+            
+            FX indices can have 0x2000000 added to them, in which case they will be used to address FX in containers. To address a container, the 1-based subitem is multiplied by one plus the count of the FX chain and added to the 1-based container item index. e.g. to address the third item in the container at the second position of the track FX chain for tr, the index would be 0x2000000 + 3*(TrackFX_GetCount(tr)+1) + 2. This can be extended to sub-containers using TrackFX_GetNamedConfigParm with container_count and similar logic.
         </description>
         <retvals>
             boolean retval - 
@@ -21779,6 +21867,7 @@
         </chapter_context>
         <tags></tags>
         <changelog>
+          Reaper 7.00 - added support for fx-containers
         </changelog>
     </US_DocBloc>
 
@@ -21790,12 +21879,14 @@
         <functioncall prog_lang="lua">boolean retval = reaper.TakeFX_SetPreset(MediaItem_Take take, integer fx, string presetname)</functioncall>
         <functioncall prog_lang="python">Boolean retval = RPR_TakeFX_SetPreset(MediaItem_Take take, Int fx, String presetname)</functioncall>
         <requires>
-            Reaper=5.62
+            Reaper=7.00
         </requires>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
             Activate a preset with the name shown in the REAPER dropdown. Full paths to .vstpreset files are also supported for VST3 plug-ins. See [TakeFX\_GetPreset](#TakeFX_GetPreset).
 
             presetname is case-sensitive.
+            
+            FX indices can have 0x2000000 added to them, in which case they will be used to address FX in containers. To address a container, the 1-based subitem is multiplied by one plus the count of the FX chain and added to the 1-based container item index. e.g. to address the third item in the container at the second position of the track FX chain for tr, the index would be 0x2000000 + 3*(TrackFX_GetCount(tr)+1) + 2. This can be extended to sub-containers using TrackFX_GetNamedConfigParm with container_count and similar logic.
         </description>
         <retvals>
             boolean retval - 
@@ -21813,6 +21904,7 @@
         </chapter_context>
         <tags></tags>
         <changelog>
+          Reaper 7.00 - added support for fx-containers
         </changelog>
     </US_DocBloc>
 
@@ -21824,10 +21916,12 @@
         <functioncall prog_lang="lua">boolean retval = reaper.TakeFX_SetPresetByIndex(MediaItem_Take take, integer fx, integer idx)</functioncall>
         <functioncall prog_lang="python">Boolean retval = RPR_TakeFX_SetPresetByIndex(MediaItem_Take take, Int fx, Int idx)</functioncall>
         <requires>
-            Reaper=5.62
+            Reaper=7.00
         </requires>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
             Sets the preset idx, or the factory preset (idx==-2), or the default user preset (idx==-1). Returns true on success. See [TakeFX\_GetPresetIndex](#TakeFX_GetPresetIndex).
+            
+            FX indices can have 0x2000000 added to them, in which case they will be used to address FX in containers. To address a container, the 1-based subitem is multiplied by one plus the count of the FX chain and added to the 1-based container item index. e.g. to address the third item in the container at the second position of the track FX chain for tr, the index would be 0x2000000 + 3*(TrackFX_GetCount(tr)+1) + 2. This can be extended to sub-containers using TrackFX_GetNamedConfigParm with container_count and similar logic.
         </description>
         <retvals>
             boolean retval - 
@@ -21845,6 +21939,7 @@
         </chapter_context>
         <tags></tags>
         <changelog>
+          Reaper 7.00 - added support for fx-containers
         </changelog>
     </US_DocBloc>
 
@@ -21856,10 +21951,12 @@
         <functioncall prog_lang="lua">reaper.TakeFX_Show(MediaItem_Take take, integer index, integer showFlag)</functioncall>
         <functioncall prog_lang="python">RPR_TakeFX_Show(MediaItem_Take take, Int index, Int showFlag)</functioncall>
         <requires>
-            Reaper=5.62
+            Reaper=7.00
         </requires>
         <description prog_lang="*">
             showflag=0 for hidechain, =1 for show chain(index valid), =2 for hide floating window(index valid), =3 for show floating window (index valid)
+            
+            FX indices can have 0x2000000 added to them, in which case they will be used to address FX in containers. To address a container, the 1-based subitem is multiplied by one plus the count of the FX chain and added to the 1-based container item index. e.g. to address the third item in the container at the second position of the track FX chain for tr, the index would be 0x2000000 + 3*(TrackFX_GetCount(tr)+1) + 2. This can be extended to sub-containers using TrackFX_GetNamedConfigParm with container_count and similar logic.
         </description>
         <parameters>
             MediaItem_Take take - 
@@ -21874,6 +21971,7 @@
         </chapter_context>
         <tags></tags>
         <changelog>
+          Reaper 7.00 - added support for fx-containers
         </changelog>
     </US_DocBloc>
 
@@ -22754,7 +22852,7 @@
         <functioncall prog_lang="lua">integer retval = reaper.TrackFX_AddByName(MediaTrack track, string fxname, boolean recFX, integer instantiate)</functioncall>
         <functioncall prog_lang="python">Int retval = RPR_TrackFX_AddByName(MediaTrack track, String fxname, Boolean recFX, Int instantiate)</functioncall>
         <requires>
-            Reaper=6.72
+            Reaper=7.00
         </requires>
         <description prog_lang="*">
             Adds or queries the position of a named FX from the track FX chain (recFX=false) or record input FX/monitoring FX (recFX=true, monitoring FX are on master track). 
@@ -22763,6 +22861,8 @@
             0 to only query the first instance of an effect, or a positive value to add an instance if one is not found.
 
             Returns -1 on failure or the new position in chain on success.
+            
+            FX indices can have 0x2000000 added to them, in which case they will be used to address FX in containers. To address a container, the 1-based subitem is multiplied by one plus the count of the FX chain and added to the 1-based container item index. e.g. to address the third item in the container at the second position of the track FX chain for tr, the index would be 0x2000000 + 3*(TrackFX_GetCount(tr)+1) + 2. This can be extended to sub-containers using TrackFX_GetNamedConfigParm with container_count and similar logic.
         </description>
         <retvals>
             integer retval - the index of the position of the new fx; -1, in case of an error
@@ -22781,6 +22881,7 @@
         </chapter_context>
         <tags>fxmanagement, add, track fx, input fx</tags>
         <changelog>
+          Reaper 7.00 - added support for fx-containers
           Reaper 6.72 - improve JSFX name matching in TrackFX_AddByName() [p=2621360] [p=2622666]
           Reaper 6.70 - improve behavior with Track/TakeFX_AddByName() for JSFX [t=271878]
           Reaper 6.69 - fix TrackFX_AddByName with only VST2-UID specified
@@ -22795,7 +22896,7 @@
         <functioncall prog_lang="lua">reaper.TrackFX_CopyToTrack(MediaTrack src_track, integer src_fx, MediaTrack dest_track, integer dest_fx, boolean is_move)</functioncall>
         <functioncall prog_lang="python">RPR_TrackFX_CopyToTrack(MediaTrack src_track, Int src_fx, MediaTrack dest_track, Int dest_fx, Boolean is_move)</functioncall>
         <requires>
-            Reaper=5.95
+            Reaper=7.00
         </requires>
         <description prog_lang="*">
             Copies (or moves) FX from src_track to dest_track. Can be used with src_track=dest_track to reorder, FX indices have 0x1000000 set to reference input FX. 
@@ -22803,6 +22904,8 @@
             Note:
             To use global monitoring inputFX, use the master-track, any other track will access the track's rec-input-fx.
             Add 0x1000000 to the fx-indices to address monitoringFX/rec-inputFX.
+            
+            FX indices can have 0x2000000 added to them, in which case they will be used to address FX in containers. To address a container, the 1-based subitem is multiplied by one plus the count of the FX chain and added to the 1-based container item index. e.g. to address the third item in the container at the second position of the track FX chain for tr, the index would be 0x2000000 + 3*(TrackFX_GetCount(tr)+1) + 2. This can be extended to sub-containers using TrackFX_GetNamedConfigParm with container_count and similar logic.
         </description>
         <parameters>
             MediaTrack src_track - the source-track, whose fx you want to copy; use master-track to address inputfx
@@ -22819,6 +22922,7 @@
         </chapter_context>
         <tags></tags>
         <changelog>
+          Reaper 7.00 - added support for fx-containers
         </changelog>
     </US_DocBloc>
 
@@ -22830,7 +22934,7 @@
         <functioncall prog_lang="lua">reaper.TrackFX_CopyToTake(MediaTrack src_track, integer src_fx, MediaItem_Take dest_take, integer dest_fx, boolean is_move)</functioncall>
         <functioncall prog_lang="python">RPR_TrackFX_CopyToTake(MediaTrack src_track, Int src_fx, MediaItem_Take dest_take, Int dest_fx, Boolean is_move)</functioncall>
         <requires>
-            Reaper=5.95
+            Reaper=7.00
         </requires>
         <description prog_lang="*">
             Copies (or moves) FX from src_track to dest_take. src_fx can have 0x1000000 set to reference input FX. 
@@ -22838,6 +22942,8 @@
             Note:
             To use global monitoring inputFX, use the master-track, any other track will access the track's rec-input-fx.
             Add 0x1000000 to the fx-indices to address monitoringFX/rec-inputFX.
+            
+            FX indices can have 0x2000000 added to them, in which case they will be used to address FX in containers. To address a container, the 1-based subitem is multiplied by one plus the count of the FX chain and added to the 1-based container item index. e.g. to address the third item in the container at the second position of the track FX chain for tr, the index would be 0x2000000 + 3*(TrackFX_GetCount(tr)+1) + 2. This can be extended to sub-containers using TrackFX_GetNamedConfigParm with container_count and similar logic.
         </description>
         <parameters>
             MediaTrack src_track - the source-track, whose fx you want to copy; use master-track to address inputfx
@@ -22854,7 +22960,8 @@
         </chapter_context>
         <tags></tags>
         <changelog>
-        </changelog>
+          Reaper 7.00 - added support for fx-containers
+        </changelog>        
     </US_DocBloc>
 
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
@@ -22865,11 +22972,13 @@
         <functioncall prog_lang="lua">boolean retval = reaper.TrackFX_EndParamEdit(MediaTrack track, integer fx, integer param)</functioncall>
         <functioncall prog_lang="python">Boolean retval = RPR_TrackFX_EndParamEdit(MediaTrack track, Int fx, Int param)</functioncall>
         <requires>
-            Reaper=5.62
+            Reaper=7.00
         </requires>
         <description prog_lang="*">
             By setting fx you can add 0x1000000 set to reference input FX. 
             To use global monitoring inputFX, use the master-track, any other track will access the track's rec-input-fx.
+            
+            FX indices can have 0x2000000 added to them, in which case they will be used to address FX in containers. To address a container, the 1-based subitem is multiplied by one plus the count of the FX chain and added to the 1-based container item index. e.g. to address the third item in the container at the second position of the track FX chain for tr, the index would be 0x2000000 + 3*(TrackFX_GetCount(tr)+1) + 2. This can be extended to sub-containers using TrackFX_GetNamedConfigParm with container_count and similar logic.
         </description>
         <retvals>
             boolean retval - true, setting value was successful; false, setting value was unsuccessful
@@ -22887,6 +22996,7 @@
         </chapter_context>
         <tags></tags>
         <changelog>
+          Reaper 7.00 - added support for fx-containers
         </changelog>
     </US_DocBloc>
 
@@ -22898,7 +23008,7 @@
         <functioncall prog_lang="lua">boolean retval, string buf = reaper.TrackFX_FormatParamValue(MediaTrack track, integer fx, integer param, number val)</functioncall>
         <functioncall prog_lang="python">(Boolean retval, MediaTrack track, Int fx, Int param, Float val, String bufOut, Int bufOut_sz) = RPR_TrackFX_FormatParamValue(track, fx, param, val, bufOut, bufOut_sz)</functioncall>
         <requires>
-            Reaper=6.81
+            Reaper=7.00
         </requires>
         <description prog_lang="*">
             returns a formatted version of the currently set parameter-value.
@@ -22909,6 +23019,8 @@
             To use global monitoring inputFX, use the master-track, any other track will access the track's rec-input-fx.
 
             returns false in case of an error
+            
+            FX indices can have 0x2000000 added to them, in which case they will be used to address FX in containers. To address a container, the 1-based subitem is multiplied by one plus the count of the FX chain and added to the 1-based container item index. e.g. to address the third item in the container at the second position of the track FX chain for tr, the index would be 0x2000000 + 3*(TrackFX_GetCount(tr)+1) + 2. This can be extended to sub-containers using TrackFX_GetNamedConfigParm with container_count and similar logic.
         </description>
         <retvals>
             boolean retval - true, parameter can be retrieved; false, an error occured(e.g. no such fx)
@@ -22928,6 +23040,7 @@
         </chapter_context>
         <tags></tags>
         <changelog>
+          Reaper 7.00 - added support for fx-containers
           Reaper 6.81 - fix inconsistent rounding for TrackFX_FormatParamValue on bypass envelopes
         </changelog>
     </US_DocBloc>
@@ -22940,7 +23053,7 @@
         <functioncall prog_lang="lua">boolean retval, string buf = reaper.TrackFX_FormatParamValueNormalized(MediaTrack track, integer fx, integer param, number value, string buf)</functioncall>
         <functioncall prog_lang="python">(Boolean retval, MediaTrack track, Int fx, Int param, Float value, String buf, Int buf_sz) = RPR_TrackFX_FormatParamValueNormalized(track, fx, param, value, buf, buf_sz)</functioncall>
         <requires>
-            Reaper=5.62
+            Reaper=7.00
         </requires>
         <description prog_lang="*">
             returns a formatted version of the currently set parameter-value and normalizes it.
@@ -22951,6 +23064,8 @@
             To use global monitoring inputFX, use the master-track, any other track will access the track's rec-input-fx.
 
             returns false in case of an error
+            
+            FX indices can have 0x2000000 added to them, in which case they will be used to address FX in containers. To address a container, the 1-based subitem is multiplied by one plus the count of the FX chain and added to the 1-based container item index. e.g. to address the third item in the container at the second position of the track FX chain for tr, the index would be 0x2000000 + 3*(TrackFX_GetCount(tr)+1) + 2. This can be extended to sub-containers using TrackFX_GetNamedConfigParm with container_count and similar logic.
         </description>
         <retvals>
             boolean retval - true, parameter can be retrieved; false, an error occured(e.g. no such fx)
@@ -22971,6 +23086,7 @@
         </chapter_context>
         <tags></tags>
         <changelog>
+          Reaper 7.00 - added support for fx-containers
         </changelog>
     </US_DocBloc>
 
@@ -22982,12 +23098,14 @@
         <functioncall prog_lang="lua">integer retval = reaper.TrackFX_GetByName(MediaTrack track, string fxname, boolean instantiate)</functioncall>
         <functioncall prog_lang="python">Int retval = RPR_TrackFX_GetByName(MediaTrack track, String fxname, Boolean instantiate)</functioncall>
         <requires>
-            Reaper=5.62
+            Reaper=7.00
         </requires>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
             Get the index of the first track FX insert that matches fxname. If the FX is not in the chain and instantiate is true, it will be inserted. See [TrackFX\_GetInstrument](#TrackFX_GetInstrument), [TrackFX\_GetEQ](#TrackFX_GetEQ). Deprecated in favor of TrackFX_AddByName.
 
             returns -1 in case of an error
+            
+            FX indices can have 0x2000000 added to them, in which case they will be used to address FX in containers. To address a container, the 1-based subitem is multiplied by one plus the count of the FX chain and added to the 1-based container item index. e.g. to address the third item in the container at the second position of the track FX chain for tr, the index would be 0x2000000 + 3*(TrackFX_GetCount(tr)+1) + 2. This can be extended to sub-containers using TrackFX_GetNamedConfigParm with container_count and similar logic.
         </description>
         <retvals>
             integer retval - the index of the first track FX with fxname
@@ -23005,6 +23123,7 @@
         </chapter_context>
         <tags></tags>
         <changelog>
+          Reaper 7.00 - added support for fx-containers
         </changelog>
     </US_DocBloc>
 
@@ -23016,10 +23135,12 @@
         <functioncall prog_lang="lua">integer retval = reaper.TrackFX_GetChainVisible(MediaTrack track)</functioncall>
         <functioncall prog_lang="python">Int retval = RPR_TrackFX_GetChainVisible(MediaTrack track)</functioncall>
         <requires>
-            Reaper=5.62
+            Reaper=7.00
         </requires>
         <description prog_lang="*">
             returns index of effect visible in chain, or -1 for chain hidden, or -2 for chain visible but no effect selected
+            
+            FX indices can have 0x2000000 added to them, in which case they will be used to address FX in containers. To address a container, the 1-based subitem is multiplied by one plus the count of the FX chain and added to the 1-based container item index. e.g. to address the third item in the container at the second position of the track FX chain for tr, the index would be 0x2000000 + 3*(TrackFX_GetCount(tr)+1) + 2. This can be extended to sub-containers using TrackFX_GetNamedConfigParm with container_count and similar logic.
         </description>
         <retvals>
             integer retval - the current visibility/selected state of the FXChain:
@@ -23038,6 +23159,7 @@
         </chapter_context>
         <tags></tags>
         <changelog>
+          Reaper 7.00 - added support for fx-containers
         </changelog>
     </US_DocBloc>
 
@@ -23049,10 +23171,12 @@
         <functioncall prog_lang="lua">integer retval = reaper.TrackFX_GetCount(MediaTrack track)</functioncall>
         <functioncall prog_lang="python">Int retval = RPR_TrackFX_GetCount(MediaTrack track)</functioncall>
         <requires>
-            Reaper=5.62
+            Reaper=7.00
         </requires>
         <description prog_lang="*">
             returns the number of trackfx in the FXChain of track
+            
+            FX indices can have 0x2000000 added to them, in which case they will be used to address FX in containers. To address a container, the 1-based subitem is multiplied by one plus the count of the FX chain and added to the 1-based container item index. e.g. to address the third item in the container at the second position of the track FX chain for tr, the index would be 0x2000000 + 3*(TrackFX_GetCount(tr)+1) + 2. This can be extended to sub-containers using TrackFX_GetNamedConfigParm with container_count and similar logic.
         </description>
         <retvals>
             integer retval - the number of fx in the FXChain of track
@@ -23068,6 +23192,7 @@
         </chapter_context>
         <tags></tags>
         <changelog>
+          Reaper 7.00 - added support for fx-containers
         </changelog>
     </US_DocBloc>
 
@@ -23079,7 +23204,7 @@
         <functioncall prog_lang="lua">boolean retval = reaper.TrackFX_GetEnabled(MediaTrack track, integer fx)</functioncall>
         <functioncall prog_lang="python">Boolean retval = RPR_TrackFX_GetEnabled(MediaTrack track, Int fx)</functioncall>
         <requires>
-            Reaper=5.62
+            Reaper=7.00
         </requires>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
             returns, if a certain FX in track is enabled
@@ -23090,6 +23215,8 @@
             To use global monitoring inputFX, use the master-track, any other track will access the track's rec-input-fx.
 
             returns false in case of an error
+            
+            FX indices can have 0x2000000 added to them, in which case they will be used to address FX in containers. To address a container, the 1-based subitem is multiplied by one plus the count of the FX chain and added to the 1-based container item index. e.g. to address the third item in the container at the second position of the track FX chain for tr, the index would be 0x2000000 + 3*(TrackFX_GetCount(tr)+1) + 2. This can be extended to sub-containers using TrackFX_GetNamedConfigParm with container_count and similar logic.
         </description>
         <retvals>
             boolean retval - true, fx is enabled; false, fx is disabled or not existing
@@ -23106,6 +23233,7 @@
         </chapter_context>
         <tags></tags>
         <changelog>
+          Reaper 7.00 - added support for fx-containers
         </changelog>
     </US_DocBloc>
 
@@ -23117,12 +23245,14 @@
         <functioncall prog_lang="lua">integer retval = reaper.TrackFX_GetEQ(MediaTrack track, boolean instantiate)</functioncall>
         <functioncall prog_lang="python">Int retval = RPR_TrackFX_GetEQ(MediaTrack track, Boolean instantiate)</functioncall>
         <requires>
-            Reaper=5.62
+            Reaper=7.00
         </requires>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
             Get the index of ReaEQ in the track FX chain. If ReaEQ is not in the chain and instantiate is true, it will be inserted. See [TrackFX\_GetInstrument](#TrackFX_GetInstrument), [TrackFX\_GetByName](#TrackFX_GetByName).
 
             returns -1 if no ReaEQ is available.
+            
+            FX indices can have 0x2000000 added to them, in which case they will be used to address FX in containers. To address a container, the 1-based subitem is multiplied by one plus the count of the FX chain and added to the 1-based container item index. e.g. to address the third item in the container at the second position of the track FX chain for tr, the index would be 0x2000000 + 3*(TrackFX_GetCount(tr)+1) + 2. This can be extended to sub-containers using TrackFX_GetNamedConfigParm with container_count and similar logic.
         </description>
         <retvals>
             integer retval - the index of first ReaEQ in the FXChain; -1, if no ReaEQ is available
@@ -23139,6 +23269,7 @@
         </chapter_context>
         <tags></tags>
         <changelog>
+          Reaper 7.00 - added support for fx-containers
         </changelog>
     </US_DocBloc>
 
@@ -23150,7 +23281,7 @@
         <functioncall prog_lang="lua">boolean retval = reaper.TrackFX_GetEQBandEnabled(MediaTrack track, integer fx, integer bandtype, integer bandidx)</functioncall>
         <functioncall prog_lang="python">Boolean retval = RPR_TrackFX_GetEQBandEnabled(MediaTrack track, Int fx, Int bandtype, Int bandidx)</functioncall>
         <requires>
-            Reaper=6.44
+            Reaper=7.00
         </requires>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
             Returns true if the EQ band is enabled.
@@ -23162,6 +23293,8 @@
             To use global monitoring inputFX, use the master-track, any other track will access the track's rec-input-fx.
 
             See [TrackFX\_GetEQ](#TrackFX_GetEQ), [TrackFX\_GetEQParam](#TrackFX_GetEQParam), [TrackFX\_SetEQParam](#TrackFX_SetEQParam), [TrackFX\_SetEQBandEnabled](#TrackFX_SetEQBandEnabled).
+            
+            FX indices can have 0x2000000 added to them, in which case they will be used to address FX in containers. To address a container, the 1-based subitem is multiplied by one plus the count of the FX chain and added to the 1-based container item index. e.g. to address the third item in the container at the second position of the track FX chain for tr, the index would be 0x2000000 + 3*(TrackFX_GetCount(tr)+1) + 2. This can be extended to sub-containers using TrackFX_GetNamedConfigParm with container_count and similar logic.
         </description>
         <retvals>
             boolean retval - true, if the EQ band is enabled; false, if the EQ band is disabled
@@ -23188,8 +23321,9 @@
         </chapter_context>
         <tags></tags>
         <changelog>
-            Reaper 6.43 - new bandtypes added, master gain(-1) and bandpass(6); bandidx is ignored by master gain
-            Reaper 6.44 - new bandtypes added, parallel bandpass(7)
+          Reaper 7.00 - added support for fx-containers
+          Reaper 6.44 - new bandtypes added, parallel bandpass(7)
+          Reaper 6.43 - new bandtypes added, master gain(-1) and bandpass(6); bandidx is ignored by master gain
         </changelog>
     </US_DocBloc>
 
@@ -23201,7 +23335,7 @@
         <functioncall prog_lang="lua">boolean retval, integer bandtype, integer bandidx, integer paramtype, number normval = reaper.TrackFX_GetEQParam(MediaTrack track, integer fx, integer paramidx)</functioncall>
         <functioncall prog_lang="python">(Boolean retval, MediaTrack track, Int fx, Int paramidx, Int bandtypeOut, Int bandidxOut, Int paramtypeOut, Float normvalOut) = RPR_TrackFX_GetEQParam(track, fxidx, paramidx, bandtypeOut, bandidxOut, paramtypeOut, normvalOut)</functioncall>
         <requires>
-            Reaper=6.44
+            Reaper=7.00
         </requires>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
             Returns false if track/fxidx is not ReaEQ.
@@ -23213,6 +23347,8 @@
             To use global monitoring inputFX, use the master-track, any other track will access the track's rec-input-fx.
 
             See [TrackFX\_GetEQ](#TrackFX_GetEQ), [TrackFX\_SetEQParam](#TrackFX_SetEQParam), [TrackFX\_GetEQBandEnabled](#TrackFX_GetEQBandEnabled), [TrackFX\_SetEQBandEnabled](#TrackFX_SetEQBandEnabled).
+            
+            FX indices can have 0x2000000 added to them, in which case they will be used to address FX in containers. To address a container, the 1-based subitem is multiplied by one plus the count of the FX chain and added to the 1-based container item index. e.g. to address the third item in the container at the second position of the track FX chain for tr, the index would be 0x2000000 + 3*(TrackFX_GetCount(tr)+1) + 2. This can be extended to sub-containers using TrackFX_GetNamedConfigParm with container_count and similar logic.
         </description>
         <retvals>
             boolean retval - true, if it's a ReaEQ-instance; false, is not a ReaEQ-instance or in case of an error
@@ -23242,8 +23378,9 @@
         </chapter_context>
         <tags></tags>
         <changelog>
-            Reaper 6.43 - new bandtypes added, bandpass(6)
-            Reaper 6.44 - new bandtypes added, parallel bandpass(7)
+          Reaper 7.00 - added support for fx-containers
+          Reaper 6.44 - new bandtypes added, parallel bandpass(7)
+          Reaper 6.43 - new bandtypes added, bandpass(6)
         </changelog>
     </US_DocBloc>
 
@@ -23255,13 +23392,15 @@
         <functioncall prog_lang="lua">HWND hwnd = reaper.TrackFX_GetFloatingWindow(MediaTrack track, integer fx)</functioncall>
         <functioncall prog_lang="python">HWND hwnd = RPR_TrackFX_GetFloatingWindow(MediaTrack track, Int fx)</functioncall>
         <requires>
-            Reaper=5.62
+            Reaper=7.00
         </requires>
         <description prog_lang="*">
             returns HWND of floating window for effect index, if any
 
             By setting fx you can add 0x1000000 set to reference input FX. 
             To use global monitoring inputFX, use the master-track, any other track will access the track's rec-input-fx.
+            
+            FX indices can have 0x2000000 added to them, in which case they will be used to address FX in containers. To address a container, the 1-based subitem is multiplied by one plus the count of the FX chain and added to the 1-based container item index. e.g. to address the third item in the container at the second position of the track FX chain for tr, the index would be 0x2000000 + 3*(TrackFX_GetCount(tr)+1) + 2. This can be extended to sub-containers using TrackFX_GetNamedConfigParm with container_count and similar logic.
         </description>
         <retvals>
             HWND hwnd - 
@@ -23278,6 +23417,7 @@
         </chapter_context>
         <tags></tags>
         <changelog>
+          Reaper 7.00 - added support for fx-containers
         </changelog>
     </US_DocBloc>
 
@@ -23289,11 +23429,13 @@
         <functioncall prog_lang="lua">boolean retval, string buf = reaper.TrackFX_GetFormattedParamValue(MediaTrack track, integer fx, integer param)</functioncall>
         <functioncall prog_lang="python">(Boolean retval, MediaTrack track, Int fx, Int param, String bufOut, Int bufOut_sz) = RPR_TrackFX_GetFormattedParamValue(track, fx, param, bufOut, bufOut_sz)</functioncall>
         <requires>
-            Reaper=6.37
+            Reaper=7.00
         </requires>
         <description prog_lang="*">
             By setting fx you can add 0x1000000 set to reference input FX. 
             To use global monitoring inputFX, use the master-track, any other track will access the track's rec-input-fx.
+            
+            FX indices can have 0x2000000 added to them, in which case they will be used to address FX in containers. To address a container, the 1-based subitem is multiplied by one plus the count of the FX chain and added to the 1-based container item index. e.g. to address the third item in the container at the second position of the track FX chain for tr, the index would be 0x2000000 + 3*(TrackFX_GetCount(tr)+1) + 2. This can be extended to sub-containers using TrackFX_GetNamedConfigParm with container_count and similar logic.
         </description>
         <retvals>
             boolean retval - 
@@ -23312,6 +23454,7 @@
         </chapter_context>
         <tags></tags>
         <changelog>
+          Reaper 7.00 - added support for fx-containers
         </changelog>
     </US_DocBloc>
 
@@ -23323,11 +23466,13 @@
         <functioncall prog_lang="lua">string GUID = reaper.TrackFX_GetFXGUID(MediaTrack track, integer fx)</functioncall>
         <functioncall prog_lang="python">String GUID = RPR_TrackFX_GetFXGUID(MediaTrack track, Int fx)</functioncall>
         <requires>
-            Reaper=5.62
+            Reaper=7.00
         </requires>
         <description prog_lang="*">
             By setting fx you can add 0x1000000 set to reference input FX. 
             To use global monitoring inputFX, use the master-track, any other track will access the track's rec-input-fx.
+            
+            FX indices can have 0x2000000 added to them, in which case they will be used to address FX in containers. To address a container, the 1-based subitem is multiplied by one plus the count of the FX chain and added to the 1-based container item index. e.g. to address the third item in the container at the second position of the track FX chain for tr, the index would be 0x2000000 + 3*(TrackFX_GetCount(tr)+1) + 2. This can be extended to sub-containers using TrackFX_GetNamedConfigParm with container_count and similar logic.
         </description>
         <retvals>
              string GUID - 
@@ -23344,6 +23489,7 @@
         </chapter_context>
         <tags></tags>
         <changelog>
+          Reaper 7.00 - added support for fx-containers
         </changelog>
     </US_DocBloc>
 
@@ -23355,11 +23501,13 @@
         <functioncall prog_lang="lua">boolean retval, string buf = reaper.TrackFX_GetFXName(MediaTrack track, integer fx)</functioncall>
         <functioncall prog_lang="python">(Boolean retval, MediaTrack track, Int fx, String bufOut, Int bufOut_sz) = RPR_TrackFX_GetFXName(track, fx, bufOut, bufOut_sz)</functioncall>
         <requires>
-            Reaper=6.37
+            Reaper=7.00
         </requires>
         <description prog_lang="*">
             By setting fx you can add 0x1000000 set to reference input FX. 
             To use global monitoring inputFX, use the master-track, any other track will access the track's rec-input-fx.
+            
+            FX indices can have 0x2000000 added to them, in which case they will be used to address FX in containers. To address a container, the 1-based subitem is multiplied by one plus the count of the FX chain and added to the 1-based container item index. e.g. to address the third item in the container at the second position of the track FX chain for tr, the index would be 0x2000000 + 3*(TrackFX_GetCount(tr)+1) + 2. This can be extended to sub-containers using TrackFX_GetNamedConfigParm with container_count and similar logic.
         </description>
         <retvals>
             boolean retval - 
@@ -23377,6 +23525,7 @@
         </chapter_context>
         <tags></tags>
         <changelog>
+          Reaper 7.00 - added support for fx-containers
         </changelog>
     </US_DocBloc>
 
@@ -23388,10 +23537,12 @@
         <functioncall prog_lang="lua">integer retval = reaper.TrackFX_GetInstrument(MediaTrack track)</functioncall>
         <functioncall prog_lang="python">Int retval = RPR_TrackFX_GetInstrument(MediaTrack track)</functioncall>
         <requires>
-            Reaper=5.62
+            Reaper=7.00
         </requires>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
             Get the index of the first track FX insert that is a virtual instrument, or -1 if none. See [TrackFX\_GetEQ](#TrackFX_GetEQ), [TrackFX\_GetByName](#TrackFX_GetByName).
+            
+            FX indices can have 0x2000000 added to them, in which case they will be used to address FX in containers. To address a container, the 1-based subitem is multiplied by one plus the count of the FX chain and added to the 1-based container item index. e.g. to address the third item in the container at the second position of the track FX chain for tr, the index would be 0x2000000 + 3*(TrackFX_GetCount(tr)+1) + 2. This can be extended to sub-containers using TrackFX_GetNamedConfigParm with container_count and similar logic.
         </description>
         <retvals>
             integer retval - 
@@ -23407,6 +23558,7 @@
         </chapter_context>
         <tags></tags>
         <changelog>
+          Reaper 7.00 - added support for fx-containers
         </changelog>
     </US_DocBloc>
 
@@ -23418,7 +23570,7 @@
         <functioncall prog_lang="lua">integer retval, integer inputPins, integer outputPins = reaper.TrackFX_GetIOSize(MediaTrack track, integer fx)</functioncall>
         <functioncall prog_lang="python">(Int retval, MediaTrack track, Int fx, Int inputPinsOut, Int outputPinsOut) = RPR_TrackFX_GetIOSize(track, fx, inputPinsOut, outputPinsOut)</functioncall>
         <requires>
-            Reaper=6.43
+            Reaper=7.00
         </requires>
         <description prog_lang="*">
             gets the number of input/output pins for FX if available, returns plug-in type or -1 on error
@@ -23434,6 +23586,8 @@
             6, "Video Processor"
             7, "CLAP"
             8, "Container"
+            
+            FX indices can have 0x2000000 added to them, in which case they will be used to address FX in containers. To address a container, the 1-based subitem is multiplied by one plus the count of the FX chain and added to the 1-based container item index. e.g. to address the third item in the container at the second position of the track FX chain for tr, the index would be 0x2000000 + 3*(TrackFX_GetCount(tr)+1) + 2. This can be extended to sub-containers using TrackFX_GetNamedConfigParm with container_count and similar logic.
         </description>
         <retvals>
             integer retval - 
@@ -23452,11 +23606,12 @@
         </chapter_context>
         <tags></tags>
         <changelog>
-            Reaper 6.43 - the following retvals and parameters are not optional anymore
-                        - CPP: inputPinsOut, outputPinsOut
-                        - EEL2: inputPins, outputPins
-                        - Lua: inputPins, outputPins
-                        - Python: inputPinsOut, outputPinsOut
+          Reaper 7.00 - added support for fx-containers
+          Reaper 6.43 - the following retvals and parameters are not optional anymore
+                      - CPP: inputPinsOut, outputPinsOut
+                      - EEL2: inputPins, outputPins
+                      - Lua: inputPins, outputPins
+                      - Python: inputPinsOut, outputPinsOut
         </changelog>
     </US_DocBloc>
 
@@ -23468,7 +23623,7 @@
         <functioncall prog_lang="lua">boolean retval, string buf = reaper.TrackFX_GetNamedConfigParm(MediaTrack track, integer fx, string parmname)</functioncall>
         <functioncall prog_lang="python">(Boolean retval, MediaTrack track, Int fx, String parmname, String bufOutNeedBig, Int bufOutNeedBig_sz) = RPR_TrackFX_GetNamedConfigParm(track, fx, parmname, bufOutNeedBig, bufOutNeedBig_sz)</functioncall>
         <requires>
-            Reaper=6.79
+            Reaper=7.00
         </requires>
         <description prog_lang="*">
             gets plug-in specific named configuration value (returns true on success). 
@@ -23498,6 +23653,15 @@
               param.X.learn.[midi1,midi2,osc] : first two bytes of MIDI message, or OSC string if set
               param.X.learn.mode : absolution/relative mode flag (0: Absolute, 1: 127=-1,1=+1, 2: 63=-1, 65=+1, 3: 65=-1, 1=+1, 4: toggle if nonzero)
               param.X.learn.flags : &1=selected track only, &2=soft takeover, &4=focused FX only, &8=LFO retrigger, &16=visible FX only
+              param.X.container_map.fx_index : index of FX contained in container
+              param.X.container_map.fx_parm : parameter index of parameter of FX contained in container
+              param.X.container_map.aliased_name : name of parameter (if user-renamed, otherwise fails)
+              
+              container_nch : number of internal channels for container
+              container_nch_in : number of input pins for container
+              container_nch_out : number of output pints for container
+              container_nch_feedback : number of internal feedback channels enabled in container
+              
               BANDTYPEx, BANDENABLEDx : band configuration [ReaEQ]
               THRESHOLD, CEILING, TRUEPEAK : [ReaLlmit]
               NUMCHANNELS, NUMSPEAKERS, RESETCHANNELS : [ReaSurroundPan]
@@ -23511,6 +23675,8 @@
               instance_oversample_shift : instance oversampling shift amount, 0=none, 1=~96k, 2=~192k, etc. When setting requires playback stop/start to take effect
               chain_oversample_shift : chain oversampling shift amount, 0=none, 1=~96k, 2=~192k, etc. When setting requires playback stop/start to take effect
               chain_pdc_mode : chain PDC mode (0=classic, 1=new-default, 2=ignore PDC, 3=hwcomp-master)
+              
+              FX indices can have 0x2000000 added to them, in which case they will be used to address FX in containers. To address a container, the 1-based subitem is multiplied by one plus the count of the FX chain and added to the 1-based container item index. e.g. to address the third item in the container at the second position of the track FX chain for tr, the index would be 0x2000000 + 3*(TrackFX_GetCount(tr)+1) + 2. This can be extended to sub-containers using TrackFX_GetNamedConfigParm with container_count and similar logic.
         </description>
         <retvals>
             boolean retval - 
@@ -23529,6 +23695,7 @@
         </chapter_context>
         <tags></tags>
         <changelog>
+          Reaper 7.00 - added support for fx-containers
           Reaper 6.79 - added original_name to get original name and renamed_name to get (re-)name of fx-instances
           Reaper 6.72 - added support for autobypass, instance oversample shift, chain oversample shift and chain pdc-mode
           Reaper 6.71 - added support for parameter modulation/linking; vst/videoprocessor-data getting
@@ -23543,11 +23710,13 @@
         <functioncall prog_lang="lua">integer retval = reaper.TrackFX_GetNumParams(MediaTrack track, integer fx)</functioncall>
         <functioncall prog_lang="python">Int retval = RPR_TrackFX_GetNumParams(MediaTrack track, Int fx)</functioncall>
         <requires>
-            Reaper=5.62
+            Reaper=7.00
         </requires>
         <description prog_lang="*">
             By setting fx you can add 0x1000000 set to reference input FX. 
             To use global monitoring inputFX, use the master-track, any other track will access the track's rec-input-fx.
+            
+            FX indices can have 0x2000000 added to them, in which case they will be used to address FX in containers. To address a container, the 1-based subitem is multiplied by one plus the count of the FX chain and added to the 1-based container item index. e.g. to address the third item in the container at the second position of the track FX chain for tr, the index would be 0x2000000 + 3*(TrackFX_GetCount(tr)+1) + 2. This can be extended to sub-containers using TrackFX_GetNamedConfigParm with container_count and similar logic.
         </description>
         <retvals>
             integer retval - 
@@ -23564,6 +23733,7 @@
         </chapter_context>
         <tags></tags>
         <changelog>
+          Reaper 7.00 - added support for fx-containers
         </changelog>
     </US_DocBloc>
 
@@ -23575,13 +23745,15 @@
         <functioncall prog_lang="lua">boolean retval = reaper.TrackFX_GetOpen(MediaTrack track, integer fx)</functioncall>
         <functioncall prog_lang="python">Boolean retval = RPR_TrackFX_GetOpen(MediaTrack track, Int fx)</functioncall>
         <requires>
-            Reaper=5.62
+            Reaper=7.00
         </requires>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
             Returns true if this FX UI is open in the FX chain window or a floating window. See [TrackFX\_SetOpen](#TrackFX_SetOpen)
 
             By setting fx you can add 0x1000000 set to reference input FX. 
             To use global monitoring inputFX, use the master-track, any other track will access the track's rec-input-fx.
+            
+            FX indices can have 0x2000000 added to them, in which case they will be used to address FX in containers. To address a container, the 1-based subitem is multiplied by one plus the count of the FX chain and added to the 1-based container item index. e.g. to address the third item in the container at the second position of the track FX chain for tr, the index would be 0x2000000 + 3*(TrackFX_GetCount(tr)+1) + 2. This can be extended to sub-containers using TrackFX_GetNamedConfigParm with container_count and similar logic.
         </description>
         <retvals>
             boolean retval - true, TrackFX is open; false, TrackFX is closed
@@ -23598,6 +23770,7 @@
         </chapter_context>
         <tags>trackmanagement, check, open, get, ui, fx</tags>
         <changelog>
+          Reaper 7.00 - added support for fx-containers
         </changelog>
     </US_DocBloc>
 
@@ -23609,11 +23782,13 @@
         <functioncall prog_lang="lua">number retval, number minval, number maxval = reaper.TrackFX_GetParam(MediaTrack track, integer fx, integer param)</functioncall>
         <functioncall prog_lang="python">(Float retval, MediaTrack track, Int fx, Int param, Float minvalOut, Float maxvalOut) = RPR_TrackFX_GetParam(track, fx, param, minvalOut, maxvalOut)</functioncall>
         <requires>
-            Reaper=5.62
+            Reaper=7.00
         </requires>
         <description prog_lang="*">
             By setting fx you can add 0x1000000 set to reference input FX. 
             To use global monitoring inputFX, use the master-track, any other track will access the track's rec-input-fx.
+            
+            FX indices can have 0x2000000 added to them, in which case they will be used to address FX in containers. To address a container, the 1-based subitem is multiplied by one plus the count of the FX chain and added to the 1-based container item index. e.g. to address the third item in the container at the second position of the track FX chain for tr, the index would be 0x2000000 + 3*(TrackFX_GetCount(tr)+1) + 2. This can be extended to sub-containers using TrackFX_GetNamedConfigParm with container_count and similar logic.
         </description>
         <retvals>
             number retval - 
@@ -23633,6 +23808,7 @@
         </chapter_context>
         <tags></tags>
         <changelog>
+          Reaper 7.00 - added support for fx-containers
         </changelog>
     </US_DocBloc>
 
@@ -23644,11 +23820,13 @@
         <functioncall prog_lang="lua">boolean retval, number step, number smallstep, number largestep, boolean istoggle = reaper.TrackFX_GetParameterStepSizes(MediaTrack track, integer fx, integer param)</functioncall>
         <functioncall prog_lang="python">(Boolean retval, MediaTrack track, Int fx, Int param, Float stepOut, Float smallstepOut, Float largestepOut, Boolean istoggleOut) = RPR_TrackFX_GetParameterStepSizes(track, fx, param, stepOut, smallstepOut, largestepOut, istoggleOut)</functioncall>
         <requires>
-            Reaper=5.62
+            Reaper=7.00
         </requires>
         <description prog_lang="*">
             By setting fx you can add 0x1000000 set to reference input FX. 
             To use global monitoring inputFX, use the master-track, any other track will access the track's rec-input-fx.
+            
+            FX indices can have 0x2000000 added to them, in which case they will be used to address FX in containers. To address a container, the 1-based subitem is multiplied by one plus the count of the FX chain and added to the 1-based container item index. e.g. to address the third item in the container at the second position of the track FX chain for tr, the index would be 0x2000000 + 3*(TrackFX_GetCount(tr)+1) + 2. This can be extended to sub-containers using TrackFX_GetNamedConfigParm with container_count and similar logic.
         </description>
         <retvals>
             boolean retval - 
@@ -23670,6 +23848,7 @@
         </chapter_context>
         <tags></tags>
         <changelog>
+          Reaper 7.00 - added support for fx-containers
         </changelog>
     </US_DocBloc>
 
@@ -23681,11 +23860,13 @@
         <functioncall prog_lang="lua">number retval, number minval, number maxval, number midval = reaper.TrackFX_GetParamEx(MediaTrack track, integer fx, integer param)</functioncall>
         <functioncall prog_lang="python">(Float retval, MediaTrack track, Int fx, Int param, Float minvalOut, Float maxvalOut, Float midvalOut) = RPR_TrackFX_GetParamEx(track, fx, param, minvalOut, maxvalOut, midvalOut)</functioncall>
         <requires>
-            Reaper=5.62
+            Reaper=7.00
         </requires>
         <description prog_lang="*">
             By setting fx you can add 0x1000000 set to reference input FX. 
             To use global monitoring inputFX, use the master-track, any other track will access the track's rec-input-fx.
+            
+            FX indices can have 0x2000000 added to them, in which case they will be used to address FX in containers. To address a container, the 1-based subitem is multiplied by one plus the count of the FX chain and added to the 1-based container item index. e.g. to address the third item in the container at the second position of the track FX chain for tr, the index would be 0x2000000 + 3*(TrackFX_GetCount(tr)+1) + 2. This can be extended to sub-containers using TrackFX_GetNamedConfigParm with container_count and similar logic.
         </description>
         <retvals>
             number retval - 
@@ -23706,6 +23887,7 @@
         </chapter_context>
         <tags></tags>
         <changelog>
+          Reaper 7.00 - added support for fx-containers
         </changelog>
     </US_DocBloc>
 
@@ -23717,10 +23899,12 @@
         <functioncall prog_lang="lua">integer param = reaper.TrackFX_GetParamFromIdent(MediaTrack track, integer fx, string ident_str)</functioncall>
         <functioncall prog_lang="python">Int retval = RPR_TrackFX_GetParamFromIdent(MediaTrack track, Int fx, String ident_str)</functioncall>
         <requires>
-            Reaper=6.38
+            Reaper=7.00
         </requires>
         <description prog_lang="*">
             gets the parameter index from an identifying string (:wet, :bypass, :delta, or a string returned from GetParamIdent), or -1 if unknown.
+            
+            FX indices can have 0x2000000 added to them, in which case they will be used to address FX in containers. To address a container, the 1-based subitem is multiplied by one plus the count of the FX chain and added to the 1-based container item index. e.g. to address the third item in the container at the second position of the track FX chain for tr, the index would be 0x2000000 + 3*(TrackFX_GetCount(tr)+1) + 2. This can be extended to sub-containers using TrackFX_GetNamedConfigParm with container_count and similar logic.
         </description>
         <retvals>
             integer param - 
@@ -23738,6 +23922,7 @@
         </chapter_context>
         <tags></tags>
         <changelog>
+          Reaper 7.00 - added support for fx-containers
         </changelog>
     </US_DocBloc>
 
@@ -23749,10 +23934,12 @@
         <functioncall prog_lang="lua">boolean retval, string buf = reaper.TrackFX_GetParamIdent(MediaTrack track, integer fx, integer param)</functioncall>
         <functioncall prog_lang="python">(Boolean retval, MediaTrack track, Int fx, Int param, String bufOut, Int bufOut_sz) = RPR_TrackFX_GetParamIdent(track, fx, param, bufOut, bufOut_sz)</functioncall>
         <requires>
-            Reaper=6.37
+            Reaper=7.00
         </requires>
         <description prog_lang="*">
             gets an identifying string for the parameter
+            
+            FX indices can have 0x2000000 added to them, in which case they will be used to address FX in containers. To address a container, the 1-based subitem is multiplied by one plus the count of the FX chain and added to the 1-based container item index. e.g. to address the third item in the container at the second position of the track FX chain for tr, the index would be 0x2000000 + 3*(TrackFX_GetCount(tr)+1) + 2. This can be extended to sub-containers using TrackFX_GetNamedConfigParm with container_count and similar logic.
         </description>
         <retvals>
             boolean retval - 
@@ -23771,6 +23958,7 @@
         </chapter_context>
         <tags></tags>
         <changelog>
+          Reaper 7.00 - added support for fx-containers
         </changelog>
     </US_DocBloc>
     
@@ -23783,11 +23971,13 @@
         <functioncall prog_lang="lua">boolean retval, string buf = reaper.TrackFX_GetParamName(MediaTrack track, integer fx, integer param)</functioncall>
         <functioncall prog_lang="python">(Boolean retval, MediaTrack track, Int fx, Int param, String bufOut, Int bufOut_sz) = RPR_TrackFX_GetParamName(track, fx, param, bufOut, bufOut_sz)</functioncall>
         <requires>
-            Reaper=6.37
+            Reaper=7.00
         </requires>
         <description prog_lang="*">
             By setting fx you can add 0x1000000 set to reference input FX. 
             To use global monitoring inputFX, use the master-track, any other track will access the track's rec-input-fx.
+            
+            FX indices can have 0x2000000 added to them, in which case they will be used to address FX in containers. To address a container, the 1-based subitem is multiplied by one plus the count of the FX chain and added to the 1-based container item index. e.g. to address the third item in the container at the second position of the track FX chain for tr, the index would be 0x2000000 + 3*(TrackFX_GetCount(tr)+1) + 2. This can be extended to sub-containers using TrackFX_GetNamedConfigParm with container_count and similar logic.
         </description>
         <retvals>
             boolean retval - 
@@ -23806,6 +23996,7 @@
         </chapter_context>
         <tags></tags>
         <changelog>
+          Reaper 7.00 - added support for fx-containers
         </changelog>
     </US_DocBloc>
 
@@ -23817,11 +24008,13 @@
         <functioncall prog_lang="lua">number retval = reaper.TrackFX_GetParamNormalized(MediaTrack track, integer fx, integer param)</functioncall>
         <functioncall prog_lang="python">Float retval = RPR_TrackFX_GetParamNormalized(MediaTrack track, Int fx, Int param)</functioncall>
         <requires>
-            Reaper=5.62
+            Reaper=7.00
         </requires>
         <description prog_lang="*">
             By setting fx you can add 0x1000000 set to reference input FX. 
             To use global monitoring inputFX, use the master-track, any other track will access the track's rec-input-fx.
+            
+            FX indices can have 0x2000000 added to them, in which case they will be used to address FX in containers. To address a container, the 1-based subitem is multiplied by one plus the count of the FX chain and added to the 1-based container item index. e.g. to address the third item in the container at the second position of the track FX chain for tr, the index would be 0x2000000 + 3*(TrackFX_GetCount(tr)+1) + 2. This can be extended to sub-containers using TrackFX_GetNamedConfigParm with container_count and similar logic.
         </description>
         <retvals>
             number retval - 
@@ -23839,6 +24032,7 @@
         </chapter_context>
         <tags></tags>
         <changelog>
+          Reaper 7.00 - added support for fx-containers
         </changelog>
     </US_DocBloc>
 
@@ -23850,13 +24044,15 @@
         <functioncall prog_lang="lua">integer retval, integer high32 = reaper.TrackFX_GetPinMappings(MediaTrack tr, integer fx, integer isoutput, integer pin)</functioncall>
         <functioncall prog_lang="python">(Int retval, MediaTrack tr, Int fx, Int isoutput, Int pin, Int high32Out) = RPR_TrackFX_GetPinMappings(tr, fx, isoutput, pin, high32Out)</functioncall>
         <requires>
-            Reaper=6.43
+            Reaper=7.00
         </requires>
         <description prog_lang="*">
             gets the effective channel mapping bitmask for a particular pin. high32Out will be set to the high 32 bits
 
             By setting fx you can add 0x1000000 set to reference input FX. 
             To use global monitoring inputFX, use the master-track, any other track will access the track's rec-input-fx.
+            
+            FX indices can have 0x2000000 added to them, in which case they will be used to address FX in containers. To address a container, the 1-based subitem is multiplied by one plus the count of the FX chain and added to the 1-based container item index. e.g. to address the third item in the container at the second position of the track FX chain for tr, the index would be 0x2000000 + 3*(TrackFX_GetCount(tr)+1) + 2. This can be extended to sub-containers using TrackFX_GetNamedConfigParm with container_count and similar logic.
         </description>
         <retvals>
             integer retval - 
@@ -23876,6 +24072,7 @@
         </chapter_context>
         <tags></tags>
         <changelog>
+            Reaper 7.00 - added support for fx-containers
             Reaper 6.43 - the following retvals and parameters aren't optional anymore
                         - CPP: high32Out
                         - EEL2: high32
@@ -23892,7 +24089,7 @@
         <functioncall prog_lang="lua">boolean retval, string presetname = reaper.TrackFX_GetPreset(MediaTrack track, integer fx)</functioncall>
         <functioncall prog_lang="python">(Boolean retval, MediaTrack track, Int fx, String presetnameOut, Int presetnameOut_sz) = RPR_TrackFX_GetPreset(track, fx, presetnameOut, presetnameOut_sz)</functioncall>
         <requires>
-            Reaper=6.37
+            Reaper=7.00
         </requires>
         <description>
             Get the name of the preset currently showing in the REAPER dropdown, or the full path to a factory preset file for VST3 plug-ins (.vstpreset). 
@@ -23903,6 +24100,8 @@
 
             By setting fx you can add 0x1000000 set to reference input FX. 
             To use global monitoring inputFX, use the master-track, any other track will access the track's rec-input-fx.
+            
+            FX indices can have 0x2000000 added to them, in which case they will be used to address FX in containers. To address a container, the 1-based subitem is multiplied by one plus the count of the FX chain and added to the 1-based container item index. e.g. to address the third item in the container at the second position of the track FX chain for tr, the index would be 0x2000000 + 3*(TrackFX_GetCount(tr)+1) + 2. This can be extended to sub-containers using TrackFX_GetNamedConfigParm with container_count and similar logic.
         </description>
         <retvals>
             boolean retval - true, the fx-parameters match preset; false, the fx-parameters do not match preset(see description)
@@ -23924,6 +24123,7 @@
         </chapter_context>
         <tags></tags>
         <changelog>
+          Reaper 7.00 - added support for fx-containers
         </changelog>
     </US_DocBloc>
 
@@ -23935,13 +24135,15 @@
         <functioncall prog_lang="lua">integer retval, integer numberOfPresets = reaper.TrackFX_GetPresetIndex(MediaTrack track, integer fx)</functioncall>
         <functioncall prog_lang="python">(Int retval, MediaTrack track, Int fx, Int numberOfPresetsOut) = RPR_TrackFX_GetPresetIndex(track, fx, numberOfPresetsOut)</functioncall>
         <requires>
-            Reaper=5.62
+            Reaper=7.00
         </requires>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
             Returns current preset index, or -1 if error. numberOfPresetsOut will be set to total number of presets available. See [TrackFX\_SetPresetByIndex](#TrackFX_SetPresetByIndex)
 
             By setting fx you can add 0x1000000 set to reference input FX. 
             To use global monitoring inputFX, use the master-track, any other track will access the track's rec-input-fx.
+            
+            FX indices can have 0x2000000 added to them, in which case they will be used to address FX in containers. To address a container, the 1-based subitem is multiplied by one plus the count of the FX chain and added to the 1-based container item index. e.g. to address the third item in the container at the second position of the track FX chain for tr, the index would be 0x2000000 + 3*(TrackFX_GetCount(tr)+1) + 2. This can be extended to sub-containers using TrackFX_GetNamedConfigParm with container_count and similar logic.
         </description>
         <retvals>
             integer retval - 
@@ -23959,6 +24161,7 @@
         </chapter_context>
         <tags></tags>
         <changelog>
+          Reaper 7.00 - added support for fx-containers
         </changelog>
     </US_DocBloc>
 
@@ -23970,7 +24173,7 @@
         <functioncall prog_lang="lua">integer retval = reaper.TrackFX_GetRecChainVisible(MediaTrack track)</functioncall>
         <functioncall prog_lang="python">Int retval = RPR_TrackFX_GetRecChainVisible(MediaTrack track)</functioncall>
         <requires>
-            Reaper=5.62
+            Reaper=7.00
         </requires>
         <description prog_lang="*">
             returns index of effect visible in record input chain, or -1 for chain hidden, or -2 for chain visible but no effect selected
@@ -23980,6 +24183,8 @@
             Note:
             To access record input FX in other TrackFX-functions, use FX indices [0x1000000..0x1000000+n) for the individual fxs in the FXChain and pass over the track, whose rec-input-fxchain you want to access.
             Also pass over the track, whose rec-input-fx you want to access. Pass over MasterTrack to get the monitoring FX-chain.
+            
+            FX indices can have 0x2000000 added to them, in which case they will be used to address FX in containers. To address a container, the 1-based subitem is multiplied by one plus the count of the FX chain and added to the 1-based container item index. e.g. to address the third item in the container at the second position of the track FX chain for tr, the index would be 0x2000000 + 3*(TrackFX_GetCount(tr)+1) + 2. This can be extended to sub-containers using TrackFX_GetNamedConfigParm with container_count and similar logic.
         </description>
         <retvals>
             integer retval - 
@@ -23995,6 +24200,7 @@
         </chapter_context>
         <tags></tags>
         <changelog>
+          Reaper 7.00 - added support for fx-containers
         </changelog>
     </US_DocBloc>
 
@@ -24006,7 +24212,7 @@
         <functioncall prog_lang="lua">integer retval = reaper.TrackFX_GetRecCount(MediaTrack track)</functioncall>
         <functioncall prog_lang="python">Int retval = RPR_TrackFX_GetRecCount(MediaTrack track)</functioncall>
         <requires>
-            Reaper=5.62
+            Reaper=7.00
         </requires>
         <description prog_lang="*">
             returns count of record input FX of a track. 
@@ -24017,6 +24223,7 @@
             To access record input FX in other TrackFX-functions, use FX indices [0x1000000..0x1000000+n) for the individual fxs in the FXChain and pass over the track, whose rec-input-fxchain you want to access.
             Also pass over the track, whose rec-input-fx you want to access. Pass over MasterTrack to get the monitoring FX-chain.
 
+            FX indices can have 0x2000000 added to them, in which case they will be used to address FX in containers. To address a container, the 1-based subitem is multiplied by one plus the count of the FX chain and added to the 1-based container item index. e.g. to address the third item in the container at the second position of the track FX chain for tr, the index would be 0x2000000 + 3*(TrackFX_GetCount(tr)+1) + 2. This can be extended to sub-containers using TrackFX_GetNamedConfigParm with container_count and similar logic.
         </description>
         <retvals>
             integer retval - 
@@ -24032,6 +24239,7 @@
         </chapter_context>
         <tags></tags>
         <changelog>
+          Reaper 7.00 - added support for fx-containers
         </changelog>
     </US_DocBloc>
 
@@ -24043,11 +24251,13 @@
         <functioncall prog_lang="lua">string fn = reaper.TrackFX_GetUserPresetFilename(MediaTrack track, integer fx)</functioncall>
         <functioncall prog_lang="python">(MediaTrack track, Int fx, String fnOut, Int fnOut_sz) = RPR_TrackFX_GetUserPresetFilename(track, fx, fnOut, fnOut_sz)</functioncall>
         <requires>
-            Reaper=6.37
+            Reaper=7.00
         </requires>
         <description prog_lang="*">
             By setting fx you can add 0x1000000 set to reference input FX. 
             To use global monitoring inputFX, use the master-track, any other track will access the track's rec-input-fx.
+            
+            FX indices can have 0x2000000 added to them, in which case they will be used to address FX in containers. To address a container, the 1-based subitem is multiplied by one plus the count of the FX chain and added to the 1-based container item index. e.g. to address the third item in the container at the second position of the track FX chain for tr, the index would be 0x2000000 + 3*(TrackFX_GetCount(tr)+1) + 2. This can be extended to sub-containers using TrackFX_GetNamedConfigParm with container_count and similar logic.
         </description>
         <retvals>
             string fn - 
@@ -24064,6 +24274,7 @@
         </chapter_context>
         <tags></tags>
         <changelog>
+          Reaper 7.00 - added support for fx-containers
         </changelog>
     </US_DocBloc>
 
@@ -24075,13 +24286,15 @@
         <functioncall prog_lang="lua">boolean retval = reaper.TrackFX_NavigatePresets(MediaTrack track, integer fx, integer presetmove)</functioncall>
         <functioncall prog_lang="python">Boolean retval = RPR_TrackFX_NavigatePresets(MediaTrack track, Int fx, Int presetmove)</functioncall>
         <requires>
-            Reaper=5.62
+            Reaper=7.00
         </requires>
         <description prog_lang="*">
             presetmove==1 activates the next preset, presetmove==-1 activates the previous preset, etc.
 
             By setting fx you can add 0x1000000 set to reference input FX. 
             To use global monitoring inputFX, use the master-track, any other track will access the track's rec-input-fx.
+            
+            FX indices can have 0x2000000 added to them, in which case they will be used to address FX in containers. To address a container, the 1-based subitem is multiplied by one plus the count of the FX chain and added to the 1-based container item index. e.g. to address the third item in the container at the second position of the track FX chain for tr, the index would be 0x2000000 + 3*(TrackFX_GetCount(tr)+1) + 2. This can be extended to sub-containers using TrackFX_GetNamedConfigParm with container_count and similar logic.
         </description>
         <retvals>
             boolean retval - 
@@ -24099,6 +24312,7 @@
         </chapter_context>
         <tags></tags>
         <changelog>
+          Reaper 7.00 - added support for fx-containers
         </changelog>
     </US_DocBloc>
 
@@ -24110,7 +24324,7 @@
         <functioncall prog_lang="lua">reaper.TrackFX_SetEnabled(MediaTrack track, integer fx, boolean enabled)</functioncall>
         <functioncall prog_lang="python">RPR_TrackFX_SetEnabled(MediaTrack track, Int fx, Boolean enabled)</functioncall>
         <requires>
-            Reaper=5.62
+            Reaper=7.00
         </requires>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
             Set a TrackFX enabled/disabled.
@@ -24119,6 +24333,8 @@
             To use global monitoring inputFX, use the master-track, any other track will access the track's rec-input-fx.
 
             See [TrackFX\_GetEnabled](#TrackFX_GetEnabled)
+            
+            FX indices can have 0x2000000 added to them, in which case they will be used to address FX in containers. To address a container, the 1-based subitem is multiplied by one plus the count of the FX chain and added to the 1-based container item index. e.g. to address the third item in the container at the second position of the track FX chain for tr, the index would be 0x2000000 + 3*(TrackFX_GetCount(tr)+1) + 2. This can be extended to sub-containers using TrackFX_GetNamedConfigParm with container_count and similar logic.
         </description>
         <parameters>
             MediaTrack track - 
@@ -24133,6 +24349,7 @@
         </chapter_context>
         <tags></tags>
         <changelog>
+          Reaper 7.00 - added support for fx-containers
         </changelog>
     </US_DocBloc>
 
@@ -24144,7 +24361,7 @@
         <functioncall prog_lang="lua">boolean reaper.TrackFX_SetEQBandEnabled(MediaTrack track, integer fxidx, integer bandtype, integer bandidx, boolean enable)</functioncall>
         <functioncall prog_lang="python">Boolean retval = RPR_TrackFX_SetEQBandEnabled(MediaTrack track, Int fxidx, Int bandtype, Int bandidx, Boolean enable)</functioncall>
         <requires>
-            Reaper=6.44
+            Reaper=7.00
         </requires>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
             Enable or disable a ReaEQ band.
@@ -24155,6 +24372,8 @@
 
             By setting fx you can add 0x1000000 set to reference input FX. 
             To use global monitoring inputFX, use the master-track, any other track will access the track's rec-input-fx.
+            
+            FX indices can have 0x2000000 added to them, in which case they will be used to address FX in containers. To address a container, the 1-based subitem is multiplied by one plus the count of the FX chain and added to the 1-based container item index. e.g. to address the third item in the container at the second position of the track FX chain for tr, the index would be 0x2000000 + 3*(TrackFX_GetCount(tr)+1) + 2. This can be extended to sub-containers using TrackFX_GetNamedConfigParm with container_count and similar logic.
         </description>
         <retvals>
             boolean retval - 
@@ -24182,8 +24401,9 @@
         </chapter_context>
         <tags></tags>
         <changelog>
-            Reaper 6.43 - new bandtypes added, master gain(-1) and bandpass(6); bandidx is ignored by master gain
-            Reaper 6.44 - new bandtypes added, parallel bandpass(7)
+          Reaper 7.00 - added support for fx-containers
+          Reaper 6.44 - new bandtypes added, parallel bandpass(7)
+          Reaper 6.43 - new bandtypes added, master gain(-1) and bandpass(6); bandidx is ignored by master gain
         </changelog>
     </US_DocBloc>
 
@@ -24195,7 +24415,7 @@
         <functioncall prog_lang="lua">boolean retval = reaper.TrackFX_SetEQParam(MediaTrack track, integer fx, integer bandtype, integer bandidx, integer paramtype, number val, boolean isnorm)</functioncall>
         <functioncall prog_lang="python">Boolean retval = RPR_TrackFX_SetEQParam(MediaTrack track, Int fx, Int bandtype, Int bandidx, Int paramtype, Float val, Boolean isnorm)</functioncall>
         <requires>
-            Reaper=6.44
+            Reaper=7.00
         </requires>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
             Returns false if track/fxidx is not ReaEQ. Targets a band matching bandtype.
@@ -24206,6 +24426,8 @@
 
             By setting fx you can add 0x1000000 set to reference input FX. 
             To use global monitoring inputFX, use the master-track, any other track will access the track's rec-input-fx.
+            
+            FX indices can have 0x2000000 added to them, in which case they will be used to address FX in containers. To address a container, the 1-based subitem is multiplied by one plus the count of the FX chain and added to the 1-based container item index. e.g. to address the third item in the container at the second position of the track FX chain for tr, the index would be 0x2000000 + 3*(TrackFX_GetCount(tr)+1) + 2. This can be extended to sub-containers using TrackFX_GetNamedConfigParm with container_count and similar logic.
         </description>
         <retvals>
             boolean retval - true, setting was successful; false, setting was unsuccesful
@@ -24237,8 +24459,9 @@
         </chapter_context>
         <tags></tags>
         <changelog>
-            Reaper 6.43 - new bandtypes added: bandpass(6)
-            Reaper 6.44 - new bandtypes added, parallel bandpass(7)
+          Reaper 7.00 - added support for fx-containers
+          Reaper 6.44 - new bandtypes added, parallel bandpass(7)
+          Reaper 6.43 - new bandtypes added: bandpass(6)
         </changelog>
     </US_DocBloc>
 
@@ -24250,7 +24473,7 @@
         <functioncall prog_lang="lua">boolean retval = reaper.TrackFX_SetNamedConfigParm(MediaTrack track, integer fx, string parmname, string value)</functioncall>
         <functioncall prog_lang="python">Boolean retval = RPR_TrackFX_SetNamedConfigParm(MediaTrack track, Int fx, String parmname, String value)</functioncall>
         <requires>
-            Reaper=6.79
+            Reaper=7.00
         </requires>
         <description prog_lang="*">
             sets plug-in specific named configuration value (returns true on success)
@@ -24269,7 +24492,15 @@
             param.X.learn.[midi1,midi2,osc] : first two bytes of MIDI message, or OSC string if set
             param.X.learn.mode : absolution/relative mode flag (0: Absolute, 1: 127=-1,1=+1, 2: 63=-1, 65=+1, 3: 65=-1, 1=+1, 4: toggle if nonzero)
             param.X.learn.flags : &1=selected track only, &2=soft takeover, &4=focused FX only, &8=LFO retrigger, &16=visible FX only
+            param.X.container_map.fx_index : index of FX contained in container
+            param.X.container_map.fx_parm : parameter index of parameter of FX contained in container
+            param.X.container_map.aliased_name : name of parameter (if user-renamed, otherwise fails)
             
+            container_nch : number of internal channels for container
+            container_nch_in : number of input pins for container
+            container_nch_out : number of output pints for container
+            container_nch_feedback : number of internal feedback channels enabled in container
+              
             BANDTYPEx, BANDENABLEDx : band configuration [ReaEQ]
             THRESHOLD, CEILING, TRUEPEAK : [ReaLlmit]
             NUMCHANNELS, NUMSPEAKERS, RESETCHANNELS : [ReaSurroundPan]
@@ -24284,6 +24515,8 @@
             chain_pdc_mode : chain PDC mode (0=classic, 1=new-default, 2=ignore PDC, 3=hwcomp-master)
             
             renamed_name : renamed FX instance name (empty string = not renamed)
+            
+            FX indices can have 0x2000000 added to them, in which case they will be used to address FX in containers. To address a container, the 1-based subitem is multiplied by one plus the count of the FX chain and added to the 1-based container item index. e.g. to address the third item in the container at the second position of the track FX chain for tr, the index would be 0x2000000 + 3*(TrackFX_GetCount(tr)+1) + 2. This can be extended to sub-containers using TrackFX_GetNamedConfigParm with container_count and similar logic.
         </description>
         <retvals>
             boolean retval - 
@@ -24302,6 +24535,7 @@
         </chapter_context>
         <tags></tags>
         <changelog>
+          Reaper 7.00 - added support for fx-containers
           Reaper 6.79 - added renamed_name to rename an FX-instance
           Reaper 6.72 - added support for autobypass, instance oversample shift, chain oversample shift and chain pdc-mode
           Reaper 6.71 - added support for parameter modulation/linking; vst/videoprocessor-data setting
@@ -24316,13 +24550,15 @@
         <functioncall prog_lang="lua">reaper.TrackFX_SetOffline(MediaTrack track, integer fx, boolean offline)</functioncall>
         <functioncall prog_lang="python">RPR_TrackFX_SetOffline(MediaTrack track, Int fx, Boolean offline)</functioncall>
         <requires>
-            Reaper=5.95
+            Reaper=7.00
         </requires>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
             See [TrackFX\_GetOffline](#TrackFX_GetOffline)
 
             By setting fx you can add 0x1000000 set to reference input FX. 
             To use global monitoring inputFX, use the master-track, any other track will access the track's rec-input-fx.
+            
+            FX indices can have 0x2000000 added to them, in which case they will be used to address FX in containers. To address a container, the 1-based subitem is multiplied by one plus the count of the FX chain and added to the 1-based container item index. e.g. to address the third item in the container at the second position of the track FX chain for tr, the index would be 0x2000000 + 3*(TrackFX_GetCount(tr)+1) + 2. This can be extended to sub-containers using TrackFX_GetNamedConfigParm with container_count and similar logic.
         </description>
         <parameters>
             MediaTrack track - 
@@ -24337,6 +24573,7 @@
         </chapter_context>
         <tags></tags>
         <changelog>
+          Reaper 7.00 - added support for fx-containers
         </changelog>
     </US_DocBloc>
 
@@ -24348,10 +24585,12 @@
         <functioncall prog_lang="lua">reaper.TakeFX_SetOffline(MediaItem_Take take, integer fx, boolean offline)</functioncall>
         <functioncall prog_lang="python">RPR_TakeFX_SetOffline(MediaItem_Take take, Int fx, Boolean offline)</functioncall>
         <requires>
-            Reaper=5.95
+            Reaper=7.00
         </requires>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
             See [TakeFX\_GetOffline](#TakeFX_GetOffline)
+            
+            FX indices can have 0x2000000 added to them, in which case they will be used to address FX in containers. To address a container, the 1-based subitem is multiplied by one plus the count of the FX chain and added to the 1-based container item index. e.g. to address the third item in the container at the second position of the track FX chain for tr, the index would be 0x2000000 + 3*(TrackFX_GetCount(tr)+1) + 2. This can be extended to sub-containers using TrackFX_GetNamedConfigParm with container_count and similar logic.
         </description>
         <parameters>
             MediaItem_Take take - 
@@ -24366,6 +24605,7 @@
         </chapter_context>
         <tags></tags>
         <changelog>
+          Reaper 7.00 - added support for fx-containers
         </changelog>
     </US_DocBloc>
 
@@ -24377,10 +24617,12 @@
         <functioncall prog_lang="lua">boolean retval = reaper.TakeFX_GetOffline(MediaItem_Take take, integer fx)</functioncall>
         <functioncall prog_lang="python">Boolean retval = RPR_TakeFX_GetOffline(MediaItem_Take take, Int fx)</functioncall>
         <requires>
-            Reaper=5.95
+            Reaper=7.00
         </requires>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
             See [TakeFX\_SetOffline](#TakeFX_SetOffline)
+            
+            FX indices can have 0x2000000 added to them, in which case they will be used to address FX in containers. To address a container, the 1-based subitem is multiplied by one plus the count of the FX chain and added to the 1-based container item index. e.g. to address the third item in the container at the second position of the track FX chain for tr, the index would be 0x2000000 + 3*(TrackFX_GetCount(tr)+1) + 2. This can be extended to sub-containers using TrackFX_GetNamedConfigParm with container_count and similar logic.
         </description>
         <retvals>
             boolean retval - 
@@ -24397,6 +24639,7 @@
         </chapter_context>
         <tags></tags>
         <changelog>
+          Reaper 7.00 - added support for fx-containers
         </changelog>
     </US_DocBloc>
 
@@ -24408,10 +24651,12 @@
         <functioncall prog_lang="lua">boolean retval = reaper.TakeFX_Delete(MediaItem_Take take, integer fx)</functioncall>
         <functioncall prog_lang="python">Boolean retval = RPR_TakeFX_Delete(MediaItem_Take take, Int fx)</functioncall>
         <requires>
-            Reaper=5.95
+            Reaper=7.00
         </requires>
         <description prog_lang="*">
             Remove a FX from take chain (returns true on success)
+            
+            FX indices can have 0x2000000 added to them, in which case they will be used to address FX in containers. To address a container, the 1-based subitem is multiplied by one plus the count of the FX chain and added to the 1-based container item index. e.g. to address the third item in the container at the second position of the track FX chain for tr, the index would be 0x2000000 + 3*(TrackFX_GetCount(tr)+1) + 2. This can be extended to sub-containers using TrackFX_GetNamedConfigParm with container_count and similar logic.
         </description>
         <retvals>
             boolean retval - 
@@ -24428,6 +24673,7 @@
         </chapter_context>
         <tags></tags>
         <changelog>
+          Reaper 7.00 - added support for fx-containers
         </changelog>
     </US_DocBloc>
 
@@ -24439,10 +24685,12 @@
         <functioncall prog_lang="lua">reaper.TakeFX_CopyToTake(MediaItem_Take src_take, integer src_fx, MediaItem_Take dest_take, integer dest_fx, boolean is_move)</functioncall>
         <functioncall prog_lang="python">RPR_TakeFX_CopyToTake(MediaItem_Take src_take, Int src_fx, MediaItem_Take dest_take, Int dest_fx, Boolean is_move)</functioncall>
         <requires>
-            Reaper=5.95
+            Reaper=7.00
         </requires>
         <description prog_lang="*">
             Copies (or moves) FX from src_take to dest_take. Can be used with src_take=dest_take to reorder. 
+            
+            FX indices can have 0x2000000 added to them, in which case they will be used to address FX in containers. To address a container, the 1-based subitem is multiplied by one plus the count of the FX chain and added to the 1-based container item index. e.g. to address the third item in the container at the second position of the track FX chain for tr, the index would be 0x2000000 + 3*(TrackFX_GetCount(tr)+1) + 2. This can be extended to sub-containers using TrackFX_GetNamedConfigParm with container_count and similar logic.
         </description>
         <parameters>
             MediaItem_Take src_take - the source-take, from which you want to copy an fx
@@ -24459,6 +24707,7 @@
         </chapter_context>
         <tags></tags>
         <changelog>
+          Reaper 7.00 - added support for fx-containers
         </changelog>
     </US_DocBloc>
 
@@ -24470,7 +24719,7 @@
         <functioncall prog_lang="lua">reaper.TakeFX_CopyToTrack(MediaItem_Take src_take, integer src_fx, MediaTrack dest_track, integer dest_fx, boolean is_move)</functioncall>
         <functioncall prog_lang="python">RPR_TakeFX_CopyToTrack(MediaItem_Take src_take, Int src_fx, MediaTrack dest_track, Int dest_fx, Boolean is_move)</functioncall>
         <requires>
-            Reaper=5.95
+            Reaper=7.00
         </requires>
         <description prog_lang="*">
             Copies (or moves) FX from src_take to dest_track. 
@@ -24478,6 +24727,8 @@
             Note:
             To use global monitoring inputFX, use the master-track, any other track will access the track's rec-input-fx.
             Add 0x1000000 to the fx-indices to address monitoringFX/rec-inputFX.
+            
+            FX indices can have 0x2000000 added to them, in which case they will be used to address FX in containers. To address a container, the 1-based subitem is multiplied by one plus the count of the FX chain and added to the 1-based container item index. e.g. to address the third item in the container at the second position of the track FX chain for tr, the index would be 0x2000000 + 3*(TrackFX_GetCount(tr)+1) + 2. This can be extended to sub-containers using TrackFX_GetNamedConfigParm with container_count and similar logic.
         </description>
         <parameters>
             MediaItem_Take src_take - 
@@ -24494,6 +24745,7 @@
         </chapter_context>
         <tags></tags>
         <changelog>
+          Reaper 7.00 - added support for fx-containers
         </changelog>
     </US_DocBloc>
 
@@ -24505,13 +24757,15 @@
         <functioncall prog_lang="lua">boolean retval = reaper.TrackFX_GetOffline(MediaTrack track, integer fx)</functioncall>
         <functioncall prog_lang="python">Boolean retval = RPR_TrackFX_GetOffline(MediaTrack track, Int fx)</functioncall>
         <requires>
-            Reaper=5.95
+            Reaper=7.00
         </requires>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
             See [TrackFX\_SetOffline](#TrackFX_SetOffline)
 
             By setting fx you can add 0x1000000 set to reference input FX. 
             To use global monitoring inputFX, use the master-track, any other track will access the track's rec-input-fx.
+            
+            FX indices can have 0x2000000 added to them, in which case they will be used to address FX in containers. To address a container, the 1-based subitem is multiplied by one plus the count of the FX chain and added to the 1-based container item index. e.g. to address the third item in the container at the second position of the track FX chain for tr, the index would be 0x2000000 + 3*(TrackFX_GetCount(tr)+1) + 2. This can be extended to sub-containers using TrackFX_GetNamedConfigParm with container_count and similar logic.
         </description>
         <retvals>
             boolean retval - 
@@ -24528,6 +24782,7 @@
         </chapter_context>
         <tags></tags>
         <changelog>
+          Reaper 7.00 - added support for fx-containers
         </changelog>
     </US_DocBloc>
 
@@ -24539,13 +24794,15 @@
         <functioncall prog_lang="lua">boolean retval = reaper.TrackFX_Delete(MediaTrack track, integer fx)</functioncall>
         <functioncall prog_lang="python">Boolean retval = RPR_TrackFX_Delete(MediaTrack track, Int fx)</functioncall>
         <requires>
-            Reaper=5.95
+            Reaper=7.00
         </requires>
         <description prog_lang="*">
             Remove a FX from track chain (returns true on success).
 
             By setting fx you can add 0x1000000 set to reference input FX. 
             To use global monitoring inputFX, use the master-track, any other track will access the track's rec-input-fx.
+            
+            FX indices can have 0x2000000 added to them, in which case they will be used to address FX in containers. To address a container, the 1-based subitem is multiplied by one plus the count of the FX chain and added to the 1-based container item index. e.g. to address the third item in the container at the second position of the track FX chain for tr, the index would be 0x2000000 + 3*(TrackFX_GetCount(tr)+1) + 2. This can be extended to sub-containers using TrackFX_GetNamedConfigParm with container_count and similar logic.
         </description>
         <retvals>
             boolean retval - 
@@ -24562,6 +24819,7 @@
         </chapter_context>
         <tags></tags>
         <changelog>
+          Reaper 7.00 - added support for fx-containers
         </changelog>
     </US_DocBloc>
 
@@ -24573,13 +24831,15 @@
         <functioncall prog_lang="lua">reaper.TrackFX_SetOpen(MediaTrack track, integer fx, boolean open)</functioncall>
         <functioncall prog_lang="python">RPR_TrackFX_SetOpen(MediaTrack track, Int fx, Boolean open)</functioncall>
         <requires>
-            Reaper=5.62
+            Reaper=7.00
         </requires>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
             Open this FX UI. See [TrackFX\_GetOpen](#TrackFX_GetOpen)
 
             By setting fx you can add 0x1000000 set to reference input FX. 
             To use global monitoring inputFX, use the master-track, any other track will access the track's rec-input-fx.
+            
+            FX indices can have 0x2000000 added to them, in which case they will be used to address FX in containers. To address a container, the 1-based subitem is multiplied by one plus the count of the FX chain and added to the 1-based container item index. e.g. to address the third item in the container at the second position of the track FX chain for tr, the index would be 0x2000000 + 3*(TrackFX_GetCount(tr)+1) + 2. This can be extended to sub-containers using TrackFX_GetNamedConfigParm with container_count and similar logic.
         </description>
         <parameters>
             MediaTrack track - the track, in which the FX to be opened is located
@@ -24594,6 +24854,7 @@
         </chapter_context>
         <tags>trackmanagement, set, open, ui, fx</tags>
         <changelog>
+          Reaper 7.00 - added support for fx-containers
         </changelog>
     </US_DocBloc>
 
@@ -24606,11 +24867,13 @@
         <functioncall prog_lang="lua">boolean retval = reaper.TrackFX_SetParam(MediaTrack track, integer fx, integer param, number val)</functioncall>
         <functioncall prog_lang="python">Boolean retval = RPR_TrackFX_SetParam(MediaTrack track, Int fx, Int param, Float val)</functioncall>
         <requires>
-            Reaper=5.62
+            Reaper=7.00
         </requires>
         <description prog_lang="*">
             By setting fx you can add 0x1000000 set to reference input FX. 
             To use global monitoring inputFX, use the master-track, any other track will access the track's rec-input-fx.
+            
+            FX indices can have 0x2000000 added to them, in which case they will be used to address FX in containers. To address a container, the 1-based subitem is multiplied by one plus the count of the FX chain and added to the 1-based container item index. e.g. to address the third item in the container at the second position of the track FX chain for tr, the index would be 0x2000000 + 3*(TrackFX_GetCount(tr)+1) + 2. This can be extended to sub-containers using TrackFX_GetNamedConfigParm with container_count and similar logic.
         </description>
         <retvals>
             boolean retval - 
@@ -24629,6 +24892,7 @@
         </chapter_context>
         <tags></tags>
         <changelog>
+          Reaper 7.00 - added support for fx-containers
         </changelog>
     </US_DocBloc>
 
@@ -24640,11 +24904,13 @@
         <functioncall prog_lang="lua">boolean retval = reaper.TrackFX_SetParamNormalized(MediaTrack track, integer fx, integer param, number value)</functioncall>
         <functioncall prog_lang="python">Boolean retval = RPR_TrackFX_SetParamNormalized(MediaTrack track, Int fx, Int param, Float value)</functioncall>
         <requires>
-            Reaper=5.62
+            Reaper=7.00
         </requires>
         <description prog_lang="*">
             By setting fx you can add 0x1000000 set to reference input FX. 
             To use global monitoring inputFX, use the master-track, any other track will access the track's rec-input-fx.
+            
+            FX indices can have 0x2000000 added to them, in which case they will be used to address FX in containers. To address a container, the 1-based subitem is multiplied by one plus the count of the FX chain and added to the 1-based container item index. e.g. to address the third item in the container at the second position of the track FX chain for tr, the index would be 0x2000000 + 3*(TrackFX_GetCount(tr)+1) + 2. This can be extended to sub-containers using TrackFX_GetNamedConfigParm with container_count and similar logic.
         </description>
         <retvals>
             boolean retval - 
@@ -24663,6 +24929,7 @@
         </chapter_context>
         <tags></tags>
         <changelog>
+          Reaper 7.00 - added support for fx-containers
         </changelog>
     </US_DocBloc>
 
@@ -24674,13 +24941,15 @@
         <functioncall prog_lang="lua">boolean retval = reaper.TrackFX_SetPinMappings(MediaTrack tr, integer fx, integer is, integer pin, integer low32bits, integer hi32bits)</functioncall>
         <functioncall prog_lang="python">Boolean retval = RPR_TrackFX_SetPinMappings(MediaTrack tr, Int fx, Int isOutput, Int pin, Int low32bits, Int hi32bits)</functioncall>
         <requires>
-            Reaper=5.62
+            Reaper=7.00
         </requires>
         <description prog_lang="*">
             sets the channel mapping bitmask for a particular pin. returns false if unsupported (not all types of plug-ins support this capability)
 
             By setting fx you can add 0x1000000 set to reference input FX. 
             To use global monitoring inputFX, use the master-track, any other track will access the track's rec-input-fx.
+            
+            FX indices can have 0x2000000 added to them, in which case they will be used to address FX in containers. To address a container, the 1-based subitem is multiplied by one plus the count of the FX chain and added to the 1-based container item index. e.g. to address the third item in the container at the second position of the track FX chain for tr, the index would be 0x2000000 + 3*(TrackFX_GetCount(tr)+1) + 2. This can be extended to sub-containers using TrackFX_GetNamedConfigParm with container_count and similar logic.
         </description>
         <retvals>
             boolean retval - 
@@ -24701,6 +24970,7 @@
         </chapter_context>
         <tags></tags>
         <changelog>
+          Reaper 7.00 - added support for fx-containers
         </changelog>
     </US_DocBloc>
 
@@ -24712,7 +24982,7 @@
         <functioncall prog_lang="lua">boolean retval = reaper.TrackFX_SetPreset(MediaTrack track, integer fx, string presetname)</functioncall>
         <functioncall prog_lang="python">Boolean retval = RPR_TrackFX_SetPreset(MediaTrack track, Int fx, String presetname)</functioncall>
         <requires>
-            Reaper=5.62
+            Reaper=7.00
         </requires>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
             Activate a preset with the name shown in the REAPER dropdown. Full paths to .vstpreset files are also supported for VST3 plug-ins. See [TrackFX\_GetPreset](#TrackFX_GetPreset).
@@ -24721,6 +24991,8 @@
             To use global monitoring inputFX, use the master-track, any other track will access the track's rec-input-fx.
 
             presetname is case-sensitive.
+            
+            FX indices can have 0x2000000 added to them, in which case they will be used to address FX in containers. To address a container, the 1-based subitem is multiplied by one plus the count of the FX chain and added to the 1-based container item index. e.g. to address the third item in the container at the second position of the track FX chain for tr, the index would be 0x2000000 + 3*(TrackFX_GetCount(tr)+1) + 2. This can be extended to sub-containers using TrackFX_GetNamedConfigParm with container_count and similar logic.
         </description>
         <retvals>
             boolean retval - 
@@ -24738,6 +25010,7 @@
         </chapter_context>
         <tags></tags>
         <changelog>
+          Reaper 7.00 - added support for fx-containers
         </changelog>
     </US_DocBloc>
 
@@ -24749,13 +25022,15 @@
         <functioncall prog_lang="lua">boolean retval = reaper.TrackFX_SetPresetByIndex(MediaTrack track, integer fx, integer idx)</functioncall>
         <functioncall prog_lang="python">Boolean retval = RPR_TrackFX_SetPresetByIndex(MediaTrack track, Int fx, Int idx)</functioncall>
         <requires>
-            Reaper=5.62
+            Reaper=7.00
         </requires>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
             Sets the preset idx, or the factory preset (idx==-2), or the default user preset (idx==-1). Returns true on success. See [TrackFX\_GetPresetIndex](#TrackFX_GetPresetIndex).
 
             By setting fx you can add 0x1000000 set to reference input FX. 
             To use global monitoring inputFX, use the master-track, any other track will access the track's rec-input-fx.
+            
+            FX indices can have 0x2000000 added to them, in which case they will be used to address FX in containers. To address a container, the 1-based subitem is multiplied by one plus the count of the FX chain and added to the 1-based container item index. e.g. to address the third item in the container at the second position of the track FX chain for tr, the index would be 0x2000000 + 3*(TrackFX_GetCount(tr)+1) + 2. This can be extended to sub-containers using TrackFX_GetNamedConfigParm with container_count and similar logic.
         </description>
         <retvals>
             boolean retval - 
@@ -24773,6 +25048,7 @@
         </chapter_context>
         <tags></tags>
         <changelog>
+          Reaper 7.00 - added support for fx-containers
         </changelog>
     </US_DocBloc>
 
@@ -24784,13 +25060,15 @@
         <functioncall prog_lang="lua">reaper.TrackFX_Show(MediaTrack track, integer fx, integer showFlag)</functioncall>
         <functioncall prog_lang="python">RPR_TrackFX_Show(MediaTrack track, Int fx, Int showFlag)</functioncall>
         <requires>
-            Reaper=5.62
+            Reaper=7.00
         </requires>
         <description prog_lang="*">
             Shows a track-FX-window.
 
             By setting fx you can add 0x1000000 set to reference input FX. 
             To use global monitoring inputFX, use the master-track, any other track will access the track's rec-input-fx.
+            
+            FX indices can have 0x2000000 added to them, in which case they will be used to address FX in containers. To address a container, the 1-based subitem is multiplied by one plus the count of the FX chain and added to the 1-based container item index. e.g. to address the third item in the container at the second position of the track FX chain for tr, the index would be 0x2000000 + 3*(TrackFX_GetCount(tr)+1) + 2. This can be extended to sub-containers using TrackFX_GetNamedConfigParm with container_count and similar logic.
         </description>
         <parameters>
             MediaTrack track - the MediaTrack, whose TrackFX you want to show
@@ -24809,6 +25087,7 @@
         </chapter_context>
         <tags>trackmanagement, show, fx, window</tags>
         <changelog>
+          Reaper 7.00 - added support for fx-containers
         </changelog>
     </US_DocBloc>
 
@@ -25314,6 +25593,37 @@
         </chapter_context>
         <tags></tags>
         <changelog>
+        </changelog>
+    </US_DocBloc>
+
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>UpdateItemLanes</slug>
+        <title>UpdateItemLanes</title>
+        <functioncall prog_lang="cpp">bool retval = UpdateItemLanes(ReaProject* proj)</functioncall>
+        <functioncall prog_lang="eel">bool retval = UpdateItemLanes(ReaProject proj)</functioncall>
+        <functioncall prog_lang="lua">boolean retval = reaper.UpdateItemLanes(ReaProject proj)</functioncall>
+        <functioncall prog_lang="python">Boolean retval = RPR_UpdateItemLanes(ReaProject proj)</functioncall>
+        <requires>
+            Reaper=7.00
+        </requires>
+        <description prog_lang="*">
+            Recalculate lane arrangement for fixed lane tracks, including auto-removing empty lanes at the bottom of the track.
+        </description>
+        <parameters>
+            ReaProject proj - the project, in which you want to update the track-lanes
+        </parameters>
+        <retvals>
+            boolean retval - true, updating was successful; false, updating was unsuccessful 
+        </retvals>
+        <target_document>Reaper_Api_Documentation</target_document>
+        <source_document>Reaper_Api_Documentation.USDocML</source_document>
+        <chapter_context>
+            Track Management
+            Misc
+        </chapter_context>
+        <tags></tags>
+        <changelog>
+          Reaper 7.00 - added to api
         </changelog>
     </US_DocBloc>
 
@@ -43323,7 +43633,7 @@
             Reaper=5.62
         </requires>
         <description indent="default">
-            Sets the mouse cursor. resource_id is a value like 32512 (for an arrow cursor), custom_cursor_name is a string like "arrow" (for the REAPER custom arrow cursor). resource_id must be nonzero, but custom_cursor_name is optional.
+            Specify 0 resource_id and custom_cursor_name from https://www.reaper.fm/sdk/cursors/cursors.php (e.g. 'arrow') to set the cursor. Alternatively can specify resource_id for a Windows cursor or built-in REAPER cursor.
         </description>
         <parameters>
             resource_id - 
@@ -46382,7 +46692,7 @@ Mespotine
             Reaper=5.62
         </requires>
         <description indent="default">
-            Sets the mouse cursor. resource_id is a value like 32512 (for an arrow cursor), custom_cursor_name is a string like "arrow" (for the REAPER custom arrow cursor). resource_id must be nonzero, but custom_cursor_name is optional.
+            Specify 0 resource_id and custom_cursor_name from https://www.reaper.fm/sdk/cursors/cursors.php (e.g. 'arrow') to set the cursor. Alternatively can specify resource_id for a Windows cursor or built-in REAPER cursor.
             
             examples for resource_id:
                 101, enter text
