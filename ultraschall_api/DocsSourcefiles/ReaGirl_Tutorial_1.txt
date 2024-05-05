@@ -1,5 +1,3 @@
-!!!ALIGN IN LABEL_ADD REMOVED!!!
-
 ## First steps into ReaGirl
 
 When making a gui in ReaGirl, you basically have to work through 5 steps.

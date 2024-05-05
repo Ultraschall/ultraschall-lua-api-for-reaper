@@ -1,5 +1,7 @@
 ##Tutorial autopositioning with tabs
 
+You can use autopositioning also with tabs. 
+
 ```
   dofile(reaper.GetResourcePath().."/UserPlugins/reagirl.lua")
   

@@ -98,7 +98,7 @@ This is how it looks like, now.
 When you run this script, you can close the window via esc-key and the close-button and if you do, a dialog opens up that tells the user that storing the setting was aborted.
 We made this possible with the function AtExit\_RunFunction(), which opens a dialog using reaper.MB(). And we used reagirl.Gui\_AtExit(AtExit\_RunFunction) to tell Reaper to run the run-function AtExit\_RunFunction everytime the window is closes using the close-button or the esc-key.
 Great.
-In the next step, we add that hitting enter stores the slider-value and closes the window. For this, we add another run-function AtEnter\_RunFunction() and the function reagirl.Gui_AtEnter(AtEnter_RunFunction) to tell ReaGirl to run the run-function everytime the user 
+In the next step, we add that hitting enter stores the slider-value and closes the window. For this, we add another run-function AtEnter\_RunFunction() and the function reagirl.Gui_AtEnter(AtEnter_RunFunction) to tell ReaGirl to run the run-function everytime the user hits enter in the dialog.
 
 ```
   dofile(reaper.GetResourcePath().."/UserPlugins/reagirl.lua")
@@ -155,3 +155,10 @@ In the next step, we add that hitting enter stores the slider-value and closes t
 
   main()
 ```
+You'll notice, that the run-function AtEnter\_RunFunction() stores the slider-value into an extstate. It also closes the gui using Gui\_Close() and shows a dialog using reaper.MB() that tells the user that the slider-value is stored.
+And when you run this script, you can change the slider, hit enter and when you rerun the script, the stored slider-value is restored.
+
+With that, you have a dialog that reacts to closing via close-button, the esc-key and the enter key.
+
+One thing to notice: the run-function for enter isn't run when the an inputbox is currently selected, which uses a run-function for the enter-key! It's also not run when the inputbox is currently selected and the user is a screenreader-user. 
+So you might need to add a run-function for inputboxes that does the same as the enter-run-function used by reagirl.Gui\_AtEnter()
