@@ -1782,8 +1782,8 @@ function reagirl.Gui_Open(name, restore_old_window_state, title, description, w,
                                      - false, always open with the same position, size and dockstate
     string title - the title of the window
     string description - a description of what this dialog does, for blind users. Make it a sentence.
-    integer w - the width of the window
-    integer h - the height of the window
+    optional integer w - the width of the window; nil, try to autosize the to be opened window according to the ui-elements currently added to the gui(including invisible ones)
+    optional integer h - the height of the window; nil, try to autosize the to be opened window according to the ui-elements currently added to the gui(including invisible ones)
     optional integer dock - the dockstate of the window; 0, undocked; 1, docked; nil=undocked
     optional integer x - the x-position of the window; nil=x-centered
     optional integer y - the y-position of the window; nil=y-centered
@@ -1801,8 +1801,8 @@ function reagirl.Gui_Open(name, restore_old_window_state, title, description, w,
   if type(title)~="string" then error("Gui_Open: param #3 - must be a string", 2) end
   if type(description)~="string" then error("Gui_Open: param #4 - must be a string", 2) end
   if description:sub(-1,-1)~="." and description:sub(-1,-1)~="?" then error("Gui_Open: param #4 - must end on a . like a regular sentence.", 2) end
-  if math.type(w)~="integer" then error("Gui_Open: param #5 - must be either nil or an integer", 2) end
-  if math.type(h)~="integer" then error("Gui_Open: param #6 - must be either nil or an integer", 2) end
+  if w~=nil and math.type(w)~="integer" then error("Gui_Open: param #5 - must be either nil or an integer", 2) end
+  if h~=nil and math.type(h)~="integer" then error("Gui_Open: param #6 - must be either nil or an integer", 2) end
   if dock~=nil and math.type(dock)~="integer" then error("Gui_Open: param #7 - must be either nil or an integer", 2) end
   if x~=nil and math.type(x)~="integer" then error("Gui_Open: param #8 - must be either nil or an integer", 2) end
   if y~=nil and math.type(y)~="integer" then error("Gui_Open: param #9 - must be either nil or an integer", 2) end
@@ -1814,6 +1814,14 @@ function reagirl.Gui_Open(name, restore_old_window_state, title, description, w,
     reagirl.dpi_scale = 0
   end
   
+  if w==nil or h==nil then
+    local _
+    _, _, _, _, _, w, _, h = reagirl.Gui_GetBoundaries()
+    w=w+10
+    h=h+10
+  end
+  
+  
   name=string.gsub(name, "[\n\r]", "")
   reagirl.IsWindowOpen_attribute=true
   reagirl.Gui_ForceRefresh(2)
@@ -1821,6 +1829,7 @@ function reagirl.Gui_Open(name, restore_old_window_state, title, description, w,
   if reaper.GetExtState("ReaGirl", "osara_enable_accmessage")~="false" and reaper.GetExtState("ReaGirl", "osara_move_mouse")~="false" then
     description=description.." When tabbing, mouse moves to tabbed ui-element."
   end
+  
   if restore_old_window_state==false or (restore_old_window_state==true and reaper.GetExtState("Reagirl_Window_"..name, "stored")=="") then
     reagirl.Window_name=name
     reagirl.Window_Title=title
@@ -1845,7 +1854,6 @@ function reagirl.Gui_Open(name, restore_old_window_state, title, description, w,
     w=reagirl.Window_w
     h=reagirl.Window_h
     dock=reagirl.Window_dock
-    
   end
   
   if reagirl.Window_ForceMinSize_Toggle==nil then reagirl.Window_ForceMinSize_Toggle=false end
@@ -8415,6 +8423,19 @@ function reagirl.Gui_GetBoundaries()
       --MAXY=maxy
     end
   end
+  local x2=reagirl.Elements[reagirl.Tabs_Count]["x"]
+  local y2=reagirl.Elements[reagirl.Tabs_Count]["y"]
+  local w2=reagirl.Elements[reagirl.Tabs_Count]["w"]
+  local h2=reagirl.Elements[reagirl.Tabs_Count]["h"]
+  if x2*scale<0 then x2=gfx.w+x2*scale else x2=x2*scale end
+  if y2*scale<0 then y2=gfx.h+y2*scale else y2=y2*scale end
+  if w2*scale<0 then w2=gfx.w-x2+w2*scale else w2=w2*scale end
+  if h2*scale<0 then h2=gfx.h-y2+h2*scale else h2=h2*scale end
+  if x2+reagirl.Elements[reagirl.Tabs_Count]["w_background"]>maxx then maxx=x2+reagirl.Elements[reagirl.Tabs_Count]["w_background"] end
+  if x2+reagirl.Elements[reagirl.Tabs_Count]["w_background"]>maxx2 then maxx2=x2+reagirl.Elements[reagirl.Tabs_Count]["w_background"] end
+  if y2+h2+reagirl.Elements[reagirl.Tabs_Count]["h_background"]>maxy then maxy=y2+h2+reagirl.Elements[reagirl.Tabs_Count]["h_background"] end
+  if y2+h2+reagirl.Elements[reagirl.Tabs_Count]["h_background"]>maxy2 then maxy2=y2+h2+reagirl.Elements[reagirl.Tabs_Count]["h_background"] end
+  
   return math.floor(minx), math.floor(maxx), math.floor(miny), math.floor(maxy), math.floor(minx2), math.floor(maxx2), math.floor(miny2), math.floor(maxy2)
 end
 
