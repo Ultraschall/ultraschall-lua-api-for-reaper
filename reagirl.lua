@@ -8867,23 +8867,25 @@ function reagirl.UI_Element_SetHiddenFromTable(table_element_ids, visible)
   end
 end
 
-function reagirl.AutoPosition_SetNextYToUIElement(element_id)
+function reagirl.AutoPosition_SetNextUIElementRelativeTo(element_id)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>AutoPosition_SetNextYToUIElement</slug>
+  <slug>AutoPosition_SetNextUIElementRelativeTo</slug>
   <requires>
     ReaGirl=1.0
     Reaper=7
     Lua=5.4
   </requires>
-  <functioncall>reagirl.AutoPosition_SetNextYToUIElement(string element_id)</functioncall>
+  <functioncall>reagirl.AutoPosition_SetNextUIElementRelativeTo(string element_id)</functioncall>
   <description>
-    Set the auto-positioning starting point on the y-axis to the position of a certain ui-element.
+    Set the auto-positioning starting point to the position of a certain ui-element.
     
-    Means, autpositioning will place the next ui-element either underneath(when using reagirl.NextLine()) or to the right of element_id.
+    Means, autpositioning will place the next ui-element either underneath(when using reagirl.NextLine()) or next to the right of ui-element with element_id.
+    
+    Note: when passing tabs as parameter, the next ui-element will be placed underneath it(as if you had used reagirl.NextLine())
   </description>
   <parameters>
-     string element_id - the element-id of the ui-element, whose position shall be the starting point for the next audopositioned ui-elements 
+     string element_id - the element-id of the ui-element, whose position shall be the starting point for the next autopositioned ui-element
   </parameters>
   <chapter_context>
     Gui
@@ -8893,10 +8895,10 @@ function reagirl.AutoPosition_SetNextYToUIElement(element_id)
   <tags>functions, set, auto position, next line</tags>
 </US_DocBloc>
 ]]
-  if type(element_id)~="string" then error("AutoPosition_SetNextYToUIElement: param #1: must be a string", 2) return end
-  if reagirl.IsValidGuid(element_id, true)~=true then error("AutoPosition_SetNextYToUIElement: param #1: must be a valid element_id", 2) return end
+  if type(element_id)~="string" then error("AutoPosition_SetNextUIElementRelativeTo: param #1: must be a string", 2) return end
+  if reagirl.IsValidGuid(element_id, true)~=true then error("AutoPosition_SetNextUIElementRelativeTo: param #1: must be a valid element_id", 2) return end
   element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
-  if element_id==-1 then error("AutoPosition_SetNextYToUIElement: param #1: no such ui-element", 2) return end
+  if element_id==-1 then error("AutoPosition_SetNextUIElementRelativeTo: param #1: no such ui-element", 2) return end
   if reagirl.Elements[element_id]["GUI_Element_Type"]=="Tabs" then reagirl.NextLine() end
   reagirl.Next_Y=element_id
 end
