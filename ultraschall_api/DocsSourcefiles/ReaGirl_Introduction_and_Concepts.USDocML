@@ -95,7 +95,7 @@
 
             Also don't bother about scaling like Retina/HiDPI or something. This is also done by ReaGirl automatically. So if the user chooses to run your script on Retina/HiDPI-displays or even with an altered scaling set in the preferences, your gui will change automatically.
 
-            Since one of the key-features in ReaGirl is accessibility for blind people, most of the stuff needed for screenreader-management is done by ReaGirl itself. You just need to set the parameters meaningOfUI\_Element properly by giving a short and precise explanation, what the ui-element is doing and why. This will be shown as tooltip and also communicated to blind users via screenreader. This happens automatically, so you don't need to do much more.
+            Since one of the key-features in ReaGirl is accessibility for blind people, most of the stuff needed for screen reader-management is done by ReaGirl itself. You just need to set the parameters meaningOfUI\_Element properly by giving a short and precise explanation, what the ui-element is doing and why. This will be shown as tooltip and also communicated to blind users via screen reader. This happens automatically, so you don't need to do much more.
             There's a chapter dedicated on best practices for accessible guis later, if you want to improve on things further.
 
             In the next chapters, I will take you through some basic tutorials on how making a gui is done in practice.
@@ -136,12 +136,12 @@
               -- Step 3: add the ui-elements to the gui
               -- add an ok-button to the gui at x-position 30 and y-position 200 with the run-function Button_RunFunction
               -- The meaningOfUI_Element-parameter "Apply changes and close dialog" will be shown as tooltip 
-              -- and sent to a screenreader for blind people.
+              -- and sent to a screen reader for blind people.
               button_ok_id = reagirl.Button_Add(30, 200, 0, 0, "OK", "Apply changes and close dialog.", Button_RunFunction)
               
               -- Step 4: open the new gui with size 640x250 pixels, titled "The dialog". 
               -- In addition to the title, blind people will also get "This is a demo dialog with settings for tool xyz." 
-              -- sent to their screenreaders.
+              -- sent to their screen readers.
               reagirl.Gui_Open("My Dialog Name", false, "The dialog", "This is a demo dialog with settings for tool xyz.", 640, 250)
 
               -- Step 5: Write and run a defer-function, in which you call reagirl.Gui_Manage()
@@ -158,7 +158,7 @@
             ```  
             You see the 5 steps I mentioned in the first steps-chapter detailed out in the script. 
             This adds a button and the run-function Button\_RunFunction which is run when the user hits the button.
-            Also note the parameter meaningOfUI\_Element, which is set to "Apply changes and close dialog". This parameter will be shown as a tooltip. It will also tell blind users, what the ui-element is supposed to do and why via screenreader. So if you add your own ui-elements, add a short and descriptive explanation into this parameter which says more than just "ok". Blind users will thank you for that.
+            Also note the parameter meaningOfUI\_Element, which is set to "Apply changes and close dialog". This parameter will be shown as a tooltip. It will also tell blind users, what the ui-element is supposed to do and why via screen reader. So if you add your own ui-elements, add a short and descriptive explanation into this parameter which says more than just "ok". Blind users will thank you for that.
             And that's it, a simple gui with one button. Try it and experiment with it. Write a different text into the button. Alter the numbers in the parameters of reagirl.Button\_Add to see what happens.
             Don't worry about making mistakes. When you pass wrong parameters to ReaGirl-functions, they will tell you with an error message, what went wrong and where.
 
@@ -2468,11 +2468,11 @@
             Let's change that.
             For this, we need to alter the run-function Image\_Runfunction and add the two functions, reagirl.UI\_Element\_GetSetMeaningOfUIElement() and reagirl.UI\_Element\_GetSetCaption().
             The function reagirl.UI\_Element\_GetSetCaption() will change the caption, which is sent to blind users when hovering above a ui-element.
-            The function reagirl.UI\_Element\_GetSetMeaningOfUIElement() will change the screenreader-message, which is sent to blind users when they are tabbing through the ui-elements.
+            The function reagirl.UI\_Element\_GetSetMeaningOfUIElement() will change the screen reader-message, which is sent to blind users when they are tabbing through the ui-elements.
             For the label we don't need to change the caption, since label-text and caption is the same.
             We need to alter the run-function for the images as well as the label.
 
-            Note: in the ReaGirl-Settings you find an option called "Show screenreader messages in console", which will show the messages sent to blind users in the ReaScript-console window.
+            Note: in the ReaGirl-Settings you find an option called "Show screen reader messages in console", which will show the messages sent to blind users in the ReaScript-console window.
             With that, you can check, whether the meaningOfUI_Element was correctly altered or is even reflecting the correct message.
 
             Ok, now that we altered the script, it looks like this now.
@@ -2544,11 +2544,11 @@
             end
             main()
             ```
-            You'll notice, how we alter the screenreader-message using reagirl.UI\_Element\_GetSetMeaningOfUIElement() as well as the caption using reagirl.UI\_Element\_GetSetCaption().
+            You'll notice, how we alter the screen reader-message using reagirl.UI\_Element\_GetSetMeaningOfUIElement() as well as the caption using reagirl.UI\_Element\_GetSetCaption().
             And when you run the script, tabbing through the ui-elements will now tell to blind users, which image has been used by image\_dest1\_id and image\_dest2\_id and label\_id.
 
             Great. Now we have a script that allows dragging a source-image to various destinations. It alters the images and labels when the source-image has been dropped.
-            We also altered the screenreader-messages accordingly to reflect the changes, so blind users know, what has happened with dragging as well.
+            We also altered the screen reader-messages accordingly to reflect the changes, so blind users know, what has happened with dragging as well.
 
             In this tutorial, we made images draggable, but you can also make labels draggable. The only difference is, that for labels, the run-function is getting the destination-element\_id as second parameter instead of the third.
             The rest is the same.
@@ -2727,7 +2727,7 @@
 
             With that, you have a dialog that reacts to closing via close-button, the esc-key and the enter key.
 
-            One thing to notice: the run-function for enter isn't run when the an inputbox is currently selected, which uses a run-function for the enter-key! It's also not run when the inputbox is currently selected and the user is a screenreader-user. 
+            One thing to notice: the run-function for enter isn't run when the an inputbox is currently selected, which uses a run-function for the enter-key! It's also not run when the inputbox is currently selected and the user is a screen reader-user. 
             So you might need to add a run-function for inputboxes that does the same as the enter-run-function used by reagirl.Gui\_AtEnter()
         </description>
         <target_document>ReaGirl_Introduction_and_Concepts.html</target_document>
@@ -2746,7 +2746,7 @@
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
             When doing guis in ReaGirl, you can use its autopositioning-feature. This is very practical, as you don't really need to place them by hand.
             Especially when you are blind and want to create a gui, you need a way to position the gui-elements without having to use your eyes to finetune things.
-            In this tutorial, I will show you, how to use it. 
+            In this and the next tutorials, I will show you, how to use it. 
             And believe me: it's easy.
 
             First we start with a basic gui with no ui-element in it.
@@ -3143,167 +3143,303 @@
         <chapter_context>
             Tutorials
         </chapter_context>
-        <previous_chapter></previous_chapter>
-        <next_chapter></next_chapter>
+        <previous_chapter>Tutorial_007_Autopositioning_Of_UI_Elements</previous_chapter>
+        <next_chapter>The_Gui_Elements_000</next_chapter>
         <tags></tags>
     </US_DocBloc>
     
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-        <slug></slug>
-        <title></title>
+        <slug>The_Gui_Elements_000</slug>
+        <title>The Gui Elements</title>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
             
         </description>
         <target_document>ReaGirl_Introduction_and_Concepts.html</target_document>
         <source_document>ReaGirl_Introduction_and_Concepts.USDocML</source_document>
         <chapter_context>
-            Introduction
+            The Gui Elements
         </chapter_context>
-        <previous_chapter></previous_chapter>
-        <next_chapter></next_chapter>
+        <previous_chapter>Tutorial_008_Autopositioning_With_Tabs</previous_chapter>
+        <next_chapter>The_Gui_Elements_001_Buttons</next_chapter>
         <tags></tags>
     </US_DocBloc>
     
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-        <slug></slug>
-        <title></title>
+        <slug>The_Gui_Elements_001_Buttons</slug>
+        <title>Buttons</title>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
             
         </description>
         <target_document>ReaGirl_Introduction_and_Concepts.html</target_document>
         <source_document>ReaGirl_Introduction_and_Concepts.USDocML</source_document>
         <chapter_context>
-            Introduction
+            The Gui Elements
         </chapter_context>
-        <previous_chapter></previous_chapter>
-        <next_chapter></next_chapter>
+        <previous_chapter>The_Gui_Elements_000</previous_chapter>
+        <next_chapter>The_Gui_Elements_002_Checkboxes</next_chapter>
         <tags></tags>
     </US_DocBloc>
     
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-        <slug></slug>
-        <title></title>
+        <slug>The_Gui_Elements_002_Checkboxes</slug>
+        <title>Checkboxes</title>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
             
         </description>
         <target_document>ReaGirl_Introduction_and_Concepts.html</target_document>
         <source_document>ReaGirl_Introduction_and_Concepts.USDocML</source_document>
         <chapter_context>
-            Introduction
+            The Gui Elements
         </chapter_context>
-        <previous_chapter></previous_chapter>
-        <next_chapter></next_chapter>
+        <previous_chapter>The_Gui_Elements_001_Buttons</previous_chapter>
+        <next_chapter>The_Gui_Elements_003_Labels</next_chapter>
         <tags></tags>
     </US_DocBloc>
     
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-        <slug></slug>
-        <title></title>
+        <slug>The_Gui_Elements_003_Labels</slug>
+        <title>Labels</title>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
             
         </description>
         <target_document>ReaGirl_Introduction_and_Concepts.html</target_document>
         <source_document>ReaGirl_Introduction_and_Concepts.USDocML</source_document>
         <chapter_context>
-            Introduction
+            The Gui Elements
         </chapter_context>
-        <previous_chapter></previous_chapter>
-        <next_chapter></next_chapter>
+        <previous_chapter>The_Gui_Elements_002_Checkboxes</previous_chapter>
+        <next_chapter>The_Gui_Elements_004_Images</next_chapter>
         <tags></tags>
     </US_DocBloc>
     
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-        <slug></slug>
-        <title></title>
+        <slug>The_Gui_Elements_004_Images</slug>
+        <title>Images</title>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
             
         </description>
         <target_document>ReaGirl_Introduction_and_Concepts.html</target_document>
         <source_document>ReaGirl_Introduction_and_Concepts.USDocML</source_document>
         <chapter_context>
-            Introduction
+            The Gui Elements
         </chapter_context>
-        <previous_chapter></previous_chapter>
-        <next_chapter></next_chapter>
+        <previous_chapter>The_Gui_Elements_003_Labels</previous_chapter>
+        <next_chapter>The_Gui_Elements_005_Inputboxes</next_chapter>
         <tags></tags>
     </US_DocBloc>
     
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-        <slug></slug>
-        <title></title>
+        <slug>The_Gui_Elements_005_Inputboxes</slug>
+        <title>Inputboxes(Edit-Fields)</title>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
             
         </description>
         <target_document>ReaGirl_Introduction_and_Concepts.html</target_document>
         <source_document>ReaGirl_Introduction_and_Concepts.USDocML</source_document>
         <chapter_context>
-            Introduction
+            The Gui Elements
         </chapter_context>
-        <previous_chapter></previous_chapter>
-        <next_chapter></next_chapter>
+        <previous_chapter>The_Gui_Elements_004_Images</previous_chapter>
+        <next_chapter>The_Gui_Elements_006_DropDownMenus_ComboBoxes</next_chapter>
         <tags></tags>
     </US_DocBloc>
     
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-        <slug></slug>
-        <title></title>
+        <slug>The_Gui_Elements_006_DropDownMenus_ComboBoxes</slug>
+        <title>DropDownMenus(ComboBoxes)</title>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
             
         </description>
         <target_document>ReaGirl_Introduction_and_Concepts.html</target_document>
         <source_document>ReaGirl_Introduction_and_Concepts.USDocML</source_document>
         <chapter_context>
-            Introduction
+            The Gui Elements
         </chapter_context>
-        <previous_chapter></previous_chapter>
-        <next_chapter></next_chapter>
+        <previous_chapter>The_Gui_Elements_005_Inputboxes</previous_chapter>
+        <next_chapter>The_Gui_Elements_007_Sliders</next_chapter>
         <tags></tags>
     </US_DocBloc>
     
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-        <slug></slug>
-        <title></title>
+        <slug>The_Gui_Elements_007_Sliders</slug>
+        <title>Sliders</title>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
             
         </description>
         <target_document>ReaGirl_Introduction_and_Concepts.html</target_document>
         <source_document>ReaGirl_Introduction_and_Concepts.USDocML</source_document>
         <chapter_context>
-            Introduction
+            The Gui Elements
         </chapter_context>
         <previous_chapter></previous_chapter>
-        <next_chapter></next_chapter>
+        <next_chapter>The_Gui_Elements_008_Tabs</next_chapter>
         <tags></tags>
     </US_DocBloc>
     
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-        <slug></slug>
-        <title></title>
+        <slug>The_Gui_Elements_008_Tabs</slug>
+        <title>Tabs</title>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
             
         </description>
         <target_document>ReaGirl_Introduction_and_Concepts.html</target_document>
         <source_document>ReaGirl_Introduction_and_Concepts.USDocML</source_document>
         <chapter_context>
-            Introduction
+            The Gui Elements
         </chapter_context>
-        <previous_chapter></previous_chapter>
-        <next_chapter></next_chapter>
+        <previous_chapter>The_Gui_Elements_008_Tabs</previous_chapter>
+        <next_chapter>Best_Practices_For_Guis</next_chapter>
         <tags></tags>
     </US_DocBloc>
     
+    
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-        <slug></slug>
-        <title></title>
+        <slug>Best_Practices_For_Guis</slug>
+        <title>Best Practices for Guis</title>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
             
         </description>
         <target_document>ReaGirl_Introduction_and_Concepts.html</target_document>
         <source_document>ReaGirl_Introduction_and_Concepts.USDocML</source_document>
         <chapter_context>
-            Introduction
+            Best Practices
         </chapter_context>
-        <previous_chapter></previous_chapter>
+        <previous_chapter>The_Gui_Elements_008_Tabs</previous_chapter>
+        <next_chapter>Best_Practices_On_Accessibility</next_chapter>
+        <tags></tags>
+    </US_DocBloc>
+
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>Best_Practices_On_Accessibility</slug>
+        <title>Best Practices On Accessibility</title>
+        <description markup_type="markdown" markup_version="1.0.1" indent="default">
+            ReaGirl is designed to make accessibility as easy as possible. For instance, screen reader messages are sent automatically. So blind users always know, what is happening on your gui.
+            Screen readers are usually a speech synthesis engine, that reads out, which ui-element is currently selected, which setting, etc.
+            This helps blind users to know, where in a gui they are, since the screen reader is reading it to them.
+            ReaGirl takes care of this as good as possible.
+            
+            ReaGirl also takes care of keyboard-navigation, since blind users usually use the keyboard to use your gui.
+            
+            However, there are some areas, where ReaGirl can't do the work for you and that need to be taken into consideration by you.
+            But don't worry, it's easier than you think. Once you digested the rules, most of your guis will be easy to use by blind users.
+            
+            1. Blind users use guis usually using the keyboard. They select the ui-element using tab or shift+tab.
+               They select ui-elements using the space-bar or the enter-key.
+               And they select the current selection of a drop down menu or a slider using cursor-keys, PgUp, PgDn, Home and End.
+               This has some implications on how to place ui-elements. For instance:
+            
+            2. Put ui-elements of a certain context next to each other.
+               This is important! In your script hat means, that the \_Add-functions that belong to each other should follow each other.
+               Imagine an inputbox that shows a filename and a button that opens up a file-selection-dialog.
+               The inputbox and the button are probably placed next to each other in your gui. And they need to be placed
+               next to each other in your script, means: reagirl.InputBox\_Add() first, then reagirl.Button\_Add() as the next ui-element.
+               And when you use your gui and choose the ui-element using the tab-key, your inputbox will be selected first and the button as the next ui-element.
+               Make this logical. Blind users can't see, where an important ui-element is placed, so they usually expect, that the next logical ui-element they tab to follows the current one.
+               Or in our example: the inputbox first and when hitting the tab key again, the file-selection-button is selected next.
+               This might be a challenge at first, especially when you are not used to gui-coding yet. But you are going to get used to it quickly.
+               Oh, before I forget: when you rearrange ui-elements in your gui, don't only change the coordinates, but also think, if the order of the ui-elements visually is still the same as the order when going through them using the tab key. So go through them using the tab key to see, if the order is logical.
+               Rule of thumb is: when tabbing through the ui-elements, you go from left to right and from up to down, just like text in an editor.
+               If tabbing through the ui-elements doesn't follow this scheme, change the order of the \_Add-functions in your script until they are correct.
+               This way, you make the gui easier to use by blind people.
+               
+            3. Put the most important ui-elements first, then the less important ones, then the least important ones.
+               As I said, blind people usually use the tab-key and shift+tab to select the ui-elements in your gui.
+               When the gui-window is opened, the first ui-element is selected.
+               And here's why it's important to place the most important first:
+               When you need to enter your gui time and again to change settings, you want to access the most important ui-elements as quickly as possible.
+               If you need to hit tab thousands of times to get to the important ui-elements, it costs time and is very annoying.
+               So make a wise order of ui-elements so going through them using tab is as fast as possible.
+               If you have two sets of ui-elements that should be reached as quickly as possible, put the one set at the beginning and the other at the end of your gui.
+               That way you quickly reach the first ones using tab and the last ones using shift+tab.
+               
+            4. Add text to meaningOfUI\_Element-parameters, which is a short explanation and some context on what the ui-element is supposed to do.
+               This is very important! Setting meaningOfUI\_Element-parameters fills up the tooltips. But it also is the text sent to users of screen readers.
+               You can imagine this the following:
+               If a blind user uses tab to select a checkbox, they get read out checkbox-caption, current checkstate and meaningOfUI\_Element.
+               That way they know, how the checkbox is named(caption), if it's currently checked or not(checkstate) and what the checkbox is supposed to do and what happens if they change the checkstate(meaningOfUI\_Element).
+               Make it as long as needed and as short as possible. Don't be afraid to rework it a few times to get it more precisely.
+               Rule of thumb: answer the questions What does the ui-element, how does it and why does it, as well as what happens when the ui-element is used. With these questions answered, you usually write a good meaningOfUI\_Element.
+               If you need inspiration, open up the preferences of Reaper and hover above the ui-elements.
+               At the bottom of the window, there's a short explanation on what the ui-element is supposed to do(which is also sent to screen reader users).
+               This gives you an idea on how to write them.
+               
+            5. Ask for feedback, especially by blind users. They know best, if your explanations are understandable or hard to get.
+               There's a mailing list called Reaper without Peepers, which is a primary mailinglist by blind people for blind people.
+               Ask there for people who could test your script and give you feedback.
+               They have the most experience in what a good description is and what is a bad one, so pay attention and listen.
+               
+            With these rules, most of your guis should be easy to use by blind people. The rest I intend to do automagically with ReaGirl.
+            
+            One thing to note: in the ReaGirl-settings, there's an option under accessibility called "Show screen reader messages in console(debug)".
+            When you turn this option on, ReaGirl will put all screen reader-messages of ReaGirl-guis into the ReaScript-console-window.
+            That way you can peek, how other ReaGirl-guis write screen reader-messages or how things are communicated to blind people.
+            Looking at this for some time helps getting an idea on how blind users perceive guis.
+            
+            You can also install the Osara-extension and NVDA to get the full experience.
+            Osara sends screen reader messages to the operating system with the help of NVDA.
+            You install both and start NVDA. You computer will read now every ui-element you are hovering above with the mouse and each ui-element that you are selecting using tab or shift+tab.
+            This can be overwhelming at first so, so you can make it silent in the preferences and show a speech viewer instead, which gives you all screen reader messages as well, not just the ones from ReaGirl-guis.
+            Read about how to use NVDA, speech viewer and it's preferences and how to use it in the internet.
+            It's usually not needed to install Osara and NVDA for ReaGirl scripts, but if you intend to make non-ReaGirl-scripts accessible, you'll need both to get these things right.
+            Especially, since Osara includes a function called reaper.osara_outputMessage(), that outputs messages to the screenreader. A function that I use in ReaGirl extensively.
+        </description>
+        <target_document>ReaGirl_Introduction_and_Concepts.html</target_document>
+        <source_document>ReaGirl_Introduction_and_Concepts.USDocML</source_document>
+        <chapter_context>
+            Best Practices
+        </chapter_context>
+        <previous_chapter>Best_Practices_For_Guis</previous_chapter>
+        <next_chapter>Best_Practices_On_Writing_Guis_As_Blind_Scripter</next_chapter>
+        <tags></tags>
+    </US_DocBloc>
+
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>Best_Practices_On_Writing_Guis_As_Blind_Scripter</slug>
+        <title>Best Practices on Writing guis as Blind Scripter </title>
+        <description markup_type="markdown" markup_version="1.0.1" indent="default">
+            ReaGirl has some features, that you can use as a blind scripter to code your own guis.
+            The most important thing is auto-positioning, which allows you to position ui-elements automatically. 
+            It's comparable with writing text: you place each ui-element after each other or in the next line.
+            To place ui-elements automatically, set the x and y-position-parameters of the \_Add-functions to nil.
+            This will place the ui-element to the right of the previous ui-element.
+            If you want to place the next ui-element into the next line, use reagirl.NextLine(), which is like the Enter-key in an editor, that starts a new line.
+            
+            Read the [tutorial about autopositioning](#Tutorial_007_Autopositioning_Of_UI_Elements) and [tutorial about autopositioning with tabs](#Tutorial_008_Autopositioning_With_Tabs) to get to know, how it works.
+            
+            There are some things you should consider to also make the gui easy to use for sighted users:
+            1. Don't put too many ui-elements after each other, as this means you need to scroll vertically to reach the ui-elements.
+               This is usually not a problem for you, as you are navigating using the tab-key, which automatically scrolls the tabbed ui-element into view.
+               However, sighted users usually work with mouse and they can become easily annoyed when having to scroll vertically to see the last ui-element in a line.
+               So don't add more than five buttons, three checkboxes, one inputbox, one slider, one drop down menu after each other, to keep the gui conveniently usable.
+               When in doubt, better start a new line where you put the next ui-element. Scrolling up and down to get the next ui-element into view is usually more accepted than scrolling left and right.
+               
+            2. When using labels, don't write a wall of text. From my experience, blind users use paragraphs in text much less than sighted people,
+               which can become difficult to read, especially for neurodivergent people.
+               So when you need to write a lot of text into a label, think about, when one point ends and when the next point starts.
+               Add two newlines between them. That way sighted people can digest your text much easier.
+               The reason for it is, that sighted people tend to "scan" the text loosely for the most important things, like important words for instance that their eyes will be hooked at which determines, if a text is important right now or not.
+               And they usually see each paragraph as one piece of knowledge to digest.
+               So adding newlines between each point you are making makes it faster for sighted people to scan your text for the most important information.
+            
+            3. This point is basically the same advice I gave you about text in labels, but for ui-elements:
+               Put all ui-elements that are belonging to each other close to each other.
+               And when all ui-elements of one context are added, use two reagirl.NextLine()-functioncalls.
+               This will add a, for lack of a better term, newline between ui-elements.
+               So you have one pack of ui-elements of one context, then some gap by a new line, then the next pack of ui-elements of the next context, etc.
+               That way you prevent crowded guis that can be hard to read.
+               Just as sighted people scan text, they also scan guis for the most important elements, so by adding newlines using two reagirl.NextLine()-functioncalls,
+               you make the gui easier to read, as it's faster to skip the unimportant parts in this moment.
+            
+            4. When doing a gui that shall also be used by sighted people, don't hesitate to ask for feedback. That way you can avoid crowded walls of texts or walls of ui-elements.
+               Autopositioning should give you everything you need to make them work but there are still cases, where some feedback is still very valuable to get a gui right.
+        </description>
+        <target_document>ReaGirl_Introduction_and_Concepts.html</target_document>
+        <source_document>ReaGirl_Introduction_and_Concepts.USDocML</source_document>
+        <chapter_context>
+            Best Practices
+        </chapter_context>
+        <previous_chapter>Best_Practices_On_Accessibility</previous_chapter>
         <next_chapter></next_chapter>
         <tags></tags>
     </US_DocBloc>
+

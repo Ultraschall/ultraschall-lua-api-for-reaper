@@ -169,7 +169,7 @@ function SetUpNewGui()
   
   -- [[ Osara override ]]
   tabs2={}
-  reagirl.AutoPosition_SetNextYToUIElement(Tabs)
+  reagirl.AutoPosition_SetNextUIElementRelativeTo(Tabs)
   reagirl.NextLine()
   tabs2.Label_Osara=reagirl.Label_Add(nil, nil, "General settings", "Settings that influence accessibility.", false, nil)
   reagirl.NextLine()
