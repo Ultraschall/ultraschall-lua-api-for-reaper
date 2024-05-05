@@ -618,7 +618,7 @@ end
 
 function reagirl.RoundRect(x, y, w, h, r, antialias, fill, square_top_left, square_bottom_left, square_top_right, square_bottom_right)
 --[[
-<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+<US_  DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>RoundRect</slug>
   <requires>
     ReaGirl=1.0
@@ -930,7 +930,7 @@ end
 
 function reagirl.Window_Open(...)
 --[[
-<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+<US_ DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>Window_Open</slug>
   <requires>
     ReaGirl=1.0
@@ -3695,7 +3695,7 @@ end
 
 function reagirl.UI_Element_GetSetAllHorizontalOffset(is_set, x_offset)
 --[[
-<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+<US  _DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>UI_Element_GetSetAllHorizontalOffset</slug>
   <requires>
     ReaGirl=1.0
@@ -3732,7 +3732,7 @@ end
 
 function reagirl.UI_Element_GetSetAllVerticalOffset(is_set, y_offset)
 --[[
-<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+<US  _DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>UI_Element_GetSetAllVerticalOffset</slug>
   <requires>
     ReaGirl=1.0
@@ -3767,7 +3767,7 @@ function reagirl.UI_Element_GetSetAllVerticalOffset(is_set, y_offset)
   return reagirl.MoveItAllUp
 end
 
-function reagirl.UI_Element_GetSetRunFunction(element_id, is_set, run_function)
+function reagirl.UI_Element_GetSetRunFunction(element_id, is_set, run_function, run_function2)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>UI_Element_GetSetRunFunction</slug>
@@ -3776,17 +3776,19 @@ function reagirl.UI_Element_GetSetRunFunction(element_id, is_set, run_function)
     Reaper=7
     Lua=5.4
   </requires>
-  <functioncall>func run_function = reagirl.UI_Element_GetSetRunFunction(string element_id, boolean is_set, optional func run_function)</functioncall>
+  <functioncall>func run_function, optional func run_function2 = reagirl.UI_Element_GetSetRunFunction(string element_id, boolean is_set, optional func run_function, optional func_run_function2)</functioncall>
   <description>
     gets/sets the run_function of the ui-element, which will be run, when the ui-element is toggled
   </description>
   <retvals>
     func run_function - the run_function of the ui-element
+    optional func_run_function2 - a second run-function used by some ui-elements; type-run-function for inputboxes
   </retvals>
   <parameters>
     string element_id - the id of the element, whose run_function you want to get/set
     boolean is_set - true, set the run_function; false, only retrieve the current run_function
-    optional func run_function - the run function of the ui-element
+    optional func run_function - the run function of the ui-element; enter-run-function for inputboxes
+    optional func_run_function2 - a second run-function used by some ui-elements; type-run-function for inputboxes
   </parameters>
   <chapter_context>
     UI Elements
@@ -3801,87 +3803,16 @@ function reagirl.UI_Element_GetSetRunFunction(element_id, is_set, run_function)
   if element_id==nil then error("UI_Element_GetSetRunFunction: param #1 - no such ui-element", 2) end
   if reagirl.Elements[element_id]==nil then error("UI_Element_GetSetRunFunction: param #1 - no such ui-element", 2) end
   if type(is_set)~="boolean" then error("UI_Element_GetSetRunFunction: param #2 - must be a boolean", 2) end
-  if is_set==true and run_function~=nil and type(run_function)~="function" then error("UI_Element_GetSetRunFunction: param #3 - must be wither nil or a function, when #2==true", 2) end
+  if is_set==true and run_function~=nil and type(run_function)~="function" then error("UI_Element_GetSetRunFunction: param #3 - must be either nil or a function, when #2==true", 2) end
+  if is_set==true and run_function2~=nil and type(run_function2)~="function" then error("UI_Element_GetSetRunFunction: param #4 - must be either nil or a function, when #2==true", 2) end
   
   if is_set==true then
     reagirl.Elements[element_id]["run_function"]=run_function
+    reagirl.Elements[element_id]["run_function_type"]=run_function2
   end
-  return reagirl.Elements[element_id]["run_function"]
+  return reagirl.Elements[element_id]["run_function"], reagirl.Elements[element_id]["run_function_type"]
 end
 --mespotine
-function reagirl.UI_Element_Move(element_id, x, y)
---[[
-<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>UI_Element_Move</slug>
-  <requires>
-    ReaGirl=1.0
-    Reaper=7
-    Lua=5.4
-  </requires>
-  <functioncall>reagirl.UI_Element_Move(string element_id, optional integer x, optional integer y)</functioncall>
-  <description>
-    moves a ui-element to a new position
-    
-    You can omit the parameters, of those you want to keep at the same position.
-  </description>
-  <parameters>
-    string element_id - the id of the element that you want to move
-    optional integer x - the new x-position of the ui-element
-    optional integer y - the new y-position of the ui-element
-  </parameters>
-  <chapter_context>
-    UI Elements
-  </chapter_context>
-  <target_document>ReaGirl_Docs</target_document>
-  <source_document>reagirl_GuiEngine.lua</source_document>
-  <tags>ui-elements, set, move</tags>
-</US_DocBloc>
-]]
-  if type(element_id)~="string" then error("UI_Element_Move: param #1 - must be a guid as string", 2) end
-  element_id=reagirl.UI_Element_GetIDFromGuid(element_id)
-  if element_id==nil then error("UI_Element_Move: param #1 - no such ui-element", 2) end
-  if x~=nil and math.type(x)~="integer" then error("UI_Element_Move: param #2 - must be either nil or an integer", 2) end
-  if y~=nil and math.type(y)~="integer" then error("UI_Element_Move: param #3 - must be either nil or an integer", 2) end
-  if element_id<1 or element_id>#reagirl.Elements then error("UI_Element_Move: param #1 - no such UI-element", 2) end
-  if x~=nil then reagirl.Elements[element_id]["x"]=x end
-  if y~=nil then reagirl.Elements[element_id]["y"]=y end
-  if element_id==reagirl.Elements["FocusedElement"] then
-    --reagirl.oldselection=-1
-  end
-  reagirl.Gui_ForceRefresh(11)
-end
-
-function reagirl.UI_Element_SetSelected(element_id)
---[[
-<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>UI_Element_SetSelected</slug>
-  <requires>
-    ReaGirl=1.0
-    Reaper=7
-    Lua=5.4
-  </requires>
-  <functioncall>reagirl.UI_Element_SetSelected(string element_id)</functioncall>
-  <description>
-    Sets a ui-element selected. It will have a focus-rectangle around it.
-  </description>
-  <parameters>
-    string element_id - the id of the element that you want to set to selected
-  </parameters>
-  <chapter_context>
-    UI Elements
-  </chapter_context>
-  <target_document>ReaGirl_Docs</target_document>
-  <source_document>reagirl_GuiEngine.lua</source_document>
-  <tags>ui-elements, set, selected</tags>
-</US_DocBloc>
-]]
-  if type(element_id)~="string" then error("UI_Element_SetSelected: param #1 - must be a guid as string", 2) end
-  element_id=reagirl.UI_Element_GetIDFromGuid(element_id)
-  if element_id==nil then error("UI_Element_SetSelected: param #1 - no such ui-element", 2) end
-  
-  reagirl.Elements["FocusedElement"]=element_id
-  reagirl.Gui_ForceRefresh(12)
-end
 
 function reagirl.UI_Element_Remove(element_id)
 --[[
@@ -6856,6 +6787,7 @@ function reagirl.Label_GetStyle(element_id)
     return reagirl.Elements[element_id]["style1"], reagirl.Elements[element_id]["style2"], reagirl.Elements[element_id]["style3"]
   end
 end
+
   
 function reagirl.Label_Add(x, y, label, meaningOfUI_Element, clickable, run_function)
 --[[

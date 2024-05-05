@@ -3183,6 +3183,7 @@
             What they do is defined by what you write into the run-function.
             
             To add a button to your gui, you use reagirl.Button\_Add(). It has seven parameters.
+            
             - The first and the second are the position of the button in pixels. You can set them to nil to auto-position it.
             - The third and fourth are margins around the caption. So if the button is too small for you, make these >0 to make the button bigger.
             - The fifth parameter is the caption, which is the text of the button.
@@ -3190,10 +3191,11 @@
             - The seventh parameter is a run-function. This function will be run, when the button is clicked. It gets as parameter the element\_id of the button that was clicked.
             
             With this, you can add a button to your gui, but there's more that you can do with a button.
-            reagirl.Button\_SetDisabled() - sets a button to disabled, so it can't be pressed
-            reagirl.Button\_GetDisabled() - gets the current disability state, if the button can be pressed or not
-            reagirl.Button\_SetRadius - allows you to make the button more round or more square
-            reagirl.Button\_GetRadius - gets the current roundness of the button's edges
+            
+            - reagirl.Button\_SetDisabled() - sets a button to disabled, so it can't be pressed
+            - reagirl.Button\_GetDisabled() - gets the current disability state, if the button can be pressed or not
+            - reagirl.Button\_SetRadius - allows you to make the button more round or more square
+            - reagirl.Button\_GetRadius - gets the current roundness of the button's edges
             
             Check the [first tutorial "A basic gui"](#Tutorial_001_A_Basic_Gui) to see examples of guis with a buttons.
         </description>
@@ -3217,21 +3219,23 @@
             They are usually use when the user has the option to turn something on or off.
             
             To add a checkbox, you use reagirl.Checkbox\_Add(). It has six parameters.
+            
             - The first and second parameter are the position in pixels. Set them to nil to auto-position the checkbox.
             - The third parameter is the text of the caption.
             - The fourth parameter is meaningOfUI\_Element, which is a short explanation on what the checkbox is doing and why. This is needed by blind users so they know, what the checkbox stands for.
             - The fifth parameter is the initial checkstate when the script is started. True, the checkbox is checked, false, it is unchecked.
             - The sixth parameter is the run-function which is run everytime the toggles the checkstate of the checkbox. 
               It gets as parameters the element\_id of the toggled checkbox as first and the new checkstate as second parameters.
+              You can set the run-function to nil if you don't want a run-function to be run.
               
             There's more that you can do with checkboxes:
-            reagirl.Checkbox\_SetDisabled - sets a checkbox disabled, so it can't be clicked
-            reagirl.Checkbox\_GetDisabled - gets the current checkstate of a checkbox, if it can be clicked
-            reagirl.Checkbox\_SetCheckState - sets the checkstate of the checkbox
-            reagirl.Checkbox\_GetCheckState - gets the current checkstate of the checkbox
+            
+            - reagirl.Checkbox\_SetDisabled - sets a checkbox disabled, so it can't be clicked
+            - reagirl.Checkbox\_GetDisabled - gets the current checkstate of a checkbox, if it can be clicked
+            - reagirl.Checkbox\_SetCheckState - sets the checkstate of the checkbox
+            - reagirl.Checkbox\_GetCheckState - gets the current checkstate of the checkbox
             
             Check the [first tutorial "A basic gui"](#Tutorial_001_A_Basic_Gui) to see examples of guis with checkboxes.
-            
         </description>
         <target_document>ReaGirl_Introduction_and_Concepts.html</target_document>
         <source_document>ReaGirl_Introduction_and_Concepts.USDocML</source_document>
@@ -3247,7 +3251,35 @@
         <slug>The_Gui_Elements_003_Labels</slug>
         <title>Labels</title>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
+            Labels are a way to show text in your gui. They are meant to explain things or 
+            give your gui some structure, like explaining the basic context of some ui-elements as a header.
+            They can be copied to the clipboard using Ctrl+C.
+            You can also make a label clickable, so it behaves like a link on a webpage.
+            Labels can have newlines.
             
+            There are also functions to set a label draggable.
+            
+            You add labels to your gui with reagirl.Label\_Add(), which has six parameters.
+            
+            - The first and second parameters are the position of the label in pixels. To autoposition the label, pass nil into these parameters.
+            - The third parameter is the label-text. It can include newlines.
+            - The fourth parameter is meaningOfUI\_Element, which gives some more explanation of this label for blind users.
+              Means, if the label is a header for some ui-elements, you can explain in more detail, what the ui-elements are supposed to be.
+            - The fifth parameter sets, if the label is clickable(true) or not(false).
+            - The sixth parameter is a run-function, that is run when a clickable label is clicked and/or a label is dragged onto another ui-element.
+              You can keep the run-function nil if you don't need a run-function to be run.
+            
+            There's more that you can do with labels:
+            
+            - reagirl.Label\_SetStyle - allows setting a different styles for the label, like underlined or bold
+            - reagirl.Label\_GetStyle - gets the currently set styles for a label
+            - reagirl.Label\_SetFontSize - sets the font-size of the label
+            - reagirl.Label\_GetFontSize - gets the currently set font-size of the label
+            - reagirl.Label\_SetAlignment - sets the alignment of the label-text, like centered or right aligned
+            - reagirl.Label\_GetAlignment - gets the current alignment for this label
+            - reagirl.Label\_SetDraggable - sets the label as draggable, including possible drag-destinations
+            - reagirl.Label\_GetDraggable - gets the currently drag-state and the current drag-destinations
+            - reagirl.UI_Element_GetSetCaption - gets or sets the label text
         </description>
         <target_document>ReaGirl_Introduction_and_Concepts.html</target_document>
         <source_document>ReaGirl_Introduction_and_Concepts.USDocML</source_document>
@@ -3327,7 +3359,35 @@
         <slug>The_Gui_Elements_008_Tabs</slug>
         <title>Tabs</title>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
+            Tabs allow you to structure ui-elements into categories. For instance, you can have all settings for setting one in one category(tab) and the ones for setting two in another category(tab).
+            And when you switch between the tabs, only the ui-elements associated with a specific tab are shown while the others are hidden.
             
+            With them, you can organize your guis better so people are not overwhelmed by one page with all ui-elements at once.
+            You can also put ui-elements outside of tabs so they are shown all the time.
+            
+            You can have only one tab-ui-element per gui!
+            
+            You add tabs to your gui using reagirl.Tabs\_Add(), which has nine parameters.
+            
+            - Parameters 1 and 2 are x and y-position of the tabs in pixels. You can set these to nil to autoposition the tabs.
+            - Parameters 3 and 4 are the width and height of the grey background of the tabs, that gives a backdrop to ui-elements.
+              It's intended to show which ui-elements are parts of a specific tab. Set them to 0 for no background or nil to let the
+              background be automatically around the added ui-elements.
+            - Parameter 5 is a caption for the tabs, which is communicated to screenreaders as a general overview of what the tabs are for.
+            - Parameter 6 is meaningOfUI\_Element, which is a description for the tabs, communicated to screen reader users. Explain what the tabs are for and why.
+            - Parameter 7 is a table with all tab-names, like {"Tab Number 1", "The second tab", "The third one"}
+            - Parameter 8 is the tab that is selected when the gui is opened.
+            - Parameter 9 is a run-function that is called everytime the user switched tabs
+              You can set this to nil, if you don't want to use a run-function when tabs are switched.
+              
+            There are more things you can do with tabs:
+            
+            - reagirl.Tabs\_SetUIElementsForTab - associates ui-elements with a specific tab. Means, the associated ui-elements 
+                                                will only be shown when this tab is selected
+            - reagirl.Tabs\_SetSelected - set a specific tab as selected
+            - reagirl.Tabs\_GetSelected - gets the current selected tab
+            
+            Check the [second tutorial "Adding Tabs to a Gui"](#Tutorial_002_Adding_Tabs_to_a_Gui) as well as the [eight tutorial "Autopositioning with tabs"](#Tutorial_008_Autopositioning_With_Tabs) to see, how to code tabs.
         </description>
         <target_document>ReaGirl_Introduction_and_Concepts.html</target_document>
         <source_document>ReaGirl_Introduction_and_Concepts.USDocML</source_document>
@@ -3335,9 +3395,69 @@
             The Gui Elements
         </chapter_context>
         <previous_chapter>The_Gui_Elements_007_Sliders</previous_chapter>
-        <next_chapter>The_Gui_Elements_Concepts001_Context_Menus</next_chapter>
+        <next_chapter>The_Gui_Elements_100_General</next_chapter>
         <tags></tags>
     </US_DocBloc>
+    
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>The_Gui_Elements_100_General</slug>
+        <title>Functions for getting/setting ui-elements in general</title>
+        <description markup_type="markdown" markup_version="1.0.1" indent="default">
+          ReaGirl includes a variety of basic functions to influence various attributes of UI-elements, Guis and the gui-window.
+          Here's a list of all of them.
+          
+          Functions for UI-elements:
+          
+          - reagirl.UI_Element_GetFocusRect - gets the current coordinates of the focus rectangle
+          - reagirl.UI_Element_GetFocused - gets the currently focused ui-element
+          - reagirl.UI_Element_GetHovered - gets the currently hovered ui-element
+          - reagirl.UI_Element_GetSetCaption - gets/sets the caption of a ui-element
+          - reagirl.UI_Element_GetSetMeaningOfUIElement - gets/sets the meaning of ui-element, like tooltip/screen reader helpmessage
+          - reagirl.UI_Element_GetSetPosition - gets/sets the position of a ui-element
+          - reagirl.UI_Element_GetSetRunFunction - gets/sets the current run-functions
+          - reagirl.UI_Element_GetSetSticky - gets/sets stickiness of a ui-element
+          - reagirl.UI_Element_GetSetVisibility - gets/sets visibility of a ui-element
+          - reagirl.UI_Element_GetType - gets the type of a ui-element, like Edit for inputboxes, label, checkbox, etc
+          - reagirl.UI_Element_IsElementAtMousePosition - checks, if a ui-element is at mouse-position
+          - reagirl.UI_Element_Last_Element_Current_Position - 
+          - reagirl.UI_Element_Remove - removes a ui-element
+          - reagirl.UI_Element_SetFocused - sets a specific ui-element focused
+          - reagirl.UI_Element_SetHiddenFromTable - sets all ui-elements hidden/visible that are passed over as a table
+          - reagirl.UI_Element_SetFocusRect - sets the focus rectangle to certain coordinates
+          
+          Functions for the Gui:
+
+          - reagirl.Gui_AtExit - sets a run-function that is run when the gui-window gets closed
+          - reagirl.Gui_Close - closes the gui-window
+          - reagirl.Gui_ForceRefresh - forces a refresh of the gui, if something has changed, usually not needed
+          - reagirl.Gui_GetBoundaries - gets the current boundaries of the ui-elements
+          - reagirl.Gui_IsOpen - returns, if the gui-window is currently opened
+          - reagirl.Gui_Manage - manages the gui-functionality
+          - reagirl.Gui_New - starts a new gui and throws away the current one
+          - reagirl.Gui_Open - opens up the gui-window
+          - reagirl.Gui_PreventCloseViaEscForOneCycle - prevents the closing of the gui via esc-key for one defer-cycle
+          - reagirl.Gui_PreventEnterForOneCycle - prevents the "global" enter-key from working for one defer-cycle
+          - reagirl.Gui_PreventScrollingForOneCycle - prevents scrolling of the gui for one defer-cycle
+
+          Functions for the gui-window:
+          
+          - reagirl.Window_ForceSize_Minimum - forces that the window can't be resizes under a specific minimum
+          - reagirl.Window_GetCurrentScale - gets the currently used scaling-factor for the gui
+          - reagirl.Window_SetCurrentScale - sets a scaling factor for the gui between 1 and 8
+          - reagirl.Window_SetFocus - sets window-focus back to the gui-window
+          - reagirl.Window_ForceSize_Maximum - forces that the window can't be resizes above a specific maximum
+
+          Most of them are probably not needed by you but some you may need from time to time.
+        </description>
+        <target_document>ReaGirl_Introduction_and_Concepts.html</target_document>
+        <source_document>ReaGirl_Introduction_and_Concepts.USDocML</source_document>
+        <chapter_context>
+            The Gui Elements
+        </chapter_context>
+        <previous_chapter>The_Gui_Elements_008_Tabs</previous_chapter>
+        <next_chapter>The_Gui_Elements_Concepts001_Context_Menus</next_chapter>
+        <tags></tags>
+    </US_DocBloc>    
 
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
         <slug>The_Gui_Elements_Concepts001_Context_Menus</slug>
@@ -3345,10 +3465,11 @@
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
             Context menus are menus that are opened, when the user right-clicks a ui-element.
             Any ui-element can have its own context-menu.
-            To add it, you need the element\_id of the ui-element that shall get the menu as well as a run-function.
+            To add one to a ui-element, you need the element\_id of the ui-element that shall get the menu as well as a run-function.
             Then use the function reagirl.UI\_Element\_GetSet\_ContextMenu()
             
             It has four parameters. 
+            
             - The first one is the element\_id of the ui-element, that shall get a context-menu.
             - The second one is a boolean with which you tell ReaGirl, if you want to add a context-menu(true) or get the current menu(false).
             - The third parameter is the menu itself. It follows the scheme of gfx.showmenu():
@@ -3378,7 +3499,7 @@
         <chapter_context>
             The Gui Elements
         </chapter_context>
-        <previous_chapter>The_Gui_Elements_008_Tabs</previous_chapter>
+        <previous_chapter>The_Gui_Elements_100_General</previous_chapter>
         <next_chapter>The_Gui_Elements_Concepts002_FileDropZones</next_chapter>
         <tags></tags>
     </US_DocBloc>
@@ -3448,13 +3569,13 @@
             However, there are some areas, where ReaGirl can't do the work for you and that need to be taken into consideration by you.
             But don't worry, it's easier than you think. Once you digested the rules, most of your guis will be easy to use by blind users.
             
-            1. Blind users use guis usually using the keyboard. They select the ui-element using tab or shift+tab.
-               They select ui-elements using the space-bar or the enter-key.
-               And they select the current selection of a drop down menu or a slider using cursor-keys, PgUp, PgDn, Home and End.
+            1. Blind users use guis generally using the keyboard. They select the ui-element using tab or shift+tab.
+               They "click" ui-elements using the space-bar or the enter-key.
+               And they choose the current selection of a drop down menu or a slider using cursor-keys, PgUp, PgDn, Home and End.
                This has some implications on how to place ui-elements. For instance:
             
             2. Put ui-elements of a certain context next to each other.
-               This is important! In your script hat means, that the \_Add-functions that belong to each other should follow each other.
+               This is important! In your script, it means that the \_Add-functions that belong to each other should follow each other.
                Imagine an inputbox that shows a filename and a button that opens up a file-selection-dialog.
                The inputbox and the button are probably placed next to each other in your gui. And they need to be placed
                next to each other in your script, means: reagirl.InputBox\_Add() first, then reagirl.Button\_Add() as the next ui-element.
@@ -3462,7 +3583,8 @@
                Make this logical. Blind users can't see, where an important ui-element is placed, so they usually expect, that the next logical ui-element they tab to follows the current one.
                Or in our example: the inputbox first and when hitting the tab key again, the file-selection-button is selected next.
                This might be a challenge at first, especially when you are not used to gui-coding yet. But you are going to get used to it quickly.
-               Oh, before I forget: when you rearrange ui-elements in your gui, don't only change the coordinates, but also think, if the order of the ui-elements visually is still the same as the order when going through them using the tab key. So go through them using the tab key to see, if the order is logical.
+               Oh, before I forget: when you rearrange ui-elements in your gui, don't only change the coordinates, but also think, if the order of the ui-elements visually is still the same as the order when going through them using the tab key. 
+               So after the change, go through them using the tab key to see, if the order is still logical.
                Rule of thumb is: when tabbing through the ui-elements, you go from left to right and from up to down, just like text in an editor.
                If tabbing through the ui-elements doesn't follow this scheme, change the order of the \_Add-functions in your script until they are correct.
                This way, you make the gui easier to use by blind people.
@@ -3478,7 +3600,7 @@
                That way you quickly reach the first ones using tab and the last ones using shift+tab.
                
             4. Add text to meaningOfUI\_Element-parameters, which is a short explanation and some context on what the ui-element is supposed to do.
-               This is very important! Setting meaningOfUI\_Element-parameters fills up the tooltips. But it also is the text sent to users of screen readers.
+               This is very important! Setting meaningOfUI\_Element-parameters fills up the tooltips. But it is also the text sent to users of screen readers.
                You can imagine this the following:
                If a blind user uses tab to select a checkbox, they get read out checkbox-caption, current checkstate and meaningOfUI\_Element.
                That way they know, how the checkbox is named(caption), if it's currently checked or not(checkstate) and what the checkbox is supposed to do and what happens if they change the checkstate(meaningOfUI\_Element).
@@ -3489,7 +3611,7 @@
                This gives you an idea on how to write them.
                
             5. Ask for feedback, especially by blind users. They know best, if your explanations are understandable or hard to get.
-               There's a mailing list called Reaper without Peepers, which is a primary mailinglist by blind people for blind people.
+               There's a mailing list called Reaper without Peepers, which is primarily a mailinglist by blind people for blind people.
                Ask there for people who could test your script and give you feedback.
                They have the most experience in what a good description is and what is a bad one, so pay attention and listen.
                
@@ -3500,12 +3622,12 @@
             That way you can peek, how other ReaGirl-guis write screen reader-messages or how things are communicated to blind people.
             Looking at this for some time helps getting an idea on how blind users perceive guis.
             
-            You can also install the Osara-extension and NVDA to get the full experience.
-            Osara sends screen reader messages to the operating system with the help of NVDA.
-            You install both and start NVDA. You computer will read now every ui-element you are hovering above with the mouse and each ui-element that you are selecting using tab or shift+tab.
+            You can also install the Osara-extension and NVDA(or JAWS) to get the full experience.
+            Osara sends screen reader messages to the operating system with the help of NVDA(or JAWS).
+            You install both and start NVDA(or JAWS). You computer will read now every ui-element you are hovering above with the mouse and each ui-element that you are selecting using tab or shift+tab.
             This can be overwhelming at first so, so you can make it silent in the preferences and show a speech viewer instead, which gives you all screen reader messages as well, not just the ones from ReaGirl-guis.
-            Read about how to use NVDA, speech viewer and it's preferences and how to use it in the internet.
-            It's usually not needed to install Osara and NVDA for ReaGirl scripts, but if you intend to make non-ReaGirl-scripts accessible, you'll need both to get these things right.
+            Read about how to use NVDA(or JAWS), speech viewer and it's preferences and how to use it.
+            It's usually not needed to install Osara and NVDA(or JAWS) for ReaGirl scripts, but if you intend to make non-ReaGirl-scripts accessible, you'll need both to get these things right.
             Especially, since Osara includes a function called reaper.osara_outputMessage(), that outputs messages to the screenreader. A function that I use in ReaGirl extensively.
         </description>
         <target_document>ReaGirl_Introduction_and_Concepts.html</target_document>
@@ -3524,29 +3646,29 @@
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
             ReaGirl has some features, that you can use as a blind scripter to code your own guis.
             The most important thing is auto-positioning, which allows you to position ui-elements automatically. 
-            It's comparable with writing text: you place each ui-element after each other or in the next line.
+            It's comparable with writing text: you place each ui-element after each other or you place it in the next line.
             To place ui-elements automatically, set the x and y-position-parameters of the \_Add-functions to nil.
             This will place the ui-element to the right of the previous ui-element.
             If you want to place the next ui-element into the next line, use reagirl.NextLine(), which is like the Enter-key in an editor, that starts a new line.
             
-            Read the [tutorial about autopositioning](#Tutorial_007_Autopositioning_Of_UI_Elements) and [tutorial about autopositioning with tabs](#Tutorial_008_Autopositioning_With_Tabs) to get to know, how it works.
+            Read the [tutorial about autopositioning](#Tutorial_007_Autopositioning_Of_UI_Elements) and [tutorial about autopositioning with tabs](#Tutorial_008_Autopositioning_With_Tabs) to get learn how it works.
             
             There are some things you should consider to also make the gui easy to use for sighted users:
-            1. Don't put too many ui-elements after each other, as this means you need to scroll vertically to reach the ui-elements.
+            1. Don't put too many ui-elements after each other, as this means you need to scroll horizontally to reach the ui-elements.
                This is usually not a problem for you, as you are navigating using the tab-key, which automatically scrolls the tabbed ui-element into view.
-               However, sighted users usually work with mouse and they can become easily annoyed when having to scroll vertically to see the last ui-element in a line.
-               So don't add more than five buttons, three checkboxes, one inputbox, one slider, one drop down menu after each other, to keep the gui conveniently usable.
+               However, sighted users usually work with mouse and they can become easily annoyed when having to scroll horizontally to see the last ui-element in a line.
+               So don't add more than five buttons, three checkboxes, one inputbox, one slider or one drop down menu after each other, to keep the gui conveniently usable.
                When in doubt, better start a new line where you put the next ui-element. Scrolling up and down to get the next ui-element into view is usually more accepted than scrolling left and right.
                
-            2. When using labels, don't write a wall of text. From my experience, blind users use paragraphs in text much less than sighted people,
+            2. When using labels, don't write a wall of text. From my experience, blind users use paragraphs in text much less often than sighted people,
                which can become difficult to read, especially for neurodivergent people.
                So when you need to write a lot of text into a label, think about, when one point ends and when the next point starts.
                Add two newlines between them. That way sighted people can digest your text much easier.
-               The reason for it is, that sighted people tend to "scan" the text loosely for the most important things, like important words for instance that their eyes will be hooked at which determines, if a text is important right now or not.
+               The reason for it is that sighted people tend to "scan" the text loosely for the most important things, like striving through the text for important words that their eyes will be hooked at, which determines if a text is important right now or not.
                And they usually see each paragraph as one piece of knowledge to digest.
                So adding newlines between each point you are making makes it faster for sighted people to scan your text for the most important information.
             
-            3. This point is basically the same advice I gave you about text in labels, but for ui-elements:
+            3. This point is basically the same advice I gave you about text in labels, but this time it's for ui-elements:
                Put all ui-elements that are belonging to each other close to each other.
                And when all ui-elements of one context are added, use two reagirl.NextLine()-functioncalls.
                This will add a, for lack of a better term, newline between ui-elements.
