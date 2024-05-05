@@ -24,7 +24,6 @@
 ################################################################################
 ]] 
 
-
 --dofile(reaper.GetResourcePath().."/UserPlugins/ultraschall_api.lua")
 
 -- DEBUG:
@@ -3357,6 +3356,9 @@ function reagirl.UI_Element_GetSet_DropZoneFunction(element_id, is_set, dropzone
     The dropzone_function will be called with two parameters: 
       string element_id - the guid of the ui-element, on which files were dropped
       table filenames - a table with all dropped filenames
+      
+    It's also possible, that fx were dropped onto a drop-zone, since Reaper allows that.
+    So if you just want to have filenames, check, if the filename is not of format "@fx:fx_ident"
   </description>
   <retvals>
     function dropzone_function - a function that is called, after files were drag'n'dropped onto this ui-element
@@ -3962,6 +3964,10 @@ function reagirl.Checkbox_Add(x, y, caption, meaningOfUI_Element, default, run_f
     
     You can autoposition the checkbox by setting x and/or y to nil, which will position the new checkbox after the last ui-element.
     To autoposition into the next line, use reagirl.NextLine()
+    
+    The run-function will get two parameters:
+    - string element_id - the element_id of the toggled checkbox
+    - boolean checkstate - the new checkstate of the checkbox
   </description>
   <parameters>
     optional integer x - the x position of the checkbox in pixels; negative anchors the checkbox to the right window-side; nil, autoposition after the last ui-element(see description)
@@ -4413,6 +4419,7 @@ function reagirl.NextLine(y_offset)
   reagirl.UI_Element_NextLineX=reagirl.UI_Element_NextX_Default
 end
 
+
 function reagirl.Button_Add(x, y, w_margin, h_margin, caption, meaningOfUI_Element, run_function)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
@@ -4429,7 +4436,8 @@ function reagirl.Button_Add(x, y, w_margin, h_margin, caption, meaningOfUI_Eleme
     You can autoposition the button by setting x and/or y to nil, which will position the new button after the last ui-element.
     To autoposition into the next line, use reagirl.NextLine()
     
-    The run-function gets as parameter the element_id of the pressed button that uses this run-function.
+    The run-function gets as parameter:
+    - string element_id - the element_id as string of the pressed button that uses this run-function
   </description>
   <parameters>
     optional integer x - the x position of the button in pixels; negative anchors the button to the right window-side; nil, autoposition after the last ui-element(see description)
@@ -4781,7 +4789,9 @@ function reagirl.Inputbox_Add(x, y, w, caption, Cap_width, meaningOfUI_Element, 
     So you can't rely only on the run_function_type but also need to add a run_function_enter, when you want to use the value immediately when typed in your script(like setting as a setting into an ini-file).
     Otherwise blind users would be able to enter text but it will be ignored at hitting enter by your code, which would be unfortunate.
     
-    The run-functions get as parameters the element_id and the currently entered text as parameters.
+    The run-functions get as parameters:
+    - string element_id - the element_id as string 
+    - string text - the currently entered text
   </description>
   <parameters>
     optional integer x - the x position of the inputbox in pixels; negative anchors the inputbox to the right window-side; nil, autoposition after the last ui-element(see description)
@@ -5427,7 +5437,7 @@ function reagirl.Inputbox_Manage(element_id, selected, hovered, clicked, mouse_c
     local retval, filenames = reaper.GetUserFileNameForRead("", "Choose file to drop into "..element_storage["Name"], "")
     reagirl.Window_SetFocus()
     if retval==true then element_storage["DropZoneFunction"](element_storage["Guid"], {filenames}) refresh=true end
-  end
+  end  
   
   local Cap_width=element_storage.Cap_width
   --if Cap_width==nil then Cap_width=gfx.measurestr(name) end
@@ -6002,7 +6012,10 @@ function reagirl.DropDownMenu_Add(x, y, w, caption, Cap_width, meaningOfUI_Eleme
     You can autoposition the dropdown-menu by setting x and/or y to nil, which will position the new dropdown-menu after the last ui-element.
     To autoposition into the next line, use reagirl.NextLine()
     
-    The run-function gets as parameters the element_id as well as the selected menu_entry_number.
+    The run-function gets as parameters:
+    - string element_id - the element_id
+    - integer selected_menu_entry - the selected menu entry number
+    - string selected_menu_entry_name - the name of the selected menu entry
   </description>
   <parameters>
     optional integer x - the x position of the dropdown-menu in pixels; negative anchors the dropdown-menu to the right window-side; nil, autoposition after the last ui-element(see description)
@@ -6859,6 +6872,12 @@ function reagirl.Label_Add(x, y, label, meaningOfUI_Element, clickable, run_func
     
     You can autoposition the label by setting x and/or y to nil, which will position the new label after the last ui-element.
     To autoposition into the next line, use reagirl.NextLine()
+    
+    It is possible to make labels draggable. See Label_SetDraggable and Label_GetDraggable for how to do it.
+    
+    The run-function will get as parameters:
+    - string element_id - the element_id of the clicked label
+    - optional string dropped_element_id - the element_id of the ui-element, onto which the label was dragged
   </description>
   <parameters>
     optional integer x - the x position of the label in pixels; negative anchors the label to the right window-side; nil, autoposition after the last ui-element(see description)
@@ -7262,16 +7281,20 @@ function reagirl.Image_Add(x, y, w, h, image_filename, caption, meaningOfUI_Elem
     image-filename-8x.png - 8x-scaling
     
     If a filename doesn't exist, it reverts to the default one for 1x-scaling.
+  
+    Images can be set to draggable. See Image_GetDraggable and Image_SetDraggable for enabling 
+    dragging of the image to a destination ui-element.
     
-    The run_function will get three parameters: the guid of the image, the filename of the image 
-    and an optional third parameter, the element_id of the destination, where the image has been 
-    dragged to(if dragging is enabled, see Image_GetDraggable and Image_SetDraggable for enabling 
-    dragging of the image to a destination ui-element).
-    
+    The run_function will get three parameters: 
+     - string element_id - the guid of the image
+     - string filename - the filename of the image 
+     - optional string dropped_element_id - the element_id of the destination, where the image has been 
+    dragged to
+  
     You can autoposition the image by setting x and/or y to nil, which will position the new image after the last ui-element.
     To autoposition into the next line, use reagirl.NextLine()
     
-    If you want to force the image to be displayed with correctaspect ratio, see Image_KeepAspectRatio.
+    If you want to force the image to be displayed with correct aspect ratio, see Image_KeepAspectRatio.
   </description>
   <parameters>
     optional integer x - the x position of the image in pixels; nil, autoposition after the last ui-element(see description)
@@ -8925,7 +8948,9 @@ function reagirl.Slider_Add(x, y, w, caption, Cap_width, meaningOfUI_Element, un
     
     Also note: when the number of steps is too many to be shown in a narrow slider, step-values may be skipped.
     
-    The run-function will get as parameters the element_id of the slider that uses this run-function as well as the current slider-value.
+    The run-function will get as parameters:
+    - string element_id - the element_id of the slider that uses this run-function 
+    - integer value - the current slider-value
   </description>
   <parameters>
     optional integer x - the x position of the slider in pixels; negative anchors the slider to the right window-side; nil, autoposition after the last ui-element(see description)
@@ -9808,7 +9833,10 @@ function reagirl.Tabs_Add(x, y, w_backdrop, h_backdrop, caption, meaningOfUI_Ele
     
     Keep in mind, that using auto-sizing of the background might lead to smaller backgrounds than the tabs themselves when there's only a few ui-elements available!
     
-    The run-function will get as parameters the tab's element-id as well as the clicked tab as second and the clicked tab-name as third parameter..
+    The run-function will get as parameters:
+    - string element_id - the tab's element-id 
+    - integer selected_tab - the clicked tab 
+    - string selected_tab_name - the clicked tab-name
   </description>
   <parameters>
     optional integer x - the x position of the tab in pixels; negative anchors the tab to the right window-side; nil, autoposition after the last ui-element(see description)

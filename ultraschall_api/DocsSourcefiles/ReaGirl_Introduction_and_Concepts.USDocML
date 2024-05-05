@@ -111,7 +111,7 @@
         <tags>introduction, first steps</tags>
     </US_DocBloc>
     
-        <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
         <slug>Tutorial_001_A_Basic_Gui</slug>
         <title>Tutorial 001: A Basic Gui</title>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
@@ -3152,7 +3152,17 @@
         <slug>The_Gui_Elements_000</slug>
         <title>The Gui Elements</title>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
+            ReaGirl features a set of ui-elements that you can add to your gui and add functionality to them,
+            as of now, buttons, labels, checkboxes, inputboxes, sliders, dropdownmenus and tabs.
             
+            You can also add to each ui-element a context-menus. You can also add a file-drop-zone, which allows you to drop files onto a certain ui-elements.
+            For both, context-menus and drop zones, you can add run-functions that will be run when a context-menu is opened or files have been dropped.
+            
+            Some ui-elements(images and labels) can even be made draggable.
+            
+            In addition, there's a subset of ReaGirl-functions whose name begin with reagirl.UI\_Element\_ that allow influencing ui-elements, like reagirl.UI\_Element\_GetSetPosition() which allows getting and setting the position of a ui-element.
+            
+            In the next chapters, I will go through all of these ui-elements and additional concepts and explain how they are intended.
         </description>
         <target_document>ReaGirl_Introduction_and_Concepts.html</target_document>
         <source_document>ReaGirl_Introduction_and_Concepts.USDocML</source_document>
@@ -3168,7 +3178,24 @@
         <slug>The_Gui_Elements_001_Buttons</slug>
         <title>Buttons</title>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
+            Buttons are calls to action. They are rectangular shaped ui-elements that feature a short text(called a caption).
+            They can be pressed to start an action, like opening a dialog, running actions from the action list, closing a window, etc.
+            What they do is defined by what you write into the run-function.
             
+            To add a button to your gui, you use reagirl.Button\_Add(). It has seven parameters.
+            - The first and the second are the position of the button in pixels. You can set them to nil to auto-position it.
+            - The third and fourth are margins around the caption. So if the button is too small for you, make these >0 to make the button bigger.
+            - The fifth parameter is the caption, which is the text of the button.
+            - The sixth parameter is meaningOfUI\_Element, which is a short explanation on what the button is doing and why. This is needed by blind users so they know, what the button is for.
+            - The seventh parameter is a run-function. This function will be run, when the button is clicked. It gets as parameter the element\_id of the button that was clicked.
+            
+            With this, you can add a button to your gui, but there's more that you can do with a button.
+            reagirl.Button\_SetDisabled() - sets a button to disabled, so it can't be pressed
+            reagirl.Button\_GetDisabled() - gets the current disability state, if the button can be pressed or not
+            reagirl.Button\_SetRadius - allows you to make the button more round or more square
+            reagirl.Button\_GetRadius - gets the current roundness of the button's edges
+            
+            Check the [first tutorial "A basic gui"](#Tutorial_001_A_Basic_Gui) to see examples of guis with a buttons.
         </description>
         <target_document>ReaGirl_Introduction_and_Concepts.html</target_document>
         <source_document>ReaGirl_Introduction_and_Concepts.USDocML</source_document>
@@ -3184,6 +3211,26 @@
         <slug>The_Gui_Elements_002_Checkboxes</slug>
         <title>Checkboxes</title>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
+            Checkboxes are toggle-states. They can be set to checked(on) or unchecked(off).
+            They are square and have a small yellow square in the middle when checked with a descriptive text(caption) next to it.
+            
+            They are usually use when the user has the option to turn something on or off.
+            
+            To add a checkbox, you use reagirl.Checkbox\_Add(). It has six parameters.
+            - The first and second parameter are the position in pixels. Set them to nil to auto-position the checkbox.
+            - The third parameter is the text of the caption.
+            - The fourth parameter is meaningOfUI\_Element, which is a short explanation on what the checkbox is doing and why. This is needed by blind users so they know, what the checkbox stands for.
+            - The fifth parameter is the initial checkstate when the script is started. True, the checkbox is checked, false, it is unchecked.
+            - The sixth parameter is the run-function which is run everytime the toggles the checkstate of the checkbox. 
+              It gets as parameters the element\_id of the toggled checkbox as first and the new checkstate as second parameters.
+              
+            There's more that you can do with checkboxes:
+            reagirl.Checkbox\_SetDisabled - sets a checkbox disabled, so it can't be clicked
+            reagirl.Checkbox\_GetDisabled - gets the current checkstate of a checkbox, if it can be clicked
+            reagirl.Checkbox\_SetCheckState - sets the checkstate of the checkbox
+            reagirl.Checkbox\_GetCheckState - gets the current checkstate of the checkbox
+            
+            Check the [first tutorial "A basic gui"](#Tutorial_001_A_Basic_Gui) to see examples of guis with checkboxes.
             
         </description>
         <target_document>ReaGirl_Introduction_and_Concepts.html</target_document>
@@ -3287,7 +3334,85 @@
         <chapter_context>
             The Gui Elements
         </chapter_context>
+        <previous_chapter>The_Gui_Elements_007_Sliders</previous_chapter>
+        <next_chapter>The_Gui_Elements_Concepts001_Context_Menus</next_chapter>
+        <tags></tags>
+    </US_DocBloc>
+
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>The_Gui_Elements_Concepts001_Context_Menus</slug>
+        <title>Context Menus</title>
+        <description markup_type="markdown" markup_version="1.0.1" indent="default">
+            Context menus are menus that are opened, when the user right-clicks a ui-element.
+            Any ui-element can have its own context-menu.
+            To add it, you need the element\_id of the ui-element that shall get the menu as well as a run-function.
+            Then use the function reagirl.UI\_Element\_GetSet\_ContextMenu()
+            
+            It has four parameters. 
+            - The first one is the element\_id of the ui-element, that shall get a context-menu.
+            - The second one is a boolean with which you tell ReaGirl, if you want to add a context-menu(true) or get the current menu(false).
+            - The third parameter is the menu itself. It follows the scheme of gfx.showmenu():
+            
+            >It is a list of fields separated by | characters. Each field represents a menu item.
+            >Fields can start with special characters:
+
+            ># : grayed out
+            >! : checked
+            >\> : this menu item shows a submenu
+            >< : last item in the current submenu
+            
+            >Example:
+            >"first item, followed by separator||!second item, checked|>third item which spawns a submenu|#first item in submenu, grayed out|<second and last item in submenu|fourth item in top menu")
+            
+            Experiment with it to get a grip on how it works.
+            
+            - The last parameter is a run-function that will be run when the user selects a menu-item in the context-menu.
+            It will get two parameters. First, the element\_id of the ui-element, whose context-menu has been used and second the chosen menu-entry.
+            
+            And that's it. Add a run-function for the context-menu, add a ui-element, use its element\_id as parameter for reagirl.UI\_Element\_GetSet\_ContextMenu() and fill out the other parameters.
+            Run the script and the ui-element has a context menu when right clicking it.
+            Check the [third tutorial "A Basic Image Viewer with a file-drop-zone and a context menu"](#Tutorial_003_A_Basic_Image_Viewer) to see, how it looks in practice.
+        </description>
+        <target_document>ReaGirl_Introduction_and_Concepts.html</target_document>
+        <source_document>ReaGirl_Introduction_and_Concepts.USDocML</source_document>
+        <chapter_context>
+            The Gui Elements
+        </chapter_context>
         <previous_chapter>The_Gui_Elements_008_Tabs</previous_chapter>
+        <next_chapter>The_Gui_Elements_Concepts002_FileDropZones</next_chapter>
+        <tags></tags>
+    </US_DocBloc>
+    
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>The_Gui_Elements_Concepts002_FileDropZones</slug>
+        <title>File Drop Zones</title>
+        <description markup_type="markdown" markup_version="1.0.1" indent="default">
+            File Drop Zones are zones, where you can drag and drop files onto.
+            You can give a ui-element a file drop zone and when you did, you can drop files onto the corresponding ui-element.
+            For instance, you can show an image and define a drop zone for this image. And then you can drop files onto the image itself.
+            
+            Every ui-element can have a file drop zone. You just need the element\_id and a run-function for it.
+            Then use the function reagirl.UI\_Element\_GetSet\_DropZoneFunction() to add a file drop zone to a ui-element.
+            
+            - The first parameter is the element\_id of the ui-element, that shall get a file drop zone.
+            - The second parameter sets, if you want to set a file drop zone to the ui-element(true) or get its current run-function.
+            - The third parameter is a run-function that gets run, when the user drops files onto the ui-element.
+            
+            The run-function will get two parameters passed:
+            First, the element\_id of the ui-element, onto which the files were dropped.
+            Second, a table with all filenames that were dropped.
+            It also supports dropping of fx from inside Reaper to it. In that case, the filename starts with @fx:
+            
+            Check the [third tutorial "A Basic Image Viewer with a file-drop-zone and a context menu"](#Tutorial_003_A_Basic_Image_Viewer) to see, how it looks in practice.
+            
+            And that's all you need to add file drop zones to ui-elements.
+        </description>
+        <target_document>ReaGirl_Introduction_and_Concepts.html</target_document>
+        <source_document>ReaGirl_Introduction_and_Concepts.USDocML</source_document>
+        <chapter_context>
+            The Gui Elements
+        </chapter_context>
+        <previous_chapter>The_Gui_Elements_Concepts001_Context_Menus</previous_chapter>
         <next_chapter>Best_Practices_For_Guis</next_chapter>
         <tags></tags>
     </US_DocBloc>
