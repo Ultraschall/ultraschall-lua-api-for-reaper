@@ -5437,9 +5437,9 @@ function reagirl.Inputbox_Manage(element_id, selected, hovered, clicked, mouse_c
   end
   
   local blink_refresh=false
-  if reagirl.osara_outputMessage~=nil then    
-    if selected~="not selected" and (Key==13 or (mouse_cap&1==1 and gfx.mouse_x>=x and gfx.mouse_x<=x+w and gfx.mouse_y>=y and gfx.mouse_y<=y+h)) then
-      reagirl.Gui_PreventEnterForOneCycle()
+  if reagirl.osara_outputMessage~=nil and selected~="not selected" then
+    reagirl.Gui_PreventEnterForOneCycle()
+    if selected~="not selected" and (Key==13 or (mouse_cap&1==1 and gfx.mouse_x>=x and gfx.mouse_x<=x+w and gfx.mouse_y>=y and gfx.mouse_y<=y+h)) then      
       local retval, text = reaper.GetUserInputs("Enter or edit the text", 1, element_storage["password"]..",extrawidth=150", element_storage.Text)
       reagirl.Window_SetFocus_Trigger=true
       --element_storage.draw_offset=1
