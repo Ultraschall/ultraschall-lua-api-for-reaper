@@ -3397,6 +3397,86 @@
             The Gui Elements
         </chapter_context>
         <previous_chapter>The_Gui_Elements_007_Sliders</previous_chapter>
+        <next_chapter>The_Gui_Elements_Concepts001_Context_Menus</next_chapter>
+        <tags></tags>
+    </US_DocBloc>
+    
+
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>The_Gui_Elements_Concepts001_Context_Menus</slug>
+        <title>Context Menus</title>
+        <description markup_type="markdown" markup_version="1.0.1" indent="default">
+            Context menus are menus that are opened, when the user right-clicks a ui-element.
+            Any ui-element can have its own context-menu.
+            To add one to a ui-element, you need the element\_id of the ui-element that shall get the menu as well as a run-function.
+            Then use the function reagirl.UI\_Element\_GetSet\_ContextMenu()
+            
+            It has four parameters. 
+            
+            - The first one is the element\_id of the ui-element, that shall get a context-menu.
+            - The second one is a boolean with which you tell ReaGirl, if you want to add a context-menu(true) or get the current menu(false).
+            - The third parameter is the menu itself. It follows the scheme of gfx.showmenu():
+            
+            >It is a list of fields separated by | characters. Each field represents a menu item.
+            >Fields can start with special characters:
+
+            ># : grayed out
+            >! : checked
+            >\> : this menu item shows a submenu
+            >< : last item in the current submenu
+            
+            >Example:
+            >"first item, followed by separator||!second item, checked|>third item which spawns a submenu|#first item in submenu, grayed out|<second and last item in submenu|fourth item in top menu")
+            
+            Experiment with it to get a grip on how it works.
+            
+            - The last parameter is a run-function that will be run when the user selects a menu-item in the context-menu.
+            It will get two parameters. First, the element\_id of the ui-element, whose context-menu has been used and second the chosen menu-entry.
+            
+            And that's it. Add a run-function for the context-menu, add a ui-element, use its element\_id as parameter for reagirl.UI\_Element\_GetSet\_ContextMenu() and fill out the other parameters.
+            Run the script and the ui-element has a context menu when right clicking it.
+            Check the [third tutorial "A Basic Image Viewer with a file-drop-zone and a context menu"](#Tutorial_003_A_Basic_Image_Viewer) to see, how it looks in practice.
+        </description>
+        <target_document>ReaGirl_Introduction_and_Concepts.html</target_document>
+        <source_document>ReaGirl_Introduction_and_Concepts.USDocML</source_document>
+        <chapter_context>
+            The Gui Elements
+        </chapter_context>
+        <previous_chapter>The_Gui_Elements_008_Tabs</previous_chapter>
+        <next_chapter>The_Gui_Elements_Concepts002_FileDropZones</next_chapter>
+        <tags></tags>
+    </US_DocBloc>
+    
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>The_Gui_Elements_Concepts002_FileDropZones</slug>
+        <title>File Drop Zones</title>
+        <description markup_type="markdown" markup_version="1.0.1" indent="default">
+            File Drop Zones are zones, where you can drag and drop files onto.
+            You can give a ui-element a file drop zone and when you did, you can drop files onto the corresponding ui-element.
+            For instance, you can show an image and define a drop zone for this image. And then you can drop files onto the image itself.
+            
+            Every ui-element can have a file drop zone. You just need the element\_id and a run-function for it.
+            Then use the function reagirl.UI\_Element\_GetSet\_DropZoneFunction() to add a file drop zone to a ui-element.
+            
+            - The first parameter is the element\_id of the ui-element, that shall get a file drop zone.
+            - The second parameter sets, if you want to set a file drop zone to the ui-element(true) or get its current run-function.
+            - The third parameter is a run-function that gets run, when the user drops files onto the ui-element.
+            
+            The run-function will get two parameters passed:
+            First, the element\_id of the ui-element, onto which the files were dropped.
+            Second, a table with all filenames that were dropped.
+            It also supports dropping of fx from inside Reaper to it. In that case, the filename starts with @fx:
+            
+            Check the [third tutorial "A Basic Image Viewer with a file-drop-zone and a context menu"](#Tutorial_003_A_Basic_Image_Viewer) to see, how it looks in practice.
+            
+            And that's all you need to add file drop zones to ui-elements.
+        </description>
+        <target_document>ReaGirl_Introduction_and_Concepts.html</target_document>
+        <source_document>ReaGirl_Introduction_and_Concepts.USDocML</source_document>
+        <chapter_context>
+            The Gui Elements
+        </chapter_context>
+        <previous_chapter>The_Gui_Elements_Concepts001_Context_Menus</previous_chapter>
         <next_chapter>The_Gui_Elements_100_General</next_chapter>
         <tags></tags>
     </US_DocBloc>
@@ -3458,90 +3538,10 @@
         <chapter_context>
             The Gui Elements
         </chapter_context>
-        <previous_chapter>The_Gui_Elements_008_Tabs</previous_chapter>
-        <next_chapter>The_Gui_Elements_Concepts001_Context_Menus</next_chapter>
-        <tags></tags>
-    </US_DocBloc>    
-
-    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-        <slug>The_Gui_Elements_Concepts001_Context_Menus</slug>
-        <title>Context Menus</title>
-        <description markup_type="markdown" markup_version="1.0.1" indent="default">
-            Context menus are menus that are opened, when the user right-clicks a ui-element.
-            Any ui-element can have its own context-menu.
-            To add one to a ui-element, you need the element\_id of the ui-element that shall get the menu as well as a run-function.
-            Then use the function reagirl.UI\_Element\_GetSet\_ContextMenu()
-            
-            It has four parameters. 
-            
-            - The first one is the element\_id of the ui-element, that shall get a context-menu.
-            - The second one is a boolean with which you tell ReaGirl, if you want to add a context-menu(true) or get the current menu(false).
-            - The third parameter is the menu itself. It follows the scheme of gfx.showmenu():
-            
-            >It is a list of fields separated by | characters. Each field represents a menu item.
-            >Fields can start with special characters:
-
-            ># : grayed out
-            >! : checked
-            >\> : this menu item shows a submenu
-            >< : last item in the current submenu
-            
-            >Example:
-            >"first item, followed by separator||!second item, checked|>third item which spawns a submenu|#first item in submenu, grayed out|<second and last item in submenu|fourth item in top menu")
-            
-            Experiment with it to get a grip on how it works.
-            
-            - The last parameter is a run-function that will be run when the user selects a menu-item in the context-menu.
-            It will get two parameters. First, the element\_id of the ui-element, whose context-menu has been used and second the chosen menu-entry.
-            
-            And that's it. Add a run-function for the context-menu, add a ui-element, use its element\_id as parameter for reagirl.UI\_Element\_GetSet\_ContextMenu() and fill out the other parameters.
-            Run the script and the ui-element has a context menu when right clicking it.
-            Check the [third tutorial "A Basic Image Viewer with a file-drop-zone and a context menu"](#Tutorial_003_A_Basic_Image_Viewer) to see, how it looks in practice.
-        </description>
-        <target_document>ReaGirl_Introduction_and_Concepts.html</target_document>
-        <source_document>ReaGirl_Introduction_and_Concepts.USDocML</source_document>
-        <chapter_context>
-            The Gui Elements
-        </chapter_context>
-        <previous_chapter>The_Gui_Elements_100_General</previous_chapter>
-        <next_chapter>The_Gui_Elements_Concepts002_FileDropZones</next_chapter>
-        <tags></tags>
-    </US_DocBloc>
-    
-    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-        <slug>The_Gui_Elements_Concepts002_FileDropZones</slug>
-        <title>File Drop Zones</title>
-        <description markup_type="markdown" markup_version="1.0.1" indent="default">
-            File Drop Zones are zones, where you can drag and drop files onto.
-            You can give a ui-element a file drop zone and when you did, you can drop files onto the corresponding ui-element.
-            For instance, you can show an image and define a drop zone for this image. And then you can drop files onto the image itself.
-            
-            Every ui-element can have a file drop zone. You just need the element\_id and a run-function for it.
-            Then use the function reagirl.UI\_Element\_GetSet\_DropZoneFunction() to add a file drop zone to a ui-element.
-            
-            - The first parameter is the element\_id of the ui-element, that shall get a file drop zone.
-            - The second parameter sets, if you want to set a file drop zone to the ui-element(true) or get its current run-function.
-            - The third parameter is a run-function that gets run, when the user drops files onto the ui-element.
-            
-            The run-function will get two parameters passed:
-            First, the element\_id of the ui-element, onto which the files were dropped.
-            Second, a table with all filenames that were dropped.
-            It also supports dropping of fx from inside Reaper to it. In that case, the filename starts with @fx:
-            
-            Check the [third tutorial "A Basic Image Viewer with a file-drop-zone and a context menu"](#Tutorial_003_A_Basic_Image_Viewer) to see, how it looks in practice.
-            
-            And that's all you need to add file drop zones to ui-elements.
-        </description>
-        <target_document>ReaGirl_Introduction_and_Concepts.html</target_document>
-        <source_document>ReaGirl_Introduction_and_Concepts.USDocML</source_document>
-        <chapter_context>
-            The Gui Elements
-        </chapter_context>
-        <previous_chapter>The_Gui_Elements_Concepts001_Context_Menus</previous_chapter>
+        <previous_chapter>The_Gui_Elements_Concepts002_FileDropZones</previous_chapter>
         <next_chapter>Best_Practices_For_Guis</next_chapter>
         <tags></tags>
-    </US_DocBloc>
-    
+    </US_DocBloc>    
     
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
         <slug>Best_Practices_For_Guis</slug>
@@ -3554,7 +3554,7 @@
         <chapter_context>
             Best Practices
         </chapter_context>
-        <previous_chapter>The_Gui_Elements_008_Tabs</previous_chapter>
+        <previous_chapter>The_Gui_Elements_100_General</previous_chapter>
         <next_chapter>Best_Practices_On_Accessibility</next_chapter>
         <tags></tags>
     </US_DocBloc>
