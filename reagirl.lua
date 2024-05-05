@@ -42,7 +42,7 @@ function reagirl.GetVersion()
     </requires>
     <functioncall>number version = reagirl.GetVersion()</functioncall>
     <description>
-      Returns the version-number of ReaGirl.
+      Returns the version-number of the installed ReaGirl.
     </description>
     <retvals>
       number version - the version-number of the installed ReaGirl

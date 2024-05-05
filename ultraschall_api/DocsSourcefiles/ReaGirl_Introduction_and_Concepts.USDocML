@@ -35,6 +35,8 @@
             dofile(reaper.GetResourcePath().."/UserPlugins/reagirl.lua")
             ```
             to your script. It will load all functions and features of ReaGirl. After that, you can start writing your guis with it.
+            It would also be a good idea to check here, if the installed ReaGirl-version is the one your script is requiring.
+            For this you can use reagirl.GetVersion() and warn the user, if the installed version is too old.
 
             ### Step 1: Add some run-functions
             Run-Functions are functions that are run, when the user interacts with a user-interface-element(ui-element). For instance, clicking a checkbox or a button.
@@ -3405,6 +3407,8 @@
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
           ReaGirl includes a variety of basic functions to influence various attributes of UI-elements, Guis and the gui-window.
           Here's a list of all of them.
+          
+          - reagirl.GetVersion - returns the version-number of the installed ReaGirl-version
           
           Functions for UI-elements:
           
