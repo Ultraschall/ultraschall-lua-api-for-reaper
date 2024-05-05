@@ -4,7 +4,7 @@ In this tutorial, I will show you, how to make a gui, where an image is draggabl
 It will have one image, that can be dragged and two other images and a label, which act as destinations for the dragged source-image.
 Dragging the source-image to the destination-images will change the destination-image to the one of the source image, while dragging to the label will show the filename+path of the source-image.
 
-Note: blind users can drag the image using Ctrl+Tab or Ctrl+Shift+Tab to select, to which ui-element the images shall be dragged to.
+Note: blind users can drag the image using Ctrl+Shift+PageUp or Ctrl+Shift+PageDown to select, to which ui-element the images shall be dragged to and Ctrl+Shift+Enter to drop it.
 
 Let's start first with a basic-gui, that will show the source-image and have an empty run-function for the image.
 

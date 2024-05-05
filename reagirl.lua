@@ -2098,6 +2098,7 @@ function reagirl.Gui_Manage()
       if reagirl.AtEnter_RunFunc~=nil then reagirl.AtEnter_RunFunc() end
     end -- esc closes window
   end 
+  reagirl.Gui_PreventEnterForOneCycle_State=false
   
   if Key==26161 then 
     if reagirl.osara_outputMessage~=nil then
@@ -4825,6 +4826,9 @@ function reagirl.Inputbox_Add(x, y, w, caption, Cap_width, meaningOfUI_Element, 
   reagirl.Elements[slot]["ContextMenu_ACC"]=""
   reagirl.Elements[slot]["DropZoneFunction_ACC"]=""
   reagirl.Elements[slot]["Cap_width"]=Cap_width
+  if Cap_width==nil then 
+    reagirl.Elements[slot]["Cap_width"]=math.floor(tx)
+  end
   reagirl.Elements[slot]["x"]=x
   reagirl.Elements[slot]["y"]=y
   reagirl.Elements[slot]["w"]=w
@@ -5399,7 +5403,7 @@ function reagirl.Inputbox_OnTyping(Key, Key_UTF, mouse_cap, element_storage)
   end
   
   if Key>0 then 
-    if element_storage["run_function_type"]~=nil then
+    if element_storage["run_function_type"]~=nil and Key~=13 then
       element_storage["run_function_type"](element_storage["Guid"], element_storage.Text)
     end
     refresh=true 
@@ -5417,8 +5421,11 @@ function reagirl.Inputbox_Manage(element_id, selected, hovered, clicked, mouse_c
     if retval==true then element_storage["DropZoneFunction"](element_storage["Guid"], {filenames}) refresh=true end
   end
   
+  local Cap_width=element_storage.Cap_width
+  --if Cap_width==nil then Cap_width=gfx.measurestr(name) end
+  
   if hovered==true then
-    if gfx.mouse_x>=x+element_storage.Cap_width then
+    if gfx.mouse_x>=x+Cap_width then
       if selected=="not selected" and gfx.mouse_cap==0 then
         gfx.setcursor(101)
       elseif selected~="not selected" then
@@ -5430,9 +5437,9 @@ function reagirl.Inputbox_Manage(element_id, selected, hovered, clicked, mouse_c
   end
   
   local blink_refresh=false
-  if reagirl.osara_outputMessage~=nil then
-    reagirl.Gui_PreventEnterForOneCycle()
+  if reagirl.osara_outputMessage~=nil then    
     if selected~="not selected" and (Key==13 or (mouse_cap&1==1 and gfx.mouse_x>=x and gfx.mouse_x<=x+w and gfx.mouse_y>=y and gfx.mouse_y<=y+h)) then
+      reagirl.Gui_PreventEnterForOneCycle()
       local retval, text = reaper.GetUserInputs("Enter or edit the text", 1, element_storage["password"]..",extrawidth=150", element_storage.Text)
       reagirl.Window_SetFocus_Trigger=true
       --element_storage.draw_offset=1
@@ -5462,7 +5469,7 @@ function reagirl.Inputbox_Manage(element_id, selected, hovered, clicked, mouse_c
     else
       element_storage["blink"]=0
     end
-    if element_storage["run_function"]~=nil then
+    if element_storage["run_function"]~=nil and selected~="not selected" then
       reagirl.Gui_PreventEnterForOneCycle()
     end
     if selected=="not selected" then
@@ -5471,7 +5478,8 @@ function reagirl.Inputbox_Manage(element_id, selected, hovered, clicked, mouse_c
     if element_storage.cursor_offset==-1 and clicked~="DBLCLK" then 
       element_storage.cursor_offset=element_storage.Text:utf8_len() 
     end
-    if selected=="first selected" and mouse_cap==1 then
+    
+    if selected=="first selected" then      
       element_storage["cursor_offset"]=element_storage["Text"]:utf8_len()
       element_storage["draw_offset_end"]=element_storage["Text"]:utf8_len()
       element_storage["selection_endoffset"]=element_storage["Text"]:utf8_len()

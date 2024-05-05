@@ -709,6 +709,25 @@
     </US_DocBloc>  
   
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">  
+      <slug>autosavebackuplimit</slug>  
+      <title>autosavebackuplimit</title>  
+      <description>  
+        REAPER7
+      
+
+           >0 to 2147483647; in seconds; higher values become negative  
+
+          Stored in reaper.ini under the same name in the section REAPER.  
+      </description>  
+      <chapter_context>
+         ??
+         ??
+      </chapter_context>
+      <source_document>Reaper_Config_Variables.USDocML</source_document>
+      <target_document>Reaper_Config_Variables</target_document>  
+    </US_DocBloc>  
+  
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">  
       <slug>autosaveint</slug>  
       <title>autosaveint</title>  
       <description>  
@@ -3754,6 +3773,25 @@
       <source_document>Reaper_Config_Variables.USDocML</source_document>
       <target_document>Reaper_Config_Variables</target_document>  
     </US_DocBloc>  
+    
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">  
+      <slug>envvzoomscale</slug>  
+      <title>envvzoomscale</title>  
+      <description>  
+          REAPER7
+          It is a double-float, ?? variable.
+            
+            >
+           
+          Stored in reaper.ini under the same name in the section REAPER.  
+      </description>  
+      <chapter_context>
+         ??
+         ??
+      </chapter_context>
+      <source_document>Reaper_Config_Variables.USDocML</source_document>
+      <target_document>Reaper_Config_Variables</target_document>  
+    </US_DocBloc>  
   
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">  
       <slug>errnowarn</slug>  
@@ -4240,6 +4278,25 @@
       <chapter_context>
          Preferences
          Track Control Panels
+      </chapter_context>
+      <source_document>Reaper_Config_Variables.USDocML</source_document>
+      <target_document>Reaper_Config_Variables</target_document>  
+    </US_DocBloc>  
+    
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">  
+      <slug>grvuscale</slug>  
+      <title>grvuscale</title>  
+      <description>  
+          REAPER7
+          It is an integer, ?? variable.
+          
+           >??
+          
+          Stored in reaper.ini under the same name in the section REAPER.  
+      </description>  
+      <chapter_context>
+         ??
+         ??
       </chapter_context>
       <source_document>Reaper_Config_Variables.USDocML</source_document>
       <target_document>Reaper_Config_Variables</target_document>  
@@ -5000,6 +5057,26 @@
       <source_document>Reaper_Config_Variables.USDocML</source_document>
       <target_document>Reaper_Config_Variables</target_document>  
     </US_DocBloc>  
+  
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">  
+      <slug>kbd_override_len</slug>  
+      <title>kbd_override_len</title>  
+      <description>  
+          REAPER7
+          It is an integer-bitfield, ? variable.
+          
+          Can be affected by the following actions:
+            >
+          
+          Stored in reaper.ini under the same name in the section REAPER.  
+      </description>  
+      <chapter_context>
+         ??
+         ??
+      </chapter_context>
+      <source_document>Reaper_Config_Variables.USDocML</source_document>
+      <target_document>Reaper_Config_Variables</target_document>  
+    </US_DocBloc> 
   
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">  
       <slug>labelitems2</slug>  
@@ -10532,6 +10609,25 @@
       <source_document>Reaper_Config_Variables.USDocML</source_document>
       <target_document>Reaper_Config_Variables</target_document>  
     </US_DocBloc>  
+
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">  
+      <slug>savebackuplimit</slug>  
+      <title>savebackuplimit</title>  
+      <description>  
+          REAPER7
+          It is an integer-bitfield, ?? variable.
+          
+           >
+
+          Stored in reaper.ini under the same name in the section REAPER.  
+      </description>  
+      <chapter_context>
+         ??
+         ??
+      </chapter_context>
+      <source_document>Reaper_Config_Variables.USDocML</source_document>
+      <target_document>Reaper_Config_Variables</target_document>  
+    </US_DocBloc>  
   
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">  
       <slug>saveopts</slug>  
@@ -10784,6 +10880,25 @@
       </description>  
       <chapter_context>
          Misc
+      </chapter_context>
+      <source_document>Reaper_Config_Variables.USDocML</source_document>
+      <target_document>Reaper_Config_Variables</target_document>  
+    </US_DocBloc>  
+  
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">  
+      <slug>scrubgain</slug>  
+      <title>scrubgain</title>  
+      <description>  
+          REAPER7
+          It is an double-float, ? variable.
+          
+           >
+
+          Stored in reaper.ini under the same name in the section REAPER.  
+      </description>  
+      <chapter_context>
+         ??
+         ??
       </chapter_context>
       <source_document>Reaper_Config_Variables.USDocML</source_document>
       <target_document>Reaper_Config_Variables</target_document>  
@@ -12003,6 +12118,25 @@
     </US_DocBloc>  
   
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">  
+      <slug>trackgapmax</slug>  
+      <title>trackgapmax</title>  
+      <description>  
+          REAPER7
+          It is an integer, ?? variable.
+          
+           >
+
+          Stored in reaper.ini under the same name in the section REAPER.  
+      </description>  
+      <chapter_context>
+         ??
+         ??
+      </chapter_context>
+      <source_document>Reaper_Config_Variables.USDocML</source_document>
+      <target_document>Reaper_Config_Variables</target_document>  
+    </US_DocBloc>
+  
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">  
       <slug>trackitemgap</slug>  
       <title>trackitemgap</title>  
       <description>  
@@ -12019,7 +12153,7 @@
       </chapter_context>
       <source_document>Reaper_Config_Variables.USDocML</source_document>
       <target_document>Reaper_Config_Variables</target_document>  
-    </US_DocBloc>  
+    </US_DocBloc>    
   
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">  
       <slug>trackselonmouse</slug>  
@@ -12583,6 +12717,34 @@
     </US_DocBloc>  
 
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">  
+      <slug>vscrollflag</slug>  
+      <title>vscrollflag</title>  
+      <description>  
+          REAPER7
+          It is an integer-bitfield, ?? variable.
+      </description>  
+      <chapter_context>
+         ??
+      </chapter_context>
+      <source_document>Reaper_Config_Variables.USDocML</source_document>
+      <target_document>Reaper_Config_Variables</target_document>  
+    </US_DocBloc>  
+    
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">  
+      <slug>vscrollstep</slug>  
+      <title>vscrollstep</title>  
+      <description>  
+          REAPER7
+          It is a double-float, ?? variable.
+      </description>  
+      <chapter_context>
+         ??
+      </chapter_context>
+      <source_document>Reaper_Config_Variables.USDocML</source_document>
+      <target_document>Reaper_Config_Variables</target_document>  
+    </US_DocBloc>  
+    
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">  
       <slug>vstbr32</slug>  
       <title>vstbr32</title>  
       <description>  
@@ -12595,8 +12757,7 @@
       <source_document>Reaper_Config_Variables.USDocML</source_document>
       <target_document>Reaper_Config_Variables</target_document>  
     </US_DocBloc>  
-
-  
+    
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">  
       <slug>vstbr64</slug>  
       <title>vstbr64</title>  
