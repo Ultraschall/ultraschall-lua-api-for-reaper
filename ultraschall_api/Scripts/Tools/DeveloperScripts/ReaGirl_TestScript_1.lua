@@ -63,6 +63,11 @@ state=CheckForDependencies(false, true, false, true, true)
 if state==false then reaper.MB("Can't start script due to missing dependencies", "Error", 0) return end
 if reaper.JS_ReaScriptAPI_Version==nil then return end
 
+function InputBox(A,B,C)
+  reaper.ClearConsole()
+  reaper.ShowConsoleMsg(C)
+end 
+
 dofile(reaper.GetResourcePath().."/UserPlugins/reagirl.lua")
 
 function button(element_id)
@@ -113,7 +118,7 @@ reagirl.Slider_Add(nil, nil, -20, "A Slider-ui-element", nil, "A test slider in 
 reagirl.NextLine()
 reagirl.DropDownMenu_Add(nil,nil, -20,"Drop Down Menu", 100, "A test Drop Down Menu or Combo Box as it's probably known.", {"First menu entry", "The second menu entry", "A third menu entry"}, 1, nil)
 reagirl.NextLine()
-reagirl.Inputbox_Add(nil, nil, -20, "An input box:", 100, "Input some text in here.", "", nil, nil)
+reagirl.Inputbox_Add(nil, nil, -20, "An input box:", 100, "Input some text in here.", "", InputBox, InputBox)
 reagirl.NextLine()
   image_source=reagirl.Image_Add(50,nil,50,50,reaper.GetResourcePath().."/Data/track_icons/double_bass.png", "The source-image, an image of a double bass.", "Drag this double bass to one of the two images.", Image)
   image_middle=reagirl.Image_Add(160,nil,25,25,reaper.GetResourcePath().."/Data/track_icons/folder_right.png", "The first destination image.", "Image of a folder with an arrow pointing right.",nil)

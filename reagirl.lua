@@ -75,7 +75,9 @@ end
 --[[
 TODO: 
   - Gui_Open - w and h parameters=nil mean, make the size of the window big enough to fit all ui-elements
-  - 
+  - Sliders: make default-value optional
+  - sticky elements need more work, as tabbing to one might move a ui-element behind a sticky-ui-element. In that case, we need to
+    scroll accordingly.
   - Ultraschall API: add function to set SetExtState("ReaGirl","ReFocusWindow"), which will set the focus of an opened ReaGirl-window.
   -- for instance reaper.SetExtState("ReaGirl","ReFocusWindow","ReaGirl_Settings",false) sets focus to ReaGirl Settings.
   - Draggable UI-Elements other than Image: use reagirl.DragImageSlot to draw the dragging-image, which will be blit by the Gui_Draw-function
@@ -3298,6 +3300,14 @@ function reagirl.UI_Element_GetSet_ContextMenu(element_id, is_set, menu, menu_fu
     
     Setting this will show a context-menu, when the user rightclicks the ui-element.
     
+    Parameter menu is a list of fields separated by | characters. Each field represents a menu item.
+    Fields can start with special characters:
+
+    # : grayed out
+    ! : checked
+    > : this menu item shows a submenu
+    < : last item in the current submenu
+    
     The menu_runfunction will be called with two parameters: 
       string element_id - the guid of the ui-element, whose context-menu has been used
       integer selection - the index of the menu-item selected by the user
@@ -3483,7 +3493,7 @@ end
 
 function reagirl.UI_Element_GetSetSticky(element_id, is_set, sticky_x, sticky_y)
 --[[
-<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+<US _DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>UI_Element_GetSetSticky</slug>
   <requires>
     ReaGirl=1.0
@@ -5140,6 +5150,7 @@ end
 function reagirl.Inputbox_OnTyping(Key, Key_UTF, mouse_cap, element_storage)
   if Key_UTF~=0 then Key=Key_UTF end
   local refresh=false
+  local entered_text=""
   
   if Key==-1 then
   elseif Key==13 then
@@ -5322,6 +5333,7 @@ function reagirl.Inputbox_OnTyping(Key, Key_UTF, mouse_cap, element_storage)
       element_storage.selection_startoffset=element_storage.cursor_offset
       element_storage.selection_endoffset=element_storage.cursor_offset
       reagirl.Inputbox_ConsolidateCursorPos(element_storage)
+      entered_text=text
     end
   elseif Key==6579564.0 then
     -- Del Key
@@ -5349,11 +5361,12 @@ function reagirl.Inputbox_OnTyping(Key, Key_UTF, mouse_cap, element_storage)
 
     reagirl.Inputbox_ConsolidateCursorPos(element_storage)
     reagirl.Inputbox_Calculate_DrawOffset(true, element_storage)
+    entered_text=utf8.char(Key)
   end
   
   if Key>0 then 
     if element_storage["run_function_type"]~=nil and Key~=13 then
-      element_storage["run_function_type"](element_storage["Guid"], element_storage.Text)
+      element_storage["run_function_type"](element_storage["Guid"], element_storage.Text, entered_text)
     end
     refresh=true 
   end
@@ -5384,7 +5397,7 @@ function reagirl.Inputbox_Manage(element_id, selected, hovered, clicked, mouse_c
       gfx.setcursor(1)
     end
   end
-  
+  local entered_character=""
   local blink_refresh=false
   if reagirl.osara_outputMessage~=nil and selected~="not selected" then
     reagirl.Gui_PreventEnterForOneCycle()
@@ -5488,7 +5501,8 @@ function reagirl.Inputbox_Manage(element_id, selected, hovered, clicked, mouse_c
     end
     -- keyboard management
     if element_storage.hasfocus==true then
-      local refresh2=reagirl.Inputbox_OnTyping(Key, Key_UTF, mouse_cap, element_storage)
+      local refresh2
+      refresh2, entered_character=reagirl.Inputbox_OnTyping(Key, Key_UTF, mouse_cap, element_storage)
       if refresh~=true and refresh2==true then
         refresh=true
       end
@@ -8868,7 +8882,7 @@ function reagirl.Slider_Add(x, y, w, caption, Cap_width, meaningOfUI_Element, un
     Reaper=7
     Lua=5.4
   </requires>
-  <functioncall>string slider_guid = reagirl.Slider_Add(optional integer x, optional integer y, integer w, string caption, optional integer cap_width, string meaningOfUI_Element, optional string unit, number start, number stop, number step, number init_value, number default, optional function run_function)</functioncall>
+  <functioncall>string slider_guid = reagirl.Slider_Add(optional integer x, optional integer y, integer width, string caption, optional integer cap_width, string meaningOfUI_Element, optional string unit, number start_val, number end_val, number step, number init_value, number default, optional function run_function)</functioncall>
   <description>
     Adds a slider to a gui.
     
@@ -8887,12 +8901,13 @@ function reagirl.Slider_Add(x, y, w, caption, Cap_width, meaningOfUI_Element, un
   <parameters>
     optional integer x - the x position of the slider in pixels; negative anchors the slider to the right window-side; nil, autoposition after the last ui-element(see description)
     optional integer y - the y position of the slider in pixels; negative anchors the slider to the bottom window-side; nil, autoposition after the last ui-element(see description)
+    integer width - the width of the slider in pixels
     string caption - the caption of the slider
     optional integer cap_width - the width of the caption to set the actual slider to a fixed position; nil, put slider directly after caption
     string meaningOfUI_Element - the meaningOfUI_Element of the ui-element(for tooltips and blind users). Make it a sentence that ends with . or ?
     optional string unit - the unit shown next to the number the slider is currently set to
-    number start - the minimum value of the slider
-    number stop - the maximum value of the slider
+    number start_val - the minimum value of the slider
+    number end_val - the maximum value of the slider
     number step - the stepsize until the next value within the slider
     number init_value - the initial value of the slider
     number default - the default value of the slider
@@ -9494,16 +9509,16 @@ function reagirl.Slider_GetDefaultValue(element_id)
   end
 end
 
-function reagirl.Slider_SetMinimum(element_id, start_value)
+function reagirl.Slider_SetStartValue(element_id, start_value)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>Slider_SetMinimum</slug>
+  <slug>Slider_SetStartValue</slug>
   <requires>
     ReaGirl=1.0
     Reaper=7
     Lua=5.4
   </requires>
-  <functioncall>reagirl.Slider_SetMinimum(string element_id, number start_value)</functioncall>
+  <functioncall>reagirl.Slider_SetStartValue(string element_id, number start_value)</functioncall>
   <description>
     Sets the minimum value of the slider.
     
@@ -9519,13 +9534,13 @@ function reagirl.Slider_SetMinimum(element_id, start_value)
   <tags>slider, set, minimum, value</tags>
 </US_DocBloc>
 --]]
-  if type(element_id)~="string" then error("Slider_SetMinimum: param #1 - must be a string", 2) end
-  if reagirl.IsValidGuid(element_id, true)==nil then error("Slider_SetMinimum: param #1 - must be a valid guid", 2) end
-  if type(start_value)~="number" then error("Slider_SetMinimum: param #2 - must be a number", 2) end
+  if type(element_id)~="string" then error("Slider_SetStartValue: param #1 - must be a string", 2) end
+  if reagirl.IsValidGuid(element_id, true)==nil then error("Slider_SetStartValue: param #1 - must be a valid guid", 2) end
+  if type(start_value)~="number" then error("Slider_SetStartValue: param #2 - must be a number", 2) end
   element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
-  if element_id==-1 then error("Slider_SetMinimum: param #1 - no such ui-element", 2) end
+  if element_id==-1 then error("Slider_SetStartValue: param #1 - no such ui-element", 2) end
   if reagirl.Elements[element_id]["GUI_Element_Type"]~="Slider" then
-    error("Slider_SetMinimum: param #1 - ui-element is not a slider", 2)
+    error("Slider_SetStartValue: param #1 - ui-element is not a slider", 2)
   else
     reagirl.Elements[element_id]["Start"]=start_value
     if reagirl.Elements[element_id]["CurValue"]<start_value then
@@ -9535,16 +9550,16 @@ function reagirl.Slider_SetMinimum(element_id, start_value)
   end
 end
 
-function reagirl.Slider_GetMinimum(element_id)
+function reagirl.Slider_GetStartValue(element_id)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>Slider_GetMinimum</slug>
+  <slug>Slider_GetStartValue</slug>
   <requires>
     ReaGirl=1.0
     Reaper=7
     Lua=5.4
   </requires>
-  <functioncall>number min_value = reagirl.Slider_GetMinimum(string element_id)</functioncall>
+  <functioncall>number min_value = reagirl.Slider_GetStartValue(string element_id)</functioncall>
   <description>
     Gets the current set minimum-value of the slider.
   </description>
@@ -9560,27 +9575,27 @@ function reagirl.Slider_GetMinimum(element_id)
   <tags>slider, get, minimum, value</tags>
 </US_DocBloc>
 --]]
-  if type(element_id)~="string" then error("Slider_GetMinimum: param #1 - must be a string", 2) end
-  if reagirl.IsValidGuid(element_id, true)==nil then error("Slider_GetMinimum: param #1 - must be a valid guid", 2) end
+  if type(element_id)~="string" then error("Slider_GetStartValue: param #1 - must be a string", 2) end
+  if reagirl.IsValidGuid(element_id, true)==nil then error("Slider_GetStartValue: param #1 - must be a valid guid", 2) end
   element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
-  if element_id==-1 then error("Slider_GetMinimum: param #1 - no such ui-element", 2) end
+  if element_id==-1 then error("Slider_GetStartValue: param #1 - no such ui-element", 2) end
   if reagirl.Elements[element_id]["GUI_Element_Type"]~="Slider" then
-    error("Slider_GetMinimum: param #1 - ui-element is not a slider", 2)
+    error("Slider_GetStartValue: param #1 - ui-element is not a slider", 2)
   else
     return reagirl.Elements[element_id]["Start"]
   end
 end
 
-function reagirl.Slider_SetMaximum(element_id, max_value)
+function reagirl.Slider_SetEndValue(element_id, max_value)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>Slider_SetMaximum</slug>
+  <slug>Slider_SetEndValue</slug>
   <requires>
     ReaGirl=1.0
     Reaper=7
     Lua=5.4
   </requires>
-  <functioncall>reagirl.Slider_SetMaximum(string element_id, number max_value)</functioncall>
+  <functioncall>reagirl.Slider_SetEndValue(string element_id, number max_value)</functioncall>
   <description>
     Sets the maximum value of the slider.
     
@@ -9596,13 +9611,13 @@ function reagirl.Slider_SetMaximum(element_id, max_value)
   <tags>slider, set, maximum, value</tags>
 </US_DocBloc>
 --]]
-  if type(element_id)~="string" then error("Slider_SetMaximum: param #1 - must be a string", 2) end
-  if reagirl.IsValidGuid(element_id, true)==nil then error("Slider_SetMaximum: param #1 - must be a valid guid", 2) end
-  if type(max_value)~="number" then error("Slider_SetMaximum: param #2 - must be a number", 2) end
+  if type(element_id)~="string" then error("Slider_SetEndValue: param #1 - must be a string", 2) end
+  if reagirl.IsValidGuid(element_id, true)==nil then error("Slider_SetEndValue: param #1 - must be a valid guid", 2) end
+  if type(max_value)~="number" then error("Slider_SetEndValue: param #2 - must be a number", 2) end
   element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
-  if element_id==-1 then error("Slider_SetMaximum: param #1 - no such ui-element", 2) end
+  if element_id==-1 then error("Slider_SetEndValue: param #1 - no such ui-element", 2) end
   if reagirl.Elements[element_id]["GUI_Element_Type"]~="Slider" then
-    error("Slider_SetMaximum: param #1 - ui-element is not a slider", 2)
+    error("Slider_SetEndValue: param #1 - ui-element is not a slider", 2)
   else
     reagirl.Elements[element_id]["Stop"]=max_value
     if reagirl.Elements[element_id]["CurValue"]>max_value then
@@ -9612,16 +9627,16 @@ function reagirl.Slider_SetMaximum(element_id, max_value)
   end
 end
 
-function reagirl.Slider_GetMaximum(element_id)
+function reagirl.Slider_GetEndValue(element_id)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>Slider_GetMaximum</slug>
+  <slug>Slider_GetEndValue</slug>
   <requires>
     ReaGirl=1.0
     Reaper=7
     Lua=5.4
   </requires>
-  <functioncall>number max_value = reagirl.Slider_GetMaximum(string element_id)</functioncall>
+  <functioncall>number max_value = reagirl.Slider_GetEndValue(string element_id)</functioncall>
   <description>
     Gets the current set maximum-value of the slider.
   </description>
@@ -9637,12 +9652,12 @@ function reagirl.Slider_GetMaximum(element_id)
   <tags>slider, get, maximum, value</tags>
 </US_DocBloc>
 --]]
-  if type(element_id)~="string" then error("Slider_GetMaximum: param #1 - must be a string", 2) end
-  if reagirl.IsValidGuid(element_id, true)==nil then error("Slider_GetMaximum: param #1 - must be a valid guid", 2) end
+  if type(element_id)~="string" then error("Slider_GetEndValue: param #1 - must be a string", 2) end
+  if reagirl.IsValidGuid(element_id, true)==nil then error("Slider_GetEndValue: param #1 - must be a valid guid", 2) end
   element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
-  if element_id==-1 then error("Slider_GetMaximum: param #1 - no such ui-element", 2) end
+  if element_id==-1 then error("Slider_GetEndValue: param #1 - no such ui-element", 2) end
   if reagirl.Elements[element_id]["GUI_Element_Type"]~="Slider" then
-    error("Slider_GetMaximum: param #1 - ui-element is not a slider", 2)
+    error("Slider_GetEndValue: param #1 - ui-element is not a slider", 2)
   else
     return reagirl.Elements[element_id]["Stop"]
   end

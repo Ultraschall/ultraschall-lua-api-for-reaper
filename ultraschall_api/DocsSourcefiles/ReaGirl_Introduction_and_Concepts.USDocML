@@ -2,7 +2,41 @@
         <slug>Introduction_001_Introduction</slug>
         <title>Introduction</title>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
+            Welcome to ReaGirl, an accessible Gui-library for Reaper.
             
+            Up until now, there are numerous gui-libraries available for Reaper who do a great job at allowing you to code your own guis.
+            The problem is: none of them do not allow making guis for blind people for various (mostly technical) reasons, so only people who can see without a problem can use them.
+            ReaGirl's intention is to solve this with a gui-library that makes it easy for you to code your own gui that is also useable by blind users.
+            
+            And it does not only feature accessibility for blind users, but it has some additional benefits:
+            
+            * It's easy to use.  
+            I tried to make it as easy to use as possible so you can quickly throw together a gui for your needs.
+            * It has 7 ui-elements available for your needs.  
+            Labels, Checkboxes, Buttons, Drop Down Menus, Sliders, InputBoxes, Tabs
+            * Fully useable via keyboard.  
+            You can navigate through it with keyboard, as you are used with every other gui out there.
+            * It has scrolling features.  
+            So if your gui is bigger than the window, users can simpy scroll around to reach every gui-element.
+            * Context-Menus for UI-Elements.  
+            Each ui-element can get it's own context menu. And you don't need to worry about positioning and click management. Just associate a context-menu with a ui-element and ReaGirl does the rest for you.
+            * File Drop Zones  
+            Each ui-element can have a file-drop zone so you can easily drag n drop files onto them. And just like context-menus, you don't need to place or manage anything. Just add it to a ui-element and ReaGirl does the rest.
+            * AutoScaling  
+            ReaGirl scales the gui automatically. So if you change the scaling-factor in Reaper's preferences or use a gui on HiDPI/Retina-displays, ReaGirl scales properly for you.
+            * Screen Reader Support  
+            Blind people can navigate through your gui via keyboard and get feedback to their screen readers, which reads to them the currently selected ui-element and the chosen setting. ReaGirl does it all for you.
+            
+            So if you want to make easy guis that are also useable by blind users of your scripts, ReaGirl is there for you and tries to manage everthing you need.
+            
+            There's also an official support thread for ReaGirl in the Reaper-forum at:
+              
+            So if you find bugs or need help in general, head over there and ask your questions.
+           
+            
+            But there's one question now:
+            "How do I start?" you might ask? 
+            Well, let's dive into ReaGirl in the next chapters.
         </description>
         <target_document>ReaGirl_Introduction_and_Concepts.html</target_document>
         <source_document>ReaGirl_Introduction_and_Concepts.USDocML</source_document>
@@ -3281,7 +3315,7 @@
             - reagirl.Label\_GetAlignment - gets the current alignment for this label
             - reagirl.Label\_SetDraggable - sets the label as draggable, including possible drag-destinations
             - reagirl.Label\_GetDraggable - gets the currently drag-state and the current drag-destinations
-            - reagirl.UI_Element_GetSetCaption - gets or sets the label text
+            - reagirl.UI_Element\_GetSetCaption - gets or sets the label text
         </description>
         <target_document>ReaGirl_Introduction_and_Concepts.html</target_document>
         <source_document>ReaGirl_Introduction_and_Concepts.USDocML</source_document>
@@ -3297,7 +3331,51 @@
         <slug>The_Gui_Elements_004_Images</slug>
         <title>Images</title>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
+            Images show an image in the gui. They can be clicked and do things using the run-function.
             
+            Very important: the caption and the meaningOfUI\_Element-parameters must describe the content of the image, so blind users know, what the image contains, as they can't see it.
+            
+            Images can automatically scale from 1x to 8x.
+            To make this happen, add scaled versions of the image to the same folder as the source image and name them the following:
+            
+            image-filename.png - 1x-scaling
+            image-filename-2x.png - 2x-scaling
+            image-filename-3x.png - 3x-scaling
+            image-filename-4x.png - 4x-scaling
+            image-filename-5x.png - 5x-scaling
+            image-filename-6x.png - 6x-scaling
+            image-filename-7x.png - 7x-scaling
+            image-filename-8x.png - 8x-scaling
+            
+            Means: add -2x before the extension for the 2x scaled image, add -3x before the extension for the 3x scaled image and so on.
+                        
+            Give Image\_Add the 1x-scaled image as filename and when the user changes the scaling, ReaGirl will load the accompanying scaled image automatically.
+            If there's no scaled image available, ReaGirl will automatically revert to the original filename for 1x-scaling. So if there's only one image available, ReaGirl will only load that one.
+            
+            Images can be made draggable.
+            
+            You can add images using Image\_Add, which has eight parameters.
+            
+              - Parameter 1 and 2 are the position of the image in pixels. Set them to nil to autoposition the image.
+              - Parameter 3 and 4 are the width and height of the image in pixels.
+              - Parameter 5 is the filename of the 1x-scaled image.
+              - Parameter 6 is the caption of the image. This won't be shown but screen reader users will get this communicated so make it descriptive.
+              - Parameter 7 is the meaningOfUI\_Element, which describes to the blind users what the image is for and why.
+              - Parameter 8 is the run-function of the image that is run when the user clicks the image.
+                Set it to nil, if you don't need it.
+                
+            You can do more things with images:
+              - reagirl.Image\_GetDraggable - get if the image is draggable and what the potential drag-destinations are
+              - reagirl.Image\_SetDraggable - set the image to draggable and set the potential drag-destination-ui-elements
+              - reagirl.Image\_GetDimensions - get the width and height of the image
+              - reagirl.Image\_SetDimensions - set the width and height of the image
+              - reagirl.Image\_ReloadImage_Scaled - reloads the image if the image-file has been altered and you want to update the shown image
+              - reagirl.Image\_KeepAspectRatio - forces the image to be shown with correct aspect ratio(otherwise it might get stretched)
+              - reagirl.Image\_GetImageFilename - get the current image-filename
+              - reagirl.Image\_Load - loads a new image-file into the image
+              - reagirl.Image\_ClearToColor - clears the image and sets it to a color instead
+                            
+            See the tutorial ["A basic Image Viewer"](#Tutorial_003_A_Basic_Image_Viewer) and the tutorial ["Draggable Images"](#Tutorial_005_Draggable_Images) to know how to work with images.            
         </description>
         <target_document>ReaGirl_Introduction_and_Concepts.html</target_document>
         <source_document>ReaGirl_Introduction_and_Concepts.USDocML</source_document>
@@ -3313,7 +3391,36 @@
         <slug>The_Gui_Elements_005_Inputboxes</slug>
         <title>Inputboxes(Edit-Fields)</title>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
+            Inputboxes are fields, into which you can type text. They consist of a caption and a square next to it, into which you enter the text.
+            Unlike other ui-elements, inputboxes allow for two run-functions: one for when the user typed a character into the inputbox and one for when the user hits enter.
             
+            You can add inputboxes with InputBox\_Add, which has 9 parameters.
+            
+            - Parameter 1 and 2 are the position of the inputbox in pixels. Set them to nil to autoposition them.
+            - Parameter 3 is the width of the inputbox in pixels. This includes the length of the caption so make it
+              long enough.
+            - Parameter 4 is the caption, which is the text on the left side of the inputbox.
+            - Parameter 5 is the caption-width. With this you can influence, at which point the actual actual editfield shall start.
+              So if you have numerous inputboxes underneath, you can set all their cap_width to the same value so they are perfectly aligned.
+              If you don't need that, set this to nil, which starts the editfield directly after the caption.
+            - Parameter 6 is meaningOfUI\_Element, which is a description for the inputbox communicated to screen reader users. Explain what the inputbox is for and why.
+            - Parameter 7 is the default text, which is the text shown when the gui started.
+            - Parameter 8 is the run-function for when the user hits enter into the inputfield.
+              This run-function gets the inputbox-element\_id as first and the entered text as second parameter.
+            - Parameter 9 is the run-function for when the user entered a character into the inputfield.
+              This run-function gets the inputbox-element\_id as first, the entered text as second and the last entered character(or pasted text) as third parameter.
+              
+            You can do more with inputboxes.
+            
+            - reagirl.Inputbox\_GetPassword - gets if the inputbox shall be used for entering passwords. Means, all characters will be shown as *
+            - reagirl.Inputbox\_SetPassword - sets if the inputbox shall be used for entering passwords. Means, all characters will be shown as *
+            - reagirl.Inputbox\_GetDisabled - gets the disability state of an inputbox
+            - reagirl.Inputbox\_SetDisabled - sets an inputbox as disabled, means, no entering of text is possible
+            - reagirl.Inputbox\_GetText - gets the text from the editfield of an inputbox
+            - reagirl.Inputbox\_SetText - sets the text in the editfield of an inputbox
+            - reagirl.Inputbox\_SetEmptyText - sets text that is shown when no text has been entered
+            - reagirl.Inputbox\_GetSelectedText - gets the currently selected text
+            - reagirl.Inputbox\_GetCursorOffset - gets the current offset of the edit-cursor in the editfield of an inputbox            
         </description>
         <target_document>ReaGirl_Introduction_and_Concepts.html</target_document>
         <source_document>ReaGirl_Introduction_and_Concepts.USDocML</source_document>
@@ -3329,7 +3436,31 @@
         <slug>The_Gui_Elements_006_DropDownMenus_ComboBoxes</slug>
         <title>DropDownMenus(ComboBoxes)</title>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
+            Drop down menus are menus that give the user a selection of options and they can choose one of them.
+            They are a caption and a box right next to it which can be clicked to select the option.
             
+            You can add a drop down menu to the gui using DropDownMenu\_Add, which has 9 parameters.
+            
+            - Parameters 1 and 2 are the x and y coordinate in pixels of the drop down menu. Set them to nil to autoposition the drop down menu.
+            - Parameter 3 is the width of the drop down menu in pixels. This includes the caption so make it long enough.
+            - Parameter 4 is the caption of the drop down menu, which is a text shown on the left side of the drop down menu.
+            - Parameter 5 is the caption-width. With this you can influence, at which point the actual clickable drop down menu shall start.
+              So if you have numerous drop down menus underneath, you can set all their cap_width to the same value so they are perfectly aligned.
+              If you don't need that, set this to nil, which starts the clickable drop down menu directly after the caption.
+            - Parameter 6 is meaningOfUI\_Element, which is a description for the drop down menu communicated to screen reader users. Explain what the drop down menu is for and why.
+            - Parameter 7 is the menuItems, which is a table with all menu-item-names, like {"Option 1", "second Option", "Option number three"}
+            - Parameter 8 is the selected menu item when the gui is started
+            - Parameter 9 is the run-function that is run everytime the user changes the menu-selection
+              The run-function gets the element\_id of the selected drop down menu as first, the selected menu-entry-number as second and the selected menu-entry-name as third parameter.
+              
+            You can do more things with drop down menus:
+            
+            - reagirl.DropDownMenu\_SetDimensions - sets the width of the drop down menu
+            - reagirl.DropDownMenu\_GetDimensions - gets the width of the drop down menu
+            - reagirl.DropDownMenu\_SetDisabled - sets the drop down menu to be disabled
+            - reagirl.DropDownMenu\_GetDisabled - gets the current disability state of the drop down menu
+            - reagirl.DropDownMenu\_GetMenuItems - gets the menu-items of the drop down menu
+            - reagirl.DropDownMenu\_SetMenuItems - sets the menu-items of the drop down menu
         </description>
         <target_document>ReaGirl_Introduction_and_Concepts.html</target_document>
         <source_document>ReaGirl_Introduction_and_Concepts.USDocML</source_document>
@@ -3345,6 +3476,46 @@
         <slug>The_Gui_Elements_007_Sliders</slug>
         <title>Sliders</title>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
+            Sliders are ui-elements that give the user a way to choose a number-value between a start-value and an end-value.
+            It has a line on which you have a circle that can be moved around. Depending on where the circle is, a certain value has been selected.
+            For instance: you can have a slider with a value-range from 1 to 10 and the user can move the circle to choose any value between 1 and 10.
+            You can also give a stepsize. So if you want the user to just choose integers, give a step-size of 1.
+            
+            You can add sliders with reagirl.Slider\_Add() which has 13 parameters.
+            
+            - Parameters 1 and 2 are the x and y coordinate in pixels of the slider. Set them to nil to autoposition the slider.
+            - Parameter 3 is the width of the slider in pixels. This includes the caption so make it long enough.
+            - Parameter 4 is the caption of the slider, which is a text shown on the left side of the slider.
+            - Parameter 5 is the caption-width. With this you can influence, at which point the actual slider shall start.
+              So if you have numerous sliders underneath, you can set all their cap_width to the same value so they are perfectly aligned.
+              If you don't need that, set this to nil, which starts the slider directly after the caption.
+            - Parameter 6 is meaningOfUI\_Element, which is a description for the slider communicated to screen reader users. Explain what the slider is for and why.
+            - Parameter 7 is the unit. This is a string that is shown at the right side of the slider. This can be something like "%", "percentage" or "cpus" or whatever the unit of your slider is. Set it to nil or "" if you don't need one.
+            - Parameter 8 and 9 are the start and end-values of the slider. Means, when you move the circle to the far left or to the far right, it will be at start-value or end-value respectively.
+            - Parameter 10 is the stepsize. This will make the slider go in steps. For instance a step of 10 will move the circle of the slider only in steps of 10.
+              So if you have startvalue=10 and end-value=50 and steps=10, the possible steps in the slider are 10, 20, 30, 40 and 50. No other values can be chosen by the user.
+            - Parameter 11 is the init-value. That's where the circle is when you start the gui.
+            - Parameter 12 is the default value. So if you have a default-value, set this to this value.
+              The slider will draw a small line at where the default-value is.
+            - Parameter 13 is the run-function, which is run everytime the user moves the circle of the slider.
+              You can set this to nil, if you don't need one.
+              The run-function gets the element\_id of the moved slider as first and the current value of the slider as second parameter.
+              
+            You can do more things with sliders:
+            
+            - reagirl.Slider\_GetStartValue - gets the start-value of the slider
+            - reagirl.Slider\_SetStartValue - sets the start-value of the slider
+            - reagirl.Slider\_GetEndValue - gets the end-value of the slider
+            - reagirl.Slider\_SetEndValue - sets the end-value of the slider
+            - reagirl.Slider\_GetDefaultValue - gets the current default-value of the slider
+            - reagirl.Slider\_SetDefaultValue - sets the current default-value of the slider
+            - reagirl.Slider\_ResetToDefaultValue - resets the slider to the default-value
+            - reagirl.Slider\_GetValue - gets the currently set value of the slider
+            - reagirl.Slider\_SetValue - gets the currently set value of the slider
+            - reagirl.Slider\_GetDimensions - gets the current width of the slider
+            - reagirl.Slider\_SetDimensions - sets the width of the slider
+            - reagirl.Slider\_GetDisabled - gets the disability-state of the slider
+            - reagirl.Slider\_SetDisabled - sets the disability-state of the slider
             
         </description>
         <target_document>ReaGirl_Introduction_and_Concepts.html</target_document>
@@ -3367,7 +3538,7 @@
             With them, you can organize your guis better so people are not overwhelmed by one page with all ui-elements at once.
             You can also put ui-elements outside of tabs so they are shown all the time.
             
-            You can have only one tab-ui-element per gui!
+            Only one tab-ui-element per gui is allowed!
             
             You add tabs to your gui using reagirl.Tabs\_Add(), which has nine parameters.
             
@@ -3381,7 +3552,8 @@
             - Parameter 8 is the tab that is selected when the gui is opened.
             - Parameter 9 is a run-function that is called everytime the user switched tabs
               You can set this to nil, if you don't want to use a run-function when tabs are switched.
-              
+              The run-function will get the element\_id of the tab as first, the selected tab as second and the selected tabname as third parameter.
+            
             There are more things you can do with tabs:
             
             - reagirl.Tabs\_SetUIElementsForTab - associates ui-elements with a specific tab. Means, the associated ui-elements 
@@ -3539,25 +3711,9 @@
             The Gui Elements
         </chapter_context>
         <previous_chapter>The_Gui_Elements_Concepts002_FileDropZones</previous_chapter>
-        <next_chapter>Best_Practices_For_Guis</next_chapter>
-        <tags></tags>
-    </US_DocBloc>    
-    
-    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-        <slug>Best_Practices_For_Guis</slug>
-        <title>Best Practices for Guis</title>
-        <description markup_type="markdown" markup_version="1.0.1" indent="default">
-            
-        </description>
-        <target_document>ReaGirl_Introduction_and_Concepts.html</target_document>
-        <source_document>ReaGirl_Introduction_and_Concepts.USDocML</source_document>
-        <chapter_context>
-            Best Practices
-        </chapter_context>
-        <previous_chapter>The_Gui_Elements_100_General</previous_chapter>
         <next_chapter>Best_Practices_On_Accessibility</next_chapter>
         <tags></tags>
-    </US_DocBloc>
+    </US_DocBloc>    
 
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
         <slug>Best_Practices_On_Accessibility</slug>
@@ -3639,14 +3795,14 @@
         <chapter_context>
             Best Practices
         </chapter_context>
-        <previous_chapter>Best_Practices_For_Guis</previous_chapter>
+        <previous_chapter>The_Gui_Elements_100_General</previous_chapter>
         <next_chapter>Best_Practices_On_Writing_Guis_As_Blind_Scripter</next_chapter>
         <tags></tags>
     </US_DocBloc>
 
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
         <slug>Best_Practices_On_Writing_Guis_As_Blind_Scripter</slug>
-        <title>Best Practices on Writing guis as Blind Scripter </title>
+        <title>Best Practices on Writing guis as Blind Scripter</title>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
             ReaGirl has some features, that you can use as a blind scripter to code your own guis.
             The most important thing is auto-positioning, which allows you to position ui-elements automatically. 
@@ -3683,6 +3839,39 @@
             
             4. When doing a gui that shall also be used by sighted people, don't hesitate to ask for feedback. That way you can avoid crowded walls of texts or walls of ui-elements.
                Autopositioning should give you everything you need to make them work but there are still cases, where some feedback is still very valuable to get a gui right.
+        </description>
+        <target_document>ReaGirl_Introduction_and_Concepts.html</target_document>
+        <source_document>ReaGirl_Introduction_and_Concepts.USDocML</source_document>
+        <chapter_context>
+            Best Practices
+        </chapter_context>
+        <previous_chapter>Best_Practices_On_Accessibility</previous_chapter>
+        <next_chapter></next_chapter>
+        <tags></tags>
+    </US_DocBloc>
+    
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>Final_words</slug>
+        <title>Final Words</title>
+        <description markup_type="markdown" markup_version="1.0.1" indent="default">
+            When you read every chapter of this documentation, you have a good idea of what ReaGirl can do for you and how.
+            
+            But there's even more possible. So read about them in the functions-reference, where I explain in great detail every available function, their parameters and return values.
+
+            Great thanks to the development-team of Osara, especiall James, without their extension ReaGirl wouldn't be possible to do at all.
+            Also thanks to Scott, who helped me iron out accessibility-issues in the beta-phase.
+            
+            Big thanks also to the various gui-lib-developers over the years like Lokasenna(Lokasennas Gui-Lib v2 and Scythe), Chris Fillion(ReaImgui) and Tack(Gui Toolkit),
+            whose gui-libraries were a huge inspiration for various concepts available in ReaGirl. Their influence made ReaGirl as easy to use as it is.
+            
+            And also a big shoutout to the dozens of scripters in the Reaper-Community, whose help over the years made me a better scripter and therefore able to do this huge project.            
+            I'm standing on the shoulders of giants.
+            
+            And that's it for now. Enjoy coding guis with ReaGirl and give feedback and bugreports if you have any(see introduction for the Reaper-forum's thread.
+            
+            Cheers and see you in the next version of ReaGirl
+            
+            Meo-Ada Mespotine, 6th of May 2024            
         </description>
         <target_document>ReaGirl_Introduction_and_Concepts.html</target_document>
         <source_document>ReaGirl_Introduction_and_Concepts.USDocML</source_document>
