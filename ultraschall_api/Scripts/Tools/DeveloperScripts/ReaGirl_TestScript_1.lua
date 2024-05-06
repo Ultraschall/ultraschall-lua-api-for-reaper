@@ -64,8 +64,8 @@ if state==false then reaper.MB("Can't start script due to missing dependencies",
 if reaper.JS_ReaScriptAPI_Version==nil then return end
 
 function InputBox(A,B,C)
-  reaper.ClearConsole()
-  reaper.ShowConsoleMsg(C)
+  --reaper.ClearConsole()
+  --reaper.ShowConsoleMsg(C)
 end 
 
 dofile(reaper.GetResourcePath().."/UserPlugins/reagirl.lua")
