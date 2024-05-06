@@ -74,6 +74,9 @@ end
 --]]
 --[[
 TODO: 
+  - planned ui-elements and features
+    > ProgressBars, Toolbar Buttons, graphical vertical tabs, Listviews, Multiline Inputbox, Radio Buttons, virtual ui-elements(for making other guis accessible), decorative elements to hide ui elements, Burgermenu, global context-menu(maybe)
+    > ui-elements linkable to toggle-states, extstates and ini-file-entries, Gui-Editor, stickyness
   - Gui_Open - w and h parameters=nil mean, make the size of the window big enough to fit all ui-elements
   - Sliders: make default-value optional
   - sticky elements need more work, as tabbing to one might move a ui-element behind a sticky-ui-element. In that case, we need to

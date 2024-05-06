@@ -12,8 +12,8 @@
             
             * It's easy to use.  
             I tried to make it as easy to use as possible so you can quickly throw together a gui for your needs.
-            * It has 7 ui-elements available for your needs.  
-            Labels, Checkboxes, Buttons, Drop Down Menus, Sliders, InputBoxes, Tabs
+            * It has 8 ui-elements available for your needs.  
+            Labels, Checkboxes, Buttons, Drop Down Menus, Sliders, InputBoxes, Tabs and Images
             * Fully useable via keyboard.  
             You can navigate through it with keyboard, as you are used with every other gui out there.
             * It has scrolling features.  
