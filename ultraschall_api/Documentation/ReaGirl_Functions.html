@@ -1999,11 +1999,13 @@ Note: After doubleclicked, this will not return mouse-clicked-states, until the 
 <div class="ch">
 Reserves a framebuffer which will not be used by ReaGirl for drawing.<br>
 So if you want to code additional ui-elements, you can reserve an image buffer for blitting that way.<br>
+<br>
+nil, if no additional framebuffer is available<br>
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
 <tr><td class="pr"><i>integer</i> image_buffer_index</td></tr>
-<tr><td class="ch2">the index of a framebuffer you can safely use</td></tr>
+<tr><td class="ch2">the index of a framebuffer you can safely use; nil, no more framebuffer available</td></tr>
 </table>
 <br>
 </div>

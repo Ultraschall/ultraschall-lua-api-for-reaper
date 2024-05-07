@@ -482,9 +482,11 @@ function reagirl.Gui_ReserveImageBuffer()
   <description>
     Reserves a framebuffer which will not be used by ReaGirl for drawing.
     So if you want to code additional ui-elements, you can reserve an image buffer for blitting that way.
+    
+    nil, if no additional framebuffer is available
   </description>
   <retvals>
-    integer image_buffer_index - the index of a framebuffer you can safely use
+    integer image_buffer_index - the index of a framebuffer you can safely use; nil, no more framebuffer available
   </retvals>
   <chapter_context>
     Misc
@@ -494,7 +496,7 @@ function reagirl.Gui_ReserveImageBuffer()
 --]]
   -- reserves an image buffer for custom UI elements
   -- returns -1 if no buffer can be reserved anymore
-  if reagirl.MaxImage>=1000 then return -1 end
+  if reagirl.MaxImage>=1000 then return  end
   reagirl.MaxImage=reagirl.MaxImage+1
   return reagirl.MaxImage
 end
@@ -7309,8 +7311,9 @@ function reagirl.Image_Add(x, y, w, h, image_filename, caption, meaningOfUI_Elem
   reagirl.Elements[slot]["func_draw"]=reagirl.Image_Draw
   reagirl.Elements[slot]["run_function"]=run_function
   reagirl.Elements[slot]["Image_Resize"]=resize
-  
-  reagirl.Elements[slot]["Image_Storage"]=reagirl.Gui_ReserveImageBuffer()
+  local fb=reagirl.Gui_ReserveImageBuffer()
+  if fb==nil then error("Image_Add: All available framebuffers used up, so can't add another Image.", 2) end
+  reagirl.Elements[slot]["Image_Storage"]=fb
   reagirl.Elements[slot]["Image_Filename"]=image_filename
   gfx.dest=reagirl.Elements[slot]["Image_Storage"]
   local r,g,b,a=gfx.r,gfx.g,gfx.b,gfx.a

@@ -6,7 +6,7 @@
             
             Up until now, there are numerous gui-libraries available for Reaper who do a great job at allowing you to code your own guis.
             The problem is: none of them allow making guis for blind people for various (mostly technical) reasons, so only people who can see without a problem can use them.
-            ReaGirl's intention is to solve this with a gui-library that makes it easy for you to code your own gui that is also useable by blind users.
+            ReaGirl's intention is to solve this with a gui-library that makes it easy for you to code your own guis that are also useable by blind users.
             
             And it does not only feature accessibility for blind users, but it has some additional benefits:
             
@@ -157,6 +157,7 @@
           If for some reason or another you might not be able to copy the code-snippets from the documentation, you can also 
           find them as lua-script-examples. Just run the action "ReaGirl_OpenFolder_ExampleScripts.lua" which will open the 
           examples folder of ReaGirl. In the folders named tutorial, you find the codes used in the tutorials as ready to use lua-files.
+          The last lua-file in each tutorial-folder is the finished tutorial-example, if you want to jump ahead.
           
           And now, without much further ado, let's head over to the tutorials.
         </description>
