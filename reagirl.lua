@@ -405,7 +405,7 @@ end
 
 function reagirl.NextLine_SetDefaults(x, y)
 --[[
-<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+<US_ DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>NextLine_SetDefaults</slug>
   <requires>
     ReaGirl=1.0
@@ -443,7 +443,7 @@ end
 
 function reagirl.NextLine_GetDefaults()
 --[[
-<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+<US_ DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>NextLine_GetDefaults</slug>
   <requires>
     ReaGirl=1.0
@@ -487,7 +487,7 @@ function reagirl.Gui_ReserveImageBuffer()
     integer image_buffer_index - the index of a framebuffer you can safely use
   </retvals>
   <chapter_context>
-    Gui
+    Misc
   </chapter_context>
   <tags>gui, reserve, image buffer</tags>
 </US_DocBloc>
@@ -519,7 +519,7 @@ function reagirl.Gui_PreventScrollingForOneCycle(keyboard, mousewheel_swipe, scr
     optional boolean mousewheel_swipe - true, prevent the scrolling via mousewheel/swiping; false, scroll; nil, don't change
   </parameters>
   <chapter_context>
-    UI Elements
+    Gui
   </chapter_context>
   <tags>gui, set, override, prevent, scrolling</tags>
 </US_DocBloc>
@@ -553,7 +553,7 @@ function reagirl.Gui_PreventCloseViaEscForOneCycle()
     Prevents the closing of the gui via esc-key for one defer-cycle.
   </description>
   <chapter_context>
-    UI Elements
+    Gui
   </chapter_context>
   <tags>gui, set, override, prevent, close via esc, escape</tags>
 </US_DocBloc>
@@ -575,7 +575,7 @@ function reagirl.Gui_PreventEnterForOneCycle()
     Prevents the user from hitting the enter-key for one cycle, so the run-function for the enter-key is not run in this cycle.
   </description>
   <chapter_context>
-    UI Elements
+    Gui
   </chapter_context>
   <tags>gui, set, override, prevent, enter key</tags>
 </US_DocBloc>
@@ -769,7 +769,7 @@ end
 
 function reagirl.BlitText_AdaptLineLength(text, x, y, width, height, align)
 --[[
-<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+<US_ DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>BlitText_AdaptLineLength</slug>
   <requires>
     ReaGirl=1.0
@@ -1691,7 +1691,7 @@ end
 
 function reagirl.SetFont(idx, fontface, size, flags, scale_override)
 --[[
-<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+<US_ DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>SetFont</slug>
   <requires>
     ReaGirl=1.0
@@ -4329,7 +4329,7 @@ function reagirl.NextLine(y_offset)
     integer y_offset - an additional y-offset, by which the next line shall be moved downwards; nil, for no offset
   </parameters>
   <chapter_context>
-    UI Elements
+    Autoposition
   </chapter_context>
   <tags>ui-elements, set, next line</tags>
 </US_DocBloc>
@@ -8734,7 +8734,7 @@ function reagirl.UI_Element_GetHovered()
     string element_id - the element-id of the currently hovered ui-element
   </retvals>
   <chapter_context>
-    Gui
+    UI Elements
   </chapter_context>
   <target_document>ReaGirl_Docs</target_document>
   <source_document>reagirl_GuiEngine.lua</source_document>
@@ -8762,7 +8762,7 @@ function reagirl.UI_Element_GetFocused()
     string element_guid - the element-id of the currently focused ui-element
   </retvals>
   <chapter_context>
-    Gui
+    UI Elements
   </chapter_context>
   <target_document>ReaGirl_Docs</target_document>
   <source_document>reagirl_GuiEngine.lua</source_document>
@@ -8790,7 +8790,7 @@ function reagirl.UI_Element_SetFocused(element_id)
     string element_id - the id of the ui-element, which you want to set to focused
   </parameters>
   <chapter_context>
-    Gui
+    UI Elements
   </chapter_context>
   <target_document>ReaGirl_Docs</target_document>
   <source_document>reagirl_GuiEngine.lua</source_document>
@@ -8823,7 +8823,7 @@ function reagirl.UI_Element_SetHiddenFromTable(table_element_ids, visible)
      boolean visible - true, set all ui-elements in table_element_ids to visible; false, set them to hidden
   </parameters>
   <chapter_context>
-    Gui
+    UI Elements
   </chapter_context>
   <target_document>ReaGirl_Docs</target_document>
   <source_document>reagirl_GuiEngine.lua</source_document>
@@ -8860,7 +8860,7 @@ function reagirl.AutoPosition_SetNextUIElementRelativeTo(element_id)
      string element_id - the element-id of the ui-element, whose position shall be the starting point for the next autopositioned ui-element
   </parameters>
   <chapter_context>
-    Gui
+    Autoposition
   </chapter_context>
   <target_document>ReaGirl_Docs</target_document>
   <source_document>reagirl_GuiEngine.lua</source_document>

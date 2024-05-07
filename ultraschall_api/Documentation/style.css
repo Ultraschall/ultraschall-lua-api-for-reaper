@@ -2,8 +2,7 @@
 
 .anch{
   width:90.5%;  
-  padding-top: 15%;
-  
+  padding-top: 15%;  
 }
 
 
@@ -16,8 +15,8 @@
 
 .l code:hover, .e code:hover, .p code:hover, .c code:hover, .j code:hover, .l_func code:hover, .ch code:hover{
     /*used mouse-cursor when clicking function-calls*/
-    cursor: copy;
-    background-color: black;
+    /*cursor: copy;*/
+    /*background-color: black;*/
 }
 
 .c, .p, .e, .l, .j{ /*general style of functioncalls*/
@@ -111,3 +110,20 @@ td{
 u{
   color:#FFFFFF;
 }
+
+pre{
+  border: 1px solid #999999; 
+  color:#5599FF;
+  /*background-color:#444444;*/
+    width: 100%;
+    height: 200px;
+    border: 2px solid white;
+    padding: 10px;
+    overflow: scroll;
+}
+
+code{
+  color:#5599FF;
+  /*background-color:#555555;*/  
+}
+    

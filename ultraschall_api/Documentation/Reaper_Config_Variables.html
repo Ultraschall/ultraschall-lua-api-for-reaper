@@ -12,11 +12,7 @@ REAPER Config Variables
 <div style="background-color:#282828; width:95%; font-family:tahoma; font-size:16;">
 <a href="US_Api_Functions.html"><img style="position: absolute; left:4.2%; width:11%;" src="gfx/US_Button_Un.png" alt="Ultraschall Internals Documentation"></a>  
 <a href="Reaper_Api_Documentation.html"><img style="position: absolute; left:15.2%; width:8.7%;" src="gfx/Reaper_Button.png" alt="Reaper Internals Documentation"></a>
-<img alt="" style="width:6.9%; position: absolute; left:23.9%;" src="gfx/linedance.png"><img alt="" style="width:6.9%; position: absolute; left:30.8%;" src="gfx/linedance.png">
-<img alt="" style="width:6.9%; position: absolute; left:36.8%;" src="gfx/linedance.png"><img alt="" style="width:6.9%; position: absolute; left:42.8%;" src="gfx/linedance.png">
-<img alt="" style="width:6.9%; position: absolute; left:48.8%;" src="gfx/linedance.png"><img alt="" style="width:6.9%; position: absolute; left:54.8%;" src="gfx/linedance.png">
-<img alt="" style="width:6.9%; position: absolute; left:60.8%;" src="gfx/linedance.png"><img alt="" style="width:6.9%; position: absolute; left:66.8%;" src="gfx/linedance.png">
-<img alt="" style="width:6.9%; position: absolute; left:68.8%;" src="gfx/linedance.png">
+<a href="ReaGirl_Functions.html"><img style="position: absolute; left:23.95%; width:8.7%;" src="gfx/ReaGirl_Button_Un.png" alt="ReaGirl Documentation"></a>
 <a href="Downloads.html"><img style="position:absolute; left:74.4%; width:6.9%;" src="gfx/Downloads_Un.png" alt="Downloads"></a>
 <a href="ChangeLog.html"><img style="position:absolute; left:81.3%; width:6.9%;" src="gfx/Changelog_Un.png" alt="Changelog of documentation"></a>
 <a href="Impressum.html"><img style="position:absolute; left:88.2%; width:6.9%;" src="gfx/Impressum_Un.png" alt="Impressum and Contact"></a>
@@ -61,7 +57,9 @@ End of Header
 <script src="./scripts/clipboard.min.js.Download"></script>
 <!-- External Script -->
 <script src="./scripts/scripts.js.Download"></script>
-<table class="indexpad" border="0"><tr><td><br><a class="inpad" id="A little Introduction"><a href="#A little Introduction">^</a></a><strong> <u>A little Introduction</u></strong><br><br>
+<table class="indexpad" border="0"><tr><td><br><a class="inpad" id="??"><a href="#??">^</a></a><strong> <u>??</u></strong><br><br>
+</td></tr><tr><td class="tdsm"><a href="#vscrollflag">vscrollflag</a></td><td class="tdsm"><a href="#vscrollstep">vscrollstep</a></td><td class="inds">&nbsp;</td></tr></table><table class="indexpad" border="0"><tr><td><b style="font-size:small;"><br><a class="inpad" id="??"><a href="#??">^</a></a> ??</b>
+</td></tr><tr><td class="tdsm"><a href="#autosavebackuplimit">autosavebackuplimit</a></td><td class="tdsm"><a href="#envvzoomscale">envvzoomscale</a></td><td class="tdsm"><a href="#grvuscale">grvuscale</a></td></tr><td class="tdsm"><a href="#kbd_override_len">kbd_override_len</a></td><td class="tdsm"><a href="#savebackuplimit">savebackuplimit</a></td><td class="tdsm"><a href="#scrubgain">scrubgain</a></td></tr><td class="tdsm"><a href="#trackgapmax">trackgapmax</a></td><td class="inds">&nbsp;</td><td class="inds">&nbsp;</td></tr></table><table class="indexpad" border="0"><tr><td><br><a class="inpad" id="A little Introduction"><a href="#A little Introduction">^</a></a><strong> <u>A little Introduction</u></strong><br><br>
 </td></tr><tr><td class="tdsm"><a href="#Introduction">Introduction to Config Variables</a></td><td class="inds">&nbsp;</td><td class="inds">&nbsp;</td></tr></table><table class="indexpad" border="0"><tr><td><br><a class="inpad" id="Actions"><a href="#Actions">^</a></a><strong> <u>Actions</u></strong><br><br>
 </td></tr><tr><td class="tdsm"><a href="#cueitems">cueitems</a></td><td class="tdsm"><a href="#itemtexthide">itemtexthide</a></td><td class="inds">&nbsp;</td></tr></table><table class="indexpad" border="0"><tr><td><br><a class="inpad" id="Help Menu"><a href="#Help Menu">^</a></a><strong> <u>Help Menu</u></strong><br><br>
 </td></tr><tr><td class="tdsm"><a href="#help">help</a></td><td class="inds">&nbsp;</td><td class="inds">&nbsp;</td></tr></table><table class="indexpad" border="0"><tr><td><br><a class="inpad" id="Misc"><a href="#Misc">^</a></a><strong> <u>Misc</u></strong><br><br>
@@ -141,6 +139,116 @@ End of Header
 </td></tr><tr><td class="tdsm"><a href="#hwoutfx_bypass">hwoutfx_bypass</a></td><td class="inds">&nbsp;</td><td class="inds">&nbsp;</td></tr></table><table class="indexpad" border="0"><tr><td><br><a class="inpad" id="Unknown"><a href="#Unknown">^</a></a><strong> <u>Unknown</u></strong><br><br>
 </td></tr><tr><td class="tdsm"><a href="#ctrlcopyitem">ctrlcopyitem</a></td><td class="tdsm"><a href="#disk_rdmodeexmac">disk_rdmodeexmac</a></td><td class="tdsm"><a href="#itemdblclk">itemdblclk</a></td></tr><td class="tdsm"><a href="#itemprops">itemprops</a></td><td class="tdsm"><a href="#itemprops_timemode">itemprops_timemode</a></td><td class="tdsm"><a href="#mousemovemod">mousemovemod</a></td></tr><td class="tdsm"><a href="#nativedrawtext2">nativedrawtext2</a></td><td class="tdsm"><a href="#newfnopt">newfnopt</a></td><td class="tdsm"><a href="#osxnomiddlemancocoa">osxnomiddlemancocoa</a></td></tr><td class="tdsm"><a href="#projmidieditor">projmidieditor</a></td><td class="tdsm"><a href="#rendermastertracksub">rendermastertracksub</a></td><td class="tdsm"><a href="#rightclickemulate">rightclickemulate</a></td></tr><td class="tdsm"><a href="#selitemtop">selitemtop</a></td><td class="tdsm"><a href="#titlebarreghide">titlebarreghide</a></td><td class="tdsm"><a href="#tsmarker">tsmarker</a></td></tr><td class="tdsm"><a href="#vstbr32">vstbr32</a></td><td class="tdsm"><a href="#vstfolder_settings">vstfolder_settings</a></td><td class="inds">&nbsp;</td></tr></table><table class="indexpad" border="0"><tr><td><br><a class="inpad" id="User Interface"><a href="#User Interface">^</a></a><strong> <u>User Interface</u></strong><br><br>
 </td></tr><tr><td class="tdsm"><a href="#fullscreenrectb">fullscreenrectb</a></td><td class="tdsm"><a href="#fullscreenrectl">fullscreenrectl</a></td><td class="tdsm"><a href="#fullscreenrectr">fullscreenrectr</a></td></tr><td class="tdsm"><a href="#fullscreenrectt">fullscreenrectt</a></td><td class="tdsm"><a href="#isfullscreen">isfullscreen</a></td><td class="inds">&nbsp;</td></tr></table><br></div><div class="ch">
+<hr>
+<a class="anch" id="vscrollflag"></a>
+<a href="#vscrollflag"> ^</a> <u><b>vscrollflag</b></u><br>			<p>
+<div class="ch">
+REAPER7<br>
+It is an integer-bitfield, ?? variable.<br>
+</div><br>
+</div>
+<div class="ch">
+<hr>
+<a class="anch" id="vscrollstep"></a>
+<a href="#vscrollstep"> ^</a> <u><b>vscrollstep</b></u><br>			<p>
+<div class="ch">
+REAPER7<br>
+It is a double-float, ?? variable.<br>
+</div><br>
+</div>
+<div class="ch">
+<hr>
+<a class="anch" id="autosavebackuplimit"></a>
+<a href="#autosavebackuplimit"> ^</a> <u><b>autosavebackuplimit</b></u><br>			<p>
+<div class="ch">
+REAPER7<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+<br>
+&nbsp;&nbsp; >0 to 2147483647; in seconds; higher values become negative&nbsp;&nbsp;<br>
+<br>
+&nbsp;&nbsp;Stored in reaper.ini under the same name in the section REAPER.&nbsp;&nbsp;<br>
+</div><br>
+</div>
+<div class="ch">
+<hr>
+<a class="anch" id="envvzoomscale"></a>
+<a href="#envvzoomscale"> ^</a> <u><b>envvzoomscale</b></u><br>			<p>
+<div class="ch">
+REAPER7<br>
+It is a double-float, ?? variable.<br>
+&nbsp;&nbsp;<br>
+&nbsp;&nbsp;><br>
+<br>
+Stored in reaper.ini under the same name in the section REAPER.&nbsp;&nbsp;<br>
+</div><br>
+</div>
+<div class="ch">
+<hr>
+<a class="anch" id="grvuscale"></a>
+<a href="#grvuscale"> ^</a> <u><b>grvuscale</b></u><br>			<p>
+<div class="ch">
+REAPER7<br>
+It is an integer, ?? variable.<br>
+<br>
+>??<br>
+<br>
+Stored in reaper.ini under the same name in the section REAPER.&nbsp;&nbsp;<br>
+</div><br>
+</div>
+<div class="ch">
+<hr>
+<a class="anch" id="kbd_override_len"></a>
+<a href="#kbd_override_len"> ^</a> <u><b>kbd_override_len</b></u><br>			<p>
+<div class="ch">
+REAPER7<br>
+It is an integer-bitfield, ? variable.<br>
+<br>
+Can be affected by the following actions:<br>
+&nbsp;&nbsp;><br>
+<br>
+Stored in reaper.ini under the same name in the section REAPER.&nbsp;&nbsp;<br>
+</div><br>
+</div>
+<div class="ch">
+<hr>
+<a class="anch" id="savebackuplimit"></a>
+<a href="#savebackuplimit"> ^</a> <u><b>savebackuplimit</b></u><br>			<p>
+<div class="ch">
+REAPER7<br>
+It is an integer-bitfield, ?? variable.<br>
+<br>
+><br>
+<br>
+Stored in reaper.ini under the same name in the section REAPER.&nbsp;&nbsp;<br>
+</div><br>
+</div>
+<div class="ch">
+<hr>
+<a class="anch" id="scrubgain"></a>
+<a href="#scrubgain"> ^</a> <u><b>scrubgain</b></u><br>			<p>
+<div class="ch">
+REAPER7<br>
+It is an double-float, ? variable.<br>
+<br>
+><br>
+<br>
+Stored in reaper.ini under the same name in the section REAPER.&nbsp;&nbsp;<br>
+</div><br>
+</div>
+<div class="ch">
+<hr>
+<a class="anch" id="trackgapmax"></a>
+<a href="#trackgapmax"> ^</a> <u><b>trackgapmax</b></u><br>			<p>
+<div class="ch">
+REAPER7<br>
+It is an integer, ?? variable.<br>
+<br>
+><br>
+<br>
+Stored in reaper.ini under the same name in the section REAPER.&nbsp;&nbsp;<br>
+</div><br>
+</div>
+<div class="ch">
 <hr>
 <a class="anch" id="Introduction"></a>
 <a href="#Introduction"> ^</a> <u><b>Introduction to Config Variables</b></u><br>			<p>
@@ -10750,7 +10858,7 @@ Stored in reaper.ini under the same name in the section REAPER.&nbsp;&nbsp;<br>
       <div class="ch">
         <hr>
                      
-          <table><td class="td2"> &#160;</td><td>&#160;</td><td class="td3">Automatically generated by Ultraschall-API 5  - 478 elements available <br></td></table>
+          <table><td class="td2"> &#160;</td><td>&#160;</td><td class="td3">Automatically generated by Ultraschall-API 5  - 487 elements available <br></td></table>
         <hr>
       </div>
       <br>

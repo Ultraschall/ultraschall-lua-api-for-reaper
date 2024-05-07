@@ -67,7 +67,10 @@ Docs={
 "ultraschall_OpenFolder_Api_ExampleScripts.lua",
 "ultraschall_Remove_ExampleScripts_From_Reaper.lua",
 "ultraschall_Remove_Developertools_From_Reaper.lua",
-"Ultraschall_API_Settings.lua"
+"Ultraschall_API_Settings.lua",
+"ReaGirl_OpenFolder_ExampleScripts.lua",
+"ReaGirl_Help_Functions_Documentation.lua",
+"ReaGirl_Help_Introduction_Concepts_Tutorials_Documentation.lua"
 }
 
 Devtools={
