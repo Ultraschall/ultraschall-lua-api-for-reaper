@@ -2435,7 +2435,6 @@ function reagirl.Gui_Manage()
               if reagirl.MouseJump_Skip==nil then
                 reaper.JS_Mouse_SetPosition(gfx.clienttoscreen(x2+cap_w+MoveItAllRight+4,y2+MoveItAllUp+4)) 
               end
-              
             end
           end
         end
@@ -3661,6 +3660,7 @@ function reagirl.UI_Element_GetSetPosition(element_id, is_set, x, y)
 </US_DocBloc>
 ]]
   if type(element_id)~="string" then error("UI_Element_GetSetPosition: param #1 - must be a guid as string", 2) end
+  local elid=element_id
   element_id=reagirl.UI_Element_GetIDFromGuid(element_id)
   if element_id==nil then error("UI_Element_GetSetPosition: param #1 - no such ui-element", 2) end
   if reagirl.Elements[element_id]==nil then error("UI_Element_GetSetPosition: param #1 - no such ui-element", 2) end
@@ -3673,9 +3673,19 @@ function reagirl.UI_Element_GetSetPosition(element_id, is_set, x, y)
     reagirl.Elements[element_id]["y"]=y
   end
   local x2, y2
+  local cap_w=reagirl.Elements[element_id]["Cap_width"]
+  if cap_w==nil then cap_w=0 end 
   local scale=reagirl.Window_GetCurrentScale()
   if reagirl.Elements[element_id]["x"]<0 then x2=gfx.w+reagirl.Elements[element_id]["x"]*scale else x2=reagirl.Elements[element_id]["x"]*scale end
   if reagirl.Elements[element_id]["y"]<0 then y2=gfx.h+reagirl.Elements[element_id]["y"]*scale else y2=reagirl.Elements[element_id]["y"]*scale end
+  if reagirl.Elements.FocusedElement==element_id then
+    if reagirl.osara_outputMessage~=nil then
+      reagirl.UI_Element_ScrollToUIElement(elid, -cap_w)
+      if reaper.GetExtState("ReaGirl", "osara_move_mouse")~="false" then
+        reaper.JS_Mouse_SetPosition(gfx.clienttoscreen(x2+cap_w+reagirl.MoveItAllRight+4,y2+reagirl.MoveItAllUp+4)) 
+      end
+    end
+  end
   
   return reagirl.Elements[element_id]["x"], reagirl.Elements[element_id]["y"], x2+reagirl.MoveItAllRight, y2+reagirl.MoveItAllUp
 end
@@ -8395,18 +8405,21 @@ function reagirl.Gui_GetBoundaries()
       --MAXY=maxy
     end
   end
-  local x2=reagirl.Elements[reagirl.Tabs_Count]["x"]
-  local y2=reagirl.Elements[reagirl.Tabs_Count]["y"]
-  local w2=reagirl.Elements[reagirl.Tabs_Count]["w"]
-  local h2=reagirl.Elements[reagirl.Tabs_Count]["h"]
-  if x2*scale<0 then x2=gfx.w+x2*scale else x2=x2*scale end
-  if y2*scale<0 then y2=gfx.h+y2*scale else y2=y2*scale end
-  if w2*scale<0 then w2=gfx.w-x2+w2*scale else w2=w2*scale end
-  if h2*scale<0 then h2=gfx.h-y2+h2*scale else h2=h2*scale end
-  if x2+reagirl.Elements[reagirl.Tabs_Count]["w_background"]>maxx then maxx=x2+reagirl.Elements[reagirl.Tabs_Count]["w_background"] end
-  if x2+reagirl.Elements[reagirl.Tabs_Count]["w_background"]>maxx2 then maxx2=x2+reagirl.Elements[reagirl.Tabs_Count]["w_background"] end
-  if y2+h2+reagirl.Elements[reagirl.Tabs_Count]["h_background"]>maxy then maxy=y2+h2+reagirl.Elements[reagirl.Tabs_Count]["h_background"] end
-  if y2+h2+reagirl.Elements[reagirl.Tabs_Count]["h_background"]>maxy2 then maxy2=y2+h2+reagirl.Elements[reagirl.Tabs_Count]["h_background"] end
+  -- mespotine Tudelu
+  if reagirl.Tabs_Count~=nil then
+    local x2=reagirl.Elements[reagirl.Tabs_Count]["x"]
+    local y2=reagirl.Elements[reagirl.Tabs_Count]["y"]
+    local w2=reagirl.Elements[reagirl.Tabs_Count]["w"]
+    local h2=reagirl.Elements[reagirl.Tabs_Count]["h"]
+    if x2*scale<0 then x2=gfx.w+x2*scale else x2=x2*scale end
+    if y2*scale<0 then y2=gfx.h+y2*scale else y2=y2*scale end
+    if w2*scale<0 then w2=gfx.w-x2+w2*scale else w2=w2*scale end
+    if h2*scale<0 then h2=gfx.h-y2+h2*scale else h2=h2*scale end
+    if x2+reagirl.Elements[reagirl.Tabs_Count]["w_background"]>maxx then maxx=x2+reagirl.Elements[reagirl.Tabs_Count]["w_background"] end
+    if x2+reagirl.Elements[reagirl.Tabs_Count]["w_background"]>maxx2 then maxx2=x2+reagirl.Elements[reagirl.Tabs_Count]["w_background"] end
+    if y2+h2+reagirl.Elements[reagirl.Tabs_Count]["h_background"]>maxy then maxy=y2+h2+reagirl.Elements[reagirl.Tabs_Count]["h_background"] end
+    if y2+h2+reagirl.Elements[reagirl.Tabs_Count]["h_background"]>maxy2 then maxy2=y2+h2+reagirl.Elements[reagirl.Tabs_Count]["h_background"] end
+  end
   
   return math.floor(minx), math.floor(maxx), math.floor(miny), math.floor(maxy), math.floor(minx2), math.floor(maxx2), math.floor(miny2), math.floor(maxy2)
 end
@@ -8671,7 +8684,7 @@ function reagirl.UI_Element_GetNextFreeSlot()
   return #reagirl.Elements-5
 end
 
-function reagirl.UI_Element_ScrollToUIElement(element_id, x_offset, y_offset)  
+function reagirl.UI_Element_ScrollToUIElement(element_id, x_offset, y_offset)
   if x_offset==nil then x_offset=10 end
   if y_offset==nil then y_offset=10 end
   local i=reagirl.UI_Element_GetIDFromGuid(element_id)
@@ -8683,10 +8696,15 @@ function reagirl.UI_Element_ScrollToUIElement(element_id, x_offset, y_offset)
   if reagirl.Elements[i]["w"]<0 then w2=gfx.w-x2+reagirl.Elements[i]["w"]*scale else w2=reagirl.Elements[i]["w"]*scale end
   if reagirl.Elements[i]["h"]<0 then h2=gfx.h-y2+reagirl.Elements[i]["h"]*scale else h2=reagirl.Elements[i]["h"]*scale end
   
+  local cap_w=0
+  if reagirl.Elements[i]["Cap_width"]~=nil then
+    cap_w=reagirl.Elements[i]["Cap_width"]+15*scale
+  end
+  
   if reagirl.Elements[i]["sticky_x"]==false then
     if x2+reagirl.MoveItAllRight<0 then
       reagirl.MoveItAllRight=-x2+x_offset
-    elseif x2+reagirl.MoveItAllRight>gfx.w-15*scale and x2+w2+reagirl.MoveItAllRight>gfx.w-15*scale then
+    elseif x2+cap_w+reagirl.MoveItAllRight>gfx.w-15*scale and x2+w2+reagirl.MoveItAllRight>gfx.w-15*scale then
       reagirl.MoveItAllRight=gfx.w-30*scale-w2-x2
     end
   end
@@ -8695,7 +8713,7 @@ function reagirl.UI_Element_ScrollToUIElement(element_id, x_offset, y_offset)
     if y2+reagirl.MoveItAllUp<0 then
       reagirl.MoveItAllUp=-y2+y_offset
     elseif y2+reagirl.MoveItAllUp>gfx.h-15*scale and y2+h2+reagirl.MoveItAllUp>gfx.h-15*scale then
-      reagirl.MoveItAllUp=gfx.h-30*scale-h2-y2
+      reagirl.MoveItAllUp=gfx.h-15*scale-h2-y2
     end
   end
   --[[
@@ -9077,7 +9095,7 @@ function reagirl.Slider_Manage(element_id, selected, hovered, clicked, mouse_cap
           element_storage["CurValue"]=element_storage["Stop"] 
         end
       end
-      if element_storage["TempValue"]~=element_storage["CurValue"] then --element_storage["OldMouseX"]~=gfx.mouse_x or element_storage["OldMouseY"]~=gfx.mouse_y then
+      if mouse_cap~=0 and element_storage["TempValue"]~=element_storage["CurValue"] then --element_storage["OldMouseX"]~=gfx.mouse_x or element_storage["OldMouseY"]~=gfx.mouse_y then
         refresh=true
       end
       if math.type(element_storage["Step"])=="integer" and math.type(element_storage["Start"])=="integer" and math.type(element_storage["Stop"])=="integer" then
