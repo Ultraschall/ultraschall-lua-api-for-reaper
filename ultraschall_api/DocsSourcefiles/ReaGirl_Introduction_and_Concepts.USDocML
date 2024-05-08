@@ -43,6 +43,64 @@
         <chapter_context>
           Introduction
         </chapter_context>
+        <next_chapter>Introduction_002_Installation</next_chapter>
+        <tags>introduction</tags>
+    </US_DocBloc>
+
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">  
+        <slug>Introduction_002_Installation</slug>  
+        <title>Installation</title>  
+        <description markup_type="markdown" markup_version="1.0.1" indent="default">  
+            Since ReaGirl is part of Ultraschall-API, the installation-instructions from Ultraschall-API are applicable here as well.
+            
+            First make sure, you use the right versions of Reaper, SWS and JS-extension:
+               [Reaper 7.03 and higher](https://www.reaper.fm), [SWS 2.10.0.1 and higher](https://www.sws-extension.org) and [Julian Sader's plugin 1.215 and higher.](https://github.com/juliansader/ReaExtensions/tree/master/js_ReaScriptAPI/)
+            You can download them at [reaper.fm](http://www.reaper.fm) and [sws-extension.org](http://www.sws-extension.org) respectively.
+            Julian Sader's plugin can be installed using ReaPack or gotten from [his own github-site](https://github.com/juliansader/ReaExtensions/tree/master/js_ReaScriptAPI/)
+            
+            To install the Ultraschall-API with ReaGirl, just follow the following steps:
+            
+            **Installation via ReaPack**:
+            
+            The easiest way is to install the Ultraschall-API and ReaGirl using ReaPack. ReaPack is a package-manager for extensions and helper-stuff for Reaper, which allows you to easily install and update content done by the Reaper community.
+            Many Scripts, Themes, JSFX-FX, etc are available through that.
+            
+            1. Install ReaPack. Get it from [https://reapack.com/](https://reapack.com/). There's also a real good [User guide](https://reapack.com/user-guide) for it available, that explains, how to do it.  
+               Copy the downloaded dll(Windows), dylib(Mac) or so(Linux)-file into the UserPlugins-folder in the Resources-folder of Reaper. 
+               You can find the correct Resources-path in the Reaper-menu "Options -> Show REAPER resource path in explorer/finder...".    
+            2. (Re-)Start Reaper  
+            3. Go into the Menu Extensions -> ReaPack -> Manage Repositories  
+            4. Click on Import/export...-button and choose Import repositories  
+            5. Paste into the dialog the following link  
+                    
+                    https://github.com/Ultraschall/ultraschall-lua-api-for-reaper/raw/master/ultraschall_api_index.xml
+               
+               and hit OK.  
+            6. Doubleclick on the Ultraschall-API-entry. A dialog will pop up with a description of the Ultraschall-API and ReaGirl  
+            7. Hit the Install/update Ultraschall-API-button and select Install all packages in this repository  
+            8. ReaPack will ask you, if you want to install new packages/updates the next time you synchronize ReaPack.  
+               Hit Yes.  
+            9. ReaPack installs the Ultraschall-API with ReaGirl. If no error appears, it will tell you to restart Reaper, as a new extension has been installed  
+            10. Restart Reaper.  
+            
+            To update the Ultraschall-API with ReaGirl in the future, choose in the menu Extensions -> ReaPack -> Synchronize packages. If an update is available, it will install it automatically.  
+            For more information on ReaPack and it's usage, refer [User guide](https://reapack.com/user-guide).
+            
+            **Manual Installation**:
+            
+            If you can't or don't want to install ReaPack, you can also install it manually.
+            
+            1. Just download the zip-file of the current version from [ultraschall_api5.zip](https://github.com/Ultraschall/ultraschall-lua-api-for-reaper/raw/master/ultraschall_api5.zip).  
+            2. Extract it to the UserPlugins-folder in the Resources-folder of Reaper. You can find the correct Resources-path in the Reaper-menu "Options -> Show REAPER resource path in explorer/finder...".    
+               The folder UserPlugins should contain the folder ultraschall\_api and the files ultraschall\_api\_readme.txt and ultraschall\_api.lua after this step.  
+            3. Restart Reaper.
+        </description>
+        <target_document>ReaGirl_Introduction_and_Concepts.html</target_document>
+        <source_document>ReaGirl_Introduction_and_Concepts.USDocML</source_document>
+        <chapter_context>
+          Introduction
+        </chapter_context>
+        <previous_chapter>Introduction_001_Introduction</previous_chapter>
         <next_chapter>Introduction_001_First_Steps</next_chapter>
         <tags>introduction</tags>
     </US_DocBloc>
@@ -155,9 +213,11 @@
           I added ready to use code-snippets and I tried to add screenshots wherever possible.
           
           If for some reason or another you might not be able to copy the code-snippets from the documentation, you can also 
-          find them as lua-script-examples. Just run the action "ReaGirl_OpenFolder_ExampleScripts.lua" which will open the 
+          find them as lua-script-examples. Just run the action "ReaGirl\_OpenFolder\_ExampleScripts.lua" which will open the 
           examples folder of ReaGirl. In the folders named tutorial, you find the codes used in the tutorials as ready to use lua-files.
           The last lua-file in each tutorial-folder is the finished tutorial-example, if you want to jump ahead.
+          
+          The documentation is available with the actions "ReaGirl\_Help\_Introduction\_Concepts\_Tutorials\_Documentation.lua" for the explanation chapters and "ReaGirl\_Help\_Functions\_Documentation.lua" for the functinos reference.
           
           And now, without much further ado, let's head over to the tutorials.
         </description>
