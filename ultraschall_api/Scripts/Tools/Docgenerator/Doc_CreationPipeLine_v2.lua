@@ -24,8 +24,7 @@
   ################################################################################
   --]]
 
-ultraschall={}
-ultraschall.Override=true
+ultraschall_override=true
 
 if reaper.file_exists(reaper.GetResourcePath().."/UserPlugins/ultraschall_api.lua")==true then
   dofile(reaper.GetResourcePath().."/UserPlugins/ultraschall_api.lua")

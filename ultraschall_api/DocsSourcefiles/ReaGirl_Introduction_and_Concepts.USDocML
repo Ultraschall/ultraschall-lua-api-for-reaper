@@ -3200,7 +3200,7 @@
             put the element\_id of the tabs, "tabs\_id", as parameter. This tells autoposition "The next ui-element shall be put after tabs.
             Here's how it looks like:
 
-            ![A gif that switches through all the tabs of the gui-window. The ui-elements are now placed on top of each tab.](gfx/Tutorial5_2.png "A gif that switches through all the tabs of the gui-window. The ui-elements are now placed on top of each tab.")
+            ![A gif that switches through all the tabs of the gui-window. The ui-elements are now placed on top of each tab.](gfx/Tutorial8_2.gif "A gif that switches through all the tabs of the gui-window. The ui-elements are now placed on top of each tab.")
             
                   dofile(reaper.GetResourcePath().."/UserPlugins/reagirl.lua")
                   
