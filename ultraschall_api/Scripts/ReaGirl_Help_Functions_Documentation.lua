@@ -24,7 +24,7 @@
   ################################################################################
   --]]
 
---dofile(reaper.GetResourcePath().."/UserPlugins/ultraschall_api.lua")
+dofile(reaper.GetResourcePath().."/UserPlugins/ultraschall_api.lua")
 
 --reaper.MB(ultraschall.Api_Path,"",0)
 
@@ -48,8 +48,8 @@ _,filename=reaper.get_action_context()
 
 Sep=package.config:sub(1,1)
 
-filename=filename:match("(.*)[\\/]"):sub(1,-2)
-filename=filename:match("(.*)[\\/]")..Sep.."Documentation"..Sep.."ReaGirl_Functions.html"
+--filename=reaper.GetResourcePath()..Sep.."UserPlugins/ultraschall_api/Documentation/ReaGirl_Functions.html"
 
+filename=reaper.GetResourcePath()..Sep.."UserPlugins"..Sep.."ultraschall_api"..Sep.."Documentation"..Sep.."ReaGirl_Functions.html"
 
 OpenURL("file:///"..string.gsub(filename, "\\", "/"))
