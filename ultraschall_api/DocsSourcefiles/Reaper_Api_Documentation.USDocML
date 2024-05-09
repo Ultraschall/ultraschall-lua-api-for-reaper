@@ -7906,7 +7906,7 @@
         <functioncall prog_lang="lua">number retval = reaper.GetMediaTrackInfo_Value(MediaTrack tr, string parmname)</functioncall>
         <functioncall prog_lang="python">Float retval = RPR_GetMediaTrackInfo_Value(MediaTrack tr, String parmname)</functioncall>
         <requires>
-            Reaper=7.08
+            Reaper=7.12
         </requires>
         <description prog_lang="*">
             Get track numerical-value attributes.
@@ -7938,6 +7938,9 @@
             I_FOLDERDEPTH : int * : folder depth change, 0=normal, 1=track is a folder parent, -1=track is the last in the innermost folder, -2=track is the last in the innermost and next-innermost folders, etc
             I_FOLDERCOMPACT : int * : folder collapsed state (only valid on folders), 0=normal, 1=collapsed, 2=fully collapsed
             I_MIDIHWOUT : int * : track midi hardware output index, <0=disabled, low 5 bits are which channels (0=all, 1-16), next 5 bits are output device index (0-31)
+            I_MIDI_INPUT_CHANMAP : int * : -1 maps to source channel, otherwise 1-16 to map to MIDI channel
+            I_MIDI_CTL_CHAN : int * : -1 no link, 0-15 link to MIDI volume/pan on channel, 16 link to MIDI volume/pan on all channels
+            I_MIDI_TRACKSEL_FLAG : int * : MIDI editor track list options: &1=expand media items, &2=exclude from list, &4=auto-pruned            
             I_PERFFLAGS : int * : track performance flags, &1=no media buffering, &2=no anticipative FX
             I_CUSTOMCOLOR : int * : custom color, OS dependent color|0x1000000 (i.e. ColorToNative(r,g,b)|0x1000000), 0, default color. If you do not |0x1000000, then it will not be used, but will store the color.
             I_HEIGHTOVERRIDE : int * : custom height override for TCP window, 0 for none, otherwise size in pixels
@@ -7960,6 +7963,7 @@
             I_FREEMODE : int * : 1=track free item positioning enabled, 2=track fixed lanes enabled (call UpdateTimeline() after changing)
             I_NUMFIXEDLANES : int * : number of track fixed lanes (fine to call with setNewValue, but returned value is read-only)
             C_LANESCOLLAPSED : char * : fixed lane collapse state (1=lanes collapsed, 2=track displays as non-fixed-lanes but hidden lanes exist)
+            C_LANESETTINGS : char * : fixed lane settings (&1=auto-remove empty lanes at bottom, &2=do not auto-comp new recording, &4=newly recorded lanes play exclusively (else add lanes in layers), &8=big lanes (else small lanes), &16=add new recording at bottom (else record into first available lane), &32=hide lane buttons
             C_LANEPLAYS:N : char * : in fixed lane tracks, 0=lane N does not play, 1=lane N plays exclusively, 2=lane N plays and other lanes also play (fine to call with setNewValue, but returned value is read-only)
             C_ALLLANESPLAY : char * : on fixed lane tracks, 0=no lanes play, 1=all lanes play, 2=some lanes play (fine to call with setNewValue 0 or 1, but returned value is read-only)
             C_BEATATTACHMODE : char * : track timebase, -1=project default, 0=time, 1=beats (position, length, rate), 2=beats (position only)
@@ -7993,6 +7997,7 @@
         </linked_to>
         <tags></tags>
         <changelog>
+            Reaper 7.12 - C_LANESETTINGS, I_MIDI_INPUT_CHANMAP, I_MIDI_CTL_CHAN, I_MIDI_TRACKSEL_FLAG
             Reaper 7.08 - C_ALLLANESPLAY added
             Reaper 7.01 - I_LANESCOLLAPSED renamed to C_LANESCOLLAPSED
             Reaper 7.00 - enhanced I_NCHAN to 128; added new attributes I_SPACER, I_NUMFIXEDLANES, I_LANESCOLLAPSED; B_HEIGHTLOCK is deprecated
@@ -17555,7 +17560,12 @@
             Reaper=6.76
         </requires>
         <description prog_lang="*">
-            Sends a MIDI message to output device specified by output. Message is sent in immediate mode.
+            Sends a MIDI message to output device specified by output. Message is sent in immediate mode. 
+            
+            Lua example of how to pack the message string:
+            sysex = { 0xF0, 0x00, 0xF7 }
+            msg = ""
+            for i=1, #sysex do msg = msg .. string.char(sysex[i]) end
         </description>
         <parameters>
             integer output - 
@@ -18345,7 +18355,7 @@
         <functioncall prog_lang="lua">boolean retval = reaper.SetMediaTrackInfo_Value(MediaTrack tr, string parmname, number newvalue)</functioncall>
         <functioncall prog_lang="python">Boolean retval = RPR_SetMediaTrackInfo_Value(MediaTrack tr, String parmname, Float newvalue)</functioncall>
         <requires>
-            Reaper=7.08
+            Reaper=7.12
         </requires>
         <description>
             Set track numerical-value attributes.
@@ -18377,6 +18387,9 @@
             I_FOLDERDEPTH : int * : folder depth change, 0=normal, 1=track is a folder parent, -1=track is the last in the innermost folder, -2=track is the last in the innermost and next-innermost folders, etc
             I_FOLDERCOMPACT : int * : folder collapsed state (only valid on folders), 0=normal, 1=collapsed, 2=fully collapsed
             I_MIDIHWOUT : int * : track midi hardware output index, <0=disabled, low 5 bits are which channels (0=all, 1-16), next 5 bits are output device index (0-31)
+            I_MIDI_INPUT_CHANMAP : int * : -1 maps to source channel, otherwise 1-16 to map to MIDI channel
+            I_MIDI_CTL_CHAN : int * : -1 no link, 0-15 link to MIDI volume/pan on channel, 16 link to MIDI volume/pan on all channels
+            I_MIDI_TRACKSEL_FLAG : int * : MIDI editor track list options: &1=expand media items, &2=exclude from list, &4=auto-pruned            
             I_PERFFLAGS : int * : track performance flags, &1=no media buffering, &2=no anticipative FX
             I_CUSTOMCOLOR : int * : custom color, OS dependent color|0x1000000 (i.e. ColorToNative(r,g,b)|0x1000000). 0, default color. If you do not |0x1000000, then it will not be used, but will store the color
             I_HEIGHTOVERRIDE : int * : custom height override for TCP window, 0 for none, otherwise size in pixels
@@ -18398,6 +18411,7 @@
             C_MAINSEND_NCH : char * : channel count of track send to parent (0=use all child track channels, 1=use one channel only)
             I_FREEMODE : int * : 1=track free item positioning enabled, 2=track fixed lanes enabled (call UpdateTimeline() after changing)
             I_NUMFIXEDLANES : int * : number of track fixed lanes (fine to call with setNewValue, but returned value is read-only)
+            C_LANESETTINGS : char * : fixed lane settings (&1=auto-remove empty lanes at bottom, &2=do not auto-comp new recording, &4=newly recorded lanes play exclusively (else add lanes in layers), &8=big lanes (else small lanes), &16=add new recording at bottom (else record into first available lane), &32=hide lane buttons
             C_LANESCOLLAPSED : char * : fixed lane collapse state (1=lanes collapsed, 2=track displays as non-fixed-lanes but hidden lanes exist)
             C_LANEPLAYS:N : char * : on fixed lane tracks, 0=lane N does not play, 1=lane N plays exclusively, 2=lane N plays and other lanes also play (fine to call with setNewValue, but returned value is read-only)
             C_ALLLANESPLAY : char * : on fixed lane tracks, 0=no lanes play, 1=all lanes play, 2=some lanes play (fine to call with setNewValue 0 or 1, but returned value is read-only)
@@ -18424,6 +18438,7 @@
                    returns a numerical value of a MediaTrack-attribute
         </linked_to>
         <changelog>
+            Reaper 7.12 - C_LANESETTINGS, I_MIDI_INPUT_CHANMAP, I_MIDI_CTL_CHAN, I_MIDI_TRACKSEL_FLAG
             Reaper 7.08 - C_ALLLANESPLAY added
             Reaper 7.07 - C_LANEPLAYS supports now -1 as returnvalue
             Reaper 7.01 - I_LANESCOLLAPSED renamed to C_LANESCOLLAPSED
@@ -48745,7 +48760,7 @@ Mespotine
         <title>GetSetMediaTrackInfo</title>
         <functioncall prog_lang="cpp">void* (*GetSetMediaTrackInfo)(MediaTrack* tr, const char* parmname, void* setNewValue)</functioncall>
         <requires>
-            Reaper=7.08
+            Reaper=7.12
         </requires>
         <description indent="default">
             Gets/Sets MediaTrack-parameters. Works like GetMediaTrackInfo_Value and SetMediaTrackInfo_Value but has more parameters.
@@ -48791,6 +48806,9 @@ Mespotine
                  I_FOLDERDEPTH : int * : folder depth change, 0=normal, 1=track is a folder parent, -1=track is the last in the innermost folder, -2=track is the last in the innermost and next-innermost folders, etc
                  I_FOLDERCOMPACT : int * : folder collapsed state (only valid on folders), 0=normal, 1=collapsed, 2=fully collapsed
                  I_MIDIHWOUT : int * : track midi hardware output index, <0=disabled, low 5 bits are which channels (0=all, 1-16), next 5 bits are output device index (0-31)
+                 I_MIDI_INPUT_CHANMAP : int * : -1 maps to source channel, otherwise 1-16 to map to MIDI channel
+                 I_MIDI_CTL_CHAN : int * : -1 no link, 0-15 link to MIDI volume/pan on channel, 16 link to MIDI volume/pan on all channels
+                 I_MIDI_TRACKSEL_FLAG : int * : MIDI editor track list options: &1=expand media items, &2=exclude from list, &4=auto-pruned            
                  I_PERFFLAGS : int * : track performance flags, &1=no media buffering, &2=no anticipative FX
                  I_CUSTOMCOLOR : int * : custom color, OS dependent color|0x1000000 (i.e. ColorToNative(r,g,b)|0x1000000). If you do not |0x1000000, then it will not be used, but will store the color
                  I_HEIGHTOVERRIDE : int * : custom height override for TCP window, 0 for none, otherwise size in pixels
@@ -48812,6 +48830,7 @@ Mespotine
                  I_FREEMODE : int * : 1=track free item positioning enabled, 2=track fixed lanes enabled (call UpdateTimeline() after changing)
                  I_NUMFIXEDLANES : int * : number of track fixed lanes (fine to call with setNewValue, but returned value is read-only)
                  C_LANESCOLLAPSED : char * : fixed lane collapse state (1=lanes collapsed, 2=track displays as non-fixed-lanes but hidden lanes exist)
+                 C_LANESETTINGS : char * : fixed lane settings (&1=auto-remove empty lanes at bottom, &2=do not auto-comp new recording, &4=newly recorded lanes play exclusively (else add lanes in layers), &8=big lanes (else small lanes), &16=add new recording at bottom (else record into first available lane), &32=hide lane buttons
                  C_LANEPLAYS:N : char * :  on fixed lane tracks, 0=lane N does not play, 1=lane N plays exclusively, 2=lane N plays and other lanes also play (fine to call with setNewValue, but returned value is read-only)
                  C_ALLLANESPLAY : char * : on fixed lane tracks, 0=no lanes play, 1=all lanes play, 2=some lanes play (fine to call with setNewValue 0 or 1, but returned value is read-only)
                  C_BEATATTACHMODE : char * : track timebase, -1=project default, 0=time, 1=beats (position, length, rate), 2=beats (position only)
@@ -48839,6 +48858,7 @@ Mespotine
         </chapter_context>
         <tags>cpp, get, set, track, parameters, info</tags>
         <changelog>
+          Reaper 7.12 - C_LANESETTINGS, I_MIDI_INPUT_CHANMAP, I_MIDI_CTL_CHAN, I_MIDI_TRACKSEL_FLAG
           Reaper 7.08 - C_ALLLANESPLAY added
           Reaper 7.07 - C_LANEPLAYS supports now -1 as returnvalue
           Reaper 7.01 - I_LANESCOLLAPSED renamed to C_LANESCOLLAPSED
@@ -51642,11 +51662,11 @@ Mespotine
         <title>projectconfig_var_getoffs</title>
         <functioncall prog_lang="cpp">int retval = (*projectconfig_var_getoffs)(const char* name, int* szOut)</functioncall>
         <requires>
-            Reaper=5.62
+            Reaper=7.12
         </requires>
         <description>
-            Returns offset to pass to projectconfig_var_addr() to get project-config var of name. szout gets size of object.
-            
+            Returns offset to pass to projectconfig_var_addr() to get project-config var of name. szout gets size of object. can also query "__metronome_ptr" query project metronome PCM_source** offset
+
             Stored in reaper_plugin_functions.h
         </description>
         <retvals>

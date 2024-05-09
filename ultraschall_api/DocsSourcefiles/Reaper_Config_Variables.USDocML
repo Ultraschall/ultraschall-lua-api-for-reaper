@@ -3,7 +3,7 @@
       <slug>Introduction</slug>
       <title>Introduction to Config Variables</title>  
       <description markup_type="markdown" markup_version="1.0.1" indent="default">  
-         List of all Config Variables as of Reaper 7.08 and probably are missing some, but should be fairly complete anyway.  
+         List of all Config Variables as of Reaper 7.15 and probably are missing some, but should be fairly complete anyway.  
          These can be used to set configuration-stuff in the preferences, the project-settings, the render-dialog, many context-menus(like MCP or transport-context-menus) and many others.  
          To change them, you can use the following ReaScript API-functions(requires SWS being installed):
           
@@ -94,6 +94,22 @@
     </US_DocBloc>  
   
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">  
+      <slug>__metronome_ptr</slug>  
+      <title>__metronome_ptr</title>  
+      <description>  
+          query project metronome PCM_source** offset
+          It is a double-float-variable.
+      </description>  
+      <chapter_context>
+         Preferences
+         System
+      </chapter_context>
+      <source_document>Reaper_Config_Variables.USDocML</source_document>
+      <target_document>Reaper_Config_Variables</target_document>  
+      <tags></tags>
+    </US_DocBloc>  
+    
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">  
       <slug>__numcpu</slug>  
       <title>__numcpu</title>  
       <description>  
@@ -109,7 +125,7 @@
       </chapter_context>
       <source_document>Reaper_Config_Variables.USDocML</source_document>
       <target_document>Reaper_Config_Variables</target_document>  
-      <tags>render</tags>
+      <tags></tags>
     </US_DocBloc>  
     
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">  
@@ -125,7 +141,7 @@
       </chapter_context>
       <source_document>Reaper_Config_Variables.USDocML</source_document>
       <target_document>Reaper_Config_Variables</target_document>  
-      <tags>render</tags>
+      <tags></tags>
     </US_DocBloc>  
   
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">  
@@ -3560,11 +3576,14 @@
       <slug>env_options</slug>  
       <title>env_options</title>  
       <description>  
-          Several settings from the Automation-section, as set in Preferences -> Automation.  
+          Several settings from the Automation-section, as set in Preferences -> Automation as well as the Envelope Manager-context menu.
           It is an integer-bitfield, preferences variable.
           
            >&1=0, Reset latch state when looping(on) - checked  
            >&1=1, Reset latch state when looping(off) - unchecked  
+           
+           >&2=0, Default: All FX parameters expanded
+           >&2=1, Default: All FX parameters collapsed
 
           Stored in reaper.ini under the same name in the section REAPER.  
       </description>  
@@ -3720,6 +3739,25 @@
       <chapter_context>
          Preferences
          Appearance
+      </chapter_context>
+      <source_document>Reaper_Config_Variables.USDocML</source_document>
+      <target_document>Reaper_Config_Variables</target_document>  
+    </US_DocBloc>  
+    
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">  
+      <slug>envmgropts</slug>  
+      <title>envmgropts</title>  
+      <description>  
+          Several settings, as set in the context-menu of the envelope manager  
+          It is an integer, project variable. 
+                    
+          >&1=0, Target Envelope manager when clicking track/take envelope buttons(shift+click to override) - unchecked
+          >&1=1, Target Envelope manager when clicking track/take envelope buttons(shift+click to override) - checked
+
+          Stored in reaper.ini under the same name in the section REAPER, when Save as default project settings has been clicked.  
+      </description>  
+      <chapter_context>
+         Envelope Manager
       </chapter_context>
       <source_document>Reaper_Config_Variables.USDocML</source_document>
       <target_document>Reaper_Config_Variables</target_document>  
@@ -5373,6 +5411,25 @@
       <source_document>Reaper_Config_Variables.USDocML</source_document>
       <target_document>Reaper_Config_Variables</target_document>  
     </US_DocBloc>  
+    
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">  
+      <slug>loudpeak_alpha</slug>  
+      <title>loudpeak_alpha</title>  
+      <description>  
+          
+          It is an integer, preferences variable.
+          REAPER7
+           >
+
+          Stored in reaper.ini under the same name in the section REAPER.  
+      </description>  
+      <chapter_context>
+         Preferences
+         Playback
+      </chapter_context>
+      <source_document>Reaper_Config_Variables.USDocML</source_document>
+      <target_document>Reaper_Config_Variables</target_document>  
+    </US_DocBloc>  
 
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">  
       <slug>lv2_opts</slug>  
@@ -6877,6 +6934,21 @@
            >&4=0, Free item positioning(off) - unchecked  
            >&4=1, Free item positioning(on) - checked  
 
+           >&128 &1024 &2048, &4096 Track meter display-dropdownlist (&8192=ignore sidechain-toggle)
+            >>1 0 0 0, Stereo peaks
+            >>0 0 0 0, Multichannel peaks
+            >>1 1 0 0, Stereo RMS
+            >>1 0 1 0, Combined RMS
+            >>1 1 1 0, LUFS-M
+            >>1 0 0 1, LUFS-S(readout=max)
+            >>1 1 0 1, LUFS-S(readout=current)
+          >&8192=0, ignore sidechain unchecked
+          >&8192=1, ignore sidechain checked
+          >&16384=0, display gain reduction(for plug-ins that support it) - unchecked
+          >&16384=1, display gain reduction(for plug-ins that support it) - checked
+            
+          
+
           Stored in reaper.ini under the same name in the section REAPER.  
       </description>  
       <chapter_context>
@@ -7638,6 +7710,23 @@
       <source_document>Reaper_Config_Variables.USDocML</source_document>
       <target_document>Reaper_Config_Variables</target_document>  
     </US_DocBloc>  
+
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">  
+      <slug>projdefrecpath</slug>  
+      <title>projdefrecpath</title>  
+      <description>  
+          The recordings-path, as set in Project Settings -> Media-tab
+          It is an string, project variable.
+
+          Stored in reaper.ini under the same name in the section REAPER, when Save as default project settings has been clicked.  
+      </description>  
+      <chapter_context>
+         Project Settings
+         Media
+      </chapter_context>
+      <source_document>Reaper_Config_Variables.USDocML</source_document>
+      <target_document>Reaper_Config_Variables</target_document>  
+    </US_DocBloc>  
   
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">  
       <slug>projfrbase</slug>  
@@ -8250,6 +8339,25 @@
           Only integer allowed, project variable.  
           
           >0 to 2147483647; higher values lead to negative values  
+           
+          Stored in reaper.ini under the same name in the section REAPER, when Save as default project settings has been clicked.  
+      </description>  
+      <chapter_context>
+         Project Settings
+         misc
+      </chapter_context>
+      <source_document>Reaper_Config_Variables.USDocML</source_document>
+      <target_document>Reaper_Config_Variables</target_document>  
+    </US_DocBloc>  
+    
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">  
+      <slug>projmetropattern</slug>  
+      <title>projmetropattern</title>  
+      <description>  
+          Stores the breat pattern, as set in Metronome and Pre-roll settings-dialog.
+          It is a string allowed, project variable.  
+          
+          It is unknown, how it is encoded.
            
           Stored in reaper.ini under the same name in the section REAPER, when Save as default project settings has been clicked.  
       </description>  
