@@ -336,29 +336,167 @@ ToDo Marker Menu:
 
 ## Ultraschall Framework - Changelog
 
-### 5 - "Eels - Novocaine for the Soul" - 30th of June 2024
+### 5 - "Eels - Novocaine for the Soul" - 22nd of May 2024
 
-Has now 1663 functions, with X new ones and two fewer ones(!)
+Has now 1795 functions, with 132 new ones and two fewer ones(!)
+
+Note: requires at least Reaper 7.03 now!
 
 **new in this release:**  
 
-  - **bla**  
-
+  - **ReaGirl - an accessible gui-library**  
+  One and a half years in the making, I've finally added ReaGirl, an accessible gui-library for Reaper. It allows you
+  to easily code your own guis with labels, checkboxes, buttons, drop down menus, sliders, images and tabs.  
+  Open the docs with the action "ReaGirl\_Help\_Introduction\_Concepts\_Tutorials\_Documentation.lua" to read, how to work with it.
   
-  - **bla**  
+  - **Preview MIDI-functions**  
+  You can preview now midi-notes, cc, pc and pitch in a certain track with dedicated functions for it.  
   
+  - **Lane functions**  
+  Various functions around the new track-lane-features of Reaper.
+  
+  - **Project pos 2 Take-pos 2 Project pos**  
+  Functions to get the take-position at a certain project position and the project-position at a take position.
+  Used to be in there in an earlier version and reappear now, due a bugfix in Reaper.
     
 #### New features in 5  
+  - Helpers: SplitReaperString - splits a Reaper-string into its components.
+  - Item: GetItemYPos - Returns position and height of the MediaItem in a fixed item lane/free item positioning.
+  - Items: MediaItem\_GetAllVisibleTransients\_ActiveTake - returns the number and positions of visible transients of the active take of a MediaItem.
+  - Lanes: GetTrackFixedLanesState - returns Fixed Lanes-state. 
+  - Lanes: GetTrackLaneNameState - returns Lanes name-state. 
+  - Lanes: GetTrackLaneRecState - returns Lanes rec-state. 
+  - Lanes: GetTrackLaneSoloState - returns Lanes solo-state. 
+  - Lanes: ItemLane\_Count - returns the number of item-lanes in a track
+  - Lanes: ItemLane\_GetAllMediaItems - returns the MediaItems from an item-lanes in a track between start\_position and end\_position
+  - Lanes: ItemLane\_GetFromPoint - returns the MediaTrack and the item-lane at a screen-coordinate
+  - Lanes: ItemLane\_GetPositionAndHeight - returns the position and height of an item-lanes in a track
   - MIDI: PreviewMidiCCInTrack - previews a midi-cc in a specific armed track
   - MIDI: PreviewMidiNoteInTrack - previews a midi-note in a specific armed track
   - MIDI: PreviewMidiPCInTrack - previews a midi-pc in a specific armed track
   - MIDI: PreviewMidiPitchInTrack - previews a midi-pitch in a specific armed track
+  - ReaGirl: AtEnter - Adds a function that shall be run when someone hits Enter while the gui is opened.
+  - ReaGirl: AutoPosition\_SetNextUIElementRelativeTo - Set the auto-positioning starting point to the position of a certain ui-element.
+  - ReaGirl: Background\_GetSetColor - Gets/Sets the color of the background.
+  - ReaGirl: Base64\_Decoder - Converts a Base64-encoded string into a normal string. 
+  - ReaGirl: Base64\_Encoder - Converts a string into a Base64-Encoded string. 
+  - ReaGirl: Button\_Add - Adds a button to a gui.
+  - ReaGirl: Button\_GetDisabled - Gets a button's disabled(non clickable)-state.
+  - ReaGirl: Button\_GetRadius - Gets a button's radius.
+  - ReaGirl: Button\_SetDisabled - Sets a button as disabled(non clickable).
+  - ReaGirl: Button\_SetRadius - Sets the radius of a button.
+  - ReaGirl: Checkbox\_Add - Adds a checkbox to a gui.
+  - ReaGirl: Checkbox\_GetCheckState - Gets a checkbox's current checked-state.
+  - ReaGirl: Checkbox\_GetDisabled - Gets a checkbox's disabled(non clickable)-state.
+  - ReaGirl: Checkbox\_SetCheckState - Sets a checkbox's state of the checkbox.
+  - ReaGirl: Checkbox\_SetDisabled - Sets a checkbox as disabled(non clickable).
+  - ReaGirl: DropDownMenu\_Add - Adds a dropdown-menu to a gui.
+  - ReaGirl: DropDownMenu\_GetDimensions - Gets the width of a drop down menu.
+  - ReaGirl: DropDownMenu\_GetDisabled - Gets a dropdown-menu's disabled(non clickable)-state.
+  - ReaGirl: DropDownMenu\_GetMenuItems - Gets a dropdown-menu's menu-items and the index of the currently selected menu-item.
+  - ReaGirl: DropDownMenu\_SetDimensions - Sets the width of a dropdownmenu.
+  - ReaGirl: DropDownMenu\_SetDisabled - Sets a drop down menu as disabled(non clickable)-state.
+  - ReaGirl: DropDownMenu\_SetMenuItems - Sets a dropdown-menu's menuitems and the index of the currently selected menu-item.
+  - ReaGirl: GetVersion - Returns the version-number of the installed ReaGirl.
+  - ReaGirl: Gui\_AtExit - Adds a function that shall be run when the gui is closed with reagirl.Gui\_Close()
+  - ReaGirl: Gui\_Close - Closes the gui-window.
+  - ReaGirl: Gui\_ForceRefresh - Forces a refresh of the gui.
+  - ReaGirl: Gui\_GetBoundaries - Returns the current boundaries of the ui-elements. Means, from 0 to the the farthest ui-element-width/height at right/bottom edge of the gui-window.
+  - ReaGirl: Gui\_IsOpen - Checks, whether the gui-window is open.
+  - ReaGirl: Gui\_Manage - Manages the gui-window.
+  - ReaGirl: Gui\_New - Creates a new gui by removing all currently(if available) ui-elements.
+  - ReaGirl: Gui\_Open - Opens a gui-window. If x and/or y are not given, it will be opened centered.
+  - ReaGirl: Gui\_PreventCloseViaEscForOneCycle - Prevents the closing of the gui via esc-key for one defer-cycle.
+  - ReaGirl: Gui\_PreventEnterForOneCycle - Prevents the user from hitting the enter-key for one cycle, so the run-function for the enter-key is not run in this cycle.
+  - ReaGirl: Gui\_PreventScrollingForOneCycle - Prevents the scrolling of the gui via keyboard/mousewheel/swiping for this defer-cycle.
+  - ReaGirl: Image\_Add - Adds an image to the gui. This image can run a function when clicked on it. 
+  - ReaGirl: Image\_ClearToColor - Clears the image with a set r-g-b-color. It also clears the previously loaded image-filename.
+  - ReaGirl: Image\_GetDimensions - Gets the width and height of an image.
+  - ReaGirl: Image\_GetDraggable - Gets the current draggable state of an image.
+  - ReaGirl: Image\_GetImageFilename - Returns the filename of the currently loaded image.
+  - ReaGirl: Image\_KeepAspectRatio - Set if the image shall keep its aspect ratio when shown.
+  - ReaGirl: Image\_Load - Loads a new image-file of an existing image in the gui. 
+  - ReaGirl: Image\_ReloadImage\_Scaled - Realoads an image. 
+  - ReaGirl: Image\_SetDimensions - Sets the width and height of an image.
+  - ReaGirl: Image\_SetDraggable - Sets the current draggable state of an image.
+  - ReaGirl: Inputbox\_Add - Adds an inputbox to a gui.
+  - ReaGirl: Inputbox\_GetCursorOffset - Gets an inputbox's current cursor offset.
+  - ReaGirl: Inputbox\_GetDisabled - Gets an inputbox's disabled(non clickable)-state.
+  - ReaGirl: Inputbox\_GetPassword - gets an inputbox to show * instead of the text(for password entry, etc)
+  - ReaGirl: Inputbox\_GetSelectedText - Gets an inputbox's currently selected text.
+  - ReaGirl: Inputbox\_GetText - Gets an inputbox's current text.
+  - ReaGirl: Inputbox\_SetDisabled - Sets an inputbox as disabled(non clickable).
+  - ReaGirl: Inputbox\_SetEmptyText - Sets an inputbox's shown text when nothing has been input.
+  - ReaGirl: Inputbox\_SetPassword - Sets an inputbox to show * instead of the text(for password entry, etc)
+  - ReaGirl: Inputbox\_SetText - Sets a new text of an inputbox.
+  - ReaGirl: IsValidGuid - Checks, if guid is a valid guid. Can also be used for strings, that contain a guid somewhere in them(strict=false)
+  - ReaGirl: Label\_Add - Adds a label to the gui.
+  - ReaGirl: Label\_GetAlignement - Gets the alignment of a label.
+  - ReaGirl: Label\_GetDraggable - Gets the current draggable state of a label.
+  - ReaGirl: Label\_GetFontSize - Gets the font-size of a label.
+  - ReaGirl: Label\_GetStyle - Gets the style of a label.
+  - ReaGirl: Label\_SetAlignment - Sets the font-size of a label.
+  - ReaGirl: Label\_SetDraggable - Sets the current draggable state of a label.
+  - ReaGirl: Label\_SetFontSize - Sets the font-size of a label.
+  - ReaGirl: Label\_SetLabelText - Sets a new label text to an already existing label.
+  - ReaGirl: Label\_SetStyle - Sets the style of a label.
+  - ReaGirl: Mouse\_GetCap - Checks clickstate and mouseclick/wheel-behavior, since last time calling this function and returns their states.
+  - ReaGirl: NextLine - Starts a new line, when autopositioning ui-elements using the \_add-functions.
+  - ReaGirl: ReserveImageBuffer - Reserves a framebuffer which will not be used by ReaGirl for drawing.
+  - ReaGirl: ResizeImageKeepAspectRatio - Resizes an image, keeping its aspect-ratio. You can set a background-color for non rectangular-images.
+  - ReaGirl: Slider\_Add - Adds a slider to a gui.
+  - ReaGirl: Slider\_GetDefaultValue - Gets the current set value of the slider.
+  - ReaGirl: Slider\_GetDimensions - Gets the width of a slider.
+  - ReaGirl: Slider\_GetDisabled - Gets the current disability state of the slider.
+  - ReaGirl: Slider\_GetEndValue - Gets the current set maximum-value of the slider.
+  - ReaGirl: Slider\_GetStartValue - Gets the current set minimum-value of the slider.
+  - ReaGirl: Slider\_GetValue - Gets the current set value of the slider.
+  - ReaGirl: Slider\_ResetToDefaultValue - Resets the current set value of the slider to the default value.
+  - ReaGirl: Slider\_SetDefaultValue - Sets the default value of the slider.
+  - ReaGirl: Slider\_SetDimensions - Sets the width of a slider.
+  - ReaGirl: Slider\_SetDisabled - Sets a slider disabled.
+  - ReaGirl: Slider\_SetEndValue - Sets the maximum value of the slider.
+  - ReaGirl: Slider\_SetStartValue - Sets the minimum value of the slider.
+  - ReaGirl: Slider\_SetValue - Sets the current value of the slider.
+  - ReaGirl: Tabs\_Add - Adds a tab to a gui.
+  - ReaGirl: Tabs\_GetSelected - Gets the selected tab of a tabs-element.
+  - ReaGirl: Tabs\_SetSelected - Sets the selected tab of a tabs-element.
+  - ReaGirl: Tabs\_SetUIElementsForTab - Sets the ui-elements for a tab from a table.
+  - ReaGirl: UI\_Element\_GetFocusRect - gets the rectangle for focused ui-element. Can be used for custom ui-element, who need to control the focus-rectangle due some of their own ui-elements incorporated, like options in radio-buttons, etc.
+  - ReaGirl: UI\_Element\_GetFocused - Get the ui-element-guid, that is currently focused. 
+  - ReaGirl: UI\_Element\_GetHovered - Get the ui-element-guid, where the mouse is currently.
+  - ReaGirl: UI\_Element\_GetSetCaption - gets/sets the caption of the ui-element
+  - ReaGirl: UI\_Element\_GetSetMeaningOfUIElement - gets/sets the meaningOfUI\_Element of the ui-element, which will describe, how to use the ui-element to blind persons.
+  - ReaGirl: UI\_Element\_GetSetPosition - gets/sets the position of the ui-element
+  - ReaGirl: UI\_Element\_GetSetRunFunction - gets/sets the run\_function of the ui-element, which will be run, when the ui-element is toggled
+  - ReaGirl: UI\_Element\_GetSetVisibility - gets/sets the hidden-state of the ui-element
+  - ReaGirl: UI\_Element\_GetSet\_ContextMenu - gets/sets the context-menu and context-menu-run-function of a ui-element.
+  - ReaGirl: UI\_Element\_GetSet\_DropZoneFunction - gets/sets the dropzone-run-function of a ui-element.
+  - ReaGirl: UI\_Element\_GetType - returns the type of the ui-element
+  - ReaGirl: UI\_Element\_IsElementAtMousePosition - returns, if ui-element with element\_id is at mouse-position
+  - ReaGirl: UI\_Element\_Last\_Element\_Current\_Position - Returns the x and y position as well as width and height of the last added ui-element.
+  - ReaGirl: UI\_Element\_Remove - Removes a ui-element.
+  - ReaGirl: UI\_Element\_SetFocusRect - sets the rectangle for focused ui-element. Can be used for custom ui-element, who need to control the focus-rectangle due some of their own ui-elements incorporated, like options in radio-buttons, etc.
+  - ReaGirl: UI\_Element\_SetFocused - Set an ui-element focused. 
+  - ReaGirl: UI\_Element\_SetHiddenFromTable - Set ui-elements stored in a table to hidden or visible.
+  - ReaGirl: UI\_Elements\_OutsideWindow - returns, if any of the gui-elements are outside of the window and by how much.
+  - ReaGirl: Window\_ForceSize\_Maximum - Sets a maximum window size that will be enforced by ReaGirl.
+  - ReaGirl: Window\_ForceSize\_Minimum - Sets a minimum window size that will be enforced by ReaGirl.
+  - ReaGirl: Window\_GetCurrentScale - Gets the current scaling-factor
+  - ReaGirl: Window\_SetCurrentScale - Sets a new scaling-factor that overrides auto-scaling/scaling preferences
+  - ReaGirl: Window\_SetFocus - Sets window focus back to the ReaGirl-gui-window.
+  - Rendering: CreateRenderCFG\_RAW - Returns the render-cfg-string for the RAW-PCM-format. You can use this in ProjectStateChunks, RPP-Projectfiles and reaper-render.ini
   - Rendering: CreateRenderCFG\_RAW - creates a renderstring for RAW-renderformat
+  - Rendering: GetRenderCFG\_Settings\_RAW - Returns the settings stored in a render-cfg-string for RAW PCM.
   - Rendering: GetRenderCFG\_Settings\_RAW - gets settings of a RAW-renderformat-renderstring
+  - Takes: GetProjectPosByTakeSourcePos - returns the project-position-representation of the source-position of a take. 
+  - Takes: GetTakeSourcePosByProjectPos - returns the source-position of a take at a certain project-position. Will obey time-stretch-markers, offsets, etc, as well.
+  - Takes: TakeMarker\_GetAllTakeMarkers - returns all take-markers of a MediaItem\_Take, inclusing project-position.
 
 #### Changes from 4.9 to 5  
   - Developer Tools: State Inspector - restores the loaded slot when reopening; ini-file doesn't get overwritten anymore after updating US_API
-
+  - Docs: open-docs-actions - didn't always open the docs -> fixed
+  
 ---
 
 ### 4.9 - "Depeche Mode - Everything Counts" - 30th of June 2023

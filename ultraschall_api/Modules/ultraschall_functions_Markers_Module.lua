@@ -9583,3 +9583,114 @@ end
 
 --A,B=ultraschall.GetPodcastEpisodeAttributesPreset_Name(1)
 
+function ultraschall.TakeMarker_GetAllTakeMarkers(take)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>TakeMarker_GetAllTakeMarkers</slug>
+  <requires>
+    Ultraschall=5
+    Reaper=7.03
+    Lua=5.3
+  </requires>
+  <functioncall>integer count_takemarkers, table all_takemarkers = ultraschall.TakeMarker_GetAllTakeMarkers(MediaItem_Take take)</functioncall>
+  <description>
+    returns all take-markers of a MediaItem_Take, inclusing project-position.
+    Will obey time-stretch-markers, offsets, etc, as well.
+
+    Note: when the active take of the parent-item is a different one than the one you've passed, this will temporarily switch the active take to the one you've passed.
+    That could potentially cause audio-glitches!
+    
+    Returned table is of the following format:
+      Takemarkers[index]["pos"] - position within take
+      Takemarkers[index]["project_pos"] - the project-position of the take-marker
+      Takemarkers[index]["name"] - name of the takemarker
+      Takemarkers[index]["color"] - color of the takemarker
+      Takemarkers[index]["visible"] - is the takemarker visible or not
+    
+    Returns nil in case of an error
+  </description>
+  <linked_to desc="see:">
+    inline:GetTakeSourcePosByProjectPos
+           gets the take-source-position by project position
+  </linked_to>
+  <retvals>
+    integer count_takemarkers - the number of available take-markers
+    table all_takemarkers - a table with all takemarkers of the take(see description for details)
+  </retvals>
+  <parameters>
+    MediaItem_Take take - the take, whose source-position you want to retrieve
+  </parameters>
+  <chapter_context>
+    Mediaitem Take Management
+    Misc
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_MediaItem_Module.lua</source_document>
+  <tags>mediaitem takes, get, all, takemarkers, project position</tags>
+</US_DocBloc>
+]]
+-- TODO:
+-- Rename AND Move(!) Take markers by a huge number of seconds instead of deleting them. 
+-- Then add new temporary take-marker, get its position and then remove it again.
+-- After that, move them back. That way, you could retain potential future guids in take-markers.
+-- Needed workaround, as Reaper, also here, doesn't allow adding a take-marker using an action, when a marker already exists at the position...for whatever reason...
+
+  -- check parameters
+  if ultraschall.type(take)~="MediaItem_Take" then ultraschall.AddErrorMessage("GetProjectPosByTakeSourcePos", "take", "must be a valid MediaItem_Take", -2) return end
+  local item = reaper.GetMediaItemTakeInfo_Value(take, "P_ITEM")
+  local item_pos = reaper.GetMediaItemInfo_Value(item, "D_POSITION")
+  local item_pos_end = item_pos+reaper.GetMediaItemInfo_Value(item, "D_LENGTH")
+  reaper.PreventUIRefresh(1)
+  
+  -- store item-selection and deselect all
+  local count, MediaItemArray = ultraschall.GetAllSelectedMediaItemsBetween(0, reaper.GetProjectLength(0),  ultraschall.CreateTrackString_AllTracks(), false)
+  local retval = ultraschall.DeselectMediaItems_MediaItemArray(MediaItemArray)
+  
+  -- get current take-markers and remove them
+  local takemarkers={}
+  for i=reaper.GetNumTakeMarkers(take)-1, 0, -1 do
+    local position, name, color = reaper.GetTakeMarker(take, i)
+    takemarkers[i+1]={}
+    takemarkers[i+1]["pos"]=position
+    takemarkers[i+1]["name"]=name
+    takemarkers[i+1]["color"]=color
+    reaper.DeleteTakeMarker(take, i)
+  end
+  
+  -- set take-marker at source-position of take, select the take and use "next take marker"-action to go to it
+  -- then get the cursor position to get the project-position
+  -- and finally, delete the take marker reset the view and cursor-position
+  local starttime, endtime = reaper.GetSet_ArrangeView2(0, false, 0, 0, 0, 0)
+  local oldpos=reaper.GetCursorPosition()
+  reaper.SetMediaItemInfo_Value(item, "B_UISEL", 1)
+  local active_take=reaper.GetActiveTake(item)
+  reaper.SetActiveTake(take)
+  takemarkers_visible={}
+  for i=1, #takemarkers do
+  --print2("")
+    reaper.SetTakeMarker(take, -1, "", takemarkers[i]["pos"])
+    reaper.SetEditCurPos(-20, false, false)
+    reaper.Main_OnCommand(42394, 0)
+    local projectpos=reaper.GetCursorPosition()
+    takemarkers[i]["project_pos"]=projectpos
+    takemarkers[i]["visible"]=projectpos>=item_pos and projectpos<=item_pos_end 
+    reaper.DeleteTakeMarker(take, 0)
+  end
+  reaper.SetMediaItemInfo_Value(item, "B_UISEL", 0)
+  reaper.SetActiveTake(active_take)
+  reaper.SetEditCurPos(oldpos, false, false)
+  reaper.GetSet_ArrangeView2(0, true, 0, 0, starttime, endtime)
+
+  -- rename take-markers back to their old name
+  for i=1, #takemarkers do
+    reaper.SetTakeMarker(take, i-1, takemarkers[i]["name"], takemarkers[i]["pos"], takemarkers[i]["color"])
+  end
+  
+  -- reselect old item-selection
+  local retval = ultraschall.SelectMediaItems_MediaItemArray(MediaItemArray)
+  
+  reaper.PreventUIRefresh(-1)
+
+  return #takemarkers, takemarkers
+end
+
