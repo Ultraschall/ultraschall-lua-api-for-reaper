@@ -325,6 +325,13 @@ ToDo Marker Menu:
         
     - kb.ini-docs
       - ActionCommandIDs are case-insensitive, please add this info to the docs
+
+    - add this to render-table
+    // RENDER_NORMALIZE: (&2304==256)=only normalize files that are too loud, (&2304==2048)=only normalize files that are too quiet
+    
+    &2048==0 and &256==256 - only normalize files that are too loud
+    &2048==2048 and &256==0 - only normalize files that are too quiet
+
 </TODO>
 
 ## Ultraschall Framework - Changelog

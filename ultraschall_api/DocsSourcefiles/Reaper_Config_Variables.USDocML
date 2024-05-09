@@ -3,7 +3,7 @@
       <slug>Introduction</slug>
       <title>Introduction to Config Variables</title>  
       <description markup_type="markdown" markup_version="1.0.1" indent="default">  
-         List of all Config Variables as of Reaper 7.00 and probably are missing some, but should be fairly complete anyway.  
+         List of all Config Variables as of Reaper 7.08 and probably are missing some, but should be fairly complete anyway.  
          These can be used to set configuration-stuff in the preferences, the project-settings, the render-dialog, many context-menus(like MCP or transport-context-menus) and many others.  
          To change them, you can use the following ReaScript API-functions(requires SWS being installed):
           
@@ -102,6 +102,22 @@
           It is an integer, global variable
             
            >0 to 2147483647; higher values become negative  
+      </description>  
+      <chapter_context>
+         Preferences
+         System
+      </chapter_context>
+      <source_document>Reaper_Config_Variables.USDocML</source_document>
+      <target_document>Reaper_Config_Variables</target_document>  
+      <tags>render</tags>
+    </US_DocBloc>  
+    
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">  
+      <slug>__fx_loadstate_ctx</slug>  
+      <title>__fx_loadstate_ctx</title>  
+      <description>  
+          0 if unknown, or during FX state loading: 'u' (instantiating via undo), 'U' (updating via undo), 'P' (loading preset).         
+          It is an integer, global variable.
       </description>  
       <chapter_context>
          Preferences
@@ -1102,7 +1118,7 @@
       <slug>deffadelen</slug>  
       <title>deffadelen</title>  
       <description>  
-          Create automatic fade-in/fade-out for new items, length-inputbox, as set in Preferences -> Media Item Defaults  
+          Create automatic fade-in/fade-out for new items, length-inputbox, as set in Preferences -> Item Fade Defaults
           It is a double-float, preferences variable.  
           
            >Fadelength in seconds; negative values are allowed.  
@@ -1111,7 +1127,7 @@
       </description>  
       <chapter_context>
          Preferences
-         Media Item Defaults
+         Item Fade Defaults
       </chapter_context>
       <source_document>Reaper_Config_Variables.USDocML</source_document>
       <target_document>Reaper_Config_Variables</target_document>  
@@ -1121,7 +1137,7 @@
       <slug>deffadeshape</slug>  
       <title>deffadeshape</title>  
       <description>  
-          The Default fade-in/fade-out-shape-button, as set in Preferences -> Media Item Defaults  
+          The Default fade-in/fade-out-shape-button, as set in Preferences -> Item Fade Defaults
           It is an integer, preferences variable. 
           
           >0 to 6, the individual shapes selectable through the button.  
@@ -1130,7 +1146,7 @@
       </description>  
       <chapter_context>
          Preferences
-         Media Item Defaults
+         Item Fade Defaults
       </chapter_context>
       <source_document>Reaper_Config_Variables.USDocML</source_document>
       <target_document>Reaper_Config_Variables</target_document>  
@@ -2898,7 +2914,7 @@
       <slug>defsplitxfadelen</slug>  
       <title>defsplitxfadelen</title>  
       <description>  
-          Overlap and crossfade items when splitting length-inputbox, as set in Preferences -> Media Item Defaults  
+          Overlap and crossfade items when splitting length-inputbox, as set in Preferences -> Item Fade Defaults  
           It is a double-float, preferences variable. 
           
            >overlap/crossfade-length in seconds; negative values are allowed.  
@@ -2907,7 +2923,7 @@
       </description>  
       <chapter_context>
          Preferences
-         Media Item Defaults
+         Item Fade Defaults
       </chapter_context>
       <source_document>Reaper_Config_Variables.USDocML</source_document>
       <target_document>Reaper_Config_Variables</target_document>  
@@ -3112,7 +3128,7 @@
       <slug>defxfadeshape</slug>  
       <title>defxfadeshape</title>  
       <description>  
-          The Default crossfade-shape-button, as set in Preferences -> Media Item Defaults  
+          The Default crossfade-shape-button, as set in Preferences -> Item Fade Defaults 
           It is an integer, preferences variable.
           
            >0 to 6, the individual shapes selectable through the button.  
@@ -3121,7 +3137,7 @@
       </description>  
       <chapter_context>
          Preferences
-         Media Item Defaults
+         Item Fade Defaults
       </chapter_context>
       <source_document>Reaper_Config_Variables.USDocML</source_document>
       <target_document>Reaper_Config_Variables</target_document>  
@@ -5291,29 +5307,29 @@
       <slug>loopnewitems</slug>  
       <title>loopnewitems</title>  
       <description>  
-          Loop-checkboxes, as set in Preferences -> Media Item Defaults  
+          Loop-checkboxes, as set in Preferences -> Item Loop Defaults  
           It is an integer-bitfield, preferences variable.
 
-           >&2=0, Loop source for new MIDI items(off) - unchecked  
-           >&2=1, Loop source for new MIDI items(on) - checked  
+           >&2=0, MIDI items-checkbox - unchecked  
+           >&2=1, MIDI items-checkbox - checked  
            
-           >&4=0, Loop source for imported items(off) - unchecked  
-           >&4=1, Loop source for imported items(on) - checked  
+           >&4=0, Imported items-checkbox - unchecked  
+           >&4=1, Imported items-checkbox - checked  
            
-           >&8=0, Loop source for recorded items(off) - checked  
-           >&8=1, Loop source for recorded items(on) - unchecked  
+           >&8=0, Recorded items-checkbox - checked  
+           >&8=1, Recorded items-checkbox - unchecked  
            
-           >&16=0, Time selection auto-punch audio recording creates loopable section(only clickable when &8=1)(off) - unchecked  
-           >&16=1, Time selection auto-punch audio recording creates loopable section(only clickable when &8=1)(on) - checked  
+           >&16=0, Time selection auto-punch audio recording creates loopable section-checkbox - unchecked  
+           >&16=1, Time selection auto-punch audio recording creates loopable section-checkbox - checked  
            
-           >&32=0, Loop source for glued items(on) - checked  
-           >&32=1, Loop source for glued items(off) - unchecked  
+           >&32=0, Glued items-checkbox - checked  
+           >&32=1, Glued items-checkbox - unchecked  
 
           Stored in reaper.ini under the same name in the section REAPER.  
       </description>  
       <chapter_context>
          Preferences
-         Media Item Defaults
+         Item Loop Defaults
       </chapter_context>
       <source_document>Reaper_Config_Variables.USDocML</source_document>
       <target_document>Reaper_Config_Variables</target_document>  
@@ -11655,7 +11671,7 @@
       <slug>splitautoxfade</slug>  
       <title>splitautoxfade</title>  
       <description>  
-          Several checkboxes, as set in Preferences -> Media Item Defaults as well as Preferences -> Editing Behavior  
+          Several checkboxes, as set in Preferences -> Media Item Defaults as well as Preferences -> Item Fade Defaults
           &1 can be influenced by defenvs(&32768) as well!  
           It is an integer-bitfield, preferences variable.
           
@@ -11674,32 +11690,56 @@
             Options: Always trim content behind razor edits (otherwise, follow media item editing preferences)
             Options: Toggle auto-crossfade on/off
           
-           >&1=0, Overlap and crossfade items when splitting-length-checkbox(off) - unchecked  
-           >&1=1, Overlap and crossfade items when splitting-length-checkbox(on) - checked  
+           >&1 &512, Split media items-dropdownlist
+            >>0 0, No crossfade
+            >>1 0, Overlap and crossfade
+            >>0 1, Respect toolbar auto-crossfade button
            
-           >&2=0, Enable automatic fade-in/fade-out and autocrossfade for MIDI note velocity(off) - unchecked  
-           >&2=1, Enable automatic fade-in/fade-out and autocrossfade for MIDI note velocity(on) - checked  
+           >&2=0, Apply fade-in/fade-out/crossfade preferences to MIDI items - unchecked  
+           >&2=1, Apply fade-in/fade-out/crossfade preferences to MIDI items - checked  
            
            >&4=0, Crossfades stay together during fade edits when trim content behind media items is enabled(Preferences -> Editing Behavior)(off) - unchecked  
            >&4=1, Crossfades stay together during fade edits when trim content behind media items is enabled(Preferences -> Editing Behavior)(on) - checked  
            
-           >&8=0, Create automatic fade-in/fade-out for new items, length-checkbox(on) - checked  
-           >&8=1, Create automatic fade-in/fade-out for new items, length-checkbox(off) - unchecked  
+           >&8=0, Split media items-Fade In/fade-out-checkbox - checked  
+           >&8=1, Split media items-Fade In/fade-out-checkbox - unchecked  
            
            >&16=0, Right click on crossfade sets fade shape for only one side of the crossfade(shift toggles)(off) - unchecked  
            >&16=1, Right click on crossfade sets fade shape for only one side of the crossfade(shift toggles)(on) - checked  
            
-           >&64=0, Use fade names instead of images for fade menus - unchecked
-           >&64=1, Use fade names instead of images for fade menus - checked
+           >&32 &65536, Imported media items-checkbox
+              1 0, checkbox unchecked
+              0 1, checkbox checked
+              
+           >&64 &32768, 'Trim contents behind razor edits' enabled-dropdownlist
+              >>0 0, No crossfade
+              >>1 0, Overlap and crossfade
+              >>0 1, Respect toolbar auto-crossfade button
            
-           >&256=0 Limit split-created fade/crossfade to-checkbox(Preferences -> Media Item Defaults) - unchecked
-           >&256=1 Limit split-created fade/crossfade to-checkbox(Preferences -> Media Item Defaults) - checked
+           >&128=0, Fixed lane comp areas-Fade In/fade-out-checkbox - checked
+           >&128=1, Fixed lane comp areas-Fade In/fade-out-checkbox - unchecked
+           
+           >&256=0, Limit split-created fade/crossfade to-checkbox(Preferences -> Item Fade Defaults) - unchecked
+           >&256=1, Limit split-created fade/crossfade to-checkbox(Preferences -> Item Fade Defaults) - checked
+           
+           >&1024 &2048, Recorded media items-dropdownlist
+              >>0 0, No crossfade
+              >>1 0, Overlap and crossfade
+              >>0 1, Respect toolbar auto-crossfade button
+           
+           >&4096 &8192, 'Trim contents behind media edits' enabled-dropdownlist
+              >>0 1, No crossfade
+              >>1 0, Overlap and crossfade
+              >>0 0, Respect toolbar auto-crossfade button
+           
+           >&16384=0, Recorded media items-checkbox - checked
+           >&16384=1, Recorded media items-checkbox - unchecked
            
           Stored in reaper.ini under the same name in the section REAPER.  
       </description>  
       <chapter_context>
          Preferences
-         Media Item Defaults
+         Item Fade Defaults
       </chapter_context>
       <source_document>Reaper_Config_Variables.USDocML</source_document>
       <target_document>Reaper_Config_Variables</target_document>  
@@ -11709,7 +11749,7 @@
       <slug>splitmaxpix</slug>  
       <title>splitmaxpix</title>  
       <description>  
-          Limit split-created fade/crosfade to-inputbox, as set in Preferences -> Media Item Defaults
+          Limit split-created fade/crosfade to-inputbox, as set in Preferences -> Item Fade Defaults
           It is an integer, preferences variable.
 
            >0 to 999999 pixels; default is 50
@@ -11718,7 +11758,7 @@
       </description>  
       <chapter_context>
          Preferences
-         Media Item Defaults
+         Item Fade Defaults
       </chapter_context>
       <source_document>Reaper_Config_Variables.USDocML</source_document>
       <target_document>Reaper_Config_Variables</target_document>  
@@ -11762,6 +11802,25 @@
       <chapter_context>
          Preferences
          Playback
+      </chapter_context>
+      <source_document>Reaper_Config_Variables.USDocML</source_document>
+      <target_document>Reaper_Config_Variables</target_document>  
+    </US_DocBloc>  
+    
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">  
+      <slug>stretchmarkerfade</slug>  
+      <title>stretchmarkerfade</title>  
+      <description>  
+          Default stretch marker fade size for new items-inputbox, as set in Preferences -> Item Fade Defaults
+          It is a double-float, preferences variable.
+          
+           >in seconds
+
+          Stored in reaper.ini under the same name in the section REAPER.  
+      </description>  
+      <chapter_context>
+         Preferences
+         Item Fade Defaults
       </chapter_context>
       <source_document>Reaper_Config_Variables.USDocML</source_document>
       <target_document>Reaper_Config_Variables</target_document>  
