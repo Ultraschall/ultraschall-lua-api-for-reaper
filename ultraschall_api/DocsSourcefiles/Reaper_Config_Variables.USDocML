@@ -3,7 +3,7 @@
       <slug>Introduction</slug>
       <title>Introduction to Config Variables</title>  
       <description markup_type="markdown" markup_version="1.0.1" indent="default">  
-         List of all Config Variables as of Reaper 6.82 and probably are missing some, but should be fairly complete anyway.  
+         List of all Config Variables as of Reaper 7.00 and probably are missing some, but should be fairly complete anyway.  
          These can be used to set configuration-stuff in the preferences, the project-settings, the render-dialog, many context-menus(like MCP or transport-context-menus) and many others.  
          To change them, you can use the following ReaScript API-functions(requires SWS being installed):
           
@@ -712,16 +712,16 @@
       <slug>autosavebackuplimit</slug>  
       <title>autosavebackuplimit</title>  
       <description>  
-        REAPER7
-      
-
-           >0 to 2147483647; in seconds; higher values become negative  
+          Limit auto-saved backups to most recent-inputbox, as set in Preferences -> Backups      
+          It is an integer, preferences variable.
+          
+           >0 - 2147483647 days
 
           Stored in reaper.ini under the same name in the section REAPER.  
       </description>  
       <chapter_context>
-         ??
-         ??
+         Preferences
+         Backups
       </chapter_context>
       <source_document>Reaper_Config_Variables.USDocML</source_document>
       <target_document>Reaper_Config_Variables</target_document>  
@@ -731,7 +731,7 @@
       <slug>autosaveint</slug>  
       <title>autosaveint</title>  
       <description>  
-          Every x minutes-inputbox from the Project saving-section, as set in Preferences -> Project.  
+          Auto-save interval-inputbox from the Auto save-section, as set in Preferences -> Backups.  
           It is an integer preferences variable.
 
            >0 to 2147483647; in seconds; higher values become negative  
@@ -740,7 +740,7 @@
       </description>  
       <chapter_context>
          Preferences
-         Project
+         Backups
       </chapter_context>
       <source_document>Reaper_Config_Variables.USDocML</source_document>
       <target_document>Reaper_Config_Variables</target_document>  
@@ -750,7 +750,7 @@
       <slug>autosavemode</slug>  
       <title>autosavemode</title>  
       <description>  
-          Every x minutes-dropdownlist from the Project saving-section, as set in Preferences -> Project.  
+          Auto-save interval-dropdownlist from the Project saving-section, as set in Preferences -> Backups.  
           It is an integer preferences variable.
 
            >0, when not recording  
@@ -761,7 +761,7 @@
       </description>  
       <chapter_context>
          Preferences
-         Project
+         Backups
       </chapter_context>
       <source_document>Reaper_Config_Variables.USDocML</source_document>
       <target_document>Reaper_Config_Variables</target_document>  
@@ -3585,9 +3585,9 @@
            >&4=1, Add edge points when ripple editing or inserting time(Options -> Envelope points)(on) - checked  
            
            >&8 and &16, When recording automation and stopped-dropdownlist  
-             0 0, Add additional point before edit position  
-             0 1, Do not add additional points  
-             1 0, Add points before and after edit position  
+            >>0 0, Add additional point before edit position  
+            >>0 1, Do not add additional points  
+            >>1 0, Add points before and after edit position  
            
            >&32=0, fader scaled volume envelopes-checkbox(Preferences -> Envelope Display)(on) - checked  
            >&32=1, fader scaled volume envelopes-checkbox(Preferences -> Envelope Display)(off) - unchecked  
@@ -3772,22 +3772,24 @@
       </chapter_context>
       <source_document>Reaper_Config_Variables.USDocML</source_document>
       <target_document>Reaper_Config_Variables</target_document>  
-    </US_DocBloc>  
+    </US_DocBloc>      
     
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">  
       <slug>envvzoomscale</slug>  
       <title>envvzoomscale</title>  
       <description>  
-          REAPER7
-          It is a double-float, ?? variable.
-            
-            >
+          Envelope lane vertical zoom, as set in the Preferences -> Zoom/Scroll/Offset  
+          It is a double-float, preferences variable.
+          
+          This is stored as 1 for 100%, 0.5 for 50%, 1.25 for 125%, etc
+          
+            >0-1000
            
           Stored in reaper.ini under the same name in the section REAPER.  
       </description>  
       <chapter_context>
-         ??
-         ??
+         Preferences
+         Zoom/Scroll/Offset  
       </chapter_context>
       <source_document>Reaper_Config_Variables.USDocML</source_document>
       <target_document>Reaper_Config_Variables</target_document>  
@@ -4287,16 +4289,16 @@
       <slug>grvuscale</slug>  
       <title>grvuscale</title>  
       <description>  
-          REAPER7
-          It is an integer, ?? variable.
+          Scale gain reduction from plug-ins by-inputbox, as set in Preferences -> Track Meters
+          It is an integer, preferences variable.
           
-           >??
+           >1-2147483647
           
           Stored in reaper.ini under the same name in the section REAPER.  
       </description>  
       <chapter_context>
-         ??
-         ??
+         Preferences
+         Track Meters
       </chapter_context>
       <source_document>Reaper_Config_Variables.USDocML</source_document>
       <target_document>Reaper_Config_Variables</target_document>  
@@ -4905,16 +4907,16 @@
       <slug>itemoverlap_offspct</slug>  
       <title>itemoverlap_offspct</title>  
       <description>  
-          Offset by xx precentage of item height and Draw as opaque-checkbox, as set in Preferences -> Media Item Positioning  
+          Offset by xx precentage of item height-inputbox, Draw as opaque-checkbox and Arrange overlapping media items in the order they were created-checkbox as set in Preferences -> Zoom/Scroll/Offset
           It is an integer, preferences variable.
             
-            >0 to 255; add 256 to set the Draw as opaque-checkbox
+            >0 to 255; add 256 to set the Draw as opaque-checkbox; add 512 to set the Arrange overlapping media items in the order they were created-checkbox
             
           Stored in reaper.ini under the same name in the section REAPER.
       </description>  
       <chapter_context>
          Preferences
-         Media Item Positioning
+         Zoom/Scroll/Offset
       </chapter_context>
       <source_document>Reaper_Config_Variables.USDocML</source_document>
       <target_document>Reaper_Config_Variables</target_document>  
@@ -5062,17 +5064,16 @@
       <slug>kbd_override_len</slug>  
       <title>kbd_override_len</title>  
       <description>  
-          REAPER7
-          It is an integer-bitfield, ? variable.
+          Timeout for momentary keyboard sections override-inputbox, as set in Preferences -> Keyboard/Multitouch
+          It is an integer, preferences variable.
           
-          Can be affected by the following actions:
-            >
+            >1-2147483647 ms
           
           Stored in reaper.ini under the same name in the section REAPER.  
       </description>  
       <chapter_context>
-         ??
-         ??
+         Preferences
+         Keyboard/Multitouch
       </chapter_context>
       <source_document>Reaper_Config_Variables.USDocML</source_document>
       <target_document>Reaper_Config_Variables</target_document>  
@@ -5627,7 +5628,7 @@
       <slug>maxvzoom</slug>  
       <title>maxvzoom</title>  
       <description>  
-          Maximum vertical zoom-inputbox as set in Preferences -> Editing Behavior
+          Maximum vertical zoom-inputbox as set in Preferences -> Zoom/Scroll/Offset
           Note: unlike the inputbox, this value is not in percentage but in doubles with 1.00 being 100%, 0.5 being 50%, etc
           It is a double-float, preferences variable. 
             
@@ -5637,7 +5638,7 @@
       </description>  
       <chapter_context>
          Preferences
-         Editing Behavior
+         Zoom/Scroll/Offset
       </chapter_context>
       <source_document>Reaper_Config_Variables.USDocML</source_document>
       <target_document>Reaper_Config_Variables</target_document>  
@@ -6874,14 +6875,17 @@
       <slug>nometers</slug>  
       <title>nometers</title>  
       <description>  
-          Pre-fader metering, as set in the menu Options as well as in section VU meters in Preferences -> Track Control Panels  
+          Pre-fader metering, as set in the menu Options as well as in section VU meters in Preferences -> Track Meters  
           It is an integer-bitfield, preferences variable.
           
           Can be affected by the following actions:
             Options: Pre-fader track metering
 
+           >&1=0, Show MIDI velocity on track meter - checked
+           >&1=1, Show MIDI velocity on track meter - unchecked
+
            >&2=0, Show track input when rec-armed(on) - checked  
-           >&2=0, Show track input when rec-armed(off) - unchecked  
+           >&2=1, Show track input when rec-armed(off) - unchecked  
            
            >&4=0, Make obvious that track input is clickable(on) - checked  
            >&4=1, Make obvious that track input is clickable(off) - unchecked  
@@ -6890,7 +6894,7 @@
            >&8=1, Show dB scales on track meters(off) - unchecked  
            
            >&16=0, Show dB scales on rec armed track meters(on) - checked  
-           >&16=0, Show dB scales on rec armed track meters(off) - unchecked  
+           >&16=1, Show dB scales on rec armed track meters(off) - unchecked  
 
            >&1024=0, Track meters display pre-fader levels(Pre-fader metering in the menu options)(off) - unchecked  
            >&1024=1, Track meters display pre-fader levels(Pre-fader metering in the menu options)(on) - checked  
@@ -6899,7 +6903,7 @@
       </description>  
       <chapter_context>
          Preferences
-         Track Control Panels
+         Track Meters
       </chapter_context>
       <source_document>Reaper_Config_Variables.USDocML</source_document>
       <target_document>Reaper_Config_Variables</target_document>  
@@ -10304,17 +10308,17 @@
       <slug>resetvuplay</slug>  
       <title>resetvuplay</title>  
       <description>  
-          Reset meter peak indicators on play/seek-checkbox, as set in Preferences -> Track Control Panels  
+          Reset meter peak indicators on play/seek-checkbox, as set in Preferences -> Track Meters
           It is an integer, preferences variable.
           
-           >0, don't reset meter peak indicators(off) - unchecked  
-           >1, reset meter peak indicators(on) - checked  
+           >0, Reset meter peak indicators on play/seek(off) - unchecked  
+           >1, Reset meter peak indicators on play/seek(on) - checked  
 
           Stored in reaper.ini under the same name in the section REAPER.  
       </description>  
       <chapter_context>
          Preferences
-         Track Control Panels
+         Track Meters
       </chapter_context>
       <source_document>Reaper_Config_Variables.USDocML</source_document>
       <target_document>Reaper_Config_Variables</target_document>  
@@ -10614,16 +10618,16 @@
       <slug>savebackuplimit</slug>  
       <title>savebackuplimit</title>  
       <description>  
-          REAPER7
-          It is an integer-bitfield, ?? variable.
+          Limit backups to most recent-inputbox, as set in Preferences -> Backups      
+          It is an integer, preferences variable.
           
-           >
+           >0 - 2147483647 days
 
           Stored in reaper.ini under the same name in the section REAPER.  
       </description>  
       <chapter_context>
-         ??
-         ??
+         Preferences
+         Backups
       </chapter_context>
       <source_document>Reaper_Config_Variables.USDocML</source_document>
       <target_document>Reaper_Config_Variables</target_document>  
@@ -10633,33 +10637,57 @@
       <slug>saveopts</slug>  
       <title>saveopts</title>  
       <description>  
-          Several settings from the Project saving-section, as set in Preferences -> Project.  
+          Several settings from the Project saving-section, as set in Preferences -> Backups.  
           It is an integer-bitfield, preferences variable.
           
-           >&1=0, When overwriting project file, rename old project to .rpp-bak(off) - unchecked  
-           >&1=1, When overwriting project file, rename old project to .rpp-bak(on) - checked  
-           
-            The next options are for auto-save  
+           >&1=0, Preserve previously-saved version of project as <project>.rpp-back - unchecked  
+           >&1=1, Preserve previously-saved version of project as <project>.rpp-back - checked  
             
-           >&2=0, Save to project(off) - unchecked  
-           >&2=1, Save to project(on) - checked  
+           >&2=0, Auto-save to project file(not recommended)(off) - unchecked  
+           >&2=1, Auto-save to project file(not recommended)(on) - checked  
            
-           >&4=0, Save to timestamped file in project directory(off) - unchecked  
-           >&4=1, Save to timestamped file in project directory(on) - checked  
+           >&4=0, Auto-save to timestamped file in project directory(off) - unchecked  
+           >&4=1, Auto-save to timestamped file in project directory(on) - checked  
            
-           >&8=0, Save to timestamped file in additional directory(off) - unchecked  
-           >&8=1, Save to timestamped file in additional directory(on) - checked  
+           >&8=0, Auto-save to timestamped file in additional directory(off) - unchecked  
+           >&8=1, Auto-save to timestamped file in additional directory(on) - checked  
       
-            The next option is only for Project Saving
-      
-           >&16=0, Timestamp backup(off) - unchecked  
-           >&16=1, Timestamp backup(on) - checked  
+           >&16=0, Preserve previously-saved versions of projact as <project>-[timestamp].rpp-bak(off) - unchecked  
+           >&16=1, Preserve previously-saved versions of projact as <project>-[timestamp].rpp-bak(on) - checked  
+           
+           >&32=0, Limit backups to most recent-checkbox - unchecked
+           
+           >&64, Limit backups to most recent-dropdownmenu
+              0 - copies
+              1 - unique days
+              
+           >&128=0, Limit auto-saved backups to most recent-checkbox - unchecked
+           >&128=1, Limit auto-saved backups to most recent-checkbox - checked
+           
+           >&256, Limit auto-saved backups to most recent-dropdownlist
+              0, copies
+              1, unique days
+           
+           >&512=0, Limit backups to most recent-checkbox - unchecked
+           >&512=1, Limit backups to most recent-checkbox - checked
+           
+           >&1024 &2048, Limit backups to most recent-dropdownlist
+            >>0 0, copies for current project
+            >>0 1, copies for all projects
+            >>1 0, unique days for current project
+            >>1 1, unique days for all projects
+           
+           >&4096=0, Save timestamped backups to Backups project subdirectory-checkbox - unchecked
+           >&4096=1, Save timestamped backups to Backups project subdirectory-checkbox - checked
+           
+           >&8192=0, Save auto-saved project backups to AutoSaves project subdirectory - unchecked
+           >&8192=1, Save auto-saved project backups to AutoSaves project subdirectory - checked
 
           Stored in reaper.ini under the same name in the section REAPER.  
       </description>  
       <chapter_context>
          Preferences
-         Project
+         Backups
       </chapter_context>
       <source_document>Reaper_Config_Variables.USDocML</source_document>
       <target_document>Reaper_Config_Variables</target_document>  
@@ -10675,8 +10703,8 @@
            >&1=0, Save undo history with project files (in .RPP-UNDO file) - unchecked  
            >&1=1, Save undo history with project files (in .RPP-UNDO file) - checked  
            
-           >&2=0, Save undo history (RPP-UNDO)(if enabled in general prefs)(off) - unchecked  
-           >&2=1, Save undo history (RPP-UNDO)(if enabled in general prefs)(on) - checked  
+           >&2=0, Save undo history (RPP-UNDO)(if enabled in general prefs)(off) set in Preferences -> Backups - unchecked  
+           >&2=1, Save undo history (RPP-UNDO)(if enabled in general prefs)(on) set in Preferences -> Backups - checked  
             
            >&4=0, Allow load of undo history - checked  
            >&4=1, Allow load of undo history - unchecked  
@@ -10690,8 +10718,8 @@
            >&256=0, Store multiple redo paths when possible (can use a lot of RAM) - unchecked  
            >&256=1, Store multiple redo paths when possible (can use a lot of RAM) - unchecked  
            
-           >&512=0, Keep multiple versions(Preferences -> Project - autosave settings)(either &512=1 or &16=1!)(off) - unchecked  
-           >&512=1, Keep multiple versions(Preferences -> Project - autosave settings)(either &512=1 or &16=1!)(on) - checked  
+           >&512=0, Preserve all previously-saved versionso of project in one (large) <project>.rpp-bak(Preferences -> Project - Backups)(either &512=1 or &16=1!)(off) - unchecked  
+           >&512=1, Preserve all previously-saved versionso of project in one (large) <project>.rpp-bak(Preferences -> Project - Backups)(either &512=1 or &16=1!)(on) - checked  
 
           Stored in reaper.ini under the same name in the section REAPER.  
       </description>  
@@ -10889,16 +10917,18 @@
       <slug>scrubgain</slug>  
       <title>scrubgain</title>  
       <description>  
-          REAPER7
-          It is an double-float, ? variable.
+          Scrub/jog volume gain-inputbox, as set in Preferences -> Scrub/Jog
+          It is an double-float, preferences variable.
           
-           >
+          Note: use ultraschall.DB2MKVOL() and ultraschall.MKVOL2DB() to convert the value from/to db.
+          
+           >1.122018454302e-005 - 8.9125093813374e+049
 
           Stored in reaper.ini under the same name in the section REAPER.  
       </description>  
       <chapter_context>
-         ??
-         ??
+         Preferences
+         Scrubg/Jog
       </chapter_context>
       <source_document>Reaper_Config_Variables.USDocML</source_document>
       <target_document>Reaper_Config_Variables</target_document>  
@@ -10908,7 +10938,7 @@
       <slug>scrubloopend</slug>  
       <title>scrubloopend</title>  
       <description>  
-          Looped-segment mode to:-inputbox in section Scrub/jog settings, as set in Preferences -> Playback  
+          Looped-segment mode to:-inputbox in section Scrub/jog settings, as set in Preferences -> Scrub/Jog  
           It is an integer, preferences variable.
           
            >-2147483647 to 2147483647; in milliseconds  
@@ -10917,7 +10947,7 @@
       </description>  
       <chapter_context>
          Preferences
-         Playback
+         Scrub/Jog
       </chapter_context>
       <source_document>Reaper_Config_Variables.USDocML</source_document>
       <target_document>Reaper_Config_Variables</target_document>  
@@ -10927,7 +10957,7 @@
       <slug>scrubloopstart</slug>  
       <title>scrubloopstart</title>  
       <description>  
-          Looped-segment mode in section Scrub/jog settings, as set in Preferences -> Playback  
+          Looped-segment mode in section Scrub/jog settings, as set in Preferences -> Scrub/Jog  
           It is an integer, preferences variable.
           
            >-2147483647 to 2147483647; in milliseconds  
@@ -10936,7 +10966,7 @@
       </description>  
       <chapter_context>
          Preferences
-         Playback
+         Scrub/Jog
       </chapter_context>
       <source_document>Reaper_Config_Variables.USDocML</source_document>
       <target_document>Reaper_Config_Variables</target_document>  
@@ -10946,11 +10976,11 @@
       <slug>scrubmode</slug>  
       <title>scrubmode</title>  
       <description>  
-          Several setting-checkboxes/dropdownlist in section Scrub/jog settings, as set in Preferences -> Playback  
+          Several setting-checkboxes/dropdownlist in section Scrub/jog settings, as set in Preferences -> Scrub/Jog  
           It is an integer-bitfield, preferences variable.
           
-           >&1=0, When moving edit cursor via action or control surface-dropdownlist -> Do not scrub  
-           >&1=1, When moving edit cursor via action or control surface-dropdownlist -> Scrub  
+           >&1=0, Scrub/jog when moving edit cursor via action or control surface-checkbox -> unchecked
+           >&1=1, Scrub/jog when moving edit cursor via action or control surface-checkbox -> checked
            
            >&2=0, Only play selected track when scrubbing/jogging-checkbox(off) - unchecked  
            >&2=1, Only play selected track when scrubbing/jogging-checkbox(on) - checked  
@@ -10958,8 +10988,11 @@
            >&4=0, Limit scrub rate to 1.0x(on) - checked  
            >&4=1, Limit scrub rate to 1.0x(off) - unchecked  
 
-           >&16=0, Limit jog rate to 1.0x-checkbox(off) - unchecked  
-           >&16=1, Limit jog rate to 1.0x-checkbox(on) - checked  
+           >&16 &8192, Max jog rate-dropdownlist
+           >>1 0 - 1x
+           >>0 0 - 2x
+           >>0 1 - 4x
+           >>1 1 - 8x
 
            >&64=0, Faster responding jog-checkbox(off) - unchecked  
            >&64=1, Faster responding jog-checkbox(on) - checked  
@@ -10974,7 +11007,7 @@
       </description>  
       <chapter_context>
          Preferences
-         Playback
+         Scrub/Jog
       </chapter_context>
       <source_document>Reaper_Config_Variables.USDocML</source_document>
       <target_document>Reaper_Config_Variables</target_document>  
@@ -10984,7 +11017,7 @@
       <slug>scrubrelgain</slug>  
       <title>scrubrelgain</title>  
       <description>  
-          Scrub-mode controller sensitivity in section Scrub/jog settings, as set in Preferences -> Playback  
+          Scrub-mode controller sensitivity in section Scrub/jog settings, as set in Preferences -> Scrub/Jog  
           It is a double-float, preferences variable.
           
            >0.001 and higher  
@@ -10993,7 +11026,7 @@
       </description>  
       <chapter_context>
          Preferences
-         Playback
+         Scrub/Jog
       </chapter_context>
       <source_document>Reaper_Config_Variables.USDocML</source_document>
       <target_document>Reaper_Config_Variables</target_document>  
@@ -12121,16 +12154,16 @@
       <slug>trackgapmax</slug>  
       <title>trackgapmax</title>  
       <description>  
-          REAPER7
-          It is an integer, ?? variable.
+          Visual track spacer size-inputbox, as set in Preferences -> Appearance
+          It is an integer, preferences variable.
           
-           >
+           >0-2147483647
 
           Stored in reaper.ini under the same name in the section REAPER.  
       </description>  
       <chapter_context>
-         ??
-         ??
+         Preferences
+         Appearance
       </chapter_context>
       <source_document>Reaper_Config_Variables.USDocML</source_document>
       <target_document>Reaper_Config_Variables</target_document>  
@@ -12720,11 +12753,17 @@
       <slug>vscrollflag</slug>  
       <title>vscrollflag</title>  
       <description>  
-          REAPER7
+          The Vertical scroll step-radiobuttons, as set in Preferences -> Zoom/Scroll/Offset
           It is an integer-bitfield, ?? variable.
+          
+          > 0, % of track height (default 50%)
+          > 1, % of arrange view height
+          
+          Stored in reaper.ini under the same name in the section REAPER.  
       </description>  
       <chapter_context>
-         ??
+         Preferences
+         Zoom/Scroll/Offset
       </chapter_context>
       <source_document>Reaper_Config_Variables.USDocML</source_document>
       <target_document>Reaper_Config_Variables</target_document>  
@@ -12734,11 +12773,39 @@
       <slug>vscrollstep</slug>  
       <title>vscrollstep</title>  
       <description>  
-          REAPER7
-          It is a double-float, ?? variable.
+          The Vertical scroll step "% of track height (default 50%)"-inputbox, as set int Zoom/Scroll/Offset
+          It is a double-float, preferences variable.
+          
+          It is stored as 0.5=50%, 1.0=100%, 0.25=25%
+          
+            >0.01-1.0
+            
+          Stored in reaper.ini under the same name in the section REAPER.  
       </description>  
       <chapter_context>
-         ??
+         Preferences
+         Zoom/Scroll/Offset
+      </chapter_context>
+      <source_document>Reaper_Config_Variables.USDocML</source_document>
+      <target_document>Reaper_Config_Variables</target_document>  
+    </US_DocBloc>  
+    
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">  
+      <slug>vscrollstep2</slug>  
+      <title>vscrollstep2</title>  
+      <description>  
+          The Vertical scroll step "% of arrange view height"-inputbox, as set int Zoom/Scroll/Offset
+          It is a double-float, preferences variable.
+          
+          It is stored as 0.5=50%, 1.0=100%, 0.25=25%
+          
+            >0.01-1.0
+            
+          Stored in reaper.ini under the same name in the section REAPER.  
+      </description>  
+      <chapter_context>
+         Preferences
+         Zoom/Scroll/Offset
       </chapter_context>
       <source_document>Reaper_Config_Variables.USDocML</source_document>
       <target_document>Reaper_Config_Variables</target_document>  
@@ -12885,17 +12952,17 @@
       <slug>vuclipstick</slug>  
       <title>vuclipstick</title>  
       <description>  
-          Sticky clip indicators, as set in Preferences -> Track Control Panels  
+          Sticky clip indicators, as set in Preferences -> Track Meters  
           It is an integer, preferences variable.
           
-           >0, No sticky clip indicators(off) - unchecked  
+           >0, Sticky clip indicators(off) - unchecked  
            >1, Sticky clip indicators(on) - checked  
 
           Stored in reaper.ini under the same name in the section REAPER.  
       </description>  
       <chapter_context>
          Preferences
-         Track Control Panels
+         Track Meters
       </chapter_context>
       <source_document>Reaper_Config_Variables.USDocML</source_document>
       <target_document>Reaper_Config_Variables</target_document>  
@@ -12905,7 +12972,7 @@
       <slug>vudecay</slug>  
       <title>vudecay</title>  
       <description>  
-          Meter decay-inputbox in section VU meters, as set in Preferences -> Track Control Panels  
+          Meter decay-inputbox in section VU meters, as set in Preferences -> Track Meters
           It is an integer, preferences variable.
           
            >1 to 2147483647; in dB/sec  
@@ -12914,7 +12981,7 @@
       </description>  
       <chapter_context>
          Preferences
-         Track Control Panels
+         Track Meters
       </chapter_context>
       <source_document>Reaper_Config_Variables.USDocML</source_document>
       <target_document>Reaper_Config_Variables</target_document>  
@@ -12924,7 +12991,7 @@
       <slug>vumaxvol</slug>  
       <title>vumaxvol</title>  
       <description>  
-          Max value(dB)-inputbox in section VU meters, as set in Preferences -> Track Control Panels  
+          Max value(dB)-inputbox in section VU meters, as set in Preferences -> Track Meters
           It is an integer, preferences variable.
           
            >-2147483647 to 2147483647; in dB  
@@ -12933,7 +13000,7 @@
       </description>  
       <chapter_context>
          Preferences
-         Track Control Panels
+         Track Meters
       </chapter_context>
       <source_document>Reaper_Config_Variables.USDocML</source_document>
       <target_document>Reaper_Config_Variables</target_document>  
@@ -12943,7 +13010,7 @@
       <slug>vuminvol</slug>  
       <title>vuminvol</title>  
       <description>  
-          Meter minimum value(dB)-inputbox in section VU meters, as set in Preferences -> Track Control Panels  
+          Meter minimum value(dB)-inputbox in section VU meters, as set in Preferences -> Track Meters
           It is an integer, preferences variable.
           
            >-2147483647 to -1; in dB  
@@ -12952,7 +13019,7 @@
       </description>  
       <chapter_context>
          Preferences
-         Track Control Panels
+         Track Meters
       </chapter_context>
       <source_document>Reaper_Config_Variables.USDocML</source_document>
       <target_document>Reaper_Config_Variables</target_document>  
@@ -12962,7 +13029,7 @@
       <slug>vuupdfreq</slug>  
       <title>vuupdfreq</title>  
       <description>  
-          Meter update frequency(Hz)-inputbox in section VU meters, as set in Preferences -> Track Control Panels  
+          Meter update frequency(Hz)-inputbox in section VU meters, as set in Preferences -> Track Meters
           It is an integer, preferences variable.
           
            >1 to 2147483647; in Hz  
@@ -12971,7 +13038,7 @@
       </description>  
       <chapter_context>
          Preferences
-         Track Control Panels
+         Track Meters
       </chapter_context>
       <source_document>Reaper_Config_Variables.USDocML</source_document>
       <target_document>Reaper_Config_Variables</target_document>  
@@ -13035,19 +13102,19 @@
       <slug>vzoommode</slug>  
       <title>vzoommode</title>  
       <description>  
-          The vertical zoom center, as set in the Preferences -> Editing Behavior  
+          Maximum vertical zoom, as set in the Preferences -> Zoom/Scroll/Offset  
           It is an integer, preferences variable.
           
-           >0, Track at center of view  
-           >1, Top visible track  
+           >0, Track at view center(default)
+           >1, Top of view
            >2, Last selected track  
-           >3, Track under mouse cursor  
+           >3, Track under mouse  
 
           Stored in reaper.ini under the same name in the section REAPER.  
       </description>  
       <chapter_context>
          Preferences
-         Editing Behavior
+         Zoom/Scroll/Offset
       </chapter_context>
       <source_document>Reaper_Config_Variables.USDocML</source_document>
       <target_document>Reaper_Config_Variables</target_document>  
@@ -13349,7 +13416,7 @@
       <slug>zoommode</slug>  
       <title>zoommode</title>  
       <description>  
-          The horizontal zoom center, as set in Preferences -> Editing Behavior  
+          The horizontal zoom center, as set in Preferences -> Zoom/Scroll/Offset  
           It is an integer, preferences variable.
           
            >0, Edit cursor or play cursor(default)  
@@ -13361,7 +13428,7 @@
       </description>  
       <chapter_context>
          Preferences
-         Editing Behavior
+         Zoom/Scroll/Offset
       </chapter_context>
       <source_document>Reaper_Config_Variables.USDocML</source_document>
       <target_document>Reaper_Config_Variables</target_document>  

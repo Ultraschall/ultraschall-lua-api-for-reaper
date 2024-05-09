@@ -15,7 +15,7 @@
 
 .l code:hover, .e code:hover, .p code:hover, .c code:hover, .j code:hover, .l_func code:hover, .ch code:hover{
     /*used mouse-cursor when clicking function-calls*/
-    /*cursor: copy;*/
+    cursor: copy;
     /*background-color: black;*/
 }
 
