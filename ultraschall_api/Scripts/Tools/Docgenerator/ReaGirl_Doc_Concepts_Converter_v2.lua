@@ -56,7 +56,7 @@ DontSort=true
 -- Let's create the Header
 FunctionList=[[
 <html><head><title>
-Ultraschall API Video-Functions
+ReaGirl Introduction, Concepts and Tutorials
 </title>
 
 <link href="style.css" rel="stylesheet">

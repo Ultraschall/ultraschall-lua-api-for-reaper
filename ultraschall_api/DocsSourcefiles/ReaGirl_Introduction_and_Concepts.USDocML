@@ -3433,6 +3433,7 @@
         <title>Images</title>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
             Images show an image in the gui. They can be clicked and do things using the run-function.
+            Transparency in png-images will be obeyed, so you can have images with transparent background drawn into your gui.
             
             Very important: the caption and the meaningOfUI\_Element-parameters must describe the content of the image, so blind users know, what the image contains, as they can't see it.
             

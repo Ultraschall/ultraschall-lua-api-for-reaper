@@ -9771,10 +9771,10 @@ Displays a message to show, which parts of the Ultraschall-API are turned on and
 <hr>
 <a class="anch" id="EditReaScript"></a>
 <a href="#EditReaScript"> ^</a> 
-<img width="3%" src="gfx/reaper6.10.png" alt="requires Reaper version 6.10">
-<img width="3%" src="gfx/ultraschall4.5.png" alt="requires Ultraschall version 4.5"><u><b>EditReaScript</b></u><br>			<p>
+<img width="3%" src="gfx/reaper7.03.png" alt="requires Reaper version 7.03">
+<img width="3%" src="gfx/ultraschall5.png" alt="requires Ultraschall version 5"><u><b>EditReaScript</b></u><br>			<p>
 <div class="cc">
-<div class="l">Lua: <code> <i>boolean</i> retval, <i>optional</i> command_id, <i>boolean</i> created_new_script = <em>ultraschall.EditReaScript</em>(<i>optional</i> <i>string</i> filename, <i>optional</i> <i>boolean</i> add_ultraschall_api, <i>optional</i> <i>integer</i> add_to_actionlist_section, <i>optional</i> <i>integer</i> x_pos, <i>optional</i> <i>integer</i> y_pos, <i>optional</i> <i>integer</i> width, <i>optional</i> <i>integer</i> height, <i>optional</i> <i>integer</i> showstate, <i>optional</i> <i>integer</i> watchlist_size, <i>optional</i> <i>integer</i> watchlist_size_row1, <i>optional</i> <i>integer</i> watchlist_size_row2, <i>optional</i> <i>string</i> default_script_content)</code></div>
+<div class="l">Lua: <code> <i>boolean</i> retval, <i>optional</i> command_id, <i>boolean</i> created_new_script = <em>ultraschall.EditReaScript</em>(<i>optional</i> <i>string</i> filename, <i>optional</i> <i>integer</i> add_ultraschall_api_or_reagirl, <i>optional</i> <i>integer</i> add_to_actionlist_section, <i>optional</i> <i>integer</i> x_pos, <i>optional</i> <i>integer</i> y_pos, <i>optional</i> <i>integer</i> width, <i>optional</i> <i>integer</i> height, <i>optional</i> <i>integer</i> showstate, <i>optional</i> <i>integer</i> watchlist_size, <i>optional</i> <i>integer</i> watchlist_size_row1, <i>optional</i> <i>integer</i> watchlist_size_row2, <i>optional</i> <i>string</i> default_script_content)</code></div>
 </div><p>
 <div class="ch">
 Opens a script in Reaper's ReaScript-IDE.<br>
@@ -9806,8 +9806,20 @@ returns false in case of an error<br>
 nil, opens the last ReaScript-file you opened with this function</td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr"><i>optional</i> <i>boolean</i> add_ultraschall_api</td></tr>
-<tr><td class="ch2">true, add Ultraschall-API-call into the script(only in newly created ones!); false or nil, just open a blank script</td></tr>
+<tr><td class="pr"><i>optional</i> <i>integer</i> add_ultraschall_api_or_reagirl</td></tr>
+<tr><td class="ch2">0 or false or nil, create a blank script</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr">1 or true, add Ultraschall</td></tr>
+<tr><td class="ch2">API-call into the script(only in newly created ones!)</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr">2, add basic ReaGirl</td></tr>
+<tr><td class="ch2">structure into the script(only in newly crated ones!)</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr">3, add Ultraschall</td></tr>
+<tr><td class="ch2">API-functioncall and ReaGirl basic structure into the script</td></tr>
 </table>
 <table class="ch">
 <tr><td class="pr"><i>optional</i> <i>integer</i> add_to_actionlist_section</td></tr>

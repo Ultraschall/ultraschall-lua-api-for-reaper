@@ -139,7 +139,8 @@ function reagirl.GetVersion()
     <tags>misc, get, version</tags>
   </US_DocBloc>
   --]]
-  return 1.0
+  local retval, vers = reaper.BR_Win32_GetPrivateProfileString("ReaGirl_Build", "version", "", reaper.GetResourcePath().."/UserPlugins/ultraschall_api/IniFiles/ultraschall_api.ini")
+  return tonumber(vers)
 end
 
 reagirl.osara_outputMessage=reaper.osara_outputMessage
@@ -7370,6 +7371,8 @@ function reagirl.Image_Add(x, y, w, h, image_filename, caption, meaningOfUI_Elem
     image-filename-8x.png - 8x-scaling
     
     If a filename doesn't exist, it reverts to the default one for 1x-scaling.
+    
+    ReaGirl will obey transparency set in png-images.
   
     Images can be set to draggable. See Image_GetDraggable and Image_SetDraggable for enabling 
     dragging of the image to a destination ui-element.
