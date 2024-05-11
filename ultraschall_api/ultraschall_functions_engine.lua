@@ -2529,7 +2529,7 @@ function ultraschall.EditReaScript(filename, add_ultraschall_api, add_to_actionl
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>EditReaScript</slug>
   <requires>
-    Ultraschall=5
+    Ultraschall=5.0
     Reaper=7.03
     Lua=5.3
   </requires>
@@ -2640,7 +2640,7 @@ reagirl.Gui_New()
 
 
 -- 4. open the gui
-reagirl.Gui_Open("ReaGirl Testdialog #1", true, "ReaGirl Testdialog #1", "a test dialog that features all available ui-elements.", 355, 225, nil, nil, nil)
+reagirl.Gui_Open("My Dialog Name", false, "Dialog Title", "A short explanation of my dialog.", 355, 225, nil, nil, nil)
 
 -- 5. a main-function that runs the gui-management-function
 function main()

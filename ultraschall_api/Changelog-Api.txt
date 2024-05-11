@@ -495,7 +495,9 @@ Note: requires at least Reaper 7.03 now!
 
 #### Changes from 4.9 to 5  
   - Developer Tools: State Inspector - restores the loaded slot when reopening; ini-file doesn't get overwritten anymore after updating US_API
+  - Developer Tools: Create\_New\_Script\_With\_Dialog.lua - uses ReaGirl now to do the gui, also accessible now
   - Docs: open-docs-actions - didn't always open the docs -> fixed
+  - Helpers: EditReaScript - allows now adding ReaGirl-basic structure to a script
   
 ---
 
