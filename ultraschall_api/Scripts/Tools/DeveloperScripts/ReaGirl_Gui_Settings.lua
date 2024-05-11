@@ -104,6 +104,7 @@ function SetUpNewGui()
   show_tooltips = reaper.GetExtState("ReaGirl", "show_tooltips")
   if show_tooltips=="" or show_tooltips=="true" then show_tooltips=true else show_tooltips=false end
   tab1.checkbox_tooltips_id = reagirl.Checkbox_Add(nil, nil, "Show tooltips when hovering above ui-element", "When checked, ReaGirl will show tooltips when hovering above ui-elements.", show_tooltips, checkbox)
+  --reagirl.Checkbox_SetDisabled(tab1.checkbox_tooltips_id, true)
   
   reagirl.NextLine(10)
   tab1.Label_FocusRectangle=reagirl.Label_Add(nil, nil, "Focus Rectangle", "Settings for the focus rectangle.", false, nil)

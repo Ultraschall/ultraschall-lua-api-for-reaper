@@ -161,8 +161,8 @@ end
 --[[
 TODO: 
   - planned ui-elements and features
-    > ProgressBars, Toolbar Buttons, graphical vertical tabs, Listviews, Multiline Inputbox, Radio Buttons, virtual ui-elements(for making other guis accessible), decorative elements to hide ui elements, Burgermenu, global context-menu(maybe)
-    > ui-elements linkable to toggle-states, extstates and ini-file-entries, Gui-Editor, stickyness
+    > ProgressBars, Color-ui-element, top menus, Toolbar Buttons, graphical vertical tabs, Listviews, Multiline Inputbox, Radio Buttons, virtual ui-elements(for making other guis accessible), decorative elements to hide ui elements, Burgermenu, global context-menu(maybe)
+    > color-themes,ui-elements linkable to toggle-states, extstates and ini-file-entries, Gui-Editor, stickyness
   - Gui_Open - w and h parameters=nil mean, make the size of the window big enough to fit all ui-elements
   - Sliders: make default-value optional
   - sticky elements need more work, as tabbing to one might move a ui-element behind a sticky-ui-element. In that case, we need to
@@ -343,43 +343,66 @@ reagirl.UI_Element_HeightMargin=5
 
 reagirl.Colors={}
 reagirl.Colors.Scrollbar={}
-reagirl.Colors.Scrollbar.Background={}
-reagirl.Colors.Scrollbar.Background.r=0.39
-reagirl.Colors.Scrollbar.Background.g=0.39
-reagirl.Colors.Scrollbar.Background.b=0.39
-reagirl.Colors.Scrollbar.Foreground={}
-reagirl.Colors.Scrollbar.Foreground.r=0.49
-reagirl.Colors.Scrollbar.Foreground.g=0.49
-reagirl.Colors.Scrollbar.Foreground.b=0.49
-reagirl.Colors.TextBG={}
-reagirl.Colors.TextBG.r=0.2
-reagirl.Colors.TextBG.g=0.2
-reagirl.Colors.TextBG.b=0.2
-reagirl.Colors.TextFG={}
-reagirl.Colors.TextFG.r=0.8
-reagirl.Colors.TextFG.g=0.8
-reagirl.Colors.TextFG.b=0.8
-reagirl.Colors.TextFG_disabled={}
-reagirl.Colors.TextFG_disabled.r=0.6
-reagirl.Colors.TextFG_disabled.g=0.6
-reagirl.Colors.TextFG_disabled.b=0.6
-reagirl.Colors.Checkbox={}
-reagirl.Colors.Checkbox.r=0.9843137254901961
-reagirl.Colors.Checkbox.g=0.8156862745098039
-reagirl.Colors.Checkbox.b=0
-reagirl.Colors.Checkbox_rectangle={}
-reagirl.Colors.Checkbox_rectangle.r=0.45
-reagirl.Colors.Checkbox_rectangle.g=0.45
-reagirl.Colors.Checkbox_rectangle.b=0.45
-reagirl.Colors.Checkbox_disabled={}
-reagirl.Colors.Checkbox_disabled.r=0.5843137254901961
-reagirl.Colors.Checkbox_disabled.g=0.5843137254901961
-reagirl.Colors.Checkbox_disabled.b=0
-reagirl.Colors.Checkbox_background={}
-reagirl.Colors.Checkbox_background.r=0.234
-reagirl.Colors.Checkbox_background.g=0.234
-reagirl.Colors.Checkbox_background.b=0.234
-
+reagirl.Colors.Scrollbar_Background_r=0.39
+reagirl.Colors.Scrollbar_Background_g=0.39
+reagirl.Colors.Scrollbar_Background_b=0.39
+reagirl.Colors.Scrollbar_Foreground_r=0.49
+reagirl.Colors.Scrollbar_Foreground_g=0.49
+reagirl.Colors.Scrollbar_Foreground_b=0.49
+reagirl.Colors.Checkbox_TextBG_r=0.2
+reagirl.Colors.Checkbox_TextBG_g=0.2
+reagirl.Colors.Checkbox_TextBG_b=0.2
+reagirl.Colors.Checkbox_TextFG_r=0.8
+reagirl.Colors.Checkbox_TextFG_g=0.8
+reagirl.Colors.Checkbox_TextFG_b=0.8
+reagirl.Colors.Checkbox_TextFG_disabled_r=0.6
+reagirl.Colors.Checkbox_TextFG_disabled_g=0.6
+reagirl.Colors.Checkbox_TextFG_disabled_b=0.6
+reagirl.Colors.Checkbox_r=0.9843137254901961
+reagirl.Colors.Checkbox_g=0.8156862745098039
+reagirl.Colors.Checkbox_b=0
+reagirl.Colors.Checkbox_rectangle_r=0.45
+reagirl.Colors.Checkbox_rectangle_g=0.45
+reagirl.Colors.Checkbox_rectangle_b=0.45
+reagirl.Colors.Checkbox_disabled_r=0.5843137254901961
+reagirl.Colors.Checkbox_disabled_g=0.5843137254901961
+reagirl.Colors.Checkbox_disabled_b=0
+reagirl.Colors.Checkbox_background_r=0.234
+reagirl.Colors.Checkbox_background_g=0.234
+reagirl.Colors.Checkbox_background_b=0.234
+reagirl.Colors.Slider_TextBG_r=0.2
+reagirl.Colors.Slider_TextBG_g=0.2
+reagirl.Colors.Slider_TextBG_b=0.2
+reagirl.Colors.Slider_TextFG_r=0.8
+reagirl.Colors.Slider_TextFG_g=0.8
+reagirl.Colors.Slider_TextFG_b=0.8
+reagirl.Colors.Slider_TextFG_disabled_r=0.6
+reagirl.Colors.Slider_TextFG_disabled_g=0.6
+reagirl.Colors.Slider_TextFG_disabled_b=0.6
+reagirl.Colors.Slider_DefaultLine_r=0.584
+reagirl.Colors.Slider_DefaultLine_g=0.584
+reagirl.Colors.Slider_DefaultLine_b=0.584
+reagirl.Colors.Slider_Border_r=0.5
+reagirl.Colors.Slider_Border_g=0.5
+reagirl.Colors.Slider_Border_b=0.5
+reagirl.Colors.Slider_Center_r=0.7
+reagirl.Colors.Slider_Center_g=0.7
+reagirl.Colors.Slider_Center_b=0.7
+reagirl.Colors.Slider_Center_disabled_r=0.6
+reagirl.Colors.Slider_Center_disabled_g=0.6
+reagirl.Colors.Slider_Center_disabled_b=0.6
+reagirl.Colors.Slider_Circle_1_r=0.584
+reagirl.Colors.Slider_Circle_1_g=0.584
+reagirl.Colors.Slider_Circle_1_b=0.584
+reagirl.Colors.Slider_Circle_2_r=0.2725490196078431
+reagirl.Colors.Slider_Circle_2_g=0.2725490196078431
+reagirl.Colors.Slider_Circle_2_b=0.2725490196078431
+reagirl.Colors.Slider_Circle_center_r=0.584
+reagirl.Colors.Slider_Circle_center_g=0.584
+reagirl.Colors.Slider_Circle_center_b=0.584
+reagirl.Colors.Slider_Circle_center_disabled_r=0.9843137254901961
+reagirl.Colors.Slider_Circle_center_disabled_g=0.8156862745098039
+reagirl.Colors.Slider_Circle_center_disabled_b=0
 -- Cursor-Blinkspeed for inputboxes, live-settable in extstate ReaGirl -> Inputbox_BlinkSpeed
 -- 7 and higher is supported
 if reaper.GetExtState("ReaGirl", "Inputbox_BlinkSpeed")=="" then
@@ -1563,14 +1586,14 @@ function reagirl.ScrollBar_Right_Draw(element_id, selected, hovered, clicked, mo
   end
   local oldr, oldg, oldb, olda = gfx.r, gfx.g, gfx.b, gfx.a
 
-  gfx.set(reagirl.Colors.Scrollbar.Background.r, reagirl.Colors.Scrollbar.Background.g, reagirl.Colors.Scrollbar.Background.b, element_storage.a-0.3)
+  gfx.set(reagirl.Colors.Scrollbar_Background_r, reagirl.Colors.Scrollbar_Background_g, reagirl.Colors.Scrollbar_Background_b, element_storage.a-0.3)
   gfx.rect(x, y, w+1, h, 1)
-  gfx.set(reagirl.Colors.Scrollbar.Background.r, reagirl.Colors.Scrollbar.Background.g, reagirl.Colors.Scrollbar.Background.b, element_storage.a)
+  --gfx.set(reagirl.Colors.Scrollbar_Foreground_r, reagirl.Colors.Scrollbar_Foreground_g, reagirl.Colors.Scrollbar_Foreground_b, element_storage.a)
   
   local y2=element_storage.scroll_pos
   if y2==nil then y2=-((h-13*scale)/(reagirl.BoundaryY_Max-gfx.h))*reagirl.MoveItAllUp else y2=y2-22*scale end
   
-  gfx.set(reagirl.Colors.Scrollbar.Foreground.r, reagirl.Colors.Scrollbar.Foreground.g, reagirl.Colors.Scrollbar.Foreground.b, element_storage.a)
+  gfx.set(reagirl.Colors.Scrollbar_Foreground_r, reagirl.Colors.Scrollbar_Foreground_g, reagirl.Colors_Scrollbar_Foreground_b, element_storage.a)
   gfx.rect(x,y2+15*scale,16*scale,14*scale,1)
   
   element_storage.scroll_pos=nil
@@ -1675,13 +1698,13 @@ function reagirl.ScrollBar_Bottom_Draw(element_id, selected, hovered, clicked, m
   local oldr, oldg, oldb, olda = gfx.r, gfx.g, gfx.b, gfx.a
   gfx.set(reagirl["WindowBackgroundColorR"], reagirl["WindowBackgroundColorG"], reagirl["WindowBackgroundColorB"], element_storage.a)
   
-  gfx.set(reagirl.Colors.Scrollbar.Background.r, reagirl.Colors.Scrollbar.Background.g, reagirl.Colors.Scrollbar.Background.b, element_storage.a-0.3)
+  gfx.set(reagirl.Colors.Scrollbar_Background_r, reagirl.Colors.Scrollbar_Background_g, reagirl.Colors.Scrollbar_Background_b, element_storage.a-0.3)
   gfx.rect(x, y, w, h, 1)
 
   local x2=element_storage.scroll_pos
   if x2==nil then x2=-((w-13*scale)/(reagirl.BoundaryX_Max-gfx.w))*reagirl.MoveItAllRight else x2=x2-22*scale end
   
-  gfx.set(reagirl.Colors.Scrollbar.Foreground.r, reagirl.Colors.Scrollbar.Foreground.g, reagirl.Colors.Scrollbar.Foreground.b, element_storage.a)
+  gfx.set(reagirl.Colors.Scrollbar_Foreground_r, reagirl.Colors.Scrollbar_Foreground_g, reagirl.Colors.Scrollbar_Foreground_b, element_storage.a)
   gfx.rect(x2+15*scale,y,13*scale,15*scale,1)
   element_storage.scroll_pos=nil
   element_storage.scrollstart=x2+15*scale
@@ -4122,17 +4145,17 @@ function reagirl.Checkbox_Draw(element_id, selected, hovered, clicked, mouse_cap
   --gfx.set(1)
   --gfx.rect(x,y,w,h,1)
 
-  gfx.set(reagirl.Colors.Checkbox_rectangle.r, reagirl.Colors.Checkbox_rectangle.g, reagirl.Colors.Checkbox_rectangle.b)
+  gfx.set(reagirl.Colors.Checkbox_rectangle_r, reagirl.Colors.Checkbox_rectangle_g, reagirl.Colors.Checkbox_rectangle_b)
   reagirl.RoundRect(x, y-scale, h, h, 2*scale-1, 1,1, false, false, false, false)
   
-  gfx.set(reagirl.Colors.Checkbox_background.r, reagirl.Colors.Checkbox_background.g, reagirl.Colors.Checkbox_background.b)
+  gfx.set(reagirl.Colors.Checkbox_background_r, reagirl.Colors.Checkbox_background_g, reagirl.Colors.Checkbox_background_b)
   reagirl.RoundRect(x+scale, y, h-scale*2, h-scale*2, scale-1, 0, 1, false, false, false, false)
 
   if element_storage["checked"]==true then
     if element_storage["IsDisabled"]==false then
-      gfx.set(reagirl.Colors.Checkbox.r, reagirl.Colors.Checkbox.g, reagirl.Colors.Checkbox.b)
+      gfx.set(reagirl.Colors.Checkbox_r, reagirl.Colors.Checkbox_g, reagirl.Colors.Checkbox_b)
     else
-      gfx.set(reagirl.Colors.Checkbox_disabled.r, reagirl.Colors.Checkbox_disabled.g, reagirl.Colors.Checkbox_disabled.b)
+      gfx.set(reagirl.Colors.Checkbox_disabled_r, reagirl.Colors.Checkbox_disabled_g, reagirl.Colors.Checkbox_disabled_b)
     end
     reagirl.RoundRect(x+(scale)*3, y+scale+scale, h-scale*6, h-scale*6, 3*scale, 1, 1, top, bottom, true, true)
     
@@ -4152,10 +4175,10 @@ function reagirl.Checkbox_Draw(element_id, selected, hovered, clicked, mouse_cap
   
   gfx.x=x+h+4*scale
   gfx.y=y+scale--+scale+(h-gfx.texth)/2
-  gfx.set(reagirl.Colors.TextBG.r, reagirl.Colors.TextBG.g, reagirl.Colors.TextBG.b)
+  gfx.set(reagirl.Colors.TextBG_r, reagirl.Colors.TextBG_g, reagirl.Colors.TextBG_b)
   gfx.drawstr(name)
   
-  if element_storage["IsDisabled"]==false then gfx.set(reagirl.Colors.TextFG.r, reagirl.Colors.TextFG.g, reagirl.Colors.TextFG.b) else gfx.set(reagirl.Colors.TextFG_disabled.r, reagirl.Colors.TextFG_disabled.g, reagirl.Colors.TextFG_disabled.b) end
+  if element_storage["IsDisabled"]==false then gfx.set(reagirl.Colors.Checkbox_TextFG_r, reagirl.Colors.Checkbox_TextFG_g, reagirl.Colors.Checkbox_TextFG_b) else gfx.set(reagirl.Colors.Checkbox_TextFG_disabled_r, reagirl.Colors.Checkbox_TextFG_disabled_g, reagirl.Colors.Checkbox_TextFG_disabled_b) end
   gfx.x=x+h+5*scale
   gfx.y=y--+(h-gfx.texth)/2
   gfx.drawstr(name)
@@ -8563,12 +8586,12 @@ function reagirl.ScrollButton_Right_Draw(element_id, selected, hovered, clicked,
     end
   end
   local oldr, oldg, oldb, olda = gfx.r, gfx.g, gfx.b, gfx.a
-  gfx.set(reagirl.Colors.Scrollbar.Background.r, reagirl.Colors.Scrollbar.Background.g, reagirl.Colors.Scrollbar.Background.b, element_storage.a-0.3)
+  gfx.set(reagirl.Colors.Scrollbar_Foreground_r, reagirl.Colors.Scrollbar_Foreground_g, reagirl.Colors.Scrollbar_Foreground_b, element_storage.a-0.3)
   gfx.rect(gfx.w-15*scale+x_offset, gfx.h-15*scale, 15*scale, 15*scale, 1)
   if mouse_cap==1 and selected~="not selected" then
-    gfx.set(reagirl.Colors.Scrollbar.Foreground.r, reagirl.Colors.Scrollbar.Foreground.g, reagirl.Colors.Scrollbar.Foreground.b, element_storage.a)
+    gfx.set(reagirl.Colors.Scrollbar_Foreground_r, reagirl.Colors.Scrollbar_Foreground_g, reagirl.Colors.Scrollbar_Foreground_b, element_storage.a)
   else
-    gfx.set(reagirl.Colors.Scrollbar.Foreground.r, reagirl.Colors.Scrollbar.Foreground.g, reagirl.Colors.Scrollbar.Foreground.b, element_storage.a)
+    gfx.set(reagirl.Colors.Scrollbar_Foreground_r, reagirl.Colors.Scrollbar_Foreground_g, reagirl.Colors.Scrollbar_Foreground_b, element_storage.a)
   end
   gfx.rect(gfx.w-15*scale+x_offset, gfx.h-15*scale, 15*scale, 15*scale, 0)
   gfx.triangle(gfx.w-10*scale+x_offset, gfx.h-3*scale,
@@ -8626,13 +8649,13 @@ function reagirl.ScrollButton_Left_Draw(element_id, selected, hovered, clicked, 
     end
   end
   local oldr, oldg, oldb, olda = gfx.r, gfx.g, gfx.b, gfx.a
-  gfx.set(reagirl.Colors.Scrollbar.Background.r, reagirl.Colors.Scrollbar.Background.g, reagirl.Colors.Scrollbar.Background.b, element_storage.a-0.3)
+  gfx.set(reagirl.Colors.Scrollbar_Foreground_r, reagirl.Colors.Scrollbar_Foreground_g, reagirl.Colors.Scrollbar_Foreground_b, element_storage.a-0.3)
   gfx.rect(0, gfx.h-15*scale, 15*scale, 15*scale, 1)
 --  print(mouse_cap)
   if mouse_cap==1 and selected~="not selected" then
-    gfx.set(reagirl.Colors.Scrollbar.Foreground.r, reagirl.Colors.Scrollbar.Foreground.g, reagirl.Colors.Scrollbar.Foreground.b, element_storage.a)
+    gfx.set(reagirl.Colors.Scrollbar_Foreground_r, reagirl.Colors.Scrollbar_Foreground_g, reagirl.Colors.Scrollbar_Foreground_b, element_storage.a)
   else
-    gfx.set(reagirl.Colors.Scrollbar.Foreground.r, reagirl.Colors.Scrollbar.Foreground.g, reagirl.Colors.Scrollbar.Foreground.b, element_storage.a)
+    gfx.set(reagirl.Colors.Scrollbar_Foreground_r, reagirl.Colors.Scrollbar_Foreground_g, reagirl.Colors.Scrollbar_Foreground_b, element_storage.a)
   end
   gfx.rect(0, gfx.h-15*scale, 15*scale, 15*scale, 0)
   gfx.triangle(8*scale, gfx.h-3*scale,
@@ -8690,12 +8713,12 @@ function reagirl.ScrollButton_Up_Draw(element_id, selected, hovered, clicked, mo
     end
   end
   local oldr, oldg, oldb, olda = gfx.r, gfx.g, gfx.b, gfx.a
-  gfx.set(reagirl.Colors.Scrollbar.Background.r, reagirl.Colors.Scrollbar.Background.g, reagirl.Colors.Scrollbar.Background.b, element_storage.a-0.3)
+  gfx.set(reagirl.Colors.Scrollbar_Foreground_r, reagirl.Colors.Scrollbar_Foreground_g, reagirl.Colors.Scrollbar_Foreground_b, element_storage.a-0.3)
   gfx.rect(gfx.w-15*scale, 0, 15*scale, 15*scale, 1)
   if mouse_cap==1 and selected~="not selected" then
-    gfx.set(reagirl.Colors.Scrollbar.Foreground.r, reagirl.Colors.Scrollbar.Foreground.g, reagirl.Colors.Scrollbar.Foreground.b, element_storage.a)
+    gfx.set(reagirl.Colors.Scrollbar_Foreground_r, reagirl.Colors.Scrollbar_Foreground_g, reagirl.Colors.Scrollbar_Foreground_b, element_storage.a)
   else
-    gfx.set(reagirl.Colors.Scrollbar.Foreground.r, reagirl.Colors.Scrollbar.Foreground.g, reagirl.Colors.Scrollbar.Foreground.b, element_storage.a)
+    gfx.set(reagirl.Colors.Scrollbar_Foreground_r, reagirl.Colors.Scrollbar_Foreground_g, reagirl.Colors.Scrollbar_Foreground_b, element_storage.a)
   end
   gfx.rect(gfx.w-15*scale, 0, 15*scale, 15*scale, 0)
   gfx.triangle(gfx.w-8*scale, 4*scale,
@@ -8754,12 +8777,12 @@ function reagirl.ScrollButton_Down_Draw(element_id, selected, hovered, clicked, 
     end
   end
   local oldr, oldg, oldb, olda = gfx.r, gfx.g, gfx.b, gfx.a
-  gfx.set(reagirl.Colors.Scrollbar.Background.r, reagirl.Colors.Scrollbar.Background.g, reagirl.Colors.Scrollbar.Background.b, element_storage.a-0.3)
+  gfx.set(reagirl.Colors.Scrollbar_Foreground_r, reagirl.Colors.Scrollbar_Foreground_g, reagirl.Colors.Scrollbar_Foreground_b, element_storage.a-0.3)
   gfx.rect(gfx.w-15*scale, gfx.h-30*scale, 15*scale, 15*scale, 1)
   if mouse_cap==1 and selected~="not selected" then
-    gfx.set(reagirl.Colors.Scrollbar.Foreground.r, reagirl.Colors.Scrollbar.Foreground.g, reagirl.Colors.Scrollbar.Foreground.b, element_storage.a)
+    gfx.set(reagirl.Colors.Scrollbar_Foreground_r, reagirl.Colors.Scrollbar_Foreground_g, reagirl.Colors.Scrollbar_Foreground_b, element_storage.a)
   else
-    gfx.set(reagirl.Colors.Scrollbar.Foreground.r, reagirl.Colors.Scrollbar.Foreground.g, reagirl.Colors.Scrollbar.Foreground.b, element_storage.a)
+    gfx.set(reagirl.Colors.Scrollbar_Foreground_r, reagirl.Colors.Scrollbar_Foreground_g, reagirl.Colors.Scrollbar_Foreground_b, element_storage.a)
   end
   gfx.rect(gfx.w-15*scale, gfx.h-30*scale, 15*scale, 15*scale, 0)
   gfx.triangle(gfx.w-8*scale, gfx.h-20*scale,
@@ -9262,12 +9285,12 @@ function reagirl.Slider_Draw(element_id, selected, hovered, clicked, mouse_cap, 
   element_storage["slider_w"]=w-offset_cap-offset_unit
   gfx.x=x+dpi_scale
   gfx.y=y+dpi_scale--+(h-gfx.texth)/2
-  gfx.set(0.2)
+  gfx.set(reagirl.Colors.Slider_TextBG_r, reagirl.Colors.Slider_TextBG_g, reagirl.Colors.Slider_TextBG_b)
   gfx.drawstr(element_storage["Name"])
   
   gfx.x=x
   gfx.y=y--+(h-gfx.texth)/2
-  if element_storage["IsDisabled"]==true then gfx.set(0.6) else gfx.set(0.8) end
+  if element_storage["IsDisabled"]==true then gfx.set(reagirl.Colors.Slider_TextFG_disabled_r, reagirl.Colors.Slider_TextFG_disabled_g, reagirl.Colors.Slider_TextFG_disabled_b) else gfx.set(reagirl.Colors.Slider_TextFG_r,reagirl.Colors.Slider_TextFG_g,reagirl.Colors.Slider_TextFG_b) end
   -- draw caption
   gfx.drawstr(element_storage["Name"])
   
@@ -9276,17 +9299,17 @@ function reagirl.Slider_Draw(element_id, selected, hovered, clicked, mouse_cap, 
   if element_storage["Unit"]~=nil then 
     gfx.x=x+w-offset_unit+9*dpi_scale
     gfx.y=y+dpi_scale+(h-gfx.texth)/2
-    gfx.set(0.2)
+    gfx.set(reagirl.Colors.Slider_TextBG_r, reagirl.Colors.Slider_TextBG_g, reagirl.Colors.Slider_TextBG_b)
     gfx.drawstr(" "..unit..element_storage["Unit"])
     
     gfx.x=x+w-offset_unit+8*dpi_scale
     gfx.y=y+(h-gfx.texth)/2
   
-    if element_storage["IsDisabled"]==true then gfx.set(0.6) else gfx.set(0.8) end
+    if element_storage["IsDisabled"]==true then gfx.set(reagirl.Colors.Slider_TextFG_disabled_r, reagirl.Colors.Slider_TextFG_disabled_g, reagirl.Colors.Slider_TextFG_disabled_b) else gfx.set(reagirl.Colors.Slider_TextFG_r, reagirl.Colors.Slider_TextFG_g, reagirl.Colors.Slider_TextFG_b) end
     gfx.drawstr(" "..unit..element_storage["Unit"]) 
   end
 
-  if element_storage["IsDisabled"]==true then gfx.set(0.5) else gfx.set(0.7) end
+  --if element_storage["IsDisabled"]==true then gfx.set(0.5) else gfx.set(0.7) end
   -- draw slider-area
   
   local rect_w=w-offset_unit-offset_cap-5*dpi_scale
@@ -9295,25 +9318,28 @@ function reagirl.Slider_Draw(element_id, selected, hovered, clicked, mouse_cap, 
   local offset_cap2=offset_cap+7*dpi_scale
   
   -- draw default-line
-  gfx.set(0.584)
+  gfx.set(reagirl.Colors.Slider_DefaultLine_r, reagirl.Colors.Slider_DefaultLine_g, reagirl.Colors.Slider_DefaultLine_b)
   gfx.rect(x+offset_cap2+step_size*(element_storage["Default"]-element_storage["Start"]), y+dpi_scale+dpi_scale, dpi_scale, h-dpi_scale-dpi_scale-dpi_scale-dpi_scale, 1)
   offset_cap=offset_cap+dpi_scale
-  gfx.set(0.5)
+  
+  -- line_border
+  gfx.set(reagirl.Colors.Slider_Border_r, reagirl.Colors.Slider_Border_g, reagirl.Colors.Slider_Border_b)
   reagirl.RoundRect(math.tointeger(x+offset_cap-dpi_scale), math.floor(y+(h-7*dpi_scale)/2), math.tointeger(w-offset_cap-offset_unit+dpi_scale+dpi_scale), math.tointeger(dpi_scale)*6, 2*math.tointeger(dpi_scale), 1, 1)
   
-  if element_storage["IsDisabled"]==true then gfx.set(0.6) else gfx.set(0.7) end
+  if element_storage["IsDisabled"]==true then gfx.set(reagirl.Colors.Slider_Center_disabled_r, reagirl.Colors.Slider_Center_disabled_g, reagirl.Colors.Slider_Center_disabled_b) else gfx.set(reagirl.Colors.Slider_Center_r, reagirl.Colors.Slider_Center_g, reagirl.Colors.Slider_Center_b) end
   reagirl.RoundRect(math.tointeger(x+offset_cap),math.floor(y+(h-5*dpi_scale)/2), math.tointeger(w-offset_cap-offset_unit), math.tointeger(dpi_scale)*4, dpi_scale, 1, 1)
   offset_cap=offset_cap+6*dpi_scale  
-  gfx.set(0.584)
+  
+  -- drag-circle
+  gfx.set(reagirl.Colors.Slider_Circle_1_r, reagirl.Colors.Slider_Circle_1_g, reagirl.Colors.Slider_Circle_1_b)
   gfx.circle(x+offset_cap+step_current, math.floor(y+h/2), 7*dpi_scale, 1, 1)
-  gfx.set(0.2725490196078431)
+  gfx.set(reagirl.Colors.Slider_Circle_2_r, reagirl.Colors.Slider_Circle_2_g, reagirl.Colors.Slider_Circle_2_b)
   gfx.circle(x+offset_cap+step_current, math.floor(y+h/2), 6*dpi_scale, 1, 1)
   
   if element_storage["IsDisabled"]==true then
-    gfx.set(0.584)
-    gfx.set(0)
+    gfx.set(reagirl.Colors.Slider_Circle_center_r, reagirl.Colors.Slider_Circle_center_g, reagirl.Colors.Slider_Circle_center_b)
   else
-    gfx.set(0.9843137254901961, 0.8156862745098039, 0)
+    gfx.set(reagirl.Colors.Slider_Circle_center_disabled_r, reagirl.Colors.Slider_Circle_center_disabled_g, reagirl.Colors.Slider_Circle_center_disabled_b)
   end
   
   gfx.circle(x+offset_cap+step_current, math.floor(y+h/2), 5*dpi_scale, 1, 1)  
