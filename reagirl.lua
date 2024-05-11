@@ -403,6 +403,25 @@ reagirl.Colors.Slider_Circle_center_b=0.584
 reagirl.Colors.Slider_Circle_center_disabled_r=0.9843137254901961
 reagirl.Colors.Slider_Circle_center_disabled_g=0.8156862745098039
 reagirl.Colors.Slider_Circle_center_disabled_b=0
+reagirl.Colors.Tabs_Border_Tabs_r=0.403921568627451
+reagirl.Colors.Tabs_Border_Tabs_g=0.403921568627451
+reagirl.Colors.Tabs_Border_Tabs_b=0.403921568627451
+reagirl.Colors.Tabs_Inner_Tabs_Selected_r=0.253921568627451
+reagirl.Colors.Tabs_Inner_Tabs_Selected_g=0.253921568627451
+reagirl.Colors.Tabs_Inner_Tabs_Selected_b=0.253921568627451
+reagirl.Colors.Tabs_Inner_Tabs_Unselected_r=0.153921568627451
+reagirl.Colors.Tabs_Inner_Tabs_Unselected_g=0.153921568627451
+reagirl.Colors.Tabs_Inner_Tabs_Unselected_b=0.153921568627451
+reagirl.Colors.Tabs_Text_r=0.8
+reagirl.Colors.Tabs_Text_g=0.8
+reagirl.Colors.Tabs_Text_b=0.8
+reagirl.Colors.Tabs_Border_Background_r=0.403921568627451
+reagirl.Colors.Tabs_Border_Background_g=0.403921568627451
+reagirl.Colors.Tabs_Border_Background_b=0.403921568627451
+reagirl.Colors.Tabs_Inner_Background_r=0.253921568627451
+reagirl.Colors.Tabs_Inner_Background_g=0.253921568627451
+reagirl.Colors.Tabs_Inner_Background_b=0.253921568627451
+
 -- Cursor-Blinkspeed for inputboxes, live-settable in extstate ReaGirl -> Inputbox_BlinkSpeed
 -- 7 and higher is supported
 if reaper.GetExtState("ReaGirl", "Inputbox_BlinkSpeed")=="" then
@@ -10302,15 +10321,17 @@ function reagirl.Tabs_Draw(element_id, selected, hovered, clicked, mouse_cap, mo
     element_storage["Tabs_Pos"][i]["x"]=x+text_offset_x
     element_storage["Tabs_Pos"][i]["w"]=x_offset+text_offset_x+tx+text_offset_x
     
-    if i==element_storage["TabSelected"] then offset=dpi_scale gfx.set(0.403921568627451) else offset=0 gfx.set(0.253921568627451) end
-    gfx.set(0.403921568627451)
+    if i==element_storage["TabSelected"] then offset=dpi_scale else offset=0 end
+    -- border around tabs
+    gfx.set(reagirl.Colors.Tabs_Border_Tabs_r, reagirl.Colors.Tabs_Border_Tabs_g, reagirl.Colors.Tabs_Border_Tabs_b)
     reagirl.RoundRect(math.tointeger(x+x_offset-text_offset_x), y, math.tointeger(tx+text_offset_x+text_offset_x), tab_height+ty, 3*dpi_scale, 1, 1, false, true, false, true)
     
-    if i==element_storage["TabSelected"] then offset=dpi_scale gfx.set(0.253921568627451) else offset=0 gfx.set(0.153921568627451) end
+    -- inner part of tabs
+    if i==element_storage["TabSelected"] then offset=dpi_scale gfx.set(reagirl.Colors.Tabs_Inner_Tabs_Selected_r, reagirl.Colors.Tabs_Inner_Tabs_Selected_g, reagirl.Colors.Tabs_Inner_Tabs_Selected_b) else offset=0 gfx.set(reagirl.Colors.Tabs_Inner_Tabs_Unselected_r, reagirl.Colors.Tabs_Inner_Tabs_Unselected_g, reagirl.Colors.Tabs_Inner_Tabs_Unselected_b) end
     reagirl.RoundRect(math.tointeger(x+x_offset-text_offset_x)+dpi_scale, y+dpi_scale, math.tointeger(tx+text_offset_x+text_offset_x)-dpi_scale-dpi_scale, tab_height+ty+dpi_scale, 2*dpi_scale, 1, 1, false, true, false, true)
     
     
-    if i==element_storage["TabSelected"] then offset=dpi_scale gfx.set(0.253921568627451) else offset=0 gfx.set(0.153921568627451) end
+    if i==element_storage["TabSelected"] then offset=dpi_scale else offset=0 end
     if reagirl.osara_outputMessage~=nil and selected~="not selected" and i==element_storage["TabsSelected_MouseJump"] then
       if reaper.GetExtState("ReaGirl", "osara_move_mouse")~="false" then
         local x,y=gfx.clienttoscreen(math.tointeger(x+x_offset), y+4)
@@ -10328,7 +10349,8 @@ function reagirl.Tabs_Draw(element_id, selected, hovered, clicked, mouse_cap, mo
         reagirl.UI_Element_SetFocusRect(true, math.tointeger(gfx.x), y+text_offset_y, math.tointeger(tx), math.tointeger(ty))
     end
     
-    gfx.set(0.8)
+    -- text of tabname
+    gfx.set(reagirl.Colors.Tabs_Text_r, reagirl.Colors.Tabs_Text_g, reagirl.Colors.Tabs_Text_b)
     gfx.drawstr(element_storage["TabNames"][i])
   end
   
@@ -10357,14 +10379,15 @@ function reagirl.Tabs_Draw(element_id, selected, hovered, clicked, mouse_cap, mo
     else 
       if element_storage["h_background"]>0 then bg_h=element_storage["h_background"]*dpi_scale else bg_h=gfx.h+element_storage["h_background"]*dpi_scale-offset_y end
     end
-  
-    gfx.set(0.403921568627451)
+    -- border around background
+    gfx.set(reagirl.Colors.Tabs_Border_Background_r, reagirl.Colors.Tabs_Border_Background_g, reagirl.Colors.Tabs_Border_Background_b)
     gfx.rect(x, y+element_storage["Tabs_Pos"][element_storage["TabSelected"] ]["h"], bg_w, bg_h, 1)
-  
-    gfx.set(0.253921568627451)
+    
+    -- inner part of background
+    gfx.set(reagirl.Colors.Tabs_Inner_Background_r, reagirl.Colors.Tabs_Inner_Background_g, reagirl.Colors.Tabs_Inner_Background_b)
     gfx.rect(x+dpi_scale, y+element_storage["Tabs_Pos"][element_storage["TabSelected"] ]["h"]+dpi_scale, bg_w-dpi_scale-dpi_scale, bg_h-dpi_scale-dpi_scale, 1)
   end
-  gfx.set(0.253921568627451)
+  gfx.set(reagirl.Colors.Tabs_Inner_Tabs_Selected_r, reagirl.Colors.Tabs_Inner_Tabs_Selected_g, reagirl.Colors.Tabs_Inner_Tabs_Selected_b)
   -- ugly hack...ugh...
   local offset_tabline=0
   if dpi_scale==1 then offset_tabline=offset_tabline+1 
