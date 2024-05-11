@@ -101,6 +101,65 @@
           Introduction
         </chapter_context>
         <previous_chapter>Introduction_001_Introduction</previous_chapter>
+        <next_chapter>Introduction_003_Included_Actions</next_chapter>
+        <tags>introduction</tags>
+    </US_DocBloc>
+    
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">  
+        <slug>Introduction_003_Included_Actions</slug>  
+        <title>Included Actions</title>  
+        <description markup_type="markdown" markup_version="1.0.1" indent="default">  
+            ReaGirl provides a variety of actions that go along with it. Some are meant for development, some for the general users, some both.
+
+            __Development:__  
+
+            * __ReaGirl\_Help\_Introduction\_Concepts\_Tutorials\_Documentation.lua__ - opens this documentation
+            * __ReaGirl\_Help\_Functions\_Documentation.lua__ - opens a documentation of all available ReaGirl-functions
+            * __ReaGirl\_OpenFolder\_ExampleScripts.lua__ - opens the example-scripts-folder
+
+            __Settings:__  
+
+            * __ReaGirl\_Gui\_Settings.lua__ - a settings-dialog, with which you can set various things in ReaGirl's behavior. Includes also some settings relevant for development. Some of these settings are also settable via actions.
+
+            __Scaling:__  
+
+            * __ReaGirl\_Gui\_Settings\_Set\_Scaling\_To\_AutoScaling.lua__ - sets scaling to auto, to use Reaper's/HiDPI/Retina scaling automatically
+            * __ReaGirl\_Gui\_Settings\_Set\_Scaling\_To\_1.lua__ - sets scaling to 1x
+            * ...
+            * __ReaGirl\_Gui\_Settings\_Set\_Scaling\_To\_8.lua__ - sets scaling to 2x
+
+            __General user settings:__  
+
+            * __ReaGirl\_Gui\_Settings\_Hovered\_UI\_Element\_Enable\_Report.lua__ - enables, hovering above a ui-element will get read the name of it to screen readers
+            * __ReaGirl\_Gui\_Settings\_Hovered\_UI\_Element\_Disable\_Report.lua__ - disables, that hovered ui-elements get read to screen readers
+            * __ReaGirl\_Gui\_Settings\_Move\_Mouse\_When\_Tabbing\_Enable.lua__ - enables that mouse moves to tabbed ui-element for screen reader users(helpful for when clicking using context-menus)
+            * __ReaGirl\_Gui\_Settings\_Move\_Mouse\_When\_Tabbing\_Disable.lua__ - disables mouse-move when tabbing to ui-elements for screen reader users(makes right-clicking for context-menus difficult)
+            * __ReaGirl\_Gui\_Settings\_Screen\_Reader\_Helpmessage\_Enable.lua__ - enables that screen reader-users get an additional help-message on how to use ui-elements
+            * __ReaGirl\_Gui\_Settings\_Screen\_Reader\_Helpmessage\_Disable.lua__ - disables help-message on how to use ui-elements
+            * __ReaGirl\_Gui\_Settings\_Screen\_Reader\_Messages\_Enable.lua__ - enable screen reader-support in ReaGirl
+            * __ReaGirl\_Gui\_Settings\_Screen\_Reader\_Messages\_Disable.lua__ - disable screen reader-support in ReaGirl
+            * __ReaGirl\_Gui\_Settings\_Tooltips\_Enable.lua__ - shows tooltips when hovering above ui-elements
+            * __ReaGirl\_Gui\_Settings\_Tooltips\_Disable.lua__- don't show tooltips
+
+            __Developer settings:__  
+
+            * __ReaGirl\_Gui\_Settings\_Screen\_Reader\_Messages\_Show\_In\_Console.lua__ - show screen reader-messages in ReaScript console-window. Helps you debugging meaninOfUI\_Element for blind people.
+            * __ReaGirl\_Gui\_Settings\_Screen\_Reader\_Messages\_Hide\_From\_Console.lua__ - don't show screen reader-messages in the console
+
+            __Experimental Edit Mode:__  
+
+            * __ReaGirl\_Gui\_Settings\_EditMode\_Enable.lua__ - will enable experimental edit-mode. This will allow you to drag around ui-elements in a ReaGirl-gui, show a grid by typing g, double-click to edit caption, etc
+            * __ReaGirl\_Gui\_Settings\_EditMode\_Disable.lua__ - disable experimental edit-mode
+
+            You'll probably not need many of them, especially when developing new guis with ReaGirl and if you are not a screen reader-user, but it's probably good to know that these exists, if you need to provide support for users of your ReaGirl-gui-script.
+
+        </description>
+        <target_document>ReaGirl_Introduction_and_Concepts.html</target_document>
+        <source_document>ReaGirl_Introduction_and_Concepts.USDocML</source_document>
+        <chapter_context>
+          Introduction
+        </chapter_context>
+        <previous_chapter>Introduction_002_Installation</previous_chapter>
         <next_chapter>Introduction_001_First_Steps</next_chapter>
         <tags>introduction</tags>
     </US_DocBloc>
@@ -1212,7 +1271,7 @@
               tab1.inputbox_name_of_setting = reagirl.InputBox_Add(30, 105, 300, "Name of the setting:", 150, "Type in here the name of the setting", "No title", InputBox_RunFunction_Enter, InputBox_RunFunction_Type)
               ```  
               
-            means, we added _tab1._ in front of the variable-name, so it's now associated with the table that stores the gui-elements of the first tab.
+            means, we added __tab1.__ in front of the variable-name, so it's now associated with the table that stores the gui-elements of the first tab.
               
             All Inputbox\_Add add to tab1, all Checkbox\_Add add to tab2 and all Button\_Add add to tab3. That way we have one table for each tab with all ui-elements that shall be in that tab.
             Now, let's add the tabs-ui-element to the gui using the function reagirl.Tabs\_Add(). We also add a run-function for tabs called Tab\_RunFunction.
