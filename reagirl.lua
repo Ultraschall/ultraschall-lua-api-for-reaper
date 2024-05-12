@@ -3176,7 +3176,7 @@ function reagirl.Gui_Draw(Key, Key_utf, clickstate, specific_clickstate, mouse_c
       reagirl.Elements[reagirl.Draggable_Element]["mouse_y"]=-1
       local blink_length=tonumber(reaper.GetExtState("ReaGirl", "highlight_drag_destination_blink"))
       if blink_length==nil then blink_length=0 end
-      gfx.rect(100,300,50,50,0)
+
       local x2, w2, y2, h2
       if reaper.GetExtState("ReaGirl", "highlight_drag_destinations")~="false" then
         if reagirl.Blink_DragDestinations<=blink_length then
