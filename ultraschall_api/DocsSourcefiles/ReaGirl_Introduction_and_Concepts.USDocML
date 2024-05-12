@@ -3476,6 +3476,8 @@
             - reagirl.Label\_SetDraggable - sets the label as draggable, including possible drag-destinations
             - reagirl.Label\_GetDraggable - gets the currently drag-state and the current drag-destinations
             - reagirl.UI_Element\_GetSetCaption - gets or sets the label text
+            
+            Check the [first tutorial "A basic gui"](#Tutorial_001_A_Basic_Gui) to see examples of guis with labels.
         </description>
         <target_document>ReaGirl_Introduction_and_Concepts.html</target_document>
         <source_document>ReaGirl_Introduction_and_Concepts.USDocML</source_document>
@@ -3585,6 +3587,8 @@
             - reagirl.Inputbox\_SetEmptyText - sets text that is shown when no text has been entered
             - reagirl.Inputbox\_GetSelectedText - gets the currently selected text
             - reagirl.Inputbox\_GetCursorOffset - gets the current offset of the edit-cursor in the editfield of an inputbox            
+                        
+            Check the examples in the subfolder Additional\_Examples for examples of guis with inputboxes. Run the action "ReaGirl\_OpenFolder\_ExampleScripts.lua" to open the example-folder.
         </description>
         <target_document>ReaGirl_Introduction_and_Concepts.html</target_document>
         <source_document>ReaGirl_Introduction_and_Concepts.USDocML</source_document>
@@ -3625,6 +3629,8 @@
             - reagirl.DropDownMenu\_GetDisabled - gets the current disability state of the drop down menu
             - reagirl.DropDownMenu\_GetMenuItems - gets the menu-items of the drop down menu
             - reagirl.DropDownMenu\_SetMenuItems - sets the menu-items of the drop down menu
+            
+            Check the [fourth tutorial "Disabled UI-Elements"](#Tutorial_004_Disabled_UI_Elements) to see examples of guis with sliders.
         </description>
         <target_document>ReaGirl_Introduction_and_Concepts.html</target_document>
         <source_document>ReaGirl_Introduction_and_Concepts.USDocML</source_document>
@@ -3679,8 +3685,9 @@
             - reagirl.Slider\_GetDimensions - gets the current width of the slider
             - reagirl.Slider\_SetDimensions - sets the width of the slider
             - reagirl.Slider\_GetDisabled - gets the disability-state of the slider
-            - reagirl.Slider\_SetDisabled - sets the disability-state of the slider
+            - reagirl.Slider\_SetDisabled - sets the disability-state of the slider            
             
+            Check the [fourth tutorial "Disabled UI-Elements"](#Tutorial_004_Disabled_UI_Elements) to see examples of guis with sliders.
         </description>
         <target_document>ReaGirl_Introduction_and_Concepts.html</target_document>
         <source_document>ReaGirl_Introduction_and_Concepts.USDocML</source_document>

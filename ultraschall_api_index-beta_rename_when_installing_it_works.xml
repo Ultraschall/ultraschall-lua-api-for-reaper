@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="55952.00" author="Meo Mespotine">
+      <version name="55953.00" author="Meo Mespotine">
 	<source file="reagirl.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5//reagirl.lua</source>
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5//ultraschall_api_readme.txt</source>
@@ -27,6 +27,9 @@
 	<source file="/ultraschall_api/Documentation/Examples/Mespotine_GetTrack_ShowTracknameAndVolume.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5/ultraschall_api/Documentation/Examples/Mespotine_GetTrack_ShowTracknameAndVolume.lua</source>
 	<source file="/ultraschall_api/Documentation/Examples/Mespotine_GetTrack_ToggleTrackSelection.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5/ultraschall_api/Documentation/Examples/Mespotine_GetTrack_ToggleTrackSelection.lua</source>
 	<source file="/ultraschall_api/Documentation/Examples/Mespotine_GetTrack_Tracknumber.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5/ultraschall_api/Documentation/Examples/Mespotine_GetTrack_Tracknumber.lua</source>
+	<source file="/ultraschall_api/Documentation/Examples/ReaGirl/Additional_Examples/ReaGirl_TestScript_1.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5/ultraschall_api/Documentation/Examples/ReaGirl/Additional_Examples/ReaGirl_TestScript_1.lua</source>
+	<source file="/ultraschall_api/Documentation/Examples/ReaGirl/Additional_Examples/ReaGirl_TestScript_2.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5/ultraschall_api/Documentation/Examples/ReaGirl/Additional_Examples/ReaGirl_TestScript_2.lua</source>
+	<source file="/ultraschall_api/Documentation/Examples/ReaGirl/Additional_Examples/ReaGirl_TestScript_3.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5/ultraschall_api/Documentation/Examples/ReaGirl/Additional_Examples/ReaGirl_TestScript_3.lua</source>
 	<source file="/ultraschall_api/Documentation/Examples/ReaGirl/Tutorial_1/Tutorial_1_01.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5/ultraschall_api/Documentation/Examples/ReaGirl/Tutorial_1/Tutorial_1_01.lua</source>
 	<source file="/ultraschall_api/Documentation/Examples/ReaGirl/Tutorial_1/Tutorial_1_02.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5/ultraschall_api/Documentation/Examples/ReaGirl/Tutorial_1/Tutorial_1_02.lua</source>
 	<source file="/ultraschall_api/Documentation/Examples/ReaGirl/Tutorial_1/Tutorial_1_03.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5/ultraschall_api/Documentation/Examples/ReaGirl/Tutorial_1/Tutorial_1_03.lua</source>
