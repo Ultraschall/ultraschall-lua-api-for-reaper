@@ -397,6 +397,9 @@ Note: requires at least Reaper 7.03 now!
   - ReaGirl: DropDownMenu\_SetDimensions - Sets the width of a dropdownmenu.
   - ReaGirl: DropDownMenu\_SetDisabled - Sets a drop down menu as disabled(non clickable)-state.
   - ReaGirl: DropDownMenu\_SetMenuItems - Sets a dropdown-menu's menuitems and the index of the currently selected menu-item.
+  - ReaGirl: Ext\_Tab\_SetSelected - sets a tab of specific ReaGirl-gui-window focused
+  - ReaGirl: Ext\_Window\_Focus - sets focus to an opened ReaGirl-gui-window
+  - ReaGirl: Ext\_Window\_IsOpen - gets, if a specific ReaGirl-gui-window is currently opened
   - ReaGirl: GetVersion - Returns the version-number of the installed ReaGirl.
   - ReaGirl: Gui\_AtExit - Adds a function that shall be run when the gui is closed with reagirl.Gui\_Close()
   - ReaGirl: Gui\_Close - Closes the gui-window.

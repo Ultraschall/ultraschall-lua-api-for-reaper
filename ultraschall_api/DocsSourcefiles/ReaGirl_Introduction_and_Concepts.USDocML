@@ -3866,6 +3866,12 @@
           - reagirl.Window\_SetCurrentScale - sets a scaling factor for the gui between 1 and 8
           - reagirl.Window\_SetFocus - sets window-focus back to the gui-window
           - reagirl.Window\_ForceSize\_Maximum - forces that the window can't be resizes above a specific maximum
+          
+          Function to access a ReaGirl-gui-window from other scripts:
+
+          - ReaGirl: Ext\_Tab\_SetSelected - sets a tab of specific ReaGirl-gui-window focused
+          - ReaGirl: Ext\_Window\_Focus - sets window-focus to an opened ReaGirl-gui-window
+          - ReaGirl: Ext\_Window\_IsOpen - gets, if a specific ReaGirl-gui-window is currently opened
 
           Most of them are probably not needed by you but some you may need from time to time.
         </description>

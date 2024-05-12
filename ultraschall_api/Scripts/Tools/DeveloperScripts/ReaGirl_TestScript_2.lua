@@ -1,5 +1,3 @@
---reaper.JS_ReaScriptAPI_Version==nil 
-
 function CheckForDependencies(ReaImGui, js_ReaScript, US_API, SWS, Osara)
   if US_API==true or js_ReaScript==true or ReaImGui==true or SWS==true or Osara==true then
     if US_API==true and reaper.file_exists(reaper.GetResourcePath().."/UserPlugins/ultraschall_api.lua")==false then

@@ -1995,6 +1995,8 @@ function reagirl.Gui_Open(name, restore_old_window_state, title, description, w,
   reagirl.osara_init_message=false
   --reagirl.FocusRectangle_BlinkStartTime=nil
   reagirl.FocusRectangle_BlinkStartTime=reaper.time_precise()
+  reaper.SetExtState("Reagirl_Window_"..name, "open", "true", false)
+  reaper.atexit(reagirl.AtExit)
   return reagirl.Window_Open(title, w, h, dock, x, y)
 end
 
@@ -2049,6 +2051,118 @@ function reagirl.Gui_Close()
   gfx.quit()  
   reagirl.IsWindowOpen_attribute=false
   reagirl.IsWindowOpen_attribute_Old=true
+  reaper.SetExtState("Reagirl_Window_"..reagirl.Window_name, "open", "", false)
+end
+
+function reagirl.AtExit()
+  reaper.SetExtState("Reagirl_Window_"..reagirl.Window_name, "open", "", false)
+end
+
+function reagirl.Ext_Window_Focus(window_name)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Ext_Window_Focus</slug>
+  <requires>
+    ReaGirl=1.0
+    Reaper=7.03
+    Lua=5.4
+  </requires>
+  <functioncall>boolean retval = reagirl.Ext_Window_Focus(string window_name)</functioncall>
+  <description>
+    Focuses an opened ReaGirl-gui-window.
+    
+    Parameter window_name is the same as the name set in the first parameter of Gui_Open.
+    
+    Returns false, if no window with the window name is currently opened.
+  </description>
+  <parameters>
+    string window_name - the name of the gui-window, which you want to focus
+  </parameters>
+  <retvals>
+    boolean retval - the gui-window is opened; false, the gui-window isn't opened
+  </retvals>
+  <chapter_context>
+    Ext
+  </chapter_context>
+  <target_document>ReaGirl_Docs</target_document>
+  <source_document>reagirl_GuiEngine.lua</source_document>
+  <tags>ext, focus, window</tags>
+</US_DocBloc>
+]]
+  if type(window_name)~="string" then error("Ext_Window_Focus: param #1 - must be a string", 2) end
+  if reaper.GetExtState("Reagirl_Window_"..window_name, "open")=="true" then
+    reaper.SetExtState("ReaGirl", "ReFocusWindow", window_name, false)
+    return true
+  end
+  return false
+end
+
+function reagirl.Ext_Window_IsOpen(window_name)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Ext_Window_IsOpen</slug>
+  <requires>
+    ReaGirl=1.0
+    Reaper=7.03
+    Lua=5.4
+  </requires>
+  <functioncall>boolean retval = reagirl.Ext_Window_IsOpen(string window_name)</functioncall>
+  <description>
+    Returns, if a specific gui-window is open.
+  </description>
+  <parameters>
+    string window_name - the name of the gui-window, whose open-state you want to get
+  </parameters>
+  <retvals>
+    boolean retval - the gui-window is opened; false, the gui-window isn't opened
+  </retvals>
+  <chapter_context>
+    Ext
+  </chapter_context>
+  <target_document>ReaGirl_Docs</target_document>
+  <source_document>reagirl_GuiEngine.lua</source_document>
+  <tags>ext, get, open, window</tags>
+</US_DocBloc>
+]]
+  if type(window_name)~="string" then error("Ext_Window_Focus: param #1 - must be a string", 2) end
+  if reaper.GetExtState("Reagirl_Window_"..window_name, "open")=="true" then
+    return true
+  end
+  return false
+end
+
+function reagirl.Ext_Tab_SetSelected(window_name, tabnumber)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Ext_Tab_SetSelected</slug>
+  <requires>
+    ReaGirl=1.0
+    Reaper=7.03
+    Lua=5.4
+  </requires>
+  <functioncall>reagirl.Ext_Tab_SetSelected(string window_name)</functioncall>
+  <description>
+    Focuses a specific tab of a ReaGirl-gui-window.
+    
+    Parameter window_name is the same as the name set in the first parameter of Gui_Open.
+    
+    You can set a focused tab even if the window isn't opened yet. It will be focused the next time the specified gui-window is opened.
+    It also works for opened gui-windows.
+  </description>
+  <parameters>
+    string window_name - the name of the gui-window, whose tab you want to set to focused
+  </parameters>
+  <chapter_context>
+    Ext
+  </chapter_context>
+  <target_document>ReaGirl_Docs</target_document>
+  <source_document>reagirl_GuiEngine.lua</source_document>
+  <tags>ext, focus, tab, window</tags>
+</US_DocBloc>
+]]
+  if type(window_name)~="string" then error("Ext_Tab_SetSelected: param #1 - must be a string", 2) end
+  if math.type(tabnumber)~="integer" then error("Ext_Tab_SetSelected: param #2 - must be an integer", 2) end
+  reaper.SetExtState("Reagirl_Window_"..window_name, "open_tabnumber", tabnumber, false)
 end
 
 function reagirl.Gui_Manage()
@@ -10172,11 +10286,24 @@ end
 
 
 function reagirl.Tabs_Manage(element_id, selected, hovered, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
+  local refresh
+  
   -- drop files for accessibility using a file-requester, after typing ctrl+shift+f
   if reagirl.osara_outputMessage~=nil and element_storage["DropZoneFunction"]~=nil and Key==6 and mouse_cap==12 then
     local retval, filenames = reaper.GetUserFileNameForRead("", "Choose file to drop into "..element_storage["Name"], "")
     reagirl.Window_SetFocus()
     if retval==true then element_storage["DropZoneFunction"](element_storage["Guid"], {filenames}) refresh=true end
+  end
+  
+  if reagirl.Window_name~=nil and reaper.GetExtState("Reagirl_Window_"..reagirl.Window_name, "open_tabnumber")~="" then
+    local tabnumber=tonumber(reaper.GetExtState("Reagirl_Window_"..reagirl.Window_name, "open_tabnumber"))
+    if tabnumber>=1 and tabnumber<=#element_storage["TabNames"] then
+      element_storage["TabSelected"]=tabnumber
+      element_storage["TabsSelected_MouseJump"]=element_storage["TabSelected"]
+      element_storage["TabRefresh"]=true 
+      refresh=true
+    end
+    reaper.SetExtState("Reagirl_Window_"..reagirl.Window_name, "open_tabnumber", "", false)
   end
   
   local acc_message=""
@@ -10203,7 +10330,6 @@ function reagirl.Tabs_Manage(element_id, selected, hovered, clicked, mouse_cap, 
   end
   
   -- click management for the tabs
-  local refresh
   if element_storage["Tabs_Pos"]==nil then reagirl.Gui_ForceRefresh(61) end
   if element_storage["Tabs_Pos"]~=nil and clicked=="FirstCLK" then 
     for i=1, #element_storage["Tabs_Pos"] do

@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="55950.00" author="Meo Mespotine">
+      <version name="55952.00" author="Meo Mespotine">
 	<source file="reagirl.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5//reagirl.lua</source>
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5//ultraschall_api_readme.txt</source>
@@ -738,6 +738,12 @@ New features in 5
     disabled(non clickable)-state.
 -   ReaGirl: DropDownMenu_SetMenuItems - Sets a dropdown-menu’s
     menuitems and the index of the currently selected menu-item.
+-   ReaGirl: Ext_Tab_SetSelected - sets a tab of specific
+    ReaGirl-gui-window focused
+-   ReaGirl: Ext_Window_Focus - sets focus to an opened
+    ReaGirl-gui-window
+-   ReaGirl: Ext_Window_IsOpen - gets, if a specific ReaGirl-gui-window
+    is currently opened
 -   ReaGirl: GetVersion - Returns the version-number of the installed
     ReaGirl.
 -   ReaGirl: Gui_AtExit - Adds a function that shall be run when the gui
