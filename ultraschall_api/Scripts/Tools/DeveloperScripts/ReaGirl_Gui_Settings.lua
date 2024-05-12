@@ -24,6 +24,8 @@
 ################################################################################
 ]] 
 
+-- NOTE!! Osara is always enabled in this dialog so blind people can't shut themselves out of using this dialog!!!
+
 dofile(reaper.GetResourcePath().."/UserPlugins/reagirl.lua")
 
 reagirl.Settings_Override=true

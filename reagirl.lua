@@ -10295,11 +10295,15 @@ function reagirl.Tabs_Manage(element_id, selected, hovered, clicked, mouse_cap, 
     if retval==true then element_storage["DropZoneFunction"](element_storage["Guid"], {filenames}) refresh=true end
   end
   
+  -- external influence on the opened tab
   if reagirl.Window_name~=nil and reaper.GetExtState("Reagirl_Window_"..reagirl.Window_name, "open_tabnumber")~="" then
     local tabnumber=tonumber(reaper.GetExtState("Reagirl_Window_"..reagirl.Window_name, "open_tabnumber"))
     if tabnumber>=1 and tabnumber<=#element_storage["TabNames"] then
       element_storage["TabSelected"]=tabnumber
-      element_storage["TabsSelected_MouseJump"]=element_storage["TabSelected"]
+      if reaper.GetExtState("ReaGirl", "osara_override")=="" then
+        reaper.MB("","",0)
+        element_storage["TabsSelected_MouseJump"]=element_storage["TabSelected"]
+      end
       element_storage["TabRefresh"]=true 
       refresh=true
     end

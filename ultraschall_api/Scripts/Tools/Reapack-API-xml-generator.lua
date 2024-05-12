@@ -237,10 +237,10 @@ ChangeLog=ultraschall.ReadFullFile("c:\\temp\\tempfile.rtf")
 
 XML_start=
 [[<?xml version="1.0" encoding="utf-8"?>
-<index version="1" name="Ultraschall-API">
+<index version="1" name="Ultraschall-API and ReaGirl">
   <category name="Ultraschall-API-category">
-    <reapack name="Ultraschall API package" type="extension">
-      <version name="]]..Version.."."..Hotfix..[[" author="Meo Mespotine">
+    <reapack name="Ultraschall API and ReaGirl package" type="extension">
+      <version name="]]..Version.."."..Hotfix..[[" author="Meo-Ada Mespotine">
 ]]
 
 XML_end=[[<changelog><![CDATA[]]..ChangeLog.."]]>\n</changelog>\n"..[[
@@ -248,7 +248,7 @@ XML_end=[[<changelog><![CDATA[]]..ChangeLog.."]]>\n</changelog>\n"..[[
       </reapack>
   </category>
       <metadata>
-        <link rel="website">http://ultraschall.fm/api/</link>
+        <link rel="website">http://mespotine.de</link>
         <link rel="donation" href="http://ultraschall.fm/danke">Label</link>
         <description><![CDATA[{\rtf1\ansi\deff0\adeflang1025
         {\fonttbl{\f0\froman\fprq2\fcharset0 Times New Roman;}{\f1\froman\fprq2\fcharset2 Symbol;}{\f2\fswiss\fprq2\fcharset0 Arial;}{\f3\fnil\fprq0\fcharset128 OpenSymbol{\*\falt Arial Unicode MS};}{\f4\fswiss\fprq2\fcharset128 Arial;}{\f5\fnil\fprq2\fcharset0 Microsoft YaHei;}{\f6\fnil\fprq2\fcharset0 Mangal;}{\f7\fnil\fprq0\fcharset128 Mangal;}{\f8\froman\fprq0\fcharset128 ;}}
