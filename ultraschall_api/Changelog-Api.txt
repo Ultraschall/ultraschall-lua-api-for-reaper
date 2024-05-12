@@ -338,7 +338,7 @@ ToDo Marker Menu:
 
 ### 5 - "Eels - Novocaine for the Soul" - 22nd of May 2024
 
-Has now 1795 functions, with 132 new ones and two fewer ones(!)
+Has now 1798 functions, with 135 new ones and two fewer ones(!)
 
 Note: requires at least Reaper 7.03 now!
 
@@ -494,7 +494,7 @@ Note: requires at least Reaper 7.03 now!
   - Rendering: GetRenderCFG\_Settings\_RAW - gets settings of a RAW-renderformat-renderstring
   - Takes: GetProjectPosByTakeSourcePos - returns the project-position-representation of the source-position of a take. 
   - Takes: GetTakeSourcePosByProjectPos - returns the source-position of a take at a certain project-position. Will obey time-stretch-markers, offsets, etc, as well.
-  - Takes: TakeMarker\_GetAllTakeMarkers - returns all take-markers of a MediaItem\_Take, inclusing project-position.
+  - Takes: TakeMarker\_GetAllTakeMarkers - returns all take-markers of a MediaItem\_Take, including project-position.
 
 #### Changes from 4.9 to 5  
   - Developer Tools: State Inspector - restores the loaded slot when reopening; ini-file doesn't get overwritten anymore after updating US_API
