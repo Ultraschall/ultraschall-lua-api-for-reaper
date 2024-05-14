@@ -232,7 +232,7 @@ function reaper.GetUserInputs(...)
   local retvals={pcall(reagirl.GetUserInputs, table.unpack({...}))}
   if retvals[1]==false then error("GetUserInputs: "..retvals[2], 2) end
   table.remove(retvals, 1)
-  reagirl.Window_SetFocus()
+  reagirl.Window_SetFocus(true)
   return table.unpack(retvals)
 end
 
@@ -241,7 +241,7 @@ function reaper.GetUserFileNameForRead(...)
   local retvals={pcall(reagirl.GetUserFileNameForRead, table.unpack({...}))}
   if retvals[1]==false then error("GetUserFileNameForRead: "..retvals[2], 2) end
   table.remove(retvals, 1)
-  reagirl.Window_SetFocus()
+  reagirl.Window_SetFocus(true)
   return table.unpack(retvals)
 end
 
@@ -249,7 +249,7 @@ function reaper.GR_SelectColor(...)
   local retvals={pcall(reagirl.GR_SelectColor, table.unpack({...}))}
   if retvals[1]==false then error("GR_SelectColor: "..retvals[2], 2) end
   table.remove(retvals, 1)
-  reagirl.Window_SetFocus()
+  reagirl.Window_SetFocus(true)
   return table.unpack(retvals)
 end
 
@@ -257,7 +257,7 @@ function reaper.MB(...)
   local retvals={pcall(reagirl.MB, table.unpack({...}))}
   if retvals[1]==false then error("MB: "..retvals[2], 2) end
   table.remove(retvals, 1)
-  reagirl.Window_SetFocus()
+  reagirl.Window_SetFocus(true)
   return table.unpack(retvals)
 end
 
@@ -265,7 +265,7 @@ function reaper.ShowMessageBox(...)
   local retvals={pcall(reagirl.ShowMessageBox, table.unpack({...}))}
   if retvals[1]==false then error("ShowMessageBox: "..retvals[2], 2) end
   table.remove(retvals, 1)
-  reagirl.Window_SetFocus()
+  reagirl.Window_SetFocus(true)
   return table.unpack(retvals)
 end
 
@@ -273,7 +273,7 @@ function reaper.DoActionShortcutDialog(...)
   local retvals={pcall(reagirl.DoActionShortcutDialog, table.unpack({...}))}
   if retvals[1]==false then error("DoActionShortcutDialog: "..retvals[2], 2) end
   table.remove(retvals, 1)
-  reagirl.Window_SetFocus()
+  reagirl.Window_SetFocus(true)
   return table.unpack(retvals)
 end
 
@@ -281,7 +281,7 @@ function reaper.JS_Dialog_BrowseForFolder(...)
   local retvals={pcall(reagirl.JS_Dialog_BrowseForFolder, table.unpack({...}))}
   if retvals[1]==false then error("JS_Dialog_BrowseForFolder: "..retvals[2], 2) end
   table.remove(retvals, 1)
-  reagirl.Window_SetFocus()
+  reagirl.Window_SetFocus(true)
   return table.unpack(retvals)
 end
 
@@ -289,7 +289,7 @@ function reaper.JS_Dialog_BrowseForOpenFiles(...)
   local retvals={pcall(reagirl.JS_Dialog_BrowseForOpenFiles, table.unpack({...}))}
   if retvals[1]==false then error("JS_Dialog_BrowseForOpenFiles: "..retvals[2], 2) end
   table.remove(retvals, 1)
-  reagirl.Window_SetFocus()
+  reagirl.Window_SetFocus(true)
   return table.unpack(retvals)
 end
 
@@ -297,7 +297,7 @@ function reaper.JS_Dialog_BrowseForSaveFile(...)
   local retvals={pcall(reagirl.JS_Dialog_BrowseForSaveFile, table.unpack({...}))}
   if retvals[1]==false then error("JS_Dialog_BrowseForSaveFile: "..retvals[2], 2) end
   table.remove(retvals, 1)
-  reagirl.Window_SetFocus()
+  reagirl.Window_SetFocus(true)
   return table.unpack(retvals)
 end
 
@@ -305,7 +305,7 @@ function reaper.JS_Actions_DoShortcutDialog(...)
   local retvals={pcall(reagirl.JS_Actions_DoShortcutDialog, table.unpack({...}))}
   if retvals[1]==false then error("JS_Actions_DoShortcutDialog: "..retvals[2], 2) end
   table.remove(retvals, 1)
-  reagirl.Window_SetFocus()
+  reagirl.Window_SetFocus(true)
   return table.unpack(retvals)
 end
 
@@ -1171,7 +1171,7 @@ function reagirl.Window_Open(...)
   return retval, reagirl.GFX_WindowHWND
 end
 
-function reagirl.Window_SetFocus()
+function reagirl.Window_SetFocus(accmessage)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>Window_SetFocus</slug>
@@ -1193,8 +1193,16 @@ function reagirl.Window_SetFocus()
   <tags>refocus, focus, window, hwnd</tags>
 </US_DocBloc>
 ]]
-  if reaper.JS_Window_SetFocus~=nil then
-    reaper.JS_Window_SetFocus(reagirl.GFX_WindowHWND)
+  local window_state=gfx.getchar(65536)
+  if window_state&2==0 then
+    if reaper.JS_Window_SetFocus~=nil then
+      reaper.JS_Window_SetFocus(reagirl.GFX_WindowHWND)
+    end
+    local add=""
+    if accmessage~=true then
+      if "ReaGirl-Window "..reagirl.Window_Title.." re-focused."==reagirl.Elements["GlobalAccHoverMessage"] then add=" " end
+      reagirl.Elements["GlobalAccHoverMessage"]="ReaGirl-Gui "..reagirl.Window_Title.." re-focused."..add
+    end
   end
 end
 

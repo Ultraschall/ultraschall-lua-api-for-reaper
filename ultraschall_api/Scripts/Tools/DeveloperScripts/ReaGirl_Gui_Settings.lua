@@ -215,7 +215,7 @@ SetUpNewGui()
 color=40
 reagirl.Background_GetSetColor(true,color,color,color)
 
-reagirl.Gui_Open("ReaGirl_Settings", true, "ReaGirl Settings (Reagirl v"..reagirl.GetVersion()..")", "various settings for ReaGirl-Accessible Guis.", 355, 465, nil, nil, nil)
+reagirl.Gui_Open("ReaGirl_Settings", true, "ReaGirl Settings (ReaGirl v"..reagirl.GetVersion()..")", "various settings for ReaGirl-Accessible Guis.", 355, 465, nil, nil, nil)
 
 function CheckIfSettingChanged()
   if osara_debug~=toboolean(reaper.GetExtState("ReaGirl", "osara_debug"), false) then 
