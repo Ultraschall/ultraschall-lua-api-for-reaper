@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API and ReaGirl">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API and ReaGirl package" type="extension">
-      <version name="55959.00" author="Meo-Ada Mespotine">
+      <version name="55961.00" author="Meo-Ada Mespotine">
 	<source file="reagirl.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5//reagirl.lua</source>
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5//ultraschall_api_readme.txt</source>
@@ -930,6 +930,10 @@ Changes from 4.9 to 5
 -   Developer Tools: Create_New_Script_With_Dialog.lua - uses ReaGirl
     now to do the gui, also accessible now
 -   Docs: open-docs-actions - didn’t always open the docs -> fixed
+-   Editing: RippleCut - didn’t move regions, markers and envelopes
+    correctly -> fixed(thnx to lennardodavinci)
+-   Envelopes: DeleteTrackEnvelopePointsBetween - inserts now
+    envelope-points at “cut”-edges
 -   Helpers: EditReaScript - allows now adding ReaGirl-basic structure
     to a script
 ]]>

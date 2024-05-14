@@ -332,6 +332,8 @@ ToDo Marker Menu:
     &2048==0 and &256==256 - only normalize files that are too loud
     &2048==2048 and &256==0 - only normalize files that are too quiet
 
+- RippleCut_Reverse - might be buggy with envelopes and markers and regions not moving correctly
+
 </TODO>
 
 ## Ultraschall Framework - Changelog
@@ -500,6 +502,8 @@ Note: requires at least Reaper 7.03 now!
   - Developer Tools: State Inspector - restores the loaded slot when reopening; ini-file doesn't get overwritten anymore after updating US_API
   - Developer Tools: Create\_New\_Script\_With\_Dialog.lua - uses ReaGirl now to do the gui, also accessible now
   - Docs: open-docs-actions - didn't always open the docs -> fixed
+  - Editing: RippleCut - didn't move regions, markers and envelopes correctly -> fixed(thnx to lennardodavinci)
+  - Envelopes: DeleteTrackEnvelopePointsBetween - inserts now envelope-points at "cut"-edges
   - Helpers: EditReaScript - allows now adding ReaGirl-basic structure to a script
   
 ---
