@@ -29,7 +29,7 @@
 dofile(reaper.GetResourcePath().."/UserPlugins/reagirl.lua")
 
 reagirl.Settings_Override=true
-dofile(reaper.GetResourcePath().."/UserPlugins/ultraschall_api.lua")
+--dofile(reaper.GetResourcePath().."/UserPlugins/ultraschall_api.lua")
 
 function toboolean(value, default)
     -- converts a value to boolean, or returns nil, if not convertible

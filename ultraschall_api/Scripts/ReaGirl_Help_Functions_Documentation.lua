@@ -24,7 +24,7 @@
   ################################################################################
   --]]
 
-dofile(reaper.GetResourcePath().."/UserPlugins/ultraschall_api.lua")
+--dofile(reaper.GetResourcePath().."/UserPlugins/ultraschall_api.lua")
 
 --reaper.MB(ultraschall.Api_Path,"",0)
 
