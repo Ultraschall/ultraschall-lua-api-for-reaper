@@ -504,6 +504,7 @@ Note: requires at least Reaper 7.03 now!
   - Docs: open-docs-actions - didn't always open the docs -> fixed
   - Editing: RippleCut - didn't move regions, markers and envelopes correctly -> fixed(thnx to lennardodavinci)
   - Envelopes: DeleteTrackEnvelopePointsBetween - inserts now envelope-points at "cut"-edges
+  - Envelopes: MoveTrackEnvelopePointsBy - didn't move first envelope-point in the envelope -> fixed
   - Helpers: EditReaScript - allows now adding ReaGirl-basic structure to a script
   
 ---

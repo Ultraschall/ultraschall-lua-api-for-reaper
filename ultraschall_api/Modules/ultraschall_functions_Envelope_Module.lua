@@ -117,7 +117,7 @@ function ultraschall.MoveTrackEnvelopePointsBy(startposition, endposition, moveb
   
     if moveby<0 then
       --for i=0, EnvCount do
-      local i=0
+      local i=-1
       while i<=EnvCount do
         i=i+1
         local retval, time, value, shape, tension, selected = reaper.GetEnvelopePoint(TrackEnvelope, i)
@@ -2966,6 +2966,7 @@ function ultraschall.DeleteTrackEnvelopePointsBetween(startposition, endposition
   <tags>envelopemanagement, envelope, point, envelope point, delete, between</tags>
 </US_DocBloc>
 ]]
+-- To Do: Only insert mute envelope point, when mute would change
   if type(startposition)~="number" then ultraschall.AddErrorMessage("DeleteTrackEnvelopePointsBetween", "startposition", "must be a number", -1) return -1 end
   if type(endposition)~="number" then ultraschall.AddErrorMessage("DeleteTrackEnvelopePointsBetween", "endposition", "must be a number", -2) return -1 end
   if reaper.ValidatePtr2(0, MediaTrack, "MediaTrack*")==false then ultraschall.AddErrorMessage("DeleteTrackEnvelopePointsBetween", "MediaTrack", "must be a valid MediaTrack", -4) return -1 end
@@ -2978,28 +2979,38 @@ function ultraschall.DeleteTrackEnvelopePointsBetween(startposition, endposition
     local EnvCount=reaper.CountEnvelopePoints(TrackEnvelope)
     local retval, name=reaper.GetEnvelopeName(TrackEnvelope)
   
-    for i=EnvCount-1, 0, -1 do
+    --for i=EnvCount-1, 0, -1 do
       --local retval, time, value, shape, tension, selected = reaper.GetEnvelopePoint(TrackEnvelope, i)
       --if time>=startposition and time<=endposition then
       local Aretval, value, dVdS, ddVdS, dddVdS = reaper.Envelope_Evaluate(TrackEnvelope, startposition-0.0000001, 0, 0)
       local shape=0
+      --[[
       if name=="Mute" then 
         if value<1 then value=0 end
         shape=1
+        --reaper.InsertEnvelopePoint(TrackEnvelope, startposition-0.0000001, value, 0, 0, false, false)
       end
-      reaper.InsertEnvelopePoint(TrackEnvelope, startposition-0.0000001, value, 0, 0, false, false)
+      --]]
       
       local Aretval, value, dVdS, ddVdS, dddVdS = reaper.Envelope_Evaluate(TrackEnvelope, endposition+0.0000001, 0, 0)
-      local shape=0
      
-      if name=="Mute" then 
+      if name=="Mute" then -- and reaper.CountEnvelopePoints(TrackEnvelope)>0 then
+        --[[
+        local oldval=0
+        for i=reaper.CountEnvelopePoints(TrackEnvelope)-1, 0, -1 do
+          local retval, time, value = reaper.GetEnvelopePoint(TrackEnvelope, i)
+          if time<=endposition then oldval=value break end
+        end
+        
+        if oldvalue~=value then
+        end
+        --]]
         if value<1 then value=0 end
-        shape=1
+        reaper.InsertEnvelopePoint(TrackEnvelope, endposition+0.0000001, value, 1, 0, false, false)
       end
-      reaper.InsertEnvelopePoint(TrackEnvelope, endposition+0.0000001, value, shape, 0, false, false)
       
       local boolean=reaper.DeleteEnvelopePointRange(TrackEnvelope, startposition, endposition)
-    end
+    --end
     reaper.Envelope_SortPoints(TrackEnvelope)
   end
   return 0

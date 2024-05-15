@@ -699,6 +699,7 @@ function ultraschall.GetAllMediaItemsBetween(startposition, endposition, trackst
 ]]
   if type(startposition)~="number" then ultraschall.AddErrorMessage("GetAllMediaItemsBetween", "startposition", "must be a number", -1) return -1 end
   if type(endposition)~="number" then ultraschall.AddErrorMessage("GetAllMediaItemsBetween", "endposition", "must be a number", -2) return -1 end
+  
   if startposition>endposition then ultraschall.AddErrorMessage("GetAllMediaItemsBetween", "endposition", "must be bigger than startposition", -3) return -1 end
   if ultraschall.IsValidTrackString(trackstring)==false then ultraschall.AddErrorMessage("GetAllMediaItemsBetween", "trackstring", "must be a valid trackstring", -4) return -1 end
   if type(inside)~="boolean" then ultraschall.AddErrorMessage("GetAllMediaItemsBetween", "inside", "must be a boolean", -5) return -1 end
@@ -1329,12 +1330,21 @@ function ultraschall.RippleCut(startposition, endposition, trackstring, moveenve
     --print2(reaper.SNM_SetIntConfigVar("splitautoxfade", crossfade_value-1))
     reaper.SNM_SetIntConfigVar("splitautoxfade", crossfade_value-1)
   end
+  local oldvalcrossfade=reaper.SNM_GetDoubleConfigVar("defsplitxfadelen", -100000)
+  local deffadelen=reaper.SNM_GetDoubleConfigVar("defsplitxfadelen", -100000)
+  
+  reaper.SNM_SetDoubleConfigVar("defsplitxfadelen", 0)
+  reaper.SNM_SetDoubleConfigVar("defsplitxfadelen", 0.1)
   
   local A,AA=ultraschall.SplitMediaItems_Position(startposition,trackstring,false)
   
   local B,BB=ultraschall.SplitMediaItems_Position(endposition,trackstring,false)  
   
-  local C,CC,CCC=ultraschall.GetAllMediaItemsBetween(startposition, endposition,trackstring,true)
+  reaper.SNM_SetDoubleConfigVar("defsplitxfadelen", oldvalcrossfade)
+  reaper.SNM_SetDoubleConfigVar("defsplitxfadelen", deffadelen)
+
+  --print2(startposition, endposition)
+  local C,CC,CCC=ultraschall.GetAllMediaItemsBetween(startposition, endposition, trackstring,true)
 
   -- put the items into the clipboard  
   if #CC>0 then
