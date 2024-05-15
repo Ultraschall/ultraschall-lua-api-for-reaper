@@ -347,6 +347,7 @@ reagirl.Colors.Scrollbar={}
 reagirl.Colors.Scrollbar_Background_r=0.39
 reagirl.Colors.Scrollbar_Background_g=0.39
 reagirl.Colors.Scrollbar_Background_b=0.39
+
 reagirl.Colors.Scrollbar_Foreground_r=0.49
 reagirl.Colors.Scrollbar_Foreground_g=0.49
 reagirl.Colors.Scrollbar_Foreground_b=0.49
@@ -362,9 +363,9 @@ reagirl.Colors.Checkbox_TextFG_disabled_b=0.6
 reagirl.Colors.Checkbox_r=0.9843137254901961
 reagirl.Colors.Checkbox_g=0.8156862745098039
 reagirl.Colors.Checkbox_b=0
-reagirl.Colors.Checkbox_rectangle_r=0.45
-reagirl.Colors.Checkbox_rectangle_g=0.45
-reagirl.Colors.Checkbox_rectangle_b=0.45
+reagirl.Colors.Checkbox_rectangle_r=0.5
+reagirl.Colors.Checkbox_rectangle_g=0.5
+reagirl.Colors.Checkbox_rectangle_b=0.5
 reagirl.Colors.Checkbox_disabled_r=0.5843137254901961
 reagirl.Colors.Checkbox_disabled_g=0.5843137254901961
 reagirl.Colors.Checkbox_disabled_b=0
@@ -1549,7 +1550,7 @@ function reagirl.ScrollBar_Right_Manage(element_id, selected, hovered, clicked, 
   -- ToDo: scrolling only from y+15 to y+h-30
   --       - adding scroll "marker"(probably in Draw-function)
   if reagirl.Scroll_Override_ScrollButtons==true then return "" end
-  if element_storage.IsDisabled==false and element_storage.a<=0.75 then element_storage.a=element_storage.a+.1 reagirl.Gui_ForceRefresh(44) end
+  if element_storage.IsDisabled==false and element_storage.a<=0.85 then element_storage.a=element_storage.a+.1 reagirl.Gui_ForceRefresh(44) end
   
   if selected~="not selected" and gfx.mouse_x>=x and gfx.mouse_x<=x+w then
     if element_storage.clickme~=true and mouse_cap&1==1 and gfx.mouse_y>=y and gfx.mouse_y<=element_storage.scrollstart then
@@ -1621,7 +1622,7 @@ function reagirl.ScrollBar_Right_Draw(element_id, selected, hovered, clicked, mo
   local y2=element_storage.scroll_pos
   if y2==nil then y2=-((h-13*scale)/(reagirl.BoundaryY_Max-gfx.h))*reagirl.MoveItAllUp else y2=y2-22*scale end
   
-  gfx.set(reagirl.Colors.Scrollbar_Foreground_r, reagirl.Colors.Scrollbar_Foreground_g, reagirl.Colors_Scrollbar_Foreground_b, element_storage.a)
+  gfx.set(reagirl.Colors.Scrollbar_Foreground_r, reagirl.Colors.Scrollbar_Foreground_g, reagirl.Colors.Scrollbar_Foreground_b, element_storage.a)
   gfx.rect(x,y2+15*scale,16*scale,14*scale,1)
   
   element_storage.scroll_pos=nil
@@ -1659,7 +1660,7 @@ function reagirl.ScrollBar_Bottom_Manage(element_id, selected, hovered, clicked,
   -- ToDo: - scrolling only from x+15 to x+w-30
   --       - adding scroll "marker"(probably in Draw-function)
   if reagirl.Scroll_Override_ScrollButtons==true then return "" end
-  if element_storage.IsDisabled==false and element_storage.a<=0.75 then element_storage.a=element_storage.a+.1 reagirl.Gui_ForceRefresh(44) end
+  if element_storage.IsDisabled==false and element_storage.a<=0.85 then element_storage.a=element_storage.a+.1 reagirl.Gui_ForceRefresh(44) end
   local dpi_scale = reagirl.Window_GetCurrentScale()
   
   if selected~="not selected" and gfx.mouse_y>=y and gfx.mouse_y<=y+h then
@@ -1724,7 +1725,7 @@ function reagirl.ScrollBar_Bottom_Draw(element_id, selected, hovered, clicked, m
     end
   end
   local oldr, oldg, oldb, olda = gfx.r, gfx.g, gfx.b, gfx.a
-  gfx.set(reagirl["WindowBackgroundColorR"], reagirl["WindowBackgroundColorG"], reagirl["WindowBackgroundColorB"], element_storage.a)
+  --gfx.set(reagirl["WindowBackgroundColorR"], reagirl["WindowBackgroundColorG"], reagirl["WindowBackgroundColorB"], element_storage.a)
   
   gfx.set(reagirl.Colors.Scrollbar_Background_r, reagirl.Colors.Scrollbar_Background_g, reagirl.Colors.Scrollbar_Background_b, element_storage.a-0.3)
   gfx.rect(x, y, w, h, 1)
@@ -2473,6 +2474,7 @@ function reagirl.Gui_Manage()
     
   local found_element, old_selection 
   local restore=false
+  
   for i=#reagirl.Elements-Scroll_Override_ScrollButtons, #reagirl.Elements do
     if i==0 then break end
     if reagirl.Elements[i]["hidden"]~=true then
@@ -2497,6 +2499,7 @@ function reagirl.Gui_Manage()
     
       -- show tooltip when hovering over a ui-element
       -- also set clicked ui-element to the one at mouse-position, when specific_clickstate="FirstCLK"
+      
       if gfx.mouse_x>=x2+MoveItAllRight and
          gfx.mouse_x<=x2+MoveItAllRight+w2 and
          gfx.mouse_y>=y2+MoveItAllUp and
@@ -2792,6 +2795,7 @@ function reagirl.Gui_Manage()
   
   -- run all gui-element-management functions once. They shall decide, if a refresh is needed, provide the osara-screen reader-message and everything
   -- this is also the code, where a clickstate of a selected ui-element is interpreted
+  
   for i=#reagirl.Elements, 1, -1 do
     if reagirl.Elements[i]["hidden"]~=true then
       local x2, y2, w2, h2
@@ -2815,6 +2819,7 @@ function reagirl.Gui_Manage()
         or (y2+h2+reagirl.MoveItAllUp>=0 and y2+h2+reagirl.MoveItAllUp<=gfx.h)
         or (y2+reagirl.MoveItAllUp<=0 and y2+h2+reagirl.MoveItAllUp>=gfx.h))) or i>#reagirl.Elements-6)
         then--]]  
+        
           -- run manage-function of ui-element
           local selected="not selected"
           if reagirl.Elements.FocusedElement==i then selected=reagirl.ui_element_selected end
@@ -8708,7 +8713,7 @@ end
 
 function reagirl.ScrollButton_Right_Manage(element_id, selected, hovered, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
   if reagirl.Scroll_Override_ScrollButtons==true then return "" end
-  if element_storage.IsDisabled==false and element_storage.a<=0.75 then element_storage.a=element_storage.a+.1 reagirl.Gui_ForceRefresh(44) end
+  if element_storage.IsDisabled==false and element_storage.a<=0.85 then element_storage.a=element_storage.a+.1 reagirl.Gui_ForceRefresh(44) end
   if mouse_cap&1==1 and selected~="not selected" and gfx.mouse_x>=x and gfx.mouse_x<=x+w and gfx.mouse_y>=y and gfx.mouse_y<=y+h then
     reagirl.UI_Element_ScrollX(-2)
   elseif selected~="not selected" and Key==32 then
@@ -8772,7 +8777,7 @@ end
 
 function reagirl.ScrollButton_Left_Manage(element_id, selected, hovered, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
   if reagirl.Scroll_Override_ScrollButtons==true then return "" end
-  if element_storage.IsDisabled==false and element_storage.a<=0.75 then element_storage.a=element_storage.a+.1 reagirl.Gui_ForceRefresh(45) end
+  if element_storage.IsDisabled==false and element_storage.a<=0.85 then element_storage.a=element_storage.a+.1 reagirl.Gui_ForceRefresh(45) end
   if mouse_cap&1==1 and selected~="not selected" and gfx.mouse_x>=x and gfx.mouse_x<=x+w and gfx.mouse_y>=y and gfx.mouse_y<=y+h then
     reagirl.UI_Element_ScrollX(2)
   elseif selected~="not selected" and Key==32 then
@@ -8836,7 +8841,7 @@ end
 
 function reagirl.ScrollButton_Up_Manage(element_id, selected, hovered, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
   if reagirl.Scroll_Override_ScrollButtons==true then return "" end
-  if element_storage.IsDisabled==false and element_storage.a<=0.75 then element_storage.a=element_storage.a+.1 reagirl.Gui_ForceRefresh(47) end
+  if element_storage.IsDisabled==false and element_storage.a<=0.85 then element_storage.a=element_storage.a+.1 reagirl.Gui_ForceRefresh(47) end
   if mouse_cap&1==1 and selected~="not selected" and gfx.mouse_x>=x and gfx.mouse_x<=x+w and gfx.mouse_y>=y and gfx.mouse_y<=y+h then
     reagirl.UI_Element_ScrollY(2)
   elseif selected~="not selected" and Key==32 then
@@ -8900,7 +8905,7 @@ end
 function reagirl.ScrollButton_Down_Manage(element_id, selected, hovered, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
   if reagirl.Scroll_Override_ScrollButtons==true then return "" end
   
-  if element_storage.IsDisabled==false and element_storage.a<=0.75 then element_storage.a=element_storage.a+.1 reagirl.Gui_ForceRefresh(49) end
+  if element_storage.IsDisabled==false and element_storage.a<=0.85 then element_storage.a=element_storage.a+.1 reagirl.Gui_ForceRefresh(49) end
   if mouse_cap&1==1 and selected~="not selected" and gfx.mouse_x>=x and gfx.mouse_x<=x+w and gfx.mouse_y>=y and gfx.mouse_y<=y+h then
     reagirl.UI_Element_ScrollY(-2)
   elseif selected~="not selected" and Key==32 then
