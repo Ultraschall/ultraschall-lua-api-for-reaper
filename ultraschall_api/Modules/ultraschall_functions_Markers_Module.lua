@@ -3704,6 +3704,134 @@ end
 --  number_of_all_regions, allregionsarray = ultraschall.GetAllRegionsBetween(A,B, true)
 
 
+function ultraschall.RippleCut_Regions_Reverse(startposition, endposition)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>RippleCut_Regions_Reverse</slug>
+  <requires>
+    Ultraschall=5.00
+    Reaper=5.965
+    Lua=5.3
+  </requires>
+  <functioncall>boolean were_regions_altered, integer number_of_altered_regions, array altered_regions  = ultraschall.RippleCut_Regions_Reverse(number startposition, number endposition)</functioncall>
+  <description>
+    Ripplecuts regions, where applicable.
+    It cuts all (parts of) regions between startposition and endposition and moves remaining parts plus all regions before startposition by endposition-startposition toward projectend(!)
+    
+    Returns false in case of an error.
+  </description>
+  <parameters>
+    number startposition - the startposition from where regions shall be cut from; all regions/parts of regions before that will be moved toward projectend
+    number endposition - the endposition to which regions shall be cut from
+  </parameters>
+  <retvals>
+    boolean were_regions_altered - true, if regions were cut/altered; false, if not
+    integer number_of_altered_regions - the number of regions that were altered/cut/moved
+    array altered_regions - the regions that were altered:
+                          -   altered_regions_array[index_of_region][0] - old startposition
+                          -   altered_regions_array[index_of_region][1] - old endposition
+                          -   altered_regions_array[index_of_region][2] - name
+                          -   altered_regions_array[index_of_region][3] - old indexnumber of the region within all markers in the project
+                          -   altered_regions_array[index_of_region][4] - the shown index-number
+                          -   altered_regions_array[index_of_region][5] - the color of the region
+                          -   altered_regions_array[index_of_region][6] - the change that was applied to this region
+                          -   altered_regions_array[index_of_region][7] - the new startposition
+                          -   altered_regions_array[index_of_region][8] - the new endposition
+  </retvals>
+  <chapter_context>
+    Markers
+    General Markers and Regions
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Markers_Module.lua</source_document>
+  <tags>marker management, ripple, cut, regions, reverse</tags>
+</US_DocBloc>
+]]
+  if type(startposition)~="number" then ultraschall.AddErrorMessage("RippleCut_Regions_Reverse", "startposition", "must be a number", -1) return false end
+  if type(endposition)~="number" then ultraschall.AddErrorMessage("RippleCut_Regions_Reverse", "endposition", "must be a number", -2) return false end
+  local dif=endposition-startposition
+  
+  -- get all regions, that are candidates for a ripplecut
+  local number_of_all_regions, allregionsarray = ultraschall.GetAllRegionsBetween(0, endposition, true)  
+  if number_of_all_regions==0 then ultraschall.AddErrorMessage("RippleCut_Regions_Reverse", "", "no regions found within start and endit", -3) return false, regioncount, regionfound end
+  
+  -- make startposition and endposition with less precision, or we can't check, if startposition=pos
+  -- Reaper seems to work with greater precision for floats than shown
+  local start = ultraschall.LimitFractionOfFloat(startposition, 10, true)
+  local endit = ultraschall.LimitFractionOfFloat(endposition, 10, true)
+  
+  -- some more preparation for variables, including localizing them
+  local pos, rgnend, name, retval, markrgnindexnumber, color  
+  local regionfound={}
+  
+  -- here comes the magic
+  for i=number_of_all_regions, 1, -1 do
+    -- get regionattributes from the allregionsarray we got before
+     pos=allregionsarray[i][0]
+     rgnend=allregionsarray[i][1]
+     name=allregionsarray[i][2]
+     retval=allregionsarray[i][3]
+     markrgnindexnumber=allregionsarray[i][4]
+     color = allregionsarray[i][5]
+    -- make pos and rgnend with less precision, or we can't check, if startposition=pos
+    -- Reaper seems to work with greater precision for floats than shown
+    local pos1 = ultraschall.LimitFractionOfFloat(pos, 10, true)
+    local rgnend1 = ultraschall.LimitFractionOfFloat(rgnend, 10, true)
+
+    regionfound[i]={}
+    regionfound[i][0]=allregionsarray[i][0]
+    regionfound[i][1]=allregionsarray[i][1]
+    regionfound[i][2]=allregionsarray[i][2]
+    regionfound[i][3]=allregionsarray[i][3]
+    regionfound[i][4]=allregionsarray[i][4]
+    regionfound[i][5]=allregionsarray[i][5]
+
+    -- let's do the checking and manipulation. We also create an array with all entries manipulated
+    -- and in which way manipulated
+    
+    if pos1>=start and rgnend1<=endit then
+--print2("0")
+      -- if region is fully within start and endit, cut it completely
+      regionfound[i][6]="CUT COMPLETELY"
+      reaper.DeleteProjectMarker(0, markrgnindexnumber, true)
+elseif pos1<=start and pos1<endit and rgnend1<endit and rgnend1+dif>endit then --and rgnend1<=endit then
+      -- if regionend is within start and endit, move the start toward the end
+--print2("A")
+      regionfound[i][6]="CUT AT THE END"
+      regionfound[i][7]=pos+dif
+      regionfound[i][8]=endit
+      reaper.SetProjectMarker4(proj, markrgnindexnumber, true, pos+dif, endit, name, color, 0)
+--]]
+    elseif pos1>=start and pos1<=endit and rgnend1>endit then
+      -- if regionstart is within start and endit, shorten the region and move it by difference of start and endit
+      --    toward projectend
+--print2("B")
+      regionfound[i][6]="CUT AT THE BEGINNING"
+      regionfound[i][7]=endit
+      regionfound[i][8]=rgnend
+      reaper.SetProjectMarker4(proj, markrgnindexnumber, true, endit, rgnend, name, color, 0)
+    elseif pos1<=start and rgnend1<=start then 
+--print2("C")
+      -- if region is before start, just move the region by difference of start and endit toward projectend
+      regionfound[i][6]="MOVED TOWARD PROJECTEND"
+      regionfound[i][7]=pos+dif
+      regionfound[i][8]=rgnend+dif
+      reaper.SetProjectMarker4(proj, markrgnindexnumber, true, pos+dif, rgnend+dif, name, color, 0)
+    elseif start>=pos1 and endit<=rgnend then
+      -- if start and endit is fully within a region, cut at the start of the region the difference of start and endit
+--print2("D")
+      regionfound[i][6]="CUT IN THE MIDDLE"
+      regionfound[i][7]=pos+dif
+      regionfound[i][8]=rgnend
+      reaper.SetProjectMarker4(proj, markrgnindexnumber, true, pos+dif, rgnend, name, color, 0)
+    else
+      --print2("E")
+    end
+  end
+  -- sort the table of found regions
+  return true, regioncount, regionfound
+end
+
 function ultraschall.GetAllCustomMarkers(custom_marker_name)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">

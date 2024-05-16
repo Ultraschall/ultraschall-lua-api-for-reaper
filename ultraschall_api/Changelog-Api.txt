@@ -340,7 +340,7 @@ ToDo Marker Menu:
 
 ### 5 - "Eels - Novocaine for the Soul" - 22nd of May 2024
 
-Has now 1798 functions, with 135 new ones
+Has now 1799 functions, with 136 new ones
 
 Note: requires at least Reaper 7.03 now!
 
@@ -359,7 +359,7 @@ Note: requires at least Reaper 7.03 now!
   
   - **Project pos 2 Take-pos 2 Project pos**  
   Functions to get the take-position at a certain project position and the project-position at a take position.
-  Used to be in there in an earlier version and reappear now, due a bugfix in Reaper.
+  Used to be in there in an earlier version and reappear now, due to a bugfix in Reaper.
     
 #### New features in 5  
   - Helpers: SplitReaperString - splits a Reaper-string into its components.
@@ -373,6 +373,7 @@ Note: requires at least Reaper 7.03 now!
   - Lanes: ItemLane\_GetAllMediaItems - returns the MediaItems from an item-lanes in a track between start\_position and end\_position
   - Lanes: ItemLane\_GetFromPoint - returns the MediaTrack and the item-lane at a screen-coordinate
   - Lanes: ItemLane\_GetPositionAndHeight - returns the position and height of an item-lanes in a track
+  - Markers: RippleCut\_Regions\_Reverse - ripple cuts regions before startposition and moves them towards project-end
   - MIDI: PreviewMidiCCInTrack - previews a midi-cc in a specific armed track
   - MIDI: PreviewMidiNoteInTrack - previews a midi-note in a specific armed track
   - MIDI: PreviewMidiPCInTrack - previews a midi-pc in a specific armed track
@@ -502,7 +503,8 @@ Note: requires at least Reaper 7.03 now!
   - Developer Tools: State Inspector - restores the loaded slot when reopening; ini-file doesn't get overwritten anymore after updating US_API
   - Developer Tools: Create\_New\_Script\_With\_Dialog.lua - uses ReaGirl now to do the gui, also accessible now
   - Docs: open-docs-actions - didn't always open the docs -> fixed
-  - Editing: RippleCut - didn't move regions, markers and envelopes correctly -> fixed(thnx to lennardodavinci)
+  - Editing: RippleCut - does now a standard fadein/out-time of 10ms; didn't move regions, markers and envelopes correctly -> fixed(thnx to lennardodavinci)
+  - Editing: RippleCut\_Reverse - does now a standard fadein/out-time of 10ms; didn't move regions, markers and envelopes correctly -> fixed
   - Envelopes: DeleteTrackEnvelopePointsBetween - inserts now envelope-points at "cut"-edges
   - Envelopes: MoveTrackEnvelopePointsBy - didn't move first envelope-point in the envelope -> fixed
   - Helpers: EditReaScript - allows now adding ReaGirl-basic structure to a script

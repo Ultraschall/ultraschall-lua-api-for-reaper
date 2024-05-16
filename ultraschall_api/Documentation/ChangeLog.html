@@ -32,7 +32,7 @@
           <div class="ch"><p></p>
 <h2>Ultraschall Framework - Changelog</h2>
 <h3>5 - "Eels - Novocaine for the Soul" - 22nd of May 2024</h3>
-<p>Has now 1798 functions, with 135 new ones</p>
+<p>Has now 1799 functions, with 136 new ones</p>
 <p>Note: requires at least Reaper 7.03 now!</p>
 <p><strong>new in this release:</strong></p>
 <ul>
@@ -44,7 +44,7 @@ You can preview now midi-notes, cc, pc and pitch in a certain track with dedicat
 <li><p><strong>Lane functions</strong><br />
 Various functions around the new track-lane-features of Reaper.</p></li>
 <li><p><strong>Project pos 2 Take-pos 2 Project pos</strong><br />
-Functions to get the take-position at a certain project position and the project-position at a take position. Used to be in there in an earlier version and reappear now, due a bugfix in Reaper.</p></li>
+Functions to get the take-position at a certain project position and the project-position at a take position. Used to be in there in an earlier version and reappear now, due to a bugfix in Reaper.</p></li>
 </ul>
 <h4>New features in 5</h4>
 <ul>
@@ -59,6 +59,7 @@ Functions to get the take-position at a certain project position and the project
 <li>Lanes: ItemLane_GetAllMediaItems - returns the MediaItems from an item-lanes in a track between start_position and end_position</li>
 <li>Lanes: ItemLane_GetFromPoint - returns the MediaTrack and the item-lane at a screen-coordinate</li>
 <li>Lanes: ItemLane_GetPositionAndHeight - returns the position and height of an item-lanes in a track</li>
+<li>Markers: RippleCut_Regions_Reverse - ripple cuts regions before startposition and moves them towards project-end</li>
 <li>MIDI: PreviewMidiCCInTrack - previews a midi-cc in a specific armed track</li>
 <li>MIDI: PreviewMidiNoteInTrack - previews a midi-note in a specific armed track</li>
 <li>MIDI: PreviewMidiPCInTrack - previews a midi-pc in a specific armed track</li>
@@ -189,7 +190,8 @@ Functions to get the take-position at a certain project position and the project
 <li>Developer Tools: State Inspector - restores the loaded slot when reopening; ini-file doesn't get overwritten anymore after updating US_API</li>
 <li>Developer Tools: Create_New_Script_With_Dialog.lua - uses ReaGirl now to do the gui, also accessible now</li>
 <li>Docs: open-docs-actions - didn't always open the docs -&gt; fixed</li>
-<li>Editing: RippleCut - didn't move regions, markers and envelopes correctly -&gt; fixed(thnx to lennardodavinci)</li>
+<li>Editing: RippleCut - does now a standard fadein/out-time of 10ms; didn't move regions, markers and envelopes correctly -&gt; fixed(thnx to lennardodavinci)</li>
+<li>Editing: RippleCut_Reverse - does now a standard fadein/out-time of 10ms; didn't move regions, markers and envelopes correctly -&gt; fixed</li>
 <li>Envelopes: DeleteTrackEnvelopePointsBetween - inserts now envelope-points at "cut"-edges</li>
 <li>Envelopes: MoveTrackEnvelopePointsBy - didn't move first envelope-point in the envelope -&gt; fixed</li>
 <li>Helpers: EditReaScript - allows now adding ReaGirl-basic structure to a script</li>

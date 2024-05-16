@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API and ReaGirl">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API and ReaGirl package" type="extension">
-      <version name="55962.00" author="Meo-Ada Mespotine">
+      <version name="55966.00" author="Meo-Ada Mespotine">
 	<source file="reagirl.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5//reagirl.lua</source>
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5//ultraschall_api_readme.txt</source>
@@ -642,7 +642,7 @@
 
 5 - “Eels - Novocaine for the Soul” - 22nd of May 2024
 
-Has now 1798 functions, with 135 new ones
+Has now 1799 functions, with 136 new ones
 
 Note: requires at least Reaper 7.03 now!
 
@@ -667,7 +667,7 @@ new in this release:
 -   Project pos 2 Take-pos 2 Project pos
     Functions to get the take-position at a certain project position and
     the project-position at a take position. Used to be in there in an
-    earlier version and reappear now, due a bugfix in Reaper.
+    earlier version and reappear now, due to a bugfix in Reaper.
 
 New features in 5
 
@@ -689,6 +689,8 @@ New features in 5
     item-lane at a screen-coordinate
 -   Lanes: ItemLane_GetPositionAndHeight - returns the position and
     height of an item-lanes in a track
+-   Markers: RippleCut_Regions_Reverse - ripple cuts regions before
+    startposition and moves them towards project-end
 -   MIDI: PreviewMidiCCInTrack - previews a midi-cc in a specific armed
     track
 -   MIDI: PreviewMidiNoteInTrack - previews a midi-note in a specific
@@ -926,8 +928,11 @@ Changes from 4.9 to 5
 -   Developer Tools: Create_New_Script_With_Dialog.lua - uses ReaGirl
     now to do the gui, also accessible now
 -   Docs: open-docs-actions - didn’t always open the docs -> fixed
--   Editing: RippleCut - didn’t move regions, markers and envelopes
-    correctly -> fixed(thnx to lennardodavinci)
+-   Editing: RippleCut - does now a standard fadein/out-time of 10ms;
+    didn’t move regions, markers and envelopes correctly -> fixed(thnx
+    to lennardodavinci)
+-   Editing: RippleCut_Reverse - does now a standard fadein/out-time of
+    10ms; didn’t move regions, markers and envelopes correctly -> fixed
 -   Envelopes: DeleteTrackEnvelopePointsBetween - inserts now
     envelope-points at “cut”-edges
 -   Envelopes: MoveTrackEnvelopePointsBy - didn’t move first
@@ -965,7 +970,7 @@ Changes from 4.9 to 5
         \par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af6\langfe2052\dbch\af8\afs24\lang1081\loch\f0\fs24\lang1031{\rtlch \ltrch\loch
         }
         \par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af6\langfe2052\dbch\af8\afs24\lang1081\loch\f0\fs24\lang1031{\rtlch \ltrch\loch\loch\f4
-        a 1678 Lua-functions library for Reaper.}
+        a 1679 Lua-functions library for Reaper.}
         \par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af6\langfe2052\dbch\af8\afs24\lang1081\loch\f0\fs24\lang1031{\rtlch \ltrch\loch
         }
         \par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af6\langfe2052\dbch\af8\afs24\lang1081\loch\f0\fs24\lang1031{\rtlch \ltrch\loch

@@ -2465,6 +2465,10 @@ else
     ultraschall.LM(18)
     return ultraschall.RippleCut_Regions(table.unpack({...}))
   end
+  function ultraschall.RippleCut_Regions_Reverse(...)
+    ultraschall.LM(18)
+    return ultraschall.RippleCut_Regions_Reverse(table.unpack({...}))
+  end
   function ultraschall.GetAllCustomMarkers(...)
     ultraschall.LM(18)
     return ultraschall.GetAllCustomMarkers(table.unpack({...}))
