@@ -6606,42 +6606,6 @@ function reagirl.DropDownMenu_GetDimensions(element_id)
   end
 end
 
-function reagirl.DropDownMenu_GetValue(element_id)
---[[
-<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>DropDownMenu_GetDimensions</slug>
-  <requires>
-    ReaGirl=1.0
-    Reaper=7.03
-    Lua=5.4
-  </requires>
-  <functioncall>integer width = reagirl.DropDownMenu_GetDimensions(string element_id)</functioncall>
-  <description>
-    Gets the width of a drop down menu.
-  </description>
-  <parameters>
-    string element_id - the guid of the drop down menu, whose width-state you want to set
-  </parameters>
-  <retvals>
-    integer width - the width of the drop down menu; negative anchors to right window-edge
-  </retvals>
-  <chapter_context>
-    DropDown Menu
-  </chapter_context>
-  <tags>dropdown menu, get, width</tags>
-</US_DocBloc>
---]]
-  if type(element_id)~="string" then error("DropDownMenu_GetDimensions: param #1 - must be a string", 2) end
-  if reagirl.IsValidGuid(element_id, true)==nil then error("DropDownMenu_GetDimensions: param #1 - must be a valid guid", 2) end
-  element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
-  if element_id==-1 then error("DropDownMenu_GetDimensions: param #1 - no such ui-element", 2) end
-  if reagirl.Elements[element_id]["GUI_Element_Type"]~="ComboBox" then
-    error("DropDownMenu_GetDimensions: param #1 - ui-element is not a drop down menu", 2)
-  else
-    return reagirl.Elements[element_id]["menuSelectedItem"], reagirl.Elements[element_id]["MenuEntries"][reagirl.Elements[element_id]["menuSelectedItem"]]
-  end
-end
-
 function reagirl.DropDownMenu_SetDisabled(element_id, state)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
