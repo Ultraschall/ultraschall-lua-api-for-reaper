@@ -60,6 +60,10 @@ function Label(A,B,C)
   print2(A,B,C)
 end
 
+function dropdownmenu(element_id, selection)
+  
+end
+
 function button_apply_and_close()
   reaper.SetExtState("ReaGirl", "show_tooltips", tostring(reagirl.Checkbox_GetCheckState(tab1.checkbox_tooltips_id)), true)
   reaper.SetExtState("ReaGirl", "osara_override", tostring(reagirl.Checkbox_GetCheckState(tabs2.checkbox_osara_id)), true)
@@ -68,6 +72,8 @@ function button_apply_and_close()
   reaper.SetExtState("ReaGirl", "highlight_drag_destinations", tostring(reagirl.Checkbox_GetCheckState(tabs2.checkbox_osara_hover_mouse_id)), true)
   reaper.SetExtState("ReaGirl", "osara_hover_mouse", tostring(reagirl.Checkbox_GetCheckState(tab1.checkbox_highlight_drag_destinations)), true)
   reaper.SetExtState("ReaGirl", "osara_enable_accmessage", tostring(reagirl.Checkbox_GetCheckState(tabs2.checkbox_osara_enable_acc_help)), true)
+  local menuitems, selected_menuitem = reagirl.DropDownMenu_GetMenuItems(tabs2.error_message_target)
+  reaper.SetExtState("ReaGirl", "Error_Message_Destination", tostring(selected_menuitem), true)
 
 reaper.GetExtState("ReaGirl", "osara_enable_accmessage")
 
@@ -203,7 +209,12 @@ function SetUpNewGui()
   osara_enable_accmessage = reaper.GetExtState("ReaGirl", "osara_enable_accmessage")
   if osara_enable_accmessage=="" or osara_enable_accmessage=="true" then osara_enable_accmessage=true else osara_enable_accmessage=false end
   tabs2.checkbox_osara_enable_acc_help = reagirl.Checkbox_Add(nil, nil, "Enable screen reader help-messages", "When checked, a short description on how to use a tabbed ui-element will be send to the screen reader as well. Uncheck to turn off the help-messages.", osara_enable_accmessage, checkbox)
-
+  
+  reagirl.NextLine(10)
+  error_message_target=tonumber(reaper.GetExtState("ReaGirl", "Error_Message_Destination"))
+  if error_message_target==nil then error_message_target=1 end
+  tabs2.error_message_target=reagirl.DropDownMenu_Add(nil, nil, 300, "Show errors in:", 100, "Decide, whether ReaGirl-error-messages shall be shown only in IDE, in a dedicated MessageBox or in the ReaScript console window.", {"IDE", "Messagebox", "Reascript console window"}, error_message_target, dropdownmenu)
+  
   reagirl.Tabs_SetUIElementsForTab(Tabs, 2, tabs2)
   
   button_apply_and_close_id = reagirl.Button_Add(-180, 435, 0, 0, "Apply and Close", "Apply the chosen settings and close window.", button_apply_and_close)

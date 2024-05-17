@@ -33,7 +33,7 @@ reagirl={}
 
 function reagirl.OpenURL(url)
 
-  if type(url)~="string" then ultraschall.AddErrorMessage("OpenURL","url", "Must be a string.", -1) return -1 end
+  if type(url)~="string" then return -1 end
   local OS=reaper.GetOS()
   url="\""..url.."\""
   if OS=="OSX32" or OS=="OSX64" or OS=="macOS-arm64" then
@@ -227,6 +227,20 @@ reagirl.JS_Dialog_BrowseForFolder=reaper.JS_Dialog_BrowseForFolder
 reagirl.JS_Dialog_BrowseForOpenFiles=reaper.JS_Dialog_BrowseForOpenFiles
 reagirl.JS_Dialog_BrowseForSaveFile=reaper.JS_Dialog_BrowseForOpenFiles
 reagirl.JS_Actions_DoShortcutDialog=reaper.JS_Actions_DoShortcutDialog
+
+reagirl.error=error
+
+function error(msg, stack)
+  local context=debug.getinfo(stack+1)
+  if reaper.GetExtState("ReaGirl", "Error_Message_Destination")=="2" then
+    reaper.MB("Error in: "..context.source.."\n\nLine:\t"..context.currentline.."\nErrMsg:\t"..msg, "Error", 0)
+  elseif reaper.GetExtState("ReaGirl", "Error_Message_Destination")=="3" then
+    reaper.ShowConsoleMsg("> Error in: "..context.source.."\nLine:\t"..context.currentline.."\nErrMsg:\t"..msg.."\n\n")
+  end
+  reagirl.error(msg, stack+1)
+end
+
+--error("Tudelu", 2)
 
 function reaper.GetUserInputs(...)
   local retvals={pcall(reagirl.GetUserInputs, table.unpack({...}))}
@@ -6589,6 +6603,42 @@ function reagirl.DropDownMenu_GetDimensions(element_id)
     error("DropDownMenu_GetDimensions: param #1 - ui-element is not a drop down menu", 2)
   else
     return reagirl.Elements[element_id]["w"]
+  end
+end
+
+function reagirl.DropDownMenu_GetValue(element_id)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>DropDownMenu_GetDimensions</slug>
+  <requires>
+    ReaGirl=1.0
+    Reaper=7.03
+    Lua=5.4
+  </requires>
+  <functioncall>integer width = reagirl.DropDownMenu_GetDimensions(string element_id)</functioncall>
+  <description>
+    Gets the width of a drop down menu.
+  </description>
+  <parameters>
+    string element_id - the guid of the drop down menu, whose width-state you want to set
+  </parameters>
+  <retvals>
+    integer width - the width of the drop down menu; negative anchors to right window-edge
+  </retvals>
+  <chapter_context>
+    DropDown Menu
+  </chapter_context>
+  <tags>dropdown menu, get, width</tags>
+</US_DocBloc>
+--]]
+  if type(element_id)~="string" then error("DropDownMenu_GetDimensions: param #1 - must be a string", 2) end
+  if reagirl.IsValidGuid(element_id, true)==nil then error("DropDownMenu_GetDimensions: param #1 - must be a valid guid", 2) end
+  element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
+  if element_id==-1 then error("DropDownMenu_GetDimensions: param #1 - no such ui-element", 2) end
+  if reagirl.Elements[element_id]["GUI_Element_Type"]~="ComboBox" then
+    error("DropDownMenu_GetDimensions: param #1 - ui-element is not a drop down menu", 2)
+  else
+    return reagirl.Elements[element_id]["menuSelectedItem"], reagirl.Elements[element_id]["MenuEntries"][reagirl.Elements[element_id]["menuSelectedItem"]]
   end
 end
 
