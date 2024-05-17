@@ -95,6 +95,7 @@ Blind people can navigate through your gui via keyboard and get feedback to thei
 <div class="ch">
 <p>Since ReaGirl is part of Ultraschall-API, the installation-instructions from Ultraschall-API are applicable here as well.</p>
 <p>First make sure, you use the right versions of Reaper, SWS and JS-extension: <a href="https://www.reaper.fm">Reaper 7.03 and higher</a>, <a href="https://www.sws-extension.org">SWS 2.10.0.1 and higher</a> and <a href="https://github.com/juliansader/ReaExtensions/tree/master/js_ReaScriptAPI/">Julian Sader's plugin 1.215 and higher.</a> You can download them at <a href="http://www.reaper.fm">reaper.fm</a> and <a href="http://www.sws-extension.org">sws-extension.org</a> respectively. Julian Sader's plugin can be installed using ReaPack or gotten from <a href="https://github.com/juliansader/ReaExtensions/tree/master/js_ReaScriptAPI/">his own github-site</a></p>
+<p>The screen reader compatbility needs at least Windows 10 or Mac OS.</p>
 <p>To install the Ultraschall-API with ReaGirl, just follow the following steps:</p>
 <p><strong>Installation via ReaPack</strong>:</p>
 <p>The easiest way is to install the Ultraschall-API and ReaGirl using ReaPack. ReaPack is a package-manager for extensions and helper-stuff for Reaper, which allows you to easily install and update content done by the Reaper community. Many Scripts, Themes, JSFX-FX, etc are available through that.</p>
@@ -131,7 +132,7 @@ For more information on ReaPack and it's usage, refer <a href="https://reapack.c
 <li>Just download the zip-file of the current version from <a href="https://github.com/Ultraschall/ultraschall-lua-api-for-reaper/raw/master/ultraschall_api5.zip">ultraschall_api5.zip</a>.<br />
 </li>
 <li>Extract it to the UserPlugins-folder in the Resources-folder of Reaper. You can find the correct Resources-path in the Reaper-menu "Options -&gt; Show REAPER resource path in explorer/finder...".<br />
-The folder UserPlugins should contain the folder ultraschall_api and the files ultraschall_api_readme.txt and ultraschall_api.lua after this step.<br />
+The folder UserPlugins should contain the folder ultraschall_api and the files ultraschall_api_readme.txt, ultraschall_api.lua and reagirl.lua after this step.<br />
 </li>
 <li>Restart Reaper.</li>
 </ol>
@@ -192,14 +193,12 @@ The folder UserPlugins should contain the folder ultraschall_api and the files u
 <a href="#Introduction_001_First_Steps"> ^</a> <u><b>First steps in ReaGirl</b></u><br>			<p>
 <div class="ch">
 <p>When making a gui in ReaGirl, you basically have to work through 5 steps.</p>
-<ol>
-<li>Initialize ReaGirl</li>
-<li>Add some run-functions</li>
-<li>Start a new gui using reagirl.Gui_New()</li>
-<li>Add some ui-elements using the various _Add-functions</li>
-<li>Open a gui using reagirl.Gui_Open()</li>
-<li>Write and run a defer-function, in which you call reagirl.Gui_Manage()</li>
-</ol>
+<p>0) Initialize ReaGirl<br />
+1) Add some run-functions<br />
+2) Start a new gui using reagirl.Gui_New()<br />
+3) Add some ui-elements using the various _Add-functions<br />
+4) Open a gui using reagirl.Gui_Open()<br />
+5) Write and run a defer-function, in which you call reagirl.Gui_Manage()</p>
 <p>Let's get into these steps in more details.</p>
 <h4>Step 0: Initialize ReaGirl</h4>
 <p>First add the line</p>

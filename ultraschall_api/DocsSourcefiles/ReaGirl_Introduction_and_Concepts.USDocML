@@ -59,6 +59,8 @@
             You can download them at [reaper.fm](http://www.reaper.fm) and [sws-extension.org](http://www.sws-extension.org) respectively.
             Julian Sader's plugin can be installed using ReaPack or gotten from [his own github-site](https://github.com/juliansader/ReaExtensions/tree/master/js_ReaScriptAPI/)
             
+            The screen reader compatbility needs at least Windows 10 or Mac OS.
+            
             To install the Ultraschall-API with ReaGirl, just follow the following steps:
             
             **Installation via ReaPack**:
@@ -93,7 +95,7 @@
             
             1. Just download the zip-file of the current version from [ultraschall_api5.zip](https://github.com/Ultraschall/ultraschall-lua-api-for-reaper/raw/master/ultraschall_api5.zip).  
             2. Extract it to the UserPlugins-folder in the Resources-folder of Reaper. You can find the correct Resources-path in the Reaper-menu "Options -> Show REAPER resource path in explorer/finder...".    
-               The folder UserPlugins should contain the folder ultraschall\_api and the files ultraschall\_api\_readme.txt and ultraschall\_api.lua after this step.  
+               The folder UserPlugins should contain the folder ultraschall\_api and the files ultraschall\_api\_readme.txt, ultraschall\_api.lua and reagirl.lua after this step.  
             3. Restart Reaper.
         </description>
         <target_document>ReaGirl_Introduction_and_Concepts.html</target_document>
@@ -171,12 +173,12 @@
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
             When making a gui in ReaGirl, you basically have to work through 5 steps.
 
-            0. Initialize ReaGirl
-            1. Add some run-functions
-            2. Start a new gui using reagirl.Gui\_New()
-            3. Add some ui-elements using the various \_Add-functions
-            4. Open a gui using reagirl.Gui\_Open()
-            5. Write and run a defer-function, in which you call reagirl.Gui\_Manage()
+            0) Initialize ReaGirl  
+            1) Add some run-functions  
+            2) Start a new gui using reagirl.Gui\_New()  
+            3) Add some ui-elements using the various \_Add-functions  
+            4) Open a gui using reagirl.Gui\_Open()  
+            5) Write and run a defer-function, in which you call reagirl.Gui\_Manage()  
 
             Let's get into these steps in more details.
 
