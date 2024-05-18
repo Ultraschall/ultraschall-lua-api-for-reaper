@@ -547,6 +547,18 @@ function string.utf8_len(source_string)
   return utf8.len(source_string)
 end
 
+function reagirl.GetMediaExplorerHWND()
+  local A=reaper.GetToggleCommandState(50124)
+  if A~=0 then return reaper.OpenMediaExplorer("", false) else return end
+end 
+
+function reagirl.MediaExplorer_OnCommand(actioncommandid)
+  local HWND=reagirl.GetMediaExplorerHWND()
+  if HWND==nil then return end
+  local Actioncommandid=reaper.NamedCommandLookup(actioncommandid)
+  return reaper.JS_Window_OnCommand(HWND, tonumber(Actioncommandid))
+end
+
 function reagirl.NextLine_SetDefaults(x, y)
 --[[
 <US_ DocBloc version="1.0" spok_lang="en" prog_lang="*">
@@ -4257,6 +4269,7 @@ function reagirl.Checkbox_Add(x, y, caption, meaningOfUI_Element, default, run_f
 end
 
 function reagirl.Checkbox_Manage(element_id, selected, hovered, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
+-- ToDo: SetTogglecommandState for MediaExplorer and Midi-Inline Editor, needs JS-extension features(see Ultraschall-API for details)
   local refresh=false
   
   -- drop files for accessibility using a file-requester, after typing ctrl+shift+f
@@ -4316,6 +4329,10 @@ function reagirl.Checkbox_Manage(element_id, selected, hovered, clicked, mouse_c
       val=val&element_storage["linked_to_bit"]
       if val==0 then val=false else val=true end
       if val~=element_storage["checked"] then element_storage["checked"]=val reagirl.Gui_ForceRefresh() end
+    elseif element_storage["linked_to"]==4 then
+      local val=false
+      if reaper.GetToggleCommandStateEx(element_storage["linked_to_section"], element_storage["linked_to_command_id"])==1 then val=true end
+      if val~=element_storage["checked"] then element_storage["checked"]=val reagirl.Gui_ForceRefresh() end
     end
   end
   
@@ -4368,6 +4385,35 @@ function reagirl.Checkbox_Manage(element_id, selected, hovered, clicked, mouse_c
       if element_storage["linked_to_persist"]==true then
         reaper.BR_Win32_WritePrivateProfileString("REAPER", element_storage["linked_to_configvar"], val, reaper.get_ini_file())
       end
+    elseif element_storage["linked_to"]==4 then
+      if element_storage["checked"]==true then 
+        reaper.SetToggleCommandState(element_storage["linked_to_section"], element_storage["linked_to_command_id"], 1)
+        if reaper.GetToggleCommandStateEx(element_storage["linked_to_section"], element_storage["linked_to_command_id"])==0 then
+          if element_storage["linked_to_section"]==32060 then  
+            reaper.MIDIEditor_LastFocused_OnCommand(element_storage["linked_to_command_id"], false)
+          elseif element_storage["linked_to_section"]==32061 then  
+            reaper.MIDIEditor_LastFocused_OnCommand(element_storage["linked_to_command_id"], true)
+          elseif element_storage["linked_to_section"]==32063 then
+            reagirl.MediaExplorer_OnCommand(element_storage["linked_to_command_id"])
+          elseif element_storage["linked_to_section"]==0 then
+            reaper.Main_OnCommand(element_storage["linked_to_command_id"], 0)
+          end
+        end
+      else
+        reaper.SetToggleCommandState(element_storage["linked_to_section"], element_storage["linked_to_command_id"], 0)
+        if reaper.GetToggleCommandStateEx(element_storage["linked_to_section"], element_storage["linked_to_command_id"])==1 then
+          if element_storage["linked_to_section"]==32060 then  
+            reaper.MIDIEditor_LastFocused_OnCommand(element_storage["linked_to_command_id"], false)
+          elseif element_storage["linked_to_section"]==32061 then  
+            reaper.MIDIEditor_LastFocused_OnCommand(element_storage["linked_to_command_id"], true)
+          elseif element_storage["linked_to_section"]==32063 then
+            reagirl.MediaExplorer_OnCommand(element_storage["linked_to_command_id"])
+          elseif element_storage["linked_to_section"]==0 then
+            reaper.Main_OnCommand(element_storage["linked_to_command_id"], 0)
+          end
+        end
+      end
+      reaper.RefreshToolbar2(element_storage["linked_to_section"], element_storage["linked_to_command_id"])
     end
   end
   
@@ -4553,6 +4599,7 @@ function reagirl.Checkbox_LinkToIniValue(element_id, ini_file, section, key, fal
 end
 
 function reagirl.Checkbox_LinkToConfigVar(element_id, configvar_name, bit, persist)
+-- ToDo in Checkbox_Manage(): SetTogglecommandState for MediaExplorer and Midi-Inline Editor, needs JS-extension features(see Ultraschall-API for details)
 --[[
 <US_ DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>Checkbox_LinkToConfigVar</slug>
@@ -4603,6 +4650,60 @@ function reagirl.Checkbox_LinkToConfigVar(element_id, configvar_name, bit, persi
     reagirl.Elements[element_id]["linked_to_configvar"]=configvar_name
     reagirl.Elements[element_id]["linked_to_bit"]=bit
     reagirl.Elements[element_id]["linked_to_persist"]=persist
+    reagirl.Gui_ForceRefresh(16)
+  end
+end
+
+function reagirl.Checkbox_LinkToToggleState(element_id, section, command_id)
+--[[
+<US_ DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Checkbox_LinkToToggleState</slug>
+  <requires>
+    ReaGirl=1.1
+    Reaper=7.03
+    Lua=5.4
+  </requires>
+  <functioncall>reagirl.Checkbox_LinkToToggleState(string element_id, integer section, string command_id)</functioncall>
+  <description>
+    Links a checkbox to a toggle-command-state of an action. 
+    
+    All changes to the toggle-state will be immediately visible for this checkbox.
+    Clicking the checkbox also updates the toggle-state immediately.
+    
+    If the checkbox was already linked to a config-var or ini-file, this linked-state will be replaced by this new one.
+    Use reagirl.Checkbox_UnLink() to unlink the checkbox from extstate/ini-file/config var.
+  </description>
+  <parameters>
+    string element_id - the guid of the checkbox, that you want to link to an extstate
+    integer section - the section of the command, whose toggle state you want to link
+                    - 0, Main
+                    - 100, Main (alt recording)
+                    - 32060, MIDI Editor
+                    - 32061, MIDI Event List Editor
+                    - 32062, MIDI Inline Editor
+                    - 32063, Media Explorer
+    string command_id - the action command id of the command
+  </parameters>
+  <chapter_context>
+    Checkbox
+  </chapter_context>
+  <tags>checkbox, link to, toggle command state</tags>
+</US_DocBloc>
+--]]
+  if type(element_id)~="string" then error("Checkbox_LinkToExtstate: param #1 - must be a string", 2) end
+  if reagirl.IsValidGuid(element_id, true)==nil then error("Checkbox_LinkToExtstate: param #1 - must be a valid guid", 2) end
+  if math.type(section)~="integer" then error("Checkbox_LinkToExtstate: param #2 - must be an integer", 2) end
+  if type(command_id)~="string" and math.type(command_id)~="integer" then error("Checkbox_LinkToExtstate: param #3 - must be a string", 2) end
+  
+  element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
+  if element_id==-1 then error("Checkbox_LinkToExtstate: param #1 - no such ui-element", 2) end
+  if reagirl.Elements[element_id]["GUI_Element_Type"]~="Checkbox" then
+    error("Checkbox_LinkToExtstate: param #1 - ui-element is not a checkbox", 2)
+  else
+    if reaper.GetToggleCommandStateEx(section, reaper.NamedCommandLookup(command_id))==-1 then error("Checkbox_LinkToExtstate: param #3 - has not toggle-state", 2) end
+    reagirl.Elements[element_id]["linked_to"]=4
+    reagirl.Elements[element_id]["linked_to_section"]=section
+    reagirl.Elements[element_id]["linked_to_command_id"]=reaper.NamedCommandLookup(command_id)
     reagirl.Gui_ForceRefresh(16)
   end
 end
