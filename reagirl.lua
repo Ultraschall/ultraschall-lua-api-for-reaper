@@ -4497,7 +4497,7 @@ function reagirl.Checkbox_LinkToExtstate(element_id, section, key, false_val, tr
     Clicking the checkbox also updates the extstate immediately.
     
     If the checkbox was already linked to a config-var or ini-file, this linked-state will be replaced by this new one.
-    Use reagirl.Checkbox_UnLink() to unlink the checkbox from extstate/ini-file/config var.
+    Use reagirl.Checkbox_Unlink() to unlink the checkbox from extstate/ini-file/config var.
   </description>
   <parameters>
     string element_id - the guid of the checkbox, that you want to link to an extstate
@@ -4557,7 +4557,7 @@ function reagirl.Checkbox_LinkToIniValue(element_id, ini_file, section, key, fal
     Clicking the checkbox also updates the inivalue immediately.
     
     If the checkbox was already linked to extstate or config-variable, this linked-state will be replaced by this new one.
-    Use reagirl.Checkbox_UnLink() to unlink the checkbox from extstate/ini-file/config var.
+    Use reagirl.Checkbox_Unlink() to unlink the checkbox from extstate/ini-file/config var.
   </description>
   <parameters>
     string element_id - the guid of the checkbox that you want to link to an ini-value
@@ -4599,7 +4599,6 @@ function reagirl.Checkbox_LinkToIniValue(element_id, ini_file, section, key, fal
 end
 
 function reagirl.Checkbox_LinkToConfigVar(element_id, configvar_name, bit, persist)
--- ToDo in Checkbox_Manage(): SetTogglecommandState for MediaExplorer and Midi-Inline Editor, needs JS-extension features(see Ultraschall-API for details)
 --[[
 <US_ DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>Checkbox_LinkToConfigVar</slug>
@@ -4621,7 +4620,7 @@ function reagirl.Checkbox_LinkToConfigVar(element_id, configvar_name, bit, persi
     Read the Reaper Internals-docs for all available config-variables(run the action ultraschall_Help_Reaper_ConfigVars_Documentation.lua for more details)
     
     If the checkbox was already linked to extstate or ini-file, this linked-state will be replaced by this new one.
-    Use reagirl.Checkbox_UnLink() to unlink the checkbox from extstate/ini-file/config var.
+    Use reagirl.Checkbox_Unlink() to unlink the checkbox from extstate/ini-file/config var.
   </description>
   <parameters>
     string element_id - the guid of the checkbox that shall toggle a config-var-bit
@@ -4632,7 +4631,7 @@ function reagirl.Checkbox_LinkToConfigVar(element_id, configvar_name, bit, persi
   <chapter_context>
     Checkbox
   </chapter_context>
-  <tags>checkbox, link to, config varriable</tags>
+  <tags>checkbox, link to, config variable</tags>
 </US_DocBloc>
 --]]
   if type(element_id)~="string" then error("Checkbox_LinkToConfigVar: param #1 - must be a string", 2) end
@@ -4655,6 +4654,7 @@ function reagirl.Checkbox_LinkToConfigVar(element_id, configvar_name, bit, persi
 end
 
 function reagirl.Checkbox_LinkToToggleState(element_id, section, command_id)
+-- ToDo in Checkbox_Manage(): SetTogglecommandState for Midi-Inline Editor, needs JS-extension features(see Ultraschall-API for details)
 --[[
 <US_ DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>Checkbox_LinkToToggleState</slug>
@@ -4671,7 +4671,7 @@ function reagirl.Checkbox_LinkToToggleState(element_id, section, command_id)
     Clicking the checkbox also updates the toggle-state immediately.
     
     If the checkbox was already linked to a config-var or ini-file, this linked-state will be replaced by this new one.
-    Use reagirl.Checkbox_UnLink() to unlink the checkbox from extstate/ini-file/config var.
+    Use reagirl.Checkbox_Unlink() to unlink the checkbox from extstate/ini-file/config var.
   </description>
   <parameters>
     string element_id - the guid of the checkbox, that you want to link to an extstate
@@ -4708,16 +4708,16 @@ function reagirl.Checkbox_LinkToToggleState(element_id, section, command_id)
   end
 end
 
-function reagirl.Checkbox_UnLink(element_id)
+function reagirl.Checkbox_Unlink(element_id)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>Checkbox_UnLink</slug>
+  <slug>Checkbox_Unlink</slug>
   <requires>
     ReaGirl=1.0
     Reaper=7.03
     Lua=5.4
   </requires>
-  <functioncall>reagirl.Checkbox_UnLink(string element_id)</functioncall>
+  <functioncall>reagirl.Checkbox_Unlink(string element_id)</functioncall>
   <description>
     Unlinks a checkbox from extstate/ini-file/configvar. 
   </description>
@@ -4730,13 +4730,13 @@ function reagirl.Checkbox_UnLink(element_id)
   <tags>checkbox, link to, unlink</tags>
 </US_DocBloc>
 --]]
-  if type(element_id)~="string" then error("Checkbox_LinkToConfigVar: param #1 - must be a string", 2) end
-  if reagirl.IsValidGuid(element_id, true)==nil then error("Checkbox_LinkToConfigVar: param #1 - must be a valid guid", 2) end
+  if type(element_id)~="string" then error("Checkbox_Unlink: param #1 - must be a string", 2) end
+  if reagirl.IsValidGuid(element_id, true)==nil then error("Checkbox_Unlink: param #1 - must be a valid guid", 2) end
   
   element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
-  if element_id==-1 then error("Checkbox_LinkToConfigVar: param #1 - no such ui-element", 2) end
+  if element_id==-1 then error("Checkbox_Unlink: param #1 - no such ui-element", 2) end
   if reagirl.Elements[element_id]["GUI_Element_Type"]~="Checkbox" then
-    error("Checkbox_LinkToIniValue: param #1 - ui-element is not a checkbox", 2)
+    error("Checkbox_Unlink: param #1 - ui-element is not a checkbox", 2)
   else
     reagirl.Elements[element_id]["linked_to"]=0
     reagirl.Gui_ForceRefresh(16)
@@ -9660,6 +9660,7 @@ function reagirl.Slider_Add(x, y, w, caption, Cap_width, meaningOfUI_Element, un
   reagirl.Elements[slot]["Default"]=default
   reagirl.Elements[slot]["CurValue"]=init_value
   reagirl.Elements[slot]["IsDisabled"]=false
+  reagirl.Elements[slot]["linked_to"]=0
   reagirl.Elements[slot]["Description"]=meaningOfUI_Element
   reagirl.Elements[slot]["AccHint"]="Change via arrowkeys, home, end, pageUp, pageDown."
   reagirl.Elements[slot]["ContextMenu_ACC"]=""
@@ -9701,6 +9702,25 @@ function reagirl.Slider_Manage(element_id, selected, hovered, clicked, mouse_cap
   if element_storage["Cap_width"]~=nil then
     offset_cap=element_storage["Cap_width"]*dpi_scale
     offset_cap=offset_cap+dpi_scale
+  end
+  
+  if element_storage["linked_to"]~=0 then
+    if element_storage["linked_to"]==1 then
+      local val=tonumber(reaper.GetExtState(element_storage["linked_to_section"], element_storage["linked_to_key"]))
+      if val==nil then val=element_storage["linked_to_default"] refresh=true end
+      if element_storage["CurValue"]~=val then element_storage["CurValue"]=val reagirl.Gui_ForceRefresh() end
+    elseif element_storage["linked_to"]==2 then
+      local retval, val = reaper.BR_Win32_GetPrivateProfileString(element_storage["linked_to_section"], element_storage["linked_to_key"], "", element_storage["linked_to_ini_file"])
+      val=tonumber(val)
+      if val==nil then val=element_storage["linked_to_default"] refresh=true end
+      if element_storage["CurValue"]~=val then element_storage["CurValue"]=val reagirl.Gui_ForceRefresh() end
+    elseif element_storage["linked_to"]==3 then
+      local val=reaper.SNM_GetDoubleConfigVar(element_storage["linked_to_configvar"], -9999999)
+      if element_storage["CurValue"]~=val then element_storage["CurValue"]=val reagirl.Gui_ForceRefresh() end
+      if element_storage["linked_to_persist"]==true then
+        reaper.BR_Win32_WritePrivateProfileString("REAPER", element_storage["linked_to_configvar"], val, reaper.get_ini_file())
+      end
+    end
   end
 
   local offset_unit=element_storage["unit_w"]
@@ -9756,7 +9776,6 @@ function reagirl.Slider_Manage(element_id, selected, hovered, clicked, mouse_cap
                 end
               end
   
-              
               element_storage["OldMouseX"]=gfx.mouse_x
               element_storage["OldMouseY"]=gfx.mouse_y 
             end
@@ -9820,7 +9839,18 @@ function reagirl.Slider_Manage(element_id, selected, hovered, clicked, mouse_cap
     if element_storage["run_function"]~=nil and skip_func~=true then 
       element_storage["run_function"](element_storage["Guid"], element_storage["CurValue"]) 
     end
+    
+    if element_storage["linked_to"]~=0 then
+      if element_storage["linked_to"]==1 then
+        reaper.SetExtState(element_storage["linked_to_section"], element_storage["linked_to_key"], element_storage["CurValue"], element_storage["linked_to_persist"])
+      elseif element_storage["linked_to"]==2 then
+        local retval, val = reaper.BR_Win32_WritePrivateProfileString(element_storage["linked_to_section"], element_storage["linked_to_key"], element_storage["CurValue"], element_storage["linked_to_ini_file"])
+      elseif element_storage["linked_to"]==3 then
+        reaper.SNM_SetDoubleConfigVar(element_storage["linked_to_configvar"], element_storage["CurValue"])
+      end
+    end
   end
+  
   element_storage["AccHoverMessage"]=element_storage["Name"].." "..element_storage["CurValue"]
   return element_storage["CurValue"].." "..element_storage["Unit"]..". ", refresh
 end
@@ -9902,6 +9932,199 @@ function reagirl.Slider_Draw(element_id, selected, hovered, clicked, mouse_cap, 
   end
   
   gfx.circle(x+offset_cap+step_current, math.floor(y+h/2), 5*dpi_scale, 1, 1)  
+end
+
+function reagirl.Slider_LinkToExtstate(element_id, section, key, default, persist)
+--[[
+<US_ DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Slider_LinkToExtstate</slug>
+  <requires>
+    ReaGirl=1.1
+    Reaper=7.03
+    Lua=5.4
+  </requires>
+  <functioncall>reagirl.Slider_LinkToExtstate(string element_id, string section, string key, string default, boolean persist)</functioncall>
+  <description>
+    Links a slider to an extstate. 
+    
+    All changes to the extstate will be immediately visible for this slider.
+    Dragging the slider also updates the extstate immediately.
+    
+    If the slider was already linked to a config-var or ini-file, this linked-state will be replaced by this new one.
+    Use reagirl.Slider_UnLink() to unlink the slider from extstate/ini-file/config var.
+  </description>
+  <parameters>
+    string element_id - the guid of the slider, that you want to link to an extstate
+    string section - the section of the linked extstate
+    string key - the key of the linked extstate
+    string default - the default value, if the extstate hasn't been set yet
+    boolean persist - true, the extstate shall be stored persistantly; false, the extstate shall not be stored persistantly
+  </parameters>
+  <chapter_context>
+    Slider
+  </chapter_context>
+  <tags>slider, link to, extstate</tags>
+</US_DocBloc>
+--]]
+  if type(element_id)~="string" then error("Slider_LinkToExtstate: param #1 - must be a string", 2) end
+  if reagirl.IsValidGuid(element_id, true)==nil then error("Slider_LinkToExtstate: param #1 - must be a valid guid", 2) end
+  if type(section)~="string" then error("Slider_LinkToExtstate: param #2 - must be a string", 2) end
+  if type(key)~="string" then error("Slider_LinkToExtstate: param #3 - must be a string", 2) end
+  if type(default)~="number" then error("Slider_LinkToExtstate: param #4 - must be a number", 2) end
+  if type(persist)~="boolean" then error("Slider_LinkToExtstate: param #5 - must be a boolean", 2) end
+  element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
+  if element_id==-1 then error("Slider_LinkToExtstate: param #1 - no such ui-element", 2) end
+  if reagirl.Elements[element_id]["GUI_Element_Type"]~="Slider" then
+    error("Slider_LinkToExtstate: param #1 - ui-element is not a slider", 2)
+  else
+    reagirl.Elements[element_id]["linked_to"]=1
+    reagirl.Elements[element_id]["linked_to_section"]=section
+    reagirl.Elements[element_id]["linked_to_key"]=key
+    reagirl.Elements[element_id]["linked_to_default"]=default
+    reagirl.Elements[element_id]["linked_to_persist"]=persist
+    reagirl.Gui_ForceRefresh(16)
+  end
+end
+
+function reagirl.Slider_LinkToIniFile(element_id, ini_file, section, key, default, persist)
+--[[
+<US_ DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Slider_LinkToIniFile</slug>
+  <requires>
+    ReaGirl=1.1
+    Reaper=7.03
+    Lua=5.4
+  </requires>
+  <functioncall>reagirl.Slider_LinkToIniFile(string element_id, string ini_file, string section, string key, string default, boolean persist)</functioncall>
+  <description>
+    Links a slider to an ini-file-entry. 
+    
+    All changes to the ini-file-entry will be immediately visible for this slider.
+    Dragging the slider also updates the ini-file-entry immediately.
+    
+    If the slider was already linked to a config-var or extstate, this linked-state will be replaced by this new one.
+    Use reagirl.Slider_UnLink() to unlink the slider from extstate/ini-file/config var.
+  </description>
+  <parameters>
+    string element_id - the guid of the slider, that you want to link to an extstate
+    string ini_file - the filename of the ini-file, whose value you want to link to this slider
+    string section - the section of the linked ini-file
+    string key - the key of the linked ini-file
+    string default - the default value, if the ini-file hasn't been set yet
+    boolean persist - true, the ini-file shall be stored persistantly; false, the ini-file shall not be stored persistantly
+  </parameters>
+  <chapter_context>
+    Slider
+  </chapter_context>
+  <tags>slider, link to, ini-file</tags>
+</US_DocBloc>
+--]]
+  if type(element_id)~="string" then error("Slider_LinkToIniFile: param #1 - must be a string", 2) end
+  if reagirl.IsValidGuid(element_id, true)==nil then error("Slider_LinkToIniFile: param #1 - must be a valid guid", 2) end
+  if type(ini_file)~="string" then error("Slider_LinkToIniFile: param #2 - must be a string", 2) end
+  if type(section)~="string" then error("Slider_LinkToIniFile: param #3 - must be a string", 2) end
+  if type(key)~="string" then error("Slider_LinkToIniFile: param #4 - must be a string", 2) end
+  if type(default)~="number" then error("Slider_LinkToIniFile: param #5 - must be a number", 2) end
+
+  element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
+  if element_id==-1 then error("Slider_LinkToIniFile: param #1 - no such ui-element", 2) end
+  if reagirl.Elements[element_id]["GUI_Element_Type"]~="Slider" then
+    error("Slider_LinkToIniFile: param #1 - ui-element is not a slider", 2)
+  else
+    reagirl.Elements[element_id]["linked_to"]=2
+    reagirl.Elements[element_id]["linked_to_ini_file"]=ini_file
+    reagirl.Elements[element_id]["linked_to_section"]=section
+    reagirl.Elements[element_id]["linked_to_key"]=key
+    reagirl.Elements[element_id]["linked_to_default"]=default
+    reagirl.Elements[element_id]["linked_to_persist"]=persist
+    reagirl.Gui_ForceRefresh(16)
+  end
+end
+
+function reagirl.Slider_LinkToConfigVar(element_id, configvar_name, persist)
+--[[
+<US_ DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Slider_LinkToConfigVar</slug>
+  <requires>
+    ReaGirl=1.1
+    Reaper=7.03
+    SWS=2.10.0.1
+    Lua=5.4
+  </requires>
+  <functioncall>reagirl.Slider_LinkToConfigVar(string element_id, string configvar_name, boolean persist)</functioncall>
+  <description>
+    Links a slider to a configvar. 
+    
+    All changes to the configvar will be immediately visible for this slider.
+    Clicking the checkbox also updates the configvar-bit immediately.
+    
+    Note: this will only allow double-float config-vars. All others could cause malfunction of Reaper!
+    
+    Read the Reaper Internals-docs for all available config-variables(run the action ultraschall_Help_Reaper_ConfigVars_Documentation.lua for more details)
+    
+    If the slider was already linked to extstate or ini-file, this linked-state will be replaced by this new one.
+    Use reagirl.Slider_Unlink() to unlink the slider from extstate/ini-file/config var.
+  </description>
+  <parameters>
+    string element_id - the guid of the slider that shall set a config-var
+    string configvar_name - the config-variable, whose value you want to update using the slider
+    boolean persist - true, make this setting persist; false, make this setting only temporary until Reaper restart
+  </parameters>
+  <chapter_context>
+    Slider
+  </chapter_context>
+  <tags>slider, link to, config variable</tags>
+</US_DocBloc>
+--]]
+  if type(element_id)~="string" then error("Slider_LinkToConfigVar: param #1 - must be a string", 2) end
+  if reagirl.IsValidGuid(element_id, true)==nil then error("Slider_LinkToConfigVar: param #1 - must be a valid guid", 2) end
+  if type(configvar_name)~="string" then error("Slider_LinkToConfigVar: param #2 - must be a string", 2) end
+  if type(persist)~="boolean" then error("Slider_LinkToConfigVar: param #3 - must be a boolean", 2) end
+  
+  element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
+  if element_id==-1 then error("Slider_LinkToConfigVar: param #1 - no such ui-element", 2) end
+  if reagirl.Elements[element_id]["GUI_Element_Type"]~="Slider" then
+    error("Slider_LinkToConfigVar: param #1 - ui-element is not a slider", 2)
+  else
+    reagirl.Elements[element_id]["linked_to"]=3
+    reagirl.Elements[element_id]["linked_to_configvar"]=configvar_name
+    reagirl.Elements[element_id]["linked_to_persist"]=persist
+    reagirl.Gui_ForceRefresh(16)
+  end
+end
+
+function reagirl.Slider_Unlink(element_id, section, key, default, persist)
+--[[
+<US_ DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Slider_Unlink</slug>
+  <requires>
+    ReaGirl=1.1
+    Reaper=7.03
+    Lua=5.4
+  </requires>
+  <functioncall>reagirl.Slider_Unlink(string element_id)</functioncall>
+  <description>
+    Unlinks a slider from extstate/ini-file/configvar. 
+  </description>
+  <parameters>
+    string element_id - the guid of the slider, that you want to link to an extstate
+  </parameters>
+  <chapter_context>
+    Slider
+  </chapter_context>
+  <tags>slider, unlink</tags>
+</US_DocBloc>
+--]]
+  if type(element_id)~="string" then error("Slider_Unlink: param #1 - must be a string", 2) end
+  if reagirl.IsValidGuid(element_id, true)==nil then error("Slider_Unlink: param #1 - must be a valid guid", 2) end
+  element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
+  if element_id==-1 then error("Slider_Unlink: param #1 - no such ui-element", 2) end
+  if reagirl.Elements[element_id]["GUI_Element_Type"]~="Slider" then
+    error("Slider_Unlink: param #1 - ui-element is not a slider", 2)
+  else
+    reagirl.Elements[element_id]["linked_to"]=0
+    reagirl.Gui_ForceRefresh(16)
+  end
 end
 
 function reagirl.Slider_SetDimensions(element_id, width)
