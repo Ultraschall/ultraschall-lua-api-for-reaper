@@ -4248,6 +4248,7 @@ function reagirl.Checkbox_Add(x, y, caption, meaningOfUI_Element, default, run_f
   reagirl.Elements[slot]["top_edge"]=true
   reagirl.Elements[slot]["bottom_edge"]=true
   reagirl.Elements[slot]["checked"]=default
+  reagirl.Elements[slot]["linked_to"]=0
   reagirl.Elements[slot]["func_manage"]=reagirl.Checkbox_Manage
   reagirl.Elements[slot]["func_draw"]=reagirl.Checkbox_Draw
   reagirl.Elements[slot]["run_function"]=run_function
@@ -4265,6 +4266,58 @@ function reagirl.Checkbox_Manage(element_id, selected, hovered, clicked, mouse_c
     if retval==true then element_storage["DropZoneFunction"](element_storage["Guid"], {filenames}) refresh=true reagirl.Gui_ForceRefresh(979) end
   end
   
+  if element_storage["linked_to"]~=0 then
+    if element_storage["linked_to"]==1 then
+      -- if checkbox is linked to extstate then
+      local val=reaper.GetExtState(element_storage["linked_to_section"], element_storage["linked_to_key"])
+      if val=="" then 
+        -- if extstate==unset
+        if element_storage["linked_to_default"]==true then
+          -- if default is true
+          reaper.SetExtState(element_storage["linked_to_section"], element_storage["linked_to_key"], element_storage["linked_to_true"], element_storage["linked_to_persist"]) 
+          element_storage["checked"]=linked_to_true
+          val=element_storage["linked_to_true"]
+          reagirl.Gui_ForceRefresh()
+        else
+          -- if default is false
+          reaper.SetExtState(element_storage["linked_to_section"], element_storage["linked_to_key"], element_storage["linked_to_false"], element_storage["linked_to_persist"]) 
+          element_storage["checked"]=linked_to_false
+          val=element_storage["linked_to_false"]
+          reagirl.Gui_ForceRefresh()
+        end
+      end
+      if val==element_storage["linked_to_true"] then val=true else val=false end
+      if val~=element_storage["checked"] then element_storage["checked"]=val reagirl.Gui_ForceRefresh() end
+    elseif element_storage["linked_to"]==2 then
+      -- if checkbox is linked to extstate then
+      local retval, val = reaper.BR_Win32_GetPrivateProfileString(element_storage["linked_to_section"], element_storage["linked_to_key"], "", element_storage["linked_to_ini_file"])
+      if val=="" then 
+        -- if extstate==unset
+        if element_storage["linked_to_default"]==true then
+          -- if default is true
+          local retval, val = reaper.BR_Win32_WritePrivateProfileString(element_storage["linked_to_section"], element_storage["linked_to_key"], element_storage["linked_to_true"], element_storage["linked_to_ini_file"])
+          --reaper.SetExtState(element_storage["linked_to_section"], element_storage["linked_to_key"], element_storage["linked_to_true"], element_storage["linked_to_persist"]) 
+          element_storage["checked"]=linked_to_true
+          val=element_storage["linked_to_true"]
+          reagirl.Gui_ForceRefresh()
+        else
+          -- if default is false
+          local retval, val = reaper.BR_Win32_WritePrivateProfileString(element_storage["linked_to_section"], element_storage["linked_to_key"], element_storage["linked_to_false"], element_storage["linked_to_ini_file"])
+          --reaper.SetExtState(element_storage["linked_to_section"], element_storage["linked_to_key"], element_storage["linked_to_false"], element_storage["linked_to_persist"]) 
+          element_storage["checked"]=linked_to_false
+          val=element_storage["linked_to_false"]
+          reagirl.Gui_ForceRefresh()
+        end
+      end
+      if val==element_storage["linked_to_true"] then val=true else val=false end
+      if val~=element_storage["checked"] then element_storage["checked"]=val reagirl.Gui_ForceRefresh() end
+    elseif element_storage["linked_to"]==3 then 
+      local val=reaper.SNM_GetIntConfigVar(element_storage["linked_to_configvar"], -999999999999999)
+      val=val&element_storage["linked_to_bit"]
+      if val==0 then val=false else val=true end
+      if val~=element_storage["checked"] then element_storage["checked"]=val reagirl.Gui_ForceRefresh() end
+    end
+  end
   
   if selected~="not selected" and (((clicked=="FirstCLK" or clicked=="DBLCLK" )and mouse_cap&1==1) or Key==32) then 
     if (gfx.mouse_x>=x 
@@ -4287,12 +4340,45 @@ function reagirl.Checkbox_Manage(element_id, selected, hovered, clicked, mouse_c
   local unchecked="checked"
   if element_storage["checked"]==false then unchecked="unchecked" end
   element_storage["AccHoverMessage"]=element_storage["Name"].." "..unchecked
+  
+  if refresh==true and element_storage["linked_to"]~=0 then
+    if element_storage["linked_to"]==1 then
+      local val=reaper.GetExtState(element_storage["linked_to_section"], element_storage["linked_to_key"])
+      if element_storage["checked"]==true then 
+        reaper.SetExtState(element_storage["linked_to_section"], element_storage["linked_to_key"], element_storage["linked_to_true"], element_storage["linked_to_persist"])
+        --local retval, val = reaper.BR_Win32_WritePrivateProfileString(element_storage["linked_to_section"], element_storage["linked_to_key"], element_storage["linked_to_true"], element_storage["linked_to_ini_file"])
+      else
+        reaper.SetExtState(element_storage["linked_to_section"], element_storage["linked_to_key"], element_storage["linked_to_false"], element_storage["linked_to_persist"])
+        --local retval, val = reaper.BR_Win32_WritePrivateProfileString(element_storage["linked_to_section"], element_storage["linked_to_key"], element_storage["linked_to_false"], element_storage["linked_to_ini_file"])
+      end
+    elseif element_storage["linked_to"]==2 then
+      local val=reaper.GetExtState(element_storage["linked_to_section"], element_storage["linked_to_key"])
+      if element_storage["checked"]==true then 
+        --reaper.SetExtState(element_storage["linked_to_section"], element_storage["linked_to_key"], element_storage["linked_to_true"], element_storage["linked_to_persist"])
+        local retval, val = reaper.BR_Win32_WritePrivateProfileString(element_storage["linked_to_section"], element_storage["linked_to_key"], element_storage["linked_to_true"], element_storage["linked_to_ini_file"])
+      else
+        --reaper.SetExtState(element_storage["linked_to_section"], element_storage["linked_to_key"], element_storage["linked_to_false"], element_storage["linked_to_persist"])
+        local retval, val = reaper.BR_Win32_WritePrivateProfileString(element_storage["linked_to_section"], element_storage["linked_to_key"], element_storage["linked_to_false"], element_storage["linked_to_ini_file"])
+      end
+    elseif element_storage["linked_to"]==3 then
+      val=reaper.SNM_GetIntConfigVar(element_storage["linked_to_configvar"], -9999999999)
+      if val&element_storage["linked_to_bit"]>0 then val=val-element_storage["linked_to_bit"] end
+      if element_storage["checked"]==true then val=val+element_storage["linked_to_bit"] end
+      reaper.SNM_SetIntConfigVar(element_storage["linked_to_configvar"], val)
+      if element_storage["linked_to_persist"]==true then
+        reaper.BR_Win32_WritePrivateProfileString("REAPER", element_storage["linked_to_configvar"], val, reaper.get_ini_file())
+      end
+    end
+  end
+  
   if reagirl.Elements[element_id]["checked"]==true then
     return " checked. ", refresh
   else
     return " not checked. ", refresh
   end
 end
+
+
 
 function reagirl.Checkbox_Draw(element_id, selected, hovered, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
 
@@ -4346,6 +4432,214 @@ function reagirl.Checkbox_Draw(element_id, selected, hovered, clicked, mouse_cap
   gfx.drawstr(name)
   reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0)
   --]]
+end
+
+function reagirl.Checkbox_LinkToExtstate(element_id, section, key, false_val, true_val, default, persist)
+--[[
+<US_ DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Checkbox_LinkToExtstate</slug>
+  <requires>
+    ReaGirl=1.1
+    Reaper=7.03
+    Lua=5.4
+  </requires>
+  <functioncall>reagirl.Checkbox_LinkToExtstate(string element_id, string section, string key, string false_val, string true_val, string default, boolean persist)</functioncall>
+  <description>
+    Links a checkbox to an extstate. 
+    
+    All changes to the extstate will be immediately visible for this checkbox.
+    Clicking the checkbox also updates the extstate immediately.
+    
+    If the checkbox was already linked to a config-var or ini-file, this linked-state will be replaced by this new one.
+    Use reagirl.Checkbox_UnLink() to unlink the checkbox from extstate/ini-file/config var.
+  </description>
+  <parameters>
+    string element_id - the guid of the checkbox, that you want to link to an extstate
+    string section - the section of the linked extstate
+    string key - the key of the linked extstate
+    string false_val - the value that shall be seen and stored as false
+    string true_val - the value that shall be seen and stored as true
+    string default - the default value, if the extstate hasn't been set yet
+    boolean persist - true, the extstate shall be stored persistantly; false, the extstate shall not be stored persistantly
+  </parameters>
+  <chapter_context>
+    Checkbox
+  </chapter_context>
+  <tags>checkbox, link to, extstate</tags>
+</US_DocBloc>
+--]]
+  if type(element_id)~="string" then error("Checkbox_LinkToExtstate: param #1 - must be a string", 2) end
+  if reagirl.IsValidGuid(element_id, true)==nil then error("Checkbox_LinkToExtstate: param #1 - must be a valid guid", 2) end
+  if type(section)~="string" then error("Checkbox_LinkToExtstate: param #2 - must be a string", 2) end
+  if type(key)~="string" then error("Checkbox_LinkToExtstate: param #3 - must be a string", 2) end
+  if type(false_val)~="string" then error("Checkbox_LinkToExtstate: param #4 - must be a string", 2) end
+  if type(true_val)~="string" then error("Checkbox_LinkToExtstate: param #5 - must be a string", 2) end
+  if type(default)~="boolean" then error("Checkbox_LinkToExtstate: param #6 - must be a boolean", 2) end
+  if type(persist)~="boolean" then error("Checkbox_LinkToExtstate: param #7 - must be a boolean", 2) end
+  element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
+  if element_id==-1 then error("Checkbox_LinkToExtstate: param #1 - no such ui-element", 2) end
+  if reagirl.Elements[element_id]["GUI_Element_Type"]~="Checkbox" then
+    error("Checkbox_LinkToExtstate: param #1 - ui-element is not a checkbox", 2)
+  else
+    reagirl.Elements[element_id]["linked_to"]=1
+    reagirl.Elements[element_id]["linked_to_section"]=section
+    reagirl.Elements[element_id]["linked_to_key"]=key
+    reagirl.Elements[element_id]["linked_to_true"]=true_val
+    reagirl.Elements[element_id]["linked_to_false"]=false_val
+    reagirl.Elements[element_id]["linked_to_default"]=default
+    reagirl.Elements[element_id]["linked_to_persist"]=persist
+    reagirl.Gui_ForceRefresh(16)
+  end
+end
+
+function reagirl.Checkbox_LinkToIniValue(element_id, ini_file, section, key, false_val, true_val, default
+)
+--[[
+<US_ DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Checkbox_LinkToIniValue</slug>
+  <requires>
+    ReaGirl=1.1
+    Reaper=7.03
+    SWS=2.10.0.1
+    Lua=5.4
+  </requires>
+  <functioncall>reagirl.Checkbox_LinkToIniValue(string element_id, string ini_file, string section, string key, string false_val, string true_val, string default, boolean persist)</functioncall>
+  <description>
+    Links a checkbox to an ini-value. 
+    
+    All changes to the ini-value will be immediately visible for this checkbox.
+    Clicking the checkbox also updates the inivalue immediately.
+    
+    If the checkbox was already linked to extstate or config-variable, this linked-state will be replaced by this new one.
+    Use reagirl.Checkbox_UnLink() to unlink the checkbox from extstate/ini-file/config var.
+  </description>
+  <parameters>
+    string element_id - the guid of the checkbox that you want to link to an ini-value
+    string ini_file - the filename of the ini-file
+    string section - the section of the ini-file
+    string key - the key of the ini-file
+    string false_val - the value that shall be seen and stored as false
+    string true_val - the value that shall be seen and stored as true
+    string default - the default value, if the ini-file hasn't been set yet
+  </parameters>
+  <chapter_context>
+    Checkbox
+  </chapter_context>
+  <tags>checkbox, link to, ini-file</tags>
+</US_DocBloc>
+--]]
+  if type(element_id)~="string" then error("Checkbox_LinkToIniValue: param #1 - must be a string", 2) end
+  if reagirl.IsValidGuid(element_id, true)==nil then error("Checkbox_LinkToIniValue: param #1 - must be a valid guid", 2) end
+  if type(ini_file)~="string" then error("Checkbox_LinkToIniValue: param #2 - must be a string", 2) end
+  if type(section)~="string" then error("Checkbox_LinkToIniValue: param #3 - must be a string", 2) end
+  if type(key)~="string" then error("Checkbox_LinkToIniValue: param #4 - must be a string", 2) end
+  if type(false_val)~="string" then error("Checkbox_LinkToIniValue: param #5 - must be a string", 2) end
+  if type(true_val)~="string" then error("Checkbox_LinkToIniValue: param #6 - must be a string", 2) end
+  if type(default)~="boolean" then error("Checkbox_LinkToIniValue: param #7 - must be a boolean", 2) end
+  element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
+  if element_id==-1 then error("Checkbox_LinkToIniValue: param #1 - no such ui-element", 2) end
+  if reagirl.Elements[element_id]["GUI_Element_Type"]~="Checkbox" then
+    error("Checkbox_LinkToIniValue: param #1 - ui-element is not a checkbox", 2)
+  else
+    reagirl.Elements[element_id]["linked_to"]=2
+    reagirl.Elements[element_id]["linked_to_ini_file"]=ini_file
+    reagirl.Elements[element_id]["linked_to_section"]=section
+    reagirl.Elements[element_id]["linked_to_key"]=key
+    reagirl.Elements[element_id]["linked_to_false"]=false_val
+    reagirl.Elements[element_id]["linked_to_true"]=true_val
+    reagirl.Elements[element_id]["linked_to_default"]=default
+    reagirl.Gui_ForceRefresh(16)
+  end
+end
+
+function reagirl.Checkbox_LinkToConfigVar(element_id, configvar_name, bit, persist)
+--[[
+<US_ DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Checkbox_LinkToConfigVar</slug>
+  <requires>
+    ReaGirl=1.1
+    Reaper=7.03
+    SWS=2.10.0.1
+    Lua=5.4
+  </requires>
+  <functioncall>reagirl.Checkbox_LinkToConfigVar(string element_id, string configvar_name, integer bit, boolean persist)</functioncall>
+  <description>
+    Links a checkbox to a configvar-bit. 
+    
+    All changes to the configvar-bit will be immediately visible for this checkbox.
+    Clicking the checkbox also updates the configvar-bit immediately.
+    
+    Note: this will only allow bitfield-integer config-vars. All others could cause malfunction of Reaper!
+    
+    Read the Reaper Internals-docs for all available config-variables(run the action ultraschall_Help_Reaper_ConfigVars_Documentation.lua for more details)
+    
+    If the checkbox was already linked to extstate or ini-file, this linked-state will be replaced by this new one.
+    Use reagirl.Checkbox_UnLink() to unlink the checkbox from extstate/ini-file/config var.
+  </description>
+  <parameters>
+    string element_id - the guid of the checkbox that shall toggle a config-var-bit
+    string configvar_name - the config-variable, whose bit you want to toggle
+    integer bit - the bit that shall be toggled; &1, &2, &4, &8, &16, etc
+    boolean persist - true, make this setting persist; false, make this setting only temporary until Reaper restart
+  </parameters>
+  <chapter_context>
+    Checkbox
+  </chapter_context>
+  <tags>checkbox, link to, config varriable</tags>
+</US_DocBloc>
+--]]
+  if type(element_id)~="string" then error("Checkbox_LinkToConfigVar: param #1 - must be a string", 2) end
+  if reagirl.IsValidGuid(element_id, true)==nil then error("Checkbox_LinkToConfigVar: param #1 - must be a valid guid", 2) end
+  if type(configvar_name)~="string" then error("Checkbox_LinkToConfigVar: param #2 - must be a string", 2) end
+  if math.type(bit)~="integer" then error("Checkbox_LinkToConfigVar: param #3 - must be an integer", 2) end
+  if type(persist)~="boolean" then error("Checkbox_LinkToConfigVar: param #4 - must be a boolean", 2) end
+  
+  element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
+  if element_id==-1 then error("Checkbox_LinkToConfigVar: param #1 - no such ui-element", 2) end
+  if reagirl.Elements[element_id]["GUI_Element_Type"]~="Checkbox" then
+    error("Checkbox_LinkToIniValue: param #1 - ui-element is not a checkbox", 2)
+  else
+    reagirl.Elements[element_id]["linked_to"]=3
+    reagirl.Elements[element_id]["linked_to_configvar"]=configvar_name
+    reagirl.Elements[element_id]["linked_to_bit"]=bit
+    reagirl.Elements[element_id]["linked_to_persist"]=persist
+    reagirl.Gui_ForceRefresh(16)
+  end
+end
+
+function reagirl.Checkbox_UnLink(element_id)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Checkbox_UnLink</slug>
+  <requires>
+    ReaGirl=1.0
+    Reaper=7.03
+    Lua=5.4
+  </requires>
+  <functioncall>reagirl.Checkbox_UnLink(string element_id)</functioncall>
+  <description>
+    Unlinks a checkbox from extstate/ini-file/configvar. 
+  </description>
+  <parameters>
+    string element_id - the guid of the checkbox that you want to unlink from extstates/ini-files/configvars
+  </parameters>
+  <chapter_context>
+    Checkbox
+  </chapter_context>
+  <tags>checkbox, link to, unlink</tags>
+</US_DocBloc>
+--]]
+  if type(element_id)~="string" then error("Checkbox_LinkToConfigVar: param #1 - must be a string", 2) end
+  if reagirl.IsValidGuid(element_id, true)==nil then error("Checkbox_LinkToConfigVar: param #1 - must be a valid guid", 2) end
+  
+  element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
+  if element_id==-1 then error("Checkbox_LinkToConfigVar: param #1 - no such ui-element", 2) end
+  if reagirl.Elements[element_id]["GUI_Element_Type"]~="Checkbox" then
+    error("Checkbox_LinkToIniValue: param #1 - ui-element is not a checkbox", 2)
+  else
+    reagirl.Elements[element_id]["linked_to"]=0
+    reagirl.Gui_ForceRefresh(16)
+  end
 end
 
 function reagirl.Checkbox_SetCheckState(element_id, check_state)
