@@ -117,6 +117,7 @@ end
 if reagirl.CheckForDependencies(false, true, false, true, false)==false then error("Couldn't start Gui yet, dependencies still missing...", 2) end
 
 reagirl.MaxImage=-1
+reagirl.osara_AddedMessage=""
 function reagirl.GetVersion()
   --[[
   <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
@@ -1142,7 +1143,9 @@ function reagirl.Window_Open(...)
   <tags>init, window, create, hwnd</tags>
 </US_DocBloc>
 ]]
+  --gfx.quit()
   local parms={...}
+  --reaper.MB(tostring(parms[5]), tostring(parms[6]), 0)
   if type(parms[1])~="string" then error("Window_Open: param #1 - must be a string", 2) end
   if parms[2]~=nil and type(parms[2])~="number" then error("Window_Open: param #2 - must be either nil or an integer", 2) end
   if parms[3]~=nil and type(parms[3])~="number" then error("Window_Open: param #3 - must be either nil or an integer", 2) end
@@ -1182,7 +1185,6 @@ function reagirl.Window_Open(...)
     if parms[6]==nil then
       parms[6]=(D-parms[3])/2
     end
-    
     if reaper.JS_Window_SetTitle==nil then 
       local B=gfx.init(table.unpack(parms)) 
       return B 
@@ -1207,7 +1209,21 @@ function reagirl.Window_Open(...)
     if HWND~=nil then reaper.JS_Window_SetTitle(HWND, temp) end
     reagirl.GFX_WindowHWND=HWND    
   else 
+    local A1,B,C,D=reaper.my_getViewport(0,0,0,0, 0,0,0,0, false)
     parms[1]=""
+    local _, _, _, _, _, w2, _, h2 = reagirl.Gui_GetBoundaries()
+    if parms[2]==nil then 
+      parms[2]=w2+10
+    end
+    if parms[3]==nil then
+      parms[3]=h2+10
+    end
+    if parms[5]==nil then
+      parms[5]=(C-parms[2])/2
+    end
+    if parms[6]==nil then
+      parms[6]=(D-parms[3])/2
+    end
     local B=gfx.init(table.unpack(parms)) 
     retval=0.0
   end
@@ -2001,14 +2017,14 @@ function reagirl.Gui_Open(name, restore_old_window_state, title, description, w,
     reagirl.dpi_scale = 0
   end
   
-  if w==nil or h==nil then
-    local _
-    _, _, _, _, _, w, _, h = reagirl.Gui_GetBoundaries()
-    w=w+10
-    h=h+10
+  local _, _, _, _, _, w2, _, h2 = reagirl.Gui_GetBoundaries()
+  if w==nil then 
+    w=w2+10
   end
-  
-  
+  if h==nil then
+    h=h2+10
+  end
+
   name=string.gsub(name, "[\n\r]", "")
   reagirl.IsWindowOpen_attribute=true
   reagirl.Gui_ForceRefresh(2)
@@ -2214,6 +2230,7 @@ function reagirl.Ext_Window_SetState(window_name, width, height, dockstate, x_po
   reaper.SetExtState("Reagirl_Window_"..window_name, "newstate_dock", dockstate, false)
   reaper.SetExtState("Reagirl_Window_"..window_name, "newstate_x", x_position, false)
   reaper.SetExtState("Reagirl_Window_"..window_name, "newstate_y", y_position, false)
+  
 end
 
 --reagirl.Window_Title="ReaGirl_Settings"
@@ -2356,6 +2373,13 @@ end
 
 function reagirl.Ext_UpdateWindow()
   local w, h, dock, x, y  
+  
+  local focus_state=gfx.getchar(65536)
+  local acc_hint=""
+  local repositioned=""
+  local resized=""
+  local docked=""
+  
   if reaper.GetExtState("Reagirl_Window_"..reagirl.Window_name, "newstate")=="newstate" then
     w=tonumber(reaper.GetExtState("Reagirl_Window_"..reagirl.Window_name, "newstate_w"))
     h=tonumber(reaper.GetExtState("Reagirl_Window_"..reagirl.Window_name, "newstate_h"))
@@ -2364,6 +2388,21 @@ function reagirl.Ext_UpdateWindow()
     y=tonumber(reaper.GetExtState("Reagirl_Window_"..reagirl.Window_name, "newstate_y"))
     
     local cur_dock, cur_x, cur_y, cur_w, cur_h = gfx.dock(-1, 0, 0, 0, 0)
+    
+    if w~=nil or h~=nil then resized="resized" end
+    if x~=nil or y~=nil then repositioned="repositioned" end
+    if dock~=nil then
+      if dock==1 then docked="docked" else docked="undocked" end
+    end
+    
+    if focus_state&2==2 and resized~="" or repositioned~="" and docked~="" then
+      local move_mouse=""
+      if reaper.GetExtState("ReaGirl", "osara_move_mouse")~="false" then
+        move_mouse=" Hit Tab and Shift Tab to reposition mouse to ui-element."
+      end
+      reagirl.osara_AddedMessage="Window got "..resized.." "..repositioned.." "..docked.."."..move_mouse
+    end
+    
     if w==nil then w=cur_w end
     if h==nil then h=cur_h end
     if dock==nil then dock=gfx.dock(-1) end
@@ -2375,8 +2414,17 @@ function reagirl.Ext_UpdateWindow()
     if dock==nil then dock=reagirl.Window_dock_default end
     if x==nil then x=reagirl.Window_x_default end
     if y==nil then y=reagirl.Window_y_default end
+    
+    if focus_state&2==2 then
+      local move_mouse=""
+      if reaper.GetExtState("ReaGirl", "osara_move_mouse")~="false" then
+        move_mouse=" Hit Tab and Shift Tab to reposition mouse to ui-element."
+      end
+      reagirl.osara_AddedMessage="Window position, focus and dockstate got reset to default."..move_mouse
+    end
   end
-  gfx.init("", w, h, dock, x, y)
+  --gfx.init("", w, h, dock, x, y)
+  reagirl.Window_Open("", w, h, dock, x, y)
   gfx.dock(dock)
   reaper.SetExtState("Reagirl_Window_"..reagirl.Window_name, "newstate", "", true)
 end
@@ -3080,7 +3128,8 @@ function reagirl.Gui_Manage()
             end
           end
           if reagirl.osara_outputMessage~=nil then
-            reagirl.osara_outputMessage(reagirl.osara_init_message.." "..init_message.." "..message.." "..helptext..draggable..acc_message..contextmenu..dropfiles)
+            reagirl.osara_outputMessage(reagirl.osara_init_message.." "..init_message.." "..message.." "..helptext..draggable..acc_message..contextmenu..dropfiles..reagirl.osara_AddedMessage)
+            reagirl.osara_AddedMessage=""
           end
           reagirl.Osara_Debug_Message(reagirl.osara_init_message.." "..init_message.." "..message.." "..helptext..draggable..acc_message..contextmenu..dropfiles)
           reagirl.old_osara_message=message
@@ -6242,6 +6291,7 @@ end
 
 function reagirl.Inputbox_Manage(element_id, selected, hovered, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
   local refresh=false
+  local run_function=false
   -- drop files for accessibility using a file-requester, after typing ctrl+shift+f
   if element_storage["DropZoneFunction"]~=nil and Key==6 and mouse_cap==12 then
     local retval, filenames = reaper.GetUserFileNameForRead("", "Choose file to drop into "..element_storage["Name"], "")
@@ -6250,7 +6300,6 @@ function reagirl.Inputbox_Manage(element_id, selected, hovered, clicked, mouse_c
   end  
   
   local Cap_width=element_storage.Cap_width
-  --if Cap_width==nil then Cap_width=gfx.measurestr(name) end
   
   if hovered==true then
     if gfx.mouse_x>=x+Cap_width then
@@ -6302,6 +6351,7 @@ function reagirl.Inputbox_Manage(element_id, selected, hovered, clicked, mouse_c
       end
     end
   end
+  --]]
   
   if reagirl.osara_outputMessage~=nil and selected~="not selected" then
     reagirl.Gui_PreventEnterForOneCycle()
@@ -6409,6 +6459,7 @@ function reagirl.Inputbox_Manage(element_id, selected, hovered, clicked, mouse_c
       refresh2, entered_character=reagirl.Inputbox_OnTyping(Key, Key_UTF, mouse_cap, element_storage)
       if refresh~=true and refresh2==true then
         refresh=true
+        run_function=true 
       end
     end
   end
@@ -6433,12 +6484,7 @@ function reagirl.Inputbox_Manage(element_id, selected, hovered, clicked, mouse_c
   element_storage.w2_old=w
   element_storage["AccHoverMessage"]=element_storage["Name"].." "..element_storage["Text"]
   
-  if refresh==true then 
-    reagirl.Gui_ForceRefresh(53) 
-    if element_storage["run_function"]~=nil and skip_func~=true then 
-      element_storage["run_function"](element_storage["Guid"], element_storage["CurValue"]) 
-    end
-    
+  if refresh==true then
     if element_storage["linked_to"]~=0 then
       if element_storage["linked_to"]==1 then
         reaper.SetExtState(element_storage["linked_to_section"], element_storage["linked_to_key"], element_storage["Text"], element_storage["linked_to_persist"])

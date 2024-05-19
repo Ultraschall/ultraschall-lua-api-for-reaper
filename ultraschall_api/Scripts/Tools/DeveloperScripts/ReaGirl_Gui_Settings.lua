@@ -255,14 +255,16 @@ function SetUpNewGui()
   
   button_apply_and_close_id = reagirl.Button_Add(-180, 435, 0, 0, "Apply and Close", "Apply the chosen settings and close window.", button_apply_and_close)
   button_cancel_id = reagirl.Button_Add(-65, 435, 0, 0, "Cancel", "Simply close without applying the settings.", button_cancel)
+  reagirl.NextLine()
 end
 
 SetUpNewGui()
-
 color=40
 reagirl.Background_GetSetColor(true,color,color,color)
-
-reagirl.Gui_Open("ReaGirl_Settings", true, "ReaGirl Settings", "various settings for ReaGirl-Accessible Guis.", 355, 465, nil, nil, nil)
+reagirl.Gui_Open("ReaGirl_Settings", false, "ReaGirl Settings", "various settings for ReaGirl-Accessible Guis.", nil, nil, nil, nil, nil)
+  
+reagirl.Window_ForceSize_Minimum(355, 460) -- set the minimum size of the window
+reagirl.Window_ForceSize_Maximum(355, 460) -- set the maximum size of the window
 
 function CheckIfSettingChanged()
   if osara_debug~=toboolean(reaper.GetExtState("ReaGirl", "osara_debug"), false) then 
