@@ -2023,7 +2023,7 @@ function reagirl.Gui_Open(name, restore_old_window_state, title, description, w,
     w=w2+10
   end
   if h==nil then
-    h=h2+100
+    h=h2+10
   end
 
   name=string.gsub(name, "[\n\r]", "")

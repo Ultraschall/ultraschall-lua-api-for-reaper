@@ -264,6 +264,8 @@ function SetUpNewGui()
   reagirl.NextLine()
 end
 
+reagirl.Gui_AtEnter(button_apply_and_close)
+
 SetUpNewGui()
 color=40
 reagirl.Background_GetSetColor(true,color,color,color)
