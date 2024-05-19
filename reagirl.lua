@@ -2023,7 +2023,7 @@ function reagirl.Gui_Open(name, restore_old_window_state, title, description, w,
     w=w2+10
   end
   if h==nil then
-    h=h2+10
+    h=h2+100
   end
 
   name=string.gsub(name, "[\n\r]", "")
@@ -3280,12 +3280,20 @@ function reagirl.Gui_Draw(Key, Key_utf, clickstate, specific_clickstate, mouse_c
         --if (x2+MoveItAllRight>=0 and x2+MoveItAllRight<=gfx.w)       and (y2+MoveItAllUp>=0    and y2+MoveItAllUp<=gfx.h) 
         --or (x2+MoveItAllRight+w2>=0 and x2+MoveItAllRight+w2<=gfx.w) and (y2+MoveItAllUp+h2>=0 and y2+MoveItAllUp+h2<=gfx.h) then
         
-        if reagirl.Elements[i]["GUI_Element_Type"]=="Tabs" or (((x2+MoveItAllRight>0 and x2+MoveItAllRight<=gfx.w) 
-        or (x2+w2+MoveItAllRight>0 and x2+w2+MoveItAllRight<=gfx.w) 
-        or (x2+MoveItAllRight<=0 and x2+w2+MoveItAllRight>=gfx.w))
+        local w_add=0
+        local h_add=0
+        if reagirl.Elements[i]["GUI_Element_Type"]=="Label" then
+          w_add=reagirl.Elements[i]["bg_w"]*reagirl.Window_GetCurrentScale()
+          h_add=reagirl.Elements[i]["bg_h"]*reagirl.Window_GetCurrentScale()
+        end
+        
+        if reagirl.Elements[i]["GUI_Element_Type"]=="Tabs" or 
+         (((x2+MoveItAllRight>0 and x2+MoveItAllRight<=gfx.w) 
+        or (x2+w2+w_add+MoveItAllRight>0 and x2+w2+w_add+MoveItAllRight<=gfx.w) 
+        or (x2+w_add*MoveItAllRight<=0 and x2+w2+w_add+MoveItAllRight>=gfx.w))
         and ((y2+MoveItAllUp>=0 and y2+MoveItAllUp<=gfx.h)
-        or (y2+h2+MoveItAllUp>=0 and y2+h2+MoveItAllUp<=gfx.h)
-        or (y2+MoveItAllUp<=0 and y2+h2+MoveItAllUp>=gfx.h))) or i>#reagirl.Elements-6
+        or (y2+h2+h_add+MoveItAllUp>=0 and y2+h_add+h2+MoveItAllUp<=gfx.h)
+        or (y2+MoveItAllUp<=0 and y2+h2+h_add+MoveItAllUp>=gfx.h))) or i>#reagirl.Elements-6
         then
         --]]
    --     print_update((x2+reagirl.MoveItAllRight>=0 and x2+reagirl.MoveItAllRight<=gfx.w), x2+MoveItAllRight, (x2+reagirl.MoveItAllRight+w2>=0 and x2+reagirl.MoveItAllRight+w2<=gfx.w))
@@ -4705,13 +4713,13 @@ function reagirl.Checkbox_Draw(element_id, selected, hovered, clicked, mouse_cap
   end
   
   
-  gfx.x=x+h+4*scale
+  gfx.x=x+h+5*scale
   gfx.y=y+scale--+scale+(h-gfx.texth)/2
-  gfx.set(reagirl.Colors.TextBG_r, reagirl.Colors.TextBG_g, reagirl.Colors.TextBG_b)
+  gfx.set(reagirl.Colors.Checkbox_TextBG_r, reagirl.Colors.Checkbox_TextBG_g, reagirl.Colors.Checkbox_TextBG_b)
   gfx.drawstr(name)
   
   if element_storage["IsDisabled"]==false then gfx.set(reagirl.Colors.Checkbox_TextFG_r, reagirl.Colors.Checkbox_TextFG_g, reagirl.Colors.Checkbox_TextFG_b) else gfx.set(reagirl.Colors.Checkbox_TextFG_disabled_r, reagirl.Colors.Checkbox_TextFG_disabled_g, reagirl.Colors.Checkbox_TextFG_disabled_b) end
-  gfx.x=x+h+5*scale
+  gfx.x=x+h+4*scale
   gfx.y=y--+(h-gfx.texth)/2
   gfx.drawstr(name)
   reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0)
@@ -7415,7 +7423,7 @@ function reagirl.DropDownMenu_Draw(element_id, selected, hovered, clicked, mouse
     end
     local circ=dpi_scale    
     gfx.circle(x+w-h/2, y+dpi_scale+dpi_scale+dpi_scale+dpi_scale+dpi_scale+dpi_scale+dpi_scale, 3*dpi_scale, 1, 0)
-    gfx.rect(x-dpi_scale-dpi_scale+w-h+2*(dpi_scale-1), y, dpi_scale, h-1, 1)
+    gfx.rect(x-dpi_scale-dpi_scale+w-h+2*(dpi_scale-1), y, dpi_scale, h-dpi_scale, 1)
     
     local offset=0
     if element_storage["IsDisabled"]==false then
@@ -9458,6 +9466,7 @@ function reagirl.Background_DrawImage()
 end
 
 function reagirl.Window_ForceMinSize()
+  if reagirl.Gui_IsOpen()==false then return end
   if reagirl.Window_ForceMinSize_Toggle~=true then return end
   local scale=reagirl.Window_CurrentScale
   local h,w
@@ -9470,6 +9479,7 @@ function reagirl.Window_ForceMinSize()
 end
 
 function reagirl.Window_ForceMaxSize()
+  if reagirl.Gui_IsOpen()==false then return end
   if reagirl.Window_ForceMaxSize_Toggle~=true then return end
   local scale=reagirl.Window_CurrentScale
   local h,w

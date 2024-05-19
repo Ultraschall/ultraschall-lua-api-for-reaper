@@ -102,13 +102,13 @@ end
 
 function button_apply_and_close()
   reaper.SetExtState("ReaGirl", "show_tooltips", tostring(reagirl.Checkbox_GetCheckState(tab1.checkbox_tooltips_id)), true)
-  reaper.SetExtState("ReaGirl", "osara_override", tostring(reagirl.Checkbox_GetCheckState(tabs2.checkbox_osara_id)), true)
-  reaper.SetExtState("ReaGirl", "osara_debug", tostring(reagirl.Checkbox_GetCheckState(tabs2.checkbox_osara_debug_id)), true)
-  reaper.SetExtState("ReaGirl", "osara_move_mouse", tostring(reagirl.Checkbox_GetCheckState(tabs2.checkbox_osara_move_mouse_id)), true)
-  reaper.SetExtState("ReaGirl", "highlight_drag_destinations", tostring(reagirl.Checkbox_GetCheckState(tabs2.checkbox_osara_hover_mouse_id)), true)
+  reaper.SetExtState("ReaGirl", "osara_override", tostring(reagirl.Checkbox_GetCheckState(tab2.checkbox_osara_id)), true)
+  reaper.SetExtState("ReaGirl", "osara_debug", tostring(reagirl.Checkbox_GetCheckState(tab2.checkbox_osara_debug_id)), true)
+  reaper.SetExtState("ReaGirl", "osara_move_mouse", tostring(reagirl.Checkbox_GetCheckState(tab2.checkbox_osara_move_mouse_id)), true)
+  reaper.SetExtState("ReaGirl", "highlight_drag_destinations", tostring(reagirl.Checkbox_GetCheckState(tab2.checkbox_osara_hover_mouse_id)), true)
   reaper.SetExtState("ReaGirl", "osara_hover_mouse", tostring(reagirl.Checkbox_GetCheckState(tab1.checkbox_highlight_drag_destinations)), true)
-  reaper.SetExtState("ReaGirl", "osara_enable_accmessage", tostring(reagirl.Checkbox_GetCheckState(tabs2.checkbox_osara_enable_acc_help)), true)
-  local menuitems, selected_menuitem = reagirl.DropDownMenu_GetMenuItems(tabs2.error_message_target)
+  reaper.SetExtState("ReaGirl", "osara_enable_accmessage", tostring(reagirl.Checkbox_GetCheckState(tab2.checkbox_osara_enable_acc_help)), true)
+  local menuitems, selected_menuitem = reagirl.DropDownMenu_GetMenuItems(tab2.error_message_target)
   reaper.SetExtState("ReaGirl", "Error_Message_Destination", tostring(selected_menuitem), true)
 
 reaper.GetExtState("ReaGirl", "osara_enable_accmessage")
@@ -132,12 +132,13 @@ function SetUpNewGui()
   reagirl.Gui_New()
   
   if tabnumber==nil then tabnumber=1 end
-  Tabs=reagirl.Tabs_Add(10, 10, 335, 390, "Settings", "General Settings.", {"General", "Accessibility"}, tabnumber, nil)
+  Tabs=reagirl.Tabs_Add(10, 10, 335, 400, "Settings", "Some ReaGirl Settings.", {"General", "Accessibility"}, tabnumber, nil)
   
   tab1={}
   --[[ Blinking Focus Rectangle ]]
   tab1.Label_General=reagirl.Label_Add(nil, nil, "General", "General settings.", false, nil)
-  reagirl.Label_SetStyle(tab1.Label_General, 6, 0, 0)
+  reagirl.Label_SetBackdrop(tab1.Label_General, 300, 35) -- set a backdrop around the next few labels
+  --reagirl.Label_SetStyle(tab1.Label_General, 6, 0, 0)
   --reagirl.UI_Element_GetSet_ContextMenu(tab1.Label_General, true, "Tudel|Loo", huch)
 
   reagirl.NextLine()
@@ -148,7 +149,8 @@ function SetUpNewGui()
   
   reagirl.NextLine(10)
   tab1.Label_FocusRectangle=reagirl.Label_Add(nil, nil, "Focus Rectangle", "Settings for the focus rectangle.", false, nil)
-  reagirl.Label_SetStyle(tab1.Label_FocusRectangle, 6, 0, 0)
+  --reagirl.Label_SetStyle(tab1.Label_FocusRectangle, 6, 0, 0)
+  reagirl.Label_SetBackdrop(tab1.Label_FocusRectangle, 300, 55) -- set a backdrop around the next few labels
   
   reagirl.NextLine()
   val=tonumber(reaper.GetExtState("ReaGirl", "FocusRectangle_BlinkSpeed"))
@@ -167,7 +169,7 @@ function SetUpNewGui()
   -- [[ Blinking Inputbox-Cursor ]]
   reagirl.NextLine(15)
   tab1.Label_InputBox=reagirl.Label_Add(nil, nil, "Inputbox-Cursor", "Settings for the inputbox-cursor.", false, nil)
-  reagirl.Label_SetStyle(tab1.Label_InputBox, 6, 0, 0)
+  reagirl.Label_SetBackdrop(tab1.Label_InputBox, 300, 60) -- set a backdrop around the next few labels
   reagirl.NextLine()
   val3=tonumber(reaper.GetExtState("ReaGirl", "Inputbox_BlinkSpeed"))
   if val3==nil then val3=33 end
@@ -180,7 +182,8 @@ function SetUpNewGui()
   -- [[ Scaling Override ]]
   reagirl.NextLine(15)
   tab1.Label_Scaling=reagirl.Label_Add(nil, nil, "Scaling", "Settings for the scaling-factor of ReaGirl-Guis.", false, nil)
-  reagirl.Label_SetStyle(tab1.Label_Scaling, 6, 0, 0)
+  reagirl.Label_SetBackdrop(tab1.Label_Scaling, 300, 40) -- set a backdrop around the next few labels
+  --reagirl.Label_SetStyle(tab1.Label_Scaling, 6, 0, 0)
   reagirl.NextLine()
   scaling_override=tonumber(reaper.GetExtState("ReaGirl", "scaling_override", value, true))
   if scaling_override==nil then scaling_override2=0 else scaling_override2=scaling_override end
@@ -190,7 +193,9 @@ function SetUpNewGui()
   -- [[ Blinking Drag-Destinations ]]
   reagirl.NextLine(15)
   tab1.Label_Draggable_UI_Elements=reagirl.Label_Add(nil, nil, "Draggable UI-elements", "Settings for draggable ui-elements.", false, nil)
-  reagirl.Label_SetStyle(tab1.Label_Draggable_UI_Elements, 6, 0, 0)
+  --reagirl.Label_SetStyle(tab1.Label_Draggable_UI_Elements, 6, 0, 0)
+  reagirl.Label_SetBackdrop(tab1.Label_Draggable_UI_Elements, 300, 115) -- set a backdrop around the next few labels
+  
   reagirl.NextLine()
   highlight_drag_destinations = reaper.GetExtState("ReaGirl", "highlight_drag_destinations")
   if highlight_drag_destinations=="" or highlight_drag_destinations=="true" then highlight_drag_destinations=true else highlight_drag_destinations=false end
@@ -200,7 +205,7 @@ function SetUpNewGui()
   if drag_blinking==nil then drag_blinking=0 end
   highlight_drag_destination_blink_cancel=drag_blinking
   tab1.slider_blink_every_draggable=reagirl.Slider_Add(nil, nil, 300, "Blink every", 100, "Set the speed of the blinking of the drag-destinations; 0=no blinking.", "seconds", 0, 5, 0.1, drag_blinking/33, 0, DragBlinkSpeed)
-  reagirl.NextLine()
+  reagirl.NextLine(5)
   tab1.image_source=reagirl.Image_Add(50,nil,50,50,reaper.GetResourcePath().."/Data/track_icons/double_bass.png", "The source-image, an image of a double bass.", "Drag this double bass to the microphone.", Image)
   tab1.image_middle=reagirl.Image_Add(160,nil,25,25,reaper.GetResourcePath().."/Data/track_icons/folder_right.png", "Graphics with an arrow pointing to the drag-destination of the double bass.", "Graphics with an arrow pointing to the drag-destination of the double bass.",nil)
   tab1.image_dest=reagirl.Image_Add(250,nil,50,50,reaper.GetResourcePath().."/Data/track_icons/mic_dynamic_1.png", "The destination image, an image of a microphone.", "The destination image, drag the double bass over here.",nil)
@@ -213,58 +218,59 @@ function SetUpNewGui()
   reagirl.Tabs_SetUIElementsForTab(Tabs, 1, tab1)
   
   -- [[ Osara override ]]
-  tabs2={}
+  tab2={}
   reagirl.AutoPosition_SetNextUIElementRelativeTo(Tabs)
   reagirl.NextLine()
-  tabs2.Label_Osara=reagirl.Label_Add(nil, nil, "General settings", "Settings that influence accessibility.", false, nil)
+  tab2.Label_Osara=reagirl.Label_Add(nil, nil, "General settings", "Settings that influence accessibility.", false, nil)
+  reagirl.Label_SetBackdrop(tab2.Label_Osara, 300, 145) -- set a backdrop around the next few labels
   reagirl.NextLine()
-  reagirl.Label_SetStyle(tabs2.Label_Osara, 6, 0, 0)
+  --reagirl.Label_SetStyle(tabs2.Label_Osara, 6, 0, 0)
 
   osara_override=reaper.GetExtState("ReaGirl", "osara_override")
   if osara_override=="true" or osara_override=="" then osara_override=true else osara_override=false end
-  tabs2.checkbox_osara_id = reagirl.Checkbox_Add(nil, nil, "Enable screen reader support(requires OSARA)", "Checking this will provide feedback to screen readers as you navigate. Feedback is delivered through OSARA so please make sure you have that installed.", osara_override, checkbox)
+  tab2.checkbox_osara_id = reagirl.Checkbox_Add(nil, nil, "Enable screen reader support(requires OSARA)", "Checking this will provide feedback to screen readers as you navigate. Feedback is delivered through OSARA so please make sure you have that installed.", osara_override, checkbox)
   
   --reagirl.UI_Element_GetSet_ContextMenu(tabs2.checkbox_osara_id, true, "Hudel|Dudel", print)
   
   reagirl.NextLine()
   osara_debug=reaper.GetExtState("ReaGirl", "osara_debug")
   if osara_debug=="false" or osara_debug=="" then osara_debug=false else osara_debug=true end
-  tabs2.checkbox_osara_debug_id = reagirl.Checkbox_Add(nil, nil, "Show screen reader messages in console(debug)", "Checking this will show the screen reader messages in the console for debugging purposes.", osara_debug, checkbox)
+  tab2.checkbox_osara_debug_id = reagirl.Checkbox_Add(nil, nil, "Show screen reader messages in console", "Checking this will show the screen reader messages in the console for debugging purposes.", osara_debug, checkbox)
   
   reagirl.NextLine()
   osara_move_mouse = reaper.GetExtState("ReaGirl", "osara_move_mouse")
   if osara_move_mouse=="" or osara_move_mouse=="true" then osara_move_mouse=true else osara_move_mouse=false end
-  tabs2.checkbox_osara_move_mouse_id = reagirl.Checkbox_Add(nil, nil, "Move mouse when tabbing ui-elements", "Uncheck to prevent moving of the mouse when tabbing through ui-elements. Unchecking will make right-clicking for context menus more difficult, though.", osara_move_mouse, checkbox)
+  tab2.checkbox_osara_move_mouse_id = reagirl.Checkbox_Add(nil, nil, "Move mouse when tabbing ui-elements", "Uncheck to prevent moving of the mouse when tabbing through ui-elements. Unchecking will make right-clicking for context menus more difficult, though.", osara_move_mouse, checkbox)
   
   reagirl.NextLine()
   osara_hover_mouse = reaper.GetExtState("ReaGirl", "osara_hover_mouse")
   if osara_hover_mouse=="" or osara_hover_mouse=="true" then osara_hover_mouse=true else osara_hover_mouse=false end
-  tabs2.checkbox_osara_hover_mouse_id = reagirl.Checkbox_Add(nil, nil, "Report hovered ui-elements", "When checked, ReaGirl will report ui-elements the mouse is hovering above to the screen reader. Uncheck to prevent that.", osara_hover_mouse, checkbox)
+  tab2.checkbox_osara_hover_mouse_id = reagirl.Checkbox_Add(nil, nil, "Report hovered ui-elements", "When checked, ReaGirl will report ui-elements the mouse is hovering above to the screen reader. Uncheck to prevent that.", osara_hover_mouse, checkbox)
   
   reagirl.NextLine()
   osara_enable_accmessage = reaper.GetExtState("ReaGirl", "osara_enable_accmessage")
   if osara_enable_accmessage=="" or osara_enable_accmessage=="true" then osara_enable_accmessage=true else osara_enable_accmessage=false end
-  tabs2.checkbox_osara_enable_acc_help = reagirl.Checkbox_Add(nil, nil, "Enable screen reader help-messages", "When checked, a short description on how to use a tabbed ui-element will be send to the screen reader as well. Uncheck to turn off the help-messages.", osara_enable_accmessage, checkbox)
+  tab2.checkbox_osara_enable_acc_help = reagirl.Checkbox_Add(nil, nil, "Enable screen reader help-messages", "When checked, a short description on how to use a tabbed ui-element will be send to the screen reader as well. Uncheck to turn off the help-messages.", osara_enable_accmessage, checkbox)
   
   reagirl.NextLine(10)
   error_message_target=tonumber(reaper.GetExtState("ReaGirl", "Error_Message_Destination"))
   if error_message_target==nil then error_message_target=1 end
-  tabs2.error_message_target=reagirl.DropDownMenu_Add(nil, nil, 300, "Show errors in:", 100, "Decide, whether ReaGirl-error-messages shall be shown only in IDE, in a dedicated MessageBox or in the ReaScript console window.", {"IDE", "Messagebox", "Reascript console window"}, error_message_target, dropdownmenu)
+  tab2.error_message_target=reagirl.DropDownMenu_Add(nil, nil, 290, "Show errors in:", 100, "Decide, whether ReaGirl-error-messages shall be shown only in IDE, in a dedicated MessageBox or in the ReaScript console window.", {"IDE", "Messagebox", "Reascript console window"}, error_message_target, dropdownmenu)
   
-  reagirl.Tabs_SetUIElementsForTab(Tabs, 2, tabs2)
+  reagirl.Tabs_SetUIElementsForTab(Tabs, 2, tab2)
   
-  button_apply_and_close_id = reagirl.Button_Add(-180, 435, 0, 0, "Apply and Close", "Apply the chosen settings and close window.", button_apply_and_close)
-  button_cancel_id = reagirl.Button_Add(-65, 435, 0, 0, "Cancel", "Simply close without applying the settings.", button_cancel)
+  button_apply_and_close_id = reagirl.Button_Add(-180, 445, 0, 0, "Apply and Close", "Apply the chosen settings and close window.", button_apply_and_close)
+  button_cancel_id = reagirl.Button_Add(-65, 445, 0, 0, "Cancel", "Simply close without applying the settings.", button_cancel)
   reagirl.NextLine()
 end
 
 SetUpNewGui()
 color=40
 reagirl.Background_GetSetColor(true,color,color,color)
-reagirl.Gui_Open("ReaGirl_Settings", false, "ReaGirl Settings", "various settings for ReaGirl-Accessible Guis.", nil, nil, nil, nil, nil)
+reagirl.Gui_Open("ReaGirl_Settings", false, "ReaGirl Settings (v."..reagirl.GetVersion()..")", "various settings for ReaGirl-Accessible Guis.", nil, nil, nil, nil, nil)
   
-reagirl.Window_ForceSize_Minimum(355, 460) -- set the minimum size of the window
-reagirl.Window_ForceSize_Maximum(355, 460) -- set the maximum size of the window
+--reagirl.Window_ForceSize_Minimum(355, 470) -- set the minimum size of the window
+--reagirl.Window_ForceSize_Maximum(355, 470) -- set the maximum size of the window
 
 function CheckIfSettingChanged()
   if osara_debug~=toboolean(reaper.GetExtState("ReaGirl", "osara_debug"), false) then 
