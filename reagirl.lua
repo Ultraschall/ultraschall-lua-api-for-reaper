@@ -2026,7 +2026,23 @@ function reagirl.Gui_Open(name, restore_old_window_state, title, description, w,
     reagirl.Window_w=w
     reagirl.Window_h=h
     reagirl.Window_dock=dock
+    
+    reagirl.Window_Title_default=title
+    reagirl.Window_Description_default=description
+    reagirl.Window_x_default=x
+    reagirl.Window_y_default=y
+    reagirl.Window_w_default=w
+    reagirl.Window_h_default=h
+    reagirl.Window_dock_default=dock
   else
+    reagirl.Window_Title_default=title
+    reagirl.Window_Description_default=description
+    reagirl.Window_x_default=x
+    reagirl.Window_y_default=y
+    reagirl.Window_w_default=w
+    reagirl.Window_h_default=h
+    reagirl.Window_dock_default=dock
+    
     reagirl.Window_Title=title
     reagirl.Window_Description=description
     --ReaGirl_Window_my_dialog
@@ -2108,6 +2124,127 @@ end
 
 function reagirl.AtExit()
   reaper.SetExtState("Reagirl_Window_"..reagirl.Window_name, "open", "", false)
+end
+
+function reagirl.Ext_Window_GetState(window_name)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Ext_Window_GetState</slug>
+  <requires>
+    ReaGirl=1.0
+    Reaper=7.03
+    Lua=5.4
+  </requires>
+  <functioncall>integer width, integer height, integer dockstate, integer x_position, integer y_position = reagirl.Ext_Window_Focus(string window_name)</functioncall>
+  <description>
+    Gets the current width, height, position and dockstate of a ReaGirl-gui-window.
+    
+    Returns nil if no such window exists/was ever opened.
+  </description>
+  <parameters>
+    optional string window_name - the name of the gui-window, of which you want to get the states; nil, use this script's currently/last opened window
+  </parameters>
+  <retvals>
+    integer width - the width of the window in pixels
+    integer height - the height of the window in pixels 
+    integer dockstate - 0, window isn't docked; 1, window is docked
+    integer x_position - the x-position of the window in pixels
+    integer y_position - the y-position of the window in pixels
+  </retvals>
+  <chapter_context>
+    Ext
+  </chapter_context>
+  <target_document>ReaGirl_Docs</target_document>
+  <source_document>reagirl_GuiEngine.lua</source_document>
+  <tags>ext, get, window, state</tags>
+</US_DocBloc>
+]]
+  if window_name~=nil and type(window_name)~="string" then error("Ext_Window_GetState: param #1 - must be a string", 2) end
+  if window_name==nil then window_name=reagirl.Window_name end
+  if window_name==nil then error("Ext_Window_GetState: param #1 - no such window", 2) end
+
+  return tonumber(math.floor(reaper.GetExtState("Reagirl_Window_"..window_name, "w"))),
+         tonumber(math.floor(reaper.GetExtState("Reagirl_Window_"..window_name, "h"))),
+         tonumber(math.floor(reaper.GetExtState("Reagirl_Window_"..window_name, "dock"))),
+         tonumber(math.floor(reaper.GetExtState("Reagirl_Window_"..window_name, "x"))),
+         tonumber(math.floor(reaper.GetExtState("Reagirl_Window_"..window_name, "y")))
+end
+
+function reagirl.Ext_Window_SetState(window_name, width, height, dockstate, x_position, y_position)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Ext_Window_SetState</slug>
+  <requires>
+    ReaGirl=1.0
+    Reaper=7.03
+    Lua=5.4
+  </requires>
+  <functioncall>reagirl.Ext_Window_SetState(string window_name, optional integer width, optional integer height, optional integer dockstate, optional integer x_position, optional integer y_position)</functioncall>
+  <description>
+    Sets a new width, height, position and dockstate of a ReaGirl-gui-window.
+    
+    To keep a parameter to its current state, set it to nil.
+  </description>
+  <parameters>
+    string window_name - the name of the gui-window, of which you want to get the states; nil, use this script's currently/last opened window
+    optional integer width - the width of the window in pixels; nil, keep current
+    optional integer height - the height of the window in pixels; nil, keep current
+    optional integer dockstate - 0, window isn't docked; 1, window is docked; nil, keep current
+    optional integer x_position - the x-position of the window in pixels; nil, keep current
+    optional integer y_position - the y-position of the window in pixels; nil, keep current
+  </parameters>
+  <chapter_context>
+    Ext
+  </chapter_context>
+  <target_document>ReaGirl_Docs</target_document>
+  <source_document>reagirl_GuiEngine.lua</source_document>
+  <tags>ext, set, window, state</tags>
+</US_DocBloc>
+]]
+  if type(window_name)~="string" then error("Ext_Window_SetState: param #1 - must be a string", 2) end
+  if width~=nil and math.type(width)~="integer" then error("Ext_Window_SetState: param #2 - must be nil or an integer", 2) end
+  if height~=nil and math.type(height)~="integer" then error("Ext_Window_SetState: param #3 - must be nil or an integer", 2) end
+  if dockstate~=nil and math.type(dockstate)~="integer" then error("Ext_Window_SetState: param #4 - must be nil or an integer", 2) end
+  if x_position~=nil and math.type(x_position)~="integer" then error("Ext_Window_SetState: param #5 - must be nil or an integer", 2) end
+  if y_position~=nil and math.type(y_position)~="integer" then error("Ext_Window_SetState: param #6 - must be nil or an integer", 2) end
+  
+  reaper.SetExtState("Reagirl_Window_"..window_name, "newstate", "newstate", false)
+  reaper.SetExtState("Reagirl_Window_"..window_name, "newstate_w", width, false)
+  reaper.SetExtState("Reagirl_Window_"..window_name, "newstate_h", height, false)
+  reaper.SetExtState("Reagirl_Window_"..window_name, "newstate_dock", dockstate, false)
+  reaper.SetExtState("Reagirl_Window_"..window_name, "newstate_x", x_position, false)
+  reaper.SetExtState("Reagirl_Window_"..window_name, "newstate_y", y_position, false)
+end
+
+--reagirl.Window_Title="ReaGirl_Settings"
+--A={reagirl.Ext_Window_SetState("ReaGirl_Settings", 100, 100, 0, 10, 10)}
+
+function reagirl.Ext_Window_ResetToDefault(window_name)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Ext_Window_ResetToDefault</slug>
+  <requires>
+    ReaGirl=1.0
+    Reaper=7.03
+    Lua=5.4
+  </requires>
+  <functioncall>reagirl.Ext_Window_ResetToDefault(string window_name)</functioncall>
+  <description>
+    Resets a ReaGirl-gui-window to it's default window dimensions and dockstate.
+  </description>
+  <parameters>
+    string window_name - the name of the gui-window, of which you want to get the states; nil, use this script's currently/last opened window
+  </parameters>
+  <chapter_context>
+    Ext
+  </chapter_context>
+  <target_document>ReaGirl_Docs</target_document>
+  <source_document>reagirl_GuiEngine.lua</source_document>
+  <tags>ext, set, reset, default, window, state</tags>
+</US_DocBloc>
+]]
+  if type(window_name)~="string" then error("Ext_Window_SetState: param #1 - must be a string", 2) end
+  reaper.SetExtState("Reagirl_Window_"..window_name, "newstate", "reset", false)
 end
 
 function reagirl.Ext_Window_Focus(window_name)
@@ -2217,6 +2354,33 @@ function reagirl.Ext_Tab_SetSelected(window_name, tabnumber)
   reaper.SetExtState("Reagirl_Window_"..window_name, "open_tabnumber", tabnumber, false)
 end
 
+function reagirl.Ext_UpdateWindow()
+  local w, h, dock, x, y  
+  if reaper.GetExtState("Reagirl_Window_"..reagirl.Window_name, "newstate")=="newstate" then
+    w=tonumber(reaper.GetExtState("Reagirl_Window_"..reagirl.Window_name, "newstate_w"))
+    h=tonumber(reaper.GetExtState("Reagirl_Window_"..reagirl.Window_name, "newstate_h"))
+    dock=tonumber(reaper.GetExtState("Reagirl_Window_"..reagirl.Window_name, "newstate_dock"))
+    x=tonumber(reaper.GetExtState("Reagirl_Window_"..reagirl.Window_name, "newstate_x"))
+    y=tonumber(reaper.GetExtState("Reagirl_Window_"..reagirl.Window_name, "newstate_y"))
+    
+    local cur_dock, cur_x, cur_y, cur_w, cur_h = gfx.dock(-1, 0, 0, 0, 0)
+    if w==nil then w=cur_w end
+    if h==nil then h=cur_h end
+    if dock==nil then dock=gfx.dock(-1) end
+    if x==nil then x=cur_x end
+    if y==nil then y=cur_y end
+  elseif reaper.GetExtState("Reagirl_Window_"..reagirl.Window_name, "newstate")=="reset" then
+    if w==nil then w=reagirl.Window_w_default end
+    if h==nil then h=reagirl.Window_h_default end
+    if dock==nil then dock=reagirl.Window_dock_default end
+    if x==nil then x=reagirl.Window_x_default end
+    if y==nil then y=reagirl.Window_y_default end
+  end
+  gfx.init("", w, h, dock, x, y)
+  gfx.dock(dock)
+  reaper.SetExtState("Reagirl_Window_"..reagirl.Window_name, "newstate", "", true)
+end
+
 function reagirl.Gui_Manage()
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
@@ -2251,6 +2415,10 @@ function reagirl.Gui_Manage()
   if #reagirl.Elements<reagirl.Elements.FocusedElement then reagirl.Elements.FocusedElement=1 end
   
   reagirl.Window_State=gfx.getchar(65536)
+
+  if reaper.GetExtState("ReaGirl_Window_"..reagirl.Window_name, "newstate")~="" then
+    reagirl.Ext_UpdateWindow()
+  end
   
   -- store position, size and dockstate of window for next opening
   local dock,x,y,w,h=gfx.dock(-1,0,0,0,0)
