@@ -64,6 +64,42 @@ function dropdownmenu(element_id, selection)
   
 end
 
+function BlinkSpeed(element_id, val)
+  if reagirl.Slider_GetValue(tab1.slider_blink_every)==1 then val="" else val=math.floor(reagirl.Slider_GetValue(tab1.slider_blink_every)*33) end
+  reaper.SetExtState("ReaGirl", "FocusRectangle_BlinkSpeed", val, true)
+end
+
+function BlinkTime(element_id, val)
+  if reagirl.Slider_GetValue(tab1.slider_blink_for)==0 then val="" else val=math.floor(reagirl.Slider_GetValue(tab1.slider_blink_for)) end
+  reaper.SetExtState("ReaGirl", "FocusRectangle_BlinkTime", val, true)
+end
+
+function CursorBlinkSpeed(element_id, val)
+  if reagirl.Slider_GetValue(tab1.slider_blink_every_cursor)==1 then val="" else val=math.floor(reagirl.Slider_GetValue(tab1.slider_blink_every_cursor)*33) end
+  reaper.SetExtState("ReaGirl", "Inputbox_BlinkSpeed", val, true)
+end
+
+function DragBlinkSpeed(element_id, val)
+  if reagirl.Slider_GetValue(tab1.slider_blink_every_draggable)==0 then val="" else val=math.floor(reagirl.Slider_GetValue(tab1.slider_blink_every_draggable)*33) end
+  reaper.SetExtState("ReaGirl", "highlight_drag_destination_blink", val, true)
+end
+
+function button_cancel()
+  if focus_rectangle_blinkspeed_cancel==1 then focus_rectangle_blinkspeed_cancel="" end -- else focus_rectangle_blinkspeed_cancel=math.floor(focus_rectangle_blinkspeed_cancel*33) end
+  reaper.SetExtState("ReaGirl", "FocusRectangle_BlinkSpeed", focus_rectangle_blinkspeed_cancel, true)
+  
+  if focus_rectangle_blinktime==0 then focus_rectangle_blinktime_cancel="" end --else val=math.floor(reagirl.Slider_GetValue(tab1.slider_blink_for)) end
+  reaper.SetExtState("ReaGirl", "FocusRectangle_BlinkTime", focus_rectangle_blinktime_cancel, true)
+  
+  if inputbox_blinkspeed_cancel==1 then inputbox_blinkspeed_cancel="" end --else val=math.floor(reagirl.Slider_GetValue(tab1.slider_blink_every_cursor)*33) end
+  reaper.SetExtState("ReaGirl", "Inputbox_BlinkSpeed", inputbox_blinkspeed_cancel, true)
+  
+  if highlight_drag_destination_blink_cancel==0 then highlight_drag_destination_blink_cancel="" end --else val=math.floor(reagirl.Slider_GetValue(tab1.slider_blink_every_draggable)*33) end
+  reaper.SetExtState("ReaGirl", "highlight_drag_destination_blink", highlight_drag_destination_blink_cancel, true)
+  
+  reagirl.Gui_Close()
+end
+
 function button_apply_and_close()
   reaper.SetExtState("ReaGirl", "show_tooltips", tostring(reagirl.Checkbox_GetCheckState(tab1.checkbox_tooltips_id)), true)
   reaper.SetExtState("ReaGirl", "osara_override", tostring(reagirl.Checkbox_GetCheckState(tabs2.checkbox_osara_id)), true)
@@ -87,10 +123,6 @@ reaper.GetExtState("ReaGirl", "osara_enable_accmessage")
   reaper.SetExtState("ReaGirl", "scaling_override", val, true)
   if reagirl.Slider_GetValue(tab1.slider_blink_every_draggable)==0 then val="" else val=math.floor(reagirl.Slider_GetValue(tab1.slider_blink_every_draggable)*33) end
   reaper.SetExtState("ReaGirl", "highlight_drag_destination_blink", val, true)
-  reagirl.Gui_Close()
-end
-
-function button_cancel()
   reagirl.Gui_Close()
 end
 
@@ -121,14 +153,16 @@ function SetUpNewGui()
   reagirl.NextLine()
   val=tonumber(reaper.GetExtState("ReaGirl", "FocusRectangle_BlinkSpeed"))
   if val==nil then val=33 end
+  focus_rectangle_blinkspeed_cancel=val
+  
   
   val2=tonumber(reaper.GetExtState("ReaGirl", "FocusRectangle_BlinkTime"))
   if val2==nil then val2=0 end
+  focus_rectangle_blinktime_cancel=val2
   
   tab1.slider_blink_every = reagirl.Slider_Add(nil, nil, 300, "Blink every", 100, "Set the speed of the blinking of the focus rectangle.", "seconds", 0.4, 3, 0.1, val/33, 1, BlinkSpeed)
   reagirl.NextLine(-4)
   tab1.slider_blink_for = reagirl.Slider_Add(nil, nil, 300, "Blink for", 100, "Set the duration of the blinking of the focus rectangle.", "seconds", 0, 10, 1, val2, 0, BlinkTime)
-  
   
   -- [[ Blinking Inputbox-Cursor ]]
   reagirl.NextLine(15)
@@ -137,6 +171,7 @@ function SetUpNewGui()
   reagirl.NextLine()
   val3=tonumber(reaper.GetExtState("ReaGirl", "Inputbox_BlinkSpeed"))
   if val3==nil then val3=33 end
+  inputbox_blinkspeed_cancel=val3
   tab1.slider_blink_every_cursor=reagirl.Slider_Add(nil, nil, 300, "Blink every", 100, "Set the speed of the blinking of the cursor.", "seconds", 0.4, 5, 0.1, val3/33, 1, CursorBlinkSpeed)
   reagirl.NextLine()
   tab1.input_id = reagirl.Inputbox_Add(nil, nil, 290, "Test input:", 100, "Input text to check cursor blinking speed.", testtext, nil, nil)
@@ -163,6 +198,7 @@ function SetUpNewGui()
   reagirl.NextLine()
   drag_blinking=tonumber(reaper.GetExtState("ReaGirl", "highlight_drag_destination_blink"))
   if drag_blinking==nil then drag_blinking=0 end
+  highlight_drag_destination_blink_cancel=drag_blinking
   tab1.slider_blink_every_draggable=reagirl.Slider_Add(nil, nil, 300, "Blink every", 100, "Set the speed of the blinking of the drag-destinations; 0=no blinking.", "seconds", 0, 5, 0.1, drag_blinking/33, 0, DragBlinkSpeed)
   reagirl.NextLine()
   tab1.image_source=reagirl.Image_Add(50,nil,50,50,reaper.GetResourcePath().."/Data/track_icons/double_bass.png", "The source-image, an image of a double bass.", "Drag this double bass to the microphone.", Image)

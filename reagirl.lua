@@ -467,7 +467,24 @@ else
 end
   
 function reagirl.FormatNumber(n, p)
-  -- by cfillion
+  --reaper.MB(n,"",0)
+  if n<0.00000000000001 then return 0 end
+  --if number<0.0000001 then return 0 end
+  --[[
+  local adder, fraction, fraction2, int
+  number=number+0.0
+  int, fraction=tostring(number):match("(.-)%.(.*)")
+
+  adder=0
+  if fraction:len()>length_of_fraction then 
+    fraction2=fraction:sub(1,length_of_fraction)
+    if roundit==true and tonumber(fraction:sub(length_of_fraction+1, length_of_fraction+1))>5 then adder=1 end
+    adder=adder/(10^(length_of_fraction))
+  else 
+    fraction2=fraction
+  end
+  return int.."."..(fraction2+adder)
+  --]]
   local p = (math.log(math.abs(n), 10) // 1) + (p or 3) + 1
   if tostring(p):match("INF")~=nil then p=0 end
   return ('%%.%dg'):format(p):format(n)
@@ -7016,9 +7033,9 @@ function reagirl.DropDownMenu_Manage(element_id, selected, hovered, clicked, mou
       if mouse_attributes[5]<0 then element_storage["menuSelectedItem"]=element_storage["menuSelectedItem"]+1 refresh=true end
       if mouse_attributes[5]>0 then element_storage["menuSelectedItem"]=element_storage["menuSelectedItem"]-1 refresh=true end
       
-      if element_storage["menuSelectedItem"]<1 then element_storage["menuSelectedItem"]=1 refresh=false end
-      if element_storage["menuSelectedItem"]>element_storage["MenuCount"] then element_storage["menuSelectedItem"]=element_storage["MenuCount"] refresh=false end
-      if refresh==true and element_storage["run_function"]~=nil then reagirl.Elements[element_id]["run_function"](element_storage["Guid"], element_storage["menuSelectedItem"], element_storage["MenuEntries"][element_storage["menuSelectedItem"]]) reagirl.Gui_ForceRefresh(26) refresh=false end
+      if element_storage["menuSelectedItem"]<1 then element_storage["menuSelectedItem"]=1 end
+      if element_storage["menuSelectedItem"]>element_storage["MenuCount"] then element_storage["menuSelectedItem"]=element_storage["MenuCount"] end
+      if refresh==true and element_storage["run_function"]~=nil then reagirl.Elements[element_id]["run_function"](element_storage["Guid"], element_storage["menuSelectedItem"], element_storage["MenuEntries"][element_storage["menuSelectedItem"]]) reagirl.Gui_ForceRefresh(26) end
     end
   end
   local Entries=""
