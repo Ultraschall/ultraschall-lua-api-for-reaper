@@ -6080,6 +6080,44 @@ function reagirl.Inputbox_Manage(element_id, selected, hovered, clicked, mouse_c
   end
   local entered_character=""
   local blink_refresh=false
+  
+  if element_storage["linked_to"]~=0 then
+    if element_storage["linked_to"]==1 then
+      local val=reaper.GetExtState(element_storage["linked_to_section"], element_storage["linked_to_key"])
+      if val==nil then val=element_storage["linked_to_default"] refresh=true end
+      if element_storage["Text"]~=val then 
+        element_storage["Text"]=val 
+        reagirl.Inputbox_Calculate_DrawOffset(true, element_storage) 
+        element_storage["selection_endoffset"]=element_storage["cursor_offset"] 
+        element_storage["selection_startoffset"]=element_storage["cursor_offset"] 
+        reagirl.Gui_ForceRefresh() 
+      end
+    elseif element_storage["linked_to"]==2 then
+      local retval, val = reaper.BR_Win32_GetPrivateProfileString(element_storage["linked_to_section"], element_storage["linked_to_key"], "", element_storage["linked_to_ini_file"])
+      if val==nil then val=element_storage["linked_to_default"] refresh=true end
+      if element_storage["Text"]~=val then 
+        element_storage["Text"]=val 
+        reagirl.Inputbox_Calculate_DrawOffset(true, element_storage) 
+        element_storage["selection_endoffset"]=element_storage["cursor_offset"] 
+        element_storage["selection_startoffset"]=element_storage["cursor_offset"] 
+        reagirl.Gui_ForceRefresh() 
+      end
+    elseif element_storage["linked_to"]==3 then
+      local retval, val=reaper.get_config_var_string(element_storage["linked_to_configvar"])
+
+      if element_storage["Text"]~=val then 
+        element_storage["Text"]=val 
+        reagirl.Inputbox_Calculate_DrawOffset(true, element_storage) 
+        element_storage["selection_endoffset"]=element_storage["cursor_offset"] 
+        element_storage["selection_startoffset"]=element_storage["cursor_offset"] 
+        reagirl.Gui_ForceRefresh() 
+      end
+      if element_storage["linked_to_persist"]==true then
+        reaper.BR_Win32_WritePrivateProfileString("REAPER", element_storage["linked_to_configvar"], val, reaper.get_ini_file())
+      end
+    end
+  end
+  
   if reagirl.osara_outputMessage~=nil and selected~="not selected" then
     reagirl.Gui_PreventEnterForOneCycle()
     if selected~="not selected" and (Key==13 or (mouse_cap&1==1 and gfx.mouse_x>=x and gfx.mouse_x<=x+w and gfx.mouse_y>=y and gfx.mouse_y<=y+h)) then      
@@ -6209,6 +6247,24 @@ function reagirl.Inputbox_Manage(element_id, selected, hovered, clicked, mouse_c
   end
   element_storage.w2_old=w
   element_storage["AccHoverMessage"]=element_storage["Name"].." "..element_storage["Text"]
+  
+  if refresh==true then 
+    reagirl.Gui_ForceRefresh(53) 
+    if element_storage["run_function"]~=nil and skip_func~=true then 
+      element_storage["run_function"](element_storage["Guid"], element_storage["CurValue"]) 
+    end
+    
+    if element_storage["linked_to"]~=0 then
+      if element_storage["linked_to"]==1 then
+        reaper.SetExtState(element_storage["linked_to_section"], element_storage["linked_to_key"], element_storage["Text"], element_storage["linked_to_persist"])
+      elseif element_storage["linked_to"]==2 then
+        local retval, val = reaper.BR_Win32_WritePrivateProfileString(element_storage["linked_to_section"], element_storage["linked_to_key"], element_storage["Text"], element_storage["linked_to_ini_file"])
+      elseif element_storage["linked_to"]==3 then
+        reaper.SNM_SetStringConfigVar(element_storage["linked_to_configvar"], element_storage["Text"])
+      end
+    end
+  end
+  
   if refresh==true then
     reagirl.Gui_ForceRefresh(23)
   end
@@ -6302,6 +6358,198 @@ function reagirl.Inputbox_Draw(element_id, selected, hovered, clicked, mouse_cap
       --gfx.line(x+cap_w+dpi_scale+dpi_scale+dpi_scale, y+dpi_scale, x+cap_w+dpi_scale+dpi_scale+dpi_scale, y+gfx.texth-dpi_scale)
       gfx.rect(x+cap_w+dpi_scale+dpi_scale+dpi_scale, y+dpi_scale, dpi_scale, gfx.texth-dpi_scale-dpi_scale)
     end
+  end
+end
+
+function reagirl.Inputbox_LinkToExtstate(element_id, section, key, default, persist)
+--[[
+<US_ DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Inputbox_LinkToExtstate</slug>
+  <requires>
+    ReaGirl=1.1
+    Reaper=7.03
+    Lua=5.4
+  </requires>
+  <functioncall>reagirl.Inputbox_LinkToExtstate(string element_id, string section, string key, string default, boolean persist)</functioncall>
+  <description>
+    Links an inputbox to an extstate. 
+    
+    All changes to the extstate will be immediately visible for this inputbox.
+    
+    If the inputbox was already linked to a config-var or ini-file, this linked-state will be replaced by this new one.
+    Use reagirl.Inputbox_UnLink() to unlink the inputbox from extstate/ini-file/config var.
+  </description>
+  <parameters>
+    string element_id - the guid of the inputbox, that you want to link to an extstate
+    string section - the section of the linked extstate
+    string key - the key of the linked extstate
+    string default - the default value, if the extstate hasn't been set yet
+    boolean persist - true, the extstate shall be stored persistantly; false, the extstate shall not be stored persistantly
+  </parameters>
+  <chapter_context>
+    Inputbox
+  </chapter_context>
+  <tags>inputbox, link to, extstate</tags>
+</US_DocBloc>
+--]]
+  if type(element_id)~="string" then error("Inputbox_LinkToExtstate: param #1 - must be a string", 2) end
+  if reagirl.IsValidGuid(element_id, true)==nil then error("Inputbox_LinkToExtstate: param #1 - must be a valid guid", 2) end
+  if type(section)~="string" then error("Inputbox_LinkToExtstate: param #2 - must be a string", 2) end
+  if type(key)~="string" then error("Inputbox_LinkToExtstate: param #3 - must be a string", 2) end
+  if type(default)~="string" then error("Inputbox_LinkToExtstate: param #4 - must be a string", 2) end
+  if type(persist)~="boolean" then error("Inputbox_LinkToExtstate: param #5 - must be a boolean", 2) end
+  element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
+  if element_id==-1 then error("Inputbox_LinkToExtstate: param #1 - no such ui-element", 2) end
+  if reagirl.Elements[element_id]["GUI_Element_Type"]~="Edit" then
+    error("Inputbox_LinkToExtstate: param #1 - ui-element is not a inputbox", 2)
+  else
+    reagirl.Elements[element_id]["linked_to"]=1
+    reagirl.Elements[element_id]["linked_to_section"]=section
+    reagirl.Elements[element_id]["linked_to_key"]=key
+    reagirl.Elements[element_id]["linked_to_default"]=default
+    reagirl.Elements[element_id]["linked_to_persist"]=persist
+    reagirl.Gui_ForceRefresh(16)
+  end
+end
+
+function reagirl.Inputbox_LinkToIniFile(element_id, ini_file, section, key, default, persist)
+--[[
+<US_ DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Inputbox_LinkToIniFile</slug>
+  <requires>
+    ReaGirl=1.1
+    Reaper=7.03
+    Lua=5.4
+  </requires>
+  <functioncall>reagirl.Inputbox_LinkToIniFile(string element_id, string ini_file, string section, string key, string default, boolean persist)</functioncall>
+  <description>
+    Links an inputbox to an ini-file-entry. 
+    
+    All changes to the ini-file-entry will be immediately visible for this inputbox.
+    Dragging the inputbox also updates the ini-file-entry immediately.
+    
+    If the inputbox was already linked to a config-var or extstate, this linked-state will be replaced by this new one.
+    Use reagirl.Inputbox_UnLink() to unlink the inputbox from extstate/ini-file/config var.
+  </description>
+  <parameters>
+    string element_id - the guid of the inputbox, that you want to link to an extstate
+    string ini_file - the filename of the ini-file, whose value you want to link to this slider
+    string section - the section of the linked ini-file
+    string key - the key of the linked ini-file
+    string default - the default value, if the ini-file hasn't been set yet
+    boolean persist - true, the ini-file shall be stored persistantly; false, the ini-file shall not be stored persistantly
+  </parameters>
+  <chapter_context>
+    Inputbox
+  </chapter_context>
+  <tags>inputbox, link to, ini-file</tags>
+</US_DocBloc>
+--]]
+  if type(element_id)~="string" then error("Inputbox_LinkToIniFile: param #1 - must be a string", 2) end
+  if reagirl.IsValidGuid(element_id, true)==nil then error("Inputbox_LinkToIniFile: param #1 - must be a valid guid", 2) end
+  if type(ini_file)~="string" then error("Inputbox_LinkToIniFile: param #2 - must be a string", 2) end
+  if type(section)~="string" then error("Inputbox_LinkToIniFile: param #3 - must be a string", 2) end
+  if type(key)~="string" then error("Inputbox_LinkToIniFile: param #4 - must be a string", 2) end
+  if type(default)~="string" then error("Inputbox_LinkToIniFile: param #5 - must be a string", 2) end
+
+  element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
+  if element_id==-1 then error("Inputbox_LinkToIniFile: param #1 - no such ui-element", 2) end
+  if reagirl.Elements[element_id]["GUI_Element_Type"]~="Edit" then
+    error("Inputbox_LinkToIniFile: param #1 - ui-element is not a inputbox", 2)
+  else
+    reagirl.Elements[element_id]["linked_to"]=2
+    reagirl.Elements[element_id]["linked_to_ini_file"]=ini_file
+    reagirl.Elements[element_id]["linked_to_section"]=section
+    reagirl.Elements[element_id]["linked_to_key"]=key
+    reagirl.Elements[element_id]["linked_to_default"]=default
+    reagirl.Elements[element_id]["linked_to_persist"]=persist
+    reagirl.Gui_ForceRefresh(16)
+  end
+end
+
+function reagirl.Inputbox_LinkToConfigVar(element_id, configvar_name, persist)
+--[[
+<US_ DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Inputbox_LinkToConfigVar</slug>
+  <requires>
+    ReaGirl=1.1
+    Reaper=7.03
+    SWS=2.10.0.1
+    Lua=5.4
+  </requires>
+  <functioncall>reagirl.Inputbox_LinkToConfigVar(string element_id, string configvar_name, boolean persist)</functioncall>
+  <description>
+    Links an inputbox to a configvar. 
+    
+    All changes to the configvar will be immediately visible for this inputbox.
+    Entering text also updates the configvar-bit immediately.
+    
+    Note: this will only allow string config-variables. All others could cause malfunction of Reaper!
+    
+    Read the Reaper Internals-docs for all available config-variables(run the action ultraschall_Help_Reaper_ConfigVars_Documentation.lua for more details)
+    
+    If the inputbox was already linked to extstate or ini-file, this linked-state will be replaced by this new one.
+    Use reagirl.Inputbox_Unlink() to unlink the inputbox from extstate/ini-file/config var.
+  </description>
+  <parameters>
+    string element_id - the guid of the inputbox that shall set a config-var
+    string configvar_name - the config-variable, whose value you want to update using the slider
+    boolean persist - true, make this setting persist; false, make this setting only temporary until Reaper restart
+  </parameters>
+  <chapter_context>
+    Inputbox
+  </chapter_context>
+  <tags>inputbox, link to, double, config variable</tags>
+</US_DocBloc>
+--]]
+  if type(element_id)~="string" then error("Inputbox_LinkToConfigVar: param #1 - must be a string", 2) end
+  if reagirl.IsValidGuid(element_id, true)==nil then error("Inputbox_LinkToConfigVar: param #1 - must be a valid guid", 2) end
+  if type(configvar_name)~="string" then error("Inputbox_LinkToConfigVar: param #2 - must be a string", 2) end
+  if type(persist)~="boolean" then error("Inputbox_LinkToConfigVar: param #3 - must be a boolean", 2) end
+  
+  element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
+  if element_id==-1 then error("Inputbox_LinkToConfigVar: param #1 - no such ui-element", 2) end
+  if reagirl.Elements[element_id]["GUI_Element_Type"]~="Edit" then
+    error("Inputbox_LinkToConfigVar: param #1 - ui-element is not a inputbox", 2)
+  else
+    reagirl.Elements[element_id]["linked_to"]=3
+    reagirl.Elements[element_id]["linked_to_configvar"]=configvar_name
+    reagirl.Elements[element_id]["linked_to_persist"]=persist
+    reagirl.Gui_ForceRefresh(16)
+  end
+end
+
+function reagirl.Inputbox_Unlink(element_id, section, key, default, persist)
+--[[
+<US_ DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Inputbox_Unlink</slug>
+  <requires>
+    ReaGirl=1.1
+    Reaper=7.03
+    Lua=5.4
+  </requires>
+  <functioncall>reagirl.Inputbox_Unlink(string element_id)</functioncall>
+  <description>
+    Unlinks an inputbox from extstate/ini-file/configvar. 
+  </description>
+  <parameters>
+    string element_id - the guid of the inputbox, that you want to unlink from an extstate/inifile-entry/configvar
+  </parameters>
+  <chapter_context>
+    Inputbox
+  </chapter_context>
+  <tags>inputbox, unlink</tags>
+</US_DocBloc>
+--]]
+  if type(element_id)~="string" then error("Inputbox_Unlink: param #1 - must be a string", 2) end
+  if reagirl.IsValidGuid(element_id, true)==nil then error("Inputbox_Unlink: param #1 - must be a valid guid", 2) end
+  element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
+  if element_id==-1 then error("Inputbox_Unlink: param #1 - no such ui-element", 2) end
+  if reagirl.Elements[element_id]["GUI_Element_Type"]~="Edit" then
+    error("Inputbox_Unlink: param #1 - ui-element is not a inputbox", 2)
+  else
+    reagirl.Elements[element_id]["linked_to"]=0
+    reagirl.Gui_ForceRefresh(16)
   end
 end
 
@@ -9720,6 +9968,12 @@ function reagirl.Slider_Manage(element_id, selected, hovered, clicked, mouse_cap
       if element_storage["linked_to_persist"]==true then
         reaper.BR_Win32_WritePrivateProfileString("REAPER", element_storage["linked_to_configvar"], val, reaper.get_ini_file())
       end
+    elseif element_storage["linked_to"]==4 then
+      local val=reaper.SNM_GetIntConfigVar(element_storage["linked_to_configvar"], -9999999)
+      if element_storage["CurValue"]~=val then element_storage["CurValue"]=val reagirl.Gui_ForceRefresh() end
+      if element_storage["linked_to_persist"]==true then
+        reaper.BR_Win32_WritePrivateProfileString("REAPER", element_storage["linked_to_configvar"], val, reaper.get_ini_file())
+      end
     end
   end
 
@@ -9847,6 +10101,8 @@ function reagirl.Slider_Manage(element_id, selected, hovered, clicked, mouse_cap
         local retval, val = reaper.BR_Win32_WritePrivateProfileString(element_storage["linked_to_section"], element_storage["linked_to_key"], element_storage["CurValue"], element_storage["linked_to_ini_file"])
       elseif element_storage["linked_to"]==3 then
         reaper.SNM_SetDoubleConfigVar(element_storage["linked_to_configvar"], element_storage["CurValue"])
+      elseif element_storage["linked_to"]==4 then
+        reaper.SNM_SetIntConfigVar(element_storage["linked_to_configvar"], math.floor(element_storage["CurValue"]))
       end
     end
   end
@@ -10041,24 +10297,25 @@ function reagirl.Slider_LinkToIniFile(element_id, ini_file, section, key, defaul
   end
 end
 
-function reagirl.Slider_LinkToConfigVar(element_id, configvar_name, persist)
+function reagirl.Slider_LinkToDoubleConfigVar(element_id, configvar_name, persist)
 --[[
 <US_ DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>Slider_LinkToConfigVar</slug>
+  <slug>Slider_LinkToDoubleConfigVar</slug>
   <requires>
     ReaGirl=1.1
     Reaper=7.03
     SWS=2.10.0.1
     Lua=5.4
   </requires>
-  <functioncall>reagirl.Slider_LinkToConfigVar(string element_id, string configvar_name, boolean persist)</functioncall>
+  <functioncall>reagirl.Slider_LinkToDoubleConfigVar(string element_id, string configvar_name, boolean persist)</functioncall>
   <description>
     Links a slider to a configvar. 
     
     All changes to the configvar will be immediately visible for this slider.
-    Clicking the checkbox also updates the configvar-bit immediately.
+    Draggint the slider also updates the configvar-bit immediately.
     
-    Note: this will only allow double-float config-vars. All others could cause malfunction of Reaper!
+    Note: this will only allow double-float config-variables. All others could cause malfunction of Reaper!
+    Use reagirl.Slider_LinkToIntConfigVar() for integer-config-variables.
     
     Read the Reaper Internals-docs for all available config-variables(run the action ultraschall_Help_Reaper_ConfigVars_Documentation.lua for more details)
     
@@ -10073,20 +10330,73 @@ function reagirl.Slider_LinkToConfigVar(element_id, configvar_name, persist)
   <chapter_context>
     Slider
   </chapter_context>
-  <tags>slider, link to, config variable</tags>
+  <tags>slider, link to, double, config variable</tags>
 </US_DocBloc>
 --]]
-  if type(element_id)~="string" then error("Slider_LinkToConfigVar: param #1 - must be a string", 2) end
-  if reagirl.IsValidGuid(element_id, true)==nil then error("Slider_LinkToConfigVar: param #1 - must be a valid guid", 2) end
-  if type(configvar_name)~="string" then error("Slider_LinkToConfigVar: param #2 - must be a string", 2) end
-  if type(persist)~="boolean" then error("Slider_LinkToConfigVar: param #3 - must be a boolean", 2) end
+  if type(element_id)~="string" then error("Slider_LinkToDoubleConfigVar: param #1 - must be a string", 2) end
+  if reagirl.IsValidGuid(element_id, true)==nil then error("Slider_LinkToDoubleConfigVar: param #1 - must be a valid guid", 2) end
+  if type(configvar_name)~="string" then error("Slider_LinkToDoubleConfigVar: param #2 - must be a string", 2) end
+  if type(persist)~="boolean" then error("Slider_LinkToDoubleConfigVar: param #3 - must be a boolean", 2) end
   
   element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
-  if element_id==-1 then error("Slider_LinkToConfigVar: param #1 - no such ui-element", 2) end
+  if element_id==-1 then error("Slider_LinkToDoubleConfigVar: param #1 - no such ui-element", 2) end
   if reagirl.Elements[element_id]["GUI_Element_Type"]~="Slider" then
-    error("Slider_LinkToConfigVar: param #1 - ui-element is not a slider", 2)
+    error("Slider_LinkToDoubleConfigVar: param #1 - ui-element is not a slider", 2)
   else
     reagirl.Elements[element_id]["linked_to"]=3
+    reagirl.Elements[element_id]["linked_to_configvar"]=configvar_name
+    reagirl.Elements[element_id]["linked_to_persist"]=persist
+    reagirl.Gui_ForceRefresh(16)
+  end
+end
+
+function reagirl.Slider_LinkToIntConfigVar(element_id, configvar_name, persist)
+--[[
+<US_ DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Slider_LinkToIntConfigVar</slug>
+  <requires>
+    ReaGirl=1.1
+    Reaper=7.03
+    SWS=2.10.0.1
+    Lua=5.4
+  </requires>
+  <functioncall>reagirl.Slider_LinkToIntConfigVar(string element_id, string configvar_name, boolean persist)</functioncall>
+  <description>
+    Links a slider to a configvar. 
+    
+    All changes to the configvar will be immediately visible for this slider.
+    Dragging the slider also updates the configvar-bit immediately.
+    
+    Note: this will only allow integer-config-variables. All others could cause malfunction of Reaper!
+    Use reagirl.Slider_LinkToDoubleConfigVar() for integer-config-variables.
+    
+    Read the Reaper Internals-docs for all available config-variables(run the action ultraschall_Help_Reaper_ConfigVars_Documentation.lua for more details)
+    
+    If the slider was already linked to extstate or ini-file, this linked-state will be replaced by this new one.
+    Use reagirl.Slider_Unlink() to unlink the slider from extstate/ini-file/config var.
+  </description>
+  <parameters>
+    string element_id - the guid of the slider that shall set a config-var
+    string configvar_name - the config-variable, whose value you want to update using the slider
+    boolean persist - true, make this setting persist; false, make this setting only temporary until Reaper restart
+  </parameters>
+  <chapter_context>
+    Slider
+  </chapter_context>
+  <tags>slider, link to, int, config variable</tags>
+</US_DocBloc>
+--]]
+  if type(element_id)~="string" then error("Slider_LinkToIntConfigVar: param #1 - must be a string", 2) end
+  if reagirl.IsValidGuid(element_id, true)==nil then error("Slider_LinkToIntConfigVar: param #1 - must be a valid guid", 2) end
+  if type(configvar_name)~="string" then error("Slider_LinkToIntConfigVar: param #2 - must be a string", 2) end
+  if type(persist)~="boolean" then error("Slider_LinkToIntConfigVar: param #3 - must be a boolean", 2) end
+  
+  element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
+  if element_id==-1 then error("Slider_LinkToIntConfigVar: param #1 - no such ui-element", 2) end
+  if reagirl.Elements[element_id]["GUI_Element_Type"]~="Slider" then
+    error("Slider_LinkToIntConfigVar: param #1 - ui-element is not a slider", 2)
+  else
+    reagirl.Elements[element_id]["linked_to"]=4
     reagirl.Elements[element_id]["linked_to_configvar"]=configvar_name
     reagirl.Elements[element_id]["linked_to_persist"]=persist
     reagirl.Gui_ForceRefresh(16)
@@ -10107,7 +10417,7 @@ function reagirl.Slider_Unlink(element_id, section, key, default, persist)
     Unlinks a slider from extstate/ini-file/configvar. 
   </description>
   <parameters>
-    string element_id - the guid of the slider, that you want to link to an extstate
+    string element_id - the guid of the slider, that you want to unlink from an extstate/inifile-entry/configvar
   </parameters>
   <chapter_context>
     Slider
