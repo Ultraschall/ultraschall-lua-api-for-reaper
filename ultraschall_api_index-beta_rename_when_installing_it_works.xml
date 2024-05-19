@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API and ReaGirl">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API and ReaGirl package" type="extension">
-      <version name="55970.00" author="Meo-Ada Mespotine">
+      <version name="55972.00" author="Meo-Ada Mespotine">
 	<source file="reagirl.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5//reagirl.lua</source>
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5//ultraschall_api_readme.txt</source>
@@ -30,6 +30,7 @@
 	<source file="/ultraschall_api/Documentation/Examples/ReaGirl/Additional_Examples/ReaGirl_TestScript_1.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5/ultraschall_api/Documentation/Examples/ReaGirl/Additional_Examples/ReaGirl_TestScript_1.lua</source>
 	<source file="/ultraschall_api/Documentation/Examples/ReaGirl/Additional_Examples/ReaGirl_TestScript_2.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5/ultraschall_api/Documentation/Examples/ReaGirl/Additional_Examples/ReaGirl_TestScript_2.lua</source>
 	<source file="/ultraschall_api/Documentation/Examples/ReaGirl/Additional_Examples/ReaGirl_TestScript_3.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5/ultraschall_api/Documentation/Examples/ReaGirl/Additional_Examples/ReaGirl_TestScript_3.lua</source>
+	<source file="/ultraschall_api/Documentation/Examples/ReaGirl/Additional_Examples/ReaGirl_TestScript_4.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5/ultraschall_api/Documentation/Examples/ReaGirl/Additional_Examples/ReaGirl_TestScript_4.lua</source>
 	<source file="/ultraschall_api/Documentation/Examples/ReaGirl/Tutorial_1/Tutorial_1_01.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5/ultraschall_api/Documentation/Examples/ReaGirl/Tutorial_1/Tutorial_1_01.lua</source>
 	<source file="/ultraschall_api/Documentation/Examples/ReaGirl/Tutorial_1/Tutorial_1_02.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5/ultraschall_api/Documentation/Examples/ReaGirl/Tutorial_1/Tutorial_1_02.lua</source>
 	<source file="/ultraschall_api/Documentation/Examples/ReaGirl/Tutorial_1/Tutorial_1_03.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5/ultraschall_api/Documentation/Examples/ReaGirl/Tutorial_1/Tutorial_1_03.lua</source>
@@ -642,7 +643,7 @@
 
 5 - “Eels - Novocaine for the Soul” - 22nd of May 2024
 
-Has now 1802 functions, with 139 new ones
+Has now 1804 functions, with 141 new ones
 
 Note: requires at least Reaper 7.03 now!
 
@@ -816,9 +817,11 @@ New features in 5
 -   ReaGirl: Label_GetAlignement - Gets the alignment of a label.
 -   ReaGirl: Label_GetDraggable - Gets the current draggable state of a
     label.
+-   ReaGirl: Label_GetBackdrop - Gets the backdrop of a label.
 -   ReaGirl: Label_GetFontSize - Gets the font-size of a label.
 -   ReaGirl: Label_GetStyle - Gets the style of a label.
 -   ReaGirl: Label_SetAlignment - Sets the font-size of a label.
+-   ReaGirl: Label_SetBackdrop - Sets the backdrop of a label.
 -   ReaGirl: Label_SetDraggable - Sets the current draggable state of a
     label.
 -   ReaGirl: Label_SetFontSize - Sets the font-size of a label.

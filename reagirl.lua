@@ -24,6 +24,64 @@
 ################################################################################
 ]] 
 
+--[[
+TODO: 
+  - Labels: boundary rectangle, like in preferences -> Media the Labels "Media item labels" and "Media item buttons"
+  - fillable bar: vertical and horizontal, allows you to display a rectangle that gets filled to a certain point, like the "space on disk"-bars on windows of Workbench 1.3.
+  - planned ui-elements and features
+    > ProgressBars, Color-ui-element, top menus, Toolbar Buttons, graphical vertical tabs, Listviews, Multiline Inputbox, Radio Buttons, virtual ui-elements(for making other guis accessible), decorative elements to hide ui elements, Burgermenu, global context-menu(maybe)
+    > color-themes,ui-elements linkable to toggle-states, extstates and ini-file-entries, Gui-Editor, stickyness
+  - Gui_Open - w and h parameters=nil mean, make the size of the window big enough to fit all ui-elements
+  - Sliders: make default-value optional
+  - sticky elements need more work, as tabbing to one might move a ui-element behind a sticky-ui-element. In that case, we need to
+    scroll accordingly.
+  - Draggable UI-Elements other than Image: use reagirl.DragImageSlot to draw the dragging-image, which will be blit by the Gui_Draw-function
+  - EdgeCase: when the scrollbars dis(!)appear while dragging the slider, the slider doesn't drag anymore
+              -- see this with a slider -100 to 100 that sets x and y of a button in a way, that scrollbars
+                 are drawn when the button is outside of the window(x and y -2 for instance)
+               needs to be fixed or is it igual?
+  - UI-Elements that manage values(checkbox, slider, dropdownmenu, inputbox) should be linkable to extstates,
+            so if the extstate changes, the shown state changes and if the shown state is change, the extstate gets changed too
+  - ui-elements, who are anchored to right side/bottom of the window: when shrinking the window, they might scroll outside of left/top-side of the window
+    so you can't scroll to them. Maybe fix that?
+  - DropDownMenu: line "if gfx.mouse_x>=x+cap_w and gfx.mouse_x<=x+w and gfx.mouse_y>=y and gfx.mouse_y<=y+h then"
+          in DropDownMenu_Manage occasionally produces nil-error on x for some reason...
+          Maybe only after using EditMode?
+  - general: instead of math.floor() use number // 1 | 0 as this is massively faster for creating integers!
+            9.87654 // 1 | 0
+            1.23456 // 1 | 0
+  - general: for functions that I do not expose to the user(like RoundRect), remove math.XXX()-functioncalls for improved performance.
+  - mouse-wheel/mouse-hwheel: sometimes using mousewheel to drag sliders/options in drop down menu stops for no apparent reason; probably fixed now, was due to scrolling issue
+  - General: when no run-function is provided, adjust the accessibility-hint acordingly(probably only for image)
+  - Inputbox: if they are too small, they aren't drawn properly
+  - Inputbox: when dragging the textselection to the left/right edge(during scrolling) the textselection isn't drawn properly(keeps text selected that is outside of scope)
+              it will be drawn too far until the "source of the text-selection" is in view
+              -- I debugged it in Inputbox_OnMouseMove() and it seems to work now? 
+  - Inputbox: allow "Unit" for stuff like " Enable processing on [16] CPUs". Currently you can't have CPUs or anything else as suffix right after the inputbox.
+          - but it's doable using labels...but dunno...
+  - jumping to ui-elements outside window(means autoscroll to them) doesn't always work
+    - ui-elements might still be out of view when jumping to them(x-coordinate outside of window for instance)
+  - Slider: disappears when scrolling upwards/leftwards: because of the "only draw neccessary gui-elements"-code, which is buggy for some reason(still is existing?)
+  - Slider: when width is too small, drawing bugs appear(i.e. autowidth plus window is too small)
+  - Image: reload of scaled image-override; if override==true then it loads only the image.png, not image-2x.png
+  - Labels: ACCHoverMessage should hold the text of the paragraph the mouse is hovering above only
+            That way, not everything is read out as message to TTS, only the hovered paragraph.
+            This makes reading longer label-texts much easier.
+            Needs this Osara-Issue to be done, if this is possible in the first place:
+              https://github.com/jcsteh/osara/issues/961
+  - DropZones: the target should be notified, which ui-element had been dragged to it
+  
+!!For 10k-UI-Elements(already been tested)!!  
+  - Gui_Manage
+    -- check for y-coordinates first, then for x-coordinates
+    -- only run manage-function of focused and hovered ui-element
+  - Gui_Draw
+    -- optimize drawing of only visible ui-elements
+    
+    
+--]]
+
+
 --dofile(reaper.GetResourcePath().."/UserPlugins/ultraschall_api.lua")
 
 -- DEBUG:
@@ -160,63 +218,6 @@ function reagirl.Osara_Debug_Message(message)
 end
 
 --]]
---[[
-TODO: 
-  - planned ui-elements and features
-    > ProgressBars, Color-ui-element, top menus, Toolbar Buttons, graphical vertical tabs, Listviews, Multiline Inputbox, Radio Buttons, virtual ui-elements(for making other guis accessible), decorative elements to hide ui elements, Burgermenu, global context-menu(maybe)
-    > color-themes,ui-elements linkable to toggle-states, extstates and ini-file-entries, Gui-Editor, stickyness
-  - Gui_Open - w and h parameters=nil mean, make the size of the window big enough to fit all ui-elements
-  - Sliders: make default-value optional
-  - sticky elements need more work, as tabbing to one might move a ui-element behind a sticky-ui-element. In that case, we need to
-    scroll accordingly.
-  - Ultraschall API: add function to set SetExtState("ReaGirl","ReFocusWindow"), which will set the focus of an opened ReaGirl-window.
-  -- for instance reaper.SetExtState("ReaGirl","ReFocusWindow","ReaGirl_Settings",false) sets focus to ReaGirl Settings.
-  - Draggable UI-Elements other than Image: use reagirl.DragImageSlot to draw the dragging-image, which will be blit by the Gui_Draw-function
-  - EdgeCase: when the scrollbars dis(!)appear while dragging the slider, the slider doesn't drag anymore
-              -- see this with a slider -100 to 100 that sets x and y of a button in a way, that scrollbars
-                 are drawn when the button is outside of the window(x and y -2 for instance)
-               needs to be fixed or is it igual?
-  - UI-Elements that manage values(checkbox, slider, dropdownmenu, inputbox) should be linkable to extstates,
-            so if the extstate changes, the shown state changes and if the shown state is change, the extstate gets changed too
-  - ui-elements, who are anchored to right side/bottom of the window: when shrinking the window, they might scroll outside of left/top-side of the window
-    so you can't scroll to them. Maybe fix that?
-  - DropDownMenu: line "if gfx.mouse_x>=x+cap_w and gfx.mouse_x<=x+w and gfx.mouse_y>=y and gfx.mouse_y<=y+h then"
-          in DropDownMenu_Manage occasionally produces nil-error on x for some reason...
-          Maybe only after using EditMode?
-  - general: instead of math.floor() use number // 1 | 0 as this is massively faster for creating integers!
-            9.87654 // 1 | 0
-            1.23456 // 1 | 0
-  - general: for functions that I do not expose to the user(like RoundRect), remove math.XXX()-functioncalls for improved performance.
-  - mouse-wheel/mouse-hwheel: sometimes using mousewheel to drag sliders/options in drop down menu stops for no apparent reason; probably fixed now, was due to scrolling issue
-  - General: when no run-function is provided, adjust the accessibility-hint acordingly(probably only for image)
-  - Inputbox: if they are too small, they aren't drawn properly
-  - Inputbox: when dragging the textselection to the left/right edge(during scrolling) the textselection isn't drawn properly(keeps text selected that is outside of scope)
-              it will be drawn too far until the "source of the text-selection" is in view
-              -- I debugged it in Inputbox_OnMouseMove() and it seems to work now? 
-  - Inputbox: allow "Unit" for stuff like " Enable processing on [16] CPUs". Currently you can't have CPUs or anything else as suffix right after the inputbox.
-          - but it's doable using labels...but dunno...
-  - jumping to ui-elements outside window(means autoscroll to them) doesn't always work
-    - ui-elements might still be out of view when jumping to them(x-coordinate outside of window for instance)
-  - Slider: disappears when scrolling upwards/leftwards: because of the "only draw neccessary gui-elements"-code, which is buggy for some reason(still is existing?)
-  - Slider: when width is too small, drawing bugs appear(i.e. autowidth plus window is too small)
-  - Image: reload of scaled image-override; if override==true then it loads only the image.png, not image-2x.png
-  - Labels: ACCHoverMessage should hold the text of the paragraph the mouse is hovering above only
-            That way, not everything is read out as message to TTS, only the hovered paragraph.
-            This makes reading longer label-texts much easier.
-            Needs this Osara-Issue to be done, if this is possible in the first place:
-              https://github.com/jcsteh/osara/issues/961
-  - DropZones: the target should be notified, which ui-element had been dragged to it
-  
-!!For 10k-UI-Elements(already been tested)!!  
-  - Gui_Manage
-    -- check for y-coordinates first, then for x-coordinates
-    -- only run manage-function of focused and hovered ui-element
-  - Gui_Draw
-    -- optimize drawing of only visible ui-elements
-    
-    
---]]
-
 -- let's force some of Reaper's/JS-extension functions to return window-focus to ReaGirl-window
 reagirl.GetUserInputs=reaper.GetUserInputs
 reagirl.GetUserFileNameForRead=reaper.GetUserFileNameForRead
@@ -2625,13 +2626,13 @@ function reagirl.Gui_Manage()
   end 
   reagirl.Gui_PreventEnterForOneCycle_State=false
   
-  if Key==26161 then 
+  if Key==26161 and gfx.mouse_cap==12 then 
     if reagirl.osara_outputMessage~=nil then
       local acc_message=""
       if reaper.GetExtState("ReaGirl", "osara_enable_accmessage")~="false" then
         acc_message=reagirl.Elements[reagirl.Elements["FocusedElement"]]["AccHint"]
       end
-      reagirl.osara_outputMessage(reagirl.Elements[reagirl.Elements["FocusedElement"]]["Description"].." "..acc_message)
+      reagirl.osara_outputMessage(reagirl.Elements[reagirl.Elements["FocusedElement"]]["Name"].." "..reagirl.Elements[reagirl.Elements["FocusedElement"]]["GUI_Element_Type"].."."..reagirl.Elements[reagirl.Elements["FocusedElement"]]["Description"].." "..acc_message)
     end
   end -- F1 help message for osara
   
@@ -3223,8 +3224,11 @@ function reagirl.Gui_Draw(Key, Key_utf, clickstate, specific_clickstate, mouse_c
     -- draw Tabs
     if reagirl.Tabs_Count~=nil then
       local i=reagirl.Tabs_Count
+      local minimum_visible_x, maximum_visible_x, minimum_visible_y, maximum_visible_y, minimum_all_x, maximum_all_x, maximum_all_y, maximum_all_y = reagirl.Gui_GetBoundaries()
       local w_add=reagirl.Elements[i]["bg_w"]
+      if w_add==nil then w_add=maximum_visible_x end
       local h_add=reagirl.Elements[i]["bg_h"]
+      if h_add==nil then h_add=maximum_visible_y end
       local x2, y2, w2, h2
       if reagirl.Elements[i]["x"]<0 then x2=gfx.w+(reagirl.Elements[i]["x"]*scale) else x2=reagirl.Elements[i]["x"]*scale end
       if reagirl.Elements[i]["y"]<0 then y2=gfx.h+(reagirl.Elements[i]["y"]*scale) else y2=reagirl.Elements[i]["y"]*scale end
@@ -8063,7 +8067,7 @@ function reagirl.Label_SetStyle(element_id, style1, style2, style3)
     reagirl.Elements[element_id]["style2"]=style2
     reagirl.Elements[element_id]["style3"]=style3
     
-    --[[local styles={66,73,77,79,83,85,86,89,90}
+    local styles={66,73,77,79,83,85,86,89,90}
     styles[0]=0
     local style=styles[style1]<<8
     style=style+styles[style2]<<8
@@ -8074,10 +8078,12 @@ function reagirl.Label_SetStyle(element_id, style1, style2, style3)
     
     reagirl.SetFont(1, "Arial", reagirl.Elements[element_id]["font_size"], style, 1)
     local w,h=gfx.measurestr(reagirl.Elements[element_id]["Name"])
-    reaper.MB(reagirl.Elements[element_id]["Name"],"",0)
+    --reaper.MB(reagirl.Elements[element_id]["Name"],"",0)
     reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0)
     
-    reagirl.Elements[element_id]["w"]=math.tointeger(w)--]]
+    reagirl.Elements[element_id]["w"]=math.tointeger(w)
+    reagirl.Elements[element_id]["h"]=math.tointeger(h)
+    --]]
     
     reagirl.Gui_ForceRefresh(30)
   end
@@ -8213,6 +8219,8 @@ function reagirl.Label_Add(x, y, label, meaningOfUI_Element, clickable, run_func
   reagirl.Elements[slot]["style2"]=0
   reagirl.Elements[slot]["style3"]=0
   reagirl.Elements[slot]["style4"]=0
+  reagirl.Elements[slot]["bg_w"]=0
+  reagirl.Elements[slot]["bg_h"]=0
   reagirl.Elements[slot]["func_draw"]=reagirl.Label_Draw
   reagirl.Elements[slot]["run_function"]=run_function
   reagirl.Elements[slot]["func_manage"]=reagirl.Label_Manage
@@ -8380,12 +8388,40 @@ function reagirl.Label_Draw(element_id, selected, hovered, clicked, mouse_cap, m
     gfx.set(col3)
     gfx.x=x+dpi_scale
     gfx.y=y+dpi_scale
-    gfx.drawstr(name, element_storage["align"], x+w, y+h)
+    gfx.drawstr(name, element_storage["align"])--, x+w, y+h)
     
     gfx.set(col,col,col2)
     gfx.x=x
     gfx.y=y
-    gfx.drawstr(name, element_storage["align"], x+w, y+h)
+    gfx.drawstr(name, element_storage["align"])--, x+w, y+h)
+    
+    local bg_h=element_storage["bg_h"]
+    if bg_h<0 then bg_h=gfx.h+bg_h-y-(gfx.texth>>1) end
+    bg_h=bg_h*dpi_scale
+    local bg_w=element_storage["bg_w"]
+    if bg_w<0 then bg_w=gfx.w+bg_w-x end
+    bg_w=bg_w*dpi_scale
+    
+    if bg_w~=0 and bg_h~=0 then
+      gfx.set(0.2)
+      gfx.rect(x-10*dpi_scale+dpi_scale, y+(gfx.texth>>1)+dpi_scale, 5*dpi_scale, dpi_scale, 1)
+      gfx.rect(x-10*dpi_scale+dpi_scale, y+(gfx.texth>>1)+dpi_scale, dpi_scale, bg_h, 1)
+      if bg_h>1 then
+        gfx.rect(x-10*dpi_scale+dpi_scale, y+bg_h+(gfx.texth>>1)+dpi_scale, bg_w+12*dpi_scale, dpi_scale, 1)
+      end
+      gfx.rect(x+dpi_scale+bg_w+dpi_scale, y+(gfx.texth>>1)+dpi_scale, dpi_scale, bg_h, 1)
+      gfx.rect(x+dpi_scale+w2+5*dpi_scale+dpi_scale, y+(gfx.texth>>1)+dpi_scale, bg_w-w2-5*dpi_scale, dpi_scale, 1)
+      
+      gfx.set(0.5)
+      gfx.rect(x-10*dpi_scale, y+(gfx.texth>>1), 5*dpi_scale, dpi_scale, 1)
+      gfx.rect(x-10*dpi_scale, y+(gfx.texth>>1), dpi_scale, bg_h, 1)
+      if bg_h>1 then
+        gfx.rect(x-10*dpi_scale, y+bg_h+(gfx.texth>>1), bg_w+12*dpi_scale, dpi_scale, 1)
+      end
+      gfx.rect(x+dpi_scale+bg_w, y+(gfx.texth>>1), dpi_scale, bg_h, 1)
+      gfx.rect(x+dpi_scale+w2+5*dpi_scale, y+(gfx.texth>>1), bg_w-w2-5*dpi_scale, dpi_scale, 1)
+    end
+    
     
     if selected~="not selected" then
       local olddest=gfx.dest
@@ -8430,6 +8466,87 @@ function reagirl.Label_Draw(element_id, selected, hovered, clicked, mouse_cap, m
   gfx.mode=old_mode
 end
 
+function reagirl.Label_SetBackdrop(element_id, width, height)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Label_SetBackdrop</slug>
+  <requires>
+    ReaGirl=1.0
+    Reaper=7.03
+    Lua=5.4
+  </requires>
+  <functioncall>reagirl.Label_SetBackdrop(string element_id, integer width, integer height)</functioncall>
+  <description>
+    Sets a background-rectangle in line-style for this label. You can use this to "include" different ui-elements of a common context underneath this label.
+    That way, you can structure your guis a little better.
+    
+    Set height to 1 to just have a line before and after the first line of the label-text.
+  </description>
+  <parameters>
+    string element_id - the label-element, whose dragable state you want to get
+    integer width - the width of the backdrop in pixels
+    integer height - the height of the backdrop in pixels
+  </parameters>
+  <chapter_context>
+    Label
+  </chapter_context>
+  <tags>label, set, backdrop</tags>
+</US_DocBloc>
+--]]
+  if type(element_id)~="string" then error("Label_SetBackdrop: param #1 - must be a string", 2) end
+  if reagirl.IsValidGuid(element_id, true)==false then error("Label_SetBackdrop: param #1 - must be a valid guid", 2) end
+  element_id=reagirl.UI_Element_GetIDFromGuid(element_id)
+  if element_id==-1 then error("Label_SetBackdrop: param #1 - no such ui-element", 2) end
+  
+  if reagirl.Elements[element_id]["GUI_Element_Type"]~="Label" then
+    error("Label_SetBackdrop: param #1 - ui-element is not a label", 2)
+  else
+    reagirl.Elements[element_id]["bg_w"]=width
+    reagirl.Elements[element_id]["bg_h"]=height
+  end
+end
+
+function reagirl.Label_GetBackdrop(element_id, width, height)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Label_GetBackdrop</slug>
+  <requires>
+    ReaGirl=1.0
+    Reaper=7.03
+    Lua=5.4
+  </requires>
+  <functioncall>integer width, integer height = reagirl.Label_GetBackdrop(string element_id)</functioncall>
+  <description>
+    Sets a background-rectangle in line-style for this label. You can use this to "include" different ui-elements of a common context underneath this label.
+    That way, you can structure your guis a little better.
+    
+    Set height to 1 to just have a line before and after the first line of the label-text.
+  </description>
+  <parameters>
+    string element_id - the label-element, whose dragable state you want to get
+  </parameters>
+  <retvals>
+    integer width - the width of the backdrop in pixels
+    integer height - the height of the backdrop in pixels
+  </retvals>
+  <chapter_context>
+    Label
+  </chapter_context>
+  <tags>label, get, backdrop</tags>
+</US_DocBloc>
+--]]
+  if type(element_id)~="string" then error("Label_GetBackdrop: param #1 - must be a string", 2) end
+  if reagirl.IsValidGuid(element_id, true)==false then error("Label_GetBackdrop: param #1 - must be a valid guid", 2) end
+  element_id=reagirl.UI_Element_GetIDFromGuid(element_id)
+  if element_id==-1 then error("Label_GetBackdrop: param #1 - no such ui-element", 2) end
+  
+  if reagirl.Elements[element_id]["GUI_Element_Type"]~="Label" then
+    error("Label_GetBackdrop: param #1 - ui-element is not a label", 2)
+  else
+    return reagirl.Elements[element_id]["bg_w"], reagirl.Elements[element_id]["bg_h"]
+  end
+end
+
 function reagirl.Label_GetDraggable(element_id)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
@@ -8469,7 +8586,7 @@ function reagirl.Label_GetDraggable(element_id)
   if element_id==-1 then error("Label_GetDraggable: param #1 - no such ui-element", 2) end
   
   if reagirl.Elements[element_id]["GUI_Element_Type"]~="Label" then
-    error("Label_GetDraggable: param #1 - ui-element is not an image", 2)
+    error("Label_GetDraggable: param #1 - ui-element is not a label", 2)
   else
     return reagirl.Elements[element_id]["Draggable"]==true
   end
@@ -8519,7 +8636,7 @@ function reagirl.Label_SetDraggable(element_id, draggable, destination_element_i
   end
   local slot=reagirl.UI_Element_GetIDFromGuid(element_id)
   if slot==-1 then error("Label_SetDraggable: param #1 - no such ui-element") end
-  if reagirl.Elements[slot]["GUI_Element_Type"]~="Label" then error("Label_SetDraggable: param #1 - ui-element is not an label") end
+  if reagirl.Elements[slot]["GUI_Element_Type"]~="Label" then error("Label_SetDraggable: param #1 - ui-element is not a label") end
   reagirl.Elements[slot]["Draggable"]=draggable
   reagirl.Elements[slot]["DraggableDestinations"]=destination_element_ids
   if draggable==true then
@@ -9654,7 +9771,7 @@ function reagirl.Gui_GetBoundaries()
     Reaper=7.03
     Lua=5.4
   </requires>
-  <functioncall>reagirl.Gui_GetBoundaries()</functioncall>
+  <functioncall>integer minimum_visible_x, integer maximum_visible_x, integer minimum_visible_y, integer maximum_visible_y, integer minimum_all_x, integer maximum_all_x, integer maximum_all_y, integer maximum_all_y = reagirl.Gui_GetBoundaries()</functioncall>
   <description>
     Returns the current boundaries of the ui-elements. Means, from 0 to the the farthest ui-element-width/height at right/bottom edge of the gui-window.
     These boundaries are where the scrolling happens. If the boundaries are smaller/equal window size, all ui-elements are visible in the window and therefore no scrolling happens.
@@ -9735,10 +9852,14 @@ function reagirl.Gui_GetBoundaries()
     if y2*scale<0 then y2=gfx.h+y2*scale else y2=y2*scale end
     if w2*scale<0 then w2=gfx.w-x2+w2*scale else w2=w2*scale end
     if h2*scale<0 then h2=gfx.h-y2+h2*scale else h2=h2*scale end
-    if x2+reagirl.Elements[reagirl.Tabs_Count]["w_background"]>maxx then maxx=x2+reagirl.Elements[reagirl.Tabs_Count]["w_background"] end
-    if x2+reagirl.Elements[reagirl.Tabs_Count]["w_background"]>maxx2 then maxx2=x2+reagirl.Elements[reagirl.Tabs_Count]["w_background"] end
-    if y2+h2+reagirl.Elements[reagirl.Tabs_Count]["h_background"]>maxy then maxy=y2+h2+reagirl.Elements[reagirl.Tabs_Count]["h_background"] end
-    if y2+h2+reagirl.Elements[reagirl.Tabs_Count]["h_background"]>maxy2 then maxy2=y2+h2+reagirl.Elements[reagirl.Tabs_Count]["h_background"] end
+    if reagirl.Elements[reagirl.Tabs_Count]["w_background"]~=nil then 
+      if x2+reagirl.Elements[reagirl.Tabs_Count]["w_background"]>maxx then maxx=x2+reagirl.Elements[reagirl.Tabs_Count]["w_background"] end
+      if x2+reagirl.Elements[reagirl.Tabs_Count]["w_background"]>maxx2 then maxx2=x2+reagirl.Elements[reagirl.Tabs_Count]["w_background"] end
+    end
+    if reagirl.Elements[reagirl.Tabs_Count]["h_background"]~=nil then 
+      if y2+h2+reagirl.Elements[reagirl.Tabs_Count]["h_background"]>maxy then maxy=y2+h2+reagirl.Elements[reagirl.Tabs_Count]["h_background"] end
+      if y2+h2+reagirl.Elements[reagirl.Tabs_Count]["h_background"]>maxy2 then maxy2=y2+h2+reagirl.Elements[reagirl.Tabs_Count]["h_background"] end
+    end
   end
   
   return math.floor(minx), math.floor(maxx), math.floor(miny), math.floor(maxy), math.floor(minx2), math.floor(maxx2), math.floor(miny2), math.floor(maxy2)

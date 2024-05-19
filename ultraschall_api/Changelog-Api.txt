@@ -340,7 +340,7 @@ ToDo Marker Menu:
 
 ### 5 - "Eels - Novocaine for the Soul" - 22nd of May 2024
 
-Has now 1802 functions, with 139 new ones
+Has now 1804 functions, with 141 new ones
 
 Note: requires at least Reaper 7.03 now!
 
@@ -442,9 +442,11 @@ Note: requires at least Reaper 7.03 now!
   - ReaGirl: Label\_Add - Adds a label to the gui.
   - ReaGirl: Label\_GetAlignement - Gets the alignment of a label.
   - ReaGirl: Label\_GetDraggable - Gets the current draggable state of a label.
+  - ReaGirl: Label\_GetBackdrop - Gets the backdrop of a label.
   - ReaGirl: Label\_GetFontSize - Gets the font-size of a label.
   - ReaGirl: Label\_GetStyle - Gets the style of a label.
   - ReaGirl: Label\_SetAlignment - Sets the font-size of a label.
+  - ReaGirl: Label\_SetBackdrop - Sets the backdrop of a label.
   - ReaGirl: Label\_SetDraggable - Sets the current draggable state of a label.
   - ReaGirl: Label\_SetFontSize - Sets the font-size of a label.
   - ReaGirl: Label\_SetLabelText - Sets a new label text to an already existing label.

@@ -2965,15 +2965,17 @@ main()</code></pre>
 </ul>
 <p>There's more that you can do with labels:</p>
 <ul>
-<li>reagirl.Label_SetStyle - allows setting a different styles for the label, like underlined or bold</li>
-<li>reagirl.Label_GetStyle - gets the currently set styles for a label</li>
-<li>reagirl.Label_SetFontSize - sets the font-size of the label</li>
-<li>reagirl.Label_GetFontSize - gets the currently set font-size of the label</li>
-<li>reagirl.Label_SetAlignment - sets the alignment of the label-text, like centered or right aligned</li>
-<li>reagirl.Label_GetAlignment - gets the current alignment for this label</li>
-<li>reagirl.Label_SetDraggable - sets the label as draggable, including possible drag-destinations</li>
-<li>reagirl.Label_GetDraggable - gets the currently drag-state and the current drag-destinations</li>
-<li>reagirl.UI_Element_GetSetCaption - gets or sets the label text</li>
+<li><p>reagirl.Label_SetBackdrop - sets the backdrop of a label, which could enclose ui-elements underneath it</p></li>
+<li><p>reagirl.Label_GetBackdrop - gets the backdrop of a label, which could enclose ui-elements underneath it</p></li>
+<li><p>reagirl.Label_SetStyle - allows setting a different styles for the label, like underlined or bold</p></li>
+<li><p>reagirl.Label_GetStyle - gets the currently set styles for a label</p></li>
+<li><p>reagirl.Label_SetFontSize - sets the font-size of the label</p></li>
+<li><p>reagirl.Label_GetFontSize - gets the currently set font-size of the label</p></li>
+<li><p>reagirl.Label_SetAlignment - sets the alignment of the label-text, like centered or right aligned</p></li>
+<li><p>reagirl.Label_GetAlignment - gets the current alignment for this label</p></li>
+<li><p>reagirl.Label_SetDraggable - sets the label as draggable, including possible drag-destinations</p></li>
+<li><p>reagirl.Label_GetDraggable - gets the currently drag-state and the current drag-destinations</p></li>
+<li><p>reagirl.UI_Element_GetSetCaption - gets or sets the label text</p></li>
 </ul>
 <p>Check the <a href="#Tutorial_001_A_Basic_Gui">first tutorial "A basic gui"</a> to see examples of guis with labels.</p>
 </div><br>
@@ -3250,9 +3252,12 @@ image-filename-8x.png - 8x-scaling</p>
 </ul>
 <p>Function to access a ReaGirl-gui-window from other scripts:</p>
 <ul>
-<li>ReaGirl: Ext_Tab_SetSelected - sets a tab of specific ReaGirl-gui-window focused</li>
-<li>ReaGirl: Ext_Window_Focus - sets window-focus to an opened ReaGirl-gui-window</li>
-<li>ReaGirl: Ext_Window_IsOpen - gets, if a specific ReaGirl-gui-window is currently opened</li>
+<li>reagirl.Ext_Tab_SetSelected - sets a tab of specific ReaGirl-gui-window focused</li>
+<li>reagirl.Ext_Window_Focus - sets window-focus to an opened ReaGirl-gui-window</li>
+<li>reagirl.Ext_Window_IsOpen - gets, if a specific ReaGirl-gui-window is currently opened</li>
+<li>reagirl.Ext_Window_GetState - gets the current dimensions and dock-state of an opened/previously opened ReaGirl-window</li>
+<li>reagirl.Ext_Window_SetState - gets the current dimensions and dock-state of an opened/previously opened ReaGirl-window</li>
+<li>reagirl.Ext_Window_ResetToDefault - resets a ReaGirl-Gui-Window to its default dimensions and dockstate</li>
 </ul>
 <p>Most of them are probably not needed by you but some you may need from time to time.</p>
 </div><br>
