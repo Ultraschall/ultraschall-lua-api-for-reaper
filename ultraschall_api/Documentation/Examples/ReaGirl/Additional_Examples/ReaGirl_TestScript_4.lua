@@ -48,10 +48,10 @@
   tab1.label_header2=reagirl.Label_Add(nil, nil, "Inputboxes", "Some demo-inputboxes.", false, nil)
   
   reagirl.NextLine()
-  tab1.inputbox_name_of_setting = reagirl.Inputbox_Add(40, nil, 280, "Name:", 90, "Type in here the name of the setting.", "No title", nil, nil)
+  tab1.inputbox_name_of_setting = reagirl.Inputbox_Add(nil, nil, 291, "Name:", 90, "Type in here the name of the setting.", "No title", nil, nil)
   
   reagirl.NextLine()
-  tab1.inputbox_description_of_setting = reagirl.Inputbox_Add(40, nil, 280, "Description:", 90, "Type in here a description of the setting.", "No Description", nil, nil)
+  tab1.inputbox_description_of_setting = reagirl.Inputbox_Add(nil, nil, 291, "Description:", 90, "Type in here a description of the setting.", "No Description", nil, nil)
   
   reagirl.NextLine()
   tab1.button_choose_file_id = reagirl.Button_Add(-110, nil, 0, 0, "Choose file", "Choose a file.", nil) -- a button
@@ -64,12 +64,12 @@
   tab1.label_header3=reagirl.Label_Add(nil, nil, "And some checkboxes", "Some checkboxes in ReaGirl.", false, nil)
 
   reagirl.NextLine() -- first line of checkboxes
-  tab1.checkbox_mysetting = reagirl.Checkbox_Add(40, nil, "My setting", "The first checkbox.", true, nil)
+  tab1.checkbox_mysetting = reagirl.Checkbox_Add(nil, nil, "My setting", "The first checkbox.", true, nil)
   tab1.checkbox_another_setting = reagirl.Checkbox_Add(nil, nil, "Another setting", "The second checkbox.", true, nil)
   
   reagirl.NextLine() -- second line of checkboxes
-  tab1.checkbox_extra_setting = reagirl.Checkbox_Add(40, nil, "Extra", "A third checkbox?", true, nil)
-  tab1.checkbox_remember = reagirl.Checkbox_Add(128, nil, "Remember chosen setting", "Shall this setting be used as future default?", true, nil)
+  tab1.checkbox_extra_setting = reagirl.Checkbox_Add(nil, nil, "Extra", "A third checkbox?", true, nil)
+  tab1.checkbox_remember = reagirl.Checkbox_Add(118, nil, "Remember chosen setting", "Shall this setting be used as future default?", true, nil)
   
   reagirl.Label_AutoBackdrop(tab1.label_header3, tab1.checkbox_remember) -- set backdrop drawn by tab1.label_header3
                                                                          -- let it end underneath tab1.checkbox_remember
@@ -80,7 +80,7 @@
   
   -- local some images from Reaper
   reagirl.NextLine()
-  tab1.image1 = reagirl.Image_Add(40, nil, 50, 50, reaper.GetResourcePath().."/Data/track_icons/idea.png", "An idea-cloud", "An image of an idea-thought-cloud.", nil)
+  tab1.image1 = reagirl.Image_Add(nil, nil, 50, 50, reaper.GetResourcePath().."/Data/track_icons/idea.png", "An idea-cloud", "An image of an idea-thought-cloud.", nil)
   tab1.image2 = reagirl.Image_Add(nil, nil, 50, 50, reaper.GetResourcePath().."/Data/track_icons/envelope.png", "An envelope", "An image of an envelope.", nil)
   tab1.image3 = reagirl.Image_Add(nil, nil, 50, 50, reaper.GetResourcePath().."/Data/track_icons/ff.png", "ff notation symbol", "An image of a ff-notation-symbol.", nil)
   tab1.image4 = reagirl.Image_Add(nil, nil, 50, 50, reaper.GetResourcePath().."/Data/track_icons/folder_up.png", "A folder up", "An image of a folder with an arrow pointing up.", nil)
@@ -93,7 +93,6 @@
   -- Sliders and DropDownMenus
   reagirl.NextLine()
   tab1.label_header5=reagirl.Label_Add(nil, nil, "Sliders and DropDownMenus", ".", false, nil)
-  reagirl.Label_SetBackdrop(tab1.label_header5, 300, 80) -- set backdrop around slider and drop down menus
   
   reagirl.NextLine()
   tab1.slider_blink_every = reagirl.Slider_Add(40, nil, 280, "Length in", 100, "Set the length in seconds.", "seconds", 1, 30, 0.1, 10, 1, nil)
@@ -111,7 +110,6 @@
   reagirl.NextLine(10)
   button_ok_id = reagirl.Button_Add(-120, nil, 0, 0, "OK", "Apply changes and close dialog.", nil)
   button_cancel_id = reagirl.Button_Add(nil, nil, 0, 0, "Cancel", "Discard changes and close dialog.", nil)
-
 
   -- open the new gui
   reagirl.Gui_Open("My Dialog Name", false, "The dialog", "This is a demo dialog with settings for tool xyz.")

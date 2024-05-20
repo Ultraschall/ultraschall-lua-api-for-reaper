@@ -8456,7 +8456,7 @@ function reagirl.Label_Draw(element_id, selected, hovered, clicked, mouse_cap, m
     bg_w=bg_w--*dpi_scale
     if element_storage["bg_auto"]==true then
       _, _, _, _, _, _, _, _, bg_w = reagirl.Gui_GetBoundaries()
-      bg_w=bg_w-x-6*dpi_scale
+      bg_w=bg_w-x-10*dpi_scale
     end
     
     if bg_w~=0 and bg_h~=0 then
