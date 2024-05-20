@@ -340,7 +340,7 @@ ToDo Marker Menu:
 
 ### 5 - "Eels - Novocaine for the Soul" - 22nd of May 2024
 
-Has now 1804 functions, with 141 new ones
+Has now 1805 functions, with 142 new ones
 
 Note: requires at least Reaper 7.03 now!
 
@@ -440,6 +440,7 @@ Note: requires at least Reaper 7.03 now!
   - ReaGirl: Inputbox\_SetText - Sets a new text of an inputbox.
   - ReaGirl: IsValidGuid - Checks, if guid is a valid guid. Can also be used for strings, that contain a guid somewhere in them(strict=false)
   - ReaGirl: Label\_Add - Adds a label to the gui.
+  - ReaGirl: Label\_AutoBackdrop - sets a backdrop from label to underneath a specific ui-element
   - ReaGirl: Label\_GetAlignement - Gets the alignment of a label.
   - ReaGirl: Label\_GetDraggable - Gets the current draggable state of a label.
   - ReaGirl: Label\_GetBackdrop - Gets the backdrop of a label.

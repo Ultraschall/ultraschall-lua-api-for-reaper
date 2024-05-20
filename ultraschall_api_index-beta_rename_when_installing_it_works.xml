@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API and ReaGirl">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API and ReaGirl package" type="extension">
-      <version name="55973.00" author="Meo-Ada Mespotine">
+      <version name="55975.00" author="Meo-Ada Mespotine">
 	<source file="reagirl.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5//reagirl.lua</source>
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5//ultraschall_api_readme.txt</source>
@@ -643,7 +643,7 @@
 
 5 - “Eels - Novocaine for the Soul” - 22nd of May 2024
 
-Has now 1804 functions, with 141 new ones
+Has now 1805 functions, with 142 new ones
 
 Note: requires at least Reaper 7.03 now!
 
@@ -814,6 +814,8 @@ New features in 5
     used for strings, that contain a guid somewhere in
     them(strict=false)
 -   ReaGirl: Label_Add - Adds a label to the gui.
+-   ReaGirl: Label_AutoBackdrop - sets a backdrop from label to
+    underneath a specific ui-element
 -   ReaGirl: Label_GetAlignement - Gets the alignment of a label.
 -   ReaGirl: Label_GetDraggable - Gets the current draggable state of a
     label.

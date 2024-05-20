@@ -8574,7 +8574,7 @@ function reagirl.Label_AutoBackdrop(element_id, dest_element_id)
   </requires>
   <functioncall>reagirl.Label_GetBackdrop(string element_id, string dest_element_id)</functioncall>
   <description>
-    Sets a background-rectangle in line-style for this label. 
+    Sets a backdrop from label to underneath a specific ui-element defined by dest_element_id.
     It will be autosized. The width will be determined from all ui-elements currently visible, the height will be determined by the position and height of dest_element_id.
     
     To use it: determine, which ui-element shall be the lowest inside the rectangle(like one directly above the bottom line of the backdrop.)
