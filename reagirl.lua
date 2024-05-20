@@ -337,7 +337,7 @@ reagirl.MoveItAllUp_Delta=0
 
 -- margin between ui-elements
 reagirl.UI_Element_NextX_Margin=10
-reagirl.UI_Element_NextY_Margin=2
+reagirl.UI_Element_NextY_Margin=2 -- nextline =2
 
 -- offset for first ui-element
 reagirl.UI_Element_NextX_Default=10
@@ -3799,6 +3799,7 @@ function reagirl.UI_Element_GetNextXAndYPosition(x, y, functionname)
   elseif y==nil then 
     y=reagirl.UI_Element_NextY_Default
     if slot>1 then
+    
       for i=slot-1, 1, -1 do
         if reagirl.Elements[i]["IsDecorative"]~=true then
           slot2=i
@@ -3807,8 +3808,12 @@ function reagirl.UI_Element_GetNextXAndYPosition(x, y, functionname)
       end
       local y2=reagirl.Elements[slot2]["y"]
       local h2=reagirl.Elements[slot2]["h"]
+      local offset=0
+      if reagirl.Elements[slot2]["GUI_Element_Type"]=="Label" then
+        --offset=10
+      end
       if y2<0 and y2+h2+reagirl.UI_Element_NextLineY>0 then error(functionname..": param #2 - can't anchor ui-element closer to bottom of window", 3) end
-      y=y2+reagirl.UI_Element_NextLineY
+      y=y2+reagirl.UI_Element_NextLineY+offset
     end
   end  
   reagirl.UI_Element_NextLineY=0
@@ -5267,11 +5272,16 @@ function reagirl.NextLine(y_offset)
   if reagirl.UI_Element_NextLineY==0 then
     for i=slot2-1, 1, -1 do
       if reagirl.Elements[i]["IsDecorative"]~=true then
-        local x2, y2, w2, h2
-        if reagirl.Elements[i]["y"]<0 then y2=gfx.h+(reagirl.Elements[i]["y"]) else y2=reagirl.Elements[i]["y"] end
-        if reagirl.Elements[i]["h"]<0 then h2=gfx.h+(-y2+reagirl.Elements[i]["h"]) else h2=reagirl.Elements[i]["h"] end
-        UI_Element_NextLineY=reagirl.UI_Element_NextLineY+h2+1+reagirl.UI_Element_NextY_Margin+y_offset
-        break
+        if reagirl.Elements[i]["NextLine"]==nil then
+          local x2, y2, w2, h2
+          if reagirl.Elements[i]["y"]<0 then y2=gfx.h+(reagirl.Elements[i]["y"]) else y2=reagirl.Elements[i]["y"] end
+          if reagirl.Elements[i]["h"]<0 then h2=gfx.h+(-y2+reagirl.Elements[i]["h"]) else h2=reagirl.Elements[i]["h"] end
+          if reagirl.UI_Element_NextLineY+h2+1+reagirl.UI_Element_NextY_Margin+y_offset>UI_Element_NextLineY then
+            UI_Element_NextLineY=reagirl.UI_Element_NextLineY+h2+1+reagirl.UI_Element_NextY_Margin+y_offset
+          end
+        else
+          break
+        end
       end
     end
   else
@@ -5285,6 +5295,9 @@ function reagirl.NextLine(y_offset)
   reagirl.NextLine_Overflow=0
   reagirl.NextLine_triggered=true
   reagirl.UI_Element_NextLineX=reagirl.UI_Element_NextX_Default
+  if reagirl.Elements[slot-1]~=nil then
+    reagirl.Elements[slot-1]["NextLine"]=true
+  end
 end
 
 
@@ -7929,9 +7942,23 @@ function reagirl.Label_SetFontSize(element_id, font_size)
     error("Label_SetFontSize: param #1 - ui-element is not a label", 2)
   else
     reagirl.Elements[element_id]["font_size"]=font_size
-    reagirl.SetFont(1, "Arial", font_size, 0, 1)
+    style1=reagirl.Elements[element_id]["style1"]
+    style2=reagirl.Elements[element_id]["style2"]
+    style3=reagirl.Elements[element_id]["style3"]
+    
+    local styles={66,73,77,79,83,85,86,89,90}
+    styles[0]=0
+    local style=styles[style1]<<8
+    style=style+styles[style2]<<8
+    style=style+styles[style3]<<8
+    if reagirl.Elements[element_id]["clickable"] then
+      style=style+85
+    end
+    
+    reagirl.SetFont(1, "Arial", reagirl.Elements[element_id]["font_size"], style, 1)
     local w,h=gfx.measurestr(reagirl.Elements[element_id]["Name"])
     reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0)
+    --reaper.MB(h, reagirl.Elements[element_id]["Name"],0)
     reagirl.Elements[element_id]["w"]=math.tointeger(w)
     reagirl.Elements[element_id]["h"]=math.tointeger(h)
   end
@@ -8086,12 +8113,10 @@ function reagirl.Label_SetStyle(element_id, style1, style2, style3)
     
     reagirl.SetFont(1, "Arial", reagirl.Elements[element_id]["font_size"], style, 1)
     local w,h=gfx.measurestr(reagirl.Elements[element_id]["Name"])
-    --reaper.MB(reagirl.Elements[element_id]["Name"],"",0)
     reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0)
     
     reagirl.Elements[element_id]["w"]=math.tointeger(w)
     reagirl.Elements[element_id]["h"]=math.tointeger(h)
-    --]]
     
     reagirl.Gui_ForceRefresh(30)
   end
@@ -8403,31 +8428,56 @@ function reagirl.Label_Draw(element_id, selected, hovered, clicked, mouse_cap, m
     gfx.y=y
     gfx.drawstr(name, element_storage["align"])--, x+w, y+h)
     
+    if element_storage["bg"]=="auto" then
+      _, _, _, _, _, _, _, _, bg_w = reagirl.Gui_GetBoundaries()
+      bg_w=bg_w-x
+      local element_id=reagirl.UI_Element_GetIDFromGuid(element_storage["bg_dest"])
+      local y2=reagirl.Elements[element_id]["y"]
+      local h2=reagirl.Elements[element_id]["h"]
+      y3=y/reagirl.Window_GetCurrentScale()
+      if y2>=0 then
+        bg_h=y2+h2-y3
+      else
+        -- buggy
+        bg_h=y2+h2
+      end
+      --reaper.MB(bg_w, bg_h, 0)
+      element_storage["bg_w"]=bg_w-10
+      element_storage["bg_h"]=bg_h-2
+      element_storage["bg"]=nil
+      element_storage["bg_auto"]=true
+    end
+    
     local bg_h=element_storage["bg_h"]
     if bg_h<0 then bg_h=gfx.h+bg_h-y-(gfx.texth>>1) end
-    bg_h=bg_h*dpi_scale
+    bg_h=bg_h--*dpi_scale
     local bg_w=element_storage["bg_w"]
     if bg_w<0 then bg_w=gfx.w+bg_w-x end
-    bg_w=bg_w*dpi_scale
+    bg_w=bg_w--*dpi_scale
+    if element_storage["bg_auto"]==true then
+      _, _, _, _, _, _, _, _, bg_w = reagirl.Gui_GetBoundaries()
+      bg_w=bg_w-x-6*dpi_scale
+    end
     
     if bg_w~=0 and bg_h~=0 then
+    --[[
       gfx.set(0.2)
-      gfx.rect(x-10*dpi_scale+dpi_scale, y+(gfx.texth>>1)+dpi_scale, 5*dpi_scale, dpi_scale, 1)
-      gfx.rect(x-10*dpi_scale+dpi_scale, y+(gfx.texth>>1)+dpi_scale, dpi_scale, bg_h, 1)
+      gfx.rect(x-10+dpi_scale, y+(gfx.texth>>1)+dpi_scale, 5, dpi_scale, 1)
+      gfx.rect(x-10+dpi_scale, y+(gfx.texth>>1)+dpi_scale, dpi_scale, bg_h, 1)
       if bg_h>1 then
-        gfx.rect(x-10*dpi_scale+dpi_scale, y+bg_h+(gfx.texth>>1)+dpi_scale, bg_w+12*dpi_scale, dpi_scale, 1)
+        gfx.rect(x-10+dpi_scale, y+bg_h+(gfx.texth>>1)+dpi_scale, bg_w+12, dpi_scale, 1)
       end
       gfx.rect(x+dpi_scale+bg_w+dpi_scale, y+(gfx.texth>>1)+dpi_scale, dpi_scale, bg_h, 1)
-      gfx.rect(x+dpi_scale+w2+5*dpi_scale+dpi_scale, y+(gfx.texth>>1)+dpi_scale, bg_w-w2-5*dpi_scale, dpi_scale, 1)
-      
+      gfx.rect(x+dpi_scale+w2+5+dpi_scale, y+(gfx.texth>>1)+dpi_scale, bg_w-w2-5, dpi_scale, 1)
+      --]]
       gfx.set(0.5)
-      gfx.rect(x-10*dpi_scale, y+(gfx.texth>>1), 5*dpi_scale, dpi_scale, 1)
-      gfx.rect(x-10*dpi_scale, y+(gfx.texth>>1), dpi_scale, bg_h, 1)
+      gfx.rect(x-10, y+(gfx.texth>>1), 5*dpi_scale, dpi_scale, 1)
+      gfx.rect(x-10, y+(gfx.texth>>1), dpi_scale, bg_h*dpi_scale, 1)
       if bg_h>1 then
-        gfx.rect(x-10*dpi_scale, y+bg_h+(gfx.texth>>1), bg_w+12*dpi_scale, dpi_scale, 1)
+        gfx.rect(x-10, y+bg_h*dpi_scale+(gfx.texth>>1)-dpi_scale, bg_w+12, dpi_scale, 1)
       end
-      gfx.rect(x+dpi_scale+bg_w, y+(gfx.texth>>1), dpi_scale, bg_h, 1)
-      gfx.rect(x+dpi_scale+w2+5*dpi_scale, y+(gfx.texth>>1), bg_w-w2-5*dpi_scale, dpi_scale, 1)
+      gfx.rect(x+dpi_scale+bg_w, y+(gfx.texth>>1), dpi_scale, bg_h*dpi_scale, 1)
+      gfx.rect(x+dpi_scale+w2+5, y+(gfx.texth>>1), bg_w-w2-5, dpi_scale, 1)
     end
     
     
@@ -8459,7 +8509,6 @@ function reagirl.Label_Draw(element_id, selected, hovered, clicked, mouse_cap, m
     end
     --reagirl.SetFont(1, "Arial", element_storage["font_size"],0)
   end
-  
   --[[gfx.dest=-1
   gfx.x=x
   gfx.y=y
@@ -8491,7 +8540,7 @@ function reagirl.Label_SetBackdrop(element_id, width, height)
     Set height to 1 to just have a line before and after the first line of the label-text.
   </description>
   <parameters>
-    string element_id - the label-element, whose dragable state you want to get
+    string element_id - the label-element, that shall draw a backdrop
     integer width - the width of the backdrop in pixels
     integer height - the height of the backdrop in pixels
   </parameters>
@@ -8511,6 +8560,53 @@ function reagirl.Label_SetBackdrop(element_id, width, height)
   else
     reagirl.Elements[element_id]["bg_w"]=width
     reagirl.Elements[element_id]["bg_h"]=height
+  end
+end
+
+function reagirl.Label_AutoBackdrop(element_id, dest_element_id)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Label_AutoBackdrop</slug>
+  <requires>
+    ReaGirl=1.0
+    Reaper=7.03
+    Lua=5.4
+  </requires>
+  <functioncall>reagirl.Label_GetBackdrop(string element_id, string dest_element_id)</functioncall>
+  <description>
+    Sets a background-rectangle in line-style for this label. 
+    It will be autosized. The width will be determined from all ui-elements currently visible, the height will be determined by the position and height of dest_element_id.
+    
+    To use it: determine, which ui-element shall be the lowest inside the rectangle(like one directly above the bottom line of the backdrop.)
+    Any ui-element in the same line does the trick. However, you should choose the highest one or the backdrop might be drawn through it.
+  </description>
+  <parameters>
+    string element_id - the label-element, that shall draw a backdrop
+    string dest_element_id - the ui-element, that shall be the lowest inside the backdrop(directly above the bottom line of the backdrop)
+  </parameters>
+  <chapter_context>
+    Label
+  </chapter_context>
+  <tags>label, set, auto, backdrop</tags>
+</US_DocBloc>
+--]]
+  if type(element_id)~="string" then error("Label_GetBackdrop: param #1 - must be a string", 2) end
+  if reagirl.IsValidGuid(element_id, true)==false then error("Label_GetBackdrop: param #1 - must be a valid guid", 2) end
+  element_id=reagirl.UI_Element_GetIDFromGuid(element_id)
+  if element_id==-1 then error("Label_GetBackdrop: param #1 - no such ui-element", 2) end
+  if type(dest_element_id)~="string" then error("Label_GetBackdrop: param #2 - must be a string", 2) end
+  if reagirl.IsValidGuid(dest_element_id, true)==false then error("Label_GetBackdrop: param #2 - must be a valid guid", 2) end
+  if reagirl.UI_Element_GetIDFromGuid(dest_element_id)==-1 then error("Label_GetBackdrop: param #2 - no such ui-element", 2) end
+  
+  if reagirl.Elements[element_id]["GUI_Element_Type"]~="Label" then
+    error("Label_GetBackdrop: param #1 - ui-element is not a label", 2)
+  else
+    --A=reagirl.UI_Element_GetIDFromGuid(dest_element_id)
+    --reaper.MB(reagirl.Elements[A]["h"],"",0)
+    reagirl.Elements[element_id]["bg"]="auto"
+    reagirl.Elements[element_id]["bg_dest"]=dest_element_id
+    reagirl.Elements[element_id]["bg_w"]=0
+    reagirl.Elements[element_id]["bg_h"]=0
   end
 end
 
@@ -9853,6 +9949,8 @@ function reagirl.Gui_GetBoundaries()
     end
   end
   -- mespotine Tudelu
+  local h3=maxy
+  local w3=maxx
   if reagirl.Tabs_Count~=nil then
     local x2=reagirl.Elements[reagirl.Tabs_Count]["x"]
     local y2=reagirl.Elements[reagirl.Tabs_Count]["y"]
@@ -9872,7 +9970,7 @@ function reagirl.Gui_GetBoundaries()
     end
   end
   
-  return math.floor(minx), math.floor(maxx), math.floor(miny), math.floor(maxy), math.floor(minx2), math.floor(maxx2), math.floor(miny2), math.floor(maxy2)
+  return math.floor(minx), math.floor(maxx), math.floor(miny), math.floor(maxy), math.floor(minx2), math.floor(maxx2), math.floor(miny2), math.floor(maxy2), math.floor(w3), math.floor(h3)
 end
 
 function reagirl.ScrollButton_Right_Add()
