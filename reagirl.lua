@@ -9834,9 +9834,9 @@ function reagirl.UI_Elements_Boundaries()
   --]]
   
   reagirl.BoundaryX_Min=0--minx
-  reagirl.BoundaryX_Max=maxx -- +15*scale
+  reagirl.BoundaryX_Max=maxx+15*scale
   reagirl.BoundaryY_Min=0--miny
-  reagirl.BoundaryY_Max=maxy -- +15*scale -- +scale_offset
+  reagirl.BoundaryY_Max=maxy+15*scale -- +scale_offset
   --gfx.rect(reagirl.BoundaryX_Min, reagirl.BoundaryY_Min+reagirl.MoveItAllUp, 10, 10, 1)
   --gfx.rect(reagirl.BoundaryX_Max-20, reagirl.BoundaryY_Max+reagirl.MoveItAllUp-20, 10, 10, 1)
   --gfx.drawstr(reagirl.MoveItAllUp.." "..reagirl.BoundaryY_Min)
@@ -12118,18 +12118,18 @@ function reagirl.Tabs_Draw(element_id, selected, hovered, clicked, mouse_cap, mo
     end
     --ABBA=bg_w
     if element_storage["h_background"]==nil then 
-      bg_h=(reagirl.BoundaryY_Max-y2-element_storage["Tabs_Pos"][element_storage["TabSelected"] ]["h"])+10--*dpi_scale 
-      element_storage["bg_h"]=bg_h
+      bg_h=(reagirl.BoundaryY_Max-y2-element_storage["Tabs_Pos"][element_storage["TabSelected"] ]["h"])/reagirl.Window_GetCurrentScale()--*dpi_scale 
+      --element_storage["bg_h"]=bg_h
     else 
       if element_storage["h_background"]>0 then bg_h=element_storage["h_background"]*dpi_scale else bg_h=gfx.h+element_storage["h_background"]*dpi_scale-offset_y end
     end
     -- border around background
     gfx.set(reagirl.Colors.Tabs_Border_Background_r, reagirl.Colors.Tabs_Border_Background_g, reagirl.Colors.Tabs_Border_Background_b)
-    gfx.rect(x, y+element_storage["Tabs_Pos"][element_storage["TabSelected"] ]["h"], bg_w, bg_h, 1)
+    gfx.rect(x, y+element_storage["Tabs_Pos"][element_storage["TabSelected"] ]["h"], bg_w, bg_h*dpi_scale, 1)
     
     -- inner part of background
     gfx.set(reagirl.Colors.Tabs_Inner_Background_r, reagirl.Colors.Tabs_Inner_Background_g, reagirl.Colors.Tabs_Inner_Background_b)
-    gfx.rect(x+dpi_scale, y+element_storage["Tabs_Pos"][element_storage["TabSelected"] ]["h"]+dpi_scale, bg_w-dpi_scale-dpi_scale, bg_h-dpi_scale-dpi_scale, 1)
+    gfx.rect(x+dpi_scale, y+element_storage["Tabs_Pos"][element_storage["TabSelected"] ]["h"]+dpi_scale, bg_w-dpi_scale-dpi_scale, bg_h*dpi_scale-dpi_scale-dpi_scale, 1)
   end
   gfx.set(reagirl.Colors.Tabs_Inner_Tabs_Selected_r, reagirl.Colors.Tabs_Inner_Tabs_Selected_g, reagirl.Colors.Tabs_Inner_Tabs_Selected_b)
   -- ugly hack...ugh...
