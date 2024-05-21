@@ -3295,7 +3295,7 @@ function reagirl.Gui_Draw(Key, Key_utf, clickstate, specific_clickstate, mouse_c
         if reagirl.Elements[i]["GUI_Element_Type"]=="Tabs" or 
          (((x2+MoveItAllRight>0 and x2+MoveItAllRight<=gfx.w) 
         or (x2+w2+w_add+MoveItAllRight>0 and x2+w2+w_add+MoveItAllRight<=gfx.w) 
-        or (x2+w_add*MoveItAllRight<=0 and x2+w2+w_add+MoveItAllRight>=gfx.w))
+        or (x2+MoveItAllRight<=0 and x2+w2+w_add+MoveItAllRight>=gfx.w))
         and ((y2+MoveItAllUp>=0 and y2+MoveItAllUp<=gfx.h)
         or (y2+h2+h_add+MoveItAllUp>=0 and y2+h_add+h2+MoveItAllUp<=gfx.h)
         or (y2+MoveItAllUp<=0 and y2+h2+h_add+MoveItAllUp>=gfx.h))) or i>#reagirl.Elements-6
