@@ -9936,6 +9936,7 @@ function reagirl.Gui_GetBoundaries()
   for i=1, #reagirl.Elements do
     if reagirl.Elements[i].sticky_x==false or reagirl.Elements[i].sticky_y==false then
       local x2, y2, w2, h2
+      
       if reagirl.Elements[i]["x"]*scale<0 then x2=gfx.w+reagirl.Elements[i]["x"]*scale else x2=reagirl.Elements[i]["x"]*scale end
       if reagirl.Elements[i]["y"]*scale<0 then y2=gfx.h+reagirl.Elements[i]["y"]*scale else y2=reagirl.Elements[i]["y"]*scale end
       if reagirl.Elements[i]["w"]*scale<0 then w2=gfx.w-x2+reagirl.Elements[i]["w"]*scale else w2=reagirl.Elements[i]["w"]*scale end
@@ -9948,11 +9949,13 @@ function reagirl.Gui_GetBoundaries()
       if h2+y2>maxy2 then maxy2=h2+y2 end
       --MINY=miny
       --MAXY=maxy
+      --reaper.MB(maxx, i, 0)
     end
   end
   -- mespotine Tudelu
   local h3=maxy
   local w3=maxx
+  
   if reagirl.Tabs_Count~=nil then
     local x2=reagirl.Elements[reagirl.Tabs_Count]["x"]
     local y2=reagirl.Elements[reagirl.Tabs_Count]["y"]
@@ -12100,15 +12103,17 @@ function reagirl.Tabs_Draw(element_id, selected, hovered, clicked, mouse_cap, mo
     local x2,y2
     if element_storage["x"]<0 then x2=gfx.w+(element_storage["x"]*dpi_scale) else x2=element_storage["x"]*dpi_scale end
     if element_storage["y"]<0 then y2=gfx.h+(element_storage["y"]*dpi_scale) else y2=element_storage["y"]*dpi_scale end    
+    local bg_w, _
     
     if element_storage["w_background"]==nil then 
-      bg_w=(reagirl.BoundaryX_Max-x2-x2+10)--*dpi_scale 
+      _, _, _, _, _, _, _, _, bg_w = reagirl.Gui_GetBoundaries()
+      bg_w=(bg_w-x2+15*dpi_scale)--*dpi_scale 
       element_storage["bg_w"]=bg_w
-      element_storage["w_background"]=bg_w
+      --element_storage["w_background"]=bg_w
     else 
-      if element_storage["w_background"]>0 then bg_w=element_storage["w_background"]*dpi_scale else bg_w=gfx.w+element_storage["w_background"]*dpi_scale-offset_x end
+      if element_storage["w_background"]>0 then bg_w=element_storage["w_background"] else bg_w=gfx.w+element_storage["w_background"]-offset_x end
     end
-    
+    ABBA=bg_w
     if element_storage["h_background"]==nil then 
       bg_h=(reagirl.BoundaryY_Max-y2-element_storage["Tabs_Pos"][element_storage["TabSelected"] ]["h"])--*dpi_scale 
       element_storage["bg_h"]=bg_h
