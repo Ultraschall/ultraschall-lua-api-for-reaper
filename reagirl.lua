@@ -340,7 +340,7 @@ reagirl.UI_Element_NextX_Margin=10
 reagirl.UI_Element_NextY_Margin=2 -- nextline =2
 
 -- offset for first ui-element
-reagirl.UI_Element_NextX_Default=10
+reagirl.UI_Element_NextX_Default=20
 reagirl.UI_Element_NextY_Default=10
 
 reagirl.UI_Element_NextLineY=0 -- don't change
@@ -2020,10 +2020,10 @@ function reagirl.Gui_Open(name, restore_old_window_state, title, description, w,
   
   local _, _, _, _, _, w2, _, h2 = reagirl.Gui_GetBoundaries()
   if w==nil then 
-    w=w2+10
+    w=w2+13
   end
   if h==nil then
-    h=h2+10
+    h=h2+13
   end
 
   name=string.gsub(name, "[\n\r]", "")
@@ -8456,7 +8456,7 @@ function reagirl.Label_Draw(element_id, selected, hovered, clicked, mouse_cap, m
     bg_w=bg_w--*dpi_scale
     if element_storage["bg_auto"]==true then
       _, _, _, _, _, _, _, _, bg_w = reagirl.Gui_GetBoundaries()
-      bg_w=bg_w-x-10*dpi_scale
+      bg_w=bg_w-x
     end
     
     if bg_w~=0 and bg_h~=0 then
@@ -11685,12 +11685,26 @@ function reagirl.Tabs_Add(x, y, w_backdrop, h_backdrop, caption, meaningOfUI_Ele
   if math.type(selected_tab)~="integer" then error("Tabs_Add: param #8 - must be an integer", 2) end
   if run_function~=nil and type(run_function)~="function" then error("Tabs_Add: param #9 - must be either nil or a function", 2) end
   
+  local add=false
+  if x==nil then 
+    reagirl.UI_Element_NextX_Default=reagirl.UI_Element_NextX_Default+10
+    add=true
+  end
+  
   local x,y,slot=reagirl.UI_Element_GetNextXAndYPosition(x, y, "Tabs_Add")
+  if add==true then
+    x=x-18
+    add=0
+  else
+    add=0
+  end
   --reagirl.UI_Element_NextX_Default=x
-  reagirl.UI_Element_NextX_Default=reagirl.UI_Element_NextX_Default+10
+  
   
   reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0, 1)
   local tx, ty =gfx.measurestr(caption.."")
+  
+  --reagirl.UI_Element_NextX_Default=10
 
   --reagirl.UI_Element_NextX_Default=x
   reagirl.UI_Element_NextLineY=0
@@ -11744,7 +11758,7 @@ function reagirl.Tabs_Add(x, y, w_backdrop, h_backdrop, caption, meaningOfUI_Ele
   reagirl.Elements[slot]["run_function"]=run_function
   reagirl.Elements[slot]["userspace"]={}
 
-  reagirl.UI_Element_NextX_Default=reagirl.UI_Element_NextX_Default+10
+  reagirl.UI_Element_NextX_Default=reagirl.UI_Element_NextX_Default+10+add
   
   reagirl.Tabs_Count=slot
   reagirl.NextLine(-2)
