@@ -8473,10 +8473,10 @@ function reagirl.Label_Draw(element_id, selected, hovered, clicked, mouse_cap, m
       gfx.rect(x+dpi_scale+w2+5+dpi_scale, y+(gfx.texth>>1)+dpi_scale, bg_w-w2-5, dpi_scale, 1)
       --]]
       gfx.set(0.5)
-      gfx.rect(x-10, y+(gfx.texth>>1), 5*dpi_scale, dpi_scale, 1)
-      gfx.rect(x-10, y+(gfx.texth>>1), dpi_scale, bg_h*dpi_scale, 1)
+      gfx.rect(x-10*dpi_scale, y+(gfx.texth>>1), 5*dpi_scale, dpi_scale, 1)
+      gfx.rect(x-10*dpi_scale, y+(gfx.texth>>1), dpi_scale, bg_h*dpi_scale, 1)
       if bg_h>1 then
-        gfx.rect(x-10, y+bg_h*dpi_scale+(gfx.texth>>1)-dpi_scale, bg_w*dpi_scale+12, dpi_scale, 1)
+        gfx.rect(x-10*dpi_scale, y+bg_h*dpi_scale+(gfx.texth>>1)-dpi_scale, bg_w*dpi_scale+12*dpi_scale, dpi_scale, 1)
       end
       gfx.rect(x+dpi_scale+bg_w*dpi_scale, y+(gfx.texth>>1), dpi_scale, bg_h*dpi_scale, 1)
       gfx.rect(x+dpi_scale+w2+5, y+(gfx.texth>>1), bg_w*dpi_scale-w2-5, dpi_scale, 1)
