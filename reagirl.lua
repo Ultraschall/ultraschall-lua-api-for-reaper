@@ -12118,7 +12118,7 @@ function reagirl.Tabs_Draw(element_id, selected, hovered, clicked, mouse_cap, mo
     end
     --ABBA=bg_w
     if element_storage["h_background"]==nil then 
-      bg_h=(reagirl.BoundaryY_Max-y2-element_storage["Tabs_Pos"][element_storage["TabSelected"] ]["h"])--*dpi_scale 
+      bg_h=(reagirl.BoundaryY_Max-y2-element_storage["Tabs_Pos"][element_storage["TabSelected"] ]["h"])+10--*dpi_scale 
       element_storage["bg_h"]=bg_h
     else 
       if element_storage["h_background"]>0 then bg_h=element_storage["h_background"]*dpi_scale else bg_h=gfx.h+element_storage["h_background"]*dpi_scale-offset_y end
