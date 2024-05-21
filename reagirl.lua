@@ -2019,11 +2019,13 @@ function reagirl.Gui_Open(name, restore_old_window_state, title, description, w,
   end
   
   local _, _, _, _, _, w2, _, h2 = reagirl.Gui_GetBoundaries()
+  local tab_add=0
+  if reagirl.Tabs_Count~=nil then tab_add=13 end 
   if w==nil then 
-    w=w2+13
+    w=w2+15+tab_add
   end
   if h==nil then
-    h=h2+13
+    h=h2+15+tab_add
   end
 
   name=string.gsub(name, "[\n\r]", "")
@@ -8442,10 +8444,10 @@ function reagirl.Label_Draw(element_id, selected, hovered, clicked, mouse_cap, m
         bg_h=y2+h2
       end
       --reaper.MB(bg_w, bg_h, 0)
-      element_storage["bg_w"]=bg_w-10
+      element_storage["bg_w"]=bg_w
       element_storage["bg_h"]=bg_h-2
       element_storage["bg"]=nil
-      element_storage["bg_auto"]=true
+      --element_storage["bg_auto"]=true
     end
     
     local bg_h=element_storage["bg_h"]
@@ -12100,8 +12102,9 @@ function reagirl.Tabs_Draw(element_id, selected, hovered, clicked, mouse_cap, mo
     if element_storage["y"]<0 then y2=gfx.h+(element_storage["y"]*dpi_scale) else y2=element_storage["y"]*dpi_scale end    
     
     if element_storage["w_background"]==nil then 
-      bg_w=(reagirl.BoundaryX_Max-x2-x2)--*dpi_scale 
+      bg_w=(reagirl.BoundaryX_Max-x2-x2+10)--*dpi_scale 
       element_storage["bg_w"]=bg_w
+      element_storage["w_background"]=bg_w
     else 
       if element_storage["w_background"]>0 then bg_w=element_storage["w_background"]*dpi_scale else bg_w=gfx.w+element_storage["w_background"]*dpi_scale-offset_x end
     end
