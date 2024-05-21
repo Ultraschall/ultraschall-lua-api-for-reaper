@@ -9834,7 +9834,7 @@ function reagirl.UI_Elements_Boundaries()
   --]]
   
   reagirl.BoundaryX_Min=0--minx
-  reagirl.BoundaryX_Max=maxx+15*scale
+  reagirl.BoundaryX_Max=maxx--+15*scale
   reagirl.BoundaryY_Min=0--miny
   reagirl.BoundaryY_Max=maxy+15*scale -- +scale_offset
   --gfx.rect(reagirl.BoundaryX_Min, reagirl.BoundaryY_Min+reagirl.MoveItAllUp, 10, 10, 1)
@@ -12118,9 +12118,14 @@ function reagirl.Tabs_Draw(element_id, selected, hovered, clicked, mouse_cap, mo
     end
     --ABBA=bg_w
     if element_storage["h_background"]==nil then 
-      bg_h=(reagirl.BoundaryY_Max-y2-element_storage["Tabs_Pos"][element_storage["TabSelected"] ]["h"])/reagirl.Window_GetCurrentScale()--*dpi_scale 
-      --element_storage["bg_h"]=bg_h
-    else 
+      if element_storage["bg_h"]==nil then
+        local _, _, _, _, _, _, _, _, _, bg_h2 = reagirl.Gui_GetBoundaries()
+        bg_h=(bg_h2+15-y2-element_storage["Tabs_Pos"][element_storage["TabSelected"] ]["h"])/reagirl.Window_GetCurrentScale()--*dpi_scale 
+        element_storage["bg_h"]=bg_h
+      else
+        bg_h=element_storage["bg_h"]
+      end
+    else
       if element_storage["h_background"]>0 then bg_h=element_storage["h_background"]*dpi_scale else bg_h=gfx.h+element_storage["h_background"]*dpi_scale-offset_y end
     end
     -- border around background
