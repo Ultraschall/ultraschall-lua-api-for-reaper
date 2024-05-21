@@ -9834,9 +9834,9 @@ function reagirl.UI_Elements_Boundaries()
   --]]
   
   reagirl.BoundaryX_Min=0--minx
-  reagirl.BoundaryX_Max=maxx+15*scale
+  reagirl.BoundaryX_Max=maxx -- +15*scale
   reagirl.BoundaryY_Min=0--miny
-  reagirl.BoundaryY_Max=maxy+15*scale -- +scale_offset
+  reagirl.BoundaryY_Max=maxy -- +15*scale -- +scale_offset
   --gfx.rect(reagirl.BoundaryX_Min, reagirl.BoundaryY_Min+reagirl.MoveItAllUp, 10, 10, 1)
   --gfx.rect(reagirl.BoundaryX_Max-20, reagirl.BoundaryY_Max+reagirl.MoveItAllUp-20, 10, 10, 1)
   --gfx.drawstr(reagirl.MoveItAllUp.." "..reagirl.BoundaryY_Min)
