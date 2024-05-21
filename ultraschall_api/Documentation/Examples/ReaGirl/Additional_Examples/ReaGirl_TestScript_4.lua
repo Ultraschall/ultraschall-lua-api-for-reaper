@@ -32,7 +32,6 @@
 
   dofile(reaper.GetResourcePath().."/UserPlugins/reagirl.lua")
 
-
   -- create new gui
   reagirl.Gui_New()
   tabs=reagirl.Tabs_Add(nil, nil, nil, nil, "Tabs", "Demo-Tabs without function.", {"General Tab", "Advanced Tab", "Extras Tab"}, 1, nil )
@@ -70,7 +69,7 @@
                                                                   -- let it end underneath tab1.label_large - the largest label
 
   -- Inputboxes
-  reagirl.NextLine()
+  reagirl.NextLine(10)
   tab1.label_header2=reagirl.Label_Add(nil, nil, "Inputboxes", "Some demo-inputboxes.", false, nil)
   
   reagirl.NextLine()
@@ -86,7 +85,7 @@
                                                                              -- let it end underneath tab1.button_choose_file_id
   
   -- Checkboxes
-  reagirl.NextLine()
+  reagirl.NextLine(10)
   tab1.label_header3=reagirl.Label_Add(nil, nil, "And some checkboxes", "Some checkboxes in ReaGirl.", false, nil)
 
   reagirl.NextLine() -- first line of checkboxes
@@ -101,7 +100,7 @@
                                                                          -- let it end underneath tab1.checkbox_remember
   
   -- Images
-  reagirl.NextLine() 
+  reagirl.NextLine(10) 
   tab1.label_header4=reagirl.Label_Add(nil, nil, "Or Images", "Set the settings, as you wish.", false, nil)
   
   -- local some images from Reaper
@@ -117,7 +116,7 @@
   
   
   -- Sliders and DropDownMenus
-  reagirl.NextLine()
+  reagirl.NextLine(10)
   tab1.label_header5=reagirl.Label_Add(nil, nil, "Sliders and DropDownMenus", ".", false, nil)
   
   reagirl.NextLine()

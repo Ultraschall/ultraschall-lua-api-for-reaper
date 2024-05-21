@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API and ReaGirl">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API and ReaGirl package" type="extension">
-      <version name="55976.00" author="Meo-Ada Mespotine">
+      <version name="55977.00" author="Meo-Ada Mespotine">
 	<source file="reagirl.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5//reagirl.lua</source>
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5//ultraschall_api_readme.txt</source>
@@ -587,6 +587,7 @@
 	<source main="true" file="/ReaGirl_Gui_Settings_Hovered_UI_Element_Enable_Report.lua" type="script">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5//ultraschall_api/Scripts//Tools/DeveloperScripts//ReaGirl_Gui_Settings_Hovered_UI_Element_Enable_Report.lua</source>
 	<source main="true" file="/ReaGirl_Gui_Settings_Move_Mouse_When_Tabbing_Disable.lua" type="script">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5//ultraschall_api/Scripts//Tools/DeveloperScripts//ReaGirl_Gui_Settings_Move_Mouse_When_Tabbing_Disable.lua</source>
 	<source main="true" file="/ReaGirl_Gui_Settings_Move_Mouse_When_Tabbing_Enable.lua" type="script">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5//ultraschall_api/Scripts//Tools/DeveloperScripts//ReaGirl_Gui_Settings_Move_Mouse_When_Tabbing_Enable.lua</source>
+	<source main="true" file="/ReaGirl_Gui_Settings_Reset_Settings_Window_Pos_And_Size.lua" type="script">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5//ultraschall_api/Scripts//Tools/DeveloperScripts//ReaGirl_Gui_Settings_Reset_Settings_Window_Pos_And_Size.lua</source>
 	<source main="true" file="/ReaGirl_Gui_Settings_Screen_Reader_Helpmessage_Disable.lua" type="script">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5//ultraschall_api/Scripts//Tools/DeveloperScripts//ReaGirl_Gui_Settings_Screen_Reader_Helpmessage_Disable.lua</source>
 	<source main="true" file="/ReaGirl_Gui_Settings_Screen_Reader_Helpmessage_Enable.lua" type="script">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5//ultraschall_api/Scripts//Tools/DeveloperScripts//ReaGirl_Gui_Settings_Screen_Reader_Helpmessage_Enable.lua</source>
 	<source main="true" file="/ReaGirl_Gui_Settings_Screen_Reader_Messages_Disable.lua" type="script">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5//ultraschall_api/Scripts//Tools/DeveloperScripts//ReaGirl_Gui_Settings_Screen_Reader_Messages_Disable.lua</source>

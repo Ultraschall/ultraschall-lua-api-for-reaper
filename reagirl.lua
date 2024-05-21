@@ -1159,6 +1159,7 @@ function reagirl.Window_Open(...)
   maximum_scale_for_dpi = math.floor(maximum_scale_for_dpi)
   local A=gfx.getchar(65536)
   local HWND, retval
+  
   if A&4==0 then
     reagirl.Window_RescaleIfNeeded()
     --reagirl.MoveItAllRight=0
@@ -1213,6 +1214,7 @@ function reagirl.Window_Open(...)
     local A1,B,C,D=reaper.my_getViewport(0,0,0,0, 0,0,0,0, false)
     parms[1]=""
     local _, _, _, _, _, w2, _, h2 = reagirl.Gui_GetBoundaries()
+    
     if parms[2]==nil then 
       parms[2]=w2+10
     end
@@ -2430,6 +2432,7 @@ function reagirl.Ext_UpdateWindow()
   reagirl.Window_Open("", w, h, dock, x, y)
   gfx.dock(dock)
   reaper.SetExtState("Reagirl_Window_"..reagirl.Window_name, "newstate", "", true)
+  reagirl.Gui_ForceRefresh()
 end
 
 function reagirl.Gui_Manage()
@@ -8445,7 +8448,7 @@ function reagirl.Label_Draw(element_id, selected, hovered, clicked, mouse_cap, m
       end
       --reaper.MB(bg_w, bg_h, 0)
       element_storage["bg_w"]=bg_w/reagirl.Window_GetCurrentScale()
-      element_storage["bg_h"]=bg_h-2
+      element_storage["bg_h"]=bg_h-1
       element_storage["bg"]=nil
       --element_storage["bg_auto"]=true
     end
@@ -12113,7 +12116,7 @@ function reagirl.Tabs_Draw(element_id, selected, hovered, clicked, mouse_cap, mo
     else 
       if element_storage["w_background"]>0 then bg_w=element_storage["w_background"] else bg_w=gfx.w+element_storage["w_background"]-offset_x end
     end
-    ABBA=bg_w
+    --ABBA=bg_w
     if element_storage["h_background"]==nil then 
       bg_h=(reagirl.BoundaryY_Max-y2-element_storage["Tabs_Pos"][element_storage["TabSelected"] ]["h"])--*dpi_scale 
       element_storage["bg_h"]=bg_h
