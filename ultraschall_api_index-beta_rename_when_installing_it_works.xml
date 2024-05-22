@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API and ReaGirl">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API and ReaGirl package" type="extension">
-      <version name="55977.00" author="Meo-Ada Mespotine">
+      <version name="55978.00" author="Meo-Ada Mespotine">
 	<source file="reagirl.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5//reagirl.lua</source>
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5//ultraschall_api_readme.txt</source>
@@ -407,6 +407,7 @@
 	<source file="/ultraschall_api/Documentation/scripts/clipboard.min.js.Download" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5/ultraschall_api/Documentation/scripts/clipboard.min.js.Download</source>
 	<source file="/ultraschall_api/Documentation/scripts/scripts.js.Download" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5/ultraschall_api/Documentation/scripts/scripts.js.Download</source>
 	<source file="/ultraschall_api/Documentation/style.css" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5/ultraschall_api/Documentation/style.css</source>
+	<source file="/ultraschall_api/Documentation/style2.css" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5/ultraschall_api/Documentation/style2.css</source>
 	<source file="/ultraschall_api/IniFiles/Euro.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5/ultraschall_api/IniFiles/Euro.txt</source>
 	<source file="/ultraschall_api/IniFiles/Reaper-Gfx.GetKey_Codes_and_their_associated_character.ini" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5/ultraschall_api/IniFiles/Reaper-Gfx.GetKey_Codes_and_their_associated_character.ini</source>
 	<source file="/ultraschall_api/IniFiles/Reaper-Menu-Only-Actions.ini" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5/ultraschall_api/IniFiles/Reaper-Menu-Only-Actions.ini</source>
@@ -608,6 +609,7 @@
 	<source main="true" file="/ReaGirl_TestScript_1.lua" type="script">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5//ultraschall_api/Scripts//Tools/DeveloperScripts//ReaGirl_TestScript_1.lua</source>
 	<source main="true" file="/ReaGirl_TestScript_2.lua" type="script">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5//ultraschall_api/Scripts//Tools/DeveloperScripts//ReaGirl_TestScript_2.lua</source>
 	<source main="true" file="/ReaGirl_TestScript_3.lua" type="script">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5//ultraschall_api/Scripts//Tools/DeveloperScripts//ReaGirl_TestScript_3.lua</source>
+	<source main="true" file="/ReaGirl_TestScript_4.lua" type="script">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5//ultraschall_api/Scripts//Tools/DeveloperScripts//ReaGirl_TestScript_4.lua</source>
 	<source main="true" file="/ultraschall_create_new_ReaGirl_Script.lua" type="script">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5//ultraschall_api/Scripts//Tools/DeveloperScripts//ultraschall_create_new_ReaGirl_Script.lua</source>
 	<source main="true" file="/ultraschall_create_new_Ultraschall_API_And_ReaGirl_Script.lua" type="script">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5//ultraschall_api/Scripts//Tools/DeveloperScripts//ultraschall_create_new_Ultraschall_API_And_ReaGirl_Script.lua</source>
 	<source main="true" file="/ultraschall_developertool_ActionlistToIni-Converter.lua" type="script">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5//ultraschall_api/Scripts//Tools/DeveloperScripts//ultraschall_developertool_ActionlistToIni-Converter.lua</source>
