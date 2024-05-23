@@ -2591,16 +2591,16 @@ function reagirl.Gui_Manage()
   reagirl.Scroll_Override_MouseWheel=nil
   if reagirl.Elements["FocusedElement"]~=-1 and reagirl.Elements[reagirl.Elements["FocusedElement"]].GUI_Element_Type~="Edit" and reagirl.Elements[reagirl.Elements["FocusedElement"]].GUI_Element_Type~="Edit Multiline" then
   -- scroll via keys
-    if reagirl.Scroll_Override~=true then
+    if reagirl.Scroll_Override~=true and reaper.GetExtState("ReaGirl", "scroll_via_keyboard")~="false" then
       if gfx.mouse_cap&8==0 and Key==30064 then reagirl.UI_Element_ScrollY(2) end -- up
       if gfx.mouse_cap&8==0 and Key==1685026670 then reagirl.UI_Element_ScrollY(-2) end --down
-      if Key==1818584692.0 then reagirl.UI_Element_ScrollX(2) end -- left
-      if Key==1919379572.0 then reagirl.UI_Element_ScrollX(-2) end -- right
-      if Key==1885828464.0 then reagirl.UI_Element_ScrollY(20) end -- pgdown
-      if Key==1885824110.0 then reagirl.UI_Element_ScrollY(-20) end -- pgup
+      if Key==1818584692.0 and gfx.mouse_cap==0 then reagirl.UI_Element_ScrollX(2) end -- left
+      if Key==1919379572.0 and gfx.mouse_cap==0 then reagirl.UI_Element_ScrollX(-2) end -- right
+      if Key==1885828464.0 and gfx.mouse_cap==0 then reagirl.UI_Element_ScrollY(20) end -- pgdown
+      if Key==1885824110.0 and gfx.mouse_cap==0 then reagirl.UI_Element_ScrollY(-20) end -- pgup
       if gfx.mouse_cap&8==8 and Key==1818584692.0 then reagirl.UI_Element_ScrollX(20) end -- Shift+left  - pgleft
       if gfx.mouse_cap&8==8 and Key==1919379572.0 then reagirl.UI_Element_ScrollX(-20) end --Shift+right - pgright
-      if Key==1752132965.0 then reagirl.MoveItAllUp=0 reagirl.Gui_ForceRefresh(3) end -- home
+      if Key==1752132965.0 and gfx.mouse_cap==0 then reagirl.MoveItAllUp=0 reagirl.Gui_ForceRefresh(3) end -- home
       if Key==6647396.0 then MoveItAllUp_Delta=0 reagirl.MoveItAllUp=gfx.h-reagirl.BoundaryY_Max reagirl.Gui_ForceRefresh(4) end -- end
     end
   end
@@ -2625,7 +2625,7 @@ function reagirl.Gui_Manage()
   end
   
   if reagirl.Gui_PreventEnterForOneCycle_State~=true then
-    if Key==13 then 
+    if Key==13 and gfx.mouse_cap==0 then 
       if reagirl.AtEnter_RunFunc~=nil then reagirl.AtEnter_RunFunc() end
     end -- esc closes window
   end 
@@ -3159,12 +3159,13 @@ function reagirl.Gui_Manage()
     reagirl.EditMode_OldMouseX=gfx.mouse_x
     reagirl.EditMode_OldMouseY=gfx.mouse_y
   end
+  --[[
   if mouse_cap==28 and Key==261 then
     if reagirl.EditMode==true then reagirl.EditMode=false else reagirl.EditMode=true end
     reagirl.Gui_ForceRefresh(983)
     reaper.MB("Edit_Mode="..tostring(reagirl.EditMode),"",0)
   end
-
+  --]]
   if reagirl.EditMode==true then
     if Key==103 then
       if reagirl.EditMode_Grid then reagirl.EditMode_Grid=false else reagirl.EditMode_Grid=true end
@@ -3287,7 +3288,7 @@ function reagirl.Gui_Draw(Key, Key_utf, clickstate, specific_clickstate, mouse_c
         
         local w_add=0
         local h_add=0
-        if reagirl.Elements[i]["GUI_Element_Type"]=="Label" then
+        if reagirl.Elements[i]["GUI_Element_Type"]:sub(-5, -1)=="Label" then
           w_add=reagirl.Elements[i]["bg_w"]*reagirl.Window_GetCurrentScale()
           h_add=reagirl.Elements[i]["bg_h"]*reagirl.Window_GetCurrentScale()
         end
@@ -3814,7 +3815,7 @@ function reagirl.UI_Element_GetNextXAndYPosition(x, y, functionname)
       local y2=reagirl.Elements[slot2]["y"]
       local h2=reagirl.Elements[slot2]["h"]
       local offset=0
-      if reagirl.Elements[slot2]["GUI_Element_Type"]=="Label" then
+      if reagirl.Elements[slot2]["GUI_Element_Type"]:sub(-5, -1)=="Label" then
         --offset=10
       end
       if y2<0 and y2+h2+reagirl.UI_Element_NextLineY>0 then error(functionname..": param #2 - can't anchor ui-element closer to bottom of window", 3) end
@@ -4426,6 +4427,7 @@ function reagirl.UI_Element_Remove(element_id)
 end
 
 function reagirl.UI_Element_GetIDFromGuid(guid)
+  if guid==nil then return -1 end
   if type(guid)~="string" then error("UI_Element_GetIDFromGuid: param #1 - must be a string", 2) end
   if guid:match("{........%-....%-....%-....%-............}")==nil then error("UI_Element_GetIDFromGuid: param #1 - must be a valid guid", 2) end
   for i=1, #reagirl.Elements do
@@ -8560,7 +8562,8 @@ function reagirl.Label_SetBackdrop(element_id, width, height)
   element_id=reagirl.UI_Element_GetIDFromGuid(element_id)
   if element_id==-1 then error("Label_SetBackdrop: param #1 - no such ui-element", 2) end
   
-  if reagirl.Elements[element_id]["GUI_Element_Type"]~="Label" then
+  if reagirl.Elements[element_id]["GUI_Element_Type"]:sub(-5, -1)~="Label" then
+    reagirl.Elements[element_id]["GUI_Element_Type"]:sub(-5, -1)
     error("Label_SetBackdrop: param #1 - ui-element is not a label", 2)
   else
     reagirl.Elements[element_id]["bg_w"]=width
@@ -8595,16 +8598,16 @@ function reagirl.Label_AutoBackdrop(element_id, dest_element_id)
   <tags>label, set, auto, backdrop</tags>
 </US_DocBloc>
 --]]
-  if type(element_id)~="string" then error("Label_GetBackdrop: param #1 - must be a string", 2) end
-  if reagirl.IsValidGuid(element_id, true)==false then error("Label_GetBackdrop: param #1 - must be a valid guid", 2) end
+  if type(element_id)~="string" then error("Label_AutoBackdrop: param #1 - must be a string", 2) end
+  if reagirl.IsValidGuid(element_id, true)==false then error("Label_AutoBackdrop: param #1 - must be a valid guid", 2) end
   element_id=reagirl.UI_Element_GetIDFromGuid(element_id)
-  if element_id==-1 then error("Label_GetBackdrop: param #1 - no such ui-element", 2) end
-  if type(dest_element_id)~="string" then error("Label_GetBackdrop: param #2 - must be a string", 2) end
-  if reagirl.IsValidGuid(dest_element_id, true)==false then error("Label_GetBackdrop: param #2 - must be a valid guid", 2) end
-  if reagirl.UI_Element_GetIDFromGuid(dest_element_id)==-1 then error("Label_GetBackdrop: param #2 - no such ui-element", 2) end
+  if element_id==-1 then error("Label_AutoBackdrop: param #1 - no such ui-element", 2) end
+  if type(dest_element_id)~="string" then error("Label_AutoBackdrop: param #2 - must be a string", 2) end
+  if reagirl.IsValidGuid(dest_element_id, true)==false then error("Label_AutoBackdrop: param #2 - must be a valid guid", 2) end
+  if reagirl.UI_Element_GetIDFromGuid(dest_element_id)==-1 then error("Label_AutoBackdrop: param #2 - no such ui-element", 2) end
   
-  if reagirl.Elements[element_id]["GUI_Element_Type"]~="Label" then
-    error("Label_GetBackdrop: param #1 - ui-element is not a label", 2)
+  if reagirl.Elements[element_id]["GUI_Element_Type"]:sub(-5, -1)~="Label" then
+    error("Label_AutoBackdrop: param #1 - ui-element is not a label", 2)
   else
     --A=reagirl.UI_Element_GetIDFromGuid(dest_element_id)
     --reaper.MB(reagirl.Elements[A]["h"],"",0)
@@ -8649,7 +8652,7 @@ function reagirl.Label_GetBackdrop(element_id, width, height)
   element_id=reagirl.UI_Element_GetIDFromGuid(element_id)
   if element_id==-1 then error("Label_GetBackdrop: param #1 - no such ui-element", 2) end
   
-  if reagirl.Elements[element_id]["GUI_Element_Type"]~="Label" then
+  if reagirl.Elements[element_id]["GUI_Element_Type"]:sub(-5, -1)~="Label" then
     error("Label_GetBackdrop: param #1 - ui-element is not a label", 2)
   else
     return reagirl.Elements[element_id]["bg_w"], reagirl.Elements[element_id]["bg_h"]
@@ -8694,7 +8697,7 @@ function reagirl.Label_GetDraggable(element_id)
   element_id=reagirl.UI_Element_GetIDFromGuid(element_id)
   if element_id==-1 then error("Label_GetDraggable: param #1 - no such ui-element", 2) end
   
-  if reagirl.Elements[element_id]["GUI_Element_Type"]~="Label" then
+  if reagirl.Elements[element_id]["GUI_Element_Type"]:sub(-5, -1)~="Label" then
     error("Label_GetDraggable: param #1 - ui-element is not a label", 2)
   else
     return reagirl.Elements[element_id]["Draggable"]==true
@@ -8735,7 +8738,6 @@ function reagirl.Label_SetDraggable(element_id, draggable, destination_element_i
 --]]
   if type(element_id)~="string" then error("Label_SetDraggable: param #1 - must be a string", 2) end
   if reagirl.IsValidGuid(element_id, true)==false then error("Label_SetDraggable: param #1 - must be a valid guid", 2) end
-  if reagirl.UI_Element_GetType(element_id)~="Label" then error("Label_SetDraggable: param #1 - UI-element is not a label", 2) end
   if type(draggable)~="boolean" then error("Label_SetDraggable: param #2 - must be a boolean", 2) end
   if type(destination_element_ids)~="table" then error("Label_SetDraggable: param #2 - must be a table", 2) end
   for i=1, #destination_element_ids do
@@ -8745,9 +8747,16 @@ function reagirl.Label_SetDraggable(element_id, draggable, destination_element_i
   end
   local slot=reagirl.UI_Element_GetIDFromGuid(element_id)
   if slot==-1 then error("Label_SetDraggable: param #1 - no such ui-element") end
-  if reagirl.Elements[slot]["GUI_Element_Type"]~="Label" then error("Label_SetDraggable: param #1 - ui-element is not a label") end
+  if reagirl.Elements[slot]["GUI_Element_Type"]:sub(-5, -1)~="Label" then 
+    error("Label_SetDraggable: param #1 - ui-element is not a label") 
+  end
+  if #destination_element_ids==0 then error("Label_SetDraggable: param #2 - no elements passed", 2) end
+  for i=1, #destination_element_ids do
+    if reagirl.UI_Element_GetIDFromGuid(destination_element_ids[i])==-1 then error("Label_SetDraggable: param #2 - element "..i.." is not a valid ui-element", 2) end
+  end
   reagirl.Elements[slot]["Draggable"]=draggable
   reagirl.Elements[slot]["DraggableDestinations"]=destination_element_ids
+  --reagirl.Elements[slot]["Draggable_DestAccessibility"]=1
   if draggable==true then
     reagirl.Elements[slot]["AccHint"]=reagirl.Elements[slot]["AccHint"].."Choose drag destination with Ctrl+Shift+PageUp and Ctrl+Shift+PageDown and hit ctrl+Shift+Enter to drop it at destination."
   else
@@ -8975,6 +8984,10 @@ function reagirl.Image_SetDraggable(element_id, draggable, destination_element_i
   if slot==-1 then error("Image_SetDraggable: param #1 - no such ui-element") end
   if reagirl.Elements[slot]["GUI_Element_Type"]~="Image" then error("Image_SetDraggable: param #1 - ui-element is not an image") end
   reagirl.Elements[slot]["Draggable"]=draggable
+  if #destination_element_ids==0 then error("Image_SetDraggable: param #2 - no elements passed", 2) end
+  for i=1, #destination_element_ids do
+    if reagirl.UI_Element_GetIDFromGuid(destination_element_ids[i])==-1 then error("Image_SetDraggable: param #2 - element "..i.." is not a valid ui-element", 2) end
+  end
   reagirl.Elements[slot]["DraggableDestinations"]=destination_element_ids
   if draggable==true then
     reagirl.Elements[slot]["AccHint"]=reagirl.Elements[slot]["AccHint"].."Choose drag destination with Ctrl+Shift+PageUp and Ctrl+Shift+PageDown and hit ctrl+Shift+Enter to drop it at destination."
@@ -11909,7 +11922,6 @@ function reagirl.Tabs_Manage(element_id, selected, hovered, clicked, mouse_cap, 
     if tabnumber>=1 and tabnumber<=#element_storage["TabNames"] then
       element_storage["TabSelected"]=tabnumber
       if reaper.GetExtState("ReaGirl", "osara_override")=="" then
-        reaper.MB("","",0)
         element_storage["TabsSelected_MouseJump"]=element_storage["TabSelected"]
       end
       element_storage["TabRefresh"]=true 

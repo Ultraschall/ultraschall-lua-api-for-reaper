@@ -102,6 +102,7 @@ end
 
 function button_apply_and_close()
   reaper.SetExtState("ReaGirl", "show_tooltips", tostring(reagirl.Checkbox_GetCheckState(tab1.checkbox_tooltips_id)), true)
+  reaper.SetExtState("ReaGirl", "scroll_via_keyboard", tostring(reagirl.Checkbox_GetCheckState(tab1.scroll_via_keyboard_id)), true)
   reaper.SetExtState("ReaGirl", "osara_override", tostring(reagirl.Checkbox_GetCheckState(tab2.checkbox_osara_id)), true)
   reaper.SetExtState("ReaGirl", "osara_debug", tostring(reagirl.Checkbox_GetCheckState(tab2.checkbox_osara_debug_id)), true)
   reaper.SetExtState("ReaGirl", "osara_move_mouse", tostring(reagirl.Checkbox_GetCheckState(tab2.checkbox_osara_move_mouse_id)), true)
@@ -132,12 +133,12 @@ function SetUpNewGui()
   reagirl.Gui_New()
   
   if tabnumber==nil then tabnumber=1 end
-  Tabs=reagirl.Tabs_Add(10, 10, 335, 400, "Settings", "Some ReaGirl Settings.", {"General", "Accessibility"}, tabnumber, nil)
+  Tabs=reagirl.Tabs_Add(10, 10, 335, 420, "Settings", "Some ReaGirl Settings.", {"General", "Accessibility"}, tabnumber, nil)
   
   tab1={}
   --[[ Blinking Focus Rectangle ]]
   tab1.Label_General=reagirl.Label_Add(nil, nil, "General", "General settings.", false, nil)
-  reagirl.Label_SetBackdrop(tab1.Label_General, 300, 35) -- set a backdrop around the next few labels
+  reagirl.Label_SetBackdrop(tab1.Label_General, 300, 55) -- set a backdrop around the next few labels
   --reagirl.Label_SetStyle(tab1.Label_General, 6, 0, 0)
   --reagirl.UI_Element_GetSet_ContextMenu(tab1.Label_General, true, "Tudel|Loo", huch)
 
@@ -145,6 +146,11 @@ function SetUpNewGui()
   show_tooltips = reaper.GetExtState("ReaGirl", "show_tooltips")
   if show_tooltips=="" or show_tooltips=="true" then show_tooltips=true else show_tooltips=false end
   tab1.checkbox_tooltips_id = reagirl.Checkbox_Add(nil, nil, "Show tooltips when hovering above ui-element", "When checked, ReaGirl will show tooltips when hovering above ui-elements.", show_tooltips, checkbox)
+  --reagirl.Checkbox_SetDisabled(tab1.checkbox_tooltips_id, true)
+  reagirl.NextLine()
+  scroll_via_keyboard = reaper.GetExtState("ReaGirl", "scroll_via_keyboard")
+  if scroll_via_keyboard=="" or scroll_via_keyboard=="true" then scroll_via_keyboard=true else scroll_via_keyboard=false end
+  tab1.scroll_via_keyboard_id = reagirl.Checkbox_Add(nil, nil, "Scroll via keyboard", "When checked, ReaGirl allows scrolling via keyboard with the cursor keys, PgUp/PgDn, Home and End-key.", scroll_via_keyboard, checkbox)
   --reagirl.Checkbox_SetDisabled(tab1.checkbox_tooltips_id, true)
   
   reagirl.NextLine(10)
@@ -192,7 +198,12 @@ function SetUpNewGui()
   
   -- [[ Blinking Drag-Destinations ]]
   reagirl.NextLine(15)
-  tab1.Label_Draggable_UI_Elements=reagirl.Label_Add(nil, nil, "Draggable UI-elements", "Settings for draggable ui-elements.", false, nil)
+  
+  function tudelu(A, B)
+    reaper.MB("Successfully Dragged", "Dragged", 0)
+  end
+  
+  tab1.Label_Draggable_UI_Elements=reagirl.Label_Add(nil, nil, "Draggable UI-elements", "Settings for draggable ui-elements.", false, tudelu)
   --reagirl.Label_SetStyle(tab1.Label_Draggable_UI_Elements, 6, 0, 0)
   reagirl.Label_SetBackdrop(tab1.Label_Draggable_UI_Elements, 300, 115) -- set a backdrop around the next few labels
   
@@ -210,6 +221,7 @@ function SetUpNewGui()
   tab1.image_middle=reagirl.Image_Add(160,nil,25,25,reaper.GetResourcePath().."/Data/track_icons/folder_right.png", "Graphics with an arrow pointing to the drag-destination of the double bass.", "Graphics with an arrow pointing to the drag-destination of the double bass.",nil)
   tab1.image_dest=reagirl.Image_Add(250,nil,50,50,reaper.GetResourcePath().."/Data/track_icons/mic_dynamic_1.png", "The destination image, an image of a microphone.", "The destination image, drag the double bass over here.",nil)
   reagirl.Image_SetDraggable(tab1.image_source, true, {tab1.image_dest})
+  --reagirl.Label_SetDraggable(tab1.Label_Draggable_UI_Elements, true, {tab1.image_dest})
   --reagirl.UI_Element_GetSet_ContextMenu(tab1.image_source, true, "Tudel|Loo", huch)
   --reagirl.NextLine()
   --tab1.ddm = reagirl.DropDownMenu_Add(nil,nil,300,"TUdelu", nil, "Test menu.", {"One", "Two", "Three"}, 1, nil)
@@ -259,8 +271,8 @@ function SetUpNewGui()
   
   reagirl.Tabs_SetUIElementsForTab(Tabs, 2, tab2)
   
-  button_apply_and_close_id = reagirl.Button_Add(180, 445, 0, 0, "Apply and Close", "Apply the chosen settings and close window.", button_apply_and_close)
-  button_cancel_id = reagirl.Button_Add(290, 445, 0, 0, "Cancel", "Simply close without applying the settings.", button_cancel)
+  button_apply_and_close_id = reagirl.Button_Add(180, 465, 0, 0, "Apply and Close", "Apply the chosen settings and close window.", button_apply_and_close)
+  button_cancel_id = reagirl.Button_Add(290, 465, 0, 0, "Cancel", "Simply close without applying the settings.", button_cancel)
   reagirl.NextLine()
 end
 
@@ -269,7 +281,7 @@ reagirl.Gui_AtEnter(button_apply_and_close)
 SetUpNewGui()
 color=40
 reagirl.Background_GetSetColor(true,color,color,color)
-reagirl.Gui_Open("ReaGirl_Settings", true, "ReaGirl Settings (v."..reagirl.GetVersion()..")", "various settings for ReaGirl-Accessible Guis.", 355, 470, nil, nil, nil)
+reagirl.Gui_Open("ReaGirl_Settings", true, "ReaGirl Settings (v."..reagirl.GetVersion()..")", "various settings for ReaGirl-Accessible Guis.", 355, 500, nil, nil, nil)
   
 --reagirl.Window_ForceSize_Minimum(355, 470) -- set the minimum size of the window
 --reagirl.Window_ForceSize_Maximum(355, 470) -- set the maximum size of the window
@@ -297,6 +309,8 @@ function CheckIfSettingChanged()
     return true, 6
   elseif osara_enable_accmessage~=toboolean(reaper.GetExtState("ReaGirl", "osara_enable_accmessage"), true) then
     return true, 7
+  elseif scroll_via_keyboard~=toboolean(reaper.GetExtState("ReaGirl", "scroll_via_keyboard"), true) then
+    return true, 8
   else
     return false
   end

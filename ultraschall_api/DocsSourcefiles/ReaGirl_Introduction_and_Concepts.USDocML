@@ -143,6 +143,8 @@
             * __ReaGirl\_Gui\_Settings\_Screen\_Reader\_Messages\_Disable.lua__ - disable screen reader-support in ReaGirl  
             * __ReaGirl\_Gui\_Settings\_Tooltips\_Enable.lua__ - shows tooltips when hovering above ui-elements  
             * __ReaGirl\_Gui\_Settings\_Tooltips\_Disable.lua__- don't show tooltips  
+            * __ReaGirl\_Gui\_Settings\_Scroll\_Via\_Keyboard\_Enable.lua - enables scrolling of ReaGirl-guis via keyboard
+            * __ReaGirl\_Gui\_Settings\_Scroll\_Via\_Keyboard\_Disable.lua - disables scrolling of ReaGirl-guis via keyboard
             * __ReaGirl\_Gui\_Settings\_Reset\_Settings\_Window\_Pos\_And\_Size.lua - resets settings window's position and size
   
             __Developer settings:__    

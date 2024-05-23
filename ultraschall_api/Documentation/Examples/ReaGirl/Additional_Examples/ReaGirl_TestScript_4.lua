@@ -102,11 +102,14 @@
   -- Images
   reagirl.NextLine(10) 
   tab1.label_header4=reagirl.Label_Add(nil, nil, "Or Images", "Set the settings, as you wish.", false, nil)
-  
+  function tudelu()
+  end
   -- local some images from Reaper
   reagirl.NextLine()
   tab1.image1 = reagirl.Image_Add(nil, nil, 50, 50, reaper.GetResourcePath().."/Data/track_icons/idea.png", "An idea-cloud", "An image of an idea-thought-cloud.", nil)
+  reagirl.UI_Element_GetSet_ContextMenu(tab1.image1, true, "A|context|menu",tudelu)
   tab1.image2 = reagirl.Image_Add(nil, nil, 50, 50, reaper.GetResourcePath().."/Data/track_icons/envelope.png", "An envelope", "An image of an envelope.", nil)
+  reagirl.UI_Element_GetSet_ContextMenu(tab1.image2, true, "A|different|menu|for|this|image",tudelu)
   tab1.image3 = reagirl.Image_Add(nil, nil, 50, 50, reaper.GetResourcePath().."/Data/track_icons/ff.png", "ff notation symbol", "An image of a ff-notation-symbol.", nil)
   tab1.image4 = reagirl.Image_Add(nil, nil, 50, 50, reaper.GetResourcePath().."/Data/track_icons/folder_up.png", "A folder up", "An image of a folder with an arrow pointing up.", nil)
   tab1.image5 = reagirl.Image_Add(nil, nil, 50, 50, reaper.GetResourcePath().."/Data/track_icons/bass_clef.png", "A bass clef", "An image of a bass clef.", nil)
