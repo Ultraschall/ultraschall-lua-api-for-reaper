@@ -203,7 +203,7 @@ function SetUpNewGui()
     reaper.MB("Successfully Dragged", "Dragged", 0)
   end
   
-  tab1.Label_Draggable_UI_Elements=reagirl.Label_Add(nil, nil, "Draggable UI-elements", "Settings for draggable ui-elements.", false, tudelu)
+  tab1.Label_Draggable_UI_Elements=reagirl.Label_Add(nil, nil, "Draggable UI-elements", "Settings for draggable ui-elements.", true, tudelu)
   --reagirl.Label_SetStyle(tab1.Label_Draggable_UI_Elements, 6, 0, 0)
   reagirl.Label_SetBackdrop(tab1.Label_Draggable_UI_Elements, 300, 115) -- set a backdrop around the next few labels
   
@@ -225,7 +225,7 @@ function SetUpNewGui()
   --reagirl.UI_Element_GetSet_ContextMenu(tab1.image_source, true, "Tudel|Loo", huch)
   --reagirl.NextLine()
   --tab1.ddm = reagirl.DropDownMenu_Add(nil,nil,300,"TUdelu", nil, "Test menu.", {"One", "Two", "Three"}, 1, nil)
-  --reagirl.Label_SetDraggable(tab1.Label_General, true, {tab1.image_dest})
+  reagirl.Label_SetDraggable(tab1.Label_Draggable_UI_Elements, true, {tab1.image_dest})
   
   reagirl.Tabs_SetUIElementsForTab(Tabs, 1, tab1)
   

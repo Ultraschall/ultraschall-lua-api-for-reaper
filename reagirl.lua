@@ -8298,8 +8298,8 @@ function reagirl.Label_Manage(element_id, selected, hovered, clicked, mouse_cap,
   if selected~="not selected" and 
     (Key==32 or mouse_cap==1) and 
     (gfx.mouse_x>=x and gfx.mouse_x<=x+w and gfx.mouse_y>=y and gfx.mouse_y<=y+h) 
-    and clicked=="FirstCLK" and
-    element_storage["run_function"]~=nil then 
+    and clicked=="FirstCLK" 
+    and element_storage["run_function"]~=nil then 
     --print("1")
       element_storage["clickstate"]="clicked"
       if element_storage["Draggable"]==true and hovered==true then
@@ -8355,8 +8355,21 @@ function reagirl.Label_Manage(element_id, selected, hovered, clicked, mouse_cap,
     reagirl.Draggable_Element=nil
   end
   --]]
-  if element_storage["clickable"]==true and (Key==13 or gfx.mouse_cap&1==1) and selected~="not selected" and gfx.mouse_x>=x and gfx.mouse_x<=x+w and gfx.mouse_y>=y and gfx.mouse_y<=y+h then
+  if element_storage["clickstate2"]==true and gfx.mouse_cap&1==0 and gfx.mouse_x>=x and gfx.mouse_x<=x+w and gfx.mouse_y>=y and gfx.mouse_y<=y+h then
     if element_storage["run_function"]~=nil then reagirl.Elements[element_id]["run_function"](element_storage["Guid"]) end
+  end
+  
+  if element_storage["clickable"]==true and (Key==13 or gfx.mouse_cap&1==1) 
+    and selected~="not selected" and gfx.mouse_x>=x and gfx.mouse_x<=x+w and gfx.mouse_y>=y and gfx.mouse_y<=y+h then
+    element_storage["clickstate2"]=true
+  end
+  
+  if element_storage["clickable"]==true and Key==13 then
+    if element_storage["run_function"]~=nil then reagirl.Elements[element_id]["run_function"](element_storage["Guid"]) end
+  end
+  
+  if gfx.mouse_cap&1==0 then
+    element_storage["clickstate2"]=nil
   end
   local contextmenu=""
   --if element_storage["ContextMenu"]~=nil then contextmenu="Has Contextmanu." end
