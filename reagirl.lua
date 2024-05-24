@@ -5814,7 +5814,7 @@ function reagirl.Inputbox_Add(x, y, w, caption, Cap_width, meaningOfUI_Element, 
   reagirl.Elements[slot]["cap_w"]=math.tointeger(tx)+10
   reagirl.Elements[slot]["Description"]=meaningOfUI_Element
   reagirl.Elements[slot]["IsDisabled"]=false
-  reagirl.Elements[slot]["AccHint"]="Hit Enter to input text."
+  reagirl.Elements[slot]["AccHint"]="Hit Enter to open up an accessible input dialog to enter text."
   reagirl.Elements[slot]["ContextMenu_ACC"]=""
   reagirl.Elements[slot]["DropZoneFunction_ACC"]=""
   reagirl.Elements[slot]["Cap_width"]=Cap_width

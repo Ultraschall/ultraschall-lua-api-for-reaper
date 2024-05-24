@@ -282,7 +282,12 @@
           examples folder of ReaGirl. In the folders named tutorial, you find the codes used in the tutorials as ready to use lua-files.  
           The last lua-file in each tutorial-folder is the finished tutorial-example, if you want to jump ahead.  
             
-          The documentation is available with the actions "ReaGirl\_Help\_Introduction\_Concepts\_Tutorials\_Documentation.lua" for the explanation chapters and "ReaGirl\_Help\_Functions\_Documentation.lua" for the functinos reference.  
+          The documentation is available with the actions "ReaGirl\_Help\_Introduction\_Concepts\_Tutorials\_Documentation.lua" for the explanation chapters and "ReaGirl\_Help\_Functions\_Documentation.lua" for the function's reference.  
+          
+          At the end of this document, you'll also find two chapters on best practices for accessible guis with ReaGirl.  
+          I recomment you to read these to improve accessibility on your guis with a handful of rules of thumb.  
+          [Best Practices on Accessibility](#Best_Practices_On_Accessibility) and [Best Practices on ReaGirl-Guis for blind scripters](#Best_Practices_On_Writing_Guis_As_Blind_Scripter).  
+          I will update them from time to time so check them out occasionally for more practices from feedback by users of ReaGirl.  
             
           And now, without much further ado, let's head over to the tutorials.  
         </description>  
