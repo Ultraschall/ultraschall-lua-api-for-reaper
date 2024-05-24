@@ -198,7 +198,12 @@ function reagirl.GetVersion()
     <tags>misc, get, version</tags>
   </US_DocBloc>
   --]]
-  local retval, vers = reaper.BR_Win32_GetPrivateProfileString("ReaGirl_Build", "version", "", reaper.GetResourcePath().."/UserPlugins/ultraschall_api/IniFiles/ultraschall_api.ini")
+  if reaper.file_exists(reaper.GetResourcePath().."/UserPlugins/ultraschall_api/IniFiles/ultraschall_api.ini")==true then
+    local retval, vers = reaper.BR_Win32_GetPrivateProfileString("ReaGirl_Build", "version", "", reaper.GetResourcePath().."/UserPlugins/ultraschall_api/IniFiles/ultraschall_api.ini")
+  else
+    vers=1.0
+  end
+  
   return tonumber(vers)
 end
 
