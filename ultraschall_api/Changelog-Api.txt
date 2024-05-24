@@ -340,7 +340,7 @@ ToDo Marker Menu:
 
 ### 5 - "Eels - Novocaine for the Soul" - 22nd of May 2024
 
-Has now 1805 functions, with 142 new ones
+Has now 1807 functions, with 144 new ones
 
 Note: requires at least Reaper 7.03 now!
 
@@ -393,6 +393,7 @@ Note: requires at least Reaper 7.03 now!
   - ReaGirl: Checkbox\_GetDisabled - Gets a checkbox's disabled(non clickable)-state.
   - ReaGirl: Checkbox\_SetCheckState - Sets a checkbox's state of the checkbox.
   - ReaGirl: Checkbox\_SetDisabled - Sets a checkbox as disabled(non clickable).
+  - ReaGirl: Checkbox\_SetWidth - sets width of a checkbox, which helps you with autopositioning
   - ReaGirl: DropDownMenu\_Add - Adds a dropdown-menu to a gui.
   - ReaGirl: DropDownMenu\_GetDimensions - Gets the width of a drop down menu.
   - ReaGirl: DropDownMenu\_GetDisabled - Gets a dropdown-menu's disabled(non clickable)-state.
@@ -456,6 +457,7 @@ Note: requires at least Reaper 7.03 now!
   - ReaGirl: NextLine - Starts a new line, when autopositioning ui-elements using the \_add-functions.
   - ReaGirl: ReserveImageBuffer - Reserves a framebuffer which will not be used by ReaGirl for drawing.
   - ReaGirl: ResizeImageKeepAspectRatio - Resizes an image, keeping its aspect-ratio. You can set a background-color for non rectangular-images.
+  - ReaGirl: ScreenReader\_SendMessage - sends a message to screen-reader users
   - ReaGirl: Slider\_Add - Adds a slider to a gui.
   - ReaGirl: Slider\_GetDefaultValue - Gets the current set value of the slider.
   - ReaGirl: Slider\_GetDimensions - Gets the width of a slider.

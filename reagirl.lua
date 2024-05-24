@@ -198,8 +198,9 @@ function reagirl.GetVersion()
     <tags>misc, get, version</tags>
   </US_DocBloc>
   --]]
+  local retval, vers
   if reaper.file_exists(reaper.GetResourcePath().."/UserPlugins/ultraschall_api/IniFiles/ultraschall_api.ini")==true then
-    local retval, vers = reaper.BR_Win32_GetPrivateProfileString("ReaGirl_Build", "version", "", reaper.GetResourcePath().."/UserPlugins/ultraschall_api/IniFiles/ultraschall_api.ini")
+    retval, vers = reaper.BR_Win32_GetPrivateProfileString("ReaGirl_Build", "version", "", reaper.GetResourcePath().."/UserPlugins/ultraschall_api/IniFiles/ultraschall_api.ini")
   else
     vers=1.0
   end
@@ -2440,6 +2441,33 @@ function reagirl.Ext_UpdateWindow()
   reagirl.Gui_ForceRefresh()
 end
 
+function reagirl.ScreenReader_SendMessage(message)
+  --[[
+  <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+    <slug>ScreenReader_SendMessage</slug>
+    <requires>
+      ReaGirl=1.0
+      Reaper=7.03
+      Lua=5.4
+    </requires>
+    <functioncall>reagirl.ScreenReader_SendMessage()</functioncall>
+    <description>
+      Sends a message to the screen reader
+      
+      Use this only when needed, means, don't permanently send messages. Otherwise, they will be cut off and the user doesn't get them.
+    </description>
+    <chapter_context>
+      Screen Reader
+    </chapter_context>
+    <target_document>ReaGirl_Docs</target_document>
+    <source_document>reagirl_GuiEngine.lua</source_document>
+    <tags>screen reader, send, message</tags>
+  </US_DocBloc>
+  ]]
+  if type(message)~="string" then error("ScreenReader_SendMessage: param #1 - must be a string", 2) end
+  reagirl.ScreenReader_SendMessage_ActualMessage=message
+end
+
 function reagirl.Gui_Manage()
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
@@ -3207,6 +3235,12 @@ function reagirl.Gui_Manage()
       reagirl.Gui_PreventScrollingForOneCycle(true, true, true)
     end
   end
+  
+  -- custom-screen reader message
+  if reagirl.ScreenReader_SendMessage_ActualMessage~="" and reagirl.osara_outputMessage~=nil then
+    reagirl.osara_outputMessage(reagirl.ScreenReader_SendMessage_ActualMessage)
+  end
+  reagirl.ScreenReader_SendMessage_ActualMessage=""
   
   -- go over to draw the ui-elements
   reagirl.Gui_Draw(Key, Key_utf, clickstate, specific_clickstate, mouse_cap, click_x, click_y, drag_x, drag_y, mouse_wheel, mouse_hwheel)
@@ -4469,6 +4503,8 @@ function reagirl.Checkbox_Add(x, y, caption, meaningOfUI_Element, default, run_f
     The run-function will get two parameters:
     - string element_id - the element_id of the toggled checkbox
     - boolean checkstate - the new checkstate of the checkbox
+    
+    Note: to align multiple lines of checkboxes under each other, check out Checkbox_SetWidth.
   </description>
   <parameters>
     optional integer x - the x position of the checkbox in pixels; negative anchors the checkbox to the right window-side; nil, autoposition after the last ui-element(see description)
@@ -4741,6 +4777,51 @@ function reagirl.Checkbox_Draw(element_id, selected, hovered, clicked, mouse_cap
   gfx.drawstr(name)
   reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0)
   --]]
+end
+
+function reagirl.Checkbox_SetWidth(element_id, width)
+--[[
+<US_ DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Checkbox_SetWidth</slug>
+  <requires>
+    ReaGirl=1.0
+    Reaper=7.03
+    Lua=5.4
+  </requires>
+  <functioncall>reagirl.Checkbox_SetWidth(string element_id, integer width)</functioncall>
+  <description>
+    Sets width of a checkbox.
+    
+    This can help to get checkboxes perfectly aligned with auto-position. Just use this function right after the Checkbox_Add-function-calls.
+    So if you have two lines of checkboxes with two checkboxes each, apply this function to the first checkbox in each line with the same width.
+    The second checkboxes in ech line will be aligned at the same position.
+    
+    Will warn you if the width is too short.
+  </description>
+  <parameters>
+    string element_id - the guid of the checkbox, that you want to link to an extstate
+    integer width - the with of the checkbox in pixels. Must be bigger than 0.
+  </parameters>
+  <chapter_context>
+    Checkbox
+  </chapter_context>
+  <tags>checkbox, set, width</tags>
+</US_DocBloc>
+--]]
+  if type(element_id)~="string" then error("Checkbox_SetWidth: param #1 - must be a string", 2) end
+  if reagirl.IsValidGuid(element_id, true)==nil then error("Checkbox_SetWidth: param #1 - must be a valid guid", 2) end
+  if math.type(width)~="integer" then error("Checkbox_SetWidth: param #2 - must be an integer", 2) end
+  if width<=0 then error("Checkbox_SetWidth: param #2 - must be bigger than 0", 2) end
+  
+  element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
+  if element_id==-1 then error("Checkbox_SetWidth: param #1 - no such ui-element", 2) end
+  if reagirl.Elements[element_id]["GUI_Element_Type"]~="Checkbox" then
+    error("Checkbox_SetWidth: param #1 - ui-element is not a checkbox", 2)
+  else
+    if reagirl.Elements[element_id]["w"]>width then error("Checkbox_SetWidth: param #2 - too short, would truncate caption. Must be at least "..reagirl.Elements[element_id]["w"], 2) end
+    reagirl.Elements[element_id]["w"]=width
+    reagirl.Gui_ForceRefresh(16)
+  end
 end
 
 function reagirl.Checkbox_LinkToExtstate(element_id, section, key, false_val, true_val, default, persist)

@@ -4082,7 +4082,9 @@ You can set the run-function to nil if you don't want a run-function to be run.<
 </li>
 <li>reagirl.Checkbox_SetCheckState - sets the checkstate of the checkbox<br />
 </li>
-<li>reagirl.Checkbox_GetCheckState - gets the current checkstate of the checkbox</li>
+<li>reagirl.Checkbox_GetCheckState - gets the current checkstate of the checkbox<br />
+</li>
+<li>reagirl.Checkbox_SetWidth - sets width of a checkbox, which helps you with autopositioning</li>
 </ul>
 <p>Check the <a href="#Tutorial_001_A_Basic_Gui">first tutorial "A basic gui"</a> to see examples of guis with checkboxes.</p>
 </div><br>
@@ -4626,6 +4628,7 @@ At the bottom of the window, there's a short explanation on what the ui-element 
 This gives you an idea on how to write them.</p></li>
 <li><p>If you need to write #Hashtags, write them camel case. Like #ThisIsBrilliant or #TheMightyBoosh. Screen readers will read out each word individually<br />
 that way, as they see each uppercase letter as start of a new word. If you write them all lowercase or uppercase, screen readers will try to read the hashtag as one word which could be a mumbling mess.</p></li>
+<li><p>Sometimes, you do things in your script that you might want to communicate to blind users. For instance, if you store a setting everytime a checkbox is toggled, you should communicate this as blind users don't neccessarily know, what you did. In that case, use reagirl.ScreenReader_SendMessage() to send a message to screen reader users. So in our case, reagirl.ScreenReader_SendMessage("Setting stored") or something similar would be suitable to communicate this to blind users clearly. Don't use reaper.osara_outputMessage() since ReaGirl might interfere with this function and interrupt your sent message. Always use reagirl.ScreenReader_SendMessage() if you want to send screen reader messages, as ReaGirl will send them always this way. One thing to mention too: don't send messages permanently, only when needed. If you sent a message while the former one is still being read to blind users, the old message will be interrupted with the new one. So blind people might not get all information that you tried to convey.</p></li>
 <li><p>Ask for feedback, especially by blind users. They know best, if your explanations are understandable or hard to get.<br />
 There's a mailing list called Reaper without Peepers, which is primarily a mailinglist by blind people for blind people.<br />
 Ask there for people who could test your script and give you feedback.<br />

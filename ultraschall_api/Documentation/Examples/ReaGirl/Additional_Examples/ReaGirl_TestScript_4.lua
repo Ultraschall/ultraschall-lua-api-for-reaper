@@ -90,11 +90,13 @@
 
   reagirl.NextLine() -- first line of checkboxes
   tab1.checkbox_mysetting = reagirl.Checkbox_Add(nil, nil, "My setting", "The first checkbox.", true, nil)
+  reagirl.Checkbox_SetWidth(tab1.checkbox_mysetting, 80)
   tab1.checkbox_another_setting = reagirl.Checkbox_Add(nil, nil, "Another setting", "The second checkbox.", true, nil)
   
   reagirl.NextLine() -- second line of checkboxes
   tab1.checkbox_extra_setting = reagirl.Checkbox_Add(nil, nil, "Extra", "A third checkbox?", true, nil)
-  tab1.checkbox_remember = reagirl.Checkbox_Add(128, nil, "Remember chosen setting", "Shall this setting be used as future default?", true, nil)
+  reagirl.Checkbox_SetWidth(tab1.checkbox_extra_setting, 80)
+  tab1.checkbox_remember = reagirl.Checkbox_Add(nil, nil, "Remember chosen setting", "Shall this setting be used as future default?", true, nil)
   
   reagirl.Label_AutoBackdrop(tab1.label_header3, tab1.checkbox_remember) -- set backdrop drawn by tab1.label_header3
                                                                          -- let it end underneath tab1.checkbox_remember
@@ -102,14 +104,11 @@
   -- Images
   reagirl.NextLine(10) 
   tab1.label_header4=reagirl.Label_Add(nil, nil, "Or Images", "Set the settings, as you wish.", false, nil)
-  function tudelu()
-  end
+
   -- local some images from Reaper
   reagirl.NextLine()
   tab1.image1 = reagirl.Image_Add(nil, nil, 50, 50, reaper.GetResourcePath().."/Data/track_icons/idea.png", "An idea-cloud", "An image of an idea-thought-cloud.", nil)
-  reagirl.UI_Element_GetSet_ContextMenu(tab1.image1, true, "A|context|menu",tudelu)
   tab1.image2 = reagirl.Image_Add(nil, nil, 50, 50, reaper.GetResourcePath().."/Data/track_icons/envelope.png", "An envelope", "An image of an envelope.", nil)
-  reagirl.UI_Element_GetSet_ContextMenu(tab1.image2, true, "A|different|menu|for|this|image",tudelu)
   tab1.image3 = reagirl.Image_Add(nil, nil, 50, 50, reaper.GetResourcePath().."/Data/track_icons/ff.png", "ff notation symbol", "An image of a ff-notation-symbol.", nil)
   tab1.image4 = reagirl.Image_Add(nil, nil, 50, 50, reaper.GetResourcePath().."/Data/track_icons/folder_up.png", "A folder up", "An image of a folder with an arrow pointing up.", nil)
   tab1.image5 = reagirl.Image_Add(nil, nil, 50, 50, reaper.GetResourcePath().."/Data/track_icons/bass_clef.png", "A bass clef", "An image of a bass clef.", nil)
