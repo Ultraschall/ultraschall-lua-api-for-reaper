@@ -34,7 +34,7 @@
 
   -- create new gui
   reagirl.Gui_New()
-  tabs=reagirl.Tabs_Add(nil, nil, nil, nil, "Tabs", "Demo-Tabs without function.", {"General Tab", "Advanced Tab", "Extras Tab"}, 1, nil )
+  tabs=reagirl.Tabs_Add(nil, nil, nil, nil, "Tabs", "Demo-Tabs most elements in first tab only.", {"General Tab", "Advanced Tab", "Extras Tab"}, 1, nil )
   
   tab1={} -- the table for all ui-elements of tab 1
   reagirl.Tabs_SetUIElementsForTab(tabs, 1, tab1) -- associate ui-elements of table "tab1" with tab 1
@@ -90,12 +90,14 @@
 
   reagirl.NextLine() -- first line of checkboxes
   tab1.checkbox_mysetting = reagirl.Checkbox_Add(nil, nil, "My setting", "The first checkbox.", true, nil)
-  reagirl.Checkbox_SetWidth(tab1.checkbox_mysetting, 80)
+  reagirl.Checkbox_SetWidth(tab1.checkbox_mysetting, 80) -- set the position of the next checkbox to a specific position to align it
+                                                         -- with the next line of checkboxes
   tab1.checkbox_another_setting = reagirl.Checkbox_Add(nil, nil, "Another setting", "The second checkbox.", true, nil)
   
   reagirl.NextLine() -- second line of checkboxes
   tab1.checkbox_extra_setting = reagirl.Checkbox_Add(nil, nil, "Extra", "A third checkbox?", true, nil)
-  reagirl.Checkbox_SetWidth(tab1.checkbox_extra_setting, 80)
+  reagirl.Checkbox_SetWidth(tab1.checkbox_extra_setting, 80) -- set the position of the next checkbox to a specific position to align it
+                                                             -- with the previous line of checkboxes
   tab1.checkbox_remember = reagirl.Checkbox_Add(nil, nil, "Remember chosen setting", "Shall this setting be used as future default?", true, nil)
   
   reagirl.Label_AutoBackdrop(tab1.label_header3, tab1.checkbox_remember) -- set backdrop drawn by tab1.label_header3
