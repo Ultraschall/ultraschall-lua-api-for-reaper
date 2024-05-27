@@ -2,7 +2,7 @@
 <index version="1" name="ReaGirl Pre-release">
   <category name="ReaGirl-category">
     <reapack name="ReaGirl package" type="extension">
-      <version name="0.10" author="Meo-Ada Mespotine">
+      <version name="0.11" author="Meo-Ada Mespotine">
 	<source file="reagirl.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5//reagirl.lua</source>
 	<source file="/ultraschall_api/DocsSourcefiles/ReaGirl_Chapters" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5/ultraschall_api/DocsSourcefiles/ReaGirl_Chapters</source>
 	<source file="/ultraschall_api/DocsSourcefiles/ReaGirl_Introduction_and_Concepts.USDocML" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5/ultraschall_api/DocsSourcefiles/ReaGirl_Introduction_and_Concepts.USDocML</source>
