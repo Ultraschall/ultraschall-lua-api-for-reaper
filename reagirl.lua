@@ -92,7 +92,7 @@ TODO:
 reagirl={}
 
 function reagirl.CheckForDependencies(ReaImGui, js_ReaScript, US_API, SWS, Osara)
-  function reagirl.OpenURL(url)
+  local function OpenURL(url)
   
     if type(url)~="string" then return -1 end
     local OS=reaper.GetOS()
@@ -150,7 +150,7 @@ function reagirl.CheckForDependencies(ReaImGui, js_ReaScript, US_API, SWS, Osara
     if state==7 then return false end
     if SWS~="" then
       local A=reaper.MB("SWS can be downloaded from sws-extension.org/download/pre-release/\n\nDo you want to open the download page?", "SWS missing", 4)
-      if A==6 then reagirl.OpenURL("https://sws-extension.org/download/pre-release/") end
+      if A==6 then OpenURL("https://sws-extension.org/download/pre-release/") end
     end
     
     if Osara~="" then
