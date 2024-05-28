@@ -59,7 +59,7 @@ function CheckForDependencies(ReaImGui, js_ReaScript, US_API, SWS, Osara)
   return true
 end
 
-state=CheckForDependencies(false, true, false, true, true)
+state=CheckForDependencies(false, true, false, true, false)
 if state==false then reaper.MB("Can't start script due to missing dependencies", "Error", 0) return end
 if reaper.JS_ReaScriptAPI_Version==nil then return end
   

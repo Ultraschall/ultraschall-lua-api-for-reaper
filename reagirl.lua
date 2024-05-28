@@ -26,6 +26,8 @@
 
 --[[
 TODO: 
+  - Sliders: add a way to limit unit to x digits after the punkt. Now: multiply it by 10^number_of_digits, make math.floor, then divide it back by 10^number_of_digits to get only the numbers needed.
+             If that doesn't work, use your RoundNumber-function from Ultraschall-API.
   - Labels: boundary rectangle, like in preferences -> Media the Labels "Media item labels" and "Media item buttons"
   - fillable bar: vertical and horizontal, allows you to display a rectangle that gets filled to a certain point, like the "space on disk"-bars on windows of Workbench 1.3.
   - planned ui-elements and features
@@ -89,24 +91,24 @@ TODO:
 
 reagirl={}
 
-function reagirl.OpenURL(url)
-
-  if type(url)~="string" then return -1 end
-  local OS=reaper.GetOS()
-  url="\""..url.."\""
-  if OS=="OSX32" or OS=="OSX64" or OS=="macOS-arm64" then
-    os.execute("open ".. url)
-  elseif OS=="Other" then
-    os.execute("xdg-open "..url)
-  else
-    --reaper.BR_Win32_ShellExecute("open", url, "", "", 0)
-    --ACHWAS,ACHWAS2 = reaper.ExecProcess("%WINDIR\\SysWow64\\cmd.exe \"Ultraschall-URL\" /B ".. url, 0)
-    os.execute("start \"Ultraschall-URL\" /B ".. url)
-  end
-  return 1
-end
-
 function reagirl.CheckForDependencies(ReaImGui, js_ReaScript, US_API, SWS, Osara)
+  function reagirl.OpenURL(url)
+  
+    if type(url)~="string" then return -1 end
+    local OS=reaper.GetOS()
+    url="\""..url.."\""
+    if OS=="OSX32" or OS=="OSX64" or OS=="macOS-arm64" then
+      os.execute("open ".. url)
+    elseif OS=="Other" then
+      os.execute("xdg-open "..url)
+    else
+      --reaper.BR_Win32_ShellExecute("open", url, "", "", 0)
+      --ACHWAS,ACHWAS2 = reaper.ExecProcess("%WINDIR\\SysWow64\\cmd.exe \"Ultraschall-URL\" /B ".. url, 0)
+      os.execute("start \"Ultraschall-URL\" /B ".. url)
+    end
+    return 1
+  end
+
   local retval=true  
   if US_API==true or js_ReaScript==true or ReaImGui==true or SWS==true or Osara==true then
     if US_API==true and reaper.file_exists(reaper.GetResourcePath().."/UserPlugins/ultraschall_api.lua")==false then
