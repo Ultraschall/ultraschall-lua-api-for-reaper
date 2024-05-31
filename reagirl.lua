@@ -26,13 +26,17 @@
 
 --[[
 TODO: 
+  - Gui_Manage: document parameter keep_running for ReaGirl v1.2
   - Sliders: add a way to limit unit to x digits after the punkt. Now: multiply it by 10^number_of_digits, make math.floor, then divide it back by 10^number_of_digits to get only the numbers needed.
              If that doesn't work, use your RoundNumber-function from Ultraschall-API.
   - Labels: boundary rectangle, like in preferences -> Media the Labels "Media item labels" and "Media item buttons"
   - fillable bar: vertical and horizontal, allows you to display a rectangle that gets filled to a certain point, like the "space on disk"-bars on windows of Workbench 1.3.
   - planned ui-elements and features
     > ProgressBars, Color-ui-element, top menus, Toolbar Buttons, graphical vertical tabs, Listviews, Multiline Inputbox, Radio Buttons, virtual ui-elements(for making other guis accessible), decorative elements to hide ui elements, Burgermenu, global context-menu(maybe)
+    > fillable rectangles(for something like volume-full-indicator like in WB1.3)
     > color-themes,ui-elements linkable to toggle-states, extstates and ini-file-entries, Gui-Editor, stickyness
+    > reagirl.GetChar(), which returns all typed characters when gfx.getchar had been used
+    > Shortcut-support(needs mechanism to override certain shortcuts)
   - Gui_Open - w and h parameters=nil mean, make the size of the window big enough to fit all ui-elements
   - Sliders: make default-value optional
   - sticky elements need more work, as tabbing to one might move a ui-element behind a sticky-ui-element. In that case, we need to
@@ -2463,7 +2467,7 @@ function reagirl.ScreenReader_SendMessage(message)
   reagirl.ScreenReader_SendMessage_ActualMessage=message
 end
 
-function reagirl.Gui_Manage()
+function reagirl.Gui_Manage(keep_running)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>Gui_Manage</slug>
@@ -2489,6 +2493,7 @@ function reagirl.Gui_Manage()
   -- manages the gui, including tts, mouse and keyboard-management and ui-focused-management
 
   -- initialize shit
+  if keep_running==true then reagirl.Gui_Manage_keep_running=true end
   local message
   if reagirl.Gui_IsOpen()==false then return end
   if reagirl.NewUI~=false then reagirl.NewUI=false if reagirl.Elements.FocusedElement==nil then reagirl.Elements.FocusedElement=reagirl.UI_Element_GetNext(0) end end
@@ -3245,6 +3250,11 @@ function reagirl.Gui_Manage()
   end
   if reagirl.UI_Elements_HoveredElement==-1 and gfx.mouse_cap==0 then
     gfx.setcursor(1)
+  end
+  if reagirl.Gui_Manage_keep_running==true and reagirl.Gui_IsOpen()==true then
+    reaper.defer(reagirl.Gui_Manage)
+  else
+    reagirl.Gui_Manage_keep_running=nil
   end
 end
 
@@ -10666,6 +10676,14 @@ function reagirl.Slider_Add(x, y, w, caption, Cap_width, meaningOfUI_Element, un
   reagirl.Elements[slot]["cap_w"]=math.tointeger(tx)
   reagirl.Elements[slot]["Cap_width"]=Cap_width
   
+  if math.type(step)=="integer" then
+    reagirl.Elements[slot]["UnitLen"]=0
+  else
+    local step2=tostring(step)
+    step2=step2:match("%.(.*)")
+    reagirl.Elements[slot]["UnitLen"]=step2:len()
+  end
+  
   reagirl.Elements[slot]["unit_w"]=math.tointeger(tx1)
   reagirl.Elements[slot]["slider_w"]=math.tointeger(w-tx-tx1-10)
   reagirl.Elements[slot]["sticky_x"]=false
@@ -10885,7 +10903,7 @@ function reagirl.Slider_Draw(element_id, selected, hovered, clicked, mouse_cap, 
   gfx.drawstr(element_storage["Name"])
   
   -- draw unit
-  local unit=reagirl.FormatNumber(element_storage["CurValue"], 3)
+  local unit=reagirl.FormatNumber(element_storage["CurValue"], element_storage["UnitLen"])
   if element_storage["Unit"]~=nil then 
     gfx.x=x+w-offset_unit+9*dpi_scale
     gfx.y=y+dpi_scale+(h-gfx.texth)/2

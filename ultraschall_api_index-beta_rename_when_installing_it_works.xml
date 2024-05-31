@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API and ReaGirl">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API and ReaGirl package" type="extension">
-      <version name="55985.00" author="Meo-Ada Mespotine">
+      <version name="55986.00" author="Meo-Ada Mespotine">
 	<source file="reagirl.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5//reagirl.lua</source>
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5//ultraschall_api_readme.txt</source>
@@ -507,6 +507,7 @@
 	<source file="/ultraschall_api/Modules/ultraschall_functions_Ultraschall_Module.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5/ultraschall_api/Modules/ultraschall_functions_Ultraschall_Module.lua</source>
 	<source file="/ultraschall_api/Modules/ultraschall_functions_WebInterface_Module.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5/ultraschall_api/Modules/ultraschall_functions_WebInterface_Module.lua</source>
 	<source file="/ultraschall_api/Readme-First.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5/ultraschall_api/Readme-First.txt</source>
+	<source file="/ultraschall_api/Reaper-Internals-readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5/ultraschall_api/Reaper-Internals-readme.txt</source>
 	<source file="/ultraschall_api/Scripts/GetUserInputValues_Helper_Script.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5/ultraschall_api/Scripts/GetUserInputValues_Helper_Script.lua</source>
 	<source file="/ultraschall_api/Scripts/HelperDeferScripts/ultraschall_track_old_cursorposition.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5/ultraschall_api/Scripts/HelperDeferScripts/ultraschall_track_old_cursorposition.lua</source>
 	<source file="/ultraschall_api/Scripts/HelperDeferScripts/ultraschall_track_old_loopstate.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5/ultraschall_api/Scripts/HelperDeferScripts/ultraschall_track_old_loopstate.lua</source>
