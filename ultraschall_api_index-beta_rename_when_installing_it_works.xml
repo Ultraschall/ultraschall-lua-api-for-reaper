@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API and ReaGirl">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API and ReaGirl package" type="extension">
-      <version name="55987.00" author="Meo-Ada Mespotine">
+      <version name="55988.00" author="Meo-Ada Mespotine">
 	<source file="reagirl.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5//reagirl.lua</source>
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5//ultraschall_api_readme.txt</source>
@@ -653,8 +653,6 @@
 	<source main="true" file="/ReaGirl_Gui_Settings_Screen_Reader_Messages_Enable.lua" type="script">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5//ultraschall_api/Scripts//Tools/DeveloperScripts//ReaGirl_Gui_Settings_Screen_Reader_Messages_Enable.lua</source>
 	<source main="true" file="/ReaGirl_Gui_Settings_Screen_Reader_Messages_Hide_From_Console.lua" type="script">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5//ultraschall_api/Scripts//Tools/DeveloperScripts//ReaGirl_Gui_Settings_Screen_Reader_Messages_Hide_From_Console.lua</source>
 	<source main="true" file="/ReaGirl_Gui_Settings_Screen_Reader_Messages_Show_In_Console.lua" type="script">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5//ultraschall_api/Scripts//Tools/DeveloperScripts//ReaGirl_Gui_Settings_Screen_Reader_Messages_Show_In_Console.lua</source>
-	<source main="true" file="/ReaGirl_Gui_Settings_Screenreader_Messages_Disable.lua" type="script">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5//ultraschall_api/Scripts//Tools/DeveloperScripts//ReaGirl_Gui_Settings_Screenreader_Messages_Disable.lua</source>
-	<source main="true" file="/ReaGirl_Gui_Settings_Screenreader_Messages_Enable.lua" type="script">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5//ultraschall_api/Scripts//Tools/DeveloperScripts//ReaGirl_Gui_Settings_Screenreader_Messages_Enable.lua</source>
 	<source main="true" file="/ReaGirl_Gui_Settings_Scroll_Via_Keyboard_Disable.lua" type="script">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5//ultraschall_api/Scripts//Tools/DeveloperScripts//ReaGirl_Gui_Settings_Scroll_Via_Keyboard_Disable.lua</source>
 	<source main="true" file="/ReaGirl_Gui_Settings_Scroll_Via_Keyboard_Enable.lua" type="script">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5//ultraschall_api/Scripts//Tools/DeveloperScripts//ReaGirl_Gui_Settings_Scroll_Via_Keyboard_Enable.lua</source>
 	<source main="true" file="/ReaGirl_Gui_Settings_Set_Scaling_To_1.lua" type="script">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5//ultraschall_api/Scripts//Tools/DeveloperScripts//ReaGirl_Gui_Settings_Set_Scaling_To_1.lua</source>
