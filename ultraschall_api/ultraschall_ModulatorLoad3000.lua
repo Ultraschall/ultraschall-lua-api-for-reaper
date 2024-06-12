@@ -97,6 +97,10 @@ else
     ultraschall.LM(3)
     return ultraschall.GetProject_AutomationItemStateChunk(table.unpack({...}))
   end
+  function ultraschall.DeleteMediaItemsBetween(...)
+    ultraschall.LM(20)
+    return ultraschall.DeleteMediaItemsBetween(table.unpack({...}))
+  end
   function ultraschall.GetProject_CountAutomationItems(...)
     ultraschall.LM(3)
     return ultraschall.GetProject_CountAutomationItems(table.unpack({...}))
