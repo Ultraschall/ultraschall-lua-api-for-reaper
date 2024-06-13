@@ -2595,7 +2595,7 @@ function reagirl.Gui_Manage(keep_running)
   if reagirl.osara_init_message==false then
     if reagirl.Elements["FocusedElement"]~=-1 then
       if reagirl.Elements[1]~=nil then
-        reagirl.osara_init_message=reagirl.Window_Title.. "-dialog, ".. reagirl.Window_Description.." ".. reagirl.Elements[reagirl.Elements["FocusedElement"]]["Name"].." ".. reagirl.Elements[reagirl.Elements["FocusedElement"]]["GUI_Element_Type"]..". "
+        reagirl.osara_init_message=reagirl.Window_Title .."-dialog, ".. reagirl.Window_Description .." ".. reagirl.Elements[reagirl.Elements["FocusedElement"]]["Name"].." ".. reagirl.Elements[reagirl.Elements["FocusedElement"]]["GUI_Element_Type"]..". "
         local acc_message=""
         if reaper.GetExtState("ReaGirl", "osara_enable_accmessage")~="false" then
           acc_message=reagirl.Elements[reagirl.Elements["FocusedElement"]]["AccHint"]
@@ -2664,15 +2664,20 @@ function reagirl.Gui_Manage(keep_running)
   end 
   reagirl.Gui_PreventEnterForOneCycle_State=false
   
-  if Key==26161 and gfx.mouse_cap==12 then 
+  if Key==30064.0 and gfx.mouse_cap==8 then 
+    -- Shift+Up reads out focused ui-element
     if reagirl.osara_outputMessage~=nil then
       local acc_message=""
       if reaper.GetExtState("ReaGirl", "osara_enable_accmessage")~="false" then
         acc_message=reagirl.Elements[reagirl.Elements["FocusedElement"]]["AccHint"]
       end
-      reagirl.osara_outputMessage(reagirl.Elements[reagirl.Elements["FocusedElement"]]["Name"].." "..reagirl.Elements[reagirl.Elements["FocusedElement"]]["GUI_Element_Type"].."."..reagirl.Elements[reagirl.Elements["FocusedElement"]]["Description"].." "..acc_message)
+      reagirl.osara_outputMessage(reagirl.Elements[reagirl.Elements["FocusedElement"]]["Name"].." "..reagirl.Elements[reagirl.Elements["FocusedElement"]]["GUI_Element_Type"]..". "..reagirl.Elements[reagirl.Elements["FocusedElement"]]["Description"].." "..acc_message)
     end
-  end -- F1 help message for osara
+  elseif Key==84 and gfx.mouse_cap==8 then
+    if reagirl.osara_outputMessage~=nil then
+      reagirl.osara_outputMessage(reagirl.Window_Title.. "-dialog, ".. reagirl.Window_Description.." ".. reagirl.Elements[reagirl.Elements["FocusedElement"]]["Name"].." ".. reagirl.Elements[reagirl.Elements["FocusedElement"]]["GUI_Element_Type"]..". ")
+    end
+  end 
   
   -- if mouse has been moved, reset wait-counter for displaying tooltip
   if reagirl.OldMouseX==gfx.mouse_x and reagirl.OldMouseY==gfx.mouse_y then

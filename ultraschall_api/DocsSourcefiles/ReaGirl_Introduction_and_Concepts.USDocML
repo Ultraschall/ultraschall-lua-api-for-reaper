@@ -4687,7 +4687,7 @@
             - Parameters 3 and 4 are the width and height of the grey background of the tabs, that gives a backdrop to ui-elements.  
               It's intended to show which ui-elements are parts of a specific tab. Set them to 0 for no background or nil to let the  
               background be automatically around the added ui-elements.  
-            - Parameter 5 is a caption for the tabs, which is communicated to screenreaders as a general overview of what the tabs are for.  
+            - Parameter 5 is a caption for the tabs, which is communicated to screen readers as a general overview of what the tabs are for.  
             - Parameter 6 is meaningOfUI\_Element, which is a description for the tabs, communicated to screen reader users. Explain what the tabs are for and why.  
             - Parameter 7 is a table with all tab-names, like {"Tab Number 1", "The second tab", "The third one"}  
             - Parameter 8 is the tab that is selected when the gui is opened.  
@@ -4922,6 +4922,7 @@
                  
             5. If you need to write #Hashtags, write them camel case. Like #ThisIsBrilliant or #TheMightyBoosh. Screen readers will read out each word individually   
                that way, as they see each uppercase letter as start of a new word. If you write them all lowercase or uppercase, screen readers will try to read the hashtag as one word which could be a mumbling mess.  
+               If you need to write acronyms, write them UPPERCASE. That way, screen readers will read each letter individually.
                
             6. Sometimes, you do things in your script that you might want to communicate to blind users. For instance, if you store a setting everytime a checkbox is toggled, you should communicate this as blind users don't neccessarily know, what you did.
                In that case, use reagirl.ScreenReader\_SendMessage() to send a message to screen reader users.
@@ -4949,7 +4950,7 @@
             This can be overwhelming at first so, so you can make it silent in the preferences and show a speech viewer instead, which gives you all screen reader messages as well, not just the ones from ReaGirl-guis.  
             Read about how to use NVDA(or JAWS), speech viewer and it's preferences and how to use it.  
             It's usually not needed to install Osara and NVDA(or JAWS) for ReaGirl scripts, but if you intend to make non-ReaGirl-scripts accessible, you'll need both to get these things right.  
-            Especially, since Osara includes a function called reaper.osara_outputMessage(), that outputs messages to the screenreader. A function that I use in ReaGirl extensively.  
+            Especially, since Osara includes a function called reaper.osara_outputMessage(), that outputs messages to the screen reader. A function that I use in ReaGirl extensively.  
         </description>  
         <target_document>ReaGirl_Introduction_and_Concepts.html</target_document>  
         <source_document>ReaGirl_Introduction_and_Concepts.USDocML</source_document>  

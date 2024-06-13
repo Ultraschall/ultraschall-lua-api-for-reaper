@@ -4393,7 +4393,7 @@ You can also put ui-elements outside of tabs so they are shown all the time.</p>
 It's intended to show which ui-elements are parts of a specific tab. Set them to 0 for no background or nil to let the<br />
 background be automatically around the added ui-elements.<br />
 </li>
-<li>Parameter 5 is a caption for the tabs, which is communicated to screenreaders as a general overview of what the tabs are for.<br />
+<li>Parameter 5 is a caption for the tabs, which is communicated to screen readers as a general overview of what the tabs are for.<br />
 </li>
 <li>Parameter 6 is meaningOfUI_Element, which is a description for the tabs, communicated to screen reader users. Explain what the tabs are for and why.<br />
 </li>
@@ -4631,7 +4631,8 @@ If you need inspiration, open up the preferences of Reaper and hover above the u
 At the bottom of the window, there's a short explanation on what the ui-element is supposed to do(which is also sent to screen reader users).<br />
 This gives you an idea on how to write them.</p></li>
 <li><p>If you need to write #Hashtags, write them camel case. Like #ThisIsBrilliant or #TheMightyBoosh. Screen readers will read out each word individually<br />
-that way, as they see each uppercase letter as start of a new word. If you write them all lowercase or uppercase, screen readers will try to read the hashtag as one word which could be a mumbling mess.</p></li>
+that way, as they see each uppercase letter as start of a new word. If you write them all lowercase or uppercase, screen readers will try to read the hashtag as one word which could be a mumbling mess.<br />
+If you need to write acronyms, write them UPPERCASE. That way, screen readers will read each letter individually.</p></li>
 <li><p>Sometimes, you do things in your script that you might want to communicate to blind users. For instance, if you store a setting everytime a checkbox is toggled, you should communicate this as blind users don't neccessarily know, what you did. In that case, use reagirl.ScreenReader_SendMessage() to send a message to screen reader users. So in our case, reagirl.ScreenReader_SendMessage("Setting stored") or something similar would be suitable to communicate this to blind users clearly. Don't use reaper.osara_outputMessage() since ReaGirl might interfere with this function and interrupt your sent message. Always use reagirl.ScreenReader_SendMessage() if you want to send screen reader messages, as ReaGirl will send them always this way. One thing to mention too: don't send messages permanently, only when needed. If you sent a message while the former one is still being read to blind users, the old message will be interrupted with the new one. So blind people might not get all information that you tried to convey.</p></li>
 <li><p>Ask for feedback, especially by blind users. They know best, if your explanations are understandable or hard to get.<br />
 There's a mailing list called Reaper without Peepers, which is primarily a mailinglist by blind people for blind people.<br />
@@ -4649,7 +4650,7 @@ You install both and start NVDA(or JAWS). You computer will read now every ui-el
 This can be overwhelming at first so, so you can make it silent in the preferences and show a speech viewer instead, which gives you all screen reader messages as well, not just the ones from ReaGirl-guis.<br />
 Read about how to use NVDA(or JAWS), speech viewer and it's preferences and how to use it.<br />
 It's usually not needed to install Osara and NVDA(or JAWS) for ReaGirl scripts, but if you intend to make non-ReaGirl-scripts accessible, you'll need both to get these things right.<br />
-Especially, since Osara includes a function called reaper.osara_outputMessage(), that outputs messages to the screenreader. A function that I use in ReaGirl extensively.</p>
+Especially, since Osara includes a function called reaper.osara_outputMessage(), that outputs messages to the screen reader. A function that I use in ReaGirl extensively.</p>
 </div><br>
 </div>
 <div class="ch">

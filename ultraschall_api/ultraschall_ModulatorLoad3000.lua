@@ -3297,9 +3297,9 @@ else
     ultraschall.LM(20)
     return ultraschall.GetGapsBetweenItems(table.unpack({...}))
   end
-  function ultraschall.DeleteMediaItems_Position(...)
+  function ultraschall.DeleteMediaItemsBetween(...)
     ultraschall.LM(20)
-    return ultraschall.DeleteMediaItems_Position(table.unpack({...}))
+    return ultraschall.DeleteMediaItemsBetween(table.unpack({...}))
   end
   function ultraschall.ApplyActionToMediaItemArray2(...)
     ultraschall.LM(20)
