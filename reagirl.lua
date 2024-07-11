@@ -8695,7 +8695,7 @@ function reagirl.Label_AutoBackdrop(element_id, dest_element_id)
     It will be autosized. The width will be determined from all ui-elements currently visible, the height will be determined by the position and height of dest_element_id.
     
     To use it: determine, which ui-element shall be the lowest inside the rectangle(like one directly above the bottom line of the backdrop.)
-    Any ui-element in the same line does the trick. However, you should choose the highest one or the backdrop might be drawn through it.
+    Any ui-element in the same line does the trick. However, you should choose the highest ui-element in the lowest line or the backdrop might be drawn through it.
   </description>
   <parameters>
     string element_id - the label-element, that shall draw a backdrop

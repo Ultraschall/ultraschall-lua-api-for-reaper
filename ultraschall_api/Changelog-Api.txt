@@ -516,6 +516,7 @@ Note: requires at least Reaper 7.03 now!
   - Envelopes: DeleteTrackEnvelopePointsBetween - inserts now envelope-points at "cut"-edges
   - Envelopes: MoveTrackEnvelopePointsBy - didn't move first envelope-point in the envelope -> fixed
   - Helpers: EditReaScript - allows now adding ReaGirl-basic structure to a script
+  - UserInterface: GetHWND\_ArrangeViewAndTimeLine - fixed possible edge-case bug that causes crashes of scripts
   
 ---
 

@@ -66,32 +66,33 @@ reagirl.Gui_New()
 
 -- 3. add the ui-elements and set their attributes
 tab1={}
-tab1.inputbox_choose_file = reagirl.Inputbox_Add(nil, nil, -120, "Scriptname",110, "The name of the script to be created.\n\nWith wildcards, you can customize the filename, without having to type in stuff time and again.\n\n  \t$Date - the current date.\n  \t$Time - the current time.", "", nil, nil)
+tab1.inputbox_choose_file = reagirl.Inputbox_Add(nil, nil, 300, "Scriptname", 80, "The name of the script to be created.\n\nWith wildcards, you can customize the filename, without having to type in stuff time and again.\n\n  \t$Date - the current date.\n  \t$Time - the current time.", "", nil, nil)
+--reagirl.NextLine()
 tab1.button_choose_file = reagirl.Button_Add(nil, nil, 0, 0, "Choose File", "Let's you choose an already existing scriptfile.", Button)
 reagirl.NextLine()
-tab1.checkbox_add_ultraschall_api = reagirl.Checkbox_Add(120, nil, "Enable Ultraschall-API in new script", "Enables Ultraschall-API to the new script.", true, CheckBox)
+tab1.checkbox_add_ultraschall_api = reagirl.Checkbox_Add(100, nil, "Enable Ultraschall-API in new script", "Enables Ultraschall-API to the new script.", true, CheckBox)
 reagirl.NextLine()
-tab1.checkbox_add_reagirl = reagirl.Checkbox_Add(120, nil, "Enable ReaGirl in new script", "Adds the basic ReaGirl-structure to the new script.", false, CheckBox)
+tab1.checkbox_add_reagirl = reagirl.Checkbox_Add(100, nil, "Enable ReaGirl in new script", "Adds the basic ReaGirl-structure to the new script.", false, CheckBox)
 
 reagirl.NextLine(10)
 tab1.label_add_sections = reagirl.Label_Add(nil, nil, "Add to Section(s)", "Choose the sections to which you want to add the new script.", false, nil)
-tab1.checkbox_main = reagirl.Checkbox_Add(120, nil, "Main", "Adds the script to the main-section.", true, CheckBox)
-tab1.checkbox_media_explorer = reagirl.Checkbox_Add(260, nil, "Media Explorer", "Adds the script to the media explorer-section.", false, CheckBox)
 reagirl.NextLine()
-tab1.checkbox_midi_editor = reagirl.Checkbox_Add(120, nil, "MIDI Editor", "Adds the script to the main-section.", false, CheckBox)
+tab1.checkbox_main = reagirl.Checkbox_Add(nil, nil, "Main", "Adds the script to the main-section.", true, CheckBox)
+tab1.checkbox_media_explorer = reagirl.Checkbox_Add(114, nil, "Media Explorer", "Adds the script to the media explorer-section.", false, CheckBox)
 reagirl.NextLine()
-tab1.checkbox_midi_eventlist_editor = reagirl.Checkbox_Add(120, nil, "MIDI Eventlist Editor", "Adds the script to the MIDI eventlist editor-section.", false, CheckBox)
-tab1.checkbox_midi_inline_editor = reagirl.Checkbox_Add(260, nil, "MIDI Inline Editor", "Adds the script to the MIDI inline editor-section.", false, CheckBox)
-
+tab1.checkbox_midi_editor = reagirl.Checkbox_Add(nil, nil, "MIDI Editor", "Adds the script to the main-section.", false, CheckBox)
+tab1.checkbox_midi_inline_editor = reagirl.Checkbox_Add(nil, nil, "MIDI Inline Editor", "Adds the script to the MIDI inline editor-section.", false, CheckBox)
+tab1.checkbox_midi_eventlist_editor = reagirl.Checkbox_Add(nil, nil, "MIDI Eventlist Editor", "Adds the script to the MIDI eventlist editor-section.", false, CheckBox)
+reagirl.Label_AutoBackdrop(tab1.label_add_sections, tab1.checkbox_midi_eventlist_editor)
 reagirl.NextLine(10)
-tab1.button_add = reagirl.Button_Add(-138, nil, 0, 0, "Create/Open Script", "Creates the new script. Opens an already existing script.", Button)
+tab1.button_add = reagirl.Button_Add(-128, nil, 0, 0, "Create/Open Script", "Creates the new script. Opens an already existing script.", Button)
 
 reagirl.Background_GetSetColor(true, 55, 55, 55)
 
 reagirl.Gui_AtEnter(CreateScript)
 
 -- 4. open the gui
-reagirl.Gui_Open("ReaGirl Testdialog #1", false, "ReaGirl Testdialog #1", "a test dialog that features all available ui-elements.", 445, 180, nil, nil, nil)
+reagirl.Gui_Open("ReaGirl Testdialog #1", false, "ReaGirl Testdialog #1", "a test dialog that features all available ui-elements.", nil, nil, nil, nil, nil)
 
 -- 5. a main-function that runs the gui-management-function
 function main()

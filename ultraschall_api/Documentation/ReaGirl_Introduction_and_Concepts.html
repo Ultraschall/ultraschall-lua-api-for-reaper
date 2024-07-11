@@ -3523,7 +3523,7 @@ We will do the same as in the tutorial before: add backdrops around ui-elements 
 <p>As a reminder: Backdrops are additional elements for labels. They are a rectangle that starts at half the height of the label and goes around until it ends again on the other side of the label.<br />
 You can imagine this as a rectangle, that has a gap on the top at which the label-text is placed. The bottom ends under the last ui-elements of a section of ui-elements.<br />
 Backdrops enclose ui-elements to make it easier to see, which ui-elements belong to each other.</p>
-<p>Let's start with the same gui crowded gui from the previous tutorial.</p>
+<p>Let's start with the same crowded gui from the previous tutorial.</p>
 <p><img src="gfx/Tutorial10_1.png" title="Screenshot of the gui-window with dozens of ui-elements, like labels, inputboxes, images, checkboxes and buttons. The whole gui-window looks crowded and therefore is hard to read." alt="Screenshot of the gui-window with dozens of ui-elements, like labels, inputboxes, images, checkboxes and buttons. The whole gui-window looks crowded and therefore is hard to read." /></p>
 <pre><code>-- load ReaGirl into this script  
 dofile(reaper.GetResourcePath()..&quot;/UserPlugins/reagirl.lua&quot;)  
@@ -3614,7 +3614,7 @@ end
 main()  </code></pre>
 <p>Ooof, this is really hard to read. Let's create some backdrops to make it better, shall we?<br />
 Let us start with the backdrop for the first section that starts with the label "Labels" with the element_id "label_header".<br />
-In the previous tutorial, we defined specific coordinated for the backdrop. In this tutorial, we will specifiy a backdrop from a label to underneath a specific ui-element.<br />
+In the previous tutorial, we defined specific coordinates for the backdrop. In this tutorial, we will specify a backdrop from a label to underneath a specific ui-element.<br />
 For this, we use the function reagirl.Label_AutoBackdrop(). This accepts as first parameter the label at which the backdrop starts and the element_id of a second ui-element, under which the backdrop shall end.<br />
 Let's do this for the first section called "Labels". We add reagirl.Label_AutoBackdrop() and let it start with the label "Labels" with the element_id label_header and end it underneath the label "and style" with the element_id label_medium_and_style.</p>
 <p><img src="gfx/Tutorial10_2.png" title="Screenshot of the gui-window with dozens of ui-elements. The labels are now enclosed in a label-backdrop. However, the biggest label &#39;size&#39; is only half within the label-backdrop." alt="Screenshot of the gui-window with dozens of ui-elements. The labels are now enclosed in a label-backdrop. However, the biggest label &#39;size&#39; is only half within the label-backdrop." /></p>
@@ -3709,8 +3709,8 @@ Let's do this for the first section called "Labels". We add reagirl.Label_AutoBa
 
   main()  </code></pre>
 <p>Hmm, this is close to what we want but not perfect. Most of the labels are within the backdrop but the label "size" is only halfway in it.<br />
-This is due to the fact, that the we set the backdrop to a label that isn't the highest ui-element in that line "and style". However, we gave the label "size" a much bigger height than "and style" so we need to choose "size" as the ui-element, underneath which the backdrop ends.<br />
-Let's do this by altering reagirl.Label_AutoBackdrop() to use "label_large" instead.</p>
+This is due to the fact, that the we set the backdrop to a label that isn't the highest ui-element in that line "and style". However, we gave the label "size" a much bigger height than "and style" so we need to choose "size" as the ui-element, underneath it the backdrop ends.<br />
+Let's do this by altering reagirl.Label_AutoBackdrop() to use "label_large"(the element_id of label "size") instead.</p>
 <p><img src="gfx/Tutorial10_3.png" title="Screenshot of the gui-window with dozens of ui-elements. The labels are now enclosed in a label-backdrop. The biggest label &#39;size&#39; is now within the label-backdrop." alt="Screenshot of the gui-window with dozens of ui-elements. The labels are now enclosed in a label-backdrop. The biggest label &#39;size&#39; is now within the label-backdrop." /></p>
 <pre><code>  -- load ReaGirl into this script  
   dofile(reaper.GetResourcePath()..&quot;/UserPlugins/reagirl.lua&quot;)  
@@ -3804,7 +3804,7 @@ Let's do this by altering reagirl.Label_AutoBackdrop() to use "label_large" inst
   main()  </code></pre>
 <p>Ah, that looks much better. Now all labels are within the backdrop, since we end it underneath the biggest ui-element "size".<br />
 This will usually not be a problem happening in your practice, since only labels and images can be higher than other ui-elements. But keep in mind that you need to keep track, if between two reagirl.NextLine()-functioncalls you have higher ui-elements than usual.<br />
-If you do and you want to end a backdrop underneath them, use the highest ui-element as ending-point for the bottom border, which isn't neccessarily the last one in the line!</p>
+If you do and you want to end a backdrop underneath them, use the highest ui-element as ending-point for the bottom border, which isn't neccessarily the last ui-element in the line!</p>
 <p>Ok, let's add backdrops for the other sections too, shall we?</p>
 <p><img src="gfx/Tutorial10_4.png" title="Screenshot of the gui-window with dozens of ui-elements. The labels are now enclosed in a label-backdrop as well as all checkboxes, all images and the inputbox with the &#39;Choose File&#39;-button." alt="Screenshot of the gui-window with dozens of ui-elements. The labels are now enclosed in a label-backdrop as well as all checkboxes, all images and the inputbox with the &#39;Choose File&#39;-button." /></p>
 <pre><code>  -- load ReaGirl into this script  
@@ -4005,7 +4005,7 @@ The first label "Labels" we don't move, since it's already at the top of the win
 
   main()  </code></pre>
 <p>And that's it. We added backdrops for each section of ui-elements, so it's easier to separate them from each other, using autopositioning and reagirl.Label_AutoBackdrop() and added space between each section with reagirl.NextLine(10).</p>
-<p>For blind scripters: this can be confusing in the beginning, so get some feedback from sighted users for your scripts that use label-backdrop.<br />
+<p>For blind scripters: this can be confusing in the beginning, so get some feedback from sighted users for your scripts that use label-backdrops.<br />
 That way you can improve on potential wrongfully positioned backdrops. Once you got a grip on how to achieve this, you'll be able to do it without feedback too.</p>
 </div><br>
 </div>
@@ -4015,8 +4015,8 @@ That way you can improve on potential wrongfully positioned backdrops. Once you 
 <a href="#The_Gui_Elements_000"> ^</a> <u><b>The Gui Elements</b></u><br>			<p>
 <div class="ch">
 <p>ReaGirl features a set of ui-elements that you can add to your gui and add functionality to them,<br />
-as of now, buttons, labels, checkboxes, inputboxes, sliders, dropdownmenus and tabs.</p>
-<p>You can also add to each ui-element a context-menus. You can also add a file-drop-zone, which allows you to drop files onto a certain ui-elements.<br />
+as of now buttons, labels, checkboxes, inputboxes, images, sliders, dropdownmenus and tabs.</p>
+<p>You can also add to each ui-element a context-menu. You can also add a file-drop-zone, which allows you to drop files onto a certain ui-element.<br />
 For both, context-menus and drop zones, you can add run-functions that will be run when a context-menu is opened or files have been dropped.</p>
 <p>Some ui-elements(images and labels) can even be made draggable.</p>
 <p>In addition, there's a subset of ReaGirl-functions whose name begin with reagirl.UI_Element_ that allow influencing ui-elements, like reagirl.UI_Element_GetSetPosition() which allows getting and setting the position of a ui-element.</p>
@@ -4028,7 +4028,7 @@ For both, context-menus and drop zones, you can add run-functions that will be r
 <a class="anch" id="The_Gui_Elements_001_Buttons"></a>
 <a href="#The_Gui_Elements_001_Buttons"> ^</a> <u><b>Buttons</b></u><br>			<p>
 <div class="ch">
-<p>Buttons are calls to action. They are rectangular shaped ui-elements that feature a short text(called a caption).<br />
+<p>Buttons are calls to action. They are rectangular shaped ui-elements with round edges that feature a short text(called a caption).<br />
 They can be pressed to start an action, like opening a dialog, running actions from the action list, closing a window, etc.<br />
 What they do is defined by what you write into the run-function.</p>
 <p>To add a button to your gui, you use reagirl.Button_Add(). It has seven parameters.</p>
@@ -4045,9 +4045,9 @@ What they do is defined by what you write into the run-function.</p>
 </ul>
 <p>With this, you can add a button to your gui, but there's more that you can do with a button.</p>
 <ul>
-<li>reagirl.Button_SetDisabled() - sets a button to disabled, so it can't be pressed<br />
+<li>reagirl.Button_SetDisabled() - sets a button to disability-state, so you can prevent the button from being clickable<br />
 </li>
-<li>reagirl.Button_GetDisabled() - gets the current disability state, if the button can be pressed or not<br />
+<li>reagirl.Button_GetDisabled() - gets the current disability state, if the button can be clicked or not<br />
 </li>
 <li>reagirl.Button_SetRadius - allows you to make the button more round or more square<br />
 </li>
@@ -4063,7 +4063,7 @@ What they do is defined by what you write into the run-function.</p>
 <div class="ch">
 <p>Checkboxes are toggle-states. They can be set to checked(on) or unchecked(off).<br />
 They are square and have a small yellow square in the middle when checked with a descriptive text(caption) next to it.</p>
-<p>They are usually use when the user has the option to turn something on or off.</p>
+<p>They are usually used when the user has the option to turn something on or off.</p>
 <p>To add a checkbox, you use reagirl.Checkbox_Add(). It has six parameters.</p>
 <ul>
 <li>The first and second parameter are the position in pixels. Set them to nil to auto-position the checkbox.<br />
@@ -4074,15 +4074,15 @@ They are square and have a small yellow square in the middle when checked with a
 </li>
 <li>The fifth parameter is the initial checkstate when the script is started. True, the checkbox is checked, false, it is unchecked.<br />
 </li>
-<li>The sixth parameter is the run-function which is run everytime the toggles the checkstate of the checkbox.<br />
-It gets as parameters the element_id of the toggled checkbox as first and the new checkstate as second parameters.<br />
+<li>The sixth parameter is the run-function which is run everytime the user toggles the checkstate of the checkbox.<br />
+It gets as parameters the element_id of the toggled checkbox as first and the new checkstate as second parameter.<br />
 You can set the run-function to nil if you don't want a run-function to be run.</li>
 </ul>
 <p>There's more that you can do with checkboxes:</p>
 <ul>
-<li>reagirl.Checkbox_SetDisabled - sets a checkbox disabled, so it can't be clicked<br />
+<li>reagirl.Checkbox_SetDisabled - sets a checkbox disability-state, so you can set if the checkbox can be clicked<br />
 </li>
-<li>reagirl.Checkbox_GetDisabled - gets the current checkstate of a checkbox, if it can be clicked<br />
+<li>reagirl.Checkbox_GetDisabled - gets the current disability-state of a checkbox, if it can be clicked<br />
 </li>
 <li>reagirl.Checkbox_SetCheckState - sets the checkstate of the checkbox<br />
 </li>
@@ -4126,7 +4126,7 @@ You can keep the run-function nil if you don't need a run-function to be run.</l
 </p></li>
 <li><p>reagirl.Label_AutoBackdrop - sets a backdrop from label to underneath a specific ui-element<br />
 </p></li>
-<li><p>reagirl.Label_SetStyle - allows setting a different styles for the label, like underlined or bold<br />
+<li><p>reagirl.Label_SetStyle - allows setting different styles for the label, like underlined or bold<br />
 </p></li>
 <li><p>reagirl.Label_GetStyle - gets the currently set styles for a label<br />
 </p></li>
@@ -4140,7 +4140,7 @@ You can keep the run-function nil if you don't need a run-function to be run.</l
 </p></li>
 <li><p>reagirl.Label_SetDraggable - sets the label as draggable, including possible drag-destinations<br />
 </p></li>
-<li><p>reagirl.Label_GetDraggable - gets the currently drag-state and the current drag-destinations</p></li>
+<li><p>reagirl.Label_GetDraggable - gets the current drag-state and the current drag-destinations</p></li>
 <li><p>reagirl.UI_Element_GetSetCaption - gets or sets the label text</p></li>
 </ul>
 <p>Check the <a href="#Tutorial_001_A_Basic_Gui">first tutorial "A basic gui"</a> to see examples of guis with labels.</p>
@@ -4155,7 +4155,7 @@ You can keep the run-function nil if you don't need a run-function to be run.</l
 Transparency in png-images will be obeyed, so you can have images with transparent background drawn into your gui.</p>
 <p>Very important: the caption and the meaningOfUI_Element-parameters must describe the content of the image, so blind users know, what the image contains, as they can't see it.</p>
 <p>Images can automatically scale from 1x to 8x.<br />
-To make this happen, add scaled versions of the image to the same folder as the source image and name them the following:</p>
+To make this happen, add scaled versions of the image to the same folder as the source image and name them the following way:</p>
 <p>image-filename.png - 1x-scaling<br />
 image-filename-2x.png - 2x-scaling<br />
 image-filename-3x.png - 3x-scaling<br />
@@ -4223,13 +4223,13 @@ long enough.<br />
 </li>
 <li>Parameter 4 is the caption, which is the text on the left side of the inputbox.<br />
 </li>
-<li>Parameter 5 is the caption-width. With this you can influence, at which point the actual actual editfield shall start.<br />
+<li>Parameter 5 is the caption-width. With this you can influence, at which point the actual editfield shall start.<br />
 So if you have numerous inputboxes underneath, you can set all their cap_width to the same value so they are perfectly aligned.<br />
 If you don't need that, set this to nil, which starts the editfield directly after the caption.<br />
 </li>
 <li>Parameter 6 is meaningOfUI_Element, which is a description for the inputbox communicated to screen reader users. Explain what the inputbox is for and why.<br />
 </li>
-<li>Parameter 7 is the default text, which is the text shown when the gui started.<br />
+<li>Parameter 7 is the default text, which is the text shown when the gui is started.<br />
 </li>
 <li>Parameter 8 is the run-function for when the user hits enter into the inputfield.<br />
 This run-function gets the inputbox-element_id as first and the entered text as second parameter.<br />
@@ -4245,7 +4245,7 @@ This run-function gets the inputbox-element_id as first, the entered text as sec
 </li>
 <li>reagirl.Inputbox_GetDisabled - gets the disability state of an inputbox<br />
 </li>
-<li>reagirl.Inputbox_SetDisabled - sets an inputbox as disabled, means, no entering of text is possible<br />
+<li>reagirl.Inputbox_SetDisabled - sets an inputbox's disability-state, means, if the inputbox is clickable/allows entering text or not<br />
 </li>
 <li>reagirl.Inputbox_GetText - gets the text from the editfield of an inputbox<br />
 </li>
@@ -4266,7 +4266,8 @@ This run-function gets the inputbox-element_id as first, the entered text as sec
 <a href="#The_Gui_Elements_006_DropDownMenus_ComboBoxes"> ^</a> <u><b>DropDownMenus(ComboBoxes)</b></u><br>			<p>
 <div class="ch">
 <p>Drop down menus are menus that give the user a selection of options and they can choose one of them.<br />
-They are a caption and a box right next to it which can be clicked to select the option.</p>
+They are a caption and a box right next to it which can be clicked to select the option.<br />
+You can cycle through the options with the arrow-keys, home/end-key and mouse-wheel.</p>
 <p>You can add a drop down menu to the gui using DropDownMenu_Add, which has 9 parameters.</p>
 <ul>
 <li>Parameters 1 and 2 are the x and y coordinate in pixels of the drop down menu. Set them to nil to autoposition the drop down menu.<br />
@@ -4277,7 +4278,7 @@ They are a caption and a box right next to it which can be clicked to select the
 </li>
 <li>Parameter 5 is the caption-width. With this you can influence, at which point the actual clickable drop down menu shall start.<br />
 So if you have numerous drop down menus underneath, you can set all their cap_width to the same value so they are perfectly aligned.<br />
-If you don't need that, set this to nil, which starts the clickable drop down menu directly after the caption.<br />
+If you don't need that, set this to nil, which starts the clickable drop down menu-area directly after the caption.<br />
 </li>
 <li>Parameter 6 is meaningOfUI_Element, which is a description for the drop down menu communicated to screen reader users. Explain what the drop down menu is for and why.<br />
 </li>
@@ -4294,7 +4295,7 @@ The run-function gets the element_id of the selected drop down menu as first, th
 </li>
 <li>reagirl.DropDownMenu_GetDimensions - gets the width of the drop down menu<br />
 </li>
-<li>reagirl.DropDownMenu_SetDisabled - sets the drop down menu to be disabled<br />
+<li>reagirl.DropDownMenu_SetDisabled - sets the drop down menu's disability-state, means, if it can be clicked or not<br />
 </li>
 <li>reagirl.DropDownMenu_GetDisabled - gets the current disability state of the drop down menu<br />
 </li>
@@ -4313,7 +4314,8 @@ The run-function gets the element_id of the selected drop down menu as first, th
 <p>Sliders are ui-elements that give the user a way to choose a number-value between a start-value and an end-value.<br />
 It has a line on which you have a circle that can be moved around. Depending on where the circle is, a certain value has been selected.<br />
 For instance: you can have a slider with a value-range from 1 to 10 and the user can move the circle to choose any value between 1 and 10.<br />
-You can also give a stepsize. So if you want the user to just choose integers, give a step-size of 1.</p>
+You can also give a stepsize. So if you want the user to just choose integers, give a step-size of 1.<br />
+The slider can be altered using mousewheel, arrow keys, PgUp and PgDn as well as home/end-key</p>
 <p>You can add sliders with reagirl.Slider_Add() which has 13 parameters.</p>
 <ul>
 <li>Parameters 1 and 2 are the x and y coordinate in pixels of the slider. Set them to nil to autoposition the slider.<br />
@@ -4333,12 +4335,13 @@ If you don't need that, set this to nil, which starts the slider directly after 
 <li>Parameter 8 and 9 are the start and end-values of the slider. Means, when you move the circle to the far left or to the far right, it will be at start-value or end-value respectively.<br />
 </li>
 <li>Parameter 10 is the stepsize. This will make the slider go in steps. For instance a step of 10 will move the circle of the slider only in steps of 10.<br />
-So if you have startvalue=10 and end-value=50 and steps=10, the possible steps in the slider are 10, 20, 30, 40 and 50. No other values can be chosen by the user.<br />
+So for instance, if you have startvalue=10 and end-value=50 and steps=10, the possible steps in the slider are 10, 20, 30, 40 and 50. No other values can be chosen by the user.<br />
 </li>
 <li>Parameter 11 is the init-value. That's where the circle is when you start the gui.<br />
 </li>
 <li>Parameter 12 is the default value. So if you have a default-value, set this to this value.<br />
 The slider will draw a small line at where the default-value is.<br />
+Doubleclicking will set the slider back to this default-value.<br />
 </li>
 <li>Parameter 13 is the run-function, which is run everytime the user moves the circle of the slider.<br />
 You can set this to nil, if you don't need one.<br />
@@ -4362,7 +4365,7 @@ The run-function gets the element_id of the moved slider as first and the curren
 </li>
 <li>reagirl.Slider_GetValue - gets the currently set value of the slider<br />
 </li>
-<li>reagirl.Slider_SetValue - gets the currently set value of the slider<br />
+<li>reagirl.Slider_SetValue - sets the current value of the slider<br />
 </li>
 <li>reagirl.Slider_GetDimensions - gets the current width of the slider<br />
 </li>
@@ -4370,7 +4373,7 @@ The run-function gets the element_id of the moved slider as first and the curren
 </li>
 <li>reagirl.Slider_GetDisabled - gets the disability-state of the slider<br />
 </li>
-<li>reagirl.Slider_SetDisabled - sets the disability-state of the slider</li>
+<li>reagirl.Slider_SetDisabled - sets the disability-state of the slider, means, if it can be influenced by mouse or keyboard or not</li>
 </ul>
 <p>Check the <a href="#Tutorial_004_Disabled_UI_Elements">fourth tutorial "Disabled UI-Elements"</a> to see examples of guis with sliders.</p>
 </div><br>
@@ -4410,9 +4413,9 @@ The run-function will get the element_id of the tab as first, the selected tab a
 <li>reagirl.Tabs_SetUIElementsForTab - associates ui-elements with a specific tab. Means, the associated ui-elements<br />
 will only be shown when this tab is selected<br />
 </li>
-<li>reagirl.Tabs_SetSelected - set a specific tab as selected<br />
+<li>reagirl.Tabs_SetSelected - sets a specific tab as selected<br />
 </li>
-<li>reagirl.Tabs_GetSelected - gets the current selected tab</li>
+<li>reagirl.Tabs_GetSelected - gets the currently selected tab</li>
 </ul>
 <p>Check the <a href="#Tutorial_002_Adding_Tabs_to_a_Gui">second tutorial "Adding Tabs to a Gui"</a> as well as the <a href="#Tutorial_008_Autopositioning_With_Tabs">eight tutorial "Autopositioning with tabs"</a> to see, how to code tabs.</p>
 </div><br>
@@ -4465,7 +4468,8 @@ Check the <a href="#Tutorial_003_A_Basic_Image_Viewer">third tutorial "A Basic I
 <div class="ch">
 <p>File Drop Zones are zones, where you can drag and drop files onto.<br />
 You can give a ui-element a file drop zone and when you did, you can drop files onto the corresponding ui-element.<br />
-For instance, you can show an image and define a drop zone for this image. And then you can drop files onto the image itself.</p>
+For instance, you can show an image and define a drop zone for this image. And then you can drop files onto the image itself.<br />
+Accessibility users can use ctrl+shift+f to select a file to drop.</p>
 <p>Every ui-element can have a file drop zone. You just need the element_id and a run-function for it.<br />
 Then use the function reagirl.UI_Element_GetSet_DropZoneFunction() to add a file drop zone to a ui-element.</p>
 <ul>
@@ -4577,7 +4581,7 @@ Here's a list of all of them. You've seen some of them already in the tutorials.
 </li>
 <li>reagirl.Ext_Window_ResetToDefault - resets a ReaGirl-Gui-Window to its default dimensions and dockstate</li>
 </ul>
-<p>Most of them are probably not needed by you but some you may need from time to time.</p>
+<p>Most of them are probably not needed by you but some you may need them from time to time.</p>
 </div><br>
 </div>
 <div class="ch">
@@ -4646,11 +4650,11 @@ That way you can peek, how other ReaGirl-guis write screen reader-messages or ho
 Looking at this for some time helps getting an idea on how blind users perceive guis.</p>
 <p>You can also install the Osara-extension and NVDA(or JAWS) to get the full experience.<br />
 Osara sends screen reader messages to the operating system with the help of NVDA(or JAWS).<br />
-You install both and start NVDA(or JAWS). You computer will read now every ui-element you are hovering above with the mouse and each ui-element that you are selecting using tab or shift+tab.<br />
-This can be overwhelming at first so, so you can make it silent in the preferences and show a speech viewer instead, which gives you all screen reader messages as well, not just the ones from ReaGirl-guis.<br />
+You install Osara and either NVDA(or JAWS). Then you start NVDA(or JAWS).You computer will read now every ui-element you are hovering above with the mouse and each ui-element that you are selecting using tab or shift+tab.<br />
+This can be overwhelming at first, so you can make it silent in the preferences and show a speech viewer instead, which gives you all screen reader messages as well, not just the ones from ReaGirl-guis.<br />
 Read about how to use NVDA(or JAWS), speech viewer and it's preferences and how to use it.<br />
 It's usually not needed to install Osara and NVDA(or JAWS) for ReaGirl scripts, but if you intend to make non-ReaGirl-scripts accessible, you'll need both to get these things right.<br />
-Especially, since Osara includes a function called reaper.osara_outputMessage(), that outputs messages to the screen reader. A function that I use in ReaGirl extensively.</p>
+Especially, since Osara includes a function called reaper.osara_outputMessage(), that outputs messages to the screen reader. A function that I use in ReaGirl extensively(but use reagirl.ScreenReader_SendMessage() instead in your ReaGirl-guis!).</p>
 </div><br>
 </div>
 <div class="ch">
@@ -4660,14 +4664,14 @@ Especially, since Osara includes a function called reaper.osara_outputMessage(),
 <div class="ch">
 <p>ReaGirl has some features, that you can use as a blind scripter to code your own guis.<br />
 The most important thing is auto-positioning, which allows you to position ui-elements automatically.<br />
-It's comparable with writing text: you place each ui-element after each other or you place it in the next line.<br />
+It's comparable with writing text: you can place each ui-element after each other or you place it in the next line.<br />
 To place ui-elements automatically, set the x and y-position-parameters of the _Add-functions to nil.<br />
-This will place the ui-element to the right of the previous ui-element.<br />
-If you want to place the next ui-element into the next line, use reagirl.NextLine(), which is like the Enter-key in an editor, that starts a new line.</p>
-<p>Read the <a href="#Tutorial_007_Autopositioning_Of_UI_Elements">tutorial about autopositioning</a> and <a href="#Tutorial_008_Autopositioning_With_Tabs">tutorial about autopositioning with tabs</a> to get learn how it works.</p>
+This will place the ui-element to the right side of the previous ui-element.<br />
+If you want to place the next ui-element into the next line, use reagirl.NextLine(), which is like the Enter-key in an editor, that starts a new line. So the next ui-element is positioned on the left side underneath the last one(like in a newly started line).</p>
+<p>Read the <a href="#Tutorial_007_Autopositioning_Of_UI_Elements">tutorial about autopositioning</a> and <a href="#Tutorial_008_Autopositioning_With_Tabs">tutorial about autopositioning with tabs</a> to learn how it works.</p>
 <p>There are some things you should consider to also make the gui easy to use for sighted users:<br />
 1. Don't put too many ui-elements after each other, as this means you need to scroll horizontally to reach the ui-elements.<br />
-This is usually not a problem for you, as you are navigating using the tab-key, which automatically scrolls the tabbed ui-element into view.<br />
+This is usually not a problem for you, as you are navigating with the tab-key, which automatically scrolls the tabbed ui-element into view.<br />
 However, sighted users usually work with mouse and they can become easily annoyed when having to scroll horizontally to see the last ui-element in a line.<br />
 So don't add more than five buttons, three checkboxes, one inputbox, one slider or one drop down menu after each other, to keep the gui conveniently usable.<br />
 When in doubt, better start a new line where you put the next ui-element. Scrolling up and down to get the next ui-element into view is usually more accepted than scrolling left and right.</p>
@@ -4686,9 +4690,9 @@ That way you prevent crowded guis that can be hard to read.<br />
 Just as sighted people scan text, they also scan guis for the most important elements, so by adding newlines using two reagirl.NextLine()-functioncalls,<br />
 you make the gui easier to read, as it's faster to skip the unimportant parts in this moment.</p></li>
 <li><p>Use label-backdrops to structure your gui. With them you can avoid even more walls of ui-elements.<br />
-Label-backdrops are rectangles that originate in a label and who enclose ui-elements. So sighted users easily see, which ui-element belongs to a certain context and which one doesn't.<br />
+Label-backdrops are rectangles that originate in a label and who enclose ui-elements. So sighted users easily see, which ui-element belongs to a certain context(like a label describing the context) and which one doesn't.<br />
 I wrote a tutorial on how to <a href="#Tutorial_010_Structuring_Guis_With_Labels_When_Autopositioning">structure guis with label-backdrops</a>.<br />
-This is probably a little difficult in the beginning, since it's hard to know, if you did it right, even though the functions used try to minimize potential erros as much as possible.<br />
+This is probably a little difficult in the beginning, since it's hard to know, if you did it right, even though the functions used try to minimize potential errors as much as possible.<br />
 So when getting into label-backdrops, get feedback by sighted users to improve on potential issues.</p></li>
 <li><p>When doing a gui that shall also be used by sighted people, don't hesitate to ask for feedback. That way you can avoid crowded walls of texts or walls of ui-elements.<br />
 Autopositioning should give you everything you need to make them work and label-backdrops to improve readability but there are still cases, where some feedback is still very valuable to get a gui right.</p></li>
@@ -4702,8 +4706,8 @@ Autopositioning should give you everything you need to make them work and label-
 <div class="ch">
 <p>When you read every chapter of this documentation, you have a good idea of what ReaGirl can do for you and how.</p>
 <p>But there's even more possible. So read about them in the functions-reference, where I explain in great detail every available function, their parameters and return values.</p>
-<p>Great thanks to the development-team of Osara, especiall James, without their extension ReaGirl wouldn't be possible to do at all.<br />
-Also thanks to Scott, who helped me iron out accessibility-issues in the beta-phase.</p>
+<p>Great thanks to the development-team of Osara(especially James) without their extension the ReaGirl-project wouldn't be possible at all.<br />
+Also thanks to Scott and Chris, who helped me iron out accessibility-issues in the beta-phase.</p>
 <p>Big thanks also to the various gui-lib-developers over the years like Lokasenna(Lokasennas Gui-Lib v2 and Scythe), Chris Fillion(ReaImGui) and Tack(Gui Toolkit),<br />
 whose gui-libraries were a huge inspiration for various concepts available in ReaGirl. Their influence made ReaGirl as easy to use as it is.</p>
 <p>And also a big shoutout to the dozens of scripters in the Reaper-Community, whose help over the years made me a better scripter and therefore able to do this huge project.<br />

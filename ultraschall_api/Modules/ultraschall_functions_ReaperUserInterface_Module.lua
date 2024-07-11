@@ -1531,9 +1531,9 @@ function ultraschall.GetHWND_ArrangeViewAndTimeLine()
   else
     -- if the extstate already has stored the arrangeview-hwnd-address, just convert the one for arrangeview and timeline
     -- it into their handles and return them
-    ARHWND=reaper.JS_Window_HandleFromAddress(reaper.GetExtState("ultraschall", "arrangehwnd"))
-    TLHWND=reaper.JS_Window_HandleFromAddress(reaper.GetExtState("ultraschall", "timelinehwnd"))
-    TCPHWND=reaper.JS_Window_HandleFromAddress(reaper.GetExtState("ultraschall", "tcphwnd"))
+    ARHWND=reaper.JS_Window_HandleFromAddress(tonumber(reaper.GetExtState("ultraschall", "arrangehwnd")))
+    TLHWND=reaper.JS_Window_HandleFromAddress(tonumber(reaper.GetExtState("ultraschall", "timelinehwnd")))
+    TCPHWND=reaper.JS_Window_HandleFromAddress(tonumber(reaper.GetExtState("ultraschall", "tcphwnd")))
     if TCPHWND=="" then TCPHWND=nil end
   end  
   return ARHWND, TLHWND, TCPHWND, reaper.JS_Window_FindChildByID(reaper.GetMainHwnd(), 1000)
