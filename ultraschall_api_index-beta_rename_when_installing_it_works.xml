@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API and ReaGirl">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API and ReaGirl package" type="extension">
-      <version name="55998.00" author="Meo-Ada Mespotine">
+      <version name="55999.00" author="Meo-Ada Mespotine">
 	<source file="reagirl.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5//reagirl.lua</source>
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5//ultraschall_api_readme.txt</source>
@@ -680,7 +680,7 @@
 	<source main="true" file="/ultraschall_developertool_increment_mouse_modifier_and_store_name_of_mm_action_into_extstate.lua" type="script">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5//ultraschall_api/Scripts//Tools/DeveloperScripts//ultraschall_developertool_increment_mouse_modifier_and_store_name_of_mm_action_into_extstate.lua</source>
 <changelog><![CDATA[Ultraschall Framework - Changelog
 
-5 - “Eels - Novocaine for the Soul” - 22nd of May 2024
+5 - “Eels - Novocaine for the Soul” - 9th of August 2024
 
 Has now 1807 functions, with 144 new ones
 
