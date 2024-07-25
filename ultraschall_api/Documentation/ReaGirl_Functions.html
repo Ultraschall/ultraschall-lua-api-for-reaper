@@ -686,18 +686,18 @@ Sets a dropdown-menu's menuitems and the index of the currently selected menu-it
 <img width="3%" src="gfx/reaper7.03.png" alt="requires Reaper version 7.03">
 <img width="3%" src="gfx/reagirl1.0.png" alt="requires ReaGirl version 1.0"><u><b>Ext_Tab_SetSelected</b></u><br>			<p>
 <div class="cc">
-<div class="l">Lua: <code> <em>reagirl.Ext_Tab_SetSelected</em>(<i>string</i> window_name)</code></div>
+<div class="l">Lua: <code> <em>reagirl.Ext_Tab_SetSelected</em>(<i>string</i> gui_name)</code></div>
 </div><p>
 <div class="ch">
 Focuses a specific tab of a ReaGirl-gui-window.<br>
 <br>
-Parameter window_name is the same as the name set in the first parameter of Gui_Open.<br>
+Parameter gui_name is the same as the name set in the first parameter of Gui_Open.<br>
 <br>
 You can set a focused tab even if the window isn't opened yet. It will be focused the next time the specified gui-window is opened.<br>
 It also works for opened gui-windows.<br>
 </div><br>          <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr"><i>string</i> window_name</td></tr>
+<tr><td class="pr"><i>string</i> gui_name</td></tr>
 <tr><td class="ch2">the name of the gui-window, whose tab you want to set to focused</td></tr>
 </table>
 <br>
@@ -709,12 +709,12 @@ It also works for opened gui-windows.<br>
 <img width="3%" src="gfx/reaper7.03.png" alt="requires Reaper version 7.03">
 <img width="3%" src="gfx/reagirl1.0.png" alt="requires ReaGirl version 1.0"><u><b>Ext_Window_Focus</b></u><br>			<p>
 <div class="cc">
-<div class="l">Lua: <code> <i>boolean</i> retval = <em>reagirl.Ext_Window_Focus</em>(<i>string</i> window_name)</code></div>
+<div class="l">Lua: <code> <i>boolean</i> retval = <em>reagirl.Ext_Window_Focus</em>(<i>string</i> gui_name)</code></div>
 </div><p>
 <div class="ch">
 Focuses an opened ReaGirl-gui-window.<br>
 <br>
-Parameter window_name is the same as the name set in the first parameter of Gui_Open.<br>
+Parameter gui_name is the same as the name set in the first parameter of Gui_Open.<br>
 <br>
 Returns false, if no window with the window name is currently opened.<br>
 </div><br>      
@@ -726,7 +726,7 @@ Returns false, if no window with the window name is currently opened.<br>
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr"><i>string</i> window_name</td></tr>
+<tr><td class="pr"><i>string</i> gui_name</td></tr>
 <tr><td class="ch2">the name of the gui-window, which you want to focus</td></tr>
 </table>
 <br>
@@ -738,7 +738,7 @@ Returns false, if no window with the window name is currently opened.<br>
 <img width="3%" src="gfx/reaper7.03.png" alt="requires Reaper version 7.03">
 <img width="3%" src="gfx/reagirl1.0.png" alt="requires ReaGirl version 1.0"><u><b>Ext_Window_GetState</b></u><br>			<p>
 <div class="cc">
-<div class="l">Lua: <code> <i>integer</i> width, <i>integer</i> height, <i>integer</i> dockstate, <i>integer</i> x_position, <i>integer</i> y_position = <em>reagirl.Ext_Window_Focus</em>(<i>string</i> window_name)</code></div>
+<div class="l">Lua: <code> <i>integer</i> width, <i>integer</i> height, <i>integer</i> dockstate, <i>integer</i> x_position, <i>integer</i> y_position = <em>reagirl.Ext_Window_GetState</em>(<i>string</i> gui_name)</code></div>
 </div><p>
 <div class="ch">
 Gets the current width, height, position and dockstate of a ReaGirl-gui-window.<br>
@@ -769,8 +769,8 @@ Returns nil if no such window exists/was ever opened.<br>
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr"><i>optional</i> <i>string</i> window_name</td></tr>
-<tr><td class="ch2">the name of the gui-window, of which you want to get the states; nil, use this script's currently/last opened window</td></tr>
+<tr><td class="pr"><i>optional</i> <i>string</i> gui_name</td></tr>
+<tr><td class="ch2">the name of the gui-window, of which you want to get the states(NOT the window title!); nil, use this script's currently/last opened window</td></tr>
 </table>
 <br>
 </div>
@@ -781,7 +781,7 @@ Returns nil if no such window exists/was ever opened.<br>
 <img width="3%" src="gfx/reaper7.03.png" alt="requires Reaper version 7.03">
 <img width="3%" src="gfx/reagirl1.0.png" alt="requires ReaGirl version 1.0"><u><b>Ext_Window_IsOpen</b></u><br>			<p>
 <div class="cc">
-<div class="l">Lua: <code> <i>boolean</i> retval = <em>reagirl.Ext_Window_IsOpen</em>(<i>string</i> window_name)</code></div>
+<div class="l">Lua: <code> <i>boolean</i> retval = <em>reagirl.Ext_Window_IsOpen</em>(<i>string</i> gui_name)</code></div>
 </div><p>
 <div class="ch">
 Returns, if a specific gui-window is open.<br>
@@ -794,7 +794,7 @@ Returns, if a specific gui-window is open.<br>
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr"><i>string</i> window_name</td></tr>
+<tr><td class="pr"><i>string</i> gui_name</td></tr>
 <tr><td class="ch2">the name of the gui-window, whose open-state you want to get</td></tr>
 </table>
 <br>
@@ -806,13 +806,13 @@ Returns, if a specific gui-window is open.<br>
 <img width="3%" src="gfx/reaper7.03.png" alt="requires Reaper version 7.03">
 <img width="3%" src="gfx/reagirl1.0.png" alt="requires ReaGirl version 1.0"><u><b>Ext_Window_ResetToDefault</b></u><br>			<p>
 <div class="cc">
-<div class="l">Lua: <code> <em>reagirl.Ext_Window_ResetToDefault</em>(<i>string</i> window_name)</code></div>
+<div class="l">Lua: <code> <em>reagirl.Ext_Window_ResetToDefault</em>(<i>string</i> gui_name)</code></div>
 </div><p>
 <div class="ch">
 Resets a ReaGirl-gui-window to it's default window dimensions and dockstate.<br>
 </div><br>          <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr"><i>string</i> window_name</td></tr>
+<tr><td class="pr"><i>string</i> gui_name</td></tr>
 <tr><td class="ch2">the name of the gui-window, of which you want to get the states; nil, use this script's currently/last opened window</td></tr>
 </table>
 <br>
@@ -824,7 +824,7 @@ Resets a ReaGirl-gui-window to it's default window dimensions and dockstate.<br>
 <img width="3%" src="gfx/reaper7.03.png" alt="requires Reaper version 7.03">
 <img width="3%" src="gfx/reagirl1.0.png" alt="requires ReaGirl version 1.0"><u><b>Ext_Window_SetState</b></u><br>			<p>
 <div class="cc">
-<div class="l">Lua: <code> <em>reagirl.Ext_Window_SetState</em>(<i>string</i> window_name, <i>optional</i> <i>integer</i> width, <i>optional</i> <i>integer</i> height, <i>optional</i> <i>integer</i> dockstate, <i>optional</i> <i>integer</i> x_position, <i>optional</i> <i>integer</i> y_position)</code></div>
+<div class="l">Lua: <code> <em>reagirl.Ext_Window_SetState</em>(<i>string</i> gui_name, <i>optional</i> <i>integer</i> width, <i>optional</i> <i>integer</i> height, <i>optional</i> <i>integer</i> dockstate, <i>optional</i> <i>integer</i> x_position, <i>optional</i> <i>integer</i> y_position)</code></div>
 </div><p>
 <div class="ch">
 Sets a new width, height, position and dockstate of a ReaGirl-gui-window.<br>
@@ -832,7 +832,7 @@ Sets a new width, height, position and dockstate of a ReaGirl-gui-window.<br>
 To keep a parameter to its current state, set it to nil.<br>
 </div><br>          <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr"><i>string</i> window_name</td></tr>
+<tr><td class="pr"><i>string</i> gui_name</td></tr>
 <tr><td class="ch2">the name of the gui-window, of which you want to get the states; nil, use this script's currently/last opened window</td></tr>
 </table>
 <table class="ch">

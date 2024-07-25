@@ -2152,7 +2152,7 @@ function reagirl.AtExit()
   reaper.SetExtState("Reagirl_Window_"..reagirl.Window_name, "open", "", false)
 end
 
-function reagirl.Ext_Window_GetState(window_name)
+function reagirl.Ext_Window_GetState(gui_name)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>Ext_Window_GetState</slug>
@@ -2161,14 +2161,14 @@ function reagirl.Ext_Window_GetState(window_name)
     Reaper=7.03
     Lua=5.4
   </requires>
-  <functioncall>integer width, integer height, integer dockstate, integer x_position, integer y_position = reagirl.Ext_Window_Focus(string window_name)</functioncall>
+  <functioncall>integer width, integer height, integer dockstate, integer x_position, integer y_position = reagirl.Ext_Window_GetState(string gui_name)</functioncall>
   <description>
     Gets the current width, height, position and dockstate of a ReaGirl-gui-window.
     
     Returns nil if no such window exists/was ever opened.
   </description>
   <parameters>
-    optional string window_name - the name of the gui-window, of which you want to get the states; nil, use this script's currently/last opened window
+    optional string gui_name - the name of the gui-window, of which you want to get the states(NOT the window title!); nil, use this script's currently/last opened window
   </parameters>
   <retvals>
     integer width - the width of the window in pixels
@@ -2185,18 +2185,18 @@ function reagirl.Ext_Window_GetState(window_name)
   <tags>ext, get, window, state</tags>
 </US_DocBloc>
 ]]
-  if window_name~=nil and type(window_name)~="string" then error("Ext_Window_GetState: param #1 - must be a string", 2) end
-  if window_name==nil then window_name=reagirl.Window_name end
-  if window_name==nil then error("Ext_Window_GetState: param #1 - no such window", 2) end
+  if gui_name~=nil and type(gui_name)~="string" then error("Ext_Window_GetState: param #1 - must be a string", 2) end
+  if gui_name==nil then gui_name=reagirl.Window_name end
+  if gui_name==nil then error("Ext_Window_GetState: param #1 - no such window", 2) end
 
-  return tonumber(math.floor(reaper.GetExtState("Reagirl_Window_"..window_name, "w"))),
-         tonumber(math.floor(reaper.GetExtState("Reagirl_Window_"..window_name, "h"))),
-         tonumber(math.floor(reaper.GetExtState("Reagirl_Window_"..window_name, "dock"))),
-         tonumber(math.floor(reaper.GetExtState("Reagirl_Window_"..window_name, "x"))),
-         tonumber(math.floor(reaper.GetExtState("Reagirl_Window_"..window_name, "y")))
+  return tonumber(math.floor(reaper.GetExtState("Reagirl_Window_"..gui_name, "w"))),
+         tonumber(math.floor(reaper.GetExtState("Reagirl_Window_"..gui_name, "h"))),
+         tonumber(math.floor(reaper.GetExtState("Reagirl_Window_"..gui_name, "dock"))),
+         tonumber(math.floor(reaper.GetExtState("Reagirl_Window_"..gui_name, "x"))),
+         tonumber(math.floor(reaper.GetExtState("Reagirl_Window_"..gui_name, "y")))
 end
 
-function reagirl.Ext_Window_SetState(window_name, width, height, dockstate, x_position, y_position)
+function reagirl.Ext_Window_SetState(gui_name, width, height, dockstate, x_position, y_position)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>Ext_Window_SetState</slug>
@@ -2205,14 +2205,14 @@ function reagirl.Ext_Window_SetState(window_name, width, height, dockstate, x_po
     Reaper=7.03
     Lua=5.4
   </requires>
-  <functioncall>reagirl.Ext_Window_SetState(string window_name, optional integer width, optional integer height, optional integer dockstate, optional integer x_position, optional integer y_position)</functioncall>
+  <functioncall>reagirl.Ext_Window_SetState(string gui_name, optional integer width, optional integer height, optional integer dockstate, optional integer x_position, optional integer y_position)</functioncall>
   <description>
     Sets a new width, height, position and dockstate of a ReaGirl-gui-window.
     
     To keep a parameter to its current state, set it to nil.
   </description>
   <parameters>
-    string window_name - the name of the gui-window, of which you want to get the states; nil, use this script's currently/last opened window
+    string gui_name - the name of the gui-window, of which you want to get the states; nil, use this script's currently/last opened window
     optional integer width - the width of the window in pixels; nil, keep current
     optional integer height - the height of the window in pixels; nil, keep current
     optional integer dockstate - 0, window isn't docked; 1, window is docked; nil, keep current
@@ -2227,26 +2227,26 @@ function reagirl.Ext_Window_SetState(window_name, width, height, dockstate, x_po
   <tags>ext, set, window, state</tags>
 </US_DocBloc>
 ]]
-  if type(window_name)~="string" then error("Ext_Window_SetState: param #1 - must be a string", 2) end
+  if type(gui_name)~="string" then error("Ext_Window_SetState: param #1 - must be a string", 2) end
   if width~=nil and math.type(width)~="integer" then error("Ext_Window_SetState: param #2 - must be nil or an integer", 2) end
   if height~=nil and math.type(height)~="integer" then error("Ext_Window_SetState: param #3 - must be nil or an integer", 2) end
   if dockstate~=nil and math.type(dockstate)~="integer" then error("Ext_Window_SetState: param #4 - must be nil or an integer", 2) end
   if x_position~=nil and math.type(x_position)~="integer" then error("Ext_Window_SetState: param #5 - must be nil or an integer", 2) end
   if y_position~=nil and math.type(y_position)~="integer" then error("Ext_Window_SetState: param #6 - must be nil or an integer", 2) end
   
-  reaper.SetExtState("Reagirl_Window_"..window_name, "newstate", "newstate", false)
-  reaper.SetExtState("Reagirl_Window_"..window_name, "newstate_w", width, false)
-  reaper.SetExtState("Reagirl_Window_"..window_name, "newstate_h", height, false)
-  reaper.SetExtState("Reagirl_Window_"..window_name, "newstate_dock", dockstate, false)
-  reaper.SetExtState("Reagirl_Window_"..window_name, "newstate_x", x_position, false)
-  reaper.SetExtState("Reagirl_Window_"..window_name, "newstate_y", y_position, false)
+  reaper.SetExtState("Reagirl_Window_"..gui_name, "newstate", "newstate", false)
+  reaper.SetExtState("Reagirl_Window_"..gui_name, "newstate_w", width, false)
+  reaper.SetExtState("Reagirl_Window_"..gui_name, "newstate_h", height, false)
+  reaper.SetExtState("Reagirl_Window_"..gui_name, "newstate_dock", dockstate, false)
+  reaper.SetExtState("Reagirl_Window_"..gui_name, "newstate_x", x_position, false)
+  reaper.SetExtState("Reagirl_Window_"..gui_name, "newstate_y", y_position, false)
   
 end
 
 --reagirl.Window_Title="ReaGirl_Settings"
 --A={reagirl.Ext_Window_SetState("ReaGirl_Settings", 100, 100, 0, 10, 10)}
 
-function reagirl.Ext_Window_ResetToDefault(window_name)
+function reagirl.Ext_Window_ResetToDefault(gui_name)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>Ext_Window_ResetToDefault</slug>
@@ -2255,12 +2255,12 @@ function reagirl.Ext_Window_ResetToDefault(window_name)
     Reaper=7.03
     Lua=5.4
   </requires>
-  <functioncall>reagirl.Ext_Window_ResetToDefault(string window_name)</functioncall>
+  <functioncall>reagirl.Ext_Window_ResetToDefault(string gui_name)</functioncall>
   <description>
     Resets a ReaGirl-gui-window to it's default window dimensions and dockstate.
   </description>
   <parameters>
-    string window_name - the name of the gui-window, of which you want to get the states; nil, use this script's currently/last opened window
+    string gui_name - the name of the gui-window, of which you want to get the states; nil, use this script's currently/last opened window
   </parameters>
   <chapter_context>
     Ext
@@ -2270,11 +2270,11 @@ function reagirl.Ext_Window_ResetToDefault(window_name)
   <tags>ext, set, reset, default, window, state</tags>
 </US_DocBloc>
 ]]
-  if type(window_name)~="string" then error("Ext_Window_SetState: param #1 - must be a string", 2) end
-  reaper.SetExtState("Reagirl_Window_"..window_name, "newstate", "reset", false)
+  if type(gui_name)~="string" then error("Ext_Window_SetState: param #1 - must be a string", 2) end
+  reaper.SetExtState("Reagirl_Window_"..gui_name, "newstate", "reset", false)
 end
 
-function reagirl.Ext_Window_Focus(window_name)
+function reagirl.Ext_Window_Focus(gui_name)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>Ext_Window_Focus</slug>
@@ -2283,16 +2283,16 @@ function reagirl.Ext_Window_Focus(window_name)
     Reaper=7.03
     Lua=5.4
   </requires>
-  <functioncall>boolean retval = reagirl.Ext_Window_Focus(string window_name)</functioncall>
+  <functioncall>boolean retval = reagirl.Ext_Window_Focus(string gui_name)</functioncall>
   <description>
     Focuses an opened ReaGirl-gui-window.
     
-    Parameter window_name is the same as the name set in the first parameter of Gui_Open.
+    Parameter gui_name is the same as the name set in the first parameter of Gui_Open.
     
     Returns false, if no window with the window name is currently opened.
   </description>
   <parameters>
-    string window_name - the name of the gui-window, which you want to focus
+    string gui_name - the name of the gui-window, which you want to focus
   </parameters>
   <retvals>
     boolean retval - the gui-window is opened; false, the gui-window isn't opened
@@ -2305,15 +2305,15 @@ function reagirl.Ext_Window_Focus(window_name)
   <tags>ext, focus, window</tags>
 </US_DocBloc>
 ]]
-  if type(window_name)~="string" then error("Ext_Window_Focus: param #1 - must be a string", 2) end
-  if reaper.GetExtState("Reagirl_Window_"..window_name, "open")=="true" then
-    reaper.SetExtState("ReaGirl", "ReFocusWindow", window_name, false)
+  if type(gui_name)~="string" then error("Ext_Window_Focus: param #1 - must be a string", 2) end
+  if reaper.GetExtState("Reagirl_Window_"..gui_name, "open")=="true" then
+    reaper.SetExtState("ReaGirl", "ReFocusWindow", gui_name, false)
     return true
   end
   return false
 end
 
-function reagirl.Ext_Window_IsOpen(window_name)
+function reagirl.Ext_Window_IsOpen(gui_name)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>Ext_Window_IsOpen</slug>
@@ -2322,12 +2322,12 @@ function reagirl.Ext_Window_IsOpen(window_name)
     Reaper=7.03
     Lua=5.4
   </requires>
-  <functioncall>boolean retval = reagirl.Ext_Window_IsOpen(string window_name)</functioncall>
+  <functioncall>boolean retval = reagirl.Ext_Window_IsOpen(string gui_name)</functioncall>
   <description>
     Returns, if a specific gui-window is open.
   </description>
   <parameters>
-    string window_name - the name of the gui-window, whose open-state you want to get
+    string gui_name - the name of the gui-window, whose open-state you want to get
   </parameters>
   <retvals>
     boolean retval - the gui-window is opened; false, the gui-window isn't opened
@@ -2340,14 +2340,14 @@ function reagirl.Ext_Window_IsOpen(window_name)
   <tags>ext, get, open, window</tags>
 </US_DocBloc>
 ]]
-  if type(window_name)~="string" then error("Ext_Window_Focus: param #1 - must be a string", 2) end
-  if reaper.GetExtState("Reagirl_Window_"..window_name, "open")=="true" then
+  if type(gui_name)~="string" then error("Ext_Window_Focus: param #1 - must be a string", 2) end
+  if reaper.GetExtState("Reagirl_Window_"..gui_name, "open")=="true" then
     return true
   end
   return false
 end
 
-function reagirl.Ext_Tab_SetSelected(window_name, tabnumber)
+function reagirl.Ext_Tab_SetSelected(gui_name, tabnumber)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>Ext_Tab_SetSelected</slug>
@@ -2356,17 +2356,17 @@ function reagirl.Ext_Tab_SetSelected(window_name, tabnumber)
     Reaper=7.03
     Lua=5.4
   </requires>
-  <functioncall>reagirl.Ext_Tab_SetSelected(string window_name)</functioncall>
+  <functioncall>reagirl.Ext_Tab_SetSelected(string gui_name)</functioncall>
   <description>
     Focuses a specific tab of a ReaGirl-gui-window.
     
-    Parameter window_name is the same as the name set in the first parameter of Gui_Open.
+    Parameter gui_name is the same as the name set in the first parameter of Gui_Open.
     
     You can set a focused tab even if the window isn't opened yet. It will be focused the next time the specified gui-window is opened.
     It also works for opened gui-windows.
   </description>
   <parameters>
-    string window_name - the name of the gui-window, whose tab you want to set to focused
+    string gui_name - the name of the gui-window, whose tab you want to set to focused
   </parameters>
   <chapter_context>
     Ext
@@ -2376,9 +2376,9 @@ function reagirl.Ext_Tab_SetSelected(window_name, tabnumber)
   <tags>ext, focus, tab, window</tags>
 </US_DocBloc>
 ]]
-  if type(window_name)~="string" then error("Ext_Tab_SetSelected: param #1 - must be a string", 2) end
+  if type(gui_name)~="string" then error("Ext_Tab_SetSelected: param #1 - must be a string", 2) end
   if math.type(tabnumber)~="integer" then error("Ext_Tab_SetSelected: param #2 - must be an integer", 2) end
-  reaper.SetExtState("Reagirl_Window_"..window_name, "open_tabnumber", tabnumber, false)
+  reaper.SetExtState("Reagirl_Window_"..gui_name, "open_tabnumber", tabnumber, false)
 end
 
 function reagirl.Ext_UpdateWindow()

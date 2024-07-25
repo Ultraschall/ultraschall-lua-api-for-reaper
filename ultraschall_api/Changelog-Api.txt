@@ -403,7 +403,7 @@ Note: requires at least Reaper 7.03 now!
   - ReaGirl: DropDownMenu\_SetMenuItems - Sets a dropdown-menu's menuitems and the index of the currently selected menu-item.
   - ReaGirl: Ext\_Tab\_SetSelected - sets a tab of specific ReaGirl-gui-window focused
   - ReaGirl: Ext\_Window\_Focus - sets focus to an opened ReaGirl-gui-window
-  - ReaGirl: Ext\_Window\_GetState - gets the current dimensions and dock-state of an opened/previously opened ReaGirl-window
+  - ReaGirl: Ext\_Window\_GetState - gets the position, current dimensions and dock-state of an opened/previously opened ReaGirl-window
   - ReaGirl: Ext\_Window\_IsOpen - gets, if a specific ReaGirl-gui-window is currently opened
   - ReaGirl: Ext\_Window\_ResetToDefault - resets a ReaGirl-Gui-Window to its default dimensions and dockstate
   - ReaGirl: Ext\_Window\_SetState - gets the current dimensions and dock-state of an opened/previously opened ReaGirl-window
