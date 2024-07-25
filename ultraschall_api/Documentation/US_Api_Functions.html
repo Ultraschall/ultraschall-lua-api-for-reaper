@@ -44769,8 +44769,8 @@ Returns nil in case of error.<br>
 <hr>
 <a class="anch" id="GetProject_RenderStems"></a>
 <a href="#GetProject_RenderStems"> ^</a> 
-<img width="3%" src="gfx/reaper6.71.png" alt="requires Reaper version 6.71">
-<img width="3%" src="gfx/ultraschall4.75.png" alt="requires Ultraschall version 4.75"><u><b>GetProject_RenderStems</b></u><br>			<p>
+<img width="3%" src="gfx/reaper7.16.png" alt="requires Reaper version 7.16">
+<img width="3%" src="gfx/ultraschall5.png" alt="requires Ultraschall version 5"><u><b>GetProject_RenderStems</b></u><br>			<p>
 <div class="cc">
 <div class="l">Lua: <code> <i>integer</i> render_stems = <em>ultraschall.GetProject_RenderStems</em>(<i>string</i> projectfilename_with_path, <i>optional</i> <i>string</i> ProjectStateChunk)</code></div>
 </div><p>
@@ -44800,6 +44800,8 @@ Returns nil in case of error.<br>
 &2048, 2nd pass rendering<br/>
 &8192, Render stems pre-fader<br/>
 &16384, Only render channels that are sent to parent<br/>
+&32768, (Preserve) Metadata-checkbox<br/>
+&65536, (Preserve) Start offset-checkbox(only with Selected media items as source)<br/>
 4096, Razor edit areas<br/>
 4224, Razor edit areas via master</td></tr>
 </table>
@@ -49208,8 +49210,8 @@ Returns -1 in case of error.<br>
 <hr>
 <a class="anch" id="SetProject_RenderStems"></a>
 <a href="#SetProject_RenderStems"> ^</a> 
-<img width="3%" src="gfx/reaper6.71.png" alt="requires Reaper version 6.71">
-<img width="3%" src="gfx/ultraschall4.75.png" alt="requires Ultraschall version 4.75"><u><b>SetProject_RenderStems</b></u><br>			<p>
+<img width="3%" src="gfx/reaper7.16.png" alt="requires Reaper version 7.16">
+<img width="3%" src="gfx/ultraschall5.png" alt="requires Ultraschall version 5"><u><b>SetProject_RenderStems</b></u><br>			<p>
 <div class="cc">
 <div class="l">Lua: <code> <i>integer</i> retval, <i>optional</i> <i>string</i> ProjectStateChunk = <em>ultraschall.SetProject_RenderStems</em>(<i>string</i> projectfilename_with_path, <i>integer</i> render_stems, <i>optional</i> <i>string</i> ProjectStateChunk)</code></div>
 </div><p>
@@ -49250,6 +49252,8 @@ Returns -1 in case of error.<br>
 &2048, 2nd pass rendering<br/>
 &8192, Render stems pre-fader<br/>
 &16384, Only render channels that are sent to parent<br/>
+&32768, (Preserve) Metadata-checkbox<br/>
+&65536, (Preserve) Start offset-checkbox(only with Selected media items as source)<br/>
 4096, Razor edit areas<br/>
 4224, Razor edit areas via master</td></tr>
 </table>
@@ -52935,7 +52939,7 @@ q=9 ; mp3 VBR lowest</td></tr>
 <img width="3%" src="gfx/reaper6.71.png" alt="requires Reaper version 6.71">
 <img width="3%" src="gfx/sws2.10.0.1.png" alt="requires SWS version 2.10.0.1">
 <img width="3%" src="gfx/js_0.972.png" alt="requires JS version 0.972">
-<img width="3%" src="gfx/ultraschall4.75.png" alt="requires Ultraschall version 4.75"><u><b>ApplyRenderTable_Project</b></u><br>			<p>
+<img width="3%" src="gfx/ultraschall5.png" alt="requires Ultraschall version 5"><u><b>ApplyRenderTable_Project</b></u><br>			<p>
 <div class="cc">
 <div class="l">Lua: <code> <i>boolean</i> retval, <i>boolean</i> dirty = <em>ultraschall.ApplyRenderTable_Project</em>(<i>table</i> RenderTable, <i>optional</i> <i>boolean</i> apply_rendercfg_string, <i>optional</i> <i>boolean</i> dirtyness)</code></div>
 </div><p>
@@ -53020,6 +53024,8 @@ q=9 ; mp3 VBR lowest</td></tr>
     RenderTable[&quot;OnlyMonoMedia&quot;] - Tracks with only mono media to mono files-checkbox; 
                                        true, checked; 
                                        false, unchecked
+    RenderTable[&quot;Preserve_Start_Offset&quot;] - true, preserve start-offset-checkbox(with Bounds=4 and Source=32); false, don&#39;t preserve
+    RenderTable[&quot;Preserve_Metadata&quot;] - true, preserve metadata-checkbox; false, don&#39;t preserve
     RenderTable[&quot;ProjectSampleRateFXProcessing&quot;] - Use project sample rate for mixing and FX/synth processing-checkbox; 
                                                    true, checked; false, unchecked
     RenderTable[&quot;RenderFile&quot;]       - the contents of the Directory-inputbox of the Render to File-dialog
@@ -53101,8 +53107,8 @@ q=9 ; mp3 VBR lowest</td></tr>
 <hr>
 <a class="anch" id="ApplyRenderTable_ProjectFile"></a>
 <a href="#ApplyRenderTable_ProjectFile"> ^</a> 
-<img width="3%" src="gfx/reaper6.71.png" alt="requires Reaper version 6.71">
-<img width="3%" src="gfx/ultraschall4.75.png" alt="requires Ultraschall version 4.75"><u><b>ApplyRenderTable_ProjectFile</b></u><br>			<p>
+<img width="3%" src="gfx/reaper7.16.png" alt="requires Reaper version 7.16">
+<img width="3%" src="gfx/ultraschall5.png" alt="requires Ultraschall version 5"><u><b>ApplyRenderTable_ProjectFile</b></u><br>			<p>
 <div class="cc">
 <div class="l">Lua: <code> <i>boolean</i> retval, <i>string</i> ProjectStateChunk = <em>ultraschall.ApplyRenderTable_ProjectFile</em>(<i>table</i> RenderTable, <i>string</i> projectfilename_with_path, <i>optional</i> <i>boolean</i> apply_rendercfg_string, <i>optional</i> <i>string</i> ProjectStateChunk)</code></div>
 </div><p>
@@ -53186,6 +53192,8 @@ q=9 ; mp3 VBR lowest</td></tr>
     RenderTable[&quot;OnlyMonoMedia&quot;] - Tracks with only mono media to mono files-checkbox; 
                                        true, checked; 
                                        false, unchecked
+    RenderTable[&quot;Preserve_Start_Offset&quot;] - true, preserve start-offset-checkbox(with Bounds=4 and Source=32); false, don&#39;t preserve
+    RenderTable[&quot;Preserve_Metadata&quot;] - true, preserve metadata-checkbox; false, don&#39;t preserve
     RenderTable[&quot;ProjectSampleRateFXProcessing&quot;] - Use project sample rate for mixing and FX/synth processing-checkbox; 
                                                    true, checked; false, unchecked
     RenderTable[&quot;RenderFile&quot;]       - the contents of the Directory-inputbox of the Render to File-dialog
@@ -53318,10 +53326,10 @@ Returns false in case of an error<br>
 <hr>
 <a class="anch" id="CreateNewRenderTable"></a>
 <a href="#CreateNewRenderTable"> ^</a> 
-<img width="3%" src="gfx/reaper6.71.png" alt="requires Reaper version 6.71">
-<img width="3%" src="gfx/ultraschall4.75.png" alt="requires Ultraschall version 4.75"><u><b>CreateNewRenderTable</b></u><br>			<p>
+<img width="3%" src="gfx/reaper7.16.png" alt="requires Reaper version 7.16">
+<img width="3%" src="gfx/ultraschall5.png" alt="requires Ultraschall version 5"><u><b>CreateNewRenderTable</b></u><br>			<p>
 <div class="cc">
-<div class="l">Lua: <code> <i>table</i> RenderTable = <em>ultraschall.CreateNewRenderTable</em>(<i>optional</i> <i>integer</i> Source, <i>optional</i> <i>integer</i> Bounds, <i>optional</i> <i>number</i> Startposition, <i>optional</i> <i>number</i> Endposition, <i>optional</i> <i>integer</i> TailFlag, <i>optional</i> <i>integer</i> TailMS, <i>optional</i> <i>string</i> RenderFile, <i>optional</i> <i>string</i> RenderPattern, <i>optional</i> <i>integer</i> SampleRate, <i>optional</i> <i>integer</i> Channels, <i>optional</i> <i>integer</i> OfflineOnlineRendering, <i>optional</i> <i>boolean</i> ProjectSampleRateFXProcessing, <i>optional</i> <i>integer</i> RenderResample, <i>optional</i> <i>boolean</i> OnlyMonoMedia, <i>optional</i> <i>boolean</i> MultiChannelFiles, <i>optional</i> <i>integer</i> Dither, <i>optional</i> <i>string</i> RenderString, <i>optional</i> <i>boolean</i> SilentlyIncrementFilename, <i>optional</i> <i>boolean</i> AddToProj, <i>optional</i> <i>boolean</i> SaveCopyOfProject, <i>optional</i> <i>boolean</i> RenderQueueDelay, <i>optional</i> <i>integer</i> RenderQueueDelaySeconds, <i>optional</i> <i>boolean</i> CloseAfterRender, <i>optional</i> <i>boolean</i> EmbedStretchMarkers, <i>optional</i> <i>string</i> RenderString2, <i>optional</i> <i>boolean</i> EmbedTakeMarkers, <i>optional</i> <i>boolean</i> DoNotSilentRender, <i>optional</i> <i>boolean</i> EmbedMetadata, <i>optional</i> <i>boolean</i> Enable2ndPassRender, <i>optional</i> <i>boolean</i> Normalize_Enabled, <i>optional</i> <i>integer</i> Normalize_Method, <i>optional</i> <i>boolean</i> Normalize_Stems_to_Master_Target, <i>optional</i> <i>number</i> Normalize_Target, <i>optional</i> <i>boolean</i> Brickwall_Limiter_Enabled, <i>optional</i> <i>integer</i> Brickwall_Limiter_Method, <i>optional</i> <i>number</i> Brickwall_Limiter_Target, <i>optional</i> <i>boolean</i> Normalize_Only_Files_Too_Loud, <i>optional</i> <i>boolean</i> FadeIn_Enabled, <i>optional</i> <i>number</i> FadeIn, <i>optional</i> <i>integer</i> FadeIn_Shape, <i>optional</i> <i>boolean</i> FadeOut_Enabled, <i>optional</i> <i>number</i> FadeOut, <i>optional</i> <i>integer</i> FadeOut_Shape, <i>optional</i> <i>boolean</i> OnlyChannelsSentToParent, <i>optional</i> <i>boolean</i> RenderStems_Prefader)</code></div>
+<div class="l">Lua: <code> <i>table</i> RenderTable = <em>ultraschall.CreateNewRenderTable</em>(<i>optional</i> <i>integer</i> Source, <i>optional</i> <i>integer</i> Bounds, <i>optional</i> <i>number</i> Startposition, <i>optional</i> <i>number</i> Endposition, <i>optional</i> <i>integer</i> TailFlag, <i>optional</i> <i>integer</i> TailMS, <i>optional</i> <i>string</i> RenderFile, <i>optional</i> <i>string</i> RenderPattern, <i>optional</i> <i>integer</i> SampleRate, <i>optional</i> <i>integer</i> Channels, <i>optional</i> <i>integer</i> OfflineOnlineRendering, <i>optional</i> <i>boolean</i> ProjectSampleRateFXProcessing, <i>optional</i> <i>integer</i> RenderResample, <i>optional</i> <i>boolean</i> OnlyMonoMedia, <i>optional</i> <i>boolean</i> MultiChannelFiles, <i>optional</i> <i>integer</i> Dither, <i>optional</i> <i>string</i> RenderString, <i>optional</i> <i>boolean</i> SilentlyIncrementFilename, <i>optional</i> <i>boolean</i> AddToProj, <i>optional</i> <i>boolean</i> SaveCopyOfProject, <i>optional</i> <i>boolean</i> RenderQueueDelay, <i>optional</i> <i>integer</i> RenderQueueDelaySeconds, <i>optional</i> <i>boolean</i> CloseAfterRender, <i>optional</i> <i>boolean</i> EmbedStretchMarkers, <i>optional</i> <i>string</i> RenderString2, <i>optional</i> <i>boolean</i> EmbedTakeMarkers, <i>optional</i> <i>boolean</i> DoNotSilentRender, <i>optional</i> <i>boolean</i> EmbedMetadata, <i>optional</i> <i>boolean</i> Enable2ndPassRender, <i>optional</i> <i>boolean</i> Normalize_Enabled, <i>optional</i> <i>integer</i> Normalize_Method, <i>optional</i> <i>boolean</i> Normalize_Stems_to_Master_Target, <i>optional</i> <i>number</i> Normalize_Target, <i>optional</i> <i>boolean</i> Brickwall_Limiter_Enabled, <i>optional</i> <i>integer</i> Brickwall_Limiter_Method, <i>optional</i> <i>number</i> Brickwall_Limiter_Target, <i>optional</i> <i>boolean</i> Normalize_Only_Files_Too_Loud, <i>optional</i> <i>boolean</i> FadeIn_Enabled, <i>optional</i> <i>number</i> FadeIn, <i>optional</i> <i>integer</i> FadeIn_Shape, <i>optional</i> <i>boolean</i> FadeOut_Enabled, <i>optional</i> <i>number</i> FadeOut, <i>optional</i> <i>integer</i> FadeOut_Shape, <i>optional</i> <i>boolean</i> OnlyChannelsSentToParent, <i>optional</i> <i>boolean</i> RenderStems_Prefader, <i>optional</i> <i>boolean</i> Preserve_Start_Offset, <i>optional</i> <i>boolean</i> Preserve_Metadata)</code></div>
 </div><p>
 <div class="ch">
 Creates a new RenderTable.<br>
@@ -53360,6 +53368,8 @@ Factory-Default will be set to these settings:<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RenderTable["OnlyChannelsSentToParent"]=false<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RenderTable["OnlyMonoMedia"]=false<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RenderTable["ProjectSampleRateFXProcessing"]=true<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RenderTable["Preserve_Start_Offset"]=false<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RenderTable["Preserve_Metadata"]=false<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RenderTable["RenderFile"]=""<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RenderTable["RenderPattern"]=""<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RenderTable["RenderQueueDelay"]=false<br>
@@ -53632,6 +53642,14 @@ Include project filename in BWF unchecked, Do not include markers or regions, Em
 <tr><td class="pr"><i>optional</i> <i>boolean</i> RenderStems_Prefader</td></tr>
 <tr><td class="ch2">true, stems will be rendered pre-fader; false, normal rendering of stems</td></tr>
 </table>
+<table class="ch">
+<tr><td class="pr"><i>optional</i> <i>boolean</i> Preserve_Start_Offset</td></tr>
+<tr><td class="ch2">true, preserve start-offset (when selected media items as source); false, don't preserve start-offset</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>optional</i> <i>boolean</i> Preserve_Metadata</td></tr>
+<tr><td class="ch2">true, preserve metadata(when selected media items as source); false, don't preserve metadata</td></tr>
+</table>
 <br>
 </div>
 <div class="ch">
@@ -53869,10 +53887,10 @@ Gets the render-settings of a RenderTable from a project-extstate, stored by Set
 <hr>
 <a class="anch" id="GetRenderTable_ProjectDefaults"></a>
 <a href="#GetRenderTable_ProjectDefaults"> ^</a> 
-<img width="3%" src="gfx/reaper6.71.png" alt="requires Reaper version 6.71">
+<img width="3%" src="gfx/reaper7.16.png" alt="requires Reaper version 7.16">
 <img width="3%" src="gfx/sws2.10.0.1.png" alt="requires SWS version 2.10.0.1">
 <img width="3%" src="gfx/js_0.972.png" alt="requires JS version 0.972">
-<img width="3%" src="gfx/ultraschall4.75.png" alt="requires Ultraschall version 4.75"><u><b>GetRenderTable_ProjectDefaults</b></u><br>			<p>
+<img width="3%" src="gfx/ultraschall5.png" alt="requires Ultraschall version 5"><u><b>GetRenderTable_ProjectDefaults</b></u><br>			<p>
 <div class="cc">
 <div class="l">Lua: <code> <i>table</i> RenderTable = <em>ultraschall.GetRenderTable_ProjectDefaults</em>()</code></div>
 </div><p>
@@ -53950,6 +53968,8 @@ Gets the render-settings of a RenderTable from a project-extstate, stored by Set
                                             4, Offline Render(Idle)
     RenderTable[&quot;OnlyChannelsSentToParent&quot;] - true, option is checked; false, option is unchecked
     RenderTable[&quot;OnlyMonoMedia&quot;] - Tracks with only mono media to mono files-checkbox; true, checked; false, unchecked
+    RenderTable[&quot;Preserve_Start_Offset&quot;] - true, preserve start-offset-checkbox(with Bounds=4 and Source=32); false, don&#39;t preserve
+    RenderTable[&quot;Preserve_Metadata&quot;] - true, preserve metadata-checkbox; false, don&#39;t preserve
     RenderTable[&quot;ProjectSampleRateFXProcessing&quot;] - Use project sample rate for mixing and FX/synth processing-checkbox; 
                                                    true, checked; false, unchecked
     RenderTable[&quot;RenderFile&quot;] - the contents of the Directory-inputbox of the Render to File-dialog; 
@@ -54333,6 +54353,8 @@ Stores the render-settings of a RenderTable into a project-extstate.<br>
 <div class="ch">
 Returns the render-cfg-string for the AIFF-format. You can use this in ProjectStateChunks, RPP-Projectfiles and reaper-render.ini<br>
 <br>
+Note: Can also be applied as RecCFG!<br>
+<br>
 Returns nil in case of an error<br>
 </div><br>      
 <u>Returnvalues:</u>
@@ -54490,6 +54512,8 @@ Returns nil in case of an error<br>
 <div class="ch">
 Returns the render-cfg-string for the CAF-format. You can use this in ProjectStateChunks, RPP-Projectfiles and reaper-render.ini<br>
 <br>
+Note: Can also be applied as RecCFG!<br>
+<br>
 Returns nil in case of an error<br>
 </div><br>      
 <u>Returnvalues:</u>
@@ -54550,6 +54574,8 @@ Returns the render-cfg-string for the DDP-format. You can use this in ProjectSta
 </div><p>
 <div class="ch">
 Returns the render-cfg-string for the FLAC-format. You can use this in ProjectStateChunks, RPP-Projectfiles and reaper-render.ini<br>
+<br>
+Note: Can also be applied as RecCFG!<br>
 <br>
 Returns nil in case of an error<br>
 </div><br>      
@@ -54956,6 +54982,8 @@ Returns nil in case of an error<br>
 <div class="ch">
 Creates the render-cfg-string for the MP3-format with average bitrate. You can use this in ProjectStateChunks, RPP-Projectfiles and reaper-render.ini<br>
 <br>
+Note: Can also be applied as RecCFG!<br>
+<br>
 Returns nil in case of an error<br>
 </div><br>      
 <u>Returnvalues:</u>
@@ -55018,6 +55046,8 @@ Returns nil in case of an error<br>
 <div class="ch">
 Creates the render-cfg-string for the MP3-format with constant bitrate. You can use this in ProjectStateChunks, RPP-Projectfiles and reaper-render.ini<br>
 <br>
+Note: Can also be applied as RecCFG!<br>
+<br>
 Returns nil in case of an error<br>
 </div><br>      
 <u>Returnvalues:</u>
@@ -55079,6 +55109,8 @@ Returns nil in case of an error<br>
 </div><p>
 <div class="ch">
 Creates the render-cfg-string for the MP3-format with highest quality-settings. You can use this in ProjectStateChunks, RPP-Projectfiles and reaper-render.ini<br>
+<br>
+Note: Can also be applied as RecCFG!<br>
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
@@ -55104,6 +55136,8 @@ Creates the render-cfg-string for the MP3-format with highest quality-settings. 
 </div><p>
 <div class="ch">
 Creates the render-cfg-string for the MP3-format with variable bitrate. You can use this in ProjectStateChunks, RPP-Projectfiles and reaper-render.ini<br>
+<br>
+Note: Can also be applied as RecCFG!<br>
 <br>
 Returns nil in case of an error<br>
 </div><br>      
@@ -55354,6 +55388,8 @@ q=9 ; mp3 VBR lowest&nbsp;&nbsp;&nbsp;&nbsp;</td></tr>
 Returns the render-cfg-string for the OGG-format. You can use this in ProjectStateChunks, RPP-Projectfiles and reaper-render.ini<br>
 For all mode-settings that you don't need(kbps or quality), you can safely set them to 1.<br>
 <br>
+Note: Can also be applied as RecCFG!<br>
+<br>
 Returns nil in case of an error<br>
 </div><br>      
 <u>Returnvalues:</u>
@@ -55400,6 +55436,8 @@ Returns nil in case of an error<br>
 </div><p>
 <div class="ch">
 Creates the render-cfg-string for the Opus-format. You can use this in ProjectStateChunks, RPP-Projectfiles and reaper-render.ini<br>
+<br>
+Note: Can also be applied as RecCFG!<br>
 <br>
 Returns nil in case of an error<br>
 </div><br>      
@@ -55571,6 +55609,8 @@ Returns nil in case of an error<br>
 <div class="ch">
 Creates the render-cfg-string for the WAV-format. You can use this in ProjectStateChunks, RPP-Projectfiles and reaper-render.ini<br>
 <br>
+Note: Can also be applied as RecCFG!<br>
+<br>
 Returns nil in case of an error<br>
 </div><br>      
 <u>Returnvalues:</u>
@@ -55638,6 +55678,8 @@ Returns nil in case of an error<br>
 </div><p>
 <div class="ch">
 Returns the render-cfg-string for the WAVPACK-format. You can use this in ProjectStateChunks, RPP-Projectfiles and reaper-render.ini<br>
+<br>
+Note: Can also be applied as RecCFG!<br>
 <br>
 Returns nil in case of an error<br>
 </div><br>      
@@ -55831,8 +55873,8 @@ q=9 ; mp3 VBR lowest&nbsp;&nbsp;&nbsp;&nbsp;</td></tr>
 <hr>
 <a class="anch" id="AddRenderPreset"></a>
 <a href="#AddRenderPreset"> ^</a> 
-<img width="3%" src="gfx/reaper6.71.png" alt="requires Reaper version 6.71">
-<img width="3%" src="gfx/ultraschall4.75.png" alt="requires Ultraschall version 4.75"><u><b>AddRenderPreset</b></u><br>			<p>
+<img width="3%" src="gfx/reaper7.16.png" alt="requires Reaper version 7.16">
+<img width="3%" src="gfx/ultraschall5.png" alt="requires Ultraschall version 5"><u><b>AddRenderPreset</b></u><br>			<p>
 <div class="cc">
 <div class="l">Lua: <code> <i>boolean</i> retval = <em>ultraschall.AddRenderPreset</em>(<i>string</i> Bounds_Name, <i>string</i> Options_and_Format_Name, <i>table</i> RenderTable)</code></div>
 </div><p>
@@ -55932,6 +55974,8 @@ Options_and_Format_Name stores only:<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; RenderTable["EmbedStretchMarkers"] - Embed stretch markers/transient guides-checkbox<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; RenderTable["EmbedTakeMarkers"] - Embed Take markers-checkbox<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; RenderTable["Enable2ndPassRender"] - true, 2nd pass render is enabled; false, 2nd pass render is disabled<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; RenderTable["Preserve_Start_Offset"] - true, preserve start-offset-checkbox(with Bounds=4 and Source=32); false, don't preserve<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; RenderTable["Preserve_Metadata"] - true, preserve metadata-checkbox; false, don't preserve<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; RenderTable["RenderString"] - the render-cfg-string, which holds the render-outformat-settings<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; RenderTable["RenderString2"] - the render-cfg-string, which holds the secondary render-outformat-settings<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; RenderTable["Brickwall_Limiter_Enabled"] - true, brickwall limiting is enabled; false, brickwall limiting is disabled<br>
@@ -56080,8 +56124,8 @@ Returns all render-preset-names for a) Bounds and output pattern/filename b) Opt
 <hr>
 <a class="anch" id="GetRenderPreset_RenderTable"></a>
 <a href="#GetRenderPreset_RenderTable"> ^</a> 
-<img width="3%" src="gfx/reaper6.71.png" alt="requires Reaper version 6.71">
-<img width="3%" src="gfx/ultraschall4.75.png" alt="requires Ultraschall version 4.75"><u><b>GetRenderPreset_RenderTable</b></u><br>			<p>
+<img width="3%" src="gfx/reaper7.16.png" alt="requires Reaper version 7.16">
+<img width="3%" src="gfx/ultraschall5.png" alt="requires Ultraschall version 5"><u><b>GetRenderPreset_RenderTable</b></u><br>			<p>
 <div class="cc">
 <div class="l">Lua: <code> <i>table</i> RenderTable = <em>ultraschall.GetRenderPreset_RenderTable</em>(<i>string</i> Bounds_Name, <i>string</i> Options_and_Format_Name)</code></div>
 </div><p>
@@ -56166,6 +56210,8 @@ Returns all render-preset-names for a) Bounds and output pattern/filename b) Opt
    RenderTable[&quot;OnlyMonoMedia&quot;] - Tracks with only mono media to mono files-checkbox; 
                                       true, checked; 
                                       false, unchecked
+   RenderTable[&quot;Preserve_Start_Offset&quot;] - true, preserve start-offset-checkbox(with Bounds=4 and Source=32); false, don&#39;t preserve
+   RenderTable[&quot;Preserve_Metadata&quot;] - true, preserve metadata-checkbox; false, don&#39;t preserve
    RenderTable[&quot;ProjectSampleRateFXProcessing&quot;] - Use project sample rate for mixing and FX/synth processing-checkbox; 
                                                   true, checked; false, unchecked
    RenderTable[&quot;RenderFile&quot;]       - the contents of the Directory-inputbox of the Render to File-dialog
@@ -56275,8 +56321,8 @@ Returns nil in case of an error or if no such name was found<br>
 <hr>
 <a class="anch" id="SetRenderPreset"></a>
 <a href="#SetRenderPreset"> ^</a> 
-<img width="3%" src="gfx/reaper6.71.png" alt="requires Reaper version 6.71">
-<img width="3%" src="gfx/ultraschall4.75.png" alt="requires Ultraschall version 4.75"><u><b>SetRenderPreset</b></u><br>			<p>
+<img width="3%" src="gfx/reaper7.16.png" alt="requires Reaper version 7.16">
+<img width="3%" src="gfx/ultraschall5.png" alt="requires Ultraschall version 5"><u><b>SetRenderPreset</b></u><br>			<p>
 <div class="cc">
 <div class="l">Lua: <code> <i>boolean</i> retval = <em>ultraschall.SetRenderPreset</em>(<i>string</i> Bounds_Name, <i>string</i> Options_and_Format_Name, <i>table</i> RenderTable)</code></div>
 </div><p>
@@ -56305,6 +56351,8 @@ Bounds_Name stores only:<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 8, Selected markers<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; RenderTable["Startposition"] - the startposition of the render<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; RenderTable["Endposition"] - the endposition of the render<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; RenderTable["Preserve_Start_Offset"] - true, preserve start-offset-checkbox(with Bounds=4 and Source=32); false, don't preserve<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; RenderTable["Preserve_Metadata"] - true, preserve metadata-checkbox; false, don't preserve<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; RenderTable["Source"]+RenderTable["MultiChannelFiles"]+RenderTable["OnlyMonoMedia"] - the source dropdownlist, includes <br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 0, Master mix <br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1, Master mix + stems<br>

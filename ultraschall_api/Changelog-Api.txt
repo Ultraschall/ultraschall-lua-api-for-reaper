@@ -515,7 +515,16 @@ Note: requires at least Reaper 7.03 now!
   - Editing: RippleCut\_Reverse - does now a standard fadein/out-time of 10ms; didn't move regions, markers and envelopes correctly -> fixed
   - Envelopes: DeleteTrackEnvelopePointsBetween - inserts now envelope-points at "cut"-edges
   - Envelopes: MoveTrackEnvelopePointsBy - didn't move first envelope-point in the envelope -> fixed
-  - Helpers: EditReaScript - allows now adding ReaGirl-basic structure to a script
+  - Helpers: EditReaScript - allows now adding ReaGirl-basic structure to a script  
+  - ProjectManagement: GetProject\_RenderStems - added preserve startoffset and metadata-settings
+  - ProjectManagement: SetProject\_RenderStems - added preserve startoffset and metadata-settings
+  - Rendering: AddRenderPreset - added preserve startoffset and metadata-settings
+  - Rendering: ApplyRenderTable\_Project - added preserve startoffset and metadata-settings
+  - Rendering: ApplyRenderTable\_ProjectFile - added preserve startoffset and metadata-settings
+  - Rendering: CreateNewRenderTable - added preserve startoffset and metadata-settings
+  - Rendering: GetRenderPreset - added preserve startoffset and metadata-settings
+  - Rendering: GetRenderTable_ProjectDefaults - added preserve startoffset and metadata-settings
+  - Rendering: SetRenderPreset - added preserve startoffset and metadata-settings
   - UserInterface: GetHWND\_ArrangeViewAndTimeLine - fixed possible edge-case bug that causes crashes of scripts
   
 ---

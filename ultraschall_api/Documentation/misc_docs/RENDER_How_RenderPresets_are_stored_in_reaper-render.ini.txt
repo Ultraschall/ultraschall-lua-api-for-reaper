@@ -131,7 +131,7 @@ RENDERPRESET_EXT
                                     &2048, 2nd pass render
                                     &8192, Render stems pre-fader
                                     &16384, Only render channels that are sent to parent
-                                    &32768, (Preserve) Metadata-checkbox(only with Selected media items as source)
+                                    &32768, (Preserve) Metadata-checkbox
                                     &65536, (Preserve) Start offset-checkbox(only with Selected media items as source)
 
     string render_cfg - the render-format-settings(mp3, wav, flac, etc) encoded as BASE64-string

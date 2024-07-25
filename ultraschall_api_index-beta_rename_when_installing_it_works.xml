@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API and ReaGirl">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API and ReaGirl package" type="extension">
-      <version name="55992.00" author="Meo-Ada Mespotine">
+      <version name="55994.00" author="Meo-Ada Mespotine">
 	<source file="reagirl.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5//reagirl.lua</source>
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5//ultraschall_api_readme.txt</source>
@@ -993,6 +993,24 @@ Changes from 4.9 to 5
     envelope-point in the envelope -> fixed
 -   Helpers: EditReaScript - allows now adding ReaGirl-basic structure
     to a script
+-   ProjectManagement: GetProject_RenderStems - added preserve
+    startoffset and metadata-settings
+-   ProjectManagement: SetProject_RenderStems - added preserve
+    startoffset and metadata-settings
+-   Rendering: AddRenderPreset - added preserve startoffset and
+    metadata-settings
+-   Rendering: ApplyRenderTable_Project - added preserve startoffset and
+    metadata-settings
+-   Rendering: ApplyRenderTable_ProjectFile - added preserve startoffset
+    and metadata-settings
+-   Rendering: CreateNewRenderTable - added preserve startoffset and
+    metadata-settings
+-   Rendering: GetRenderPreset - added preserve startoffset and
+    metadata-settings
+-   Rendering: GetRenderTable_ProjectDefaults - added preserve
+    startoffset and metadata-settings
+-   Rendering: SetRenderPreset - added preserve startoffset and
+    metadata-settings
 -   UserInterface: GetHWND_ArrangeViewAndTimeLine - fixed possible
     edge-case bug that causes crashes of scripts
 ]]>
