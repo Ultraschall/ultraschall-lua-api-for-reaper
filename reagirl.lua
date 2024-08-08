@@ -5403,6 +5403,198 @@ function reagirl.NextLine(y_offset)
   end
 end
 
+function reagirl.ColorRectangle_Add(x, y, w, h, r, g, b, caption, meaningOfUI_Element, color_selector_when_clicked, run_function)
+--[[
+<US_ DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>ColorRectangle_Add</slug>
+  <requires>
+    ReaGirl=1.1
+    Reaper=7.03
+    Lua=5.4
+  </requires>
+  <functioncall>string color_rectangle_guid = reagirl.ColorRectangle_Add(optional integer x, optional integer y, integer r, integer g, integer b, string caption, string meaningOfUI_Element, optional function run_function)</functioncall>
+  <description>
+    Adds a color-rectangle to a gui.
+    
+    You can autoposition the color-rectangle by setting x and/or y to nil, which will position the new color_rectangle after the last ui-element.
+    To autoposition into the next line, use reagirl.NextLine()
+    
+    The run-function gets as parameter:
+    - string element_id - the element_id as string of the clicked color-rectangle that uses this run-function
+  </description>
+  <parameters>
+    optional integer x - the x position of the color-rectangle in pixels; negative anchors the color-rectangle to the right window-side; nil, autoposition after the last ui-element(see description)
+    optional integer y - the y position of the color-rectangle in pixels; negative anchors the color-rectangle to the bottom window-side; nil, autoposition after the last ui-element(see description)
+    integer w - the width of the color-rectangle in pixels
+    integer h - the height of the color-rectangle in pixels
+    integer r - red-value from 0-255
+    integer g - green-value from 0-255
+    integer b - blue-value from 0-255
+    string caption - the caption of the color-rectangle
+    string meaningOfUI_Element - the meaningOfUI_Element of the ui-element(for tooltips and blind users). Make it a sentence that ends with . or ?
+    boolean color_selector_when_clicked - true, clicking the color rectangle will open up a color-selection dialog(will ignore run_function parameter)
+                                        - false, clicking will run the run-function
+    optional function run_function - a function that shall be run when the color-rectangle is clicked; will get the color-rectangle-element_id passed over as first parameter; nil, no run-function for this color-rectangle
+  </parameters>
+  <retvals>
+    string color_rectangle_guid - a guid that can be used for altering the color-rectangle-attributes
+  </retvals>
+  <chapter_context>
+    Color Rectangle
+  </chapter_context>
+  <tags>color rectangle, add</tags>
+</US_DocBloc>
+--]]
+  if x~=nil and math.type(x)~="integer" then error("ColorRectangle_Add: param #1 - must be either nil or an integer", 2) end
+  if y~=nil and math.type(y)~="integer" then error("ColorRectangle_Add: param #2 - must be either nil or an integer", 2) end
+  if math.type(w)~="integer" then error("ColorRectangle_Add: param #3 - must be an integer", 2) end
+  if math.type(h)~="integer" then error("ColorRectangle_Add: param #4 - must be an integer", 2) end
+  if math.type(r)~="integer" then error("ColorRectangle_Add: param #5 - must be an integer", 2) end
+  if math.type(g)~="integer" then error("ColorRectangle_Add: param #6 - must be an integer", 2) end
+  if math.type(b)~="integer" then error("ColorRectangle_Add: param #7 - must be an integer", 2) end
+  
+  if type(caption)~="string" then error("ColorRectangle_Add: param #8 - must be a string", 2) end
+  caption=string.gsub(caption, "[\n\r]", "")
+  if type(meaningOfUI_Element)~="string" then error("ColorRectangle_Add: param #9 - must be a string", 2) end
+  if meaningOfUI_Element:sub(-1,-1)~="." and meaningOfUI_Element:sub(-1,-1)~="?" then error("ColorRectangle_Add: param #9 - must end on a . like a regular sentence.", 2) end
+  if type(color_selector_when_clicked)~="boolean" then error("ColorRectangle_Add: param #10 - must be a boolean", 2) end
+  if run_function~=nil and type(run_function)~="function" then error("ColorRectangle_Add: param #11 - must be either nil or a function(ignored when #10 is set to true)", 2) end
+  
+  local x,y,slot=reagirl.UI_Element_GetNextXAndYPosition(x, y, "ColorRectangle_Add")
+  --reagirl.UI_Element_NextX_Default=x
+  
+  --reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0, 1)
+  --local tx,ty=gfx.measurestr(caption)
+  --reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0)
+  
+  table.insert(reagirl.Elements, slot, {})
+  reagirl.Elements[slot]["Guid"]=reaper.genGuid("")
+  reagirl.Elements[slot]["GUI_Element_Type"]="Color"
+  reagirl.Elements[slot]["Name"]=caption
+  reagirl.Elements[slot]["Text"]=caption
+  reagirl.Elements[slot]["IsDisabled"]=false
+  reagirl.Elements[slot]["sticky_x"]=false
+  reagirl.Elements[slot]["sticky_y"]=false
+  reagirl.Elements[slot]["Description"]=meaningOfUI_Element
+  reagirl.Elements[slot]["AccHint"]="Click with space or left mouseclick."
+  reagirl.Elements[slot]["ContextMenu_ACC"]=""
+  reagirl.Elements[slot]["DropZoneFunction_ACC"]=""
+  reagirl.Elements[slot]["x"]=x
+  reagirl.Elements[slot]["y"]=y
+  reagirl.Elements[slot]["w"]=w
+  reagirl.Elements[slot]["h"]=h
+  reagirl.Elements[slot]["r"]=r/255
+  reagirl.Elements[slot]["g"]=g/255
+  reagirl.Elements[slot]["b"]=b/255
+  --if math.tointeger(ty+h_margin)>reagirl.NextLine_Overflow then reagirl.NextLine_Overflow=math.tointeger(ty+h_margin) end
+  reagirl.Elements[slot]["radius"]=2
+  reagirl.Elements[slot]["func_manage"]=reagirl.ColorRectangle_Manage
+  reagirl.Elements[slot]["func_draw"]=reagirl.ColorRectangle_Draw
+  reagirl.Elements[slot]["run_function"]=run_function
+  reagirl.Elements[slot]["color_selector_when_clicked"]=color_selector_when_clicked
+  reagirl.Elements[slot]["userspace"]={}
+  return reagirl.Elements[slot]["Guid"]
+end
+
+function reagirl.ColorRectangle_Manage(element_id, selected, hovered, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
+-- !!TODO!! - send color to screenreader
+--          - get/set disabled
+--          - get/set color
+  if selected~="not selected" and clicked=="FirstCLK" then
+    if element_storage["color_selector_when_clicked"]==true then
+      local retval, color2=reaper.GR_SelectColor()
+      if retval==1 then
+        local r,g,b=reaper.ColorFromNative(color2)
+        element_storage["r"]=r/255
+        element_storage["g"]=g/255
+        element_storage["b"]=b/255
+      end
+    elseif element_storage["run_function"]~=nil then
+      element_storage["run_function"](element_storage["Guid"])
+    end
+  end
+end
+
+function reagirl.ColorRectangle_Draw(element_id, selected, hovered, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
+  gfx.set(element_storage["r"],element_storage["g"],element_storage["b"])
+  reagirl.RoundRect(x,y,w,h, element_storage["radius"]*reagirl.Window_GetCurrentScale(), 1, 1)
+end
+
+function reagirl.ColorRectangle_GetRadius(element_id)
+--[[
+<US_ DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>ColorRectangle_GetRadius</slug>
+  <requires>
+    ReaGirl=1.1
+    Reaper=7.03
+    Lua=5.4
+  </requires>
+  <functioncall>integer radius = reagirl.ColorRectangle_GetRadius(string element_id)</functioncall>
+  <description>
+    Gets a color-rectangle's radius.
+  </description>
+  <parameters>
+    string element_id - the guid of the color-rectangle, whose radius you want to get
+  </parameters>
+  <retvals>
+    integer radius - the radius of the color-rectangle
+  </retvals>
+  <chapter_context>
+    Color Rectangle
+  </chapter_context>
+  <tags>button, get, radius</tags>
+</US_DocBloc>
+--]]
+  if type(element_id)~="string" then error("ColorRectangle_GetRadius: param #1 - must be a string", 2) end
+  if reagirl.IsValidGuid(element_id, true)==nil then error("ColorRectangle_GetRadius: param #1 - must be a valid guid", 2) end
+  element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
+  if element_id==-1 then error("ColorRectangle_GetRadius: param #1 - no such ui-element", 2) end
+  if reagirl.Elements[element_id]["GUI_Element_Type"]~="Color" then
+    error("ColorRectangle_GetRadius: param #1 - ui-element is not a color-rectangle", 2)
+  else
+    return reagirl.Elements[element_id]["radius"]
+  end
+end
+
+function reagirl.ColorRectangle_SetRadius(element_id, radius)
+--[[
+<US_ DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>ColorRectangle_SetRadius</slug>
+  <requires>
+    ReaGirl=1.1
+    Reaper=7.03
+    Lua=5.4
+  </requires>
+  <functioncall>reagirl.ColorRectangle_SetRadius(string element_id, integer radius)</functioncall>
+  <description>
+    Sets the radius of a color-rectangle.
+  </description>
+  <parameters>
+    string element_id - the guid of the color-rectangle, whose radius you want to set
+    integer radius - between 0 and 10
+  </parameters>
+  <chapter_context>
+    Color Rectangle
+  </chapter_context>
+  <tags>color rectangle, set, radius</tags>
+</US_DocBloc>
+--]]
+  if type(element_id)~="string" then error("ColorRectangle_SetRadius: param #1 - must be a string", 2) end
+  if reagirl.IsValidGuid(element_id, true)==nil then error("ColorRectangle_SetRadius: param #1 - must be a valid guid", 2) end
+  if math.type(radius)~="integer" then error("ColorRectangle_SetRadius: param #2 - must be a integer", 2) end
+  --if radius>10 then radius=10 end
+  if radius<0 then radius=0 end
+  element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
+  if element_id==-1 then error("ColorRectangle_SetRadius: param #1 - no such ui-element", 2) end
+  
+  if reagirl.Elements[element_id]["GUI_Element_Type"]~="Color" then
+    return false
+  else
+    reagirl.Elements[element_id]["radius"]=radius
+    reagirl.Gui_ForceRefresh(19)
+  end
+  return true
+end
 
 function reagirl.Button_Add(x, y, w_margin, h_margin, caption, meaningOfUI_Element, run_function)
 --[[
@@ -5430,7 +5622,7 @@ function reagirl.Button_Add(x, y, w_margin, h_margin, caption, meaningOfUI_Eleme
     integer h_margin - a margin top and bottom of the caption
     string caption - the caption of the button
     string meaningOfUI_Element - the meaningOfUI_Element of the ui-element(for tooltips and blind users). Make it a sentence that ends with . or ?
-    optional function run_function - a function that shall be run when the button is clicked; will get the button-element_id passed over as first parameter; nil, no run-function fo this button
+    optional function run_function - a function that shall be run when the button is clicked; will get the button-element_id passed over as first parameter; nil, no run-function for this button
   </parameters>
   <retvals>
     string button_guid - a guid that can be used for altering the button-attributes
