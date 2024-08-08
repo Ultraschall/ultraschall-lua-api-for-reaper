@@ -5500,7 +5500,7 @@ function reagirl.ColorRectangle_Manage(element_id, selected, hovered, clicked, m
 -- !!TODO!! - send color to screenreader
 --          - get/set disabled
 --          - get/set color
-  if selected~="not selected" and clicked=="FirstCLK" then
+  if selected~="not selected" and clicked=="FirstCLK" and gfx.mouse_x>=x and gfx.mouse_x<=x+w and gfx.mouse_y>=y and gfx.mouse_y<=y+h then
     if element_storage["color_selector_when_clicked"]==true then
       local retval, color2=reaper.GR_SelectColor()
       if retval==1 then
