@@ -346,6 +346,24 @@ Note: requires at least Reaper 7.03 now!
 
 **new in this release:**  
 
+  - **BLA**  
+  BLA
+    
+#### New features in 5.1  
+  - MetaData: Metadata\_ExtractCover - extracts the cover-image from a file
+
+#### Changes from 5 to 5.1  
+
+---
+
+### 5 - "Eels - Novocaine for the Soul" - 9th of August 2024
+
+Has now 1807 functions, with 144 new ones
+
+Note: requires at least Reaper 7.03 now!
+
+**new in this release:**  
+
   - **ReaGirl - an accessible gui-library**  
   One and a half years in the making, I've finally added ReaGirl, an accessible gui-library for Reaper. It allows you
   to easily code your own guis with labels, checkboxes, buttons, drop down menus, sliders, images and tabs.  
