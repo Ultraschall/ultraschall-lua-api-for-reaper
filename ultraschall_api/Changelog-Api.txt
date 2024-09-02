@@ -338,11 +338,9 @@ ToDo Marker Menu:
 
 ## Ultraschall Framework - Changelog
 
-### 5 - "Eels - Novocaine for the Soul" - 9th of August 2024
+### 5.1 - "" - 1st of October 2024
 
-Has now 1807 functions, with 144 new ones
-
-Note: requires at least Reaper 7.03 now!
+Has now 1807 functions, with XX new ones
 
 **new in this release:**  
 
@@ -351,9 +349,27 @@ Note: requires at least Reaper 7.03 now!
     
 #### New features in 5.1  
   - MetaData: Metadata\_ExtractCover - extracts the cover-image from a file
+  - ReaGirl: Checkbox\_LinkToConfigVar - link a checkbox-state to a config-variable
+  - ReaGirl: Checkbox\_LinkToExtstate - link a checkbox-state to an extstate
+  - ReaGirl: Checkbox\_LinkToIniValue - link a checkbox-state to an ini-value
+  - ReaGirl: Checkbox\_LinkToToggleState - link a checkbox-state to a toggle-state
+  - ReaGirl: Checkbox\_Unlink - remove link of an inputbox with an ini-file-entry/configvar/extstate/toggle-state
+  - ReaGirl: DropDownMenu\_LinkToExtstate - links a drop-down-menu to an extstate
+  - ReaGirl: DropDownMenu\_LinkToIniFile - links a drop-down-menu to an ini-file-entry
+  - ReaGirl: DropDownMenu\_Unlink - remove link of a drop-down-menu with an ini-file-entry/extstate
+  - ReaGirl: Inputbox\_LinkToConfigVar - link an inputbox to a string config-variable
+  - ReaGirl: Inputbox\_LinkToExtstate - link an inputbox to an extstate
+  - ReaGirl: Inputbox\_LinkToIniFile - link an inputbox to an ini-file
+  - ReaGirl: Inputbox\_Unlink - remove link of an inputbox with an ini-file-entry/configvar/extstate
+  - ReaGirl: Slider\_LinkToDoubleConfigVar - link a slider to a double-config-variable
+  - ReaGirl: Slider\_LinkToExtstate - link a slider to an extstate
+  - ReaGirl: Slider\_LinkToIniFile - link a slider to an ini-file-entry
+  - ReaGirl: Slider\_LinkToIntConfigVar - link a slider to an integer-config-variable
+  - ReaGirl: Slider\_Unlink - remove link of a slider with an ini-file-entry/configvar/extstate
 
 #### Changes from 5 to 5.1  
-
+  - reagirl.Gui\_Manage - has new parameter that allows running the gui without a dedicated defer-loop
+  
 ---
 
 ### 5 - "Eels - Novocaine for the Soul" - 9th of August 2024

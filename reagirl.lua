@@ -2472,16 +2472,21 @@ function reagirl.Gui_Manage(keep_running)
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>Gui_Manage</slug>
   <requires>
-    ReaGirl=1.0
+    ReaGirl=1.1
     Reaper=7.03
     Lua=5.4
   </requires>
-  <functioncall>reagirl.Gui_Manage()</functioncall>
+  <functioncall>reagirl.Gui_Manage(optional boolean keep_running)</functioncall>
   <description>
     Manages the gui-window.
     
     Put this function in a defer-loop. It will manage, draw, show the gui.
+    
+    Note: if you set the parameter keep_running to true, you don't need to add a defer-loop in your script.
   </description>
+  <parameters>
+    optional boolean keep_running - true, run the gui without a dedicated defer-loop; nil or false, add a defer-loop to the gui-script that calls reagirl.Gui_Manage()
+  </parameters>
   <chapter_context>
     Gui
   </chapter_context>
@@ -4836,7 +4841,7 @@ end
 
 function reagirl.Checkbox_LinkToExtstate(element_id, section, key, false_val, true_val, default, persist)
 --[[
-<US_ DocBloc version="1.0" spok_lang="en" prog_lang="*">
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>Checkbox_LinkToExtstate</slug>
   <requires>
     ReaGirl=1.1
@@ -4954,7 +4959,7 @@ end
 
 function reagirl.Checkbox_LinkToConfigVar(element_id, configvar_name, bit, persist)
 --[[
-<US_ DocBloc version="1.0" spok_lang="en" prog_lang="*">
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>Checkbox_LinkToConfigVar</slug>
   <requires>
     ReaGirl=1.1
@@ -5010,7 +5015,7 @@ end
 function reagirl.Checkbox_LinkToToggleState(element_id, section, command_id)
 -- ToDo in Checkbox_Manage(): SetTogglecommandState for Midi-Inline Editor, needs JS-extension features(see Ultraschall-API for details)
 --[[
-<US_ DocBloc version="1.0" spok_lang="en" prog_lang="*">
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>Checkbox_LinkToToggleState</slug>
   <requires>
     ReaGirl=1.1
@@ -5067,7 +5072,7 @@ function reagirl.Checkbox_Unlink(element_id)
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>Checkbox_Unlink</slug>
   <requires>
-    ReaGirl=1.0
+    ReaGirl=1.1
     Reaper=7.03
     Lua=5.4
   </requires>
@@ -6914,7 +6919,7 @@ end
 
 function reagirl.Inputbox_LinkToExtstate(element_id, section, key, default, persist)
 --[[
-<US_ DocBloc version="1.0" spok_lang="en" prog_lang="*">
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>Inputbox_LinkToExtstate</slug>
   <requires>
     ReaGirl=1.1
@@ -6965,7 +6970,7 @@ end
 
 function reagirl.Inputbox_LinkToIniFile(element_id, ini_file, section, key, default, persist)
 --[[
-<US_ DocBloc version="1.0" spok_lang="en" prog_lang="*">
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>Inputbox_LinkToIniFile</slug>
   <requires>
     ReaGirl=1.1
@@ -7020,7 +7025,7 @@ end
 
 function reagirl.Inputbox_LinkToConfigVar(element_id, configvar_name, persist)
 --[[
-<US_ DocBloc version="1.0" spok_lang="en" prog_lang="*">
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>Inputbox_LinkToConfigVar</slug>
   <requires>
     ReaGirl=1.1
@@ -7072,7 +7077,7 @@ end
 
 function reagirl.Inputbox_Unlink(element_id, section, key, default, persist)
 --[[
-<US_ DocBloc version="1.0" spok_lang="en" prog_lang="*">
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>Inputbox_Unlink</slug>
   <requires>
     ReaGirl=1.1
@@ -7758,7 +7763,7 @@ end
 
 function reagirl.DropDownMenu_LinkToExtstate(element_id, section, key, default, persist)
 --[[
-<US_ DocBloc version="1.0" spok_lang="en" prog_lang="*">
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>DropDownMenu_LinkToExtstate</slug>
   <requires>
     ReaGirl=1.1
@@ -7809,7 +7814,7 @@ end
 
 function reagirl.DropDownMenu_LinkToIniFile(element_id, ini_file, section, key, default, persist)
 --[[
-<US_ DocBloc version="1.0" spok_lang="en" prog_lang="*">
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>DropDownMenu_LinkToIniFile</slug>
   <requires>
     ReaGirl=1.1
@@ -7864,7 +7869,7 @@ end
 
 function reagirl.DropDownMenu_Unlink(element_id, section, key, default, persist)
 --[[
-<US_ DocBloc version="1.0" spok_lang="en" prog_lang="*">
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>DropDownMenu_Unlink</slug>
   <requires>
     ReaGirl=1.1
@@ -11152,7 +11157,7 @@ end
 
 function reagirl.Slider_LinkToExtstate(element_id, section, key, default, persist)
 --[[
-<US_ DocBloc version="1.0" spok_lang="en" prog_lang="*">
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>Slider_LinkToExtstate</slug>
   <requires>
     ReaGirl=1.1
@@ -11204,7 +11209,7 @@ end
 
 function reagirl.Slider_LinkToIniFile(element_id, ini_file, section, key, default, persist)
 --[[
-<US_ DocBloc version="1.0" spok_lang="en" prog_lang="*">
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>Slider_LinkToIniFile</slug>
   <requires>
     ReaGirl=1.1
@@ -11259,7 +11264,7 @@ end
 
 function reagirl.Slider_LinkToDoubleConfigVar(element_id, configvar_name, persist)
 --[[
-<US_ DocBloc version="1.0" spok_lang="en" prog_lang="*">
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>Slider_LinkToDoubleConfigVar</slug>
   <requires>
     ReaGirl=1.1
@@ -11312,7 +11317,7 @@ end
 
 function reagirl.Slider_LinkToIntConfigVar(element_id, configvar_name, persist)
 --[[
-<US_ DocBloc version="1.0" spok_lang="en" prog_lang="*">
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>Slider_LinkToIntConfigVar</slug>
   <requires>
     ReaGirl=1.1
@@ -11365,7 +11370,7 @@ end
 
 function reagirl.Slider_Unlink(element_id, section, key, default, persist)
 --[[
-<US_ DocBloc version="1.0" spok_lang="en" prog_lang="*">
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>Slider_Unlink</slug>
   <requires>
     ReaGirl=1.1
