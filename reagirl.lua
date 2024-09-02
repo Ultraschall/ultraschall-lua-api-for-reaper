@@ -5060,6 +5060,7 @@ function reagirl.Checkbox_LinkToToggleState(element_id, section, command_id)
     error("Checkbox_LinkToExtstate: param #1 - ui-element is not a checkbox", 2)
   else
     if reaper.GetToggleCommandStateEx(section, reaper.NamedCommandLookup(command_id))==-1 then error("Checkbox_LinkToExtstate: param #3 - has not toggle-state", 2) end
+    reagirl.Elements[element_id]["checked"]=reaper.GetToggleCommandStateEx(section, reaper.NamedCommandLookup(command_id))==1
     reagirl.Elements[element_id]["linked_to"]=4
     reagirl.Elements[element_id]["linked_to_section"]=section
     reagirl.Elements[element_id]["linked_to_command_id"]=reaper.NamedCommandLookup(command_id)
