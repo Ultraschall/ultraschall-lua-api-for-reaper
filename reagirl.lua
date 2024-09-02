@@ -5413,7 +5413,7 @@ function reagirl.ColorRectangle_Add(x, y, w, h, r, g, b, caption, meaningOfUI_El
 <US_ DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>ColorRectangle_Add</slug>
   <requires>
-    ReaGirl=1.1
+    ReaGirl=1.2
     Reaper=7.03
     Lua=5.4
   </requires>
@@ -5471,6 +5471,12 @@ function reagirl.ColorRectangle_Add(x, y, w, h, r, g, b, caption, meaningOfUI_El
   --reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0, 1)
   --local tx,ty=gfx.measurestr(caption)
   --reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0)
+  if r<0 then r=0 end
+  if r>255 then r=255 end
+  if g<0 then g=0 end
+  if g>255 then g=255 end
+  if b<0 then b=0 end
+  if b>255 then b=255 end
   
   table.insert(reagirl.Elements, slot, {})
   reagirl.Elements[slot]["Guid"]=reaper.genGuid("")
@@ -5491,6 +5497,9 @@ function reagirl.ColorRectangle_Add(x, y, w, h, r, g, b, caption, meaningOfUI_El
   reagirl.Elements[slot]["r"]=r/255
   reagirl.Elements[slot]["g"]=g/255
   reagirl.Elements[slot]["b"]=b/255
+  reagirl.Elements[slot]["r_full"]=r
+  reagirl.Elements[slot]["g_full"]=g
+  reagirl.Elements[slot]["b_full"]=b
   --if math.tointeger(ty+h_margin)>reagirl.NextLine_Overflow then reagirl.NextLine_Overflow=math.tointeger(ty+h_margin) end
   reagirl.Elements[slot]["radius"]=2
   reagirl.Elements[slot]["func_manage"]=reagirl.ColorRectangle_Manage
@@ -5502,22 +5511,27 @@ function reagirl.ColorRectangle_Add(x, y, w, h, r, g, b, caption, meaningOfUI_El
 end
 
 function reagirl.ColorRectangle_Manage(element_id, selected, hovered, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
--- !!TODO!! - send color to screenreader
+-- !!TODO!! - send color to screenreader(vielleicht konkretere Farben?)
 --          - get/set disabled
---          - get/set color
-  if selected~="not selected" and clicked=="FirstCLK" and gfx.mouse_x>=x and gfx.mouse_x<=x+w and gfx.mouse_y>=y and gfx.mouse_y<=y+h then
+  local refresh=false
+  if selected~="not selected" and ((mouse_cap==1 and clicked=="FirstCLK" and gfx.mouse_x>=x and gfx.mouse_x<=x+w and gfx.mouse_y>=y and gfx.mouse_y<=y+h) or Key==32) then
     if element_storage["color_selector_when_clicked"]==true then
-      local retval, color2=reaper.GR_SelectColor()
+      local retval, color2=reaper.GR_SelectColor(nil, reaper.ColorToNative(element_storage["r_full"], element_storage["g_full"], element_storage["b_full"]))
       if retval==1 then
-        local r,g,b=reaper.ColorFromNative(color2)
+        r,g,b=reaper.ColorFromNative(color2)
         element_storage["r"]=r/255
         element_storage["g"]=g/255
         element_storage["b"]=b/255
+        element_storage["r_full"]=r
+        element_storage["g_full"]=g
+        element_storage["b_full"]=b
+        refresh=true
       end
     elseif element_storage["run_function"]~=nil then
       element_storage["run_function"](element_storage["Guid"])
     end
   end
+  return "Red: "..element_storage["r_full"]..", Green: "..element_storage["g_full"]..", Blue: "..element_storage["b_full"]..". ", refresh
 end
 
 function reagirl.ColorRectangle_Draw(element_id, selected, hovered, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
@@ -5530,7 +5544,7 @@ function reagirl.ColorRectangle_GetRadius(element_id)
 <US_ DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>ColorRectangle_GetRadius</slug>
   <requires>
-    ReaGirl=1.1
+    ReaGirl=1.2
     Reaper=7.03
     Lua=5.4
   </requires>
@@ -5566,7 +5580,7 @@ function reagirl.ColorRectangle_SetRadius(element_id, radius)
 <US_ DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>ColorRectangle_SetRadius</slug>
   <requires>
-    ReaGirl=1.1
+    ReaGirl=1.2
     Reaper=7.03
     Lua=5.4
   </requires>
@@ -5586,7 +5600,7 @@ function reagirl.ColorRectangle_SetRadius(element_id, radius)
 --]]
   if type(element_id)~="string" then error("ColorRectangle_SetRadius: param #1 - must be a string", 2) end
   if reagirl.IsValidGuid(element_id, true)==nil then error("ColorRectangle_SetRadius: param #1 - must be a valid guid", 2) end
-  if math.type(radius)~="integer" then error("ColorRectangle_SetRadius: param #2 - must be a integer", 2) end
+  if math.type(radius)~="integer" then error("ColorRectangle_SetRadius: param #2 - must be an integer", 2) end
   --if radius>10 then radius=10 end
   if radius<0 then radius=0 end
   element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
@@ -5596,6 +5610,98 @@ function reagirl.ColorRectangle_SetRadius(element_id, radius)
     return false
   else
     reagirl.Elements[element_id]["radius"]=radius
+    reagirl.Gui_ForceRefresh(19)
+  end
+  return true
+end
+
+function reagirl.ColorRectangle_GetColor(element_id)
+--[[
+<US_ DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>ColorRectangle_GetColor</slug>
+  <requires>
+    ReaGirl=1.2
+    Reaper=7.03
+    Lua=5.4
+  </requires>
+  <functioncall>integer r, integer g, integer g = reagirl.ColorRectangle_GetColor(string element_id)</functioncall>
+  <description>
+    Gets a color-rectangle's color.
+  </description>
+  <parameters>
+    string element_id - the guid of the color-rectangle, whose color you want to get
+  </parameters>
+  <retvals>
+    integer r - the red-value of the color; 0-255
+    integer g - the green-value of the color; 0-255
+    integer b - the blue-value of the color; 0-255
+  </retvals>
+  <chapter_context>
+    Color Rectangle
+  </chapter_context>
+  <tags>button, get, radius</tags>
+</US_DocBloc>
+--]]
+  if type(element_id)~="string" then error("ColorRectangle_GetColor: param #1 - must be a string", 2) end
+  if reagirl.IsValidGuid(element_id, true)==nil then error("ColorRectangle_GetColor: param #1 - must be a valid guid", 2) end
+  element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
+  if element_id==-1 then error("ColorRectangle_GetColor: param #1 - no such ui-element", 2) end
+  if reagirl.Elements[element_id]["GUI_Element_Type"]~="Color" then
+    error("ColorRectangle_GetColor: param #1 - ui-element is not a color-rectangle", 2)
+  else
+    return reagirl.Elements[element_id]["r_full"], reagirl.Elements[element_id]["g_full"], reagirl.Elements[element_id]["b_full"]
+  end
+end
+
+function reagirl.ColorRectangle_SetColor(element_id, r, g, b)
+--[[
+<US_ DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>ColorRectangle_SetColor</slug>
+  <requires>
+    ReaGirl=1.2
+    Reaper=7.03
+    Lua=5.4
+  </requires>
+  <functioncall>reagirl.ColorRectangle_SetColor(string element_id, integer r, integer g, integer b)</functioncall>
+  <description>
+    Sets the color of a color-rectangle.
+  </description>
+  <parameters>
+    string element_id - the guid of the color-rectangle, whose color you want to set
+    integer r - the red-value of the color-element; 0-255
+    integer g - the green-value of the color-element; 0-255
+    integer b - the blue-value of the color-element; 0-255
+  </parameters>
+  <chapter_context>
+    Color Rectangle
+  </chapter_context>
+  <tags>color rectangle, set, color</tags>
+</US_DocBloc>
+--]]
+  if type(element_id)~="string" then error("ColorRectangle_SetColor: param #1 - must be a string", 2) end
+  if reagirl.IsValidGuid(element_id, true)==nil then error("ColorRectangle_SetColor: param #1 - must be a valid guid", 2) end
+  if math.type(r)~="integer" then error("ColorRectangle_SetColor: param #2 - must be an integer", 2) end
+  if math.type(g)~="integer" then error("ColorRectangle_SetColor: param #3 - must be an integer", 2) end
+  if math.type(b)~="integer" then error("ColorRectangle_SetColor: param #4 - must be an integer", 2) end
+  --if radius>10 then radius=10 end
+  if r<0 then r=0 end
+  if r>255 then r=255 end
+  if g<0 then g=0 end
+  if g>255 then g=255 end
+  if b<0 then b=0 end
+  if b>255 then b=255 end
+  element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
+  if element_id==-1 then error("ColorRectangle_SetColor: param #1 - no such ui-element", 2) end
+  
+  if reagirl.Elements[element_id]["GUI_Element_Type"]~="Color" then
+    return false
+  else
+    reagirl.Elements[element_id]["r"]=r/255
+    reagirl.Elements[element_id]["g"]=g/255
+    reagirl.Elements[element_id]["b"]=b/255
+    reagirl.Elements[element_id]["r_full"]=r
+    reagirl.Elements[element_id]["g_full"]=g
+    reagirl.Elements[element_id]["b_full"]=b
     reagirl.Gui_ForceRefresh(19)
   end
   return true
@@ -5815,7 +5921,7 @@ function reagirl.Button_SetRadius(element_id, radius)
 --]]
   if type(element_id)~="string" then error("Button_SetRadius: param #1 - must be a string", 2) end
   if reagirl.IsValidGuid(element_id, true)==nil then error("Button_SetRadius: param #1 - must be a valid guid", 2) end
-  if math.type(radius)~="integer" then error("Button_SetRadius: param #2 - must be a integer", 2) end
+  if math.type(radius)~="integer" then error("Button_SetRadius: param #2 - must be an integer", 2) end
   if radius>10 then 
      radius=10 end
   if radius<0 then radius=0 end
