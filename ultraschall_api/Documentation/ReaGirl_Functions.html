@@ -499,13 +499,19 @@ Use reagirl.Checkbox_Unlink() to unlink the checkbox from extstate/ini-file/conf
 <img width="3%" src="gfx/reaper7.03.png" alt="requires Reaper version 7.03">
 <img width="3%" src="gfx/reagirl1.1.png" alt="requires ReaGirl version 1.1"><u><b>Checkbox_LinkToToggleState</b></u><br>			<p>
 <div class="cc">
-<div class="l">Lua: <code> <em>reagirl.Checkbox_LinkToToggleState</em>(<i>string</i> element_id, <i>integer</i> section, <i>string</i> command_id)</code></div>
+<div class="l">Lua: <code> <em>reagirl.Checkbox_LinkToToggleState</em>(<i>string</i> element_id, <i>integer</i> section, <i>string</i> command_id, <i>boolean</i> run_command)</code></div>
 </div><p>
 <div class="ch">
 Links a checkbox to a toggle-command-state of an action. <br>
 <br>
 All changes to the toggle-state will be immediately visible for this checkbox.<br>
-Clicking the checkbox also updates the toggle-state immediately.<br>
+Clicking the checkbox also updates the toggle-state immediately, which also updates existing toolbar-button-states. <br>
+You can set run_command=true, which will run the action everytime the checkstate is toggled. <br>
+This might be important to use, if the action behind the toggle-state needs to be run to change states in Reaper AND toggle the toggle-state as well.<br>
+Keep it at run_command=false, if you only want to change the toggle-state of the action without running it.<br>
+<br>
+Note: some actions only change toggle-action, when they are run(like "Transport: Toggle repeat"). In these cases, the action will be run as well.<br>
+This shouldn't affect regular actions.<br>
 <br>
 If the checkbox was already linked to a config-var or ini-file, the linked-state will be replaced by this new one.<br>
 Use reagirl.Checkbox_Unlink() to unlink the checkbox from extstate/ini-file/config var.<br>
@@ -527,6 +533,10 @@ Use reagirl.Checkbox_Unlink() to unlink the checkbox from extstate/ini-file/conf
 <table class="ch">
 <tr><td class="pr"><i>string</i> command_id</td></tr>
 <tr><td class="ch2">the action command id of the command</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>boolean</i> run_command</td></tr>
+<tr><td class="ch2">true, run the action to change the toggle-state; false, only change toggle-state(see note above!)</td></tr>
 </table>
 <br>
 </div>
