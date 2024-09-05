@@ -334,6 +334,61 @@ ToDo Marker Menu:
 
 - RippleCut_Reverse - might be buggy with envelopes and markers and regions not moving correctly
 
+- The following code makes occasionally refocus the first ui-element(every five times clicking the weiter button):
+
+    -- enable Ultraschall-API for the script
+    dofile(reaper.GetResourcePath().."/UserPlugins/ultraschall_api.lua")
+
+    -- 0. enable ReaGirl for the script
+    dofile(reaper.GetResourcePath().."/UserPlugins/reagirl.lua")
+    -- check for required version; alter the version-number if necessary
+    if reagirl.GetVersion()<1.0 then reaper.MB("Needs ReaGirl v"..(1.0).." to run", "Too old version", 2) return false end
+
+    -- 1. add the run-functions for the ui-elements
+
+    function button_func(element_id)
+      if element_id==weiter then
+        label_text=tostring(files_array[math.floor(math.random()*found_files+1)])
+        A=label_text
+        reagirl.Label_SetLabelText(label, label_text:match(".*/(.*)"))
+      elseif element_id==play then
+        reaper.ExecProcess("\"c:\\Program Files\\VideoLAN\\VLC\\vlc.exe\" \""..string.gsub(label_text, "/", "\\").."\"", -1)
+      elseif element_id==copy then
+        
+      end
+    end
+
+    -- 2. start a new gui
+    reagirl.Gui_New()
+
+    -- 3. add the ui-elements and set their attributes
+    label=reagirl.Label_Add(10, 10, "Tudel", "Loo.", false)
+    _, _, found_files, files_array = ultraschall.GetAllRecursiveFilesAndSubdirectories("C:\\Users\\Meo\\Desktop\\trss\\2024-January")
+    label_text=tostring(files_array[math.floor(math.random()*found_files)])
+    reagirl.Label_SetLabelText(label, label_text:match(".*/(.*)"))
+
+    reagirl.NextLine()
+
+    weiter=reagirl.Button_Add(nil, nil, 0, 0, "Weiter", "weiter.", button_func)
+    play=reagirl.Button_Add(nil, nil, 0, 0, "Play", "play.", button_func)
+    copy=reagirl.Button_Add(nil, nil, 0, 0, "Copy", "copy.", button_func)
+
+    -- 4. open the gui
+    reagirl.Gui_Open("My Dialog Name", false, "Dialog Title", "A short explanation of my dialog.", 355, 70, nil, nil, nil)
+
+    -- 5. a main-function that runs the gui-management-function
+    function main()
+      reagirl.Gui_Manage()
+      
+      if reagirl.Gui_IsOpen()==true then reaper.defer(main) end
+    end
+
+    main()
+
+Check why that is...probably because of Label_SetLabelText somehow resetting the focused ui-element...
+
+
+
 </TODO>
 
 ## Ultraschall Framework - Changelog
@@ -346,6 +401,8 @@ Has now 1807 functions, with XX new ones
 
   - **BLA**  
   BLA
+  
+  reagirl.Label\_GetLabelText fehlt!!!
     
 #### New features in 5.1  
   - MetaData: Metadata\_ExtractCover - extracts the cover-image from a file
