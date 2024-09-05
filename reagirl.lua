@@ -1803,6 +1803,726 @@ reagirl.ColorNames["254_252_255"]="milk white"
 reagirl.ColorNames["255_254_250"]="half white"
 reagirl.ColorNames["255_255_255"]="white"
 
+reagirl.ColorName={}
+reagirl.ColorName[#reagirl.ColorName+1]="Acid Green"
+reagirl.ColorName[#reagirl.ColorName+1]="Algae Green"
+reagirl.ColorName[#reagirl.ColorName+1]="AliceBlue"
+reagirl.ColorName[#reagirl.ColorName+1]="Alien Gray"
+reagirl.ColorName[#reagirl.ColorName+1]="Alien Green"
+reagirl.ColorName[#reagirl.ColorName+1]="Aloe Vera Green"
+reagirl.ColorName[#reagirl.ColorName+1]="Amber"
+reagirl.ColorName[#reagirl.ColorName+1]="Antique Bronze"
+reagirl.ColorName[#reagirl.ColorName+1]="AntiqueWhite"
+reagirl.ColorName[#reagirl.ColorName+1]="Aqua Green"
+reagirl.ColorName[#reagirl.ColorName+1]="Aqua Seafoam Green"
+reagirl.ColorName[#reagirl.ColorName+1]="Aquamarine Stone"
+reagirl.ColorName[#reagirl.ColorName+1]="Aquamarine"
+reagirl.ColorName[#reagirl.ColorName+1]="Army Brown"
+reagirl.ColorName[#reagirl.ColorName+1]="Army Green"
+reagirl.ColorName[#reagirl.ColorName+1]="Ash Gray"
+reagirl.ColorName[#reagirl.ColorName+1]="Ash White"
+reagirl.ColorName[#reagirl.ColorName+1]="Avocado Green"
+reagirl.ColorName[#reagirl.ColorName+1]="Aztech Purple"
+reagirl.ColorName[#reagirl.ColorName+1]="Azure Blue"
+reagirl.ColorName[#reagirl.ColorName+1]="Azure"
+reagirl.ColorName[#reagirl.ColorName+1]="Baby Blue"
+reagirl.ColorName[#reagirl.ColorName+1]="Baby Pink"
+reagirl.ColorName[#reagirl.ColorName+1]="Bakers Brown"
+reagirl.ColorName[#reagirl.ColorName+1]="Balloon Blue"
+reagirl.ColorName[#reagirl.ColorName+1]="Banana Yellow"
+reagirl.ColorName[#reagirl.ColorName+1]="Barbie Pink"
+reagirl.ColorName[#reagirl.ColorName+1]="Bashful Pink"
+reagirl.ColorName[#reagirl.ColorName+1]="Basil Green"
+reagirl.ColorName[#reagirl.ColorName+1]="Basket Ball Orange"
+reagirl.ColorName[#reagirl.ColorName+1]="Battleship Gray"
+reagirl.ColorName[#reagirl.ColorName+1]="Bean Red"
+reagirl.ColorName[#reagirl.ColorName+1]="Bee Yellow"
+reagirl.ColorName[#reagirl.ColorName+1]="Beer"
+reagirl.ColorName[#reagirl.ColorName+1]="Beetle Green"
+reagirl.ColorName[#reagirl.ColorName+1]="Beige"
+reagirl.ColorName[#reagirl.ColorName+1]="Bisque"
+reagirl.ColorName[#reagirl.ColorName+1]="Black Bean"
+reagirl.ColorName[#reagirl.ColorName+1]="Black Blue"
+reagirl.ColorName[#reagirl.ColorName+1]="Black Cat"
+reagirl.ColorName[#reagirl.ColorName+1]="Black Cow"
+reagirl.ColorName[#reagirl.ColorName+1]="Black Eel"
+reagirl.ColorName[#reagirl.ColorName+1]="Black"
+reagirl.ColorName[#reagirl.ColorName+1]="BlanchedAlmond"
+reagirl.ColorName[#reagirl.ColorName+1]="Blonde"
+reagirl.ColorName[#reagirl.ColorName+1]="Blood Night"
+reagirl.ColorName[#reagirl.ColorName+1]="Blood Red"
+reagirl.ColorName[#reagirl.ColorName+1]="Blossom Pink"
+reagirl.ColorName[#reagirl.ColorName+1]="Blue Angel"
+reagirl.ColorName[#reagirl.ColorName+1]="Blue Diamond"
+reagirl.ColorName[#reagirl.ColorName+1]="Blue Dress"
+reagirl.ColorName[#reagirl.ColorName+1]="Blue Eyes"
+reagirl.ColorName[#reagirl.ColorName+1]="Blue Gray"
+reagirl.ColorName[#reagirl.ColorName+1]="Blue Green"
+reagirl.ColorName[#reagirl.ColorName+1]="Blue Hosta"
+reagirl.ColorName[#reagirl.ColorName+1]="Blue Ivy"
+reagirl.ColorName[#reagirl.ColorName+1]="Blue Jay"
+reagirl.ColorName[#reagirl.ColorName+1]="Blue Koi"
+reagirl.ColorName[#reagirl.ColorName+1]="Blue Lagoon"
+reagirl.ColorName[#reagirl.ColorName+1]="Blue Lotus"
+reagirl.ColorName[#reagirl.ColorName+1]="Blue Magenta"
+reagirl.ColorName[#reagirl.ColorName+1]="Blue Moss Green"
+reagirl.ColorName[#reagirl.ColorName+1]="Blue Orchid"
+reagirl.ColorName[#reagirl.ColorName+1]="Blue Ribbon"
+reagirl.ColorName[#reagirl.ColorName+1]="Blue Turquoise"
+reagirl.ColorName[#reagirl.ColorName+1]="Blue Whale"
+reagirl.ColorName[#reagirl.ColorName+1]="Blue Zircon"
+reagirl.ColorName[#reagirl.ColorName+1]="Blue"
+reagirl.ColorName[#reagirl.ColorName+1]="BlueViolet"
+reagirl.ColorName[#reagirl.ColorName+1]="Blueberry Blue"
+reagirl.ColorName[#reagirl.ColorName+1]="Blurple"
+reagirl.ColorName[#reagirl.ColorName+1]="Blush Pink"
+reagirl.ColorName[#reagirl.ColorName+1]="Blush Red"
+reagirl.ColorName[#reagirl.ColorName+1]="Blush"
+reagirl.ColorName[#reagirl.ColorName+1]="Bold Yellow"
+reagirl.ColorName[#reagirl.ColorName+1]="Bone White"
+reagirl.ColorName[#reagirl.ColorName+1]="Bottle Green"
+reagirl.ColorName[#reagirl.ColorName+1]="Brass"
+reagirl.ColorName[#reagirl.ColorName+1]="Bright Blue"
+reagirl.ColorName[#reagirl.ColorName+1]="Bright Cyan"
+reagirl.ColorName[#reagirl.ColorName+1]="Bright Gold"
+reagirl.ColorName[#reagirl.ColorName+1]="Bright Grape"
+reagirl.ColorName[#reagirl.ColorName+1]="Bright Green"
+reagirl.ColorName[#reagirl.ColorName+1]="Bright Lilac"
+reagirl.ColorName[#reagirl.ColorName+1]="Bright Maroon"
+reagirl.ColorName[#reagirl.ColorName+1]="Bright Navy Blue"
+reagirl.ColorName[#reagirl.ColorName+1]="Bright Neon Pink"
+reagirl.ColorName[#reagirl.ColorName+1]="Bright Orange"
+reagirl.ColorName[#reagirl.ColorName+1]="Bright Pink"
+reagirl.ColorName[#reagirl.ColorName+1]="Bright Purple"
+reagirl.ColorName[#reagirl.ColorName+1]="Bright Teal"
+reagirl.ColorName[#reagirl.ColorName+1]="Bright Turquoise"
+reagirl.ColorName[#reagirl.ColorName+1]="Broccoli Green"
+reagirl.ColorName[#reagirl.ColorName+1]="Bronze Gold"
+reagirl.ColorName[#reagirl.ColorName+1]="Bronze"
+reagirl.ColorName[#reagirl.ColorName+1]="Brown Bear"
+reagirl.ColorName[#reagirl.ColorName+1]="Brown Rust"
+reagirl.ColorName[#reagirl.ColorName+1]="Brown Sand"
+reagirl.ColorName[#reagirl.ColorName+1]="Brown Sugar"
+reagirl.ColorName[#reagirl.ColorName+1]="Brown"
+reagirl.ColorName[#reagirl.ColorName+1]="Bullet Shell"
+reagirl.ColorName[#reagirl.ColorName+1]="Burgundy"
+reagirl.ColorName[#reagirl.ColorName+1]="BurlyWood"
+reagirl.ColorName[#reagirl.ColorName+1]="Burnt Pink"
+reagirl.ColorName[#reagirl.ColorName+1]="Butterfly Blue"
+reagirl.ColorName[#reagirl.ColorName+1]="Cactus Green"
+reagirl.ColorName[#reagirl.ColorName+1]="CadetBlue"
+reagirl.ColorName[#reagirl.ColorName+1]="Cadillac Pink"
+reagirl.ColorName[#reagirl.ColorName+1]="Camel Brown"
+reagirl.ColorName[#reagirl.ColorName+1]="Camouflage Green"
+reagirl.ColorName[#reagirl.ColorName+1]="Canary Blue"
+reagirl.ColorName[#reagirl.ColorName+1]="Canary Yellow"
+reagirl.ColorName[#reagirl.ColorName+1]="Cantaloupe"
+reagirl.ColorName[#reagirl.ColorName+1]="Caramel"
+reagirl.ColorName[#reagirl.ColorName+1]="Carbon Gray"
+reagirl.ColorName[#reagirl.ColorName+1]="Carbon Red"
+reagirl.ColorName[#reagirl.ColorName+1]="Cardboard Brown"
+reagirl.ColorName[#reagirl.ColorName+1]="Carnation Pink"
+reagirl.ColorName[#reagirl.ColorName+1]="Carrot Orange"
+reagirl.ColorName[#reagirl.ColorName+1]="Celeste"
+reagirl.ColorName[#reagirl.ColorName+1]="Chameleon Green"
+reagirl.ColorName[#reagirl.ColorName+1]="Champagne"
+reagirl.ColorName[#reagirl.ColorName+1]="Charcoal Blue"
+reagirl.ColorName[#reagirl.ColorName+1]="Charcoal"
+reagirl.ColorName[#reagirl.ColorName+1]="Chartreuse"
+reagirl.ColorName[#reagirl.ColorName+1]="Cheese Orange"
+reagirl.ColorName[#reagirl.ColorName+1]="Cherry Red"
+reagirl.ColorName[#reagirl.ColorName+1]="Chestnut Red"
+reagirl.ColorName[#reagirl.ColorName+1]="Chestnut"
+reagirl.ColorName[#reagirl.ColorName+1]="Chilli Pepper"
+reagirl.ColorName[#reagirl.ColorName+1]="Chocolate Brown"
+reagirl.ColorName[#reagirl.ColorName+1]="Chocolate"
+reagirl.ColorName[#reagirl.ColorName+1]="Chrome Aluminum"
+reagirl.ColorName[#reagirl.ColorName+1]="Chrome Gold"
+reagirl.ColorName[#reagirl.ColorName+1]="Chrome Green"
+reagirl.ColorName[#reagirl.ColorName+1]="Chrome Pink"
+reagirl.ColorName[#reagirl.ColorName+1]="Chrome White"
+reagirl.ColorName[#reagirl.ColorName+1]="Cinnamon"
+reagirl.ColorName[#reagirl.ColorName+1]="Citron Green"
+reagirl.ColorName[#reagirl.ColorName+1]="Clematis Violet"
+reagirl.ColorName[#reagirl.ColorName+1]="Cloudy Gray"
+reagirl.ColorName[#reagirl.ColorName+1]="Clover Green"
+reagirl.ColorName[#reagirl.ColorName+1]="Cobalt Blue"
+reagirl.ColorName[#reagirl.ColorName+1]="Coffee"
+reagirl.ColorName[#reagirl.ColorName+1]="Cold Metal"
+reagirl.ColorName[#reagirl.ColorName+1]="Columbia Blue"
+reagirl.ColorName[#reagirl.ColorName+1]="Construction Cone Orange"
+reagirl.ColorName[#reagirl.ColorName+1]="Cookie Brown"
+reagirl.ColorName[#reagirl.ColorName+1]="Copper Red"
+reagirl.ColorName[#reagirl.ColorName+1]="Copper"
+reagirl.ColorName[#reagirl.ColorName+1]="Coral Blue"
+reagirl.ColorName[#reagirl.ColorName+1]="Coral Brown"
+reagirl.ColorName[#reagirl.ColorName+1]="Coral Peach"
+reagirl.ColorName[#reagirl.ColorName+1]="Coral"
+reagirl.ColorName[#reagirl.ColorName+1]="Corn Yellow"
+reagirl.ColorName[#reagirl.ColorName+1]="CornflowerBlue"
+reagirl.ColorName[#reagirl.ColorName+1]="Cornsilk"
+reagirl.ColorName[#reagirl.ColorName+1]="Cosmic Latte"
+reagirl.ColorName[#reagirl.ColorName+1]="Cotton Candy"
+reagirl.ColorName[#reagirl.ColorName+1]="Cotton"
+reagirl.ColorName[#reagirl.ColorName+1]="Cranberry"
+reagirl.ColorName[#reagirl.ColorName+1]="Cream White"
+reagirl.ColorName[#reagirl.ColorName+1]="Cream"
+reagirl.ColorName[#reagirl.ColorName+1]="Creamy White"
+reagirl.ColorName[#reagirl.ColorName+1]="Crimson Purple"
+reagirl.ColorName[#reagirl.ColorName+1]="Crimson Red"
+reagirl.ColorName[#reagirl.ColorName+1]="Crimson"
+reagirl.ColorName[#reagirl.ColorName+1]="Crocus Purple"
+reagirl.ColorName[#reagirl.ColorName+1]="Crystal Blue"
+reagirl.ColorName[#reagirl.ColorName+1]="Cyan Blue"
+reagirl.ColorName[#reagirl.ColorName+1]="Cyan Opaque"
+reagirl.ColorName[#reagirl.ColorName+1]="Cyan"
+reagirl.ColorName[#reagirl.ColorName+1]="Dark Almond"
+reagirl.ColorName[#reagirl.ColorName+1]="Dark Beige"
+reagirl.ColorName[#reagirl.ColorName+1]="Dark Bisque"
+reagirl.ColorName[#reagirl.ColorName+1]="Dark Blonde"
+reagirl.ColorName[#reagirl.ColorName+1]="Dark Blue Gray"
+reagirl.ColorName[#reagirl.ColorName+1]="Dark Blurple"
+reagirl.ColorName[#reagirl.ColorName+1]="Dark Bronze"
+reagirl.ColorName[#reagirl.ColorName+1]="Dark Brown"
+reagirl.ColorName[#reagirl.ColorName+1]="Dark Carnation Pink"
+reagirl.ColorName[#reagirl.ColorName+1]="Dark Coffee"
+reagirl.ColorName[#reagirl.ColorName+1]="Dark Forest Green"
+reagirl.ColorName[#reagirl.ColorName+1]="Dark Gainsboro"
+reagirl.ColorName[#reagirl.ColorName+1]="Dark Gold"
+reagirl.ColorName[#reagirl.ColorName+1]="Dark Grayish Olive"
+reagirl.ColorName[#reagirl.ColorName+1]="Dark Green Blue"
+reagirl.ColorName[#reagirl.ColorName+1]="Dark Hazel Brown"
+reagirl.ColorName[#reagirl.ColorName+1]="Dark Hot Pink"
+reagirl.ColorName[#reagirl.ColorName+1]="Dark Lime Green"
+reagirl.ColorName[#reagirl.ColorName+1]="Dark Maroon"
+reagirl.ColorName[#reagirl.ColorName+1]="Dark Mint"
+reagirl.ColorName[#reagirl.ColorName+1]="Dark Moccasin"
+reagirl.ColorName[#reagirl.ColorName+1]="Dark Pink"
+reagirl.ColorName[#reagirl.ColorName+1]="Dark Purple"
+reagirl.ColorName[#reagirl.ColorName+1]="Dark Raspberry"
+reagirl.ColorName[#reagirl.ColorName+1]="Dark Scarlet"
+reagirl.ColorName[#reagirl.ColorName+1]="Dark Sienna"
+reagirl.ColorName[#reagirl.ColorName+1]="Dark Sky Blue"
+reagirl.ColorName[#reagirl.ColorName+1]="Dark Slate"
+reagirl.ColorName[#reagirl.ColorName+1]="Dark Steampunk"
+reagirl.ColorName[#reagirl.ColorName+1]="Dark Teal"
+reagirl.ColorName[#reagirl.ColorName+1]="Dark White"
+reagirl.ColorName[#reagirl.ColorName+1]="Dark Yellow"
+reagirl.ColorName[#reagirl.ColorName+1]="DarkBlue"
+reagirl.ColorName[#reagirl.ColorName+1]="DarkCyan"
+reagirl.ColorName[#reagirl.ColorName+1]="DarkGoldenRod"
+reagirl.ColorName[#reagirl.ColorName+1]="DarkGray"
+reagirl.ColorName[#reagirl.ColorName+1]="DarkGreen"
+reagirl.ColorName[#reagirl.ColorName+1]="DarkKhaki"
+reagirl.ColorName[#reagirl.ColorName+1]="DarkMagenta"
+reagirl.ColorName[#reagirl.ColorName+1]="DarkOliveGreen"
+reagirl.ColorName[#reagirl.ColorName+1]="DarkOrange"
+reagirl.ColorName[#reagirl.ColorName+1]="DarkOrchid"
+reagirl.ColorName[#reagirl.ColorName+1]="DarkRed"
+reagirl.ColorName[#reagirl.ColorName+1]="DarkSalmon"
+reagirl.ColorName[#reagirl.ColorName+1]="DarkSeaGreen"
+reagirl.ColorName[#reagirl.ColorName+1]="DarkSlateBlue"
+reagirl.ColorName[#reagirl.ColorName+1]="DarkSlateGray"
+reagirl.ColorName[#reagirl.ColorName+1]="DarkTurquoise"
+reagirl.ColorName[#reagirl.ColorName+1]="DarkViolet"
+reagirl.ColorName[#reagirl.ColorName+1]="Day Sky Blue"
+reagirl.ColorName[#reagirl.ColorName+1]="Deep Amber"
+reagirl.ColorName[#reagirl.ColorName+1]="Deep Emerald Green"
+reagirl.ColorName[#reagirl.ColorName+1]="Deep Green"
+reagirl.ColorName[#reagirl.ColorName+1]="Deep Mauve"
+reagirl.ColorName[#reagirl.ColorName+1]="Deep Peach"
+reagirl.ColorName[#reagirl.ColorName+1]="Deep Periwinkle"
+reagirl.ColorName[#reagirl.ColorName+1]="Deep Purple"
+reagirl.ColorName[#reagirl.ColorName+1]="Deep Red"
+reagirl.ColorName[#reagirl.ColorName+1]="Deep Rose"
+reagirl.ColorName[#reagirl.ColorName+1]="Deep Sea Blue"
+reagirl.ColorName[#reagirl.ColorName+1]="Deep Sea Green"
+reagirl.ColorName[#reagirl.ColorName+1]="Deep Sea"
+reagirl.ColorName[#reagirl.ColorName+1]="Deep Teal"
+reagirl.ColorName[#reagirl.ColorName+1]="Deep Turquoise"
+reagirl.ColorName[#reagirl.ColorName+1]="Deep Yellow"
+reagirl.ColorName[#reagirl.ColorName+1]="DeepPink"
+reagirl.ColorName[#reagirl.ColorName+1]="DeepSkyBlue"
+reagirl.ColorName[#reagirl.ColorName+1]="Deer Brown"
+reagirl.ColorName[#reagirl.ColorName+1]="Denim Blue"
+reagirl.ColorName[#reagirl.ColorName+1]="Denim Dark Blue"
+reagirl.ColorName[#reagirl.ColorName+1]="Desert Sand"
+reagirl.ColorName[#reagirl.ColorName+1]="DimGray"
+reagirl.ColorName[#reagirl.ColorName+1]="Dimorphotheca Magenta"
+reagirl.ColorName[#reagirl.ColorName+1]="Dinosaur Green"
+reagirl.ColorName[#reagirl.ColorName+1]="Dirty White"
+reagirl.ColorName[#reagirl.ColorName+1]="DodgerBlue"
+reagirl.ColorName[#reagirl.ColorName+1]="Dollar Bill Green"
+reagirl.ColorName[#reagirl.ColorName+1]="Donut Pink"
+reagirl.ColorName[#reagirl.ColorName+1]="Dragon Green"
+reagirl.ColorName[#reagirl.ColorName+1]="Dull Green Yellow"
+reagirl.ColorName[#reagirl.ColorName+1]="Dull Purple"
+reagirl.ColorName[#reagirl.ColorName+1]="Dull Sea Green"
+reagirl.ColorName[#reagirl.ColorName+1]="Dusky Pink"
+reagirl.ColorName[#reagirl.ColorName+1]="Dusty Pink"
+reagirl.ColorName[#reagirl.ColorName+1]="Dusty Rose"
+reagirl.ColorName[#reagirl.ColorName+1]="Earth Blue"
+reagirl.ColorName[#reagirl.ColorName+1]="Earth Green"
+reagirl.ColorName[#reagirl.ColorName+1]="Ebony"
+reagirl.ColorName[#reagirl.ColorName+1]="Egg Shell"
+reagirl.ColorName[#reagirl.ColorName+1]="Eggplant"
+reagirl.ColorName[#reagirl.ColorName+1]="Electric Blue"
+reagirl.ColorName[#reagirl.ColorName+1]="Elf Green"
+reagirl.ColorName[#reagirl.ColorName+1]="Emerald Green"
+reagirl.ColorName[#reagirl.ColorName+1]="Emerald"
+reagirl.ColorName[#reagirl.ColorName+1]="Estoril Blue"
+reagirl.ColorName[#reagirl.ColorName+1]="Fall Forest Green"
+reagirl.ColorName[#reagirl.ColorName+1]="Fall Leaf Brown"
+reagirl.ColorName[#reagirl.ColorName+1]="Fern Green"
+reagirl.ColorName[#reagirl.ColorName+1]="Ferrari Red"
+reagirl.ColorName[#reagirl.ColorName+1]="Fire Engine Red"
+reagirl.ColorName[#reagirl.ColorName+1]="FireBrick"
+reagirl.ColorName[#reagirl.ColorName+1]="Flamingo Pink"
+reagirl.ColorName[#reagirl.ColorName+1]="FloralWhite"
+reagirl.ColorName[#reagirl.ColorName+1]="Fluro Orange"
+reagirl.ColorName[#reagirl.ColorName+1]="ForestGreen"
+reagirl.ColorName[#reagirl.ColorName+1]="French Lilac"
+reagirl.ColorName[#reagirl.ColorName+1]="Frog Green"
+reagirl.ColorName[#reagirl.ColorName+1]="Fuchsia Pink"
+reagirl.ColorName[#reagirl.ColorName+1]="Gainsboro"
+reagirl.ColorName[#reagirl.ColorName+1]="Garnet Red"
+reagirl.ColorName[#reagirl.ColorName+1]="Gear Steel Gray"
+reagirl.ColorName[#reagirl.ColorName+1]="GhostWhite"
+reagirl.ColorName[#reagirl.ColorName+1]="Ginger Brown"
+reagirl.ColorName[#reagirl.ColorName+1]="Ginger Red"
+reagirl.ColorName[#reagirl.ColorName+1]="Glacial Blue Ice"
+reagirl.ColorName[#reagirl.ColorName+1]="Gold Pink"
+reagirl.ColorName[#reagirl.ColorName+1]="Gold"
+reagirl.ColorName[#reagirl.ColorName+1]="Golden Blonde"
+reagirl.ColorName[#reagirl.ColorName+1]="Golden Brown"
+reagirl.ColorName[#reagirl.ColorName+1]="Golden Silk"
+reagirl.ColorName[#reagirl.ColorName+1]="Golden Yellow"
+reagirl.ColorName[#reagirl.ColorName+1]="GoldenRod"
+reagirl.ColorName[#reagirl.ColorName+1]="Granite"
+reagirl.ColorName[#reagirl.ColorName+1]="Grape"
+reagirl.ColorName[#reagirl.ColorName+1]="Grapefruit"
+reagirl.ColorName[#reagirl.ColorName+1]="Grass Green"
+reagirl.ColorName[#reagirl.ColorName+1]="Gray Brown"
+reagirl.ColorName[#reagirl.ColorName+1]="Gray Cloud"
+reagirl.ColorName[#reagirl.ColorName+1]="Gray Dolphin"
+reagirl.ColorName[#reagirl.ColorName+1]="Gray Goose"
+reagirl.ColorName[#reagirl.ColorName+1]="Gray Green"
+reagirl.ColorName[#reagirl.ColorName+1]="Gray Wolf"
+reagirl.ColorName[#reagirl.ColorName+1]="Gray"
+reagirl.ColorName[#reagirl.ColorName+1]="Grayish Turquoise"
+reagirl.ColorName[#reagirl.ColorName+1]="Green Apple"
+reagirl.ColorName[#reagirl.ColorName+1]="Green Leaves"
+reagirl.ColorName[#reagirl.ColorName+1]="Green Onion"
+reagirl.ColorName[#reagirl.ColorName+1]="Green Peas"
+reagirl.ColorName[#reagirl.ColorName+1]="Green Pepper"
+reagirl.ColorName[#reagirl.ColorName+1]="Green Snake"
+reagirl.ColorName[#reagirl.ColorName+1]="Green Thumb"
+reagirl.ColorName[#reagirl.ColorName+1]="Green"
+reagirl.ColorName[#reagirl.ColorName+1]="GreenYellow"
+reagirl.ColorName[#reagirl.ColorName+1]="Greenish Blue"
+reagirl.ColorName[#reagirl.ColorName+1]="Gulf Blue"
+reagirl.ColorName[#reagirl.ColorName+1]="Gunmetal Gray"
+reagirl.ColorName[#reagirl.ColorName+1]="Gunmetal"
+reagirl.ColorName[#reagirl.ColorName+1]="Half White"
+reagirl.ColorName[#reagirl.ColorName+1]="Halloween Orange"
+reagirl.ColorName[#reagirl.ColorName+1]="Harvest Gold"
+reagirl.ColorName[#reagirl.ColorName+1]="Hazel Green"
+reagirl.ColorName[#reagirl.ColorName+1]="Hazel"
+reagirl.ColorName[#reagirl.ColorName+1]="Heavenly Blue"
+reagirl.ColorName[#reagirl.ColorName+1]="Heliotrope Purple"
+reagirl.ColorName[#reagirl.ColorName+1]="HoneyDew"
+reagirl.ColorName[#reagirl.ColorName+1]="Hot Deep Pink"
+reagirl.ColorName[#reagirl.ColorName+1]="HotPink"
+reagirl.ColorName[#reagirl.ColorName+1]="Hummingbird Green"
+reagirl.ColorName[#reagirl.ColorName+1]="Hunter Green"
+reagirl.ColorName[#reagirl.ColorName+1]="Iceberg"
+reagirl.ColorName[#reagirl.ColorName+1]="Iguana Green"
+reagirl.ColorName[#reagirl.ColorName+1]="Indian Saffron"
+reagirl.ColorName[#reagirl.ColorName+1]="IndianRed"
+reagirl.ColorName[#reagirl.ColorName+1]="Indigo"
+reagirl.ColorName[#reagirl.ColorName+1]="Iridium"
+reagirl.ColorName[#reagirl.ColorName+1]="Irish Green"
+reagirl.ColorName[#reagirl.ColorName+1]="Iron Gray"
+reagirl.ColorName[#reagirl.ColorName+1]="Isle Of Man Green"
+reagirl.ColorName[#reagirl.ColorName+1]="Ivory"
+reagirl.ColorName[#reagirl.ColorName+1]="Jade Green"
+reagirl.ColorName[#reagirl.ColorName+1]="Jade"
+reagirl.ColorName[#reagirl.ColorName+1]="Jasmine Purple"
+reagirl.ColorName[#reagirl.ColorName+1]="Jeans Blue"
+reagirl.ColorName[#reagirl.ColorName+1]="Jellyfish"
+reagirl.ColorName[#reagirl.ColorName+1]="Jet Gray"
+reagirl.ColorName[#reagirl.ColorName+1]="Jungle Green"
+reagirl.ColorName[#reagirl.ColorName+1]="Kelly Green"
+reagirl.ColorName[#reagirl.ColorName+1]="Khaki Brown"
+reagirl.ColorName[#reagirl.ColorName+1]="Khaki Green"
+reagirl.ColorName[#reagirl.ColorName+1]="Khaki Rose"
+reagirl.ColorName[#reagirl.ColorName+1]="Khaki"
+reagirl.ColorName[#reagirl.ColorName+1]="Lapis Blue"
+reagirl.ColorName[#reagirl.ColorName+1]="Lava Red"
+reagirl.ColorName[#reagirl.ColorName+1]="Lavender Blue"
+reagirl.ColorName[#reagirl.ColorName+1]="Lavender Pinocchio"
+reagirl.ColorName[#reagirl.ColorName+1]="Lavender Purple"
+reagirl.ColorName[#reagirl.ColorName+1]="Lavender"
+reagirl.ColorName[#reagirl.ColorName+1]="LavenderBlush"
+reagirl.ColorName[#reagirl.ColorName+1]="LawnGreen"
+reagirl.ColorName[#reagirl.ColorName+1]="Lemon Green"
+reagirl.ColorName[#reagirl.ColorName+1]="Lemon Yellow"
+reagirl.ColorName[#reagirl.ColorName+1]="LemonChiffon"
+reagirl.ColorName[#reagirl.ColorName+1]="Light Aquamarine"
+reagirl.ColorName[#reagirl.ColorName+1]="Light Beige"
+reagirl.ColorName[#reagirl.ColorName+1]="Light Black"
+reagirl.ColorName[#reagirl.ColorName+1]="Light Brown"
+reagirl.ColorName[#reagirl.ColorName+1]="Light Copper"
+reagirl.ColorName[#reagirl.ColorName+1]="Light Day Blue"
+reagirl.ColorName[#reagirl.ColorName+1]="Light French Beige"
+reagirl.ColorName[#reagirl.ColorName+1]="Light Gold"
+reagirl.ColorName[#reagirl.ColorName+1]="Light Jade"
+reagirl.ColorName[#reagirl.ColorName+1]="Light Mint Green"
+reagirl.ColorName[#reagirl.ColorName+1]="Light Olive Green"
+reagirl.ColorName[#reagirl.ColorName+1]="Light Orange"
+reagirl.ColorName[#reagirl.ColorName+1]="Light Purple Blue"
+reagirl.ColorName[#reagirl.ColorName+1]="Light Purple"
+reagirl.ColorName[#reagirl.ColorName+1]="Light Red"
+reagirl.ColorName[#reagirl.ColorName+1]="Light Rose Green"
+reagirl.ColorName[#reagirl.ColorName+1]="Light Rose"
+reagirl.ColorName[#reagirl.ColorName+1]="Light Salmon Rose"
+reagirl.ColorName[#reagirl.ColorName+1]="Light Slate Blue"
+reagirl.ColorName[#reagirl.ColorName+1]="Light Slate"
+reagirl.ColorName[#reagirl.ColorName+1]="Light Steel Gray"
+reagirl.ColorName[#reagirl.ColorName+1]="Light Teal"
+reagirl.ColorName[#reagirl.ColorName+1]="Light White"
+reagirl.ColorName[#reagirl.ColorName+1]="LightBlue"
+reagirl.ColorName[#reagirl.ColorName+1]="LightCoral"
+reagirl.ColorName[#reagirl.ColorName+1]="LightCyan"
+reagirl.ColorName[#reagirl.ColorName+1]="LightGoldenRodYellow"
+reagirl.ColorName[#reagirl.ColorName+1]="LightGray"
+reagirl.ColorName[#reagirl.ColorName+1]="LightGreen"
+reagirl.ColorName[#reagirl.ColorName+1]="LightPink"
+reagirl.ColorName[#reagirl.ColorName+1]="LightSalmon"
+reagirl.ColorName[#reagirl.ColorName+1]="LightSeaGreen"
+reagirl.ColorName[#reagirl.ColorName+1]="LightSkyBlue"
+reagirl.ColorName[#reagirl.ColorName+1]="LightSlateGray"
+reagirl.ColorName[#reagirl.ColorName+1]="LightSteelBlue"
+reagirl.ColorName[#reagirl.ColorName+1]="LightYellow"
+reagirl.ColorName[#reagirl.ColorName+1]="Lilac"
+reagirl.ColorName[#reagirl.ColorName+1]="Lime Mint Green"
+reagirl.ColorName[#reagirl.ColorName+1]="Lime"
+reagirl.ColorName[#reagirl.ColorName+1]="LimeGreen"
+reagirl.ColorName[#reagirl.ColorName+1]="Linen"
+reagirl.ColorName[#reagirl.ColorName+1]="Lipstick Pink"
+reagirl.ColorName[#reagirl.ColorName+1]="Lotus Green"
+reagirl.ColorName[#reagirl.ColorName+1]="Love Red"
+reagirl.ColorName[#reagirl.ColorName+1]="Lovely Purple"
+reagirl.ColorName[#reagirl.ColorName+1]="Macaroni and Cheese"
+reagirl.ColorName[#reagirl.ColorName+1]="Macaw Blue Green"
+reagirl.ColorName[#reagirl.ColorName+1]="Magenta Pink"
+reagirl.ColorName[#reagirl.ColorName+1]="Magenta"
+reagirl.ColorName[#reagirl.ColorName+1]="Magic Mint"
+reagirl.ColorName[#reagirl.ColorName+1]="Mahogany"
+reagirl.ColorName[#reagirl.ColorName+1]="Mango Orange"
+reagirl.ColorName[#reagirl.ColorName+1]="Marble Blue"
+reagirl.ColorName[#reagirl.ColorName+1]="Maroon Red"
+reagirl.ColorName[#reagirl.ColorName+1]="Maroon"
+reagirl.ColorName[#reagirl.ColorName+1]="Mauve Taupe"
+reagirl.ColorName[#reagirl.ColorName+1]="Mauve"
+reagirl.ColorName[#reagirl.ColorName+1]="Medium Forest Green"
+reagirl.ColorName[#reagirl.ColorName+1]="Medium Teal"
+reagirl.ColorName[#reagirl.ColorName+1]="MediumAquaMarine"
+reagirl.ColorName[#reagirl.ColorName+1]="MediumBlue"
+reagirl.ColorName[#reagirl.ColorName+1]="MediumOrchid"
+reagirl.ColorName[#reagirl.ColorName+1]="MediumPurple"
+reagirl.ColorName[#reagirl.ColorName+1]="MediumSeaGreen"
+reagirl.ColorName[#reagirl.ColorName+1]="MediumSlateBlue"
+reagirl.ColorName[#reagirl.ColorName+1]="MediumSpringGreen"
+reagirl.ColorName[#reagirl.ColorName+1]="MediumTurquoise"
+reagirl.ColorName[#reagirl.ColorName+1]="MediumVioletRed"
+reagirl.ColorName[#reagirl.ColorName+1]="Metal"
+reagirl.ColorName[#reagirl.ColorName+1]="Metallic Bronze"
+reagirl.ColorName[#reagirl.ColorName+1]="Metallic Gold"
+reagirl.ColorName[#reagirl.ColorName+1]="Metallic Green"
+reagirl.ColorName[#reagirl.ColorName+1]="Metallic Silver"
+reagirl.ColorName[#reagirl.ColorName+1]="Midday Blue"
+reagirl.ColorName[#reagirl.ColorName+1]="Midnight Purple"
+reagirl.ColorName[#reagirl.ColorName+1]="Midnight"
+reagirl.ColorName[#reagirl.ColorName+1]="MidnightBlue"
+reagirl.ColorName[#reagirl.ColorName+1]="Military Green"
+reagirl.ColorName[#reagirl.ColorName+1]="Milk Chocolate"
+reagirl.ColorName[#reagirl.ColorName+1]="Milk White"
+reagirl.ColorName[#reagirl.ColorName+1]="Millennium Jade"
+reagirl.ColorName[#reagirl.ColorName+1]="Mint Green"
+reagirl.ColorName[#reagirl.ColorName+1]="Mint"
+reagirl.ColorName[#reagirl.ColorName+1]="MintCream"
+reagirl.ColorName[#reagirl.ColorName+1]="Mist Blue"
+reagirl.ColorName[#reagirl.ColorName+1]="MistyRose"
+reagirl.ColorName[#reagirl.ColorName+1]="Moccasin"
+reagirl.ColorName[#reagirl.ColorName+1]="Mocha"
+reagirl.ColorName[#reagirl.ColorName+1]="Moss Green"
+reagirl.ColorName[#reagirl.ColorName+1]="Mustard Yellow"
+reagirl.ColorName[#reagirl.ColorName+1]="Mustard"
+reagirl.ColorName[#reagirl.ColorName+1]="Nardo Gray"
+reagirl.ColorName[#reagirl.ColorName+1]="NavajoWhite"
+reagirl.ColorName[#reagirl.ColorName+1]="Navy"
+reagirl.ColorName[#reagirl.ColorName+1]="Nebula Green"
+reagirl.ColorName[#reagirl.ColorName+1]="Neon Blue"
+reagirl.ColorName[#reagirl.ColorName+1]="Neon Gold"
+reagirl.ColorName[#reagirl.ColorName+1]="Neon Green"
+reagirl.ColorName[#reagirl.ColorName+1]="Neon Hot Pink"
+reagirl.ColorName[#reagirl.ColorName+1]="Neon Orange"
+reagirl.ColorName[#reagirl.ColorName+1]="Neon Pink"
+reagirl.ColorName[#reagirl.ColorName+1]="Neon Purple"
+reagirl.ColorName[#reagirl.ColorName+1]="Neon Red"
+reagirl.ColorName[#reagirl.ColorName+1]="Neon Yellow Green"
+reagirl.ColorName[#reagirl.ColorName+1]="Neon Yellow"
+reagirl.ColorName[#reagirl.ColorName+1]="New Midnight Blue"
+reagirl.ColorName[#reagirl.ColorName+1]="Night Blue"
+reagirl.ColorName[#reagirl.ColorName+1]="Night"
+reagirl.ColorName[#reagirl.ColorName+1]="Northern Lights Blue"
+reagirl.ColorName[#reagirl.ColorName+1]="Oak Brown"
+reagirl.ColorName[#reagirl.ColorName+1]="Ocean Blue"
+reagirl.ColorName[#reagirl.ColorName+1]="Ocean Green"
+reagirl.ColorName[#reagirl.ColorName+1]="Off White"
+reagirl.ColorName[#reagirl.ColorName+1]="Oil"
+reagirl.ColorName[#reagirl.ColorName+1]="Old Burgundy"
+reagirl.ColorName[#reagirl.ColorName+1]="Old Rose"
+reagirl.ColorName[#reagirl.ColorName+1]="OldLace"
+reagirl.ColorName[#reagirl.ColorName+1]="Olive Green"
+reagirl.ColorName[#reagirl.ColorName+1]="Olive"
+reagirl.ColorName[#reagirl.ColorName+1]="OliveDrab"
+reagirl.ColorName[#reagirl.ColorName+1]="Orange Gold"
+reagirl.ColorName[#reagirl.ColorName+1]="Orange Salmon"
+reagirl.ColorName[#reagirl.ColorName+1]="Orange"
+reagirl.ColorName[#reagirl.ColorName+1]="OrangeRed"
+reagirl.ColorName[#reagirl.ColorName+1]="Orchid Purple"
+reagirl.ColorName[#reagirl.ColorName+1]="Orchid"
+reagirl.ColorName[#reagirl.ColorName+1]="Organic Brown"
+reagirl.ColorName[#reagirl.ColorName+1]="Pale Blue Lily"
+reagirl.ColorName[#reagirl.ColorName+1]="Pale Lilac"
+reagirl.ColorName[#reagirl.ColorName+1]="Pale Pink"
+reagirl.ColorName[#reagirl.ColorName+1]="Pale Silver"
+reagirl.ColorName[#reagirl.ColorName+1]="PaleGoldenRod"
+reagirl.ColorName[#reagirl.ColorName+1]="PaleGreen"
+reagirl.ColorName[#reagirl.ColorName+1]="PaleTurquoise"
+reagirl.ColorName[#reagirl.ColorName+1]="PaleVioletRed"
+reagirl.ColorName[#reagirl.ColorName+1]="Papaya Orange"
+reagirl.ColorName[#reagirl.ColorName+1]="PapayaWhip"
+reagirl.ColorName[#reagirl.ColorName+1]="Parchment"
+reagirl.ColorName[#reagirl.ColorName+1]="Parrot Green"
+reagirl.ColorName[#reagirl.ColorName+1]="Pastel Blue"
+reagirl.ColorName[#reagirl.ColorName+1]="Pastel Brown"
+reagirl.ColorName[#reagirl.ColorName+1]="Pastel Green"
+reagirl.ColorName[#reagirl.ColorName+1]="Pastel Indigo"
+reagirl.ColorName[#reagirl.ColorName+1]="Pastel Light Blue"
+reagirl.ColorName[#reagirl.ColorName+1]="Pastel Orange"
+reagirl.ColorName[#reagirl.ColorName+1]="Pastel Pink"
+reagirl.ColorName[#reagirl.ColorName+1]="Pastel Purple"
+reagirl.ColorName[#reagirl.ColorName+1]="Pastel Red"
+reagirl.ColorName[#reagirl.ColorName+1]="Pastel Rose"
+reagirl.ColorName[#reagirl.ColorName+1]="Pastel Violet"
+reagirl.ColorName[#reagirl.ColorName+1]="Pastel Yellow"
+reagirl.ColorName[#reagirl.ColorName+1]="Pea Green"
+reagirl.ColorName[#reagirl.ColorName+1]="Peach Pink"
+reagirl.ColorName[#reagirl.ColorName+1]="Peach"
+reagirl.ColorName[#reagirl.ColorName+1]="PeachPuff"
+reagirl.ColorName[#reagirl.ColorName+1]="Pearl White"
+reagirl.ColorName[#reagirl.ColorName+1]="Pearl"
+reagirl.ColorName[#reagirl.ColorName+1]="Periwinkle Pink"
+reagirl.ColorName[#reagirl.ColorName+1]="Periwinkle Purple"
+reagirl.ColorName[#reagirl.ColorName+1]="Periwinkle"
+reagirl.ColorName[#reagirl.ColorName+1]="Peru"
+reagirl.ColorName[#reagirl.ColorName+1]="Petra Gold"
+reagirl.ColorName[#reagirl.ColorName+1]="Pig Pink"
+reagirl.ColorName[#reagirl.ColorName+1]="Pine Green"
+reagirl.ColorName[#reagirl.ColorName+1]="Pink Brown"
+reagirl.ColorName[#reagirl.ColorName+1]="Pink Bubble Gum"
+reagirl.ColorName[#reagirl.ColorName+1]="Pink Coral"
+reagirl.ColorName[#reagirl.ColorName+1]="Pink Cupcake"
+reagirl.ColorName[#reagirl.ColorName+1]="Pink Daisy"
+reagirl.ColorName[#reagirl.ColorName+1]="Pink Lemonade"
+reagirl.ColorName[#reagirl.ColorName+1]="Pink Orange"
+reagirl.ColorName[#reagirl.ColorName+1]="Pink Plum"
+reagirl.ColorName[#reagirl.ColorName+1]="Pink Violet"
+reagirl.ColorName[#reagirl.ColorName+1]="Pink"
+reagirl.ColorName[#reagirl.ColorName+1]="Pistachio Green"
+reagirl.ColorName[#reagirl.ColorName+1]="Platinum Gray"
+reagirl.ColorName[#reagirl.ColorName+1]="Platinum Silver"
+reagirl.ColorName[#reagirl.ColorName+1]="Platinum"
+reagirl.ColorName[#reagirl.ColorName+1]="Plum Pie"
+reagirl.ColorName[#reagirl.ColorName+1]="Plum Purple"
+reagirl.ColorName[#reagirl.ColorName+1]="Plum Velvet"
+reagirl.ColorName[#reagirl.ColorName+1]="Plum"
+reagirl.ColorName[#reagirl.ColorName+1]="Powder Pink"
+reagirl.ColorName[#reagirl.ColorName+1]="PowderBlue"
+reagirl.ColorName[#reagirl.ColorName+1]="Puce"
+reagirl.ColorName[#reagirl.ColorName+1]="Pullman Brown"
+reagirl.ColorName[#reagirl.ColorName+1]="Pumpkin Orange"
+reagirl.ColorName[#reagirl.ColorName+1]="Pumpkin Pie"
+reagirl.ColorName[#reagirl.ColorName+1]="Purple Amethyst"
+reagirl.ColorName[#reagirl.ColorName+1]="Purple Daffodil"
+reagirl.ColorName[#reagirl.ColorName+1]="Purple Dragon"
+reagirl.ColorName[#reagirl.ColorName+1]="Purple Flower"
+reagirl.ColorName[#reagirl.ColorName+1]="Purple Haze"
+reagirl.ColorName[#reagirl.ColorName+1]="Purple Iris"
+reagirl.ColorName[#reagirl.ColorName+1]="Purple Jam"
+reagirl.ColorName[#reagirl.ColorName+1]="Purple Lily"
+reagirl.ColorName[#reagirl.ColorName+1]="Purple Maroon"
+reagirl.ColorName[#reagirl.ColorName+1]="Purple Mimosa"
+reagirl.ColorName[#reagirl.ColorName+1]="Purple Monster"
+reagirl.ColorName[#reagirl.ColorName+1]="Purple Navy"
+reagirl.ColorName[#reagirl.ColorName+1]="Purple Pink"
+reagirl.ColorName[#reagirl.ColorName+1]="Purple Plum"
+reagirl.ColorName[#reagirl.ColorName+1]="Purple Sage Bush"
+reagirl.ColorName[#reagirl.ColorName+1]="Purple Thistle"
+reagirl.ColorName[#reagirl.ColorName+1]="Purple Violet"
+reagirl.ColorName[#reagirl.ColorName+1]="Purple White"
+reagirl.ColorName[#reagirl.ColorName+1]="Purple"
+reagirl.ColorName[#reagirl.ColorName+1]="Racing Green"
+reagirl.ColorName[#reagirl.ColorName+1]="Raspberry Purple"
+reagirl.ColorName[#reagirl.ColorName+1]="Raspberry"
+reagirl.ColorName[#reagirl.ColorName+1]="Rat Gray"
+reagirl.ColorName[#reagirl.ColorName+1]="RebeccaPurple"
+reagirl.ColorName[#reagirl.ColorName+1]="Red Blood"
+reagirl.ColorName[#reagirl.ColorName+1]="Red Brown"
+reagirl.ColorName[#reagirl.ColorName+1]="Red Dirt"
+reagirl.ColorName[#reagirl.ColorName+1]="Red Fox"
+reagirl.ColorName[#reagirl.ColorName+1]="Red Gold"
+reagirl.ColorName[#reagirl.ColorName+1]="Red Magenta"
+reagirl.ColorName[#reagirl.ColorName+1]="Red Pink"
+reagirl.ColorName[#reagirl.ColorName+1]="Red White"
+reagirl.ColorName[#reagirl.ColorName+1]="Red Wine"
+reagirl.ColorName[#reagirl.ColorName+1]="Red"
+reagirl.ColorName[#reagirl.ColorName+1]="Rice"
+reagirl.ColorName[#reagirl.ColorName+1]="Rich Lilac"
+reagirl.ColorName[#reagirl.ColorName+1]="Robin Egg Blue"
+reagirl.ColorName[#reagirl.ColorName+1]="Rogue Pink"
+reagirl.ColorName[#reagirl.ColorName+1]="Roman Silver"
+reagirl.ColorName[#reagirl.ColorName+1]="Rose Dust"
+reagirl.ColorName[#reagirl.ColorName+1]="Rose Gold"
+reagirl.ColorName[#reagirl.ColorName+1]="Rose Pink"
+reagirl.ColorName[#reagirl.ColorName+1]="Rose Purple"
+reagirl.ColorName[#reagirl.ColorName+1]="Rose Quartz"
+reagirl.ColorName[#reagirl.ColorName+1]="Rose Red"
+reagirl.ColorName[#reagirl.ColorName+1]="Rose"
+reagirl.ColorName[#reagirl.ColorName+1]="Rosy Pink"
+reagirl.ColorName[#reagirl.ColorName+1]="Rosy"
+reagirl.ColorName[#reagirl.ColorName+1]="Rosy-Finch"
+reagirl.ColorName[#reagirl.ColorName+1]="RosyBrown"
+reagirl.ColorName[#reagirl.ColorName+1]="Royal Pink"
+reagirl.ColorName[#reagirl.ColorName+1]="RoyalBlue"
+reagirl.ColorName[#reagirl.ColorName+1]="Rubber Ducky Yellow"
+reagirl.ColorName[#reagirl.ColorName+1]="Ruby Red"
+reagirl.ColorName[#reagirl.ColorName+1]="Rust"
+reagirl.ColorName[#reagirl.ColorName+1]="SaddleBrown"
+reagirl.ColorName[#reagirl.ColorName+1]="Safety Orange"
+reagirl.ColorName[#reagirl.ColorName+1]="Safety Yellow"
+reagirl.ColorName[#reagirl.ColorName+1]="Saffron Red"
+reagirl.ColorName[#reagirl.ColorName+1]="Saffron"
+reagirl.ColorName[#reagirl.ColorName+1]="Sage Green"
+reagirl.ColorName[#reagirl.ColorName+1]="Sage"
+reagirl.ColorName[#reagirl.ColorName+1]="Salad Green"
+reagirl.ColorName[#reagirl.ColorName+1]="Salmon Pink"
+reagirl.ColorName[#reagirl.ColorName+1]="Salmon"
+reagirl.ColorName[#reagirl.ColorName+1]="Samco Blue"
+reagirl.ColorName[#reagirl.ColorName+1]="Sand"
+reagirl.ColorName[#reagirl.ColorName+1]="Sandstone"
+reagirl.ColorName[#reagirl.ColorName+1]="SandyBrown"
+reagirl.ColorName[#reagirl.ColorName+1]="Sangria"
+reagirl.ColorName[#reagirl.ColorName+1]="Sapphire Blue"
+reagirl.ColorName[#reagirl.ColorName+1]="Scarlet Red"
+reagirl.ColorName[#reagirl.ColorName+1]="School Bus Yellow"
+reagirl.ColorName[#reagirl.ColorName+1]="Sea Blue"
+reagirl.ColorName[#reagirl.ColorName+1]="Sea Turtle Green"
+reagirl.ColorName[#reagirl.ColorName+1]="SeaGreen"
+reagirl.ColorName[#reagirl.ColorName+1]="SeaShell"
+reagirl.ColorName[#reagirl.ColorName+1]="Seafoam Green"
+reagirl.ColorName[#reagirl.ColorName+1]="Seaweed Green"
+reagirl.ColorName[#reagirl.ColorName+1]="Sedona"
+reagirl.ColorName[#reagirl.ColorName+1]="Sepia Brown"
+reagirl.ColorName[#reagirl.ColorName+1]="Sepia"
+reagirl.ColorName[#reagirl.ColorName+1]="Shamrock Green"
+reagirl.ColorName[#reagirl.ColorName+1]="Sheet Metal"
+reagirl.ColorName[#reagirl.ColorName+1]="Shocking Orange"
+reagirl.ColorName[#reagirl.ColorName+1]="Sienna"
+reagirl.ColorName[#reagirl.ColorName+1]="Silk Blue"
+reagirl.ColorName[#reagirl.ColorName+1]="Silver Pink"
+reagirl.ColorName[#reagirl.ColorName+1]="Silver White"
+reagirl.ColorName[#reagirl.ColorName+1]="Silver"
+reagirl.ColorName[#reagirl.ColorName+1]="Sky Blue Dress"
+reagirl.ColorName[#reagirl.ColorName+1]="SkyBlue"
+reagirl.ColorName[#reagirl.ColorName+1]="Slate Blue Gray"
+reagirl.ColorName[#reagirl.ColorName+1]="Slate Granite Gray"
+reagirl.ColorName[#reagirl.ColorName+1]="SlateBlue"
+reagirl.ColorName[#reagirl.ColorName+1]="SlateGray"
+reagirl.ColorName[#reagirl.ColorName+1]="Slime Green"
+reagirl.ColorName[#reagirl.ColorName+1]="Smokey Gray"
+reagirl.ColorName[#reagirl.ColorName+1]="Snow"
+reagirl.ColorName[#reagirl.ColorName+1]="Soft Hazel"
+reagirl.ColorName[#reagirl.ColorName+1]="Soft Ivory"
+reagirl.ColorName[#reagirl.ColorName+1]="Soft Pink"
+reagirl.ColorName[#reagirl.ColorName+1]="Sonic Silver"
+reagirl.ColorName[#reagirl.ColorName+1]="SpringGreen"
+reagirl.ColorName[#reagirl.ColorName+1]="Stainless Steel Gray"
+reagirl.ColorName[#reagirl.ColorName+1]="Steampunk"
+reagirl.ColorName[#reagirl.ColorName+1]="Steel Gray"
+reagirl.ColorName[#reagirl.ColorName+1]="SteelBlue"
+reagirl.ColorName[#reagirl.ColorName+1]="Stoplight Go Green"
+reagirl.ColorName[#reagirl.ColorName+1]="Stormy Gray"
+reagirl.ColorName[#reagirl.ColorName+1]="Strawberry Red"
+reagirl.ColorName[#reagirl.ColorName+1]="Sun Yellow"
+reagirl.ColorName[#reagirl.ColorName+1]="Sunrise Orange"
+reagirl.ColorName[#reagirl.ColorName+1]="Tan Brown"
+reagirl.ColorName[#reagirl.ColorName+1]="Tan"
+reagirl.ColorName[#reagirl.ColorName+1]="Tangerine"
+reagirl.ColorName[#reagirl.ColorName+1]="Taupe"
+reagirl.ColorName[#reagirl.ColorName+1]="Tea Green"
+reagirl.ColorName[#reagirl.ColorName+1]="Teal Blue"
+reagirl.ColorName[#reagirl.ColorName+1]="Teal Green"
+reagirl.ColorName[#reagirl.ColorName+1]="Teal"
+reagirl.ColorName[#reagirl.ColorName+1]="Thistle"
+reagirl.ColorName[#reagirl.ColorName+1]="Tiffany Blue"
+reagirl.ColorName[#reagirl.ColorName+1]="Tiger Orange"
+reagirl.ColorName[#reagirl.ColorName+1]="Tomato Sauce Red"
+reagirl.ColorName[#reagirl.ColorName+1]="Tomato"
+reagirl.ColorName[#reagirl.ColorName+1]="Tron Blue"
+reagirl.ColorName[#reagirl.ColorName+1]="Tulip Pink"
+reagirl.ColorName[#reagirl.ColorName+1]="Turquoise Green"
+reagirl.ColorName[#reagirl.ColorName+1]="Turquoise"
+reagirl.ColorName[#reagirl.ColorName+1]="Tyrian Purple"
+reagirl.ColorName[#reagirl.ColorName+1]="Unbleached Silk"
+reagirl.ColorName[#reagirl.ColorName+1]="Valentine Red"
+reagirl.ColorName[#reagirl.ColorName+1]="Vampire Gray"
+reagirl.ColorName[#reagirl.ColorName+1]="Vanilla"
+reagirl.ColorName[#reagirl.ColorName+1]="Velvet Maroon"
+reagirl.ColorName[#reagirl.ColorName+1]="Venom Green"
+reagirl.ColorName[#reagirl.ColorName+1]="Vermilion"
+reagirl.ColorName[#reagirl.ColorName+1]="Very Peri"
+reagirl.ColorName[#reagirl.ColorName+1]="Viola Purple"
+reagirl.ColorName[#reagirl.ColorName+1]="Viola"
+reagirl.ColorName[#reagirl.ColorName+1]="Violet Red"
+reagirl.ColorName[#reagirl.ColorName+1]="Violet"
+reagirl.ColorName[#reagirl.ColorName+1]="Warm Pink"
+reagirl.ColorName[#reagirl.ColorName+1]="Warm White"
+reagirl.ColorName[#reagirl.ColorName+1]="Water"
+reagirl.ColorName[#reagirl.ColorName+1]="Watermelon Pink"
+reagirl.ColorName[#reagirl.ColorName+1]="Western Charcoal"
+reagirl.ColorName[#reagirl.ColorName+1]="Wheat"
+reagirl.ColorName[#reagirl.ColorName+1]="White Blue"
+reagirl.ColorName[#reagirl.ColorName+1]="White Chocolate"
+reagirl.ColorName[#reagirl.ColorName+1]="White Gold"
+reagirl.ColorName[#reagirl.ColorName+1]="White Gray"
+reagirl.ColorName[#reagirl.ColorName+1]="White Ice"
+reagirl.ColorName[#reagirl.ColorName+1]="White Yellow"
+reagirl.ColorName[#reagirl.ColorName+1]="White"
+reagirl.ColorName[#reagirl.ColorName+1]="WhiteSmoke"
+reagirl.ColorName[#reagirl.ColorName+1]="Windows Blue"
+reagirl.ColorName[#reagirl.ColorName+1]="Wisteria Purple"
+reagirl.ColorName[#reagirl.ColorName+1]="Wood"
+reagirl.ColorName[#reagirl.ColorName+1]="Yellow Green Grosbeak"
+reagirl.ColorName[#reagirl.ColorName+1]="Yellow Lawn Green"
+reagirl.ColorName[#reagirl.ColorName+1]="Yellow Orange"
+reagirl.ColorName[#reagirl.ColorName+1]="Yellow"
+reagirl.ColorName[#reagirl.ColorName+1]="YellowGreen"
+reagirl.ColorName[#reagirl.ColorName+1]="Zombie Green"
+
 
 reagirl.Colors={}
 reagirl.Colors.Scrollbar={}
@@ -6886,13 +7606,525 @@ function reagirl.NextLine(y_offset)
   end
 end
 
+function reagirl.Color_EnumerateNames(index)
+--[[
+<US_ DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Color_EnumerateNames</slug>
+  <requires>
+    ReaGirl=1.2
+    Reaper=7.03
+    Lua=5.4
+  </requires>
+  <functioncall>string color_name = reagirl.Color_EnumerateNames(integer index)</functioncall>
+  <description>
+    Enumerates all possible color-names. These names can be used with reagirl.Color_GetColorValuesByName to get the corresponding color-value.
+    
+    Supports all standard html-names as defined by the W3C:
+    
+    AliceBlue - 240, 248, 255
+    AntiqueWhite - 250, 235, 215
+    Aquamarine - 127, 255, 212
+    Azure - 240, 255, 255
+    Beige - 245, 245, 220
+    Bisque - 255, 228, 196
+    Black - 0, 0, 0
+    BlanchedAlmond - 255, 235, 205
+    Blue - 0, 0, 255
+    BlueViolet - 138, 43, 226
+    Brown - 165, 42, 42
+    BurlyWood - 222, 184, 135
+    CadetBlue - 95, 158, 160
+    Chartreuse - 127, 255, 0
+    Chocolate - 210, 105, 30
+    Coral - 255, 127, 80
+    CornflowerBlue - 100, 149, 237
+    Cornsilk - 255, 248, 220
+    Crimson - 220, 20, 60
+    Cyan - 0, 255, 255
+    DarkBlue - 0, 0, 139
+    DarkCyan - 0, 139, 139
+    DarkGoldenRod - 184, 134, 11
+    DarkGray - 169, 169, 169
+    DarkGreen - 0, 100, 0
+    DarkKhaki - 189, 183, 107
+    DarkMagenta - 139, 0, 139
+    DarkOliveGreen - 85, 107, 47
+    DarkOrange - 255, 140, 0
+    DarkOrchid - 153, 50, 204
+    DarkRed - 139, 0, 0
+    DarkSalmon - 233, 150, 122
+    DarkSeaGreen - 143, 188, 143
+    DarkSlateBlue - 72, 61, 139
+    DarkSlateGray - 37, 56, 60
+    DarkTurquoise - 0, 206, 209
+    DarkViolet - 148, 0, 211
+    DeepPink - 255, 20, 147
+    DeepSkyBlue - 0, 191, 255
+    DimGray - 105, 105, 105
+    DodgerBlue - 30, 144, 255
+    FireBrick - 178, 34, 34
+    FloralWhite - 255, 250, 240
+    ForestGreen - 34, 139, 34
+    Gainsboro - 220, 220, 220
+    GhostWhite - 248, 248, 255
+    Gold - 255, 215, 0
+    GoldenRod - 218, 165, 32
+    Gray - 128, 128, 128
+    Green - 0, 128, 0
+    GreenYellow - 173, 255, 47
+    HoneyDew - 240, 255, 240
+    HotPink - 255, 105, 180
+    IndianRed - 205, 92, 92
+    Indigo - 75, 0, 130
+    Ivory - 255, 255, 240
+    Khaki - 240, 230, 140
+    Lavender - 230, 230, 250
+    LavenderBlush - 255, 240, 245
+    LawnGreen - 124, 252, 0
+    LemonChiffon - 255, 250, 205
+    LightBlue - 173, 216, 230
+    LightCoral - 240, 128, 128
+    LightCyan - 224, 255, 255
+    LightGoldenRodYellow - 250, 250, 210
+    LightGray - 211, 211, 211
+    LightGreen - 144, 238, 144
+    LightPink - 255, 182, 193
+    LightSalmon - 255, 160, 122
+    LightSeaGreen - 32, 178, 170
+    LightSkyBlue - 135, 206, 250
+    LightSlateGray - 119, 136, 153
+    LightSteelBlue - 176, 207, 222
+    LightYellow - 255, 255, 224
+    Lime - 0, 255, 0
+    LimeGreen - 50, 205, 50
+    Linen - 250, 240, 230
+    Magenta - 255, 0, 255
+    Maroon - 128, 0, 0
+    MediumAquaMarine - 102, 205, 170
+    MediumBlue - 0, 0, 205
+    MediumOrchid - 186, 85, 211
+    MediumPurple - 147, 112, 219
+    MediumSeaGreen - 60, 179, 113
+    MediumSlateBlue - 123, 104, 238
+    MediumSpringGreen - 0, 250, 154
+    MediumTurquoise - 72, 209, 204
+    MediumVioletRed - 199, 21, 133
+    MidnightBlue - 25, 25, 112
+    MintCream - 245, 255, 250
+    MistyRose - 255, 228, 225
+    Moccasin - 255, 228, 181
+    NavajoWhite - 255, 222, 173
+    Navy - 0, 0, 128
+    OldLace - 254, 240, 227
+    Olive - 128, 128, 0
+    OliveDrab - 107, 142, 35
+    Orange - 255, 165, 0
+    OrangeRed - 255, 69, 0
+    Orchid - 218, 112, 214
+    PaleGoldenRod - 238, 232, 170
+    PaleGreen - 152, 251, 152
+    PaleTurquoise - 175, 238, 238
+    PaleVioletRed - 219, 112, 147
+    PapayaWhip - 255, 239, 213
+    PeachPuff - 255, 218, 185
+    Peru - 205, 133, 63
+    Pink - 255, 192, 203
+    Plum - 221, 160, 221
+    PowderBlue - 176, 224, 230
+    Purple - 128, 0, 128
+    RebeccaPurple - 102, 51, 153
+    Red - 255, 0, 0
+    RosyBrown - 188, 143, 143
+    RoyalBlue - 65, 105, 225
+    SaddleBrown - 139, 69, 19
+    Salmon - 250, 128, 114
+    SandyBrown - 244, 164, 96
+    SeaGreen - 46, 139, 87
+    SeaShell - 255, 245, 238
+    Sienna - 160, 82, 45
+    Silver - 192, 192, 192
+    SkyBlue - 135, 206, 235
+    SlateBlue - 106, 90, 205
+    SlateGray - 112, 128, 144
+    Snow - 255, 250, 250
+    SpringGreen - 0, 255, 127
+    SteelBlue - 70, 130, 180
+    Tan - 210, 180, 140
+    Teal - 0, 128, 128
+    Thistle - 216, 191, 216
+    Tomato - 255, 99, 71
+    Turquoise - 64, 224, 208
+    Violet - 238, 130, 238
+    Wheat - 245, 222, 179
+    WhiteSmoke - 245, 245, 245
+    Yellow - 255, 255, 0
+    YellowGreen - 154, 205, 50
+    
+  </description>
+  <parameters>
+    integer index - the index of the color-name(1 and higher)
+  </parameters>
+  <retvals>
+    string color_name - the name of the color
+  </retvals>
+  <chapter_context>
+    Misc
+  </chapter_context>
+  <tags>misc, color, enumerate, name</tags>
+</US_DocBloc>
+--]]
+  -- verlinke html-color-liste
+  if index<1 or index>=#reagirl.ColorName then return "" end
+  return reagirl.ColorName[index]
+end
+
 function reagirl.Color_GetName(r,g,b)
+  -- verlinke html-color-liste
+--[[
+<US_ DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Color_GetName</slug>
+  <requires>
+    ReaGirl=1.2
+    Reaper=7.03
+    Lua=5.4
+  </requires>
+  <functioncall>string color_name = reagirl.Color_GetName(integer red, integer green, integer blue)</functioncall>
+  <description>
+    Gets the name of a color by its values. 
+    These names can be used with reagirl.Color_GetColorValuesByName to get the corresponding color-value.
+    
+    If a specific color-value has no standard-name, it will return "".
+    
+    Supports all standard html-names as defined by the W3C:
+    
+    AliceBlue - 240, 248, 255
+    AntiqueWhite - 250, 235, 215
+    Aquamarine - 127, 255, 212
+    Azure - 240, 255, 255
+    Beige - 245, 245, 220
+    Bisque - 255, 228, 196
+    Black - 0, 0, 0
+    BlanchedAlmond - 255, 235, 205
+    Blue - 0, 0, 255
+    BlueViolet - 138, 43, 226
+    Brown - 165, 42, 42
+    BurlyWood - 222, 184, 135
+    CadetBlue - 95, 158, 160
+    Chartreuse - 127, 255, 0
+    Chocolate - 210, 105, 30
+    Coral - 255, 127, 80
+    CornflowerBlue - 100, 149, 237
+    Cornsilk - 255, 248, 220
+    Crimson - 220, 20, 60
+    Cyan - 0, 255, 255
+    DarkBlue - 0, 0, 139
+    DarkCyan - 0, 139, 139
+    DarkGoldenRod - 184, 134, 11
+    DarkGray - 169, 169, 169
+    DarkGreen - 0, 100, 0
+    DarkKhaki - 189, 183, 107
+    DarkMagenta - 139, 0, 139
+    DarkOliveGreen - 85, 107, 47
+    DarkOrange - 255, 140, 0
+    DarkOrchid - 153, 50, 204
+    DarkRed - 139, 0, 0
+    DarkSalmon - 233, 150, 122
+    DarkSeaGreen - 143, 188, 143
+    DarkSlateBlue - 72, 61, 139
+    DarkSlateGray - 37, 56, 60
+    DarkTurquoise - 0, 206, 209
+    DarkViolet - 148, 0, 211
+    DeepPink - 255, 20, 147
+    DeepSkyBlue - 0, 191, 255
+    DimGray - 105, 105, 105
+    DodgerBlue - 30, 144, 255
+    FireBrick - 178, 34, 34
+    FloralWhite - 255, 250, 240
+    ForestGreen - 34, 139, 34
+    Gainsboro - 220, 220, 220
+    GhostWhite - 248, 248, 255
+    Gold - 255, 215, 0
+    GoldenRod - 218, 165, 32
+    Gray - 128, 128, 128
+    Green - 0, 128, 0
+    GreenYellow - 173, 255, 47
+    HoneyDew - 240, 255, 240
+    HotPink - 255, 105, 180
+    IndianRed - 205, 92, 92
+    Indigo - 75, 0, 130
+    Ivory - 255, 255, 240
+    Khaki - 240, 230, 140
+    Lavender - 230, 230, 250
+    LavenderBlush - 255, 240, 245
+    LawnGreen - 124, 252, 0
+    LemonChiffon - 255, 250, 205
+    LightBlue - 173, 216, 230
+    LightCoral - 240, 128, 128
+    LightCyan - 224, 255, 255
+    LightGoldenRodYellow - 250, 250, 210
+    LightGray - 211, 211, 211
+    LightGreen - 144, 238, 144
+    LightPink - 255, 182, 193
+    LightSalmon - 255, 160, 122
+    LightSeaGreen - 32, 178, 170
+    LightSkyBlue - 135, 206, 250
+    LightSlateGray - 119, 136, 153
+    LightSteelBlue - 176, 207, 222
+    LightYellow - 255, 255, 224
+    Lime - 0, 255, 0
+    LimeGreen - 50, 205, 50
+    Linen - 250, 240, 230
+    Magenta - 255, 0, 255
+    Maroon - 128, 0, 0
+    MediumAquaMarine - 102, 205, 170
+    MediumBlue - 0, 0, 205
+    MediumOrchid - 186, 85, 211
+    MediumPurple - 147, 112, 219
+    MediumSeaGreen - 60, 179, 113
+    MediumSlateBlue - 123, 104, 238
+    MediumSpringGreen - 0, 250, 154
+    MediumTurquoise - 72, 209, 204
+    MediumVioletRed - 199, 21, 133
+    MidnightBlue - 25, 25, 112
+    MintCream - 245, 255, 250
+    MistyRose - 255, 228, 225
+    Moccasin - 255, 228, 181
+    NavajoWhite - 255, 222, 173
+    Navy - 0, 0, 128
+    OldLace - 254, 240, 227
+    Olive - 128, 128, 0
+    OliveDrab - 107, 142, 35
+    Orange - 255, 165, 0
+    OrangeRed - 255, 69, 0
+    Orchid - 218, 112, 214
+    PaleGoldenRod - 238, 232, 170
+    PaleGreen - 152, 251, 152
+    PaleTurquoise - 175, 238, 238
+    PaleVioletRed - 219, 112, 147
+    PapayaWhip - 255, 239, 213
+    PeachPuff - 255, 218, 185
+    Peru - 205, 133, 63
+    Pink - 255, 192, 203
+    Plum - 221, 160, 221
+    PowderBlue - 176, 224, 230
+    Purple - 128, 0, 128
+    RebeccaPurple - 102, 51, 153
+    Red - 255, 0, 0
+    RosyBrown - 188, 143, 143
+    RoyalBlue - 65, 105, 225
+    SaddleBrown - 139, 69, 19
+    Salmon - 250, 128, 114
+    SandyBrown - 244, 164, 96
+    SeaGreen - 46, 139, 87
+    SeaShell - 255, 245, 238
+    Sienna - 160, 82, 45
+    Silver - 192, 192, 192
+    SkyBlue - 135, 206, 235
+    SlateBlue - 106, 90, 205
+    SlateGray - 112, 128, 144
+    Snow - 255, 250, 250
+    SpringGreen - 0, 255, 127
+    SteelBlue - 70, 130, 180
+    Tan - 210, 180, 140
+    Teal - 0, 128, 128
+    Thistle - 216, 191, 216
+    Tomato - 255, 99, 71
+    Turquoise - 64, 224, 208
+    Violet - 238, 130, 238
+    Wheat - 245, 222, 179
+    WhiteSmoke - 245, 245, 245
+    Yellow - 255, 255, 0
+    YellowGreen - 154, 205, 50
+    
+  </description>
+  <parameters>
+    integer red - the red-value of the color
+    integer green - the green-value of the color
+    integer blue - the blue-value of the color
+  </parameters>
+  <retvals>
+    string color_name - the name of the color
+  </retvals>
+  <chapter_context>
+    Misc
+  </chapter_context>
+  <tags>misc, color, get, by color, name</tags>
+</US_DocBloc>
+--]]
   local name=reagirl.ColorNames[r.."_"..g.."_"..b]
   if name==nil then name="" end
   return name
 end
 
 function reagirl.Color_GetColorValuesByName(name)
+  -- verlinke html-color-liste
+--[[
+<US_ DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Color_GetColorValuesByName</slug>
+  <requires>
+    ReaGirl=1.2
+    Reaper=7.03
+    Lua=5.4
+  </requires>
+  <functioncall>integer red, integer green, integer blue = reagirl.Color_GetColorValuesByName(string color_name)</functioncall>
+  <description>
+    Gets the color values by a color name. 
+    
+    Supports all standard html-names as defined by the W3C and more(use reagirl.Color_EnumerateNames to get all names):
+    
+    AliceBlue - 240, 248, 255
+    AntiqueWhite - 250, 235, 215
+    Aquamarine - 127, 255, 212
+    Azure - 240, 255, 255
+    Beige - 245, 245, 220
+    Bisque - 255, 228, 196
+    Black - 0, 0, 0
+    BlanchedAlmond - 255, 235, 205
+    Blue - 0, 0, 255
+    BlueViolet - 138, 43, 226
+    Brown - 165, 42, 42
+    BurlyWood - 222, 184, 135
+    CadetBlue - 95, 158, 160
+    Chartreuse - 127, 255, 0
+    Chocolate - 210, 105, 30
+    Coral - 255, 127, 80
+    CornflowerBlue - 100, 149, 237
+    Cornsilk - 255, 248, 220
+    Crimson - 220, 20, 60
+    Cyan - 0, 255, 255
+    DarkBlue - 0, 0, 139
+    DarkCyan - 0, 139, 139
+    DarkGoldenRod - 184, 134, 11
+    DarkGray - 169, 169, 169
+    DarkGreen - 0, 100, 0
+    DarkKhaki - 189, 183, 107
+    DarkMagenta - 139, 0, 139
+    DarkOliveGreen - 85, 107, 47
+    DarkOrange - 255, 140, 0
+    DarkOrchid - 153, 50, 204
+    DarkRed - 139, 0, 0
+    DarkSalmon - 233, 150, 122
+    DarkSeaGreen - 143, 188, 143
+    DarkSlateBlue - 72, 61, 139
+    DarkSlateGray - 37, 56, 60
+    DarkTurquoise - 0, 206, 209
+    DarkViolet - 148, 0, 211
+    DeepPink - 255, 20, 147
+    DeepSkyBlue - 0, 191, 255
+    DimGray - 105, 105, 105
+    DodgerBlue - 30, 144, 255
+    FireBrick - 178, 34, 34
+    FloralWhite - 255, 250, 240
+    ForestGreen - 34, 139, 34
+    Gainsboro - 220, 220, 220
+    GhostWhite - 248, 248, 255
+    Gold - 255, 215, 0
+    GoldenRod - 218, 165, 32
+    Gray - 128, 128, 128
+    Green - 0, 128, 0
+    GreenYellow - 173, 255, 47
+    HoneyDew - 240, 255, 240
+    HotPink - 255, 105, 180
+    IndianRed - 205, 92, 92
+    Indigo - 75, 0, 130
+    Ivory - 255, 255, 240
+    Khaki - 240, 230, 140
+    Lavender - 230, 230, 250
+    LavenderBlush - 255, 240, 245
+    LawnGreen - 124, 252, 0
+    LemonChiffon - 255, 250, 205
+    LightBlue - 173, 216, 230
+    LightCoral - 240, 128, 128
+    LightCyan - 224, 255, 255
+    LightGoldenRodYellow - 250, 250, 210
+    LightGray - 211, 211, 211
+    LightGreen - 144, 238, 144
+    LightPink - 255, 182, 193
+    LightSalmon - 255, 160, 122
+    LightSeaGreen - 32, 178, 170
+    LightSkyBlue - 135, 206, 250
+    LightSlateGray - 119, 136, 153
+    LightSteelBlue - 176, 207, 222
+    LightYellow - 255, 255, 224
+    Lime - 0, 255, 0
+    LimeGreen - 50, 205, 50
+    Linen - 250, 240, 230
+    Magenta - 255, 0, 255
+    Maroon - 128, 0, 0
+    MediumAquaMarine - 102, 205, 170
+    MediumBlue - 0, 0, 205
+    MediumOrchid - 186, 85, 211
+    MediumPurple - 147, 112, 219
+    MediumSeaGreen - 60, 179, 113
+    MediumSlateBlue - 123, 104, 238
+    MediumSpringGreen - 0, 250, 154
+    MediumTurquoise - 72, 209, 204
+    MediumVioletRed - 199, 21, 133
+    MidnightBlue - 25, 25, 112
+    MintCream - 245, 255, 250
+    MistyRose - 255, 228, 225
+    Moccasin - 255, 228, 181
+    NavajoWhite - 255, 222, 173
+    Navy - 0, 0, 128
+    OldLace - 254, 240, 227
+    Olive - 128, 128, 0
+    OliveDrab - 107, 142, 35
+    Orange - 255, 165, 0
+    OrangeRed - 255, 69, 0
+    Orchid - 218, 112, 214
+    PaleGoldenRod - 238, 232, 170
+    PaleGreen - 152, 251, 152
+    PaleTurquoise - 175, 238, 238
+    PaleVioletRed - 219, 112, 147
+    PapayaWhip - 255, 239, 213
+    PeachPuff - 255, 218, 185
+    Peru - 205, 133, 63
+    Pink - 255, 192, 203
+    Plum - 221, 160, 221
+    PowderBlue - 176, 224, 230
+    Purple - 128, 0, 128
+    RebeccaPurple - 102, 51, 153
+    Red - 255, 0, 0
+    RosyBrown - 188, 143, 143
+    RoyalBlue - 65, 105, 225
+    SaddleBrown - 139, 69, 19
+    Salmon - 250, 128, 114
+    SandyBrown - 244, 164, 96
+    SeaGreen - 46, 139, 87
+    SeaShell - 255, 245, 238
+    Sienna - 160, 82, 45
+    Silver - 192, 192, 192
+    SkyBlue - 135, 206, 235
+    SlateBlue - 106, 90, 205
+    SlateGray - 112, 128, 144
+    Snow - 255, 250, 250
+    SpringGreen - 0, 255, 127
+    SteelBlue - 70, 130, 180
+    Tan - 210, 180, 140
+    Teal - 0, 128, 128
+    Thistle - 216, 191, 216
+    Tomato - 255, 99, 71
+    Turquoise - 64, 224, 208
+    Violet - 238, 130, 238
+    Wheat - 245, 222, 179
+    WhiteSmoke - 245, 245, 245
+    Yellow - 255, 255, 0
+    YellowGreen - 154, 205, 50
+  </description>
+  <parameters>
+    string color_name - the name of the color, whose color-values you want to retrieve
+  </parameters>
+  <retvals>
+    integer red - the red-value of the color
+    integer green - the green-value of the color
+    integer blue - the blue-value of the color
+  </retvals>
+  <chapter_context>
+    Misc
+  </chapter_context>
+  <tags>misc, color, get, by name, color values</tags>
+</US_DocBloc>
+--]]
   local r, g, b=reagirl.ColorNames_Values[name:lower()]:match("(.-)_(.-)_(.*)")
   return tonumber(r), tonumber(g), tonumber(b)
 end
@@ -6915,8 +8147,15 @@ function reagirl.ColorRectangle_Add(x, y, w, h, r, g, b, caption, meaningOfUI_El
     You can autoposition the color-rectangle by setting x and/or y to nil, which will position the new color_rectangle after the last ui-element.
     To autoposition into the next line, use reagirl.NextLine()
     
+    If you want to choose a color by name, use reagirl.Color_EnumerateNames() to get all possible color-names(all html-colornames as defined by the W3C are supported plus more).
+    Convert the name to the color-values using Color_GetColorValuesByName.
+    Colors who have a name are better for screen reader users, since the color name will be reported accordingly.
+    
     The run-function gets as parameter:
     - string element_id - the element_id as string of the clicked color-rectangle that uses this run-function
+    - integer red - the red color-value
+    - integer green - the green color-value
+    - integer blue - the blue color-value
   </description>
   <parameters>
     optional integer x - the x position of the color-rectangle in pixels; negative anchors the color-rectangle to the right window-side; nil, autoposition after the last ui-element(see description)
