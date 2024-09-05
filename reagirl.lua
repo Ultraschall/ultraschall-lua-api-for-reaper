@@ -6910,6 +6910,8 @@ function reagirl.ColorRectangle_Add(x, y, w, h, r, g, b, caption, meaningOfUI_El
   <description>
     Adds a color-rectangle to a gui.
     
+    When color_selector_when_clicked is set to true and a run-function is passed, the run-function will be run after the color-rectangle got closed.
+    
     You can autoposition the color-rectangle by setting x and/or y to nil, which will position the new color_rectangle after the last ui-element.
     To autoposition into the next line, use reagirl.NextLine()
     
@@ -6928,7 +6930,7 @@ function reagirl.ColorRectangle_Add(x, y, w, h, r, g, b, caption, meaningOfUI_El
     string meaningOfUI_Element - the meaningOfUI_Element of the ui-element(for tooltips and blind users). Make it a sentence that ends with . or ?
     boolean color_selector_when_clicked - true, clicking the color rectangle will open up a color-selection dialog(will ignore run_function parameter)
                                         - false, clicking will run the run-function
-    optional function run_function - a function that shall be run when the color-rectangle is clicked; will get the color-rectangle-element_id passed over as first parameter; nil, no run-function for this color-rectangle
+    optional function run_function - a function that shall be run when the color-rectangle is clicked; will get the color-rectangle-element_id passed over as first parameter and r,g,b as second, third and fourth parameter; nil, no run-function for this color-rectangle
   </parameters>
   <retvals>
     string color_rectangle_guid - a guid that can be used for altering the color-rectangle-attributes
@@ -7014,10 +7016,13 @@ function reagirl.ColorRectangle_Manage(element_id, selected, hovered, clicked, m
         element_storage["r_full"]=r
         element_storage["g_full"]=g
         element_storage["b_full"]=b
+        if element_storage["run_function"]~=nil then
+          element_storage["run_function"](element_storage["Guid"], element_storage["r_full"], element_storage["g_full"], element_storage["b_full"])
+        end
         refresh=true
       end
     elseif element_storage["run_function"]~=nil then
-      element_storage["run_function"](element_storage["Guid"])
+      element_storage["run_function"](element_storage["Guid"], element_storage["r_full"], element_storage["g_full"], element_storage["b_full"])
     end
   end
   local col=reagirl.Color_GetName(element_storage["r_full"],element_storage["g_full"],element_storage["b_full"])
