@@ -3836,7 +3836,7 @@ function reagirl.ScrollBar_Right_Draw(element_id, selected, hovered, clicked, mo
     element_storage.IsDisabled=false
   else
     element_storage.a=0 
-    if element_storage.IsDisabled==false then
+    if element_storage.IsDisabled==false and selected~="not selected" then
       reagirl.UI_Element_SetNothingFocused()
       element_storage.IsDisabled=true
     end
@@ -3947,7 +3947,7 @@ function reagirl.ScrollBar_Bottom_Draw(element_id, selected, hovered, clicked, m
     element_storage.IsDisabled=false
   else
     element_storage.a=0 
-    if element_storage.IsDisabled==false then
+    if element_storage.IsDisabled==false and selected~="not selected" then
       reagirl.UI_Element_SetNothingFocused()
       element_storage.IsDisabled=true
     end
@@ -4662,7 +4662,7 @@ function reagirl.Gui_Manage(keep_running)
   if keep_running==true then reagirl.Gui_Manage_keep_running=true end
   local message
   if reagirl.Gui_IsOpen()==false then return end
-  if reagirl.NewUI~=false then reagirl.NewUI=false if reagirl.Elements.FocusedElement==nil then reagirl.Elements.FocusedElement=reagirl.UI_Element_GetNext(0) end end
+  if reagirl.NewUI~=false then reagirl.NewUI=false if reagirl.Elements.FocusedElement==nil then reagirl.Elements.FocusedElement=reagirl.UI_Element_GetNext(0,1) end end
   if #reagirl.Elements==0 then error("Gui_Manage: no ui-element available", -2) end
   
   if #reagirl.Elements<reagirl.Elements.FocusedElement then reagirl.Elements.FocusedElement=1 end
@@ -4754,7 +4754,7 @@ function reagirl.Gui_Manage(keep_running)
   --local Window_State=gfx.getchar(65536)
   
   -- initialize focus of first element, if not done already
-  if reagirl.Elements["FocusedElement"]==nil then reagirl.Elements["FocusedElement"]=reagirl.UI_Element_GetNext(0) end
+  if reagirl.Elements["FocusedElement"]==nil then reagirl.Elements["FocusedElement"]=reagirl.UI_Element_GetNext(0,2) end
   -- initialize osara-message
   local init_message=""
   local helptext=""
@@ -4867,7 +4867,7 @@ function reagirl.Gui_Manage(keep_running)
   -- Tab-key - next ui-element
   if gfx.mouse_cap==0 and Key==9 then 
     local old_selection=reagirl.Elements.FocusedElement
-    reagirl.Elements["FocusedElement"]=reagirl.UI_Element_GetNext(reagirl.Elements["FocusedElement"])
+    reagirl.Elements["FocusedElement"]=reagirl.UI_Element_GetNext(reagirl.Elements["FocusedElement"],3)
     
     reagirl.FocusRectangle_BlinkStartTime=reaper.time_precise()
     reagirl.FocusRectangle_BlinkStop=nil
@@ -5158,6 +5158,7 @@ function reagirl.Gui_Manage(keep_running)
             end
             if reaper.GetExtState("ReaGirl", "osara_move_mouse")~="false" then
               if reagirl.MouseJump_Skip==nil then
+                --print2(reaper.time_precise())
                 reaper.JS_Mouse_SetPosition(gfx.clienttoscreen(x2+cap_w+MoveItAllRight+4,y2+MoveItAllUp+4)) 
               end
             end
@@ -5914,15 +5915,17 @@ function reagirl.UI_Element_GetPreviousOfType(ui_type, startoffset)
   return -1, ""
 end
 
-function reagirl.UI_Element_GetNext(startoffset)
+function reagirl.UI_Element_GetNext(startoffset,AA)
   -- will return the ui-element of a specific type next to the startoffset
   -- will "overflow", if the next element has a lower index
   local count=startoffset
-  
   for i=1, #reagirl.Elements do
     count=count+1
     if count>#reagirl.Elements-6 then count=1 end
-    if reagirl.Elements[count]~=nil and reagirl.Elements[count].IsDisabled==false and reagirl.Elements[count].IsDecorative~=true and reagirl.Elements[count]["hidden"]~=true then 
+    if reagirl.Elements[count]~=nil 
+    and reagirl.Elements[count].IsDisabled==false 
+    and reagirl.Elements[count].IsDecorative~=true 
+    and reagirl.Elements[count]["hidden"]~=true then 
       return count, reagirl.Elements[count].Guid 
     end
   end
@@ -5936,6 +5939,7 @@ function reagirl.UI_Element_GetPrevious(startoffset)
   local count=startoffset
   for i=1, #reagirl.Elements do
     count=count-1
+    if count>=#reagirl.Elements-6 then count=#reagirl.Elements-6 end
     if count<1 then count=#reagirl.Elements-6 end
     if reagirl.Elements[count].IsDisabled==false and reagirl.Elements[count].IsDecorative~=true and reagirl.Elements[count]["hidden"]~=true then return count, reagirl.Elements[count].Guid end
   end
@@ -13185,7 +13189,7 @@ function reagirl.ScrollButton_Right_Draw(element_id, selected, hovered, clicked,
     element_storage.IsDisabled=false    
   else
     element_storage.a=0 
-    if element_storage.IsDisabled==false then
+    if element_storage.IsDisabled==false and selected~="not selected" then
       reagirl.UI_Element_SetNothingFocused()
       element_storage.IsDisabled=true
     end
@@ -13248,7 +13252,7 @@ function reagirl.ScrollButton_Left_Draw(element_id, selected, hovered, clicked, 
     element_storage.IsDisabled=false
   else
     element_storage.a=0 
-    if element_storage.IsDisabled==false then
+    if element_storage.IsDisabled==false and selected~="not selected" then
       reagirl.UI_Element_SetNothingFocused()
       element_storage.IsDisabled=true
     end
@@ -13312,7 +13316,7 @@ function reagirl.ScrollButton_Up_Draw(element_id, selected, hovered, clicked, mo
     element_storage.IsDisabled=false
   else
     element_storage.a=0 
-    if element_storage.IsDisabled==false then
+    if element_storage.IsDisabled==false and selected~="not selected" then
       reagirl.UI_Element_SetNothingFocused()
       element_storage.IsDisabled=true
     end
@@ -13376,7 +13380,7 @@ function reagirl.ScrollButton_Down_Draw(element_id, selected, hovered, clicked, 
     element_storage.IsDisabled=false
   else
     element_storage.a=0 
-    if element_storage.IsDisabled==false then
+    if element_storage.IsDisabled==false and selected~="not selected" then
       reagirl.UI_Element_SetNothingFocused()
       element_storage.IsDisabled=true
     end
@@ -13449,7 +13453,7 @@ function reagirl.UI_Element_ScrollToUIElement(element_id, x_offset, y_offset)
 end
 
 function reagirl.UI_Element_SetNothingFocused()
-  reagirl.Elements.FocusedElement=reagirl.UI_Element_GetNext(0)
+  reagirl.Elements.FocusedElement=reagirl.UI_Element_GetNext(0,10)
 end
 
 function reagirl.UI_Element_GetHovered()
