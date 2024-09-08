@@ -6937,7 +6937,7 @@ function reagirl.Checkbox_Manage(element_id, selected, hovered, clicked, mouse_c
     end
   end
   local text=""
-  if linked_refresh==true and gfx.getchar(65536)&2==2 then
+  if linked_refresh==true and gfx.getchar(65536)&2==2 and element_storage["init"]==true then
     if reagirl.Elements[element_id]["checked"]==true then
       text="checked."
     else
@@ -6945,6 +6945,8 @@ function reagirl.Checkbox_Manage(element_id, selected, hovered, clicked, mouse_c
     end
     reagirl.Screenreader_Override_Message=element_storage["Name"].." was updated to "..text
   end
+  
+  element_storage["init"]=true
   
   if reagirl.Elements[element_id]["checked"]==true then
     return "checked. ", refresh
@@ -9482,6 +9484,7 @@ function reagirl.Inputbox_OnTyping(Key, Key_UTF, mouse_cap, element_storage)
 end
 
 function reagirl.Inputbox_Manage(element_id, selected, hovered, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
+  
   local refresh=false
   local run_function=false
   -- drop files for accessibility using a file-requester, after typing ctrl+shift+f
@@ -9506,7 +9509,7 @@ function reagirl.Inputbox_Manage(element_id, selected, hovered, clicked, mouse_c
   end
   local entered_character=""
   local blink_refresh=false
-  
+  local linked_refresh=false
   if element_storage["linked_to"]~=0 then
     if element_storage["linked_to"]==1 then
       local val=reaper.GetExtState(element_storage["linked_to_section"], element_storage["linked_to_key"])
@@ -9517,6 +9520,7 @@ function reagirl.Inputbox_Manage(element_id, selected, hovered, clicked, mouse_c
         element_storage["selection_endoffset"]=element_storage["cursor_offset"] 
         element_storage["selection_startoffset"]=element_storage["cursor_offset"] 
         reagirl.Gui_ForceRefresh() 
+        linked_refresh=true
       end
     elseif element_storage["linked_to"]==2 then
       local retval, val = reaper.BR_Win32_GetPrivateProfileString(element_storage["linked_to_section"], element_storage["linked_to_key"], "", element_storage["linked_to_ini_file"])
@@ -9527,6 +9531,7 @@ function reagirl.Inputbox_Manage(element_id, selected, hovered, clicked, mouse_c
         element_storage["selection_endoffset"]=element_storage["cursor_offset"] 
         element_storage["selection_startoffset"]=element_storage["cursor_offset"] 
         reagirl.Gui_ForceRefresh() 
+        linked_refresh=true
       end
     elseif element_storage["linked_to"]==3 then
       local retval, val=reaper.get_config_var_string(element_storage["linked_to_configvar"])
@@ -9537,6 +9542,7 @@ function reagirl.Inputbox_Manage(element_id, selected, hovered, clicked, mouse_c
         element_storage["selection_endoffset"]=element_storage["cursor_offset"] 
         element_storage["selection_startoffset"]=element_storage["cursor_offset"] 
         reagirl.Gui_ForceRefresh() 
+        linked_refresh=true
       end
       if element_storage["linked_to_persist"]==true then
         reaper.BR_Win32_WritePrivateProfileString("REAPER", element_storage["linked_to_configvar"], val, reaper.get_ini_file())
@@ -9687,6 +9693,12 @@ function reagirl.Inputbox_Manage(element_id, selected, hovered, clicked, mouse_c
       end
     end
   end
+  
+  if linked_refresh==true and gfx.getchar(65536)&2==2 then --and element_storage["init"]==true then
+    reagirl.Screenreader_Override_Message=element_storage["Name"].." was updated to "..element_storage["Text"]
+  end
+  
+  element_storage["init"]=true
   
   if refresh==true then
     reagirl.Gui_ForceRefresh(23)
