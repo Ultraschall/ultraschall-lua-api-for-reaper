@@ -94,7 +94,6 @@ TODO:
 --reaper.osara_outputMessage=nil
 
 reagirl={}
-
 function reagirl.CheckForDependencies(ReaImGui, js_ReaScript, US_API, SWS, Osara)
   local function OpenURL(url)
   
@@ -236,7 +235,6 @@ reagirl.JS_Dialog_BrowseForSaveFile=reaper.JS_Dialog_BrowseForOpenFiles
 reagirl.JS_Actions_DoShortcutDialog=reaper.JS_Actions_DoShortcutDialog
 
 reagirl.error=error
-
 function error(msg, stack)
   local context=debug.getinfo(stack+1)
   if reaper.GetExtState("ReaGirl", "Error_Message_Destination")=="2" then
@@ -360,7 +358,7 @@ reagirl.mouse.y=gfx.mouse_y
 reagirl.mouse.dragged=false
 
 reagirl.init_refresh=0
-
+reagirl.Screenreader_Override_Message=""
 reagirl.UI_Element_HeightMargin=5
 
 reagirl.ColorNames_Values={}
@@ -4626,6 +4624,7 @@ function reagirl.ScreenReader_SendMessage(message)
   ]]
   if type(message)~="string" then error("ScreenReader_SendMessage: param #1 - must be a string", 2) end
   reagirl.ScreenReader_SendMessage_ActualMessage=message
+  reagirl.osara_AddedMessage=message
 end
 
 function reagirl.Gui_Manage(keep_running)
@@ -5341,11 +5340,20 @@ function reagirl.Gui_Manage(keep_running)
           if reagirl.osara_outputMessage~=nil then
             --reaper.MB("","",0)
             reagirl.osara_outputMessage(reagirl.osara_init_message.." "..init_message.." "..message.." "..helptext..draggable..acc_message..contextmenu..dropfiles..reagirl.osara_AddedMessage)
-            reagirl.osara_AddedMessage=""
             reagirl.ScreenReader_SendMessage_ActualMessage=""
+            if reagirl.Screenreader_Override_Message~="" then
+              reagirl.osara_outputMessage(reagirl.Screenreader_Override_Message)
+            end
           end
-          reagirl.Osara_Debug_Message(reagirl.osara_init_message.." "..init_message.." "..message.." "..helptext..draggable..acc_message..contextmenu..dropfiles)
+          if gfx.getchar(65536)&2==2 then
+            reagirl.Osara_Debug_Message(reagirl.osara_init_message.." "..init_message.." "..message.." "..helptext..draggable..acc_message..contextmenu..dropfiles..reagirl.osara_AddedMessage)
+            if reagirl.Screenreader_Override_Message~="" then
+              reagirl.Osara_Debug_Message(reagirl.Screenreader_Override_Message)
+            end
+          end
+          reagirl.Screenreader_Override_Message=""
           reagirl.old_osara_message=message
+          reagirl.osara_AddedMessage=""
           reagirl.osara_init_message=""
         end
         -- ugly hack to prevent focus rect being drawn wrong
@@ -6752,7 +6760,7 @@ end
 function reagirl.Checkbox_Manage(element_id, selected, hovered, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
 -- ToDo: SetTogglecommandState for MediaExplorer and Midi-Inline Editor, needs JS-extension features(see Ultraschall-API for details)
   local refresh=false
-  
+  local linked_refresh=false
   -- drop files for accessibility using a file-requester, after typing ctrl+shift+f
   if element_storage["DropZoneFunction"]~=nil and Key==6 and mouse_cap==12 then
     local retval, filenames = reaper.GetUserFileNameForRead("", "Choose file to drop into "..element_storage["Name"], "")
@@ -6771,17 +6779,19 @@ function reagirl.Checkbox_Manage(element_id, selected, hovered, clicked, mouse_c
           reaper.SetExtState(element_storage["linked_to_section"], element_storage["linked_to_key"], element_storage["linked_to_true"], element_storage["linked_to_persist"]) 
           element_storage["checked"]=linked_to_true
           val=element_storage["linked_to_true"]
+          linked_refresh=true
           reagirl.Gui_ForceRefresh()
         else
           -- if default is false
           reaper.SetExtState(element_storage["linked_to_section"], element_storage["linked_to_key"], element_storage["linked_to_false"], element_storage["linked_to_persist"]) 
           element_storage["checked"]=linked_to_false
           val=element_storage["linked_to_false"]
+          linked_refresh=true
           reagirl.Gui_ForceRefresh()
         end
       end
       if val==element_storage["linked_to_true"] then val=true else val=false end
-      if val~=element_storage["checked"] then element_storage["checked"]=val reagirl.Gui_ForceRefresh() end
+      if val~=element_storage["checked"] then element_storage["checked"]=val reagirl.Gui_ForceRefresh() linked_refresh=true end
     elseif element_storage["linked_to"]==2 then
       -- if checkbox is linked to extstate then
       local retval, val = reaper.BR_Win32_GetPrivateProfileString(element_storage["linked_to_section"], element_storage["linked_to_key"], "", element_storage["linked_to_ini_file"])
@@ -6793,6 +6803,7 @@ function reagirl.Checkbox_Manage(element_id, selected, hovered, clicked, mouse_c
           --reaper.SetExtState(element_storage["linked_to_section"], element_storage["linked_to_key"], element_storage["linked_to_true"], element_storage["linked_to_persist"]) 
           element_storage["checked"]=linked_to_true
           val=element_storage["linked_to_true"]
+          linked_refresh=true
           reagirl.Gui_ForceRefresh()
         else
           -- if default is false
@@ -6800,22 +6811,25 @@ function reagirl.Checkbox_Manage(element_id, selected, hovered, clicked, mouse_c
           --reaper.SetExtState(element_storage["linked_to_section"], element_storage["linked_to_key"], element_storage["linked_to_false"], element_storage["linked_to_persist"]) 
           element_storage["checked"]=linked_to_false
           val=element_storage["linked_to_false"]
+          linked_refresh=true
           reagirl.Gui_ForceRefresh()
         end
       end
       if val==element_storage["linked_to_true"] then val=true else val=false end
-      if val~=element_storage["checked"] then element_storage["checked"]=val reagirl.Gui_ForceRefresh() end
+      if val~=element_storage["checked"] then element_storage["checked"]=val reagirl.Gui_ForceRefresh() linked_refresh=true end
     elseif element_storage["linked_to"]==3 then 
       local val=reaper.SNM_GetIntConfigVar(element_storage["linked_to_configvar"], -999999999999999)
       val=val&element_storage["linked_to_bit"]
       if val==0 then val=false else val=true end
-      if val~=element_storage["checked"] then element_storage["checked"]=val reagirl.Gui_ForceRefresh() end
+      if val~=element_storage["checked"] then element_storage["checked"]=val reagirl.Gui_ForceRefresh() linked_refresh=true end
     elseif element_storage["linked_to"]==4 then
       local val=false
       if reaper.GetToggleCommandStateEx(element_storage["linked_to_section"], element_storage["linked_to_command_id"])==1 then val=true end
-      if val~=element_storage["checked"] then element_storage["checked"]=val reagirl.Gui_ForceRefresh() end
+      if val~=element_storage["checked"] then element_storage["checked"]=val reagirl.Gui_ForceRefresh() linked_refresh=true end
     end
   end
+  
+  --if linked_refresh==true then reagirl.ScreenReader_SendMessage(element_storage["Name"].." - toggle state changed to "..tostring(element_storage["checked"])) end
   
   if selected~="not selected" and (((clicked=="FirstCLK" or clicked=="DBLCLK" )and mouse_cap&1==1) or Key==32) then 
     if (gfx.mouse_x>=x 
@@ -6922,14 +6936,22 @@ function reagirl.Checkbox_Manage(element_id, selected, hovered, clicked, mouse_c
       reaper.RefreshToolbar2(element_storage["linked_to_section"], element_storage["linked_to_command_id"])
     end
   end
+  local text=""
+  if linked_refresh==true and gfx.getchar(65536)&2==2 then
+    if reagirl.Elements[element_id]["checked"]==true then
+      text="checked."
+    else
+      text="not checked."
+    end
+    reagirl.Screenreader_Override_Message=element_storage["Name"].." was updated to "..text
+  end
   
   if reagirl.Elements[element_id]["checked"]==true then
-    return " checked. ", refresh
+    return "checked. ", refresh
   else
-    return " not checked. ", refresh
+    return "not checked. ", refresh
   end
 end
-
 
 
 function reagirl.Checkbox_Draw(element_id, selected, hovered, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
@@ -15569,3 +15591,5 @@ reagirl.Gui_New()
 --- End of ReaGirl-functions
 
 --print2(reaper.GetUserInputs("", 1, "", ""))
+
+
