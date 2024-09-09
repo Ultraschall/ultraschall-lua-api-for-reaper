@@ -10413,7 +10413,7 @@ function reagirl.DropDownMenu_Manage(element_id, selected, hovered, clicked, mou
     reagirl.Window_SetFocus()
     if retval==true then element_storage["DropZoneFunction"](element_storage["Guid"], {filenames}) refresh=true end
   end
-  
+  local linked_refresh=false
   local cap_w=element_storage["cap_w"]
   if element_storage["Cap_width"]~=nil then
     cap_w=element_storage["Cap_width"]
@@ -10431,6 +10431,7 @@ function reagirl.DropDownMenu_Manage(element_id, selected, hovered, clicked, mou
       if element_storage["menuSelectedItem"]~=val then 
         element_storage["menuSelectedItem"]=val 
         reagirl.Gui_ForceRefresh() 
+        linked_refresh=true
       end
     elseif element_storage["linked_to"]==2 then
       local retval, val = reaper.BR_Win32_GetPrivateProfileString(element_storage["linked_to_section"], element_storage["linked_to_key"], "", element_storage["linked_to_ini_file"])
@@ -10439,6 +10440,7 @@ function reagirl.DropDownMenu_Manage(element_id, selected, hovered, clicked, mou
       if element_storage["menuSelectedItem"]~=val then 
         element_storage["menuSelectedItem"]=val 
         reagirl.Gui_ForceRefresh() 
+        linked_refresh=true
       end
     end
     if element_storage["menuSelectedItem"]>element_storage["MenuCount"] then refresh=true element_storage["menuSelectedItem"]=element_storage["MenuCount"] end
@@ -10520,6 +10522,11 @@ function reagirl.DropDownMenu_Manage(element_id, selected, hovered, clicked, mou
       element_storage["pressed"]=false
     end
   end
+  
+  if linked_refresh==true and gfx.getchar(65536)&2==2 and element_storage["init"]==true then
+    reagirl.Screenreader_Override_Message=element_storage["Name"].." was updated to "..element_storage["MenuEntries"][element_storage["menuSelectedItem"]]..". "
+  end
+  element_storage["init"]=true
   
   if refresh==true then 
     reagirl.Gui_ForceRefresh(28)
