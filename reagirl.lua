@@ -7113,18 +7113,18 @@ function reagirl.Checkbox_LinkToExtstate(element_id, section, key, false_val, tr
   end
 end
 
-function reagirl.Checkbox_LinkToIniValue(element_id, ini_file, section, key, false_val, true_val, default
+function reagirl.Checkbox_LinkToIniFile(element_id, ini_file, section, key, false_val, true_val, default
 )
 --[[
 <US_ DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>Checkbox_LinkToIniValue</slug>
+  <slug>Checkbox_LinkToIniFile</slug>
   <requires>
     ReaGirl=1.1
     Reaper=7.03
     SWS=2.10.0.1
     Lua=5.4
   </requires>
-  <functioncall>reagirl.Checkbox_LinkToIniValue(string element_id, string ini_file, string section, string key, string false_val, string true_val, string default, boolean persist)</functioncall>
+  <functioncall>reagirl.Checkbox_LinkToIniFile(string element_id, string ini_file, string section, string key, string false_val, string true_val, string default, boolean persist)</functioncall>
   <description>
     Links a checkbox to an ini-value. 
     
@@ -7149,18 +7149,18 @@ function reagirl.Checkbox_LinkToIniValue(element_id, ini_file, section, key, fal
   <tags>checkbox, link to, ini-file</tags>
 </US_DocBloc>
 --]]
-  if type(element_id)~="string" then error("Checkbox_LinkToIniValue: param #1 - must be a string", 2) end
-  if reagirl.IsValidGuid(element_id, true)==nil then error("Checkbox_LinkToIniValue: param #1 - must be a valid guid", 2) end
-  if type(ini_file)~="string" then error("Checkbox_LinkToIniValue: param #2 - must be a string", 2) end
-  if type(section)~="string" then error("Checkbox_LinkToIniValue: param #3 - must be a string", 2) end
-  if type(key)~="string" then error("Checkbox_LinkToIniValue: param #4 - must be a string", 2) end
-  if type(false_val)~="string" then error("Checkbox_LinkToIniValue: param #5 - must be a string", 2) end
-  if type(true_val)~="string" then error("Checkbox_LinkToIniValue: param #6 - must be a string", 2) end
-  if type(default)~="boolean" then error("Checkbox_LinkToIniValue: param #7 - must be a boolean", 2) end
+  if type(element_id)~="string" then error("Checkbox_LinkToIniFile: param #1 - must be a string", 2) end
+  if reagirl.IsValidGuid(element_id, true)==nil then error("Checkbox_LinkToIniFile: param #1 - must be a valid guid", 2) end
+  if type(ini_file)~="string" then error("Checkbox_LinkToIniFile: param #2 - must be a string", 2) end
+  if type(section)~="string" then error("Checkbox_LinkToIniFile: param #3 - must be a string", 2) end
+  if type(key)~="string" then error("Checkbox_LinkToIniFile: param #4 - must be a string", 2) end
+  if type(false_val)~="string" then error("Checkbox_LinkToIniFile: param #5 - must be a string", 2) end
+  if type(true_val)~="string" then error("Checkbox_LinkToIniFile: param #6 - must be a string", 2) end
+  if type(default)~="boolean" then error("Checkbox_LinkToIniFile: param #7 - must be a boolean", 2) end
   element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
-  if element_id==-1 then error("Checkbox_LinkToIniValue: param #1 - no such ui-element", 2) end
+  if element_id==-1 then error("Checkbox_LinkToIniFile: param #1 - no such ui-element", 2) end
   if reagirl.Elements[element_id]["GUI_Element_Type"]~="Checkbox" then
-    error("Checkbox_LinkToIniValue: param #1 - ui-element is not a checkbox", 2)
+    error("Checkbox_LinkToIniFile: param #1 - ui-element is not a checkbox", 2)
   else
     reagirl.Elements[element_id]["linked_to"]=2
     reagirl.Elements[element_id]["linked_to_ini_file"]=ini_file
@@ -13786,6 +13786,7 @@ function reagirl.Slider_Manage(element_id, selected, hovered, clicked, mouse_cap
     if retval==true then element_storage["DropZoneFunction"](element_storage["Guid"], {filenames}) refresh=true end
   end
   
+  local linked_refresh=false
   local refresh=false
   local dpi_scale=reagirl.Window_GetCurrentScale()
   local slider, slider4, slider_x, slider_x2
@@ -13800,21 +13801,21 @@ function reagirl.Slider_Manage(element_id, selected, hovered, clicked, mouse_cap
     if element_storage["linked_to"]==1 then
       local val=tonumber(reaper.GetExtState(element_storage["linked_to_section"], element_storage["linked_to_key"]))
       if val==nil then val=element_storage["linked_to_default"] refresh=true end
-      if element_storage["CurValue"]~=val then element_storage["CurValue"]=val reagirl.Gui_ForceRefresh() end
+      if element_storage["CurValue"]~=val then element_storage["CurValue"]=val reagirl.Gui_ForceRefresh() linked_refresh=true end
     elseif element_storage["linked_to"]==2 then
       local retval, val = reaper.BR_Win32_GetPrivateProfileString(element_storage["linked_to_section"], element_storage["linked_to_key"], "", element_storage["linked_to_ini_file"])
       val=tonumber(val)
       if val==nil then val=element_storage["linked_to_default"] refresh=true end
-      if element_storage["CurValue"]~=val then element_storage["CurValue"]=val reagirl.Gui_ForceRefresh() end
+      if element_storage["CurValue"]~=val then element_storage["CurValue"]=val reagirl.Gui_ForceRefresh() linked_refresh=true end
     elseif element_storage["linked_to"]==3 then
       local val=reaper.SNM_GetDoubleConfigVar(element_storage["linked_to_configvar"], -9999999)
-      if element_storage["CurValue"]~=val then element_storage["CurValue"]=val reagirl.Gui_ForceRefresh() end
+      if element_storage["CurValue"]~=val then element_storage["CurValue"]=val reagirl.Gui_ForceRefresh() linked_refresh=true end
       if element_storage["linked_to_persist"]==true then
         reaper.BR_Win32_WritePrivateProfileString("REAPER", element_storage["linked_to_configvar"], val, reaper.get_ini_file())
       end
     elseif element_storage["linked_to"]==4 then
       local val=reaper.SNM_GetIntConfigVar(element_storage["linked_to_configvar"], -9999999)
-      if element_storage["CurValue"]~=val then element_storage["CurValue"]=val reagirl.Gui_ForceRefresh() end
+      if element_storage["CurValue"]~=val then element_storage["CurValue"]=val reagirl.Gui_ForceRefresh() linked_refresh=true end
       if element_storage["linked_to_persist"]==true then
         reaper.BR_Win32_WritePrivateProfileString("REAPER", element_storage["linked_to_configvar"], val, reaper.get_ini_file())
       end
@@ -13950,6 +13951,11 @@ function reagirl.Slider_Manage(element_id, selected, hovered, clicked, mouse_cap
       end
     end
   end
+  
+  if linked_refresh==true and gfx.getchar(65536)&2==2 and element_storage["init"]==true then
+    reagirl.Screenreader_Override_Message=element_storage["Name"].." was updated to "..element_storage["CurValue"]..""..element_storage["Unit"]..". "
+  end
+  element_storage["init"]=true
   
   element_storage["AccHoverMessage"]=element_storage["Name"].." "..element_storage["CurValue"]
   return element_storage["CurValue"].." "..element_storage["Unit"]..". ", refresh
