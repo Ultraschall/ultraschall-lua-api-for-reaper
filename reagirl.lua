@@ -7113,18 +7113,18 @@ function reagirl.Checkbox_LinkToExtstate(element_id, section, key, false_val, tr
   end
 end
 
-function reagirl.Checkbox_LinkToIniFile(element_id, ini_file, section, key, false_val, true_val, default
+function reagirl.Checkbox_LinkToIniValue(element_id, ini_file, section, key, false_val, true_val, default
 )
 --[[
 <US_ DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>Checkbox_LinkToIniFile</slug>
+  <slug>Checkbox_LinkToIniValue</slug>
   <requires>
     ReaGirl=1.1
     Reaper=7.03
     SWS=2.10.0.1
     Lua=5.4
   </requires>
-  <functioncall>reagirl.Checkbox_LinkToIniFile(string element_id, string ini_file, string section, string key, string false_val, string true_val, string default, boolean persist)</functioncall>
+  <functioncall>reagirl.Checkbox_LinkToIniValue(string element_id, string ini_file, string section, string key, string false_val, string true_val, string default, boolean persist)</functioncall>
   <description>
     Links a checkbox to an ini-value. 
     
@@ -7149,18 +7149,18 @@ function reagirl.Checkbox_LinkToIniFile(element_id, ini_file, section, key, fals
   <tags>checkbox, link to, ini-file</tags>
 </US_DocBloc>
 --]]
-  if type(element_id)~="string" then error("Checkbox_LinkToIniFile: param #1 - must be a string", 2) end
-  if reagirl.IsValidGuid(element_id, true)==nil then error("Checkbox_LinkToIniFile: param #1 - must be a valid guid", 2) end
-  if type(ini_file)~="string" then error("Checkbox_LinkToIniFile: param #2 - must be a string", 2) end
-  if type(section)~="string" then error("Checkbox_LinkToIniFile: param #3 - must be a string", 2) end
-  if type(key)~="string" then error("Checkbox_LinkToIniFile: param #4 - must be a string", 2) end
-  if type(false_val)~="string" then error("Checkbox_LinkToIniFile: param #5 - must be a string", 2) end
-  if type(true_val)~="string" then error("Checkbox_LinkToIniFile: param #6 - must be a string", 2) end
-  if type(default)~="boolean" then error("Checkbox_LinkToIniFile: param #7 - must be a boolean", 2) end
+  if type(element_id)~="string" then error("Checkbox_LinkToIniValue: param #1 - must be a string", 2) end
+  if reagirl.IsValidGuid(element_id, true)==nil then error("Checkbox_LinkToIniValue: param #1 - must be a valid guid", 2) end
+  if type(ini_file)~="string" then error("Checkbox_LinkToIniValue: param #2 - must be a string", 2) end
+  if type(section)~="string" then error("Checkbox_LinkToIniValue: param #3 - must be a string", 2) end
+  if type(key)~="string" then error("Checkbox_LinkToIniValue: param #4 - must be a string", 2) end
+  if type(false_val)~="string" then error("Checkbox_LinkToIniValue: param #5 - must be a string", 2) end
+  if type(true_val)~="string" then error("Checkbox_LinkToIniValue: param #6 - must be a string", 2) end
+  if type(default)~="boolean" then error("Checkbox_LinkToIniValue: param #7 - must be a boolean", 2) end
   element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
-  if element_id==-1 then error("Checkbox_LinkToIniFile: param #1 - no such ui-element", 2) end
+  if element_id==-1 then error("Checkbox_LinkToIniValue: param #1 - no such ui-element", 2) end
   if reagirl.Elements[element_id]["GUI_Element_Type"]~="Checkbox" then
-    error("Checkbox_LinkToIniFile: param #1 - ui-element is not a checkbox", 2)
+    error("Checkbox_LinkToIniValue: param #1 - ui-element is not a checkbox", 2)
   else
     reagirl.Elements[element_id]["linked_to"]=2
     reagirl.Elements[element_id]["linked_to_ini_file"]=ini_file
@@ -9847,16 +9847,16 @@ function reagirl.Inputbox_LinkToExtstate(element_id, section, key, default, pers
   end
 end
 
-function reagirl.Inputbox_LinkToIniFile(element_id, ini_file, section, key, default, persist)
+function reagirl.Inputbox_LinkToIniValue(element_id, ini_file, section, key, default, persist)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>Inputbox_LinkToIniFile</slug>
+  <slug>Inputbox_LinkToIniValue</slug>
   <requires>
     ReaGirl=1.1
     Reaper=7.03
     Lua=5.4
   </requires>
-  <functioncall>reagirl.Inputbox_LinkToIniFile(string element_id, string ini_file, string section, string key, string default, boolean persist)</functioncall>
+  <functioncall>reagirl.Inputbox_LinkToIniValue(string element_id, string ini_file, string section, string key, string default, boolean persist)</functioncall>
   <description>
     Links an inputbox to an ini-file-entry. 
     
@@ -9880,17 +9880,17 @@ function reagirl.Inputbox_LinkToIniFile(element_id, ini_file, section, key, defa
   <tags>inputbox, link to, ini-file</tags>
 </US_DocBloc>
 --]]
-  if type(element_id)~="string" then error("Inputbox_LinkToIniFile: param #1 - must be a string", 2) end
-  if reagirl.IsValidGuid(element_id, true)==nil then error("Inputbox_LinkToIniFile: param #1 - must be a valid guid", 2) end
-  if type(ini_file)~="string" then error("Inputbox_LinkToIniFile: param #2 - must be a string", 2) end
-  if type(section)~="string" then error("Inputbox_LinkToIniFile: param #3 - must be a string", 2) end
-  if type(key)~="string" then error("Inputbox_LinkToIniFile: param #4 - must be a string", 2) end
-  if type(default)~="string" then error("Inputbox_LinkToIniFile: param #5 - must be a string", 2) end
+  if type(element_id)~="string" then error("Inputbox_LinkToIniValue: param #1 - must be a string", 2) end
+  if reagirl.IsValidGuid(element_id, true)==nil then error("Inputbox_LinkToIniValue: param #1 - must be a valid guid", 2) end
+  if type(ini_file)~="string" then error("Inputbox_LinkToIniValue: param #2 - must be a string", 2) end
+  if type(section)~="string" then error("Inputbox_LinkToIniValue: param #3 - must be a string", 2) end
+  if type(key)~="string" then error("Inputbox_LinkToIniValue: param #4 - must be a string", 2) end
+  if type(default)~="string" then error("Inputbox_LinkToIniValue: param #5 - must be a string", 2) end
 
   element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
-  if element_id==-1 then error("Inputbox_LinkToIniFile: param #1 - no such ui-element", 2) end
+  if element_id==-1 then error("Inputbox_LinkToIniValue: param #1 - no such ui-element", 2) end
   if reagirl.Elements[element_id]["GUI_Element_Type"]~="Edit" then
-    error("Inputbox_LinkToIniFile: param #1 - ui-element is not a inputbox", 2)
+    error("Inputbox_LinkToIniValue: param #1 - ui-element is not a inputbox", 2)
   else
     reagirl.Elements[element_id]["linked_to"]=2
     reagirl.Elements[element_id]["linked_to_ini_file"]=ini_file
@@ -10691,16 +10691,16 @@ function reagirl.DropDownMenu_LinkToExtstate(element_id, section, key, default, 
   end
 end
 
-function reagirl.DropDownMenu_LinkToIniFile(element_id, ini_file, section, key, default, persist)
+function reagirl.DropDownMenu_LinkToIniValue(element_id, ini_file, section, key, default, persist)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>DropDownMenu_LinkToIniFile</slug>
+  <slug>DropDownMenu_LinkToIniValue</slug>
   <requires>
     ReaGirl=1.1
     Reaper=7.03
     Lua=5.4
   </requires>
-  <functioncall>reagirl.DropDownMenu_LinkToIniFile(string element_id, string ini_file, string section, string key, string default, boolean persist)</functioncall>
+  <functioncall>reagirl.DropDownMenu_LinkToIniValue(string element_id, string ini_file, string section, string key, string default, boolean persist)</functioncall>
   <description>
     Links a drop down menu to an ini-file-entry. 
     
@@ -10724,17 +10724,17 @@ function reagirl.DropDownMenu_LinkToIniFile(element_id, ini_file, section, key, 
   <tags>dropdown menu, link to, ini-file</tags>
 </US_DocBloc>
 --]]
-  if type(element_id)~="string" then error("DropDownMenu_LinkToIniFile: param #1 - must be a string", 2) end
-  if reagirl.IsValidGuid(element_id, true)==nil then error("DropDownMenu_LinkToIniFile: param #1 - must be a valid guid", 2) end
-  if type(ini_file)~="string" then error("DropDownMenu_LinkToIniFile: param #2 - must be a string", 2) end
-  if type(section)~="string" then error("DropDownMenu_LinkToIniFile: param #3 - must be a string", 2) end
-  if type(key)~="string" then error("DropDownMenu_LinkToIniFile: param #4 - must be a string", 2) end
-  if math.type(default)~="integer" then error("DropDownMenu_LinkToIniFile: param #5 - must be an integer", 2) end
+  if type(element_id)~="string" then error("DropDownMenu_LinkToIniValue: param #1 - must be a string", 2) end
+  if reagirl.IsValidGuid(element_id, true)==nil then error("DropDownMenu_LinkToIniValue: param #1 - must be a valid guid", 2) end
+  if type(ini_file)~="string" then error("DropDownMenu_LinkToIniValue: param #2 - must be a string", 2) end
+  if type(section)~="string" then error("DropDownMenu_LinkToIniValue: param #3 - must be a string", 2) end
+  if type(key)~="string" then error("DropDownMenu_LinkToIniValue: param #4 - must be a string", 2) end
+  if math.type(default)~="integer" then error("DropDownMenu_LinkToIniValue: param #5 - must be an integer", 2) end
 
   element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
-  if element_id==-1 then error("DropDownMenu_LinkToIniFile: param #1 - no such ui-element", 2) end
+  if element_id==-1 then error("DropDownMenu_LinkToIniValue: param #1 - no such ui-element", 2) end
   if reagirl.Elements[element_id]["GUI_Element_Type"]~="ComboBox" then
-    error("DropDownMenu_LinkToIniFile: param #1 - ui-element is not a drop down menu", 2)
+    error("DropDownMenu_LinkToIniValue: param #1 - ui-element is not a drop down menu", 2)
   else
     reagirl.Elements[element_id]["linked_to"]=2
     reagirl.Elements[element_id]["linked_to_ini_file"]=ini_file
@@ -14092,16 +14092,16 @@ function reagirl.Slider_LinkToExtstate(element_id, section, key, default, persis
   end
 end
 
-function reagirl.Slider_LinkToIniFile(element_id, ini_file, section, key, default, persist)
+function reagirl.Slider_LinkToIniValue(element_id, ini_file, section, key, default, persist)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>Slider_LinkToIniFile</slug>
+  <slug>Slider_LinkToIniValue</slug>
   <requires>
     ReaGirl=1.1
     Reaper=7.03
     Lua=5.4
   </requires>
-  <functioncall>reagirl.Slider_LinkToIniFile(string element_id, string ini_file, string section, string key, string default, boolean persist)</functioncall>
+  <functioncall>reagirl.Slider_LinkToIniValue(string element_id, string ini_file, string section, string key, string default, boolean persist)</functioncall>
   <description>
     Links a slider to an ini-file-entry. 
     
@@ -14125,17 +14125,17 @@ function reagirl.Slider_LinkToIniFile(element_id, ini_file, section, key, defaul
   <tags>slider, link to, ini-file</tags>
 </US_DocBloc>
 --]]
-  if type(element_id)~="string" then error("Slider_LinkToIniFile: param #1 - must be a string", 2) end
-  if reagirl.IsValidGuid(element_id, true)==nil then error("Slider_LinkToIniFile: param #1 - must be a valid guid", 2) end
-  if type(ini_file)~="string" then error("Slider_LinkToIniFile: param #2 - must be a string", 2) end
-  if type(section)~="string" then error("Slider_LinkToIniFile: param #3 - must be a string", 2) end
-  if type(key)~="string" then error("Slider_LinkToIniFile: param #4 - must be a string", 2) end
-  if type(default)~="number" then error("Slider_LinkToIniFile: param #5 - must be a number", 2) end
+  if type(element_id)~="string" then error("Slider_LinkToIniValue: param #1 - must be a string", 2) end
+  if reagirl.IsValidGuid(element_id, true)==nil then error("Slider_LinkToIniValue: param #1 - must be a valid guid", 2) end
+  if type(ini_file)~="string" then error("Slider_LinkToIniValue: param #2 - must be a string", 2) end
+  if type(section)~="string" then error("Slider_LinkToIniValue: param #3 - must be a string", 2) end
+  if type(key)~="string" then error("Slider_LinkToIniValue: param #4 - must be a string", 2) end
+  if type(default)~="number" then error("Slider_LinkToIniValue: param #5 - must be a number", 2) end
 
   element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
-  if element_id==-1 then error("Slider_LinkToIniFile: param #1 - no such ui-element", 2) end
+  if element_id==-1 then error("Slider_LinkToIniValue: param #1 - no such ui-element", 2) end
   if reagirl.Elements[element_id]["GUI_Element_Type"]~="Slider" then
-    error("Slider_LinkToIniFile: param #1 - ui-element is not a slider", 2)
+    error("Slider_LinkToIniValue: param #1 - ui-element is not a slider", 2)
   else
     reagirl.Elements[element_id]["linked_to"]=2
     reagirl.Elements[element_id]["linked_to_ini_file"]=ini_file
