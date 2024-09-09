@@ -11017,6 +11017,41 @@ function reagirl.DropDownMenu_SetMenuItems(element_id, menuItems, menuSelectedIt
   end
 end
 
+function reagirl.Label_GetLabelText(element_id, label)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Label_GetLabelText</slug>
+  <requires>
+    ReaGirl=1.1
+    Reaper=7.03
+    Lua=5.4
+  </requires>
+  <functioncall>string label_text = reagirl.Label_GetLabelText(string element_id)</functioncall>
+  <description>
+    Gets the text of a label.
+  </description>
+  <parameters>
+    string element_id - the id of the element, whose label you want to set
+  </parameters>
+  <retvals>
+    string label_text - the current text of a label
+  </retvals>
+  <chapter_context>
+    Label
+  </chapter_context>
+  <tags>label, get, text</tags>
+</US_DocBloc>
+--]]
+  if type(element_id)~="string" then error("Label_GetLabelText: param #1 - must be a string", 2) end
+  if reagirl.IsValidGuid(element_id, true)==nil then error("Label_GetLabelText: param #1 - must be a valid guid", 2) end
+  element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
+  if element_id==-1 then error("Label_GetLabelText: param #1 - no such ui-element", 2) end
+  if reagirl.Elements[element_id]["GUI_Element_Type"]:sub(-5,-1)~="Label" then
+    error("Label_GetLabelText: param #1 - ui-element is not a label", 2)
+  else
+    return reagirl.Elements[element_id]["Name"]
+  end
+end
 
 function reagirl.Label_SetLabelText(element_id, label)
 --[[

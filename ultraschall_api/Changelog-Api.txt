@@ -393,16 +393,19 @@ Check why that is...probably because of Label_SetLabelText somehow resetting the
 
 ## Ultraschall Framework - Changelog
 
-### 5.1 - "" - 1st of October 2024
+### 5.1 - "Beach Boys - Wind Chimes" - 1st of October 2024
 
-Has now 1807 functions, with XX new ones
+Has now 1826 functions, with 19 new ones
 
 **new in this release:**  
 
-  - **BLA**  
-  BLA
-  
-  reagirl.Label\_GetLabelText fehlt!!!
+  - **Link UI-Elements to Extstates/Config Variables/Ini-File-Values and Toggle-states**  
+  That way, you can easily link ui-elements to these states. So if the state is updated, the ui-element gets immediately updated.
+  And if the ui-element gets altered, the linked state gets updated too.  
+  Making a settings-dialog for i.e. the most used preferences has never been easier to do.  
+    
+  - **MetaData Extraction**  
+  There's a new function that extracts the cover image of a media file for further use.
     
 #### New features in 5.1  
   - MetaData: Metadata\_ExtractCover - extracts the cover-image from a file
@@ -412,15 +415,16 @@ Has now 1807 functions, with XX new ones
   - ReaGirl: Checkbox\_LinkToToggleState - link a checkbox-state to a toggle-state
   - ReaGirl: Checkbox\_Unlink - remove link of an inputbox with an ini-file-entry/configvar/extstate/toggle-state
   - ReaGirl: DropDownMenu\_LinkToExtstate - links a drop-down-menu to an extstate
-  - ReaGirl: DropDownMenu\_LinkToIniFile - links a drop-down-menu to an ini-file-entry
+  - ReaGirl: DropDownMenu\_LinkToIniValue - links a drop-down-menu to an ini-file-entry
   - ReaGirl: DropDownMenu\_Unlink - remove link of a drop-down-menu with an ini-file-entry/extstate
   - ReaGirl: Inputbox\_LinkToConfigVar - link an inputbox to a string config-variable
   - ReaGirl: Inputbox\_LinkToExtstate - link an inputbox to an extstate
-  - ReaGirl: Inputbox\_LinkToIniFile - link an inputbox to an ini-file
+  - ReaGirl: Inputbox\_LinkToIniValue - link an inputbox to an ini-file
   - ReaGirl: Inputbox\_Unlink - remove link of an inputbox with an ini-file-entry/configvar/extstate
+  - ReaGirl: Label\_GetLabelText - gets the current text of a label  
   - ReaGirl: Slider\_LinkToDoubleConfigVar - link a slider to a double-config-variable
   - ReaGirl: Slider\_LinkToExtstate - link a slider to an extstate
-  - ReaGirl: Slider\_LinkToIniFile - link a slider to an ini-file-entry
+  - ReaGirl: Slider\_LinkToIniValue - link a slider to an ini-file-entry
   - ReaGirl: Slider\_LinkToIntConfigVar - link a slider to an integer-config-variable
   - ReaGirl: Slider\_Unlink - remove link of a slider with an ini-file-entry/configvar/extstate
 

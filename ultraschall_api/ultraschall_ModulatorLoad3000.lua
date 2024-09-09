@@ -3565,6 +3565,10 @@ else
     ultraschall.LM(21)
     return ultraschall.MetaDataTable_GetProject(table.unpack({...}))
   end
+  function ultraschall.Metadata_ExtractCover(...)
+    ultraschall.LM(21)
+    return ultraschall.Metadata_ExtractCover(table.unpack({...}))
+  end
   function ultraschall.ToggleMute(...)
     ultraschall.LM(22)
     return ultraschall.ToggleMute(table.unpack({...}))
