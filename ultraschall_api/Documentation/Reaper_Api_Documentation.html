@@ -111,7 +111,7 @@ View: [<span class='aclick'>all</span>]
 End of Header
 --->
 <div class="ch"><p></p>
-<h2>Reaper Reascript-Api-Documentation 7.15<br>"I would rather have questions that can't be answered, than answers that can't be questioned."</h2><h3>The Functions Reference</h3></div><div class="ch"><p></p>
+<h2>Reaper Reascript-Api-Documentation 7.16<br>"I would rather have questions that can't be answered, than answers that can't be questioned."</h2><h3>The Functions Reference</h3></div><div class="ch"><p></p>
 <!-- Clipboard Button -->
 <script src="./scripts/clipboard.min.js.Download"></script>
 <!-- External Script -->
@@ -22014,7 +22014,7 @@ FX indices can have 0x2000000 added to them, in which case they will be used to 
 <hr>
 <a class="anch" id="TrackFX_GetNamedConfigParm"></a>
 <a href="#TrackFX_GetNamedConfigParm"> ^</a> 
-<img width="3%" src="gfx/reaper7.06.png" alt="requires Reaper version 7.06"><u><b>TrackFX_GetNamedConfigParm</b></u><br>			<p>
+<img width="3%" src="gfx/reaper7.16.png" alt="requires Reaper version 7.16"><u><b>TrackFX_GetNamedConfigParm</b></u><br>			<p>
 <div class="cc">
 <div class="c">C: <code> <i>bool</i> retval = <em>TrackFX_GetNamedConfigParm</em>(<i>MediaTrack*</i>  track, <i>int</i> fx, <i>const</i> <i>char*</i> parmname, <i>char*</i> bufOutNeedBig, <i>int</i> bufOutNeedBig_sz)</code></div>
 <div class="e">EEL2: <code> <i>bool</i> retval = <em>TrackFX_GetNamedConfigParm</em>(<i>MediaTrack</i> track, <i>int</i> fx, "parmname", #buf)</code></div>
@@ -22048,6 +22048,8 @@ Supported values for read:<br>
 &nbsp;&nbsp;container_map.add.FXID.PARMIDX : read from this value to add/get container parameter mapping for FXID/PARMIDX -- will return the parameter index (accessed via param.X.container_map.*). FXID can be a full address (must be a child of the container) or a 0-based sub-index (v7.06+).<br>
 &nbsp;&nbsp;container_map.get.FXID.PARMIDX : read from this value to get container parameter mapping for FXID/PARMIDX -- will return the parameter index (accessed via param.X.container_map.*). FXID can be a full address (must be a child of the container) or a 0-based sub-index (v7.06+).<br>
 <br>
+&nbsp;&nbsp;chain_pdc_actual : returns the actual chain latency in samples, only valid after playback has commenced, may be rounded up to block size.<br>
+&nbsp;&nbsp;chain_pdc_reporting : returns the reported chain latency, always valid, not rounded to block size.<br>
 <br>
 Supported values for read/write:<br>
 &nbsp;&nbsp;vst_chunk[_program] : base64-encoded VST-specific chunk.<br>
@@ -66150,7 +66152,7 @@ Get the last used color-theme-file.<br>
 <hr>
 <a class="anch" id="GetThemeColor"></a>
 <a href="#GetThemeColor"> ^</a> 
-<img width="3%" src="gfx/reaper6.14.png" alt="requires Reaper version 6.14"><u><b>GetThemeColor</b></u><br>			<p>
+<img width="3%" src="gfx/reaper7.16.png" alt="requires Reaper version 7.16"><u><b>GetThemeColor</b></u><br>			<p>
 <div class="cc">
 <div class="c">C: <code> <i>int</i> <em>GetThemeColor</em>(<i>const</i> <i>char*</i> theme_color, <i>int</i> flagsOptional)</code></div>
 <div class="e">EEL2: <code> <i>int</i> <em>GetThemeColor</em>("theme_color", <i>int</i> flags)</code></div>
@@ -66217,7 +66219,7 @@ Open a different installed theme.<br>
 <hr>
 <a class="anch" id="SetThemeColor"></a>
 <a href="#SetThemeColor"> ^</a> 
-<img width="3%" src="gfx/reaper7.00.png" alt="requires Reaper version 7.00"><u><b>SetThemeColor</b></u><br>			<p>
+<img width="3%" src="gfx/reaper7.16.png" alt="requires Reaper version 7.16"><u><b>SetThemeColor</b></u><br>			<p>
 <div class="cc">
 <div class="c">C: <code> <i>int</i> <em>SetThemeColor</em>(<i>const</i> <i>char*</i> theme_color, <i>int</i> color, <i>int</i> flagsOptional)</code></div>
 <div class="e">EEL2: <code> <i>int</i> <em>SetThemeColor</em>("theme_color", <i>int</i> color, <i>int</i> flags)</code></div>
@@ -66374,9 +66376,12 @@ To read a value see GetThemeColor<br>
 * guideline_drawmode : Editing guide fill mode <br>
 * region : Regions <br>
 * region_lane_bg : Region lane background <br>
-* region_lane_text : Region lane text <br>
+* region_edge : Region text and edge<br>
+* region_edge_sel : Region text and edge (selected)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <br>
 * marker : Markers <br>
 * marker_lane_bg : Marker lane background <br>
+* marker_edge : Marker number and edge<br>
+* marker_edge_sel : Marker number and edge (selected)<br>
 * marker_lane_text : Marker lane text <br>
 * col_tsigmark : Time signature change marker <br>
 * ts_lane_bg : Time signature lane background <br>

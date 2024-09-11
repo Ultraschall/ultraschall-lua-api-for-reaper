@@ -3,7 +3,7 @@
       <slug>Introduction</slug>
       <title>Introduction to Config Variables</title>  
       <description markup_type="markdown" markup_version="1.0.1" indent="default">  
-         List of all Config Variables as of Reaper 7.15 and probably are missing some, but should be fairly complete anyway.  
+         List of all Config Variables as of Reaper 7.16 and probably are missing some, but should be fairly complete anyway.  
          These can be used to set configuration-stuff in the preferences, the project-settings, the render-dialog, many context-menus(like MCP or transport-context-menus) and many others.  
          To change them, you can use the following ReaScript API-functions(requires SWS being installed):
           
@@ -882,8 +882,11 @@
       <slug>bpminfnimport</slug>  
       <title>bpminfnimport</title>  
       <description>  
-          Some settings as set in Preferences -> Video
+          Some settings as set in Preferences -> Video as well as Preferences -> Media Import
           It is an integer, preferences variable.
+          
+            >&1=0, If tempo is reliable -> Do nothing
+            >&1=1, If tempo is reliable -> Prompt to adjust media to project tempo
           
             >&2=0, Ignore tempo suggested by media -> When media suggests bpm-dropdownlist
             >&2=1, Always prompt -> When media suggests bpm-dropdownlist
@@ -896,6 +899,26 @@
       <chapter_context>
          Preferences
          Video
+      </chapter_context>
+      <source_document>Reaper_Config_Variables.USDocML</source_document>
+      <target_document>Reaper_Config_Variables</target_document>  
+    </US_DocBloc>  
+    
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">  
+      <slug>bpmprojadj</slug>  
+      <title>bpmprojadj</title>  
+      <description>  
+          Media with tempo information in metadata or file name, if project is empty-dropdownlist, as set in Preferences-> Media Import
+          It is an integer, preferences variable.
+          
+          >0, Prompt to adjust project to media tempo
+          >2, Do nothing
+            
+          Stored in reaper.ini under the same name in the section REAPER.  
+      </description>  
+      <chapter_context>
+         Preferences
+         Import
       </chapter_context>
       <source_document>Reaper_Config_Variables.USDocML</source_document>
       <target_document>Reaper_Config_Variables</target_document>  
@@ -2831,6 +2854,139 @@
            >853261 - Preserve Formants, Independent Phase, Time Domain Smoothing  
            >853262 - Mid/Side, Independent Phase, Time Domain Smoothing  
            >853263 - Preserve Formants, Mid/Side, Independent Phase, Time Domain Smoothing  
+           
+           >RRREEEAAA:
+           >917504 - default FFT 32768 analysis: 1/2 synthesis: 4x
+           >add the following values to influence it:
+           >0 - FFT: 32768; analysis: 1/2; synthesis: 4x; synthesis-window: blackman-harris
+           >1 - synthesis: 5x
+           >2 - synthesis: 6x
+           >3 - synthesis: 7x
+           >4 - synthesis: 8x
+           >5 - synthesis: 9x
+           >6 - synthesis: 10x
+           >7 - synthesis: 3x [a bit pulsing]
+           >8 - analysis 1/4
+           >16 - analysis 1/6
+           >24 - analysis 1/8
+           >32 - FFT: 16384
+           >64 - FFT: 8192
+           >96 - FFT: 4096
+           >512 - synthesis-window: hamming
+           >1024 - synthesis-window: blackman
+           >1536 - triangular
+           
+           >ReaReaRea:
+           >983040 - default Fade: 48ms, Randomize: 0%, Shape sin()
+           >add the following values to influence it:
+           >0 - Randomize: 0%
+           >1 - Randomize: 6%
+           >2 - Randomize: 12%
+           >3 - Randomize: 18%
+           >4 - Randomize: 25%
+           >5 - Randomize: 31%
+           >6 - Randomize: 37%
+           >7 - Randomize: 43%
+           >8 - Randomize: 50%
+           >9 - Randomize: 56%
+           >10 - Randomize: 62%
+           >11 - Randomize: 68%
+           >12 - Randomize: 75%
+           >13 - Randomize: 81%
+           >14 - Randomize: 87%
+           >15 - Randomize: 93%                    
+           >0 - Fade: 0ms
+           >16 - Fade: 60ms
+           >32 - Fade: 72ms
+           >48 - Fade: 84ms
+           >64 - Fade: 96ms
+           >80 - Fade: 108ms
+           >96 - Fade: 120ms
+           >112 - Fade: 132ms
+           >128 - Fade: 144ms
+           >144 - Fade: 156ms
+           >160 - Fade: 168ms
+           >176 - Fade: 180ms
+           >192 - Fade: 192ms
+           
+           >208 - Fade: 204ms
+           >224 - Fade: 216ms
+           >240 - Fade: 228ms
+           >256 - Fade: 240ms
+           >272 - Fade: 252ms
+           >288 - Fade: 264ms
+           >304 - Fade: 276ms
+           >320 - Fade: 288ms
+           >336 - Fade: 300ms
+           >352 - Fade: 312ms
+           >368 - Fade: 324ms
+           >384 - Fade: 336ms
+           >400 - Fade: 348ms
+           >416 - Fade: 360ms
+           >432 - Fade: 372ms
+           >448 - Fade: 384ms
+           >464 - Fade: 396ms
+           >480 - Fade: 408ms
+           >496 - Fade: 420ms
+           >512 - Fade: 432ms
+           >528 - Fade: 448ms
+           >544 - Fade: 472ms
+           >560 - Fade: 496ms
+           >576 - Fade: 520ms
+           >592 - Fade: 544ms
+           >608 - Fade: 568ms
+           >624 - Fade: 592ms
+           >640 - Fade: 616ms
+           >656 - Fade: 640ms
+           >672 - Fade: 664ms
+           >688 - Fade: 688ms
+           >704 - Fade: 712ms
+           >720 - Fade: 736ms
+           >736 - Fade: 760ms
+           >752 - Fade: 784ms
+           >768 - Fade: 808ms
+           >784 - Fade: 832ms
+           >800 - Fade: 856ms
+           >816 - Fade: 880ms
+           >832 - Fade: 904ms
+           >848 - Fade: 928ms
+           >864 - Fade: 952ms
+           >880 - Fade: 976ms
+           >896 - Fade: 1000ms
+           >912 - Fade: 2ms
+           >928 - Fade: 4ms
+           >944 - Fade: 6ms
+           >960 - Fade: 8ms
+           >976 - Fade: 12ms
+           >992 - Fade: 24ms
+           >1008 - Fade: 36ms
+           >0 - Shape: sin()
+           >1024 - Shape: linear
+           >2048 - Shape: rectangular
+           >8192 - Fade: 1/128 note
+           >8208 - Fade: 1/64 note
+           >8320 - Fade: 1/128 note triplet
+           >8448 - Fade: 1/128 note dotted
+           >8336 - Fade: 1/64 note triplet
+           >8192 - Fade: 1/64 note dotted
+           >8224 - Fade: 1/32 note
+           >8352 - Fade: 1/32 note triplet
+           >8480 - Fade: 1/32 note dotted
+           >8240 - Fade: 1/16 note
+           >8368 - Fade: 1/16 note triplet
+           >8496 - Fade: 1/16 note dotted
+           >8256 - Fade: 1/8 note
+           >8384 - Fade: 1/8 note triplet
+           >8512 - Fade: 1/8 note dotted
+           >8272 - Fade: 1/4 note
+           >8400 - Fade: 1/4 note triplet
+           >8528 - Fade: 1/4 note dotted
+           >8288 - Fade: 1/2 note
+           >8416 - Fade: 1/2 note triplet
+           >8544 - Fade: 1/2 note dotted
+           >8304 - Fade: whole note
+           >8432 - Fade: whole note triplet
+           >8560 - Fade: whole note dotted
 
           Stored in reaper.ini under the same name in the section REAPER, when Save as default project settings has been clicked.  
       </description>  
@@ -4127,6 +4283,26 @@
       <source_document>Reaper_Config_Variables.USDocML</source_document>
       <target_document>Reaper_Config_Variables</target_document>  
     </US_DocBloc>  
+
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">  
+      <slug>fxenvinterp</slug>  
+      <title>fxenvinterp</title>  
+      <description>  
+          Automation rate when interpolating between points-inputbox, as set in Preferences -> Plug-In compatibility
+          This in an double-float-variable, preferences variable.  
+          
+            >0 to 1000 in milliseconds(0=once per buffer block)
+          
+          Stored in reaper.ini under the same name in the section REAPER.  
+      </description>  
+      <chapter_context>
+         Preferences
+         Compatibility
+      </chapter_context>
+      <source_document>Reaper_Config_Variables.USDocML</source_document>
+      <target_document>Reaper_Config_Variables</target_document>  
+    </US_DocBloc>  
+
   
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">  
       <slug>fxfloat_focus</slug>  
@@ -4612,6 +4788,9 @@
 
            >&512=0, Move edit cursor on razor edit change -> unchecked
            >&512=1, Move edit cursor on razor edit change -> checked
+           
+           >&1024=0, Clicking fixed lane comp area -> unchecked
+           >&1024=1, Clicking fixed lane comp area -> checked
 
           Stored in reaper.ini under the same name in the section REAPER.  
       </description>  
@@ -5168,6 +5347,9 @@
            >>1 0 0, Full height  
            >>0 0 1, Stretch image  
            for more image-settings, see config variable video_defimglen
+           
+           >&1024=0, Draw selection indicator on items(on) - checked
+           >&1024=1, Draw selection indicator on items(off) - checked
 
           Stored in reaper.ini under the same name in the section REAPER.  
       </description>  
@@ -9577,6 +9759,11 @@
            >&32768 = 0, Video processor automation-dropdownlist -> Evaluate at middle of frame
            >&32768 = 1, Video processor automation-dropdownlist -> Evaluate at start of frame
            
+           >&65536 &131328 - Gamut
+            0 0 - BT.601 (SDTV)
+            1 0 - BT.701 (HDTV)
+            0 1 - BT.2020 (UHDTV)
+            
           Stored in reaper.ini under the same name in the section REAPER, when Save as default project settings has been clicked.  
       </description>  
       <chapter_context>
@@ -11494,7 +11681,43 @@
       <source_document>Reaper_Config_Variables.USDocML</source_document>
       <target_document>Reaper_Config_Variables</target_document>  
     </US_DocBloc>  
-  
+
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">  
+      <slug>smmaxsz</slug>  
+      <title>smmaxsz</title>  
+      <description>            
+          Maximum stretch marker handle size-inputbox(the first one in the line), as set in Preferences -> Appearance-Media
+          It is an integer, preferences variable.
+            
+            >1 to 100, in pixels
+            
+          Stored in reaper.ini under the same name in the section REAPER.  
+      </description>  
+      <chapter_context>
+         
+      </chapter_context>
+      <source_document>Reaper_Config_Variables.USDocML</source_document>
+      <target_document>Reaper_Config_Variables</target_document>  
+    </US_DocBloc>
+    
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">  
+      <slug>smmaxsz_pct</slug>  
+      <title>smmaxsz_pct</title>  
+      <description>            
+          Maximum stretch marker handle size ... or % of take-height-inputbox(the second one in the line), as set in Preferences -> Appearance-Media
+          It is an integer, preferences variable.
+
+            >1-30 in percents
+
+          Stored in reaper.ini under the same name in the section REAPER.  
+      </description>  
+      <chapter_context>
+         
+      </chapter_context>
+      <source_document>Reaper_Config_Variables.USDocML</source_document>
+      <target_document>Reaper_Config_Variables</target_document>  
+    </US_DocBloc>
+    
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">  
       <slug>smoothseek</slug>  
       <title>smoothseek</title>  

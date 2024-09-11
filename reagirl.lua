@@ -8179,6 +8179,8 @@ function reagirl.ColorRectangle_Add(x, y, w, h, r, g, b, caption, meaningOfUI_El
     Convert the name to the color-values using Color_GetColorValuesByName.
     Colors who have a name are better for screen reader users, since the color name will be reported accordingly.
     
+    See this page for more details and color-names: https://www.w3.org/wiki/CSS/Properties/color/keywords
+    
     The run-function gets as parameter:
     - string element_id - the element_id as string of the clicked color-rectangle that uses this run-function
     - integer red - the red color-value

@@ -10679,7 +10679,7 @@
         <functioncall prog_lang="lua">integer retval = reaper.GetThemeColor(string theme_color, integer flags)</functioncall>
         <functioncall prog_lang="python">Int retval = RPR_GetThemeColor(String theme_color, Int flagsOptional)</functioncall>
         <requires>
-            Reaper=6.14
+            Reaper=7.16
         </requires>
         <description>
             Returns the theme color specified, or -1 on failure. 
@@ -10710,6 +10710,14 @@
         </chapter_context>
         <tags>theme, get, theme, color</tags>
         <changelog>
+          Reaper 7.16 - new theme-colors: region_edge, region_edge_sel, marker_edge, marker_edge_sel; removed: marker_lane_text
+          Reaper 7.00 - new theme-colors: selitem_dot, track_lane_tabcol, track_lanesolo_tabcol, track_lanesolo_text, track_lane_gutter, track_lane_gutter_drawmode, linkedlane_fill, linkedlane_fillmode, linkedlane_outline, linkedlane_outlinemode, linkedlane_unsynced, linkedlane_unsynced_mode, vu_gr_bgcol, vu_gr_fgcol
+          Reaper 6.74 - new theme-colors: col_routingact, wiring_activity
+          Reaper 6.59 - changes with color: col_env7 added width to it
+          Reaper 6.57 - new theme-colors: inactive_take_overlay_col, inactive_take_overlay_mode; mute_overlay_col, mute_overlay_mode doesn't work on inactive takes anymore, but rather on items
+          Reaper 6.54 - new theme colors: track_lane_tabcol, track_lanesolo_tabcol, track_lane_gutter, track_lane_gutter_drawmode, mute_overlay_col, mute_overlay_mode, locked_overlay_col, locked_overlay_mode
+          Reaper 6.53 - new theme-colors: explorer_grid and explorer_pitchtext
+          Reaper 6.44 - new theme-color: col_nodarkmodemiscwnd added
         </changelog>
     </US_DocBloc>
 
@@ -19146,7 +19154,7 @@
         <functioncall prog_lang="lua">integer retval = reaper.SetThemeColor(string theme_color, integer color, integer flags)</functioncall>
         <functioncall prog_lang="python">Int retval = RPR_SetThemeColor(String theme_color, Int color, Int flagsOptional)</functioncall>
         <requires>
-            Reaper=7.00
+            Reaper=7.16
         </requires>
         <description>
             Temporarily updates the theme color to the color specified (or the theme default color if -1 is specified). 
@@ -19298,9 +19306,12 @@
              * guideline_drawmode : Editing guide fill mode 
              * region : Regions 
              * region_lane_bg : Region lane background 
-             * region_lane_text : Region lane text 
+             * region_edge : Region text and edge
+             * region_edge_sel : Region text and edge (selected)             
              * marker : Markers 
              * marker_lane_bg : Marker lane background 
+             * marker_edge : Marker number and edge
+             * marker_edge_sel : Marker number and edge (selected)
              * marker_lane_text : Marker lane text 
              * col_tsigmark : Time signature change marker 
              * ts_lane_bg : Time signature lane background 
@@ -19555,6 +19566,7 @@
         </chapter_context>
         <tags></tags>
         <changelog>
+            Reaper 7.16 - new theme-colors: region_edge, region_edge_sel, marker_edge, marker_edge_sel; removed: marker_lane_text
             Reaper 7.00 - new theme-colors: selitem_dot, track_lane_tabcol, track_lanesolo_tabcol, track_lanesolo_text, track_lane_gutter, track_lane_gutter_drawmode, linkedlane_fill, linkedlane_fillmode, linkedlane_outline, linkedlane_outlinemode, linkedlane_unsynced, linkedlane_unsynced_mode, vu_gr_bgcol, vu_gr_fgcol
             Reaper 6.74 - new theme-colors: col_routingact, wiring_activity
             Reaper 6.59 - changes with color: col_env7 added width to it
@@ -23770,7 +23782,7 @@
         <functioncall prog_lang="lua">boolean retval, string buf = reaper.TrackFX_GetNamedConfigParm(MediaTrack track, integer fx, string parmname)</functioncall>
         <functioncall prog_lang="python">(Boolean retval, MediaTrack track, Int fx, String parmname, String bufOutNeedBig, Int bufOutNeedBig_sz) = RPR_TrackFX_GetNamedConfigParm(track, fx, parmname, bufOutNeedBig, bufOutNeedBig_sz)</functioncall>
         <requires>
-            Reaper=7.06
+            Reaper=7.16
         </requires>
         <description prog_lang="*">
             gets plug-in specific named configuration value (returns true on success). 
@@ -23799,6 +23811,8 @@
               container_map.add.FXID.PARMIDX : read from this value to add/get container parameter mapping for FXID/PARMIDX -- will return the parameter index (accessed via param.X.container_map.*). FXID can be a full address (must be a child of the container) or a 0-based sub-index (v7.06+).
               container_map.get.FXID.PARMIDX : read from this value to get container parameter mapping for FXID/PARMIDX -- will return the parameter index (accessed via param.X.container_map.*). FXID can be a full address (must be a child of the container) or a 0-based sub-index (v7.06+).
 
+              chain_pdc_actual : returns the actual chain latency in samples, only valid after playback has commenced, may be rounded up to block size.
+              chain_pdc_reporting : returns the reported chain latency, always valid, not rounded to block size.
 
             Supported values for read/write:
               vst_chunk[_program] : base64-encoded VST-specific chunk.
@@ -23859,6 +23873,7 @@
         </chapter_context>
         <tags></tags>
         <changelog>
+          Reaper 7.16 - added support for chain_pdc_actual, chain_pdc_reporting
           Reaper 7.06 - added support for parent_container, container_item.X, container.map.add.FXID.PARMIDX, container.map.get.FXID.PARMIDX, chain_sel, focused, last_touched
           Reaper 7.00 - added support for fx-containers
           Reaper 6.79 - added original_name to get original name and renamed_name to get (re-)name of fx-instances
