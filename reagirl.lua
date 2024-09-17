@@ -2603,7 +2603,9 @@ reagirl.Colors.Tabs_Border_Background_b=0.403921568627451
 reagirl.Colors.Tabs_Inner_Background_r=0.253921568627451
 reagirl.Colors.Tabs_Inner_Background_g=0.253921568627451
 reagirl.Colors.Tabs_Inner_Background_b=0.253921568627451
-
+reagirl.Colors.ColorRectangle_Boundary_r=0.403921568627451
+reagirl.Colors.ColorRectangle_Boundary_g=0.403921568627451
+reagirl.Colors.ColorRectangle_Boundary_b=0.403921568627451
 -- Cursor-Blinkspeed for inputboxes, live-settable in extstate ReaGirl -> Inputbox_BlinkSpeed
 -- 7 and higher is supported
 if reaper.GetExtState("ReaGirl", "Inputbox_BlinkSpeed")=="" then
@@ -8300,8 +8302,12 @@ function reagirl.ColorRectangle_Manage(element_id, selected, hovered, clicked, m
 end
 
 function reagirl.ColorRectangle_Draw(element_id, selected, hovered, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
-  gfx.set(element_storage["r"],element_storage["g"],element_storage["b"])
+  gfx.set(reagirl.Colors.ColorRectangle_Boundary_r, reagirl.Colors.ColorRectangle_Boundary_g, reagirl.Colors.ColorRectangle_Boundary_b)
   reagirl.RoundRect(x,y,w,h, element_storage["radius"]*reagirl.Window_GetCurrentScale(), 1, 1)
+  gfx.set(0)
+  reagirl.RoundRect(x+1,y+1,w-2,h-2, element_storage["radius"]*reagirl.Window_GetCurrentScale(), 1, 1)
+  gfx.set(element_storage["r"],element_storage["g"],element_storage["b"])
+  reagirl.RoundRect(x+2,y+2,w-4,h-4, element_storage["radius"]*reagirl.Window_GetCurrentScale(), 1, 1)
 end
 
 function reagirl.ColorRectangle_GetRadius(element_id)
