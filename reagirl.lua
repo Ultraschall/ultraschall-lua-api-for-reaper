@@ -2606,6 +2606,9 @@ reagirl.Colors.Tabs_Inner_Background_b=0.253921568627451
 reagirl.Colors.ColorRectangle_Boundary_r=0.403921568627451
 reagirl.Colors.ColorRectangle_Boundary_g=0.403921568627451
 reagirl.Colors.ColorRectangle_Boundary_b=0.403921568627451
+reagirl.Colors.ColorRectangle_Boundary2_r=0
+reagirl.Colors.ColorRectangle_Boundary2_g=0
+reagirl.Colors.ColorRectangle_Boundary2_b=0
 -- Cursor-Blinkspeed for inputboxes, live-settable in extstate ReaGirl -> Inputbox_BlinkSpeed
 -- 7 and higher is supported
 if reaper.GetExtState("ReaGirl", "Inputbox_BlinkSpeed")=="" then
@@ -8168,7 +8171,7 @@ function reagirl.ColorRectangle_Add(x, y, w, h, r, g, b, caption, meaningOfUI_El
     Reaper=7.03
     Lua=5.4
   </requires>
-  <functioncall>string color_rectangle_guid = reagirl.ColorRectangle_Add(optional integer x, optional integer y, integer r, integer g, integer b, string caption, string meaningOfUI_Element, optional function run_function)</functioncall>
+  <functioncall>string color_rectangle_guid = reagirl.ColorRectangle_Add(optional integer x, optional integer y, integer w, integer h, integer r, integer g, integer b, string caption, string meaningOfUI_Element, optional function run_function)</functioncall>
   <description>
     Adds a color-rectangle to a gui.
     
@@ -8304,7 +8307,7 @@ end
 function reagirl.ColorRectangle_Draw(element_id, selected, hovered, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
   gfx.set(reagirl.Colors.ColorRectangle_Boundary_r, reagirl.Colors.ColorRectangle_Boundary_g, reagirl.Colors.ColorRectangle_Boundary_b)
   reagirl.RoundRect(x,y,w,h, element_storage["radius"]*reagirl.Window_GetCurrentScale(), 1, 1)
-  gfx.set(0)
+  gfx.set(reagirl.Colors.ColorRectangle_Boundary2_r, reagirl.Colors.ColorRectangle_Boundary2_g, reagirl.Colors.ColorRectangle_Boundary2_b)
   reagirl.RoundRect(x+1,y+1,w-2,h-2, element_storage["radius"]*reagirl.Window_GetCurrentScale(), 1, 1)
   gfx.set(element_storage["r"],element_storage["g"],element_storage["b"])
   reagirl.RoundRect(x+2,y+2,w-4,h-4, element_storage["radius"]*reagirl.Window_GetCurrentScale(), 1, 1)
@@ -8476,6 +8479,290 @@ function reagirl.ColorRectangle_SetColor(element_id, r, g, b)
     reagirl.Gui_ForceRefresh(19)
   end
   return true
+end
+
+function reagirl.ListView_Add(x, y, w, h, caption, meaningOfUI_Element, enable_selection, entries, default, run_function)
+-- unreleased
+--[[
+<US_ DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>ListView_Add</slug>
+  <requires>
+    ReaGirl=1.3
+    Reaper=7.03
+    Lua=5.4
+  </requires>
+  <functioncall>string listview_guid = reagirl.ListView_Add(optional integer x, optional integer y, string caption, string meaningOfUI_Element, boolean enable_selection, table entries, integer default, optional function run_function)</functioncall>
+  <description>
+    Adds a listview to the gui.
+    Will only have one column, so no table is possible.
+    
+    The run-function gets as parameter:
+    - string element_id - the element_id as string of the clicked color-rectangle that uses this run-function
+    - integer clicked_element - the index of the clicked element
+    - string clicked_element_text - the text of the clicked element
+    - table selected_elements - a table that contains, if an element is selected(true) or not(false); number of entries in listview defines the size of the table
+  </description>
+  <parameters>
+    optional integer x - the x position of the listview in pixels; negative anchors the listview to the right window-side; nil, autoposition after the last ui-element(see description)
+    optional integer y - the y position of the listview in pixels; negative anchors the listview to the bottom window-side; nil, autoposition after the last ui-element(see description)
+    integer w - the width of the listview in pixels
+    integer h - the height of the listview in pixels
+    string caption - the caption of the listview
+    string meaningOfUI_Element - the meaningOfUI_Element of the ui-element(for tooltips and blind users). Make it a sentence that ends with . or ?
+    boolean enable_selection - true, you can select multiple elements in the list; false, you can only select one active elements
+    table entries - the entries shown in the listview
+    integer default - the index of the entry, that shall be set to selected by default
+    optional function run_function - a function that shall be run when entries in the listview are clicked/selected via keyboard; see description for more details
+  </parameters>
+  <retvals>
+    string listview_guid - a guid that can be used for altering the listview-attributes
+  </retvals>
+  <chapter_context>
+    ListView
+  </chapter_context>
+  <tags>listview, add</tags>
+</US_DocBloc>
+--]]
+  if x~=nil and math.type(x)~="integer" then error("ListView_Add: param #1 - must be either nil or an integer", 2) end
+  if y~=nil and math.type(y)~="integer" then error("ListView_Add: param #2 - must be either nil or an integer", 2) end
+  if math.type(w)~="integer" then error("ListView_Add: param #3 - must be an integer", 2) end
+  if math.type(h)~="integer" then error("ListView_Add: param #4 - must be an integer", 2) end
+  if type(caption)~="string" then error("ListView_Add: param #5 - must be a string", 2) end
+  caption=string.gsub(caption, "[\n\r]", "")
+  if type(meaningOfUI_Element)~="string" then error("ListView_Add: param #6 - must be a string", 2) end
+  if meaningOfUI_Element:sub(-1,-1)~="." and meaningOfUI_Element:sub(-1,-1)~="?" then error("ColorRectangle_Add: param #6 - must end on a . like a regular sentence.", 2) end
+  if type(enable_selection)~="boolean" then error("ListView_Add: param #7 - must be a boolean", 2) end
+  if type(entries)~="table" then error("ListView_Add: param #8 - must be a table", 2) end
+  if math.type(default)~="integer" then error("ListView_Add: param #9 - must be a boolean", 2) end
+  if run_function~=nil and type(run_function)~="function" then error("ListView_Add: param #10 - must be either nil or a function(ignored when #10 is set to true)", 2) end
+  
+  local x,y,slot=reagirl.UI_Element_GetNextXAndYPosition(x, y, "ListView_Add")
+  --reagirl.UI_Element_NextX_Default=x
+  
+  --reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0, 1)
+  --local tx,ty=gfx.measurestr(caption)
+  --reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0)
+  
+  table.insert(reagirl.Elements, slot, {})
+  reagirl.Elements[slot]["Guid"]=reaper.genGuid("")
+  reagirl.Elements[slot]["GUI_Element_Type"]="ListView"
+  reagirl.Elements[slot]["Name"]=caption
+  reagirl.Elements[slot]["Text"]=caption
+  reagirl.Elements[slot]["IsDisabled"]=false
+  reagirl.Elements[slot]["sticky_x"]=false
+  reagirl.Elements[slot]["sticky_y"]=false
+  reagirl.Elements[slot]["Description"]=meaningOfUI_Element
+  reagirl.Elements[slot]["AccHint"]="Click with space or left mouseclick. Arrow up and down to select entry in the list."
+  reagirl.Elements[slot]["ContextMenu_ACC"]=""
+  reagirl.Elements[slot]["DropZoneFunction_ACC"]=""
+  reagirl.Elements[slot]["x"]=x
+  reagirl.Elements[slot]["y"]=y
+  reagirl.Elements[slot]["w"]=w
+  reagirl.Elements[slot]["h"]=h
+  local w=0
+  --if math.tointeger(ty+h_margin)>reagirl.NextLine_Overflow then reagirl.NextLine_Overflow=math.tointeger(ty+h_margin) end
+  local entries2={}
+  for i=1, #entries do
+    entries[i]=tostring(entries[i])
+    if i==default then
+      entries2[i]=true
+      local ww,hh=entries[i]:len()
+      if ww>w then w=ww end
+    else
+      entries2[i]=false
+    end
+  end
+  reagirl.Elements[slot]["entry_width"]=w
+  reagirl.Elements[slot]["entry_width_start"]=0
+  reagirl.Elements[slot]["entries"]=entries
+  reagirl.Elements[slot]["entries_selection"]=entries2
+  reagirl.Elements[slot]["enable_selection"]=enable_selection
+  reagirl.Elements[slot]["func_manage"]=reagirl.ListView_Manage
+  reagirl.Elements[slot]["func_draw"]=reagirl.ListView_Draw
+  reagirl.Elements[slot]["run_function"]=run_function
+  reagirl.Elements[slot]["selected"]=default
+  reagirl.Elements[slot]["start"]=default
+  reagirl.Elements[slot]["userspace"]={}
+  return reagirl.Elements[slot]["Guid"]
+end
+
+function reagirl.ListView_SetAllDeselected(element_id)
+--[[
+<US_ DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>ListView_SetAllDeselected</slug>
+  <requires>
+    ReaGirl=1.3
+    Reaper=7.03
+    Lua=5.4
+  </requires>
+  <functioncall>reagirl.ListView_SetAllUnselected(string element_id, integer r, integer g, integer b)</functioncall>
+  <description>
+    Sets all entries of a listview to deselected. Only the currently focused one will be set to selected.
+  </description>
+  <parameters>
+    string element_id - the guid of the listview, whose selection you want to set unset
+  </parameters>
+  <chapter_context>
+    ListView
+  </chapter_context>
+  <tags>listview, set, unselected</tags>
+</US_DocBloc>
+--]]
+
+  if type(element_id)~="string" then error("ListView_SetAllDeselected: param #1 - must be a string", 2) end
+  if reagirl.IsValidGuid(element_id, true)==nil then error("ListView_SetAllDeselected: param #1 - must be a valid guid", 2) end
+ 
+  element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
+  if element_id==-1 then error("ListView_SetAllDeselected: param #1 - no such ui-element", 2) end
+  
+  if reagirl.Elements[element_id]["GUI_Element_Type"]~="ListView" then
+    return false
+  else
+    for i=1, #reagirl.Elements[element_id]["entries"] do
+      if reagirl.Elements[element_id]["selected"]==i then
+        reagirl.Elements[element_id]["entries_selection"][i]=true
+      else
+        reagirl.Elements[element_id]["entries_selection"][i]=false
+      end
+    end
+    reagirl.Gui_ForceRefresh(19)
+  end
+
+  return true
+end
+
+
+
+function reagirl.ListView_Manage(element_id, selected, hovered, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
+-- todo: 
+-- selection via shift+click/pgup/pgdn/up/dn
+-- schicker machen
+-- scrolling via mouse-drag
+-- scrollbars
+-- accessibility messages anpassen(selected/deselected muss reported werden)
+-- warum funzt refresh nicht bei mousewheel ohne Gui_ForceRefresh()?
+  local refresh=false
+  local overflow=w-element_storage["entry_width"]
+  local num_lines=math.floor(h/gfx.texth-1)
+  if Key~=0 then AAA=Key end
+  if selected~="not selected" then
+    if Key~=0 and mouse_cap==0 then 
+      if Key==30064.0 then 
+        -- up
+        element_storage["selected"]=element_storage["selected"]-1 
+        if element_storage["selected"]<1 then element_storage["selected"]=1 end
+        if element_storage["selected"]<element_storage["start"] then
+          element_storage["start"]=element_storage["start"]-1
+          if element_storage["start"]<1 then element_storage["start"]=1 end
+        end
+        refresh=true 
+      end
+      if Key==1685026670.0 then 
+        -- down
+        element_storage["selected"]=element_storage["selected"]+1 
+        if element_storage["selected"]>#element_storage["entries"] then element_storage["selected"]=#element_storage["entries"] end
+        if element_storage["selected"]>num_lines+element_storage["start"] then
+          element_storage["start"]=element_storage["start"]+1
+          if element_storage["start"]+num_lines>#element_storage["entries"] then 
+            element_storage["start"]=#element_storage["entries"]-num_lines
+          end
+        end
+        refresh=true 
+      end
+      -- home
+      if Key==1752132965.0 then element_storage["start"]=1 element_storage["selected"]=1 end
+      -- end
+      if Key==6647396.0 then element_storage["start"]=1 element_storage["start"]=#element_storage["entries"]-num_lines element_storage["selected"]=#element_storage["entries"] end
+
+      if Key==1885828464.0 then
+        -- pgup
+        element_storage["selected"]=element_storage["selected"]-num_lines
+        if element_storage["selected"]<1 then element_storage["selected"]=1 end
+        if element_storage["selected"]<1 then
+          element_storage["selected"]=1
+        end
+        if element_storage["selected"]<element_storage["start"] then 
+          element_storage["start"]=element_storage["selected"]
+        end
+      end
+      if Key==1885824110.0 then
+        -- pgdn
+        element_storage["selected"]=element_storage["selected"]+num_lines
+        if element_storage["selected"]>#element_storage["entries"] then
+          element_storage["selected"]=#element_storage["entries"]
+        end
+        if element_storage["selected"]>element_storage["start"]+num_lines then
+          element_storage["start"]=element_storage["selected"]-num_lines
+        end
+      end
+      reagirl.ListView_SetAllDeselected(element_storage["Guid"])
+    end
+    if element_storage["selected"]<1 then element_storage["selected"]=1 end
+    if element_storage["selected"]>#element_storage["entries"] then element_storage["selected"]=#element_storage["entries"] end
+    if ((mouse_cap&1==1 and clicked=="FirstCLK" and gfx.mouse_x>=x and gfx.mouse_x<=x+w and gfx.mouse_y>=y and gfx.mouse_y<=y+h) or Key==32) then
+      local line=math.floor((gfx.mouse_y-y)/gfx.texth)
+      element_storage["selected"]=element_storage["start"]+line
+      if line>num_lines then 
+        element_storage["start"]=element_storage["start"]+1 
+        if element_storage["start"]+num_lines>#element_storage["entries"] then 
+          element_storage["start"]=#element_storage["entries"]-num_lines
+        end
+      end
+      if mouse_cap&4==4 then
+        element_storage["entries_selection"][element_storage["start"]+line]=element_storage["entries_selection"][element_storage["start"]+line]==false
+        --element_storage["entries_selection"][element_storage["start"]+line]=true
+      else
+        reagirl.ListView_SetAllDeselected(element_storage["Guid"])
+      end
+      refresh=true
+    end
+    if mouse_attributes[5]>0 then
+      element_storage["start"]=element_storage["start"]-1
+      if element_storage["start"]<1 then element_storage["start"]=1 end
+      refresh=true
+      --reagirl.Gui_ForceRefresh()
+    elseif mouse_attributes[5]<0 then
+      element_storage["start"]=element_storage["start"]+1
+      if element_storage["start"]+num_lines>#element_storage["entries"] then 
+        element_storage["start"]=#element_storage["entries"]-num_lines
+      end
+      refresh=true
+      --reagirl.Gui_ForceRefresh()
+    end
+    if mouse_attributes[6]<0 then
+      element_storage["entry_width_start"]=element_storage["entry_width_start"]-1
+      if element_storage["entry_width_start"]<0 then element_storage["entry_width_start"]=0 end
+      refresh=true
+      --reagirl.Gui_ForceRefresh()
+    elseif mouse_attributes[6]>0 then
+      element_storage["entry_width_start"]=element_storage["entry_width_start"]+1
+      if element_storage["entry_width_start"]>element_storage["entry_width"]-1 then element_storage["entry_width_start"]=element_storage["entry_width"] end
+      refresh=true
+      --reagirl.Gui_ForceRefresh()
+    end
+  end
+  if refresh==true then AAAA=reaper.time_precise() end
+  return element_storage["entries"][element_storage["selected"]], refresh
+end
+
+function reagirl.ListView_Draw(element_id, selected, hovered, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
+  gfx.x=x
+  gfx.y=y
+  num_lines=math.ceil(h/gfx.texth-1)
+  for i=element_storage["start"], element_storage["start"]+num_lines do
+    gfx.x=x
+    if element_storage["entries_selection"][i]==true then
+      gfx.set(0.3)
+      gfx.rect(gfx.x, gfx.y, 100, gfx.texth, 1)
+      gfx.set(1)
+    else
+      gfx.set(0.5)
+    end
+    entry=element_storage["entries"][i]
+    if entry==nil then entry="" end
+    gfx.drawstr(entry:sub(element_storage["entry_width_start"],-1),0,x+w,y+h)
+    gfx.y=gfx.y+gfx.texth
+  end
 end
 
 function reagirl.Button_Add(x, y, w_margin, h_margin, caption, meaningOfUI_Element, run_function)
