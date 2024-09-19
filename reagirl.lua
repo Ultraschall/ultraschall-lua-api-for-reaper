@@ -8665,8 +8665,6 @@ function reagirl.ListView_Manage(element_id, selected, hovered, clicked, mouse_c
   if element_storage["quicksearch_counter"]>33 then element_storage["quicksearch"]="" end
   if selected~="not selected" then
     -- quicksearch
-    -- BUGGY: Will only visibly jump to found entry, if it is NOT in visible range; otherwise, nothing LOOKS(!) happening, though in the background, everything is moved correctly.
-    --        HUH???
     if Key_UTF~=0 then
       element_storage["quicksearch_counter"]=0
       element_storage["quicksearch"]=element_storage["quicksearch"]..utf8.char(Key_UTF)
@@ -8831,6 +8829,8 @@ function reagirl.ListView_Manage(element_id, selected, hovered, clicked, mouse_c
         element_storage["entries_selection"][i]=true
       end
     end
+  end
+  if gfx.mouse_x>=x and gfx.mouse_x<=x+w and gfx.mouse_y>=y and gfx.mouse_y<=y+h then
     if mouse_attributes[5]>0 and num_lines<#element_storage["entries"] then
       element_storage["start"]=element_storage["start"]-math.floor(mouse_attributes[5]/100)
       if element_storage["start"]<1 then element_storage["start"]=1 end
