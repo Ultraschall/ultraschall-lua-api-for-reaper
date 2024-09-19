@@ -8560,6 +8560,7 @@ function reagirl.ListView_Add(x, y, w, h, caption, meaningOfUI_Element, enable_s
   reagirl.Elements[slot]["w"]=w
   reagirl.Elements[slot]["h"]=h
   local w=0
+  local w_pix=0
   --if math.tointeger(ty+h_margin)>reagirl.NextLine_Overflow then reagirl.NextLine_Overflow=math.tointeger(ty+h_margin) end
   local entries2={}
   for i=1, #entries do
@@ -8567,12 +8568,15 @@ function reagirl.ListView_Add(x, y, w, h, caption, meaningOfUI_Element, enable_s
     if i==default then
       entries2[i]=true
       local ww,hh=entries[i]:len()
+      local wwpix=gfx.measurestr(entries[i])
       if ww>w then w=ww end
+      if wwpix>w_pix then w_pix=wwpix end
     else
       entries2[i]=false
     end
   end
   reagirl.Elements[slot]["entry_width"]=w
+  reagirl.Elements[slot]["entry_width_pix"]=w_pix
   reagirl.Elements[slot]["entry_width_start"]=0
   reagirl.Elements[slot]["entries"]=entries
   reagirl.Elements[slot]["entries_selection"]=entries2
@@ -8584,6 +8588,8 @@ function reagirl.ListView_Add(x, y, w, h, caption, meaningOfUI_Element, enable_s
   reagirl.Elements[slot]["start"]=default
   reagirl.Elements[slot]["quicksearch_counter"]=0
   reagirl.Elements[slot]["quicksearch"]=""
+  reagirl.Elements[slot]["scrollbar_horz"]=false
+  reagirl.Elements[slot]["scrollbar_vert"]=false
   reagirl.Elements[slot]["userspace"]={}
   return reagirl.Elements[slot]["Guid"]
 end
@@ -8647,6 +8653,9 @@ function reagirl.ListView_Manage(element_id, selected, hovered, clicked, mouse_c
   local overflow=w-element_storage["entry_width"]
   local num_lines=math.floor(h/gfx.texth-1)
   if Key~=0 then AAA=Key end
+  
+  if num_lines<#element_storage["entries"] then element_storage["scrollbar_vert"]=true else element_storage["scrollbar_vert"]=false end
+  if w<element_storage["entry_width_pix"] then element_storage["scrollbar_horz"]=true else element_storage["scrollbar_horz"]=false end
   
   -- quicksearch
   -- count one second, until the quicksearch filter is "reset"
@@ -8730,6 +8739,11 @@ function reagirl.ListView_Manage(element_id, selected, hovered, clicked, mouse_c
     if element_storage["selected"]>#element_storage["entries"] then element_storage["selected"]=#element_storage["entries"] end
     if ((mouse_cap&1==1 and clicked=="FirstCLK" and gfx.mouse_x>=x and gfx.mouse_x<=x+w and gfx.mouse_y>=y and gfx.mouse_y<=y+h) or Key==32) then
       local line=math.floor((gfx.mouse_y-y)/gfx.texth)
+      if mouse_cap&8==8 and element_storage["selected_old"]==nil then
+        element_storage["selected_old"]=element_storage["selected"]
+      elseif mouse_cap&8==0 then
+        element_storage["selected_old"]=nil
+      end
       element_storage["selected"]=element_storage["start"]+line
       if line>num_lines then 
         element_storage["start"]=element_storage["start"]+1 
@@ -8739,7 +8753,14 @@ function reagirl.ListView_Manage(element_id, selected, hovered, clicked, mouse_c
       end
       if mouse_cap&4==4 then
         element_storage["entries_selection"][element_storage["start"]+line]=element_storage["entries_selection"][element_storage["start"]+line]==false
-        --element_storage["entries_selection"][element_storage["start"]+line]=true
+      elseif mouse_cap&8==8 and element_storage["selected_old"]~=nil then
+        reagirl.ListView_SetAllDeselected(element_storage["Guid"])
+        local sel1=element_storage["selected_old"]
+        local sel2=element_storage["selected"]
+        if sel2<sel1 then sel1,sel2=sel2,sel1 end
+        for i=sel1, sel2 do
+          element_storage["entries_selection"][i]=true
+        end
       else
         reagirl.ListView_SetAllDeselected(element_storage["Guid"])
       end
@@ -8783,7 +8804,7 @@ function reagirl.ListView_Draw(element_id, selected, hovered, clicked, mouse_cap
     gfx.x=x
     if element_storage["entries_selection"][i]==true then
       gfx.set(0.3)
-      gfx.rect(gfx.x, gfx.y, 100, gfx.texth, 1)
+      gfx.rect(gfx.x, gfx.y, w, gfx.texth, 1)
       gfx.set(1)
     else
       gfx.set(0.5)
@@ -8794,12 +8815,9 @@ function reagirl.ListView_Draw(element_id, selected, hovered, clicked, mouse_cap
     gfx.y=gfx.y+gfx.texth
   end
   
-  if num_lines<#element_storage["entries"] then
-    scroll_y=h/(#element_storage["entries"]-num_lines)*(element_storage["start"]-1)+y--#element_storage["entries"]/num_lines*element_storage["start"]
-    scroll_height=0
-    AA[element_id]=math.floor(scroll_y)
-    gfx.line(x+w-10,scroll_y,x+w,scroll_y)
-    gfx.rect(x+w-10,scroll_y,10,10)
+  if element_storage["scrollbar_vert"]==true then
+    scroll_y=(h-40)/(#element_storage["entries"]-num_lines)*(element_storage["start"]-1)+y--#element_storage["entries"]/num_lines*element_storage["start"]
+    gfx.rect(x+w-15,scroll_y+15,15,15)
   end
 end
 
