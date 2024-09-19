@@ -8643,12 +8643,11 @@ end
 
 function reagirl.ListView_Manage(element_id, selected, hovered, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
 -- todo: 
--- selection via shift+click/pgup/pgdn/up/dn
 -- schicker machen
 -- scrolling via mouse-drag
 -- scrollbars
 -- accessibility messages anpassen(selected/deselected muss reported werden)
--- warum funzt refresh nicht bei mousewheel ohne Gui_ForceRefresh()?
+-- Bug: When multiple elements are selected via ctrl+click, hitting shift deselects all
   local refresh=false
   local overflow=w-element_storage["entry_width"]
   local num_lines=math.floor(h/gfx.texth-1)
@@ -8686,9 +8685,7 @@ function reagirl.ListView_Manage(element_id, selected, hovered, clicked, mouse_c
     end
 
     reagirl.Gui_PreventScrollingForOneCycle(true, true, false)
-    if mouse_cap&8==8 and element_storage["selected_old"]==nil then
-      element_storage["selected_old"]=element_storage["selected"]
-    end
+    if mouse_cap&8==8 and element_storage["selected_old"]==nil then element_storage["selected_old"]=element_storage["selected"] end
     if Key~=0 then 
       if Key==30064.0 and mouse_cap==0 then 
         -- up
@@ -8819,15 +8816,35 @@ function reagirl.ListView_Manage(element_id, selected, hovered, clicked, mouse_c
         reagirl.ListView_SetAllDeselected(element_storage["Guid"])
       end
       refresh=true
+    elseif gfx.mouse_cap&1==1 and gfx.mouse_x>=x and gfx.mouse_x<=x+w and gfx.mouse_y>=y and gfx.mouse_y<=y+h then
+      --[[
+      local line=math.floor((gfx.mouse_y-y)/gfx.texth)
+      element_storage["selected"]=element_storage["start"]+line
+      if line>num_lines then 
+        element_storage["start"]=element_storage["start"]+1 
+        if element_storage["start"]+num_lines>#element_storage["entries"] then 
+          element_storage["start"]=#element_storage["entries"]-num_lines
+        end
+        if element_storage["start"]<1 then element_storage["start"]=1 end
+      end
+      element_storage["entries_selection"][line+1]=true
+      reagirl.Gui_ForceRefresh()
+      --]]
+      
+      -- hier kommt eigentlich der drag entries to resort list-code rein....
     end
+    
     if mouse_cap&8==8 and element_storage["selected_old"]~=nil then
       reagirl.ListView_SetAllDeselected(element_storage["Guid"])
       local sel1=element_storage["selected_old"]
       local sel2=element_storage["selected"]
       if sel2<sel1 then sel1,sel2=sel2,sel1 end
+      if sel1<1 then sel1=1 end
+      if sel2>#element_storage["entries"] then sel2=#element_storage["entries"] end
       for i=sel1, sel2 do
         element_storage["entries_selection"][i]=true
       end
+      refresh=true
     end
   end
   if gfx.mouse_x>=x and gfx.mouse_x<=x+w and gfx.mouse_y>=y and gfx.mouse_y<=y+h then
@@ -8877,6 +8894,10 @@ function reagirl.ListView_Draw(element_id, selected, hovered, clicked, mouse_cap
     entry=element_storage["entries"][i]
     if entry==nil then entry="" end
     gfx.drawstr(entry:sub(element_storage["entry_width_start"],-1),0,x+w,y+h)
+    if i==element_storage["selected"] then
+      gfx.set(0.8, 0.8, 0.8, 0.5)
+      gfx.rect(x, gfx.y, w, gfx.texth, 0)
+    end
     gfx.y=gfx.y+gfx.texth
   end
   
