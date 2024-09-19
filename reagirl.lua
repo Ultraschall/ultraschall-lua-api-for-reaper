@@ -8582,6 +8582,8 @@ function reagirl.ListView_Add(x, y, w, h, caption, meaningOfUI_Element, enable_s
   reagirl.Elements[slot]["run_function"]=run_function
   reagirl.Elements[slot]["selected"]=default
   reagirl.Elements[slot]["start"]=default
+  reagirl.Elements[slot]["quicksearch_counter"]=0
+  reagirl.Elements[slot]["quicksearch"]=""
   reagirl.Elements[slot]["userspace"]={}
   return reagirl.Elements[slot]["Guid"]
 end
@@ -8645,7 +8647,34 @@ function reagirl.ListView_Manage(element_id, selected, hovered, clicked, mouse_c
   local overflow=w-element_storage["entry_width"]
   local num_lines=math.floor(h/gfx.texth-1)
   if Key~=0 then AAA=Key end
+  
+  -- quicksearch
+  -- count one second, until the quicksearch filter is "reset"
+  -- ToDo: maybe make it customizable in the ReaGirl-prefs
+  element_storage["quicksearch_counter"]=element_storage["quicksearch_counter"]+1
+  if element_storage["quicksearch_counter"]>100 then element_storage["quicksearch_counter"]=40 end
+  if element_storage["quicksearch_counter"]>33 then element_storage["quicksearch"]="" end
   if selected~="not selected" then
+    -- quicksearch
+    -- 
+    if Key_UTF~=0 then
+      element_storage["quicksearch_counter"]=0
+      element_storage["quicksearch"]=element_storage["quicksearch"]..utf8.char(Key_UTF)
+      if element_storage["quicksearch"]~="" then -- search only, when character has been typed
+        -- search the next entry that fits the quicksearch-filter
+        for i=element_storage["selected"], #element_storage["entries"] do
+          if element_storage["entries"][i]:lower():match("^"..element_storage["quicksearch"]:lower())~=nil then
+            element_storage["selected"]=i
+            if i>element_storage["start"]+num_lines then
+              element_storage["start"]=i-num_lines
+            end
+            break
+          end
+        end
+      end
+    end
+    
+    reagirl.Gui_PreventScrollingForOneCycle(true, true, false)
     if Key~=0 and mouse_cap==0 then 
       if Key==30064.0 then 
         -- up
@@ -8717,28 +8746,29 @@ function reagirl.ListView_Manage(element_id, selected, hovered, clicked, mouse_c
       refresh=true
     end
     if mouse_attributes[5]>0 then
-      element_storage["start"]=element_storage["start"]-1
+      element_storage["start"]=element_storage["start"]-math.floor(mouse_attributes[5]/100)
       if element_storage["start"]<1 then element_storage["start"]=1 end
       refresh=true
-      --reagirl.Gui_ForceRefresh()
+      reagirl.Gui_ForceRefresh()
     elseif mouse_attributes[5]<0 then
-      element_storage["start"]=element_storage["start"]+1
+      --print2(-mouse_attributes[5]>>2)
+      element_storage["start"]=element_storage["start"]-math.floor(mouse_attributes[5]/100)
       if element_storage["start"]+num_lines>#element_storage["entries"] then 
         element_storage["start"]=#element_storage["entries"]-num_lines
       end
       refresh=true
-      --reagirl.Gui_ForceRefresh()
+      reagirl.Gui_ForceRefresh()
     end
     if mouse_attributes[6]<0 then
       element_storage["entry_width_start"]=element_storage["entry_width_start"]-1
       if element_storage["entry_width_start"]<0 then element_storage["entry_width_start"]=0 end
       refresh=true
-      --reagirl.Gui_ForceRefresh()
+      reagirl.Gui_ForceRefresh()
     elseif mouse_attributes[6]>0 then
       element_storage["entry_width_start"]=element_storage["entry_width_start"]+1
       if element_storage["entry_width_start"]>element_storage["entry_width"]-1 then element_storage["entry_width_start"]=element_storage["entry_width"] end
       refresh=true
-      --reagirl.Gui_ForceRefresh()
+      reagirl.Gui_ForceRefresh()
     end
   end
   if refresh==true then AAAA=reaper.time_precise() end
@@ -8762,6 +8792,14 @@ function reagirl.ListView_Draw(element_id, selected, hovered, clicked, mouse_cap
     if entry==nil then entry="" end
     gfx.drawstr(entry:sub(element_storage["entry_width_start"],-1),0,x+w,y+h)
     gfx.y=gfx.y+gfx.texth
+  end
+  
+  if num_lines<#element_storage["entries"] then
+    scroll_y=h/(#element_storage["entries"]-num_lines)*(element_storage["start"]-1)+y--#element_storage["entries"]/num_lines*element_storage["start"]
+    scroll_height=0
+    AA[element_id]=math.floor(scroll_y)
+    gfx.line(x+w-10,scroll_y,x+w,scroll_y)
+    gfx.rect(x+w-10,scroll_y,10,10)
   end
 end
 
