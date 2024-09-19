@@ -8665,7 +8665,8 @@ function reagirl.ListView_Manage(element_id, selected, hovered, clicked, mouse_c
   if element_storage["quicksearch_counter"]>33 then element_storage["quicksearch"]="" end
   if selected~="not selected" then
     -- quicksearch
-    -- 
+    -- BUGGY: Will only visibly jump to found entry, if it is NOT in visible range; otherwise, nothing LOOKS(!) happening, though in the background, everything is moved correctly.
+    --        HUH???
     if Key_UTF~=0 then
       element_storage["quicksearch_counter"]=0
       element_storage["quicksearch"]=element_storage["quicksearch"]..utf8.char(Key_UTF)
@@ -8677,12 +8678,15 @@ function reagirl.ListView_Manage(element_id, selected, hovered, clicked, mouse_c
             if i>element_storage["start"]+num_lines then
               element_storage["start"]=i-num_lines
             end
+            reagirl.ListView_SetAllDeselected(element_storage["Guid"])
+            element_storage["entries_selection"][i]=true
+            refresh=true
             break
           end
         end
       end
     end
-    
+
     reagirl.Gui_PreventScrollingForOneCycle(true, true, false)
     if mouse_cap&8==8 and element_storage["selected_old"]==nil then
       element_storage["selected_old"]=element_storage["selected"]
@@ -8827,12 +8831,12 @@ function reagirl.ListView_Manage(element_id, selected, hovered, clicked, mouse_c
         element_storage["entries_selection"][i]=true
       end
     end
-    if mouse_attributes[5]>0 then
+    if mouse_attributes[5]>0 and num_lines<#element_storage["entries"] then
       element_storage["start"]=element_storage["start"]-math.floor(mouse_attributes[5]/100)
       if element_storage["start"]<1 then element_storage["start"]=1 end
       refresh=true
       reagirl.Gui_ForceRefresh()
-    elseif mouse_attributes[5]<0 then
+    elseif mouse_attributes[5]<0 and num_lines<#element_storage["entries"] then
       --print2(-mouse_attributes[5]>>2)
       element_storage["start"]=element_storage["start"]-math.floor(mouse_attributes[5]/100)
       if element_storage["start"]+num_lines>#element_storage["entries"] then 
@@ -8853,7 +8857,7 @@ function reagirl.ListView_Manage(element_id, selected, hovered, clicked, mouse_c
       reagirl.Gui_ForceRefresh()
     end
   end
-  if refresh==true then AAAA=reaper.time_precise() end
+
   return element_storage["entries"][element_storage["selected"]], refresh
 end
 
