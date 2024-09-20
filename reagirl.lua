@@ -93,7 +93,7 @@ TODO:
 -- DEBUG:
 --reaper.osara_outputMessage=nil
 
-AAAAAA={}--debug
+
 reagirl={}
 function reagirl.CheckForDependencies(ReaImGui, js_ReaScript, US_API, SWS, Osara)
   local function OpenURL(url)
@@ -8648,6 +8648,7 @@ function reagirl.ListView_Manage(element_id, selected, hovered, clicked, mouse_c
 -- scrolling via mouse-drag
 -- scrollbars
 -- accessibility messages anpassen(selected/deselected muss reported werden)
+-- hovering above entries should report the hovered entries
 -- Bug: When multiple elements are selected via ctrl+click, hitting shift deselects all
   local refresh=false
   local overflow=w-element_storage["entry_width"]
@@ -8696,7 +8697,7 @@ function reagirl.ListView_Manage(element_id, selected, hovered, clicked, mouse_c
       element_storage["start"]=#element_storage["entries"]-num_lines 
       if element_storage["start"]<1 then element_storage["start"]=1 end
     end
-    --AAAAAA[element_id]=num_lines
+    
     if Key~=0 then 
       if Key==30064.0 and mouse_cap==0 then 
         -- up
