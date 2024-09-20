@@ -93,6 +93,7 @@ TODO:
 -- DEBUG:
 --reaper.osara_outputMessage=nil
 
+AAAAAA={}--debug
 reagirl={}
 function reagirl.CheckForDependencies(ReaImGui, js_ReaScript, US_API, SWS, Osara)
   local function OpenURL(url)
@@ -8685,7 +8686,17 @@ function reagirl.ListView_Manage(element_id, selected, hovered, clicked, mouse_c
     end
 
     reagirl.Gui_PreventScrollingForOneCycle(true, true, false)
-    if mouse_cap&8==8 and element_storage["selected_old"]==nil then element_storage["selected_old"]=element_storage["selected"] end
+    if mouse_cap&8==8 and element_storage["selected_old"]==nil and Key~=0 then 
+      -- define the start of the selection via shift+click/shift+keyboard-navigation
+      element_storage["selected_old"]=element_storage["selected"] 
+    end
+    
+    -- if height of listview is larger than the list, reset startingpoint of list to first entry
+    if num_lines>#element_storage["entries"]-element_storage["start"] then 
+      element_storage["start"]=#element_storage["entries"]-num_lines 
+      if element_storage["start"]<1 then element_storage["start"]=1 end
+    end
+    --AAAAAA[element_id]=num_lines
     if Key~=0 then 
       if Key==30064.0 and mouse_cap==0 then 
         -- up
@@ -8802,6 +8813,7 @@ function reagirl.ListView_Manage(element_id, selected, hovered, clicked, mouse_c
     if element_storage["selected"]>#element_storage["entries"] then element_storage["selected"]=#element_storage["entries"] end
     if ((mouse_cap&1==1 and clicked=="FirstCLK" and gfx.mouse_x>=x and gfx.mouse_x<=x+w and gfx.mouse_y>=y and gfx.mouse_y<=y+h) or Key==32) then
       if mouse_cap&8==0 then element_storage["selected_old"]=nil end
+      if mouse_cap&8==8 and element_storage["selected_old"]==nil then element_storage["selected_old"]=element_storage["selected"] end
       local line=math.floor((gfx.mouse_y-y)/gfx.texth)
       element_storage["selected"]=element_storage["start"]+line
       if line>num_lines then 
