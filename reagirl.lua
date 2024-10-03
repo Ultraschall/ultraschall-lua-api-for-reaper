@@ -1,3 +1,4 @@
+scroll_y_2={}
 --[[
 ################################################################################
 # 
@@ -8986,11 +8987,11 @@ function reagirl.ListView_Draw(element_id, selected, hovered, clicked, mouse_cap
   
   if element_storage["scrollbar_vert"]==true then
     gfx.set(0.49)
-    -- scrollbar - fucking bullshit scrollbar-calculation doesn't work; it's always off when too few entries are in the list
-    --           - fucking bullshit godammit
-    -- scroll_y is wrong!!!!!
-    scroll_y=(h-60)/(#element_storage["entries"]-num_lines)*(element_storage["start"])+y--#element_storage["entries"]/num_lines*element_storage["start"]
+    -- scrollbar
+    scroll_y=(h-60)/(#element_storage["entries"]-num_lines+1)*(element_storage["start"]-1)+y
+    scroll_y_2[element_id]=scroll_y
     if tostring(scroll_y)=="-1.#IND" then scroll_y=10 end
+    
     gfx.rect(x+w-15,scroll_y+15,15,15)
     
     -- scrollbutton top
