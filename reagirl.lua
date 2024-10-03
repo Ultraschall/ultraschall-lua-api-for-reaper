@@ -8701,7 +8701,7 @@ function reagirl.ListView_Manage(element_id, selected, hovered, clicked, mouse_c
     
     -- if height of listview is larger than the list, reset startingpoint of list to first entry
     if num_lines>#element_storage["entries"]-element_storage["start"] then 
-      element_storage["start"]=#element_storage["entries"]-num_lines 
+      element_storage["start"]=#element_storage["entries"]-num_lines+1
       if element_storage["start"]<1 then element_storage["start"]=1 end
     end
     
@@ -8837,13 +8837,14 @@ function reagirl.ListView_Manage(element_id, selected, hovered, clicked, mouse_c
       if line>=#element_storage["entries"]-1 then line=#element_storage["entries"]-1 end
       
       element_storage["selected"]=element_storage["start"]+line
-
       if line>num_lines then 
         element_storage["start"]=element_storage["start"]+1 
-        if element_storage["start"]+num_lines>#element_storage["entries"] then 
+        if element_storage["start"]+num_lines>=#element_storage["entries"] then 
           element_storage["start"]=#element_storage["entries"]-num_lines
         end
       end
+      if element_storage["selected"]>#element_storage["entries"] then element_storage["selected"]=#element_storage["entries"] end
+      --]]
       if mouse_cap&4==4 then
         element_storage["entries_selection"][element_storage["start"]+line]=element_storage["entries_selection"][element_storage["start"]+line]==false
       else
@@ -8964,11 +8965,16 @@ function reagirl.ListView_Manage(element_id, selected, hovered, clicked, mouse_c
     element_storage["click_scroll_target"]=4
     reagirl.Gui_ForceRefresh()
   end
-  
+
+  -- right scrollbar
   local scroll_y=(h-60)/(#element_storage["entries"]-num_lines+1)*(element_storage["start"]-1)+y
-  if mouse_cap&1==1 and gfx.mouse_y>=scroll_y+15 and gfx.mouse_y<=scroll_y+30 then 
-    pos=(#element_storage["entries"])/h*gfx.mouse_y
-    print_update(pos)
+  if mouse_cap&1==1 and (element_storage["click_scroll_target"]==0 or element_storage["click_scroll_target"]==5) and gfx.mouse_x>=x+w-15 and gfx.mouse_x<=x+w and gfx.mouse_y>=y+15 and gfx.mouse_y<=y+h-30 then 
+    pos=(#element_storage["entries"])/(h-60)*(gfx.mouse_y-y-25)
+    element_storage["start"]=math.floor(pos-1)
+    if element_storage["start"]<1 then element_storage["start"]=1 end
+    if element_storage["start"]+num_lines>#element_storage["entries"] then element_storage["start"]=-num_lines+#element_storage["entries"]+1 end
+    element_storage["click_scroll_target"]=5
+    reagirl.Gui_ForceRefresh()
   end
     
   
