@@ -8576,8 +8576,8 @@ function reagirl.ListView_Add(x, y, w, h, caption, meaningOfUI_Element, enable_s
       entries2[i]=false
     end
   end
-  reagirl.Elements[slot]["entry_width"]=w
-  reagirl.Elements[slot]["entry_width_pix"]=w_pix
+  reagirl.Elements[slot]["entry_width"]=math.floor(w)
+  reagirl.Elements[slot]["entry_width_pix"]=math.floor(w_pix)
   reagirl.Elements[slot]["entry_width_start"]=0
   reagirl.Elements[slot]["entries"]=entries
   reagirl.Elements[slot]["entries_selection"]=entries2
@@ -8655,8 +8655,16 @@ function reagirl.ListView_Manage(element_id, selected, hovered, clicked, mouse_c
   local num_lines=math.floor(h/gfx.texth-1)
   if Key~=0 then AAA=Key end
   
-  if num_lines<#element_storage["entries"] then element_storage["scrollbar_vert"]=true else element_storage["scrollbar_vert"]=false end
-  if w<element_storage["entry_width_pix"] then element_storage["scrollbar_horz"]=true else element_storage["scrollbar_horz"]=false end
+  if num_lines<#element_storage["entries"] then 
+    element_storage["scrollbar_vert"]=true 
+  else 
+    element_storage["scrollbar_vert"]=false 
+  end
+  if w<element_storage["entry_width_pix"] then 
+    element_storage["scrollbar_horz"]=true 
+  else 
+    element_storage["scrollbar_horz"]=false 
+  end
   
   -- quicksearch
   -- count one second, until the quicksearch filter is "reset"
@@ -8696,6 +8704,10 @@ function reagirl.ListView_Manage(element_id, selected, hovered, clicked, mouse_c
     if num_lines>#element_storage["entries"]-element_storage["start"] then 
       element_storage["start"]=#element_storage["entries"]-num_lines 
       if element_storage["start"]<1 then element_storage["start"]=1 end
+    end
+    
+    if w>element_storage["entry_width_pix"] then
+      element_storage["entry_width_start"]=1
     end
     
     if Key~=0 then 
@@ -8766,7 +8778,7 @@ function reagirl.ListView_Manage(element_id, selected, hovered, clicked, mouse_c
       if Key==6647396.0 then 
         if mouse_cap==0 then -- end
           if num_lines<#element_storage["entries"] then
-            element_storage["start"]=#element_storage["entries"]-num_lines 
+            element_storage["start"]=#element_storage["entries"]-num_lines+1
           end
           element_storage["selected"]=#element_storage["entries"] 
           reagirl.ListView_SetAllDeselected(element_storage["Guid"]) 
@@ -8776,7 +8788,7 @@ function reagirl.ListView_Manage(element_id, selected, hovered, clicked, mouse_c
             element_storage["entries_selection"][i]=true
           end
           if num_lines<#element_storage["entries"] then
-            element_storage["start"]=#element_storage["entries"]-num_lines 
+            element_storage["start"]=#element_storage["entries"]-num_lines+1
           end
           element_storage["selected"]=#element_storage["entries"] 
         end
@@ -8802,8 +8814,8 @@ function reagirl.ListView_Manage(element_id, selected, hovered, clicked, mouse_c
         if element_storage["selected"]>#element_storage["entries"] then
           element_storage["selected"]=#element_storage["entries"]
         end
-        if element_storage["selected"]>element_storage["start"]+num_lines then
-          element_storage["start"]=element_storage["selected"]-num_lines
+        if element_storage["selected"]>element_storage["start"]+num_lines-1 then
+          element_storage["start"]=element_storage["selected"]-num_lines+1
         end
         if mouse_cap==0 then
           reagirl.ListView_SetAllDeselected(element_storage["Guid"])
@@ -8894,6 +8906,8 @@ end
 function reagirl.ListView_Draw(element_id, selected, hovered, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
   gfx.x=x
   gfx.y=y
+  local x_offset=0
+  local scale=reagirl.Window_GetCurrentScale()
   num_lines=math.ceil(h/gfx.texth-1)
   for i=element_storage["start"], element_storage["start"]+num_lines do
     gfx.x=x
@@ -8915,9 +8929,51 @@ function reagirl.ListView_Draw(element_id, selected, hovered, clicked, mouse_cap
   end
   
   if element_storage["scrollbar_vert"]==true then
-    gfx.set(0.8)
-    scroll_y=(h-40)/(#element_storage["entries"]-num_lines)*(element_storage["start"]-1)+y--#element_storage["entries"]/num_lines*element_storage["start"]
+    -- scrollbar
+    gfx.set(0.49)
+    scroll_y=(h-60)/(#element_storage["entries"]-num_lines)*(element_storage["start"]-1)+y--#element_storage["entries"]/num_lines*element_storage["start"]
     gfx.rect(x+w-15,scroll_y+15,15,15)
+    
+    -- scrollbutton top
+    gfx.set(0.29)
+    gfx.rect(x+w-15*scale+x_offset, y*scale, 15*scale, 15*scale, 1)
+    gfx.set(0.49)
+    gfx.rect(x+w-15*scale+x_offset, y*scale, 15*scale, 15*scale, 0)
+    gfx.triangle(x+w-8*scale, y+4*scale,
+                 x+w-3*scale, y+9*scale,
+                 x+w-13*scale, y+9*scale)
+                 
+    -- scrollbutton bottom
+    gfx.set(0.29)
+    gfx.rect(x+w-15*scale+x_offset, y+h-30*scale, 15*scale, 15*scale, 1)
+    gfx.set(0.49)
+    gfx.rect(x+w-15*scale+x_offset, y+h-30*scale, 15*scale, 15*scale, 0)
+    gfx.triangle(x+w-8*scale, y+h-20*scale,
+                 x+w-3*scale, y+h-25*scale,
+                 x+w-13*scale, y+h-25*scale)
+  end
+  if element_storage["scrollbar_horz"]==true then
+    -- scrollbar
+    gfx.set(0.49)
+    scroll_x=(w-45)/(element_storage["entry_width"])*element_storage["entry_width_start"]+x--#element_storage["entries"]/num_lines*element_storage["start"]
+    gfx.rect(scroll_x+15, y+h-15, 15, 15)
+    
+    gfx.set(0.29)
+    gfx.rect(x, y+h-15, 15, 15, 1)
+    gfx.set(0.49)
+    gfx.rect(x, y+h-15, 15, 15, 0)
+    gfx.triangle(x+8*scale, y+h-3*scale,
+                 x+8*scale, y+h-13*scale,
+                 x+3*scale, y+h-8*scale)
+    
+    gfx.set(0.29)
+    gfx.rect(x+w-15, y+h-15, 15, 15, 1)
+    gfx.set(0.49)
+    gfx.rect(x+w-15, y+h-15, 15, 15, 0)
+    gfx.triangle(x+w-10*scale+x_offset, y+h-3*scale,
+                 x+w-10*scale+x_offset, y+h-13*scale,
+                 x+w-5*scale+x_offset, y+h-8*scale)
+    
   end
 end
 
