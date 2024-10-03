@@ -8560,6 +8560,7 @@ function reagirl.ListView_Add(x, y, w, h, caption, meaningOfUI_Element, enable_s
   reagirl.Elements[slot]["y"]=y
   reagirl.Elements[slot]["w"]=w
   reagirl.Elements[slot]["h"]=h
+  reagirl.Elements[slot]["clicktime"]=1
   local w=0
   local w_pix=0
   --if math.tointeger(ty+h_margin)>reagirl.NextLine_Overflow then reagirl.NextLine_Overflow=math.tointeger(ty+h_margin) end
@@ -8824,11 +8825,21 @@ function reagirl.ListView_Manage(element_id, selected, hovered, clicked, mouse_c
     end
     if element_storage["selected"]<1 then element_storage["selected"]=1 end
     if element_storage["selected"]>#element_storage["entries"] then element_storage["selected"]=#element_storage["entries"] end
-    if ((mouse_cap&1==1 and clicked=="FirstCLK" and gfx.mouse_x>=x and gfx.mouse_x<=x+w and gfx.mouse_y>=y and gfx.mouse_y<=y+h) or Key==32) then
+    -- if scrollbars are present, don't set a listview-entry to set when clicked
+    local scroll_y_offset=0
+    if element_storage["scrollbar_vert"]==true then scroll_y_offset=15 end
+    local scroll_x_offset=0
+    if element_storage["scrollbar_horz"]==true then scroll_x_offset=15 end
+    
+    -- click management
+    if ((mouse_cap&1==1 and clicked=="FirstCLK" and gfx.mouse_x>=x and gfx.mouse_x<=x+w-scroll_y_offset and gfx.mouse_y>=y-scroll_x_offset and gfx.mouse_y<=y+h-scroll_x_offset) or Key==32) then
       if mouse_cap&8==0 then element_storage["selected_old"]=nil end
       if mouse_cap&8==8 and element_storage["selected_old"]==nil then element_storage["selected_old"]=element_storage["selected"] end
       local line=math.floor((gfx.mouse_y-y)/gfx.texth)
+      if line>=#element_storage["entries"]-1 then line=#element_storage["entries"]-1 end
+      
       element_storage["selected"]=element_storage["start"]+line
+
       if line>num_lines then 
         element_storage["start"]=element_storage["start"]+1 
         if element_storage["start"]+num_lines>#element_storage["entries"] then 
@@ -8842,6 +8853,7 @@ function reagirl.ListView_Manage(element_id, selected, hovered, clicked, mouse_c
       end
       refresh=true
     elseif gfx.mouse_cap&1==1 and gfx.mouse_x>=x and gfx.mouse_x<=x+w and gfx.mouse_y>=y and gfx.mouse_y<=y+h then
+    -- drag elements
       --[[
       local line=math.floor((gfx.mouse_y-y)/gfx.texth)
       element_storage["selected"]=element_storage["start"]+line
@@ -8873,33 +8885,77 @@ function reagirl.ListView_Manage(element_id, selected, hovered, clicked, mouse_c
     end
   end
   if gfx.mouse_x>=x and gfx.mouse_x<=x+w and gfx.mouse_y>=y and gfx.mouse_y<=y+h then
+    -- scroll via mousewheel
     if mouse_attributes[5]>0 and num_lines<#element_storage["entries"] then
       element_storage["start"]=element_storage["start"]-math.floor(mouse_attributes[5]/100)
       if element_storage["start"]<1 then element_storage["start"]=1 end
       refresh=true
       reagirl.Gui_ForceRefresh()
     elseif mouse_attributes[5]<0 and num_lines<#element_storage["entries"] then
-      --print2(-mouse_attributes[5]>>2)
       element_storage["start"]=element_storage["start"]-math.floor(mouse_attributes[5]/100)
       if element_storage["start"]+num_lines>#element_storage["entries"] then 
-        element_storage["start"]=#element_storage["entries"]-num_lines
+        element_storage["start"]=#element_storage["entries"]-num_lines+1
       end
       refresh=true
       reagirl.Gui_ForceRefresh()
     end
+    -- horz scroll via mousewheel
     if mouse_attributes[6]<0 then
-      element_storage["entry_width_start"]=element_storage["entry_width_start"]-1
+      element_storage["entry_width_start"]=element_storage["entry_width_start"]+math.floor(mouse_attributes[6]/1000)
       if element_storage["entry_width_start"]<0 then element_storage["entry_width_start"]=0 end
       refresh=true
       reagirl.Gui_ForceRefresh()
-    elseif mouse_attributes[6]>0 then
-      element_storage["entry_width_start"]=element_storage["entry_width_start"]+1
+    elseif w<element_storage["entry_width_pix"] and mouse_attributes[6]>0 then
+      element_storage["entry_width_start"]=element_storage["entry_width_start"]+math.floor(mouse_attributes[6]/1000)
       if element_storage["entry_width_start"]>element_storage["entry_width"]-1 then element_storage["entry_width_start"]=element_storage["entry_width"] end
       refresh=true
       reagirl.Gui_ForceRefresh()
     end
   end
-
+  
+  -- scrollbutton-click-management
+  local click_delay=15
+  if mouse_cap==0 then element_storage["clicktime"]=0 
+  elseif mouse_cap&1==1 then 
+    element_storage["clicktime"]=element_storage["clicktime"]+1
+  end
+  if element_storage["clicktime"]>30 then element_storage["clicktime"]=30 end
+  
+  -- top-scrollbutton
+  if element_storage["scrollbar_vert"]==true and mouse_cap&1==1 and (element_storage["clicktime"]==1 or element_storage["clicktime"]>click_delay) and gfx.mouse_x>=x+w-15 and gfx.mouse_x<=x+w and gfx.mouse_y>=y and gfx.mouse_y<y+15 then
+    element_storage["start"]=element_storage["start"]-1
+    if element_storage["start"]<1 then element_storage["start"]=1 end
+    refresh=true
+    reagirl.Gui_ForceRefresh()
+  end
+  
+  -- bottom-scrollbutton
+  if element_storage["scrollbar_vert"]==true and mouse_cap&1==1 and (element_storage["clicktime"]==1 or element_storage["clicktime"]>click_delay) and gfx.mouse_x>=x+w-15 and gfx.mouse_x<=x+w and gfx.mouse_y>=y+h-30 and gfx.mouse_y<y+h-15 then
+    element_storage["start"]=element_storage["start"]+1
+    if element_storage["selected"]>=element_storage["start"]+num_lines-1 then
+      element_storage["start"]=element_storage["selected"]-num_lines+1
+    end
+    refresh=true
+    reagirl.Gui_ForceRefresh()
+  end
+  
+  -- left-scrollbutton
+  if element_storage["scrollbar_horz"]==true and mouse_cap&1==1 and (element_storage["clicktime"]==1 or element_storage["clicktime"]>click_delay) and gfx.mouse_x>=x and gfx.mouse_x<=x+15 and gfx.mouse_y>=y+h-15 and gfx.mouse_y<y+h then
+    element_storage["entry_width_start"]=element_storage["entry_width_start"]-1
+    if element_storage["entry_width_start"]<1 then element_storage["entry_width_start"]=1 end
+    refresh=true
+    reagirl.Gui_ForceRefresh()
+  end
+  
+  -- right-scrollbutton
+  if element_storage["scrollbar_horz"]==true and mouse_cap&1==1 and (element_storage["clicktime"]==1 or element_storage["clicktime"]>click_delay) and gfx.mouse_x>=x+w-15 and gfx.mouse_x<=x+w and gfx.mouse_y>=y+h-15 and gfx.mouse_y<y+h then
+    element_storage["entry_width_start"]=element_storage["entry_width_start"]+1
+    if element_storage["entry_width_start"]>element_storage["entry_width"]-1 then element_storage["entry_width_start"]=element_storage["entry_width"] end
+    refresh=true
+    reagirl.Gui_ForceRefresh()
+  end
+  
+  
   return element_storage["entries"][element_storage["selected"]], refresh
 end
 
@@ -8929,9 +8985,12 @@ function reagirl.ListView_Draw(element_id, selected, hovered, clicked, mouse_cap
   end
   
   if element_storage["scrollbar_vert"]==true then
-    -- scrollbar
     gfx.set(0.49)
-    scroll_y=(h-60)/(#element_storage["entries"]-num_lines)*(element_storage["start"]-1)+y--#element_storage["entries"]/num_lines*element_storage["start"]
+    -- scrollbar - fucking bullshit scrollbar-calculation doesn't work; it's always off when too few entries are in the list
+    --           - fucking bullshit godammit
+    -- scroll_y is wrong!!!!!
+    scroll_y=(h-60)/(#element_storage["entries"]-num_lines)*(element_storage["start"])+y--#element_storage["entries"]/num_lines*element_storage["start"]
+    if tostring(scroll_y)=="-1.#IND" then scroll_y=10 end
     gfx.rect(x+w-15,scroll_y+15,15,15)
     
     -- scrollbutton top
@@ -8956,6 +9015,7 @@ function reagirl.ListView_Draw(element_id, selected, hovered, clicked, mouse_cap
     -- scrollbar
     gfx.set(0.49)
     scroll_x=(w-45)/(element_storage["entry_width"])*element_storage["entry_width_start"]+x--#element_storage["entries"]/num_lines*element_storage["start"]
+    
     gfx.rect(scroll_x+15, y+h-15, 15, 15)
     
     gfx.set(0.29)
