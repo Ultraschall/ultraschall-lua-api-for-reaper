@@ -1,4 +1,3 @@
-scroll_y_2={}
 --[[
 ################################################################################
 # 
@@ -27,11 +26,9 @@ scroll_y_2={}
 
 --[[
 TODO: 
-  - Gui_Manage: document parameter keep_running for ReaGirl v1.1
   - Sliders: add a way to limit unit to x digits after the punkt. Now: multiply it by 10^number_of_digits, make math.floor, then divide it back by 10^number_of_digits to get only the numbers needed.
              If that doesn't work, use your RoundNumber-function from Ultraschall-API.
-  - Labels: boundary rectangle, like in preferences -> Media the Labels "Media item labels" and "Media item buttons"
-  - fillable bar: vertical and horizontal, allows you to display a rectangle that gets filled to a certain point, like the "space on disk"-bars on windows of Workbench 1.3.
+ - fillable bar: vertical and horizontal, allows you to display a rectangle that gets filled to a certain point, like the "space on disk"-bars on windows of Workbench 1.3.
   - planned ui-elements and features
     > ProgressBars, Color-ui-element, top menus, Toolbar Buttons, graphical vertical tabs, Listviews, Multiline Inputbox, Radio Buttons, virtual ui-elements(for making other guis accessible), decorative elements to hide ui elements, Burgermenu, global context-menu(maybe)
     > fillable rectangles(for something like volume-full-indicator like in WB1.3)
@@ -4652,7 +4649,7 @@ function reagirl.Gui_Manage(keep_running)
     Note: if you set the parameter keep_running to true, you don't need to add a defer-loop in your script.
   </description>
   <parameters>
-    optional boolean keep_running - true, run the gui without a dedicated defer-loop; nil or false, add a defer-loop to the gui-script that calls reagirl.Gui_Manage()
+    optional boolean keep_running - true, run the gui without a dedicated defer-loop; nil or false, add a defer-loop to the gui-script that calls reagirl.Gui_Manage() frequently.
   </parameters>
   <chapter_context>
     Gui
@@ -8884,6 +8881,8 @@ function reagirl.ListView_Manage(element_id, selected, hovered, clicked, mouse_c
       end
       refresh=true
     end
+  elseif gfx.mouse_x>=x and gfx.mouse_x<=x+w and gfx.mouse_y>=y and gfx.mouse_y<=y+h then
+    reagirl.Gui_PreventScrollingForOneCycle(false, true, false)
   end
   if gfx.mouse_x>=x and gfx.mouse_x<=x+w and gfx.mouse_y>=y and gfx.mouse_y<=y+h then
     -- scroll via mousewheel
@@ -8891,6 +8890,7 @@ function reagirl.ListView_Manage(element_id, selected, hovered, clicked, mouse_c
       element_storage["start"]=element_storage["start"]-math.floor(mouse_attributes[5]/100)
       if element_storage["start"]<1 then element_storage["start"]=1 end
       refresh=true
+      reagirl.Gui_PreventScrollingForOneCycle(false, true, false)
       reagirl.Gui_ForceRefresh()
     elseif mouse_attributes[5]<0 and num_lines<#element_storage["entries"] then
       element_storage["start"]=element_storage["start"]-math.floor(mouse_attributes[5]/100)
@@ -8898,6 +8898,7 @@ function reagirl.ListView_Manage(element_id, selected, hovered, clicked, mouse_c
         element_storage["start"]=#element_storage["entries"]-num_lines+1
       end
       refresh=true
+      reagirl.Gui_PreventScrollingForOneCycle(false, true, false)
       reagirl.Gui_ForceRefresh()
     end
     -- horz scroll via mousewheel
@@ -8905,11 +8906,13 @@ function reagirl.ListView_Manage(element_id, selected, hovered, clicked, mouse_c
       element_storage["entry_width_start"]=element_storage["entry_width_start"]+math.floor(mouse_attributes[6]/1000)
       if element_storage["entry_width_start"]<0 then element_storage["entry_width_start"]=0 end
       refresh=true
+      reagirl.Gui_PreventScrollingForOneCycle(false, true, false)
       reagirl.Gui_ForceRefresh()
     elseif w<element_storage["entry_width_pix"] and mouse_attributes[6]>0 then
       element_storage["entry_width_start"]=element_storage["entry_width_start"]+math.floor(mouse_attributes[6]/1000)
       if element_storage["entry_width_start"]>element_storage["entry_width"]-1 then element_storage["entry_width_start"]=element_storage["entry_width"] end
       refresh=true
+      reagirl.Gui_PreventScrollingForOneCycle(false, true, false)
       reagirl.Gui_ForceRefresh()
     end
   end
@@ -8989,7 +8992,6 @@ function reagirl.ListView_Draw(element_id, selected, hovered, clicked, mouse_cap
     gfx.set(0.49)
     -- scrollbar
     scroll_y=(h-60)/(#element_storage["entries"]-num_lines+1)*(element_storage["start"]-1)+y
-    scroll_y_2[element_id]=scroll_y
     if tostring(scroll_y)=="-1.#IND" then scroll_y=10 end
     
     gfx.rect(x+w-15,scroll_y+15,15,15)
