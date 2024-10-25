@@ -8919,7 +8919,7 @@ function reagirl.ListView_Manage(element_id, selected, hovered, clicked, mouse_c
   end
   
   -- scrollbutton-click-management
-  local click_delay=15
+  local click_delay=10 -- not yet properly implemented, therefore 1, not 15
   if mouse_cap==0 then 
     element_storage["clicktime"]=0 
     element_storage["click_scroll_target"]=0 
@@ -8984,6 +8984,7 @@ function reagirl.ListView_Manage(element_id, selected, hovered, clicked, mouse_c
       element_storage["start"]=math.floor(pos-1)
       if element_storage["start"]<1 then element_storage["start"]=1 end
       if element_storage["start"]+num_lines>#element_storage["entries"] then element_storage["start"]=-num_lines+#element_storage["entries"]+1 end
+      element_storage["clicktime"]=0
       reagirl.Gui_ForceRefresh()
     elseif element_storage["click_scroll_target"]==6 then
       element_storage["start"]=element_storage["start"]-num_lines
@@ -8996,7 +8997,21 @@ function reagirl.ListView_Manage(element_id, selected, hovered, clicked, mouse_c
     end
   end
   
-    
+  -- bottom scrollbar(dunno how to do that...)
+  local scroll_x=(w-45)/(element_storage["entry_width"])*element_storage["entry_width_start"]+x
+  if mouse_cap&1==1 and (element_storage["click_scroll_target"]==0 or element_storage["click_scroll_target"]>=8 or element_storage["click_scroll_target"]<=10) and gfx.mouse_x>=x+15 and gfx.mouse_x<=x+w-15 and gfx.mouse_y>=y+h-15 and gfx.mouse_y<=y+h then 
+    if element_storage["click_scroll_target"]==0 and gfx.mouse_x>=scroll_x+15 and gfx.mouse_x<=scroll_x+30 then
+      element_storage["click_scroll_target"]=8 -- scrollbarslider
+    elseif element_storage["click_scroll_target"]==0 and gfx.mouse_x<scroll_x+15 then
+      element_storage["click_scroll_target"]=9 -- scrollbar right of scrollbarslider
+    elseif element_storage["click_scroll_target"]==0 and gfx.mouse_x>scroll_x+30 then
+      element_storage["click_scroll_target"]=10 -- scrollbar left of scrollbarslider
+    end
+  end
+  
+  if (element_storage["clicktime"]==1 or element_storage["clicktime"]>click_delay) then
+    -- manage bottom scrollbar
+  end
   
   return element_storage["entries"][element_storage["selected"]], refresh
 end
