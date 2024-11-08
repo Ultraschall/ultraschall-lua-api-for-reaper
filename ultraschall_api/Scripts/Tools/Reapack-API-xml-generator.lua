@@ -157,8 +157,8 @@ Url="https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reape
 Url2="https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-"..C.."/"..""
 
 -- set this to the repository-folder of the api on your system
---Target_Dir="c:\\Ultraschall-Api-Git-Repo\\Ultraschall-Api-for-Reaper\\"
-Target_Dir="C:\\Users\\Meo\\Documents\\GitHub\\ultraschall-lua-api-for-reaper\\"
+--_Dir="c:\\Ultraschall-Api-Git-Repo\\Ultraschall-Api-for-Reaper\\"
+Target_Dir="c:\\Users\\Meo\\Documents\\GitHub\\ultraschall-lua-api-for-reaper\\"
 
 found_dirs, dirs_array, found_files, files_array = ultraschall.GetAllRecursiveFilesAndSubdirectories(SourceDir.."/ultraschall_api")
 

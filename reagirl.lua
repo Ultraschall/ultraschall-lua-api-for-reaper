@@ -8919,7 +8919,7 @@ function reagirl.ListView_Manage(element_id, selected, hovered, clicked, mouse_c
   end
   
   -- scrollbutton-click-management
-  local click_delay=10 -- not yet properly implemented, therefore 1, not 15
+  local click_delay=10
   if mouse_cap==0 then 
     element_storage["clicktime"]=0 
     element_storage["click_scroll_target"]=0 
