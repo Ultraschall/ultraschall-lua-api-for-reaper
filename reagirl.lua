@@ -8666,6 +8666,10 @@ function reagirl.ListView_Manage(element_id, selected, hovered, clicked, mouse_c
     element_storage["scrollbar_horz"]=false 
   end
   
+  if hovered==true then
+    reagirl.Gui_PreventScrollingForOneCycle(false, true, false)
+  end
+  
   -- quicksearch
   -- count one second, until the quicksearch filter is "reset"
   -- ToDo: maybe make it customizable in the ReaGirl-prefs
@@ -8868,10 +8872,6 @@ function reagirl.ListView_Manage(element_id, selected, hovered, clicked, mouse_c
       --]]
       
       -- hier kommt eigentlich der drag entries to resort list-code rein....
-    end
-    
-    if hovered==true then
-      reagirl.Gui_PreventScrollingForOneCycle(false, true, false)
     end
 
     if mouse_cap&8==8 and element_storage["selected_old"]~=nil then
