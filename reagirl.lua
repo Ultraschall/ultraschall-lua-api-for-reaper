@@ -9041,7 +9041,7 @@ function reagirl.ListView_Draw(element_id, selected, hovered, clicked, mouse_cap
     local entry=element_storage["entries"][i]
     if entry==nil then entry="" end
     gfx.x=-element_storage["entry_width_start"]
-    gfx.drawstr(entry,0,x+w,y+h)
+    gfx.drawstr(entry,0,w,h)
     if i==element_storage["selected"] then
       gfx.set(0.8, 0.8, 0.8, 0.5)
       gfx.rect(0, gfx.y, w, gfx.texth, 0)
