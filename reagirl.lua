@@ -2845,6 +2845,7 @@ function reagirl.Gui_ReserveImageBuffer()
 end
 
 reagirl.DragImageSlot=reagirl.Gui_ReserveImageBuffer()
+reagirl.ListViewSlot=reagirl.Gui_ReserveImageBuffer()
 
 function reagirl.Gui_PreventScrollingForOneCycle(keyboard, mousewheel_swipe, scroll_buttons)
 --[[
@@ -8693,7 +8694,6 @@ function reagirl.ListView_Manage(element_id, selected, hovered, clicked, mouse_c
       end
     end
 
-    reagirl.Gui_PreventScrollingForOneCycle(true, true, false)
     if mouse_cap&8==8 and element_storage["selected_old"]==nil and Key~=0 then 
       -- define the start of the selection via shift+click/shift+keyboard-navigation
       element_storage["selected_old"]=element_storage["selected"] 
@@ -8870,6 +8870,10 @@ function reagirl.ListView_Manage(element_id, selected, hovered, clicked, mouse_c
       -- hier kommt eigentlich der drag entries to resort list-code rein....
     end
     
+    if hovered==true then
+      reagirl.Gui_PreventScrollingForOneCycle(false, true, false)
+    end
+
     if mouse_cap&8==8 and element_storage["selected_old"]~=nil then
       reagirl.ListView_SetAllDeselected(element_storage["Guid"])
       local sel1=element_storage["selected_old"]
@@ -8883,37 +8887,33 @@ function reagirl.ListView_Manage(element_id, selected, hovered, clicked, mouse_c
       refresh=true
     end
   elseif gfx.mouse_x>=x and gfx.mouse_x<=x+w and gfx.mouse_y>=y and gfx.mouse_y<=y+h then
-    reagirl.Gui_PreventScrollingForOneCycle(false, true, false)
+    --reagirl.Gui_PreventScrollingForOneCycle(false, true, false)
   end
   if gfx.mouse_x>=x and gfx.mouse_x<=x+w and gfx.mouse_y>=y and gfx.mouse_y<=y+h then
     -- scroll via mousewheel
-    if mouse_attributes[5]>0 and num_lines<#element_storage["entries"] then
+    if mouse_attributes[5]>0 and num_lines<#element_storage["entries"] and hovered==true then
       element_storage["start"]=element_storage["start"]-math.floor(mouse_attributes[5]/100)
       if element_storage["start"]<1 then element_storage["start"]=1 end
       refresh=true
-      reagirl.Gui_PreventScrollingForOneCycle(false, true, false)
       reagirl.Gui_ForceRefresh()
-    elseif mouse_attributes[5]<0 and num_lines<#element_storage["entries"] then
+    elseif mouse_attributes[5]<0 and num_lines<#element_storage["entries"] and hovered==true then
       element_storage["start"]=element_storage["start"]-math.floor(mouse_attributes[5]/100)
       if element_storage["start"]+num_lines>#element_storage["entries"] then 
         element_storage["start"]=#element_storage["entries"]-num_lines+1
       end
       refresh=true
-      reagirl.Gui_PreventScrollingForOneCycle(false, true, false)
       reagirl.Gui_ForceRefresh()
     end
     -- horz scroll via mousewheel
-    if mouse_attributes[6]<0 then
-      element_storage["entry_width_start"]=element_storage["entry_width_start"]+math.floor(mouse_attributes[6]/1000)
+    if mouse_attributes[6]<0 and hovered==true then
+      element_storage["entry_width_start"]=element_storage["entry_width_start"]+math.floor(mouse_attributes[6]/100)
       if element_storage["entry_width_start"]<0 then element_storage["entry_width_start"]=0 end
       refresh=true
-      reagirl.Gui_PreventScrollingForOneCycle(false, true, false)
       reagirl.Gui_ForceRefresh()
-    elseif w<element_storage["entry_width_pix"] and mouse_attributes[6]>0 then
-      element_storage["entry_width_start"]=element_storage["entry_width_start"]+math.floor(mouse_attributes[6]/1000)
-      if element_storage["entry_width_start"]>element_storage["entry_width"]-1 then element_storage["entry_width_start"]=element_storage["entry_width"] end
+    elseif w<element_storage["entry_width_pix"] and mouse_attributes[6]>0 and hovered==true  then
+      element_storage["entry_width_start"]=element_storage["entry_width_start"]+math.floor(mouse_attributes[6]/100)+1
+      --if element_storage["entry_width_start"]>element_storage["entry_width"]-1 then element_storage["entry_width_start"]=element_storage["entry_width"] end
       refresh=true
-      reagirl.Gui_PreventScrollingForOneCycle(false, true, false)
       reagirl.Gui_ForceRefresh()
     end
   end
@@ -8951,7 +8951,7 @@ function reagirl.ListView_Manage(element_id, selected, hovered, clicked, mouse_c
   -- left-scrollbutton
   if element_storage["scrollbar_horz"]==true and (element_storage["click_scroll_target"]==0 or element_storage["click_scroll_target"]==3) and mouse_cap&1==1 and (element_storage["clicktime"]==1 or element_storage["clicktime"]>click_delay) and gfx.mouse_x>=x and gfx.mouse_x<=x+15 and gfx.mouse_y>=y+h-15 and gfx.mouse_y<y+h then
     element_storage["entry_width_start"]=element_storage["entry_width_start"]-1
-    if element_storage["entry_width_start"]<1 then element_storage["entry_width_start"]=1 end
+    if element_storage["entry_width_start"]<0 then element_storage["entry_width_start"]=0 end
     refresh=true
     element_storage["click_scroll_target"]=3
     reagirl.Gui_ForceRefresh()
@@ -8960,7 +8960,9 @@ function reagirl.ListView_Manage(element_id, selected, hovered, clicked, mouse_c
   -- right-scrollbutton
   if element_storage["scrollbar_horz"]==true and (element_storage["click_scroll_target"]==0 or element_storage["click_scroll_target"]==4) and mouse_cap&1==1 and (element_storage["clicktime"]==1 or element_storage["clicktime"]>click_delay) and gfx.mouse_x>=x+w-15 and gfx.mouse_x<=x+w and gfx.mouse_y>=y+h-15 and gfx.mouse_y<y+h then
     element_storage["entry_width_start"]=element_storage["entry_width_start"]+1
-    if element_storage["entry_width_start"]>element_storage["entry_width"]-1 then element_storage["entry_width_start"]=element_storage["entry_width"] end
+    if element_storage["entry_width_start"]>element_storage["entry_width_pix"]-w+8+15 then 
+      element_storage["entry_width_start"]=element_storage["entry_width_pix"]-w+8+15
+    end
     refresh=true
     element_storage["click_scroll_target"]=4
     reagirl.Gui_ForceRefresh()
@@ -9022,8 +9024,13 @@ function reagirl.ListView_Draw(element_id, selected, hovered, clicked, mouse_cap
   local x_offset=0
   local scale=reagirl.Window_GetCurrentScale()
   local num_lines=math.ceil(h/gfx.texth-1)
+  gfx.setimgdim(reagirl.ListViewSlot, w, h)
+  gfx.dest=reagirl.ListViewSlot
+  gfx.set(0)
+  gfx.y=0
+  gfx.rect(0,0,w,h,1)
   for i=element_storage["start"], element_storage["start"]+num_lines do
-    gfx.x=x
+    gfx.x=0
     if element_storage["entries_selection"][i]==true then
       gfx.set(0.3)
       gfx.rect(gfx.x, gfx.y, w, gfx.texth, 1)
@@ -9033,13 +9040,18 @@ function reagirl.ListView_Draw(element_id, selected, hovered, clicked, mouse_cap
     end
     local entry=element_storage["entries"][i]
     if entry==nil then entry="" end
-    gfx.drawstr(entry:sub(element_storage["entry_width_start"],-1),0,x+w,y+h)
+    gfx.x=-element_storage["entry_width_start"]
+    gfx.drawstr(entry,0,x+w,y+h)
     if i==element_storage["selected"] then
       gfx.set(0.8, 0.8, 0.8, 0.5)
-      gfx.rect(x, gfx.y, w, gfx.texth, 0)
+      gfx.rect(0, gfx.y, w, gfx.texth, 0)
     end
     gfx.y=gfx.y+gfx.texth
   end
+  gfx.dest=-1
+  gfx.x=x
+  gfx.y=y
+  gfx.blit(reagirl.ListViewSlot, 1, 0)
   
   if element_storage["scrollbar_vert"]==true then
     gfx.set(0.49)
@@ -9070,7 +9082,7 @@ function reagirl.ListView_Draw(element_id, selected, hovered, clicked, mouse_cap
   if element_storage["scrollbar_horz"]==true then
     -- scrollbar
     gfx.set(0.49)
-    local scroll_x=(w-45)/(element_storage["entry_width"])*element_storage["entry_width_start"]+x--#element_storage["entries"]/num_lines*element_storage["start"]
+    local scroll_x=(w-45)/(element_storage["entry_width_pix"]-w+15+8)*element_storage["entry_width_start"]+x--#element_storage["entries"]/num_lines*element_storage["start"]
     
     gfx.rect(scroll_x+15, y+h-15, 15, 15)
     
