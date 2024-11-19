@@ -8665,7 +8665,7 @@ function reagirl.ListView_Manage(element_id, selected, hovered, clicked, mouse_c
   else 
     element_storage["scrollbar_vert"]=false 
   end
-  if w<entry_width_pix then 
+  if w<entry_width_pix+scale+scale+scale then 
     element_storage["scrollbar_horz"]=true 
   else 
     element_storage["scrollbar_horz"]=false 
@@ -8715,7 +8715,7 @@ function reagirl.ListView_Manage(element_id, selected, hovered, clicked, mouse_c
     end
     
     if w>entry_width_pix then
-      element_storage["entry_width_start"]=1
+      element_storage["entry_width_start"]=0
     end
     
     if Key~=0 then 
@@ -9031,37 +9031,46 @@ function reagirl.ListView_Draw(element_id, selected, hovered, clicked, mouse_cap
   entry_width_pix=gfx.measurestr(element_storage["entry_width_string"])
   reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0)
   -- reset viewport for this listview
-  gfx.setimgdim(reagirl.ListViewSlot, w, h)
+  gfx.setimgdim(reagirl.ListViewSlot, w-2*scale, h-2*scale)
   gfx.dest=reagirl.ListViewSlot
-  gfx.set(0)
   gfx.y=0
+  gfx.set(0.134)
   gfx.rect(0,0,w,h,1)
+  --reagirl.RoundRect(scale,scale,w-scale-scale,h-scale-scale,scale-1,0,1)
   -- draw text into viewport
+  local selected_width_offset=scale
+  if element_storage["scrollbar_vert"]==true then
+    selected_width_offset=15*scale
+  end
   for i=element_storage["start"], element_storage["start"]+num_lines do
     gfx.x=0
     if element_storage["entries_selection"][i]==true then
       gfx.set(0.3)
-      gfx.rect(gfx.x, gfx.y, w, gfx.texth, 1)
+      gfx.rect(gfx.x, gfx.y, w-selected_width_offset-scale, gfx.texth-scale, 1)
       gfx.set(1)
     else
-      gfx.set(0.5)
+      gfx.set(0.6)
     end
     local entry=element_storage["entries"][i]
     if entry==nil then entry="" end
-    gfx.x=-element_storage["entry_width_start"]
+    gfx.x=-element_storage["entry_width_start"]+scale
+    gfx.y=gfx.y-scale
     gfx.drawstr(entry,0,w,h)
+    gfx.y=gfx.y+scale
     if i==element_storage["selected"] then
-      gfx.set(0.8, 0.8, 0.8, 0.5)
-      gfx.rect(0, gfx.y, w, gfx.texth, 0)
+      gfx.set(0.6)
+      gfx.rect(0, gfx.y, w-selected_width_offset-scale, gfx.texth-scale-scale, 0)
     end
-    gfx.y=gfx.y+gfx.texth
+    gfx.y=gfx.y+gfx.texth-scale
   end
   --gfx.set(1,0,0)
   --gfx.rect(-element_storage["entry_width_start"],0,entry_width_pix,h,0)
   -- blit viewport into window
   gfx.dest=-1
-  gfx.x=x
-  gfx.y=y
+  gfx.set(0.5)
+  gfx.rect(x,y,w,h,1)
+  gfx.x=x+scale
+  gfx.y=y+scale
   gfx.blit(reagirl.ListViewSlot, 1, 0)
   
   -- draw scrollbars and buttons
@@ -10388,7 +10397,7 @@ function reagirl.Inputbox_Draw(element_id, selected, hovered, clicked, mouse_cap
   
   -- draw text
   if element_storage["IsDisabled"]==false then gfx.set(0.8) else gfx.set(0.6) end
-  gfx.x=x+cap_w+dpi_scale+dpi_scale+dpi_scale
+  gfx.x=x+cap_w+dpi_scale+dpi_scale+dpi_scale+dpi_scale
   
   gfx.y=y--+(h-gfx.texth)/2
   if element_storage["Text"]:len()==0 then
