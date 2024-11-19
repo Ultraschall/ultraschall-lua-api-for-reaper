@@ -8657,7 +8657,7 @@ function reagirl.ListView_Manage(element_id, selected, hovered, clicked, mouse_c
   local overflow=w-element_storage["entry_width"]
   local num_lines=math.floor(h/gfx.texth-1)
   local scale=reagirl.Window_GetCurrentScale()
-  entry_width_pix=gfx.measurestr(element_storage["entry_width_string"])
+  local entry_width_pix=gfx.measurestr(element_storage["entry_width_string"])
   --if Key~=0 then AAA=Key end
   
   if num_lines<#element_storage["entries"] then 
@@ -8986,8 +8986,21 @@ function reagirl.ListView_Manage(element_id, selected, hovered, clicked, mouse_c
       element_storage["click_scroll_target"]=7
     end
   end
-
+  
+  -- bottom scrollbar(dunno how to do that...)
+  local scroll_x=(w-45*scale)/(entry_width_pix)*element_storage["entry_width_start"]+x
+  if mouse_cap&1==1 and (element_storage["click_scroll_target"]==0 or element_storage["click_scroll_target"]>=8 or element_storage["click_scroll_target"]<=10) and gfx.mouse_x>=x+15*scale and gfx.mouse_x<=x+w-15*scale and gfx.mouse_y>=y+h-15*scale and gfx.mouse_y<=y+h then 
+    if element_storage["click_scroll_target"]==0 and gfx.mouse_x>=scroll_x+15*scale and gfx.mouse_x<=scroll_x+30*scale then
+      element_storage["click_scroll_target"]=8 -- scrollbarslider
+    elseif element_storage["click_scroll_target"]==0 and gfx.mouse_x<scroll_x+15*scale then
+      element_storage["click_scroll_target"]=9 -- scrollbar left of scrollbarslider
+    elseif element_storage["click_scroll_target"]==0 and gfx.mouse_x>scroll_x+30*scale then
+      element_storage["click_scroll_target"]=10 -- scrollbar right of scrollbarslider
+    end
+  end
+  
   if (element_storage["clicktime"]==1 or element_storage["clicktime"]>click_delay) then
+    -- side scrollbar
     if element_storage["click_scroll_target"]==5 then
       local pos=(#element_storage["entries"])/(h-60*scale)*(gfx.mouse_y-y-25*scale)
       element_storage["start"]=math.floor(pos-1)
@@ -9003,23 +9016,23 @@ function reagirl.ListView_Manage(element_id, selected, hovered, clicked, mouse_c
       element_storage["start"]=element_storage["start"]+num_lines
       if element_storage["start"]+num_lines>#element_storage["entries"] then element_storage["start"]=#element_storage["entries"]-num_lines end
       reagirl.Gui_ForceRefresh(0.1)
+    
+    -- bottom scrollbar
+    elseif element_storage["click_scroll_target"]==10 then -- right of scrollbar
+      element_storage["entry_width_start"]=element_storage["entry_width_start"]+5
+      reagirl.Gui_ForceRefresh(0.12221)
+    elseif element_storage["click_scroll_target"]==9 then -- left of scrollbar
+      element_storage["entry_width_start"]=element_storage["entry_width_start"]-5
+      reagirl.Gui_ForceRefresh(0.1222)
+    elseif element_storage["click_scroll_target"]==8 then -- scrollbar
+      local pos=((entry_width_pix-w+15*scale+8*scale)/(w-45*scale))*(gfx.mouse_x-x-20*scale)
+      element_storage["entry_width_start"]=pos
+      if element_storage["entry_width_start"]<0 then element_storage["entry_width_start"]=0 end
+      if element_storage["entry_width_start"]>entry_width_pix-w+15*scale+8*scale then element_storage["entry_width_start"]=entry_width_pix-w+15*scale+8*scale end
+      
+      element_storage["clicktime"]=0
+      reagirl.Gui_ForceRefresh()
     end
-  end
-  
-  -- bottom scrollbar(dunno how to do that...)
-  local scroll_x=(w-45*scale)/(entry_width_pix)*element_storage["entry_width_start"]+x
-  if mouse_cap&1==1 and (element_storage["click_scroll_target"]==0 or element_storage["click_scroll_target"]>=8 or element_storage["click_scroll_target"]<=10) and gfx.mouse_x>=x+15*scale and gfx.mouse_x<=x+w-15*scale and gfx.mouse_y>=y+h-15*scale and gfx.mouse_y<=y+h then 
-    if element_storage["click_scroll_target"]==0 and gfx.mouse_x>=scroll_x+15*scale and gfx.mouse_x<=scroll_x+30*scale then
-      element_storage["click_scroll_target"]=8 -- scrollbarslider
-    elseif element_storage["click_scroll_target"]==0 and gfx.mouse_x<scroll_x+15*scale then
-      element_storage["click_scroll_target"]=9 -- scrollbar right of scrollbarslider
-    elseif element_storage["click_scroll_target"]==0 and gfx.mouse_x>scroll_x+30*scale then
-      element_storage["click_scroll_target"]=10 -- scrollbar left of scrollbarslider
-    end
-  end
-  
-  if (element_storage["clicktime"]==1 or element_storage["clicktime"]>click_delay) then
-    -- manage bottom scrollbar
   end
   
   return element_storage["entries"][element_storage["selected"]], refresh
