@@ -4670,28 +4670,41 @@ function reagirl.Gui_Manage(keep_running)
   if #reagirl.Elements==0 then error("Gui_Manage: no ui-element available", -2) end
   
   if #reagirl.Elements<reagirl.Elements.FocusedElement then reagirl.Elements.FocusedElement=1 end
-  
   reagirl.Window_State=gfx.getchar(65536)
+
 
   if reaper.GetExtState("ReaGirl_Window_"..reagirl.Window_name, "newstate")~="" then
     reagirl.Ext_UpdateWindow()
   end
-  
+ 
   -- store position, size and dockstate of window for next opening
   local dock,x,y,w,h=gfx.dock(-1,0,0,0,0)
-  reaper.SetExtState("Reagirl_Window_"..reagirl.Window_name, "stored", "true", true)
-  reaper.SetExtState("Reagirl_Window_"..reagirl.Window_name, "x", x, true)
-  reaper.SetExtState("Reagirl_Window_"..reagirl.Window_name, "y", y, true)
-  reaper.SetExtState("Reagirl_Window_"..reagirl.Window_name, "w", w, true)
-  reaper.SetExtState("Reagirl_Window_"..reagirl.Window_name, "h", h, true)
-  reaper.SetExtState("Reagirl_Window_"..reagirl.Window_name, "dock", dock, true)
-  --]]
-  
+ 
+  if reaper.GetExtState("Reagirl_Window_"..reagirl.Window_name, "stored")~="true" then
+    reaper.SetExtState("Reagirl_Window_"..reagirl.Window_name, "stored", "true", true)
+  end
+  if reaper.GetExtState("Reagirl_Window_"..reagirl.Window_name, "x")~=tostring(x) then
+    reaper.SetExtState("Reagirl_Window_"..reagirl.Window_name, "x", x, true)
+  end
+  if reaper.GetExtState("Reagirl_Window_"..reagirl.Window_name, "y")~=tostring(y) then
+    reaper.SetExtState("Reagirl_Window_"..reagirl.Window_name, "y", y, true)
+  end
+  if reaper.GetExtState("Reagirl_Window_"..reagirl.Window_name, "w")~=tostring(w) then
+    reaper.SetExtState("Reagirl_Window_"..reagirl.Window_name, "w", w, true)
+  end
+  if reaper.GetExtState("Reagirl_Window_"..reagirl.Window_name, "h")~=tostring(h) then
+    reaper.SetExtState("Reagirl_Window_"..reagirl.Window_name, "h", h, true)
+  end
+  if reaper.GetExtState("Reagirl_Window_"..reagirl.Window_name, "dock")~=tostring(dock) then
+    reaper.SetExtState("Reagirl_Window_"..reagirl.Window_name, "dock", dock, true)
+  end
+
+
   if reaper.GetExtState("ReaGirl", "ReFocusWindow")==reagirl.Window_name then
     reagirl.Window_SetFocus()
     reaper.SetExtState("ReaGirl", "ReFocusWindow","",false)
   end
-  
+--]]  
   -- Osara Override
   if reaper.GetExtState("ReaGirl", "osara_override")=="" or reaper.GetExtState("ReaGirl", "osara_override")=="true" or reagirl.Settings_Override==true then 
     reagirl.osara_outputMessage=reagirl.osara
@@ -8582,7 +8595,15 @@ function reagirl.ListView_Add(x, y, w, h, caption, meaningOfUI_Element, enable_s
   
   reagirl.Elements[slot]["entry_width"]=math.floor(w)
   reagirl.Elements[slot]["entry_width_start"]=0
-  reagirl.Elements[slot]["entries"]=entries
+  reagirl.Elements[slot]["entries_org"]=entries
+  local entries3={}
+  local entries_index={}
+  for i=1, #entries do
+    entries3[i]=entries[i]
+    entries_index[i]=i
+  end
+  reagirl.Elements[slot]["entries"]=entries3
+  reagirl.Elements[slot]["entries_index"]=entries_index
   reagirl.Elements[slot]["entries_selection"]=entries2
   reagirl.Elements[slot]["enable_selection"]=enable_selection
   reagirl.Elements[slot]["func_manage"]=reagirl.ListView_Manage
@@ -8649,16 +8670,13 @@ function reagirl.ListView_Manage(element_id, selected, hovered, clicked, mouse_c
 -- todo: 
 -- schicker machen
 -- scrolling via mouse-drag
--- scrollbars
 -- accessibility messages anpassen(selected/deselected muss reported werden)
 -- hovering above entries should report the hovered entries
--- Bug: When multiple elements are selected via ctrl+click, hitting shift deselects all
   local refresh=false
   local overflow=w-element_storage["entry_width"]
-  local num_lines=math.floor(h/gfx.texth-1)
   local scale=reagirl.Window_GetCurrentScale()
+  local num_lines=math.floor(h/(gfx.texth))
   local entry_width_pix=gfx.measurestr(element_storage["entry_width_string"])
-  --if Key~=0 then AAA=Key end
   
   if num_lines<#element_storage["entries"] then 
     element_storage["scrollbar_vert"]=true 
@@ -8672,7 +8690,15 @@ function reagirl.ListView_Manage(element_id, selected, hovered, clicked, mouse_c
   end
   
   if hovered==true or selected~="not selected" then
+    -- prevent scrolling
     reagirl.Gui_PreventScrollingForOneCycle(true, true, false)
+    
+    -- read out the hovered line
+    local line=math.floor((gfx.mouse_y-y+6*scale)/gfx.texth)+1
+    if element_storage["old_hovered_entry"]~=line then
+      --reagirl.ScreenReader_SendMessage(tostring(line+element_storage["start"])-1)
+    end
+    element_storage["old_hovered_entry"]=line
   end
   
   -- quicksearch
@@ -8842,7 +8868,7 @@ function reagirl.ListView_Manage(element_id, selected, hovered, clicked, mouse_c
     if ((mouse_cap&1==1 and clicked=="FirstCLK" and gfx.mouse_x>=x and gfx.mouse_x<=x+w-scroll_y_offset and gfx.mouse_y>=y-scroll_x_offset and gfx.mouse_y<=y+h-scroll_x_offset) or Key==32) then
       if mouse_cap&8==0 then element_storage["selected_old"]=nil end
       if mouse_cap&8==8 and element_storage["selected_old"]==nil then element_storage["selected_old"]=element_storage["selected"] end
-      local line=math.floor((gfx.mouse_y-y)/gfx.texth)
+      local line=math.floor((gfx.mouse_y-y+6*scale)/gfx.texth)
       if line>=#element_storage["entries"]-1 then line=#element_storage["entries"]-1 end
       
       element_storage["selected"]=element_storage["start"]+line
@@ -8856,7 +8882,7 @@ function reagirl.ListView_Manage(element_id, selected, hovered, clicked, mouse_c
       --]]
       if mouse_cap&4==4 then
         element_storage["entries_selection"][element_storage["start"]+line]=element_storage["entries_selection"][element_storage["start"]+line]==false
-      else
+      elseif mouse_cap&1==1 then
         reagirl.ListView_SetAllDeselected(element_storage["Guid"])
       end
       refresh=true
@@ -8879,7 +8905,7 @@ function reagirl.ListView_Manage(element_id, selected, hovered, clicked, mouse_c
       -- hier kommt eigentlich der drag entries to resort list-code rein....
     end
 
-    if mouse_cap&8==8 and element_storage["selected_old"]~=nil then
+    if mouse_cap&8==8 and mouse_cap&1==1 and element_storage["selected_old"]~=nil then
       reagirl.ListView_SetAllDeselected(element_storage["Guid"])
       local sel1=element_storage["selected_old"]
       local sel2=element_storage["selected"]
