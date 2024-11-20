@@ -8744,6 +8744,7 @@ function reagirl.ListView_Manage(element_id, selected, hovered, clicked, mouse_c
 -- scrolling via mouse-drag
 -- accessibility messages anpassen(selected/deselected muss reported werden)
 -- hovering above entries should report the hovered entries
+  local run_func_start=false
   local refresh=false
   local overflow=w-element_storage["entry_width"]
   local scale=reagirl.Window_GetCurrentScale()
@@ -8839,8 +8840,14 @@ function reagirl.ListView_Manage(element_id, selected, hovered, clicked, mouse_c
           element_storage["selected_old"]=nil
         end
         element_storage["selected"]=element_storage["selected"]-1
+        if element_storage["selected"]>=element_storage["selected_old"] then
+          element_storage["entries_selection"][element_storage["selected"]+1]=false
+        else
+          element_storage["entries_selection"][element_storage["selected"]]=true
+        end
         if element_storage["selected"]<1 then element_storage["selected"]=1 end
         refresh=true
+        reagirl.Gui_ForceRefresh()
       end
       if Key==1685026670.0 and mouse_cap==8 then 
         -- Shift+Down
@@ -8850,8 +8857,14 @@ function reagirl.ListView_Manage(element_id, selected, hovered, clicked, mouse_c
           element_storage["selected_old"]=nil
         end
         element_storage["selected"]=element_storage["selected"]+1
+        if element_storage["selected"]<=element_storage["selected_old"] then
+          element_storage["entries_selection"][element_storage["selected"]-1]=false
+        else
+          element_storage["entries_selection"][element_storage["selected"]]=true
+        end
         if element_storage["selected"]>#element_storage["entries"] then element_storage["selected"]=#element_storage["entries"] end
         refresh=true
+        reagirl.Gui_ForceRefresh()
       end
       -- home
       if Key==1752132965.0 then
@@ -8946,6 +8959,7 @@ function reagirl.ListView_Manage(element_id, selected, hovered, clicked, mouse_c
         reagirl.ListView_SetAllDeselected(element_storage["Guid"])
       end
       refresh=true
+      run_func_start=true
     elseif gfx.mouse_cap&1==1 and gfx.mouse_x>=x and gfx.mouse_x<=x+w and gfx.mouse_y>=y and gfx.mouse_y<=y+h then
     -- drag elements
       --[[
@@ -9130,7 +9144,7 @@ function reagirl.ListView_Manage(element_id, selected, hovered, clicked, mouse_c
   end
   
   -- run-function
-  if selected~="not selected" and mouse_cap&1==1 and element_storage["click_scroll_target"]==0 then
+  if run_func_start==true then
     local selected_entries={}
     local selected_entries_names={}
     for i=1, #element_storage["entries"] do
