@@ -8816,6 +8816,7 @@ function reagirl.ListView_Manage(element_id, selected, hovered, clicked, mouse_c
           if element_storage["start"]<1 then element_storage["start"]=1 end
         end
         refresh=true 
+        run_func_start=true
         reagirl.ListView_SetAllDeselected(element_storage["Guid"])
       end
       if Key==1685026670.0 and mouse_cap==0 then 
@@ -8830,6 +8831,7 @@ function reagirl.ListView_Manage(element_id, selected, hovered, clicked, mouse_c
           end
         end
         refresh=true 
+        run_func_start=true
         reagirl.ListView_SetAllDeselected(element_storage["Guid"])
       end
       if Key==30064.0 and mouse_cap==8 then 
@@ -8847,6 +8849,7 @@ function reagirl.ListView_Manage(element_id, selected, hovered, clicked, mouse_c
         end
         if element_storage["selected"]<1 then element_storage["selected"]=1 end
         refresh=true
+        run_func_start=true
         reagirl.Gui_ForceRefresh()
       end
       if Key==1685026670.0 and mouse_cap==8 then 
@@ -8864,6 +8867,7 @@ function reagirl.ListView_Manage(element_id, selected, hovered, clicked, mouse_c
         end
         if element_storage["selected"]>#element_storage["entries"] then element_storage["selected"]=#element_storage["entries"] end
         refresh=true
+        run_func_start=true
         reagirl.Gui_ForceRefresh()
       end
       -- home
@@ -8880,6 +8884,7 @@ function reagirl.ListView_Manage(element_id, selected, hovered, clicked, mouse_c
           element_storage["start"]=1 
           element_storage["selected"]=1 
         end
+        run_func_start=true
       end
       -- end
       if Key==6647396.0 then 
@@ -8899,6 +8904,7 @@ function reagirl.ListView_Manage(element_id, selected, hovered, clicked, mouse_c
           end
           element_storage["selected"]=#element_storage["entries"] 
         end
+        run_func_start=true
       end
 
       if Key==1885828464.0 then
@@ -8914,6 +8920,7 @@ function reagirl.ListView_Manage(element_id, selected, hovered, clicked, mouse_c
         if mouse_cap==0 then
           reagirl.ListView_SetAllDeselected(element_storage["Guid"])
         end
+        run_func_start=true
       end
       if Key==1885824110.0 then
         -- pgdn
@@ -8927,6 +8934,7 @@ function reagirl.ListView_Manage(element_id, selected, hovered, clicked, mouse_c
         if mouse_cap==0 then
           reagirl.ListView_SetAllDeselected(element_storage["Guid"])
         end
+        run_func_start=true
       end
     end
     if element_storage["selected"]<1 then element_storage["selected"]=1 end
