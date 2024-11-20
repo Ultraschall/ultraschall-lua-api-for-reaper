@@ -8775,7 +8775,7 @@ function reagirl.ListView_Manage(element_id, selected, hovered, clicked, mouse_c
       element_storage["quicksearch"]=element_storage["quicksearch"]..utf8.char(Key_UTF)
       if element_storage["quicksearch"]~="" then -- search only, when character has been typed
         -- search the next entry that fits the quicksearch-filter
-        for i=element_storage["selected"], #element_storage["entries"] do
+        for i=element_storage["selected"]+1, #element_storage["entries"] do
           if element_storage["entries"][i]:lower():match("^"..element_storage["quicksearch"]:lower())~=nil then
             element_storage["selected"]=i
             if i>element_storage["start"]+num_lines then
@@ -8784,6 +8784,7 @@ function reagirl.ListView_Manage(element_id, selected, hovered, clicked, mouse_c
             reagirl.ListView_SetAllDeselected(element_storage["Guid"])
             element_storage["entries_selection"][i]=true
             refresh=true
+            run_func_start=true
             break
           end
         end
