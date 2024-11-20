@@ -5358,6 +5358,7 @@ function reagirl.Gui_Manage(keep_running)
           if reagirl.osara_outputMessage~=nil then
             --reaper.MB("","",0)
             reagirl.osara_outputMessage(reagirl.osara_init_message.." "..init_message.." "..message.." "..helptext..draggable..acc_message..contextmenu..dropfiles..reagirl.osara_AddedMessage)
+            
             reagirl.ScreenReader_SendMessage_ActualMessage=""
             if reagirl.Screenreader_Override_Message~="" then
               reagirl.osara_outputMessage(reagirl.Screenreader_Override_Message)
@@ -5456,6 +5457,8 @@ function reagirl.Gui_Manage(keep_running)
   else
     reagirl.Gui_Manage_keep_running=nil
   end
+  -- reset screenreader messages
+  reagirl.osara_AddedMessage=""
 end
 
 function reagirl.Gui_Draw(Key, Key_utf, clickstate, specific_clickstate, mouse_cap, click_x, click_y, drag_x, drag_y, mouse_wheel, mouse_hwheel)
@@ -8689,18 +8692,6 @@ function reagirl.ListView_Manage(element_id, selected, hovered, clicked, mouse_c
     element_storage["scrollbar_horz"]=false 
   end
   
-  if hovered==true or selected~="not selected" then
-    -- prevent scrolling
-    reagirl.Gui_PreventScrollingForOneCycle(true, true, false)
-    
-    -- read out the hovered line
-    local line=math.floor((gfx.mouse_y-y+6*scale)/gfx.texth)+1
-    if element_storage["old_hovered_entry"]~=line then
-      --reagirl.ScreenReader_SendMessage(tostring(line+element_storage["start"])-1)
-    end
-    element_storage["old_hovered_entry"]=line
-  end
-  
   -- quicksearch
   -- count one second, until the quicksearch filter is "reset"
   -- ToDo: maybe make it customizable in the ReaGirl-prefs
@@ -9058,6 +9049,24 @@ function reagirl.ListView_Manage(element_id, selected, hovered, clicked, mouse_c
       
       element_storage["clicktime"]=0
       reagirl.Gui_ForceRefresh()
+    end
+  end
+  
+  if (hovered==true or selected~="not selected") then
+    -- prevent scrolling
+    reagirl.Gui_PreventScrollingForOneCycle(true, true, false)
+  end
+  
+  if hovered==true then
+    -- read out the hovered line
+    local line=math.floor((gfx.mouse_y-y+3*scale)/gfx.texth)
+    if line>=0 and line<=#element_storage["entries"] and mouse_cap&1==0 then
+      if element_storage["old_hovered_entry"]~=line then
+        if element_storage["entries"][line+element_storage["start"]]~=nil then
+          reagirl.ScreenReader_SendMessage(tostring(element_storage["entries"][line+element_storage["start"]]))
+        end
+      end
+      element_storage["old_hovered_entry"]=line
     end
   end
   
