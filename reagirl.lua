@@ -9004,8 +9004,8 @@ function reagirl.ListView_Manage(element_id, selected, hovered, clicked, mouse_c
     end
   end
   
-  -- bottom scrollbar(dunno how to do that...)
-  local scroll_x=(w-45*scale)/(entry_width_pix)*element_storage["entry_width_start"]+x
+  -- bottom scrollbar
+  local scroll_x=(w-45*scale)/(entry_width_pix-w+15*scale+8*scale)*element_storage["entry_width_start"]+x
   if mouse_cap&1==1 and (element_storage["click_scroll_target"]==0 or element_storage["click_scroll_target"]>=8 or element_storage["click_scroll_target"]<=10) and gfx.mouse_x>=x+15*scale and gfx.mouse_x<=x+w-15*scale and gfx.mouse_y>=y+h-15*scale and gfx.mouse_y<=y+h then 
     if element_storage["click_scroll_target"]==0 and gfx.mouse_x>=scroll_x+15*scale and gfx.mouse_x<=scroll_x+30*scale then
       element_storage["click_scroll_target"]=8 -- scrollbarslider
@@ -9033,13 +9033,14 @@ function reagirl.ListView_Manage(element_id, selected, hovered, clicked, mouse_c
       element_storage["start"]=element_storage["start"]+num_lines
       if element_storage["start"]+num_lines>#element_storage["entries"] then element_storage["start"]=#element_storage["entries"]-num_lines end
       reagirl.Gui_ForceRefresh(0.1)
-    
     -- bottom scrollbar
     elseif element_storage["click_scroll_target"]==10 then -- right of scrollbar
       element_storage["entry_width_start"]=element_storage["entry_width_start"]+5
+      if element_storage["entry_width_start"]>entry_width_pix-w+15*scale+8*scale then element_storage["entry_width_start"]=entry_width_pix-w+15*scale+8*scale end
       reagirl.Gui_ForceRefresh(0.12221)
     elseif element_storage["click_scroll_target"]==9 then -- left of scrollbar
       element_storage["entry_width_start"]=element_storage["entry_width_start"]-5
+      if element_storage["entry_width_start"]<0 then element_storage["entry_width_start"]=0 end
       reagirl.Gui_ForceRefresh(0.1222)
     elseif element_storage["click_scroll_target"]==8 then -- scrollbar
       local pos=((entry_width_pix-w+15*scale+8*scale)/(w-45*scale))*(gfx.mouse_x-x-20*scale)
