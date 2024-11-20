@@ -8697,7 +8697,7 @@ function reagirl.ListView_SetAllDeselected(element_id)
     Reaper=7.03
     Lua=5.4
   </requires>
-  <functioncall>boolean retval = reagirl.ListView_SetAllUnselected(string element_id)</functioncall>
+  <functioncall>boolean retval = reagirl.ListView_SetAllDeselected(string element_id)</functioncall>
   <description>
     Sets all entries of a listview to deselected. Only the currently focused one will be set to selected.
   </description>
@@ -8710,7 +8710,7 @@ function reagirl.ListView_SetAllDeselected(element_id)
   <chapter_context>
     ListView
   </chapter_context>
-  <tags>listview, set, unselected</tags>
+  <tags>listview, set, deselected</tags>
 </US_DocBloc>
 --]]
 
@@ -8977,8 +8977,6 @@ function reagirl.ListView_Manage(element_id, selected, hovered, clicked, mouse_c
       end
       refresh=true
     end
-  elseif gfx.mouse_x>=x and gfx.mouse_x<=x+w and gfx.mouse_y>=y and gfx.mouse_y<=y+h then
-    --reagirl.Gui_PreventScrollingForOneCycle(false, true, false)
   end
   if gfx.mouse_x>=x and gfx.mouse_x<=x+w and gfx.mouse_y>=y and gfx.mouse_y<=y+h then
     -- scroll via mousewheel
@@ -9062,26 +9060,30 @@ function reagirl.ListView_Manage(element_id, selected, hovered, clicked, mouse_c
   end
 
   -- right scrollbar
-  local scroll_y=(h-60*scale)/(#element_storage["entries"]-num_lines+2)*(element_storage["start"]-1)+y
-  if mouse_cap&1==1 and (element_storage["click_scroll_target"]==0 or element_storage["click_scroll_target"]>=5 or element_storage["click_scroll_target"]<=7) and gfx.mouse_x>=x+w-15*scale and gfx.mouse_x<=x+w and gfx.mouse_y>=y+15*scale and gfx.mouse_y<=y+h-30*scale then 
-    if element_storage["click_scroll_target"]==0 and gfx.mouse_y>=scroll_y+15*scale and gfx.mouse_y<=scroll_y+30*scale then
-      element_storage["click_scroll_target"]=5
-    elseif element_storage["click_scroll_target"]==0 and gfx.mouse_y<scroll_y+15*scale then
-      element_storage["click_scroll_target"]=6
-    elseif element_storage["click_scroll_target"]==0 and gfx.mouse_y>scroll_y+30*scale then
-      element_storage["click_scroll_target"]=7
+  if element_storage.scrollbar_vert==true then
+    local scroll_y=(h-60*scale)/(#element_storage["entries"]-num_lines+2)*(element_storage["start"]-1)+y
+    if mouse_cap&1==1 and (element_storage["click_scroll_target"]==0 or element_storage["click_scroll_target"]>=5 or element_storage["click_scroll_target"]<=7) and gfx.mouse_x>=x+w-15*scale and gfx.mouse_x<=x+w and gfx.mouse_y>=y+15*scale and gfx.mouse_y<=y+h-30*scale then 
+      if element_storage["click_scroll_target"]==0 and gfx.mouse_y>=scroll_y+15*scale and gfx.mouse_y<=scroll_y+30*scale then
+        element_storage["click_scroll_target"]=5
+      elseif element_storage["click_scroll_target"]==0 and gfx.mouse_y<scroll_y+15*scale then
+        element_storage["click_scroll_target"]=6
+      elseif element_storage["click_scroll_target"]==0 and gfx.mouse_y>scroll_y+30*scale then
+        element_storage["click_scroll_target"]=7
+      end
     end
   end
   
   -- bottom scrollbar
-  local scroll_x=(w-45*scale)/(entry_width_pix-w+15*scale+8*scale)*element_storage["entry_width_start"]+x
-  if mouse_cap&1==1 and (element_storage["click_scroll_target"]==0 or element_storage["click_scroll_target"]>=8 or element_storage["click_scroll_target"]<=10) and gfx.mouse_x>=x+15*scale and gfx.mouse_x<=x+w-15*scale and gfx.mouse_y>=y+h-15*scale and gfx.mouse_y<=y+h then 
-    if element_storage["click_scroll_target"]==0 and gfx.mouse_x>=scroll_x+15*scale and gfx.mouse_x<=scroll_x+30*scale then
-      element_storage["click_scroll_target"]=8 -- scrollbarslider
-    elseif element_storage["click_scroll_target"]==0 and gfx.mouse_x<scroll_x+15*scale then
-      element_storage["click_scroll_target"]=9 -- scrollbar left of scrollbarslider
-    elseif element_storage["click_scroll_target"]==0 and gfx.mouse_x>scroll_x+30*scale then
-      element_storage["click_scroll_target"]=10 -- scrollbar right of scrollbarslider
+  if element_storage.scrollbar_horz==true then
+    local scroll_x=(w-45*scale)/(entry_width_pix-w+15*scale+8*scale)*element_storage["entry_width_start"]+x
+    if mouse_cap&1==1 and (element_storage["click_scroll_target"]==0 or element_storage["click_scroll_target"]>=8 or element_storage["click_scroll_target"]<=10) and gfx.mouse_x>=x+15*scale and gfx.mouse_x<=x+w-15*scale and gfx.mouse_y>=y+h-15*scale and gfx.mouse_y<=y+h then 
+      if element_storage["click_scroll_target"]==0 and gfx.mouse_x>=scroll_x+15*scale and gfx.mouse_x<=scroll_x+30*scale then
+        element_storage["click_scroll_target"]=8 -- scrollbarslider
+      elseif element_storage["click_scroll_target"]==0 and gfx.mouse_x<scroll_x+15*scale then
+        element_storage["click_scroll_target"]=9 -- scrollbar left of scrollbarslider
+      elseif element_storage["click_scroll_target"]==0 and gfx.mouse_x>scroll_x+30*scale then
+        element_storage["click_scroll_target"]=10 -- scrollbar right of scrollbarslider
+      end
     end
   end
   
@@ -9125,6 +9127,19 @@ function reagirl.ListView_Manage(element_id, selected, hovered, clicked, mouse_c
   if (hovered==true or selected~="not selected") then
     -- prevent scrolling
     reagirl.Gui_PreventScrollingForOneCycle(true, true, false)
+  end
+  
+  -- run-function
+  if selected~="not selected" and mouse_cap&1==1 and element_storage["click_scroll_target"]==0 then
+    local selected_entries={}
+    local selected_entries_names={}
+    for i=1, #element_storage["entries"] do
+      if element_storage["entries_selection"][i]==true then
+        selected_entries[#selected_entries+1]=element_storage["entries_index"][i]
+        selected_entries_names[#selected_entries_names+1]=element_storage["entries"][i]
+      end
+    end
+    element_storage["run_function"](element_storage["Guid"], element_storage["selected"], element_storage["entries"][element_storage["selected"]], selected_entries, selected_entries_names)
   end
   
   if hovered==true then
