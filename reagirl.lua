@@ -8600,12 +8600,15 @@ function reagirl.ListView_Add(x, y, w, h, caption, meaningOfUI_Element, enable_s
   reagirl.Elements[slot]["entry_width_start"]=0
   reagirl.Elements[slot]["entries_org"]=entries
   local entries3={}
+  local tags={}
   local entries_index={}
   for i=1, #entries do
     entries3[i]=entries[i]
     entries_index[i]=i
+    tags[i]=entries[i]
   end
   reagirl.Elements[slot]["entries"]=entries3
+  reagirl.Elements[slot]["entries_tags"]=tags
   reagirl.Elements[slot]["entries_index"]=entries_index
   reagirl.Elements[slot]["entries_selection"]=entries2
   reagirl.Elements[slot]["enable_selection"]=enable_selection
@@ -8622,6 +8625,69 @@ function reagirl.ListView_Add(x, y, w, h, caption, meaningOfUI_Element, enable_s
   return reagirl.Elements[slot]["Guid"]
 end
 
+function reagirl.ListView_Filter(element_id, filter, case_sensitive)
+--[[
+<US_ DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>ListView_Filter</slug>
+  <requires>
+    ReaGirl=1.3
+    Reaper=7.03
+    Lua=5.4
+  </requires>
+  <functioncall>integer count_found_entries = reagirl.ListView_Filter(string element_id, string filter, boolean case_sensitive)</functioncall>
+  <description>
+    Filter the listview entries to display only those matching the filter.
+  </description>
+  <parameters>
+    string element_id - the guid of the listview, whose entries you want to have filtered
+  </parameters>
+  <retvals>
+    integer count_found_entries - the number of found entries that are now shown in the list
+  </retvals>
+  <chapter_context>
+    ListView
+  </chapter_context>
+  <tags>listview, set, filter</tags>
+</US_DocBloc>
+--]]
+
+  if type(element_id)~="string" then error("ListView_Filter: param #1 - must be a string", 2) end
+  if reagirl.IsValidGuid(element_id, true)==nil then error("ListView_Filter: param #1 - must be a valid guid", 2) end
+  if type(filter)~="string" then error("ListView_Filter: param #2 - must be a string", 2) end
+  if type(case_sensitive)~="boolean" then error("ListView_Filter: param #3 - must be a boolean", 2) end
+  if case_sensitive==false then filter=filter:lower() end
+  
+  element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
+  if element_id==-1 then error("ListView_Filter: param #1 - no such ui-element", 2) end
+  
+  if reagirl.Elements[element_id]["GUI_Element_Type"]~="ListView" then
+    return 
+  else
+    reagirl.Elements[element_id]["start"]=1
+    reagirl.Elements[element_id]["selected"]=1
+    reagirl.Elements[element_id]["entries"]={}
+    reagirl.Elements[element_id]["entries_index"]={}
+    reagirl.Elements[element_id]["entries_selection"]={}
+    
+    for i=1, #reagirl.Elements[element_id]["entries_org"] do
+      entry=reagirl.Elements[element_id]["entries_org"][i]
+      tag=reagirl.Elements[element_id]["entries_tags"][i]
+      if case_sensitive==false then
+        entry=entry:lower()
+        tag=tag:lower()
+      end
+      if entry:match(filter)~=nil or tag:match(filter)~=nil then
+        reagirl.Elements[element_id]["entries"][#reagirl.Elements[element_id]["entries"]+1]=reagirl.Elements[element_id]["entries_org"][i]
+        reagirl.Elements[element_id]["entries_index"][#reagirl.Elements[element_id]["entries_index"]+1]=i
+        reagirl.Elements[element_id]["entries_selection"][#reagirl.Elements[element_id]["entries_selection"]+1]=false
+      end
+    end
+    reagirl.Gui_ForceRefresh(19)
+  end
+
+  return #reagirl.Elements[element_id]["entries"]
+end
+
 function reagirl.ListView_SetAllDeselected(element_id)
 --[[
 <US_ DocBloc version="1.0" spok_lang="en" prog_lang="*">
@@ -8631,13 +8697,16 @@ function reagirl.ListView_SetAllDeselected(element_id)
     Reaper=7.03
     Lua=5.4
   </requires>
-  <functioncall>reagirl.ListView_SetAllUnselected(string element_id, integer r, integer g, integer b)</functioncall>
+  <functioncall>boolean retval = reagirl.ListView_SetAllUnselected(string element_id)</functioncall>
   <description>
     Sets all entries of a listview to deselected. Only the currently focused one will be set to selected.
   </description>
   <parameters>
     string element_id - the guid of the listview, whose selection you want to set unset
   </parameters>
+  <retvals>
+    boolean retval - true, deselecting was successful; false, it was unsuccessful
+  </retvals>
   <chapter_context>
     ListView
   </chapter_context>
@@ -9018,31 +9087,31 @@ function reagirl.ListView_Manage(element_id, selected, hovered, clicked, mouse_c
   
   if (element_storage["clicktime"]==1 or element_storage["clicktime"]>click_delay) then
     -- side scrollbar
-    if element_storage["click_scroll_target"]==5 then
+    if element_storage["click_scroll_target"]==5 and element_storage.scrollbar_vert==true then
       local pos=(#element_storage["entries"])/(h-60*scale)*(gfx.mouse_y-y-25*scale)
       element_storage["start"]=math.floor(pos-1)
       if element_storage["start"]<1 then element_storage["start"]=1 end
       if element_storage["start"]+num_lines>#element_storage["entries"] then element_storage["start"]=-num_lines+#element_storage["entries"]+1 end
       element_storage["clicktime"]=0
       reagirl.Gui_ForceRefresh(0.3)
-    elseif element_storage["click_scroll_target"]==6 then
+    elseif element_storage["click_scroll_target"]==6 and element_storage.scrollbar_vert==true then
       element_storage["start"]=element_storage["start"]-num_lines
       if element_storage["start"]<1 then element_storage["start"]=1 end
       reagirl.Gui_ForceRefresh(0.2)
-    elseif element_storage["click_scroll_target"]==7 then
+    elseif element_storage["click_scroll_target"]==7 and element_storage.scrollbar_vert==true then
       element_storage["start"]=element_storage["start"]+num_lines
       if element_storage["start"]+num_lines>#element_storage["entries"] then element_storage["start"]=#element_storage["entries"]-num_lines end
       reagirl.Gui_ForceRefresh(0.1)
     -- bottom scrollbar
-    elseif element_storage["click_scroll_target"]==10 then -- right of scrollbar
+    elseif element_storage["click_scroll_target"]==10 and element_storage.scrollbar_horz==true then -- right of scrollbar
       element_storage["entry_width_start"]=element_storage["entry_width_start"]+5
       if element_storage["entry_width_start"]>entry_width_pix-w+15*scale+8*scale then element_storage["entry_width_start"]=entry_width_pix-w+15*scale+8*scale end
       reagirl.Gui_ForceRefresh(0.12221)
-    elseif element_storage["click_scroll_target"]==9 then -- left of scrollbar
+    elseif element_storage["click_scroll_target"]==9 and element_storage.scrollbar_horz==true then -- left of scrollbar
       element_storage["entry_width_start"]=element_storage["entry_width_start"]-5
       if element_storage["entry_width_start"]<0 then element_storage["entry_width_start"]=0 end
       reagirl.Gui_ForceRefresh(0.1222)
-    elseif element_storage["click_scroll_target"]==8 then -- scrollbar
+    elseif element_storage["click_scroll_target"]==8 and element_storage.scrollbar_horz==true then -- scrollbar
       local pos=((entry_width_pix-w+15*scale+8*scale)/(w-45*scale))*(gfx.mouse_x-x-20*scale)
       element_storage["entry_width_start"]=pos
       if element_storage["entry_width_start"]<0 then element_storage["entry_width_start"]=0 end
@@ -9073,6 +9142,8 @@ function reagirl.ListView_Manage(element_id, selected, hovered, clicked, mouse_c
   
   return element_storage["entries"][element_storage["selected"]], refresh
 end
+
+
 
 function reagirl.ListView_Draw(element_id, selected, hovered, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
   local scale=reagirl.Window_GetCurrentScale()
