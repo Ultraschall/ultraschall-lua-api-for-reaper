@@ -737,8 +737,10 @@ New features in 5.1
 
 Changes from 5 to 5.1
 
--   reagirl.Gui_Manage - has new parameter that allows running the gui
+-   ReaGirl: Gui_Manage - has new parameter that allows running the gui
     without a dedicated defer-loop
+-   ReaGirl: screenreader-messages - could be reported twice under
+    certain circumstances; could be slow in reporting -> fixed
 ]]>
 </changelog>
       </version>

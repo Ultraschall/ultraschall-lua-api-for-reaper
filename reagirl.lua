@@ -8740,10 +8740,16 @@ end
 
 function reagirl.ListView_Manage(element_id, selected, hovered, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
 -- todo: 
--- schicker machen
--- scrolling via mouse-drag
--- accessibility messages anpassen(selected/deselected muss reported werden)
--- hovering above entries should report the hovered entries
+-- round edges of list/scroll-buttons/selected-entrý when in line 1 or last line
+-- scrolling via mouse-drag when selection muliple items
+-- hovered entries must not be reported, when hovering above scrollbuttons/bars
+-- scrollbuttons/scrollbars must be reported to the screenreader
+-- when there's 8 entries, vertical scrollbar doesn't scroll to the bottom
+-- scrollbar-buttons don't work and are replaced with clicking next to scrollbar-area
+-- colors-settable
+-- quicksearch toggle on/off
+-- tags need to be addable to the script
+
   local run_func_start=false
   local refresh=false
   local overflow=w-element_storage["entry_width"]
@@ -8751,8 +8757,9 @@ function reagirl.ListView_Manage(element_id, selected, hovered, clicked, mouse_c
   local num_lines=math.floor(h/(gfx.texth))
   local entry_width_pix=gfx.measurestr(element_storage["entry_width_string"])
   
-  if num_lines<#element_storage["entries"] then 
+  if num_lines<=#element_storage["entries"] then 
     element_storage["scrollbar_vert"]=true 
+    num_lines=num_lines-1
   else 
     element_storage["scrollbar_vert"]=false 
   end
@@ -9084,7 +9091,7 @@ function reagirl.ListView_Manage(element_id, selected, hovered, clicked, mouse_c
 
   -- right scrollbar
   if element_storage.scrollbar_vert==true then
-    local scroll_y=(h-60*scale)/(#element_storage["entries"]-num_lines+2)*(element_storage["start"]-1)+y
+    local scroll_y=(h-60*scale)/(#element_storage["entries"]-num_lines+1)*(element_storage["start"]-1)+y
     if mouse_cap&1==1 and (element_storage["click_scroll_target"]==0 or element_storage["click_scroll_target"]>=5 or element_storage["click_scroll_target"]<=7) and gfx.mouse_x>=x+w-15*scale and gfx.mouse_x<=x+w and gfx.mouse_y>=y+15*scale and gfx.mouse_y<=y+h-30*scale then 
       if element_storage["click_scroll_target"]==0 and gfx.mouse_y>=scroll_y+15*scale and gfx.mouse_y<=scroll_y+30*scale then
         element_storage["click_scroll_target"]=5
@@ -9235,7 +9242,7 @@ function reagirl.ListView_Draw(element_id, selected, hovered, clicked, mouse_cap
   if element_storage["scrollbar_vert"]==true then
     gfx.set(0.49)
     -- scrollbar left
-    local scroll_y=(h-60*scale)/(#element_storage["entries"]-num_lines+2)*(element_storage["start"]-1)+y
+    local scroll_y=(h-60*scale)/(#element_storage["entries"]-num_lines+1)*(element_storage["start"]-1)+y
     if tostring(scroll_y)=="-1.#IND" then scroll_y=10 end
     gfx.rect(x+w-15*scale,scroll_y+15*scale,15*scale,15*scale)
     
