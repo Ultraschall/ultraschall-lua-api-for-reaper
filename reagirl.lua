@@ -8749,6 +8749,7 @@ function reagirl.ListView_Manage(element_id, selected, hovered, clicked, mouse_c
 -- colors-settable
 -- quicksearch toggle on/off
 -- tags need to be addable to the script
+-- Shift+pgUp/PgDn isn't implemented yet
 
   local run_func_start=false
   local refresh=false
@@ -8756,16 +8757,18 @@ function reagirl.ListView_Manage(element_id, selected, hovered, clicked, mouse_c
   local scale=reagirl.Window_GetCurrentScale()
   local num_lines=h/(gfx.texth)
   local entry_width_pix=gfx.measurestr(element_storage["entry_width_string"])
-  
-  if num_lines<=#element_storage["entries"]+0.26 then 
-    element_storage["scrollbar_vert"]=true 
-  else 
-    element_storage["scrollbar_vert"]=false 
-  end
+  --print(num_lines)
   if w<entry_width_pix+scale+scale+scale then 
     element_storage["scrollbar_horz"]=true 
   else 
     element_storage["scrollbar_horz"]=false 
+  end
+  local offset=0.06 -- offset for when the horizontal scrollbar isn't there
+  if element_storage["scrollbar_horz"]==true then offset=0.26 end -- and when it is there
+  if num_lines<=#element_storage["entries"]+offset then 
+    element_storage["scrollbar_vert"]=true 
+  else 
+    element_storage["scrollbar_vert"]=false 
   end
   --print(num_lines)
   num_lines=math.ceil(num_lines)
@@ -8785,8 +8788,8 @@ function reagirl.ListView_Manage(element_id, selected, hovered, clicked, mouse_c
         for i=element_storage["selected"]+1, #element_storage["entries"] do
           if element_storage["entries"][i]:lower():match("^"..element_storage["quicksearch"]:lower())~=nil then
             element_storage["selected"]=i
-            if i>element_storage["start"]+num_lines then
-              element_storage["start"]=i-num_lines
+            if i>element_storage["start"]+num_lines+2 then
+              element_storage["start"]=i-num_lines+2
             end
             reagirl.ListView_SetAllDeselected(element_storage["Guid"])
             element_storage["entries_selection"][i]=true
@@ -8804,8 +8807,8 @@ function reagirl.ListView_Manage(element_id, selected, hovered, clicked, mouse_c
     end
     
     -- if height of listview is larger than the list, reset startingpoint of list to first entry
-    if num_lines>#element_storage["entries"]-element_storage["start"] then 
-      element_storage["start"]=#element_storage["entries"]-num_lines+1
+    if num_lines>#element_storage["entries"]-element_storage["start"]+2 then 
+      element_storage["start"]=#element_storage["entries"]-num_lines+2
       if element_storage["start"]<1 then element_storage["start"]=1 end
     end
     
@@ -8814,6 +8817,10 @@ function reagirl.ListView_Manage(element_id, selected, hovered, clicked, mouse_c
     end
     
     if Key~=0 then 
+      local num_lines2=num_lines-2
+      if element_storage["scrollbar_horz"]==true then
+        num_lines2=num_lines-2
+      end
       if Key==30064.0 and mouse_cap==0 then 
         -- up
         element_storage["selected_old"]=nil
@@ -8832,10 +8839,10 @@ function reagirl.ListView_Manage(element_id, selected, hovered, clicked, mouse_c
         element_storage["selected_old"]=nil
         element_storage["selected"]=element_storage["selected"]+1 
         if element_storage["selected"]>#element_storage["entries"] then element_storage["selected"]=#element_storage["entries"] end
-        if element_storage["selected"]>num_lines+element_storage["start"] then
+        if element_storage["selected"]>num_lines2+element_storage["start"]-2 then
           element_storage["start"]=element_storage["start"]+1
-          if element_storage["start"]+num_lines>#element_storage["entries"] then 
-            element_storage["start"]=#element_storage["entries"]-num_lines
+          if element_storage["start"]+num_lines2>#element_storage["entries"] then 
+            element_storage["start"]=#element_storage["entries"]-num_lines2
           end
         end
         refresh=true 
@@ -8897,8 +8904,8 @@ function reagirl.ListView_Manage(element_id, selected, hovered, clicked, mouse_c
       -- end
       if Key==6647396.0 then 
         if mouse_cap==0 then -- end
-          if num_lines<#element_storage["entries"] then
-            element_storage["start"]=#element_storage["entries"]-num_lines+1
+          if num_lines2<#element_storage["entries"] then
+            element_storage["start"]=#element_storage["entries"]-num_lines+2
           end
           element_storage["selected"]=#element_storage["entries"] 
           reagirl.ListView_SetAllDeselected(element_storage["Guid"]) 
@@ -8907,8 +8914,8 @@ function reagirl.ListView_Manage(element_id, selected, hovered, clicked, mouse_c
           for i=element_storage["selected_old"], #element_storage["entries"] do
             element_storage["entries_selection"][i]=true
           end
-          if num_lines<#element_storage["entries"] then
-            element_storage["start"]=#element_storage["entries"]-num_lines+1
+          if num_lines2<#element_storage["entries"] then
+            element_storage["start"]=#element_storage["entries"]-num_lines+2
           end
           element_storage["selected"]=#element_storage["entries"] 
         end
@@ -8932,12 +8939,12 @@ function reagirl.ListView_Manage(element_id, selected, hovered, clicked, mouse_c
       end
       if Key==1885824110.0 then
         -- pgdn
-        element_storage["selected"]=element_storage["selected"]+num_lines
+        element_storage["selected"]=element_storage["selected"]+num_lines2
         if element_storage["selected"]>#element_storage["entries"] then
           element_storage["selected"]=#element_storage["entries"]
         end
-        if element_storage["selected"]>element_storage["start"]+num_lines-1 then
-          element_storage["start"]=element_storage["selected"]-num_lines+1
+        if element_storage["selected"]>element_storage["start"]+num_lines2-1 then
+          element_storage["start"]=element_storage["selected"]-num_lines2+1
         end
         if mouse_cap==0 then
           reagirl.ListView_SetAllDeselected(element_storage["Guid"])
@@ -9244,6 +9251,8 @@ function reagirl.ListView_Draw(element_id, selected, hovered, clicked, mouse_cap
   
   -- draw scrollbars and buttons
   if element_storage["scrollbar_vert"]==true then
+    gfx.set(0.29)
+    gfx.rect(x+w-14*scale,y+scale,14*scale,h-scale-scale-15*scale)
     gfx.set(0.49)
     -- scrollbar right
     local scroll_y=(h-60*scale)/((#element_storage["entries"]-num_lines+1))*(element_storage["start"]-1)+y+scale
@@ -9276,6 +9285,8 @@ function reagirl.ListView_Draw(element_id, selected, hovered, clicked, mouse_cap
   end
   if element_storage["scrollbar_horz"]==true then
     -- scrollbar bottom
+    gfx.set(0.29)
+    gfx.rect(x+scale, y+h-14*scale, w-scale-scale, 14*scale, 1)
     gfx.set(0.49)
     local scroll_x=(w-45*scale)/(entry_width_pix-w+15*scale+8*scale)*element_storage["entry_width_start"]+x--#element_storage["entries"]/num_lines*element_storage["start"]
     gfx.rect(scroll_x+15*scale, y+scale+h-15*scale, 15*scale, 15*scale)
