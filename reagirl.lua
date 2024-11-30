@@ -9192,10 +9192,10 @@ function reagirl.ListView_Manage(element_id, selected, hovered, clicked, mouse_c
     element_storage["run_function"](element_storage["Guid"], element_storage["selected"], element_storage["entries"][element_storage["selected"]], selected_entries, selected_entries_names)
   end
   
-  if hovered==true then
+  if hovered==true and reaper.GetExtState("ReaGirl", "osara_hover_mouse")~="false" then
     -- read out the hovered line
     local line=math.floor((gfx.mouse_y-y+3*scale)/gfx.texth)
-    if element_storage["scrollbar_vert"]==true and gfx.mouse_x>=x+w-15*scale and gfx.mouse_x<=x+w then
+    if element_storage["scrollbar_vert"]==true and gfx.mouse_x>=x+w-15*scale and gfx.mouse_x<=x+w and gfx.mouse_y<=y+h-15*scale then
       if element_storage["old_hovered_entry"]~="scroll list up" and gfx.mouse_y>=y and gfx.mouse_y<=y+15*scale then
         reagirl.ScreenReader_SendMessage("scroll list up")
         element_storage["old_hovered_entry"]="scroll list up"
@@ -9207,6 +9207,19 @@ function reagirl.ListView_Manage(element_id, selected, hovered, clicked, mouse_c
       if element_storage["old_hovered_entry"]~="vertical scroll bar of list" and gfx.mouse_y<y+h-30*scale and gfx.mouse_y>y+15*scale then
         reagirl.ScreenReader_SendMessage("vertical scroll bar of list")
         element_storage["old_hovered_entry"]="vertical scroll bar of list"
+      end
+    elseif element_storage["scrollbar_horz"]==true and gfx.mouse_y>=y+h-15*scale and gfx.mouse_y<=y+h then
+      if element_storage["old_hovered_entry"]~="scroll list left" and gfx.mouse_x>=x and gfx.mouse_x<=x+15*scale then
+        reagirl.ScreenReader_SendMessage("scroll list left")
+        element_storage["old_hovered_entry"]="scroll list left"
+      end
+      if element_storage["old_hovered_entry"]~="scroll list right" and gfx.mouse_x>=x+w-15*scale then --and gfx.mouse_x<=x+w then
+        reagirl.ScreenReader_SendMessage("scroll list right")
+        element_storage["old_hovered_entry"]="scroll list right"
+      end
+      if element_storage["old_hovered_entry"]~="horizontal scroll bar of list" and gfx.mouse_x<x+w-15*scale and gfx.mouse_x>x+15*scale then
+        reagirl.ScreenReader_SendMessage("horizontal scroll bar of list")
+        element_storage["old_hovered_entry"]="horizontal scroll bar of list"
       end
     elseif line>=0 and line<=#element_storage["entries"] and mouse_cap&1==0 then
       if element_storage["old_hovered_entry"]~=line then
