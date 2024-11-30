@@ -208,6 +208,31 @@ end
 reagirl.osara_outputMessage=reaper.osara_outputMessage
 reagirl.osara=reaper.osara_outputMessage
 
+    if tonumber(reaper.GetExtState("ReaGirl", "scaling_override"))~=nil then
+      reagirl.Window_CurrentScale=tonumber(reaper.GetExtState("ReaGirl", "scaling_override"))
+    else
+      local retval, dpi = reaper.ThemeLayout_GetLayout("tcp", -3)
+      local dpi=tonumber(dpi)
+      
+      if dpi<384 then reagirl.Window_CurrentScale=1
+      elseif dpi>=384 and dpi<512 then reagirl.Window_CurrentScale=1--.5
+      elseif dpi>=512 and dpi<640 then reagirl.Window_CurrentScale=2
+      elseif dpi>=640 and dpi<768 then reagirl.Window_CurrentScale=2--.5
+      elseif dpi>=768 and dpi<896 then reagirl.Window_CurrentScale=3
+      elseif dpi>=896 and dpi<1024 then reagirl.Window_CurrentScale=3--.5
+      elseif dpi>=1024 and dpi<1152 then reagirl.Window_CurrentScale=4 
+      elseif dpi>=1152 and dpi<1280 then reagirl.Window_CurrentScale=4--.5
+      elseif dpi>=1280 and dpi<1408 then reagirl.Window_CurrentScale=5
+      elseif dpi>=1408 and dpi<1536 then reagirl.Window_CurrentScale=5--.5
+      elseif dpi>=1536 and dpi<1664 then reagirl.Window_CurrentScale=6
+      elseif dpi>=1664 and dpi<1792 then reagirl.Window_CurrentScale=6--.5
+      elseif dpi>=1792 and dpi<1920 then reagirl.Window_CurrentScale=7
+      elseif dpi>=1920 and dpi<2048 then reagirl.Window_CurrentScale=7--.5
+      else reagirl.Window_CurrentScale=8
+      end
+    end
+
+
 if reaper.GetExtState("ReaGirl", "osara_override")=="" or reaper.GetExtState("ReaGirl", "osara_override")=="true" or reagirl.Settings_Override==true then 
   reagirl.osara_outputMessage=reagirl.osara
 else
@@ -3348,8 +3373,8 @@ function reagirl.Window_Open(...)
     parms[3]=parms[3]*reagirl.Window_CurrentScale
     
     local A1,B,C,D=reaper.my_getViewport(0,0,0,0, 0,0,0,0, false)
-    parms[2]=parms[2]*minimum_scale_for_dpi
-    parms[3]=parms[3]*minimum_scale_for_dpi
+    --parms[2]=parms[2]*reagirl.Window_CurrentScale
+    --parms[3]=parms[3]*reagirl.Window_CurrentScale
     if parms[5]==nil then
       parms[5]=(C-parms[2])/2
     end
@@ -3381,6 +3406,8 @@ function reagirl.Window_Open(...)
     reagirl.GFX_WindowHWND=HWND    
   else 
     local A1,B,C,D=reaper.my_getViewport(0,0,0,0, 0,0,0,0, false)
+    parms[2]=parms[2]*reagirl.Window_CurrentScale
+    parms[3]=parms[3]*reagirl.Window_CurrentScale
     parms[1]=""
     local _, _, _, _, _, w2, _, h2 = reagirl.Gui_GetBoundaries()
     
@@ -3476,7 +3503,7 @@ function reagirl.Window_RescaleIfNeeded()
     local unscaled_w = gfx.w/reagirl.Window_CurrentScale
     local unscaled_h = gfx.h/reagirl.Window_CurrentScale
     if gfx.getchar(65536)>1 then
-      local A,B,C,D,E,F,G,H=gfx.dock(-1,0,0,0,0)
+      local _,A,B,C,D,E,F,G,H=gfx.dock(-1,0,0,0,0)
       if A<0 then A=0 end
       if B<0 then B=0 end
       gfx.init("", math.floor(unscaled_w*scale), math.floor(unscaled_h*scale), 0, A, B)
@@ -4255,6 +4282,7 @@ function reagirl.Gui_Open(name, restore_old_window_state, title, description, w,
   reagirl.FocusRectangle_BlinkStartTime=reaper.time_precise()
   reaper.SetExtState("Reagirl_Window_"..name, "open", "true", false)
   reaper.atexit(reagirl.AtExit)
+
   return reagirl.Window_Open(title, w, h, dock, x, y)
 end
 
@@ -8740,10 +8768,7 @@ end
 
 function reagirl.ListView_Manage(element_id, selected, hovered, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
 -- todo: 
--- round edges of list/scroll-buttons/selected-entrý when in line 1 or last line
 -- scrolling via mouse-drag when selection muliple items
--- hovered entries must not be reported, when hovering above scrollbuttons/bars
--- scrollbuttons/scrollbars must be reported to the screenreader
 -- colors-settable
 -- quicksearch toggle on/off
 -- tags need to be addable to the script
@@ -9289,7 +9314,7 @@ function reagirl.ListView_Draw(element_id, selected, hovered, clicked, mouse_cap
   -- draw scrollbars and buttons
   if element_storage["scrollbar_vert"]==true then
     gfx.set(0.29)
-    gfx.rect(x+w-14*scale,y+scale,14*scale,h-scale-scale-15*scale)
+    gfx.rect(x+w-14*scale,y+scale,16*scale,h-scale-scale-15*scale)
     gfx.set(0.49)
     -- scrollbar right
     local scroll_y=(h-60*scale)/((#element_storage["entries"]-num_lines+1))*(element_storage["start"]-1)+y+scale
@@ -9298,7 +9323,7 @@ function reagirl.ListView_Draw(element_id, selected, hovered, clicked, mouse_cap
     --local height_offset=(h-60*scale)-gfx.texth*(#element_storage["entries"]-num_lines)
     --print(height_offset)
     --if height_offset<0 then height_offset=0 end
-    gfx.rect(x+w-14*scale,scroll_y+15*scale,14*scale,15*scale)
+    gfx.rect(x+w-14*scale,scroll_y+15*scale,15*scale,15*scale)
     
     -- scrollbutton top
     gfx.set(0.29)
@@ -9323,7 +9348,7 @@ function reagirl.ListView_Draw(element_id, selected, hovered, clicked, mouse_cap
   if element_storage["scrollbar_horz"]==true then
     -- scrollbar bottom
     gfx.set(0.29)
-    gfx.rect(x+scale, y+h-14*scale, w-scale-scale, 14*scale, 1)
+    gfx.rect(x+scale, y+h-14*scale, w-scale-scale, 15*scale, 1)
     gfx.set(0.49)
     local scroll_x=(w-45*scale)/(entry_width_pix-w+15*scale+8*scale)*element_storage["entry_width_start"]+x--#element_storage["entries"]/num_lines*element_storage["start"]
     gfx.rect(scroll_x+15*scale, y+scale+h-15*scale, 15*scale, 15*scale)
@@ -14434,7 +14459,7 @@ function reagirl.UI_Element_GetHovered()
   <tags>functions, get, hovered, hover, gui</tags>
 </US_DocBloc>
 ]]
-  if reagirl.UI_Elements_HoveredElement==-1 then return end
+  if reagirl.UI_Elements_HoveredElement==-1 or reagirl.UI_Elements_HoveredElement==nil then return end
   return reagirl.Elements[reagirl.UI_Elements_HoveredElement]["Guid"]
 end
 
@@ -16529,5 +16554,4 @@ reagirl.Gui_New()
 --- End of ReaGirl-functions
 
 --print2(reaper.GetUserInputs("", 1, "", ""))
-
 
