@@ -8935,7 +8935,13 @@ function reagirl.ListView_Manage(element_id, selected, hovered, clicked, mouse_c
           element_storage["start"]=element_storage["selected"]
         end
         if mouse_cap==0 then
+          element_storage["selected_old"]=element_storage["selected"]
           reagirl.ListView_SetAllDeselected(element_storage["Guid"])
+        elseif mouse_cap==8 then
+          reagirl.ListView_SetAllDeselected(element_storage["Guid"])
+          for i=element_storage["selected"], element_storage["selected_old"] do
+            element_storage["entries_selection"][i]=true
+          end
         end
         run_func_start=true
       end
@@ -8949,7 +8955,13 @@ function reagirl.ListView_Manage(element_id, selected, hovered, clicked, mouse_c
           element_storage["start"]=element_storage["selected"]-num_lines2+1
         end
         if mouse_cap==0 then
+          element_storage["selected_old"]=element_storage["selected"]
           reagirl.ListView_SetAllDeselected(element_storage["Guid"])
+        elseif mouse_cap==8 then
+          reagirl.ListView_SetAllDeselected(element_storage["Guid"])
+          for i=element_storage["selected_old"], element_storage["selected"] do
+            element_storage["entries_selection"][i]=true
+          end
         end
         run_func_start=true
       end
