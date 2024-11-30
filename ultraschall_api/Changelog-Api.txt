@@ -429,6 +429,7 @@ Has now 1826 functions, with 19 new ones
   - ReaGirl: Slider\_Unlink - remove link of a slider with an ini-file-entry/configvar/extstate
 
 #### Changes from 5 to 5.1  
+  - ReaGirl: General - scrollbuttons/bars are now reported to screen reader when hovering above them
   - ReaGirl: Gui\_Manage - has new parameter that allows running the gui without a dedicated defer-loop
   - ReaGirl: screenreader-messages - could be reported twice under certain circumstances; could be slow in reporting -> fixed
   

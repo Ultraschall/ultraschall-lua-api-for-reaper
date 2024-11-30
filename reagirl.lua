@@ -5054,7 +5054,7 @@ function reagirl.Gui_Manage(keep_running)
   end
   
   if found_element==nil then
-    for i=1, #reagirl.Elements-Scroll_Override_ScrollButtons, 1 do
+    for i=1, #reagirl.Elements, 1 do
       if reagirl.Elements[i]["hidden"]~=true then
         local x2, y2, w2, h2
         if reagirl.Elements[i]["x"]<0 then x2=gfx.w+(reagirl.Elements[i]["x"]*scale) else x2=reagirl.Elements[i]["x"]*scale end
@@ -8744,12 +8744,9 @@ function reagirl.ListView_Manage(element_id, selected, hovered, clicked, mouse_c
 -- scrolling via mouse-drag when selection muliple items
 -- hovered entries must not be reported, when hovering above scrollbuttons/bars
 -- scrollbuttons/scrollbars must be reported to the screenreader
--- when there's 8 entries, vertical scrollbar doesn't scroll to the bottom
--- scrollbar-buttons don't work and are replaced with clicking next to scrollbar-area
 -- colors-settable
 -- quicksearch toggle on/off
 -- tags need to be addable to the script
--- Shift+pgUp/PgDn isn't implemented yet
 
   local run_func_start=false
   local refresh=false
@@ -9198,7 +9195,20 @@ function reagirl.ListView_Manage(element_id, selected, hovered, clicked, mouse_c
   if hovered==true then
     -- read out the hovered line
     local line=math.floor((gfx.mouse_y-y+3*scale)/gfx.texth)
-    if line>=0 and line<=#element_storage["entries"] and mouse_cap&1==0 then
+    if element_storage["scrollbar_vert"]==true and gfx.mouse_x>=x+w-15*scale and gfx.mouse_x<=x+w then
+      if element_storage["old_hovered_entry"]~="scroll list up" and gfx.mouse_y>=y and gfx.mouse_y<=y+15*scale then
+        reagirl.ScreenReader_SendMessage("scroll list up")
+        element_storage["old_hovered_entry"]="scroll list up"
+      end
+      if element_storage["old_hovered_entry"]~="scroll list down" and gfx.mouse_y>=y+h-30*scale and gfx.mouse_y<=y+h-15*scale then
+        reagirl.ScreenReader_SendMessage("scroll list down")
+        element_storage["old_hovered_entry"]="scroll list down"
+      end
+      if element_storage["old_hovered_entry"]~="vertical scroll bar of list" and gfx.mouse_y<y+h-30*scale and gfx.mouse_y>y+15*scale then
+        reagirl.ScreenReader_SendMessage("vertical scroll bar of list")
+        element_storage["old_hovered_entry"]="vertical scroll bar of list"
+      end
+    elseif line>=0 and line<=#element_storage["entries"] and mouse_cap&1==0 then
       if element_storage["old_hovered_entry"]~=line then
         if element_storage["entries"][line+element_storage["start"]]~=nil then
           reagirl.ScreenReader_SendMessage(tostring(element_storage["entries"][line+element_storage["start"]]))

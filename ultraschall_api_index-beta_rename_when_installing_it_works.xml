@@ -737,6 +737,8 @@ New features in 5.1
 
 Changes from 5 to 5.1
 
+-   ReaGirl: General - scrollbuttons/bars are now reported to screen
+    reader when hovering above them
 -   ReaGirl: Gui_Manage - has new parameter that allows running the gui
     without a dedicated defer-loop
 -   ReaGirl: screenreader-messages - could be reported twice under
