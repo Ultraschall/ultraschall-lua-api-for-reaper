@@ -739,6 +739,8 @@ Changes from 5 to 5.1
 
 -   ReaGirl: General - scrollbuttons/bars are now reported to screen
     reader when hovering above them
+-   ReaGirl: General - (re)scale other than 1 was positioning the window
+    wrong -> fixed
 -   ReaGirl: Gui_Manage - has new parameter that allows running the gui
     without a dedicated defer-loop
 -   ReaGirl: screenreader-messages - could be reported twice under

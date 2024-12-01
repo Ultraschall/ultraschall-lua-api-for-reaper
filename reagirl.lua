@@ -9000,7 +9000,8 @@ function reagirl.ListView_Manage(element_id, selected, hovered, clicked, mouse_c
     if ((mouse_cap&1==1 and clicked=="FirstCLK" and gfx.mouse_x>=x and gfx.mouse_x<=x+w-scroll_y_offset and gfx.mouse_y>=y-scroll_x_offset and gfx.mouse_y<=y+h-scroll_x_offset) or Key==32) then
       if mouse_cap&8==0 then element_storage["selected_old"]=nil end
       if mouse_cap&8==8 and element_storage["selected_old"]==nil then element_storage["selected_old"]=element_storage["selected"] end
-      local line=math.floor((gfx.mouse_y-y+6*scale)/gfx.texth)
+      local line=math.floor((gfx.mouse_y-y)/gfx.texth*1.07)
+      ABBA=line
       if line>=#element_storage["entries"]-1 then line=#element_storage["entries"]-1 end
       
       element_storage["selected"]=element_storage["start"]+line
@@ -9271,9 +9272,8 @@ function reagirl.ListView_Draw(element_id, selected, hovered, clicked, mouse_cap
   gfx.dest=reagirl.ListViewSlot
   gfx.y=0
   gfx.set(0.134)
-  --gfx.rect(0,0,w,h,1)
   reagirl.RoundRect(0, 0, w, h, scale, 1, 1)
-  --reagirl.RoundRect(scale,scale,w-scale-scale,h-scale-scale,scale-1,0,1)
+  
   -- draw text into viewport
   local selected_width_offset=scale
   if element_storage["scrollbar_vert"]==true then
@@ -9296,7 +9296,7 @@ function reagirl.ListView_Draw(element_id, selected, hovered, clicked, mouse_cap
     gfx.y=gfx.y+scale
     if i==element_storage["selected"] then
       gfx.set(0.6)
-      gfx.rect(0, gfx.y, w-selected_width_offset, gfx.texth-scale-scale, 0)
+      gfx.rect(0, gfx.y, w-selected_width_offset-scale, gfx.texth-scale, 0)
     end
     gfx.y=gfx.y+gfx.texth-scale
   end
@@ -9314,36 +9314,32 @@ function reagirl.ListView_Draw(element_id, selected, hovered, clicked, mouse_cap
   -- draw scrollbars and buttons
   if element_storage["scrollbar_vert"]==true then
     gfx.set(0.29)
-    gfx.rect(x+w-14*scale,y+scale,16*scale,h-scale-scale-15*scale)
+    gfx.rect(x+w-15*scale,y+scale,15*scale,h-scale-scale-15*scale)
     gfx.set(0.49)
     -- scrollbar right
     local scroll_y=(h-60*scale)/((#element_storage["entries"]-num_lines+1))*(element_storage["start"]-1)+y+scale
     if tostring(scroll_y)=="-1.#IND" then scroll_y=10 end
-    
-    --local height_offset=(h-60*scale)-gfx.texth*(#element_storage["entries"]-num_lines)
-    --print(height_offset)
-    --if height_offset<0 then height_offset=0 end
-    gfx.rect(x+w-14*scale,scroll_y+15*scale,15*scale,15*scale)
+    gfx.rect(x+w-15*scale,scroll_y+15*scale,15*scale,15*scale)
     
     -- scrollbutton top
     gfx.set(0.29)
     --gfx.rect(x+w-15*scale, y, 15*scale, 15*scale, 1)
-    reagirl.RoundRect(x+w-14*scale, y, 14*scale, 15*scale, scale, 1, 1, true, true, false, true)
+    gfx.rect(x+w-15*scale, y+scale, 15*scale, 14*scale, 1)
     gfx.set(0.49)
     --gfx.rect(x+w-15*scale, y, 15*scale, 15*scale, 0)
-    reagirl.RoundRect(x+w-14*scale, y, 14*scale, 15*scale, scale, 1, 0, true, true, false, true)
-    gfx.triangle(x+w-7*scale, y+5*scale,
-                 x+w-2*scale, y+10*scale,
-                 x+w-12*scale, y+10*scale)
+    gfx.rect(x+w-15*scale, y, 15*scale, 15*scale, 0)
+    gfx.triangle(x+w-8*scale, y+4*scale,
+                 x+w-3*scale, y+9*scale,
+                 x+w-13*scale, y+9*scale)
                  
     -- scrollbutton bottom
     gfx.set(0.29)
-    gfx.rect(x+w-14*scale, y+scale+h-30*scale, 15*scale, 15*scale, 1)
+    gfx.rect(x+w-15*scale, y+scale+h-30*scale, 15*scale, 15*scale, 1)
     gfx.set(0.49)
-    gfx.rect(x+w-14*scale, y+scale+h-30*scale, 15*scale, 15*scale, 0)
-    gfx.triangle(x+w-7*scale, y+scale+h-20*scale,
-                 x+w-2*scale, y+scale+h-25*scale,
-                 x+w-12*scale, y+scale+h-25*scale)
+    gfx.rect(x+w-15*scale, y+scale+h-30*scale, 15*scale, 15*scale, 0)
+    gfx.triangle(x+w-8*scale+scale-1, y+scale+h-20*scale,
+                 x+w-3*scale+scale-1, y+scale+h-25*scale,
+                 x+w-13*scale+scale-1, y+scale+h-25*scale)
   end
   if element_storage["scrollbar_horz"]==true then
     -- scrollbar bottom
