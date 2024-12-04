@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API and ReaGirl">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API and ReaGirl package" type="extension">
-      <version name="56021.00" author="Meo-Ada Mespotine">
+      <version name="56022.00" author="Meo-Ada Mespotine">
 	<source file="reagirl.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5.1//reagirl.lua</source>
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5.1//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5.1//ultraschall_api_readme.txt</source>
@@ -753,6 +753,11 @@ Changes from 5 to 5.1
     without having to add a dedicated defer-loop
 -   ReaGirl: screenreader-messages - could be reported twice under
     certain circumstances; could be slow in reporting -> fixed
+-   ReaGirl: Ext_Window_Focus - allows now focusing a dedicated
+    ReaGirl-gui-instance, if multiple are opened with the same name
+-   ReaGirl: Ext_Window_SetState - allows now setting window dimensions
+    of a dedicated ReaGirl-gui-instance, if multiple are opened with the
+    same name
 ]]>
 </changelog>
       </version>

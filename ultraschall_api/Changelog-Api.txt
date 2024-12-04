@@ -438,7 +438,8 @@ Has now 1831 functions, with 24 new ones
   - ReaGirl: General - (re)scale other than 1 was positioning the window wrong -> fixed
   - ReaGirl: Gui\_Manage - has new parameter that allows running the gui without having to add a dedicated defer-loop
   - ReaGirl: screenreader-messages - could be reported twice under certain circumstances; could be slow in reporting -> fixed
-  
+  - ReaGirl: Ext\_Window\_Focus - allows now focusing a dedicated ReaGirl-gui-instance, if multiple are opened with the same name
+  - ReaGirl: Ext\_Window\_SetState - allows now setting window dimensions of a dedicated ReaGirl-gui-instance, if multiple are opened with the same name
 ---
 
 ### 5 - "Eels - Novocaine for the Soul" - 9th of August 2024

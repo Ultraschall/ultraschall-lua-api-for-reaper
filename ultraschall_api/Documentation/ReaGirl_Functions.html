@@ -945,9 +945,9 @@ It also works for opened gui-windows.<br>
 <a class="anch" id="Ext_Window_Focus"></a>
 <a href="#Ext_Window_Focus"> ^</a> 
 <img width="3%" src="gfx/reaper7.03.png" alt="requires Reaper version 7.03">
-<img width="3%" src="gfx/reagirl1.0.png" alt="requires ReaGirl version 1.0"><u><b>Ext_Window_Focus</b></u><br>			<p>
+<img width="3%" src="gfx/reagirl1.1.png" alt="requires ReaGirl version 1.1"><u><b>Ext_Window_Focus</b></u><br>			<p>
 <div class="cc">
-<div class="l">Lua: <code> <i>boolean</i> retval = <em>reagirl.Ext_Window_Focus</em>(<i>string</i> gui_name)</code></div>
+<div class="l">Lua: <code> <i>boolean</i> retval = <em>reagirl.Ext_Window_Focus</em>(<i>string</i> gui_name, <i>optional</i> <i>string</i> gui_identifier)</code></div>
 </div><p>
 <div class="ch">
 Focuses an opened ReaGirl-gui-window.<br>
@@ -966,6 +966,10 @@ Returns false, if no window with the window name is currently opened.<br>
 <table class="ch">
 <tr><td class="pr"><i>string</i> gui_name</td></tr>
 <tr><td class="ch2">the name of the gui-window, which you want to focus</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>optional</i> <i>string</i> gui_identifier</td></tr>
+<tr><td class="ch2">a unique identifier(guid) of an opened ReaGirl-gui-instance</td></tr>
 </table>
 <br>
 </div>
@@ -1089,7 +1093,7 @@ Resets a ReaGirl-gui-window to it's default window dimensions and dockstate.<br>
 <a class="anch" id="Ext_Window_SetState"></a>
 <a href="#Ext_Window_SetState"> ^</a> 
 <img width="3%" src="gfx/reaper7.03.png" alt="requires Reaper version 7.03">
-<img width="3%" src="gfx/reagirl1.0.png" alt="requires ReaGirl version 1.0"><u><b>Ext_Window_SetState</b></u><br>			<p>
+<img width="3%" src="gfx/reagirl1.1.png" alt="requires ReaGirl version 1.1"><u><b>Ext_Window_SetState</b></u><br>			<p>
 <div class="cc">
 <div class="l">Lua: <code> <em>reagirl.Ext_Window_SetState</em>(<i>string</i> gui_name, <i>optional</i> <i>integer</i> width, <i>optional</i> <i>integer</i> height, <i>optional</i> <i>integer</i> dockstate, <i>optional</i> <i>integer</i> x_position, <i>optional</i> <i>integer</i> y_position)</code></div>
 </div><p>
@@ -1121,6 +1125,10 @@ To keep a parameter to its current state, set it to nil.<br>
 <table class="ch">
 <tr><td class="pr"><i>optional</i> <i>integer</i> y_position</td></tr>
 <tr><td class="ch2">the y-position of the window in pixels; nil, keep current</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>optional</i> <i>string</i> gui_instance</td></tr>
+<tr><td class="ch2">the unique identifier(guid) of an opened ReaGirl-script-instance</td></tr>
 </table>
 <br>
 </div>

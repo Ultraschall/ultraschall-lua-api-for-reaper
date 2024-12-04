@@ -74,6 +74,7 @@ TODO:
             Needs this Osara-Issue to be done, if this is possible in the first place:
               https://github.com/jcsteh/osara/issues/961
   - DropZones: the target should be notified, which ui-element had been dragged to it
+  - reagirl.Ext_UI_Element_GetHovered - has issues, unfortunately(see comment there for more details)
   
 !!For 10k-UI-Elements(already been tested)!!  
   - Gui_Manage
@@ -4393,6 +4394,59 @@ function reagirl.AtExit()
   reagirl.UnRegisterWindow()
 end
 
+function reagirl.Ext_UI_Element_GetHovered()
+-- doesn't work, as it only recognizes hovered ui-elements when the mouse is above the window
+-- the problem is: how to find out, that mouse isn't hovering above ANY ReaGirl-window and set the extstate to "".
+-- You'll notice the problem, when you hover above a ui-element and then quickly move the mouse away outside any ReaGirl-window, which will keep the
+-- last hovered ui-element "locked".
+-- So, how to find out, whether there's no ui-element currently hovered and no ReaGirl-window.
+-- unless you solve this, you need to keep this disabled...
+-- Classic race condition....
+--[[
+<US_ DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Ext_UI_Element_GetHovered</slug>
+  <requires>
+    ReaGirl=1.x
+    Reaper=7.03
+    Lua=5.4
+  </requires>
+  <functioncall>string window_name, string window_guid, string ui_element_type, string ui_element_guid, string ui_element_name = reagirl.Ext_UI_Element_GetHovered()</functioncall>
+  <description>
+    Returns the ReaGirl-UI-element the mouse is currently hovering above, including the window name and its unique identifier.
+    This returns it for any opened ReaGirl-gui-instance, not just the ones from the current gui.
+    
+    If you just want to have the hovered ui-element of the current script, use reagirl.UI_Element_GetHovered().
+    
+    Returns "" if the mouse is not hovered above any ui-element
+  </description>
+  <retvals>
+    string window_name - the name of the window, as named by the Gui_Open-function in the ReaGirl-script
+    string window_guid - the unique identifier of the hovered ReaGirl-gui-instance
+    string ui_element_type - the type of the ui-element
+    string ui_element_guid - the identifier of the ui-element
+    string ui_element_name - the name of the ui-element(usually the caption)
+    string ui_element_tabname - if the hovered ui-element is a tab, this will have the name of the tab currently hovered
+  </retvals>
+  <chapter_context>
+    Ext
+  </chapter_context>
+  <target_document>ReaGirl_Docs</target_document>
+  <source_document>reagirl_GuiEngine.lua</source_document>
+  <tags>ext, get, hovered, ui element</tags>
+</US_DocBloc>
+]]
+  local hovered=reaper.GetExtState("ReaGirl", "Hovered_Element")
+  local window, wguid, ui_type, ui_guid, ui_name = hovered:match("window:(.-)\nwguid:(.-)\ntype:(.-)\nguid:(.-)\nname:(.-)\n")
+  local tabname=hovered:match(".*tabname:(.-)\n")
+  if tabname==nil then tabname="" end
+  if ui_type=="ComboBox" then ui_type="DropDownList" end
+  if window==nil then window="" end
+  if wguid==nil then wguid="" end
+  if ui_type==nil then ui_type="" end
+  if ui_guid==nil then ui_guid="" end
+  if ui_name==nil then ui_name="" end
+  return window, wguid, ui_type, ui_guid, ui_name, tabname
+end
 
 function reagirl.Ext_Window_GetInstances()
 --[[
@@ -4479,12 +4533,12 @@ function reagirl.Ext_Window_GetState(gui_name)
          tonumber(math.floor(reaper.GetExtState("Reagirl_Window_"..gui_name, "y")))
 end
 
-function reagirl.Ext_Window_SetState(gui_name, width, height, dockstate, x_position, y_position)
+function reagirl.Ext_Window_SetState(gui_name, width, height, dockstate, x_position, y_position, gui_instance)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>Ext_Window_SetState</slug>
   <requires>
-    ReaGirl=1.0
+    ReaGirl=1.1
     Reaper=7.03
     Lua=5.4
   </requires>
@@ -4501,6 +4555,7 @@ function reagirl.Ext_Window_SetState(gui_name, width, height, dockstate, x_posit
     optional integer dockstate - 0, window isn't docked; 1, window is docked; nil, keep current
     optional integer x_position - the x-position of the window in pixels; nil, keep current
     optional integer y_position - the y-position of the window in pixels; nil, keep current
+    optional string gui_instance - the unique identifier(guid) of an opened ReaGirl-script-instance
   </parameters>
   <chapter_context>
     Ext
@@ -4516,13 +4571,15 @@ function reagirl.Ext_Window_SetState(gui_name, width, height, dockstate, x_posit
   if dockstate~=nil and math.type(dockstate)~="integer" then error("Ext_Window_SetState: param #4 - must be nil or an integer", 2) end
   if x_position~=nil and math.type(x_position)~="integer" then error("Ext_Window_SetState: param #5 - must be nil or an integer", 2) end
   if y_position~=nil and math.type(y_position)~="integer" then error("Ext_Window_SetState: param #6 - must be nil or an integer", 2) end
+  if gui_instance~=nil and type(gui_instance)~="string" then error("Ext_Window_SetState: param #7 - must be a string", 2) end
+  if gui_instance==nil then gui_instance="" else gui_instance="-"..gui_instance end
   
-  reaper.SetExtState("Reagirl_Window_"..gui_name, "newstate", "newstate", false)
-  reaper.SetExtState("Reagirl_Window_"..gui_name, "newstate_w", width, false)
-  reaper.SetExtState("Reagirl_Window_"..gui_name, "newstate_h", height, false)
-  reaper.SetExtState("Reagirl_Window_"..gui_name, "newstate_dock", dockstate, false)
-  reaper.SetExtState("Reagirl_Window_"..gui_name, "newstate_x", x_position, false)
-  reaper.SetExtState("Reagirl_Window_"..gui_name, "newstate_y", y_position, false)
+  reaper.SetExtState("Reagirl_Window_"..gui_name..gui_instance, "newstate", "newstate", false)
+  reaper.SetExtState("Reagirl_Window_"..gui_name..gui_instance, "newstate_w", width, false)
+  reaper.SetExtState("Reagirl_Window_"..gui_name..gui_instance, "newstate_h", height, false)
+  reaper.SetExtState("Reagirl_Window_"..gui_name..gui_instance, "newstate_dock", dockstate, false)
+  reaper.SetExtState("Reagirl_Window_"..gui_name..gui_instance, "newstate_x", x_position, false)
+  reaper.SetExtState("Reagirl_Window_"..gui_name..gui_instance, "newstate_y", y_position, false)
   
 end
 
@@ -4557,16 +4614,16 @@ function reagirl.Ext_Window_ResetToDefault(gui_name)
   reaper.SetExtState("Reagirl_Window_"..gui_name, "newstate", "reset", false)
 end
 
-function reagirl.Ext_Window_Focus(gui_name)
+function reagirl.Ext_Window_Focus(gui_name, gui_identifier)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>Ext_Window_Focus</slug>
   <requires>
-    ReaGirl=1.0
+    ReaGirl=1.1
     Reaper=7.03
     Lua=5.4
   </requires>
-  <functioncall>boolean retval = reagirl.Ext_Window_Focus(string gui_name)</functioncall>
+  <functioncall>boolean retval = reagirl.Ext_Window_Focus(string gui_name, optional string gui_identifier)</functioncall>
   <description>
     Focuses an opened ReaGirl-gui-window.
     
@@ -4576,6 +4633,7 @@ function reagirl.Ext_Window_Focus(gui_name)
   </description>
   <parameters>
     string gui_name - the name of the gui-window, which you want to focus
+    optional string gui_identifier - a unique identifier(guid) of an opened ReaGirl-gui-instance
   </parameters>
   <retvals>
     boolean retval - the gui-window is opened; false, the gui-window isn't opened
@@ -4589,8 +4647,10 @@ function reagirl.Ext_Window_Focus(gui_name)
 </US_DocBloc>
 ]]
   if type(gui_name)~="string" then error("Ext_Window_Focus: param #1 - must be a string", 2) end
+  if gui_identifier~=nil and type(gui_identifier)~="string" then error("Ext_Window_Focus: param #2 - must be a string", 2) end
+  if gui_identifier==nil then gui_identifier="" else gui_identifier="-"..gui_identifier end
   if reaper.GetExtState("Reagirl_Window_"..gui_name, "open")=="true" then
-    reaper.SetExtState("ReaGirl", "ReFocusWindow", gui_name, false)
+    reaper.SetExtState("ReaGirl", "ReFocusWindow", gui_name..gui_identifier, false)
     return true
   end
   return false
@@ -4664,7 +4724,7 @@ function reagirl.Ext_Tab_SetSelected(gui_name, tabnumber)
   reaper.SetExtState("Reagirl_Window_"..gui_name, "open_tabnumber", tabnumber, false)
 end
 
-function reagirl.Ext_UpdateWindow()
+function reagirl.Ext_UpdateWindow(instance_toggle)
   local w, h, dock, x, y  
   
   local focus_state=gfx.getchar(65536)
@@ -4672,13 +4732,15 @@ function reagirl.Ext_UpdateWindow()
   local repositioned=""
   local resized=""
   local docked=""
+  local instance=""
+  if instance_toggle==true then instance="-"..reagirl.Gui_ScriptInstance end
   
-  if reaper.GetExtState("Reagirl_Window_"..reagirl.Window_name, "newstate")=="newstate" then
-    w=tonumber(reaper.GetExtState("Reagirl_Window_"..reagirl.Window_name, "newstate_w"))
-    h=tonumber(reaper.GetExtState("Reagirl_Window_"..reagirl.Window_name, "newstate_h"))
-    dock=tonumber(reaper.GetExtState("Reagirl_Window_"..reagirl.Window_name, "newstate_dock"))
-    x=tonumber(reaper.GetExtState("Reagirl_Window_"..reagirl.Window_name, "newstate_x"))
-    y=tonumber(reaper.GetExtState("Reagirl_Window_"..reagirl.Window_name, "newstate_y"))
+  if reaper.GetExtState("Reagirl_Window_"..reagirl.Window_name..instance, "newstate")=="newstate" then
+    w=tonumber(reaper.GetExtState("Reagirl_Window_"..reagirl.Window_name..instance, "newstate_w"))
+    h=tonumber(reaper.GetExtState("Reagirl_Window_"..reagirl.Window_name..instance, "newstate_h"))
+    dock=tonumber(reaper.GetExtState("Reagirl_Window_"..reagirl.Window_name..instance, "newstate_dock"))
+    x=tonumber(reaper.GetExtState("Reagirl_Window_"..reagirl.Window_name..instance, "newstate_x"))
+    y=tonumber(reaper.GetExtState("Reagirl_Window_"..reagirl.Window_name..instance, "newstate_y"))
     
     local cur_dock, cur_x, cur_y, cur_w, cur_h = gfx.dock(-1, 0, 0, 0, 0)
     
@@ -4719,7 +4781,7 @@ function reagirl.Ext_UpdateWindow()
   --gfx.init("", w, h, dock, x, y)
   reagirl.Window_Open("", w, h, dock, x, y)
   gfx.dock(dock)
-  reaper.SetExtState("Reagirl_Window_"..reagirl.Window_name, "newstate", "", true)
+  reaper.SetExtState("Reagirl_Window_"..reagirl.Window_name..instance, "newstate", "", true)
   reagirl.Gui_ForceRefresh()
 end
 
@@ -4796,6 +4858,10 @@ function reagirl.Gui_Manage(keep_running)
     reagirl.Ext_UpdateWindow()
   end
  
+  if reaper.GetExtState("ReaGirl_Window_"..reagirl.Window_name.."-"..reagirl.Gui_ScriptInstance, "newstate")~="" then
+    reagirl.Ext_UpdateWindow(true)
+  end
+ 
   -- store position, size and dockstate of window for next opening
   local dock,x,y,w,h=gfx.dock(-1,0,0,0,0)
  
@@ -4823,6 +4889,12 @@ function reagirl.Gui_Manage(keep_running)
     reagirl.Window_SetFocus()
     reaper.SetExtState("ReaGirl", "ReFocusWindow","",false)
   end
+  
+  if reaper.GetExtState("ReaGirl", "ReFocusWindow")==reagirl.Window_name.."-"..reagirl.Gui_ScriptInstance then
+    reagirl.Window_SetFocus()
+    reaper.SetExtState("ReaGirl", "ReFocusWindow","",false)
+  end
+  
 --]]  
   -- Osara Override
   if reaper.GetExtState("ReaGirl", "osara_override")=="" or reaper.GetExtState("ReaGirl", "osara_override")=="true" or reagirl.Settings_Override==true then 
@@ -5095,7 +5167,7 @@ function reagirl.Gui_Manage(keep_running)
       if reagirl.Elements[i]["y"]<0 then y2=gfx.h+(reagirl.Elements[i]["y"]*scale) else y2=reagirl.Elements[i]["y"]*scale end
       if reagirl.Elements[i]["w"]<0 then w2=gfx.w+(-x2+reagirl.Elements[i]["w"]*scale) else w2=reagirl.Elements[i]["w"]*scale end
       if reagirl.Elements[i]["h"]<0 then h2=gfx.h+(-y2+reagirl.Elements[i]["h"]*scale) else h2=reagirl.Elements[i]["h"]*scale end
-      if reagirl.Elements[i]["GUI_Element_Type"]=="DropDownMenu" then if w2<20 then w2=20 end end
+      if reagirl.Elements[i]["GUI_Element_Type"]=="ComboBox" then if w2<20 then w2=20 end end
   
       -- is any gui-element outside of the window
       local MoveItAllUp=reagirl.MoveItAllUp  
@@ -5187,7 +5259,7 @@ function reagirl.Gui_Manage(keep_running)
         if reagirl.Elements[i]["y"]<0 then y2=gfx.h+(reagirl.Elements[i]["y"]*scale) else y2=reagirl.Elements[i]["y"]*scale end
         if reagirl.Elements[i]["w"]<0 then w2=gfx.w+(-x2+reagirl.Elements[i]["w"]*scale) else w2=reagirl.Elements[i]["w"]*scale end
         if reagirl.Elements[i]["h"]<0 then h2=gfx.h+(-y2+reagirl.Elements[i]["h"]*scale) else h2=reagirl.Elements[i]["h"]*scale end
-        if reagirl.Elements[i]["GUI_Element_Type"]=="DropDownMenu" then if w2<20 then w2=20 end end
+        if reagirl.Elements[i]["GUI_Element_Type"]=="ComboBox" then if w2<20 then w2=20 end end
   
         -- is any gui-element outside of the window
         local MoveItAllUp=reagirl.MoveItAllUp  
@@ -5271,6 +5343,19 @@ function reagirl.Gui_Manage(keep_running)
       end
     end
   end
+  -- notice if any ui-element is hovered for external scripts
+  if reagirl.Window_State&8==8 then
+    reaper.SetExtState("ReaGirl", "AnyWindowHovered", "true", false)
+    if reagirl.UI_Elements_HoveredElement~=-1 and gfx.mouse_x>1 and gfx.mouse_x<gfx.w and gfx.mouse_y>1 and gfx.mouse_y<gfx.h then
+      local ui_type=reagirl.Elements[reagirl.UI_Elements_HoveredElement]["GUI_Element_Type"]
+      local tabname=""
+      if ui_type=="Tabs" then tabname="\ntabname:"..reagirl.Elements[reagirl.UI_Elements_HoveredElement]["TabHovered"] end
+      reaper.SetExtState("ReaGirl", "Hovered_Element", "window:"..reagirl.Window_name.."\nwguid:"..reagirl.Gui_ScriptInstance.."\ntype:"..ui_type.."\nguid:"..reagirl.Elements[reagirl.UI_Elements_HoveredElement]["Guid"].."\nname:"..reagirl.Elements[reagirl.UI_Elements_HoveredElement]["Name"]..tabname.."\n", false)
+    else
+      reaper.SetExtState("ReaGirl", "Hovered_Element", "", false)
+    end
+  end
+  
   
   -- if osara is installed, move mouse to hover above ui-element
   if reagirl.osara_outputMessage~=nil and reagirl.oldselection~=reagirl.Elements.FocusedElement then
@@ -5698,7 +5783,7 @@ function reagirl.Gui_Draw(Key, Key_utf, clickstate, specific_clickstate, mouse_c
           end
         end -- draw_only_necessary-elements
         if reagirl.Elements["FocusedElement"]~=-1 and reagirl.Elements["FocusedElement"]==i then
-          --if reagirl.Elements[i]["GUI_Element_Type"]=="DropDownMenu" then --  if w2<20 then w2=20 end end
+          --if reagirl.Elements[i]["GUI_Element_Type"]=="ComboBox" then --  if w2<20 then w2=20 end end
           local r,g,b,a=gfx.r,gfx.g,gfx.b,gfx.a
           local dest=gfx.dest
           gfx.dest=-1
@@ -8487,7 +8572,7 @@ function reagirl.ColorRectangle_GetRadius(element_id)
   if reagirl.IsValidGuid(element_id, true)==nil then error("ColorRectangle_GetRadius: param #1 - must be a valid guid", 2) end
   element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
   if element_id==-1 then error("ColorRectangle_GetRadius: param #1 - no such ui-element", 2) end
-  if reagirl.Elements[element_id]["GUI_Element_Type"]~="Color" then
+  if reagirl.Elements[element_id]["GUI_Element_Type"]~="Color Rectangle" then
     error("ColorRectangle_GetRadius: param #1 - ui-element is not a color-rectangle", 2)
   else
     return reagirl.Elements[element_id]["radius"]
@@ -8525,7 +8610,7 @@ function reagirl.ColorRectangle_SetRadius(element_id, radius)
   element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
   if element_id==-1 then error("ColorRectangle_SetRadius: param #1 - no such ui-element", 2) end
   
-  if reagirl.Elements[element_id]["GUI_Element_Type"]~="Color" then
+  if reagirl.Elements[element_id]["GUI_Element_Type"]~="Color Rectangle" then
     return false
   else
     reagirl.Elements[element_id]["radius"]=radius
@@ -8565,7 +8650,7 @@ function reagirl.ColorRectangle_GetColor(element_id)
   if reagirl.IsValidGuid(element_id, true)==nil then error("ColorRectangle_GetColor: param #1 - must be a valid guid", 2) end
   element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
   if element_id==-1 then error("ColorRectangle_GetColor: param #1 - no such ui-element", 2) end
-  if reagirl.Elements[element_id]["GUI_Element_Type"]~="Color" then
+  if reagirl.Elements[element_id]["GUI_Element_Type"]~="Color Rectangle" then
     error("ColorRectangle_GetColor: param #1 - ui-element is not a color-rectangle", 2)
   else
     return reagirl.Elements[element_id]["r_full"], reagirl.Elements[element_id]["g_full"], reagirl.Elements[element_id]["b_full"]
@@ -8612,7 +8697,7 @@ function reagirl.ColorRectangle_SetColor(element_id, r, g, b)
   element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
   if element_id==-1 then error("ColorRectangle_SetColor: param #1 - no such ui-element", 2) end
   
-  if reagirl.Elements[element_id]["GUI_Element_Type"]~="Color" then
+  if reagirl.Elements[element_id]["GUI_Element_Type"]~="Color Rectangle" then
     return false
   else
     reagirl.Elements[element_id]["r"]=r/255
@@ -16180,6 +16265,7 @@ function reagirl.Tabs_Manage(element_id, selected, hovered, clicked, mouse_cap, 
     acc_message=element_storage["TabNames"][element_storage["TabSelected"]].." tab selected."
   end
   -- hover management for the tabs
+  element_storage["TabHovered"]=""
   if hovered==true and reaper.GetExtState("ReaGirl", "osara_hover_mouse")~="false" then
     if element_storage["Tabs_Pos"]~=nil then
       for i=1, #element_storage["Tabs_Pos"] do
@@ -16189,6 +16275,7 @@ function reagirl.Tabs_Manage(element_id, selected, hovered, clicked, mouse_cap, 
             local selected1=""
             if element_storage["TabSelected"]==i then selected1=" selected" end
             acc_message=element_storage["TabNames"][i].." tab"..selected1.."."
+            element_storage["TabHovered"]=element_storage["TabNames"][i]
             if selected=="not selected" then
               reagirl.Elements["GlobalAccHoverMessage"]=element_storage["TabNames"][i].." tab "..selected1
             end
