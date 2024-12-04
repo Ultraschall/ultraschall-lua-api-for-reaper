@@ -31,8 +31,8 @@
       
           <div class="ch"><p></p>
 <h2>Ultraschall Framework - Changelog</h2>
-<h3>5.1 - "Beach Boys - Wind Chimes" - 1st of October 2024</h3>
-<p>Has now 1826 functions, with 19 new ones</p>
+<h3>5.1 - "Beach Boys - Wind Chimes" - 20th of January 2025</h3>
+<p>Has now 1827 functions, with 20 new ones</p>
 <p><strong>new in this release:</strong></p>
 <ul>
 <li><p><strong>Link UI-Elements to Extstates/Config Variables/Ini-File-Values and Toggle-states</strong><br />
@@ -63,10 +63,14 @@ There's a new function that extracts the cover image of a media file for further
 <li>ReaGirl: Slider_LinkToIniValue - link a slider to an ini-file-entry</li>
 <li>ReaGirl: Slider_LinkToIntConfigVar - link a slider to an integer-config-variable</li>
 <li>ReaGirl: Slider_Unlink - remove link of a slider with an ini-file-entry/configvar/extstate</li>
+<li>ReaGirl: Window_ResizedFunc - adds a run-function that is always executed, when the window is resized</li>
 </ul>
 <h4>Changes from 5 to 5.1</h4>
 <ul>
-<li>reagirl.Gui_Manage - has new parameter that allows running the gui without a dedicated defer-loop</li>
+<li>ReaGirl: General - scrollbuttons/bars are now reported to screen reader when hovering above them</li>
+<li>ReaGirl: General - (re)scale other than 1 was positioning the window wrong -&gt; fixed</li>
+<li>ReaGirl: Gui_Manage - has new parameter that allows running the gui without having to add a dedicated defer-loop</li>
+<li>ReaGirl: screenreader-messages - could be reported twice under certain circumstances; could be slow in reporting -&gt; fixed</li>
 </ul>
 <hr />
 <h3>5 - "Eels - Novocaine for the Soul" - 9th of August 2024</h3>

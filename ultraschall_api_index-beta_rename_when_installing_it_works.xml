@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API and ReaGirl">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API and ReaGirl package" type="extension">
-      <version name="56016.00" author="Meo-Ada Mespotine">
+      <version name="56018.00" author="Meo-Ada Mespotine">
 	<source file="reagirl.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5.1//reagirl.lua</source>
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5.1//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5.1//ultraschall_api_readme.txt</source>
@@ -681,9 +681,9 @@
 	<source main="true" file="/ultraschall_developertool_increment_mouse_modifier_and_store_name_of_mm_action_into_extstate.lua" type="script">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5.1//ultraschall_api/Scripts//Tools/DeveloperScripts//ultraschall_developertool_increment_mouse_modifier_and_store_name_of_mm_action_into_extstate.lua</source>
 <changelog><![CDATA[Ultraschall Framework - Changelog
 
-5.1 - “Beach Boys - Wind Chimes” - 1st of October 2024
+5.1 - “Beach Boys - Wind Chimes” - 20th of January 2025
 
-Has now 1826 functions, with 19 new ones
+Has now 1827 functions, with 20 new ones
 
 new in this release:
 
@@ -734,6 +734,8 @@ New features in 5.1
     integer-config-variable
 -   ReaGirl: Slider_Unlink - remove link of a slider with an
     ini-file-entry/configvar/extstate
+-   ReaGirl: Window_ResizedFunc - adds a run-function that is always
+    executed, when the window is resized
 
 Changes from 5 to 5.1
 
@@ -742,7 +744,7 @@ Changes from 5 to 5.1
 -   ReaGirl: General - (re)scale other than 1 was positioning the window
     wrong -> fixed
 -   ReaGirl: Gui_Manage - has new parameter that allows running the gui
-    without a dedicated defer-loop
+    without having to add a dedicated defer-loop
 -   ReaGirl: screenreader-messages - could be reported twice under
     certain circumstances; could be slow in reporting -> fixed
 ]]>

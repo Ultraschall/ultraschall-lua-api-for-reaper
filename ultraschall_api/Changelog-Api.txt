@@ -393,9 +393,9 @@ Check why that is...probably because of Label_SetLabelText somehow resetting the
 
 ## Ultraschall Framework - Changelog
 
-### 5.1 - "Beach Boys - Wind Chimes" - 1st of October 2024
+### 5.1 - "Beach Boys - Wind Chimes" - 20th of January 2025
 
-Has now 1826 functions, with 19 new ones
+Has now 1827 functions, with 20 new ones
 
 **new in this release:**  
 
@@ -427,11 +427,12 @@ Has now 1826 functions, with 19 new ones
   - ReaGirl: Slider\_LinkToIniValue - link a slider to an ini-file-entry
   - ReaGirl: Slider\_LinkToIntConfigVar - link a slider to an integer-config-variable
   - ReaGirl: Slider\_Unlink - remove link of a slider with an ini-file-entry/configvar/extstate
+  - ReaGirl: Window\_ResizedFunc - adds a run-function that is always executed, when the window is resized
 
 #### Changes from 5 to 5.1  
   - ReaGirl: General - scrollbuttons/bars are now reported to screen reader when hovering above them
   - ReaGirl: General - (re)scale other than 1 was positioning the window wrong -> fixed
-  - ReaGirl: Gui\_Manage - has new parameter that allows running the gui without a dedicated defer-loop
+  - ReaGirl: Gui\_Manage - has new parameter that allows running the gui without having to add a dedicated defer-loop
   - ReaGirl: screenreader-messages - could be reported twice under certain circumstances; could be slow in reporting -> fixed
   
 ---

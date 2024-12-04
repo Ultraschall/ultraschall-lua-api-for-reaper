@@ -93,6 +93,9 @@ TODO:
 
 
 reagirl={}
+
+reagirl.Gui_Init_Me=true
+
 function reagirl.CheckForDependencies(ReaImGui, js_ReaScript, US_API, SWS, Osara)
   local function OpenURL(url)
   
@@ -202,7 +205,7 @@ function reagirl.GetVersion()
     <tags>misc, get, version</tags>
   </US_DocBloc>
   --]]
-  return 1.0
+  return 1.1
 end
 
 reagirl.osara_outputMessage=reaper.osara_outputMessage
@@ -2771,6 +2774,29 @@ function reagirl.MediaExplorer_OnCommand(actioncommandid)
   return reaper.JS_Window_OnCommand(HWND, tonumber(Actioncommandid))
 end
 
+function reagirl.Window_ResizedFunc(run_function)
+  --[[
+  <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+    <slug>Window_ResizedFunc</slug>
+    <requires>
+      ReaGirl=1.1
+      Reaper=7.03
+      Lua=5.4
+    </requires>
+    <functioncall>reagirl.Window_ResizedFunc()</functioncall>
+    <description>
+      Adds a run-function that is always executed, when the window gets resized.
+    </description>
+    <chapter_context>
+      Window
+    </chapter_context>
+    <tags>window, set, run function</tags>
+  </US_DocBloc>
+  --]]
+  if type(run_function)~="function" then error("Window_ResizedFunc: param #1 - must be a function", -1) return end
+  reagirl.Window_ResizedFunction=run_function
+end
+
 function reagirl.NextLine_SetDefaults(x, y)
 --[[
 <US_ DocBloc version="1.0" spok_lang="en" prog_lang="*">
@@ -4900,8 +4926,14 @@ function reagirl.Gui_Manage(keep_running)
   reagirl.OldMouseY=gfx.mouse_y
   
   -- if window has been resized, force refresh
-  if reagirl.Windows_OldH~=gfx.h then reagirl.Windows_OldH=gfx.h reagirl.Window_Reposition(true) reagirl.Gui_ForceRefresh(5) end
-  if reagirl.Windows_OldW~=gfx.w then reagirl.Windows_OldW=gfx.w reagirl.Window_Reposition(false) reagirl.Gui_ForceRefresh(6) end
+  local window_resized=false
+  if reagirl.Windows_OldH~=gfx.h then reagirl.Windows_OldH=gfx.h reagirl.Window_Reposition(true) window_resized=true reagirl.Gui_ForceRefresh(5) end
+  if reagirl.Windows_OldW~=gfx.w then reagirl.Windows_OldW=gfx.w reagirl.Window_Reposition(false) window_resized=true reagirl.Gui_ForceRefresh(6) end
+  
+  if window_resized==true and reagirl.Gui_Init_Me~=true then
+    if reagirl.Window_ResizedFunction~=nil then reagirl.Window_ResizedFunction() end
+  end
+  --print_update(type(reagirl.Window_ResizedFunction))
   
   if reagirl.ui_element_selected==nil then 
     reagirl.ui_element_selected="first selected"
@@ -5787,6 +5819,7 @@ function reagirl.Gui_Draw(Key, Key_utf, clickstate, specific_clickstate, mouse_c
   
   reagirl.Scroll_Override_ScrollButtons=nil
   --DebugRect()
+  reagirl.Gui_Init_Me=false
 end
 
 function reagirl.Dummy()
@@ -9001,7 +9034,6 @@ function reagirl.ListView_Manage(element_id, selected, hovered, clicked, mouse_c
       if mouse_cap&8==0 then element_storage["selected_old"]=nil end
       if mouse_cap&8==8 and element_storage["selected_old"]==nil then element_storage["selected_old"]=element_storage["selected"] end
       local line=math.floor((gfx.mouse_y-y)/gfx.texth*1.07)
-      ABBA=line
       if line>=#element_storage["entries"]-1 then line=#element_storage["entries"]-1 end
       
       element_storage["selected"]=element_storage["start"]+line
@@ -9279,6 +9311,8 @@ function reagirl.ListView_Draw(element_id, selected, hovered, clicked, mouse_cap
   if element_storage["scrollbar_vert"]==true then
     selected_width_offset=15*scale
   end
+  local offset=0
+  if element_storage["scrollbar_vert"]==true then offset=15*scale end
   for i=element_storage["start"], element_storage["start"]+num_lines do
     gfx.x=0
     if element_storage["entries_selection"][i]==true then
@@ -9290,13 +9324,16 @@ function reagirl.ListView_Draw(element_id, selected, hovered, clicked, mouse_cap
     end
     local entry=element_storage["entries"][i]
     if entry==nil then entry="" end
-    gfx.x=-element_storage["entry_width_start"]+scale
-    gfx.y=gfx.y-scale
+    gfx.x=-element_storage["entry_width_start"]+scale+1
     gfx.drawstr(entry,0,w,h)
-    gfx.y=gfx.y+scale
+    gfx.y=gfx.y
     if i==element_storage["selected"] then
       gfx.set(0.6)
-      gfx.rect(0, gfx.y, w-selected_width_offset-scale, gfx.texth-scale, 0)
+      --gfx.rect(0, gfx.y, w-selected_width_offset-scale, gfx.texth-scale, 0)
+      gfx.rect(0,gfx.y,scale,gfx.texth,1)
+      gfx.rect(0,gfx.y,w-offset,scale,1)
+      gfx.rect(0,gfx.y+gfx.texth-scale,w-offset,scale,1)
+      gfx.rect(w-offset-scale-scale*0.5, gfx.y, scale, gfx.texth,1)
     end
     gfx.y=gfx.y+gfx.texth-scale
   end
@@ -9305,8 +9342,8 @@ function reagirl.ListView_Draw(element_id, selected, hovered, clicked, mouse_cap
   -- blit viewport into window
   gfx.dest=-1
   gfx.set(0.5)
-  reagirl.RoundRect(x,y,w,h,scale,1,1)
-  --gfx.rect(x,y,w,h,1)
+  --reagirl.RoundRect(x,y,w,h,scale,1,1) -- add again after debugging
+  
   gfx.x=x+scale
   gfx.y=y+scale
   gfx.blit(reagirl.ListViewSlot, 1, 0)
@@ -9322,21 +9359,21 @@ function reagirl.ListView_Draw(element_id, selected, hovered, clicked, mouse_cap
     gfx.rect(x+w-15*scale,scroll_y+15*scale,15*scale,15*scale)
     
     -- scrollbutton top
-    gfx.set(0.29)
-    --gfx.rect(x+w-15*scale, y, 15*scale, 15*scale, 1)
-    gfx.rect(x+w-15*scale, y+scale, 15*scale, 14*scale, 1)
     gfx.set(0.49)
-    --gfx.rect(x+w-15*scale, y, 15*scale, 15*scale, 0)
-    gfx.rect(x+w-15*scale, y, 15*scale, 15*scale, 0)
-    gfx.triangle(x+w-8*scale, y+4*scale,
-                 x+w-3*scale, y+9*scale,
-                 x+w-13*scale, y+9*scale)
+    gfx.rect(x+w-15*scale, y+scale, 15*scale, 15*scale, 1)
+    gfx.set(0.29)
+    gfx.rect(x+w-14*scale, y+scale+scale, 13*scale, 13*scale, 1)
+    gfx.set(0.49)
+    gfx.triangle(x+w-8*scale, y+6*scale,
+                 x+w-4*scale, y+10*scale,
+                 x+w-12*scale, y+10*scale)
                  
     -- scrollbutton bottom
-    gfx.set(0.29)
-    gfx.rect(x+w-15*scale, y+scale+h-30*scale, 15*scale, 15*scale, 1)
     gfx.set(0.49)
-    gfx.rect(x+w-15*scale, y+scale+h-30*scale, 15*scale, 15*scale, 0)
+    gfx.rect(x+w-15*scale, y+scale+h-30*scale, 15*scale-1, 15*scale, 1)
+    gfx.set(0.29)
+    gfx.rect(x+w-14*scale, y+scale+h-29*scale, 13*scale+scale-1, 13*scale, 1)
+    --gfx.set(0.49)
     gfx.triangle(x+w-8*scale+scale-1, y+scale+h-20*scale,
                  x+w-3*scale+scale-1, y+scale+h-25*scale,
                  x+w-13*scale+scale-1, y+scale+h-25*scale)
