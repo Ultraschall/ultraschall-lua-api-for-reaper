@@ -4390,6 +4390,15 @@ end
 
 function reagirl.AtExit()
   reaper.SetExtState("Reagirl_Window_"..reagirl.Window_name, "open", "", false)
+  reaper.SetExtState("Reagirl_Window_"..reagirl.Window_name.."-"..reagirl.Gui_ScriptInstance, "stored", "", true)
+  reaper.SetExtState("Reagirl_Window_"..reagirl.Window_name.."-"..reagirl.Gui_ScriptInstance, "x", "", false)
+  reaper.SetExtState("Reagirl_Window_"..reagirl.Window_name.."-"..reagirl.Gui_ScriptInstance, "y", "", false)
+  reaper.SetExtState("Reagirl_Window_"..reagirl.Window_name.."-"..reagirl.Gui_ScriptInstance, "w", "", false)
+  reaper.SetExtState("Reagirl_Window_"..reagirl.Window_name.."-"..reagirl.Gui_ScriptInstance, "h", "", false)
+  reaper.SetExtState("Reagirl_Window_"..reagirl.Window_name.."-"..reagirl.Gui_ScriptInstance, "dock", "", false)
+  gfx.quit()
+  reagirl.IsWindowOpen_attribute=false
+  reagirl.Ext_IsAnyReaGirlGuiHovered()
   reagirl.UnRegisterWindow()
 end
 
