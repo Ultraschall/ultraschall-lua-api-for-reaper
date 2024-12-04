@@ -4205,7 +4205,7 @@ function reagirl.Gui_Open(name, restore_old_window_state, title, description, w,
     optional hwnd window_handler - a hwnd-window-handler for this window; only returned, with JS-extension installed!
   </retvals>
   <parameters>
-    string name - name, will be used to store window position, size and dockstate when window is closed; make this name unique to your script like with your name as prefix for instance; newlines are not allowed
+    string name - name, will be used to store window position, size and dockstate when window is closed; make this name unique to your script like with your name as prefix for instance; newlines and control characters are not allowed
     boolean restore_old_window_state - true, restore the window position, size and dockstate when the window last got closed
                                      - false, always open with the same position, size and dockstate
     string title - the title of the window
@@ -4252,8 +4252,10 @@ function reagirl.Gui_Open(name, restore_old_window_state, title, description, w,
     h=h2+15+tab_add
   end
 
-  name=string.gsub(name, "[\n\r]", "")
+  name=string.gsub(name, "[\n\r%c]", "")
+  
   reagirl.IsWindowOpen_attribute=true
+  
   reagirl.Gui_ForceRefresh(2)
   
   if reaper.GetExtState("ReaGirl", "osara_enable_accmessage")~="false" and reaper.GetExtState("ReaGirl", "osara_move_mouse")~="false" then
@@ -4277,7 +4279,14 @@ function reagirl.Gui_Open(name, restore_old_window_state, title, description, w,
     reagirl.Window_w_default=w
     reagirl.Window_h_default=h
     reagirl.Window_dock_default=dock
+    
+    local instances=reaper.GetExtState("ReaGirl", "WindowInstances")
+    instances=instances.."\n"..reagirl.Window_name..":"..reagirl.Gui_ScriptInstance
+    reaper.SetExtState("ReaGirl", "WindowInstances",instances,false)
   else
+    local instances=reaper.GetExtState("ReaGirl", "WindowInstances")
+    instances=instances.."\n"..reagirl.Window_name..":"..reagirl.Gui_ScriptInstance
+    reaper.SetExtState("ReaGirl", "WindowInstances",instances,false)
     reagirl.Window_Title_default=title
     reagirl.Window_Description_default=description
     reagirl.Window_x_default=x
@@ -4364,10 +4373,66 @@ function reagirl.Gui_Close()
   reagirl.IsWindowOpen_attribute=false
   reagirl.IsWindowOpen_attribute_Old=true
   reaper.SetExtState("Reagirl_Window_"..reagirl.Window_name, "open", "", false)
+  
+  reagirl.UnRegisterWindow()
+end
+
+function reagirl.UnRegisterWindow()
+  local instances=reaper.GetExtState("ReaGirl", "WindowInstances").."\n"
+  local newinstance=""
+  for k in string.gmatch(instances, "(.-\n)") do
+    if k~=reagirl.Window_name..":"..reagirl.Gui_ScriptInstance.."\n" and k~="\n" then
+      newinstance=newinstance..k.."\n"
+    end
+  end
+  reaper.SetExtState("ReaGirl", "WindowInstances",newinstance,false)
 end
 
 function reagirl.AtExit()
   reaper.SetExtState("Reagirl_Window_"..reagirl.Window_name, "open", "", false)
+  reagirl.UnRegisterWindow()
+end
+
+
+function reagirl.Ext_Window_GetInstances()
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Ext_Window_GetInstances</slug>
+  <requires>
+    ReaGirl=1.1
+    Reaper=7.03
+    Lua=5.4
+  </requires>
+  <functioncall>integer window_count, table window_instances = reagirl.Ext_Window_GetInstances(string gui_name)</functioncall>
+  <description>
+    Returns the currently opened ReaGirl-window-instances.
+    
+    The window_instances retval is of the following format:
+      window_instance[index][1]="window name" - the name of the window-instance, as given in reagirl.Gui_Open()
+      window_instance[index][2]="Guid" - a unique identifier for this ReaGirl-gui-instance
+      
+    Only opened windows will be shown here!
+  </description>
+  <retvals>
+    integer window_count - the number of opened ReaGirl-windows
+    table window_instances - a table with all window-instance names and identifiers currently opened
+  </retvals>
+  <chapter_context>
+    Ext
+  </chapter_context>
+  <target_document>ReaGirl_Docs</target_document>
+  <source_document>reagirl_GuiEngine.lua</source_document>
+  <tags>ext, get, window, opened, instances</tags>
+</US_DocBloc>
+]]
+  local instances=reaper.GetExtState("ReaGirl", "WindowInstances", "", false).."\n"
+  local Windows={}
+  for k in string.gmatch(instances, "(.-)\n") do
+    if k~="\n" and k~="" then
+      Windows[#Windows+1]={k:match("(.*):"), k:match(":(.*)")}
+    end
+  end
+  return #Windows, Windows
 end
 
 function reagirl.Ext_Window_GetState(gui_name)
@@ -4879,6 +4944,7 @@ function reagirl.Gui_Manage(keep_running)
   -- End of Debug
   
   if Key==-1 then reagirl.IsWindowOpen_attribute_Old=true reagirl.IsWindowOpen_attribute=false end
+  if Key==-1 then reagirl.UnRegisterWindow() end
   
   if reagirl.Gui_PreventCloseViaEscForOneCycle_State~=true then
     if Key==27 then 
@@ -8238,6 +8304,8 @@ function reagirl.Color_GetColorValuesByName(name)
   local r, g, b=reagirl.ColorNames_Values[name:lower()]:match("(.-)_(.-)_(.*)")
   return tonumber(r), tonumber(g), tonumber(b)
 end
+
+reagirl.Gui_ScriptInstance=reaper.genGuid()
 
 function reagirl.ColorRectangle_Add(x, y, w, h, r, g, b, caption, meaningOfUI_Element, color_selector_when_clicked, run_function)
 --[[

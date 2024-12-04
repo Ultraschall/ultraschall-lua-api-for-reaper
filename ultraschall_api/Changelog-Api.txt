@@ -395,7 +395,7 @@ Check why that is...probably because of Label_SetLabelText somehow resetting the
 
 ### 5.1 - "Beach Boys - Wind Chimes" - 20th of January 2025
 
-Has now 1830 functions, with 23 new ones
+Has now 1831 functions, with 24 new ones
 
 **new in this release:**  
 
@@ -420,6 +420,7 @@ Has now 1830 functions, with 23 new ones
   - ReaGirl: DropDownMenu\_LinkToExtstate - links a drop-down-menu to an extstate
   - ReaGirl: DropDownMenu\_LinkToIniValue - links a drop-down-menu to an ini-file-entry
   - ReaGirl: DropDownMenu\_Unlink - remove link of a drop-down-menu with an ini-file-entry/extstate
+  - ReaGirl: Ext\_Window\_GetInstances - returns the currently opened ReaGirl-window-instances
   - ReaGirl: Inputbox\_LinkToConfigVar - link an inputbox to a string config-variable
   - ReaGirl: Inputbox\_LinkToExtstate - link an inputbox to an extstate
   - ReaGirl: Inputbox\_LinkToIniValue - link an inputbox to an ini-file

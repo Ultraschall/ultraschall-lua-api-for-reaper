@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API and ReaGirl">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API and ReaGirl package" type="extension">
-      <version name="56019.00" author="Meo-Ada Mespotine">
+      <version name="56021.00" author="Meo-Ada Mespotine">
 	<source file="reagirl.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5.1//reagirl.lua</source>
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5.1//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5.1//ultraschall_api_readme.txt</source>
@@ -683,7 +683,7 @@
 
 5.1 - “Beach Boys - Wind Chimes” - 20th of January 2025
 
-Has now 1830 functions, with 23 new ones
+Has now 1831 functions, with 24 new ones
 
 new in this release:
 
@@ -723,6 +723,8 @@ New features in 5.1
     ini-file-entry
 -   ReaGirl: DropDownMenu_Unlink - remove link of a drop-down-menu with
     an ini-file-entry/extstate
+-   ReaGirl: Ext_Window_GetInstances - returns the currently opened
+    ReaGirl-window-instances
 -   ReaGirl: Inputbox_LinkToConfigVar - link an inputbox to a string
     config-variable
 -   ReaGirl: Inputbox_LinkToExtstate - link an inputbox to an extstate
