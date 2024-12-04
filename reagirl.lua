@@ -7718,10 +7718,10 @@ end
 
 function reagirl.Color_EnumerateNames(index)
 --[[
-<US_ DocBloc version="1.0" spok_lang="en" prog_lang="*">
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>Color_EnumerateNames</slug>
   <requires>
-    ReaGirl=1.2
+    ReaGirl=1.1
     Reaper=7.03
     Lua=5.4
   </requires>
@@ -7891,10 +7891,10 @@ end
 function reagirl.Color_GetName(r,g,b)
   -- verlinke html-color-liste
 --[[
-<US_ DocBloc version="1.0" spok_lang="en" prog_lang="*">
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>Color_GetName</slug>
   <requires>
-    ReaGirl=1.2
+    ReaGirl=1.1
     Reaper=7.03
     Lua=5.4
   </requires>
@@ -8069,10 +8069,10 @@ end
 function reagirl.Color_GetColorValuesByName(name)
   -- verlinke html-color-liste
 --[[
-<US_ DocBloc version="1.0" spok_lang="en" prog_lang="*">
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>Color_GetColorValuesByName</slug>
   <requires>
-    ReaGirl=1.2
+    ReaGirl=1.1
     Reaper=7.03
     Lua=5.4
   </requires>

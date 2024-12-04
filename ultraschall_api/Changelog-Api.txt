@@ -395,7 +395,7 @@ Check why that is...probably because of Label_SetLabelText somehow resetting the
 
 ### 5.1 - "Beach Boys - Wind Chimes" - 20th of January 2025
 
-Has now 1827 functions, with 20 new ones
+Has now 1830 functions, with 23 new ones
 
 **new in this release:**  
 
@@ -414,6 +414,9 @@ Has now 1827 functions, with 20 new ones
   - ReaGirl: Checkbox\_LinkToIniValue - link a checkbox-state to an ini-value
   - ReaGirl: Checkbox\_LinkToToggleState - link a checkbox-state to a toggle-state
   - ReaGirl: Checkbox\_Unlink - remove link of an inputbox with an ini-file-entry/configvar/extstate/toggle-state
+  - ReaGirl: Color\_EnumerateNames - enumerate available html-color-names
+  - ReaGirl: Color\_GetColorValuesByName - gets the color-values by html-color-name
+  - ReaGirl: Color\_GetName - gets the colorname by r,g,b-values
   - ReaGirl: DropDownMenu\_LinkToExtstate - links a drop-down-menu to an extstate
   - ReaGirl: DropDownMenu\_LinkToIniValue - links a drop-down-menu to an ini-file-entry
   - ReaGirl: DropDownMenu\_Unlink - remove link of a drop-down-menu with an ini-file-entry/extstate
