@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API and ReaGirl">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API and ReaGirl package" type="extension">
-      <version name="56022.00" author="Meo-Ada Mespotine">
+      <version name="56024.00" author="Meo-Ada Mespotine">
 	<source file="reagirl.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5.1//reagirl.lua</source>
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5.1//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5.1//ultraschall_api_readme.txt</source>
@@ -683,7 +683,7 @@
 
 5.1 - “Beach Boys - Wind Chimes” - 20th of January 2025
 
-Has now 1831 functions, with 24 new ones
+Has now 1834 functions, with 27 new ones
 
 new in this release:
 
@@ -723,8 +723,14 @@ New features in 5.1
     ini-file-entry
 -   ReaGirl: DropDownMenu_Unlink - remove link of a drop-down-menu with
     an ini-file-entry/extstate
+-   ReaGirl: Ext_IsAnyReaGirlGuiHovered - returns, if the mouse is
+    currently hovering above any ReaGirl-gui-window
+-   ReaGirl: Ext_UI_Element_GetHovered - returns the ReaGirl-window and
+    ui-element the mouse is currently hovering above
 -   ReaGirl: Ext_Window_GetInstances - returns the currently opened
     ReaGirl-window-instances
+-   ReaGirl: Gui_GetCurrentScriptInstance - returns the current’s
+    gui-script-identifier and gui-name
 -   ReaGirl: Inputbox_LinkToConfigVar - link an inputbox to a string
     config-variable
 -   ReaGirl: Inputbox_LinkToExtstate - link an inputbox to an extstate
@@ -755,6 +761,9 @@ Changes from 5 to 5.1
     certain circumstances; could be slow in reporting -> fixed
 -   ReaGirl: Ext_Window_Focus - allows now focusing a dedicated
     ReaGirl-gui-instance, if multiple are opened with the same name
+-   ReaGirl: Ext_Window_GetState - allows now getting window dimensions
+    of a dedicated ReaGirl-gui-instance, if multiple are opened with the
+    same name
 -   ReaGirl: Ext_Window_SetState - allows now setting window dimensions
     of a dedicated ReaGirl-gui-instance, if multiple are opened with the
     same name

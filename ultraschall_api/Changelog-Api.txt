@@ -395,7 +395,7 @@ Check why that is...probably because of Label_SetLabelText somehow resetting the
 
 ### 5.1 - "Beach Boys - Wind Chimes" - 20th of January 2025
 
-Has now 1831 functions, with 24 new ones
+Has now 1834 functions, with 27 new ones
 
 **new in this release:**  
 
@@ -420,7 +420,10 @@ Has now 1831 functions, with 24 new ones
   - ReaGirl: DropDownMenu\_LinkToExtstate - links a drop-down-menu to an extstate
   - ReaGirl: DropDownMenu\_LinkToIniValue - links a drop-down-menu to an ini-file-entry
   - ReaGirl: DropDownMenu\_Unlink - remove link of a drop-down-menu with an ini-file-entry/extstate
+  - ReaGirl: Ext\_IsAnyReaGirlGuiHovered - returns, if the mouse is currently hovering above any ReaGirl-gui-window
+  - ReaGirl: Ext\_UI\_Element\_GetHovered - returns the ReaGirl-window and ui-element the mouse is currently hovering above
   - ReaGirl: Ext\_Window\_GetInstances - returns the currently opened ReaGirl-window-instances
+  - ReaGirl: Gui\_GetCurrentScriptInstance - returns the current's gui-script-identifier and gui-name
   - ReaGirl: Inputbox\_LinkToConfigVar - link an inputbox to a string config-variable
   - ReaGirl: Inputbox\_LinkToExtstate - link an inputbox to an extstate
   - ReaGirl: Inputbox\_LinkToIniValue - link an inputbox to an ini-file
@@ -439,6 +442,7 @@ Has now 1831 functions, with 24 new ones
   - ReaGirl: Gui\_Manage - has new parameter that allows running the gui without having to add a dedicated defer-loop
   - ReaGirl: screenreader-messages - could be reported twice under certain circumstances; could be slow in reporting -> fixed
   - ReaGirl: Ext\_Window\_Focus - allows now focusing a dedicated ReaGirl-gui-instance, if multiple are opened with the same name
+  - ReaGirl: Ext\_Window\_GetState - allows now getting window dimensions of a dedicated ReaGirl-gui-instance, if multiple are opened with the same name
   - ReaGirl: Ext\_Window\_SetState - allows now setting window dimensions of a dedicated ReaGirl-gui-instance, if multiple are opened with the same name
 ---
 

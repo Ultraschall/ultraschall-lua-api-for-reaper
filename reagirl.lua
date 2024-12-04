@@ -74,7 +74,6 @@ TODO:
             Needs this Osara-Issue to be done, if this is possible in the first place:
               https://github.com/jcsteh/osara/issues/961
   - DropZones: the target should be notified, which ui-element had been dragged to it
-  - reagirl.Ext_UI_Element_GetHovered - has issues, unfortunately(see comment there for more details)
   
 !!For 10k-UI-Elements(already been tested)!!  
   - Gui_Manage
@@ -4395,18 +4394,11 @@ function reagirl.AtExit()
 end
 
 function reagirl.Ext_UI_Element_GetHovered()
--- doesn't work, as it only recognizes hovered ui-elements when the mouse is above the window
--- the problem is: how to find out, that mouse isn't hovering above ANY ReaGirl-window and set the extstate to "".
--- You'll notice the problem, when you hover above a ui-element and then quickly move the mouse away outside any ReaGirl-window, which will keep the
--- last hovered ui-element "locked".
--- So, how to find out, whether there's no ui-element currently hovered and no ReaGirl-window.
--- unless you solve this, you need to keep this disabled...
--- Classic race condition....
 --[[
-<US_ DocBloc version="1.0" spok_lang="en" prog_lang="*">
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>Ext_UI_Element_GetHovered</slug>
   <requires>
-    ReaGirl=1.x
+    ReaGirl=1.1
     Reaper=7.03
     Lua=5.4
   </requires>
@@ -4435,6 +4427,7 @@ function reagirl.Ext_UI_Element_GetHovered()
   <tags>ext, get, hovered, ui element</tags>
 </US_DocBloc>
 ]]
+  if reagirl.Ext_IsAnyReaGirlGuiHovered()==false then return "", "", "", "", "", "" end
   local hovered=reaper.GetExtState("ReaGirl", "Hovered_Element")
   local window, wguid, ui_type, ui_guid, ui_name = hovered:match("window:(.-)\nwguid:(.-)\ntype:(.-)\nguid:(.-)\nname:(.-)\n")
   local tabname=hovered:match(".*tabname:(.-)\n")
@@ -4489,7 +4482,9 @@ function reagirl.Ext_Window_GetInstances()
   return #Windows, Windows
 end
 
-function reagirl.Ext_Window_GetState(gui_name)
+
+
+function reagirl.Ext_Window_GetState(gui_name, gui_instance)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>Ext_Window_GetState</slug>
@@ -4498,7 +4493,7 @@ function reagirl.Ext_Window_GetState(gui_name)
     Reaper=7.03
     Lua=5.4
   </requires>
-  <functioncall>integer width, integer height, integer dockstate, integer x_position, integer y_position = reagirl.Ext_Window_GetState(string gui_name)</functioncall>
+  <functioncall>integer width, integer height, integer dockstate, integer x_position, integer y_position = reagirl.Ext_Window_GetState(string gui_name, optional string gui_instance)</functioncall>
   <description>
     Gets the current width, height, position and dockstate of a ReaGirl-gui-window.
     
@@ -4506,6 +4501,7 @@ function reagirl.Ext_Window_GetState(gui_name)
   </description>
   <parameters>
     optional string gui_name - the name of the gui-window, of which you want to get the states(NOT the window title!); nil, use this script's currently/last opened window
+    optional string gui_instance - the identifier(guid) of an opened ReaGirl-script-instance
   </parameters>
   <retvals>
     integer width - the width of the window in pixels
@@ -4525,12 +4521,14 @@ function reagirl.Ext_Window_GetState(gui_name)
   if gui_name~=nil and type(gui_name)~="string" then error("Ext_Window_GetState: param #1 - must be a string", 2) end
   if gui_name==nil then gui_name=reagirl.Window_name end
   if gui_name==nil then error("Ext_Window_GetState: param #1 - no such window", 2) end
+  if gui_instance==nil and type(gui_instance)~="string" then error("Ext_Window_GetState: param #2 - must be a string", 2) end
+  if gui_instance==nil then gui_instance="" else gui_instance="-"..gui_instance end
 
-  return tonumber(math.floor(reaper.GetExtState("Reagirl_Window_"..gui_name, "w"))),
-         tonumber(math.floor(reaper.GetExtState("Reagirl_Window_"..gui_name, "h"))),
-         tonumber(math.floor(reaper.GetExtState("Reagirl_Window_"..gui_name, "dock"))),
-         tonumber(math.floor(reaper.GetExtState("Reagirl_Window_"..gui_name, "x"))),
-         tonumber(math.floor(reaper.GetExtState("Reagirl_Window_"..gui_name, "y")))
+  return tonumber(math.floor(reaper.GetExtState("Reagirl_Window_"..gui_name..gui_instance, "w"))),
+         tonumber(math.floor(reaper.GetExtState("Reagirl_Window_"..gui_name..gui_instance, "h"))),
+         tonumber(math.floor(reaper.GetExtState("Reagirl_Window_"..gui_name..gui_instance, "dock"))),
+         tonumber(math.floor(reaper.GetExtState("Reagirl_Window_"..gui_name..gui_instance, "x"))),
+         tonumber(math.floor(reaper.GetExtState("Reagirl_Window_"..gui_name..gui_instance, "y")))
 end
 
 function reagirl.Ext_Window_SetState(gui_name, width, height, dockstate, x_position, y_position, gui_instance)
@@ -4813,6 +4811,66 @@ function reagirl.ScreenReader_SendMessage(message)
   reagirl.osara_AddedMessage=message
 end
 
+
+function reagirl.Ext_IsAnyReaGirlGuiHovered()
+  --[[
+  <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+    <slug>IsAnyReaGirlGuiHovered</slug>
+    <requires>
+      ReaGirl=1.1
+      Reaper=7.03
+      Lua=5.4
+    </requires>
+    <functioncall>boolean retval = reagirl.IsAnyReaGirlGuiHovered()</functioncall>
+    <description>
+      Returns, if any ReaGirl-window is currently hovered by the mouse.
+    </description>
+    <parameters>
+      boolean retval - true, a ReaGirl-window is currently hovered; false, no ReaGirl-window is currently hovered
+    </parameters>
+    <chapter_context>
+      Screen Reader
+    </chapter_context>
+    <target_document>ReaGirl_Docs</target_document>
+    <source_document>reagirl_GuiEngine.lua</source_document>
+    <tags>screen reader, send, message</tags>
+  </US_DocBloc>
+  ]]
+  local chosen_one=false
+  if reagirl.Window_State&8==8 then chosen_one=true end
+  local states=reaper.GetExtState("ReaGirl", "HoveredWindows")
+  
+  local sourcestring=(reagirl.Gui_ScriptInstance:gsub('%%', '%%%%')
+              :gsub('^%^', '%%^')
+              :gsub('%$$', '%%$')
+              :gsub('%(', '%%(')
+              :gsub('%)', '%%)')
+              :gsub('%.', '%%.')
+              :gsub('%[', '%%[')
+              :gsub('%]', '%%]')
+              :gsub('%*', '%%*')
+              :gsub('%+', '%%+')
+              :gsub('%-', '%%-')
+              :gsub('%?', '%%?'))
+  
+  if states:match(sourcestring)==nil then
+    states=states..reagirl.Gui_ScriptInstance..":"..tostring(chosen_one).."\n"
+  end
+  if reagirl.IsWindowOpen_attribute==false then
+    states=string.gsub(states, "("..sourcestring..":.-\n)", "")
+  end
+  
+  if chosen_one==true then
+    states=string.gsub(states, sourcestring..":false", reagirl.Gui_ScriptInstance..":true")
+  elseif chosen_one==false then
+    states=string.gsub(states, sourcestring..":true", reagirl.Gui_ScriptInstance..":false")
+  end
+  
+  reaper.SetExtState("ReaGirl", "HoveredWindows", states, false)
+  if states:match("true")~=nil then return true else return false end
+  
+end
+
 function reagirl.Gui_Manage(keep_running)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
@@ -4883,6 +4941,25 @@ function reagirl.Gui_Manage(keep_running)
   if reaper.GetExtState("Reagirl_Window_"..reagirl.Window_name, "dock")~=tostring(dock) then
     reaper.SetExtState("Reagirl_Window_"..reagirl.Window_name, "dock", dock, true)
   end
+  
+  if reaper.GetExtState("Reagirl_Window_"..reagirl.Window_name.."-"..reagirl.Gui_ScriptInstance, "stored")~="true" then
+    reaper.SetExtState("Reagirl_Window_"..reagirl.Window_name.."-"..reagirl.Gui_ScriptInstance, "stored", "true", true)
+  end
+  if reaper.GetExtState("Reagirl_Window_"..reagirl.Window_name.."-"..reagirl.Gui_ScriptInstance, "x")~=tostring(x) then
+    reaper.SetExtState("Reagirl_Window_"..reagirl.Window_name.."-"..reagirl.Gui_ScriptInstance, "x", x, false)
+  end
+  if reaper.GetExtState("Reagirl_Window_"..reagirl.Window_name.."-"..reagirl.Gui_ScriptInstance, "y")~=tostring(y) then
+    reaper.SetExtState("Reagirl_Window_"..reagirl.Window_name.."-"..reagirl.Gui_ScriptInstance, "y", y, false)
+  end
+  if reaper.GetExtState("Reagirl_Window_"..reagirl.Window_name.."-"..reagirl.Gui_ScriptInstance, "w")~=tostring(w) then
+    reaper.SetExtState("Reagirl_Window_"..reagirl.Window_name.."-"..reagirl.Gui_ScriptInstance, "w", w, false)
+  end
+  if reaper.GetExtState("Reagirl_Window_"..reagirl.Window_name.."-"..reagirl.Gui_ScriptInstance, "h")~=tostring(h) then
+    reaper.SetExtState("Reagirl_Window_"..reagirl.Window_name.."-"..reagirl.Gui_ScriptInstance, "h", h, false)
+  end
+  if reaper.GetExtState("Reagirl_Window_"..reagirl.Window_name.."-"..reagirl.Gui_ScriptInstance, "dock")~=tostring(dock) then
+    reaper.SetExtState("Reagirl_Window_"..reagirl.Window_name.."-"..reagirl.Gui_ScriptInstance, "dock", dock, false)
+  end
 
 
   if reaper.GetExtState("ReaGirl", "ReFocusWindow")==reagirl.Window_name then
@@ -4936,6 +5013,8 @@ function reagirl.Gui_Manage(keep_running)
   if reagirl.FocusRectangle_BlinkStartTime==nil then
     reagirl.FocusRectangle_BlinkStartTime=reaper.time_precise()
   end
+  
+  reagirl.Ext_IsAnyReaGirlGuiHovered()
   
   if reaper.time_precise()<reagirl.FocusRectangle_BlinkStartTime+reagirl.FocusRectangle_BlinkTime then
     if reagirl.FocusRectangle_BlinkSpeed>1 then
@@ -5016,7 +5095,7 @@ function reagirl.Gui_Manage(keep_running)
   -- End of Debug
   
   if Key==-1 then reagirl.IsWindowOpen_attribute_Old=true reagirl.IsWindowOpen_attribute=false end
-  if Key==-1 then reagirl.UnRegisterWindow() end
+  if Key==-1 then reagirl.UnRegisterWindow() reagirl.Ext_IsAnyReaGirlGuiHovered() end
   
   if reagirl.Gui_PreventCloseViaEscForOneCycle_State~=true then
     if Key==27 then 
@@ -8392,6 +8471,38 @@ end
 
 reagirl.Gui_ScriptInstance=reaper.genGuid()
 
+function reagirl.Gui_GetCurrentScriptInstance()
+  --[[
+  <US_ DocBloc version="1.0" spok_lang="en" prog_lang="*">
+    <slug>Gui_GetCurrentScriptInstance</slug>
+    <requires>
+      ReaGirl=1.1
+      Reaper=7.03
+      Lua=5.4
+    </requires>
+    <functioncall>string gui_name, string gui_instance_identifier = reagirl.Gui_GetCurrentScriptInstance()</functioncall>
+    <description>
+      Returns the current gui-name(as given by reagirl.Gui_Open()) and the current gui-instance-identifier.
+      
+      Note: gui_name might be "" when Gui_Open has not been used yet!
+      
+      gui_instance_identifier stays the same until the script stops, no matter how often you close and reopen the gui-window with reagirl.Gui_Open()
+    </description>
+    <retvals>
+      string gui_name - the current gui-name, as given by reagirl.Gui_Open()
+      string identifier - the gui-identifier of the current gui-instance
+    </retvals>
+    <chapter_context>
+      Gui
+    </chapter_context>
+    <tags>gui, get, script instance, identifier</tags>
+  </US_DocBloc>
+  --]]  
+  local gui_name=reagirl.Window_name
+  if gui_name==nil then gui_name="" end
+  return gui_name, reagirl.Gui_ScriptInstance
+end
+
 function reagirl.ColorRectangle_Add(x, y, w, h, r, g, b, caption, meaningOfUI_Element, color_selector_when_clicked, run_function)
 --[[
 <US_ DocBloc version="1.0" spok_lang="en" prog_lang="*">
@@ -9450,7 +9561,7 @@ end
 function reagirl.ListView_Draw(element_id, selected, hovered, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
   local scale=reagirl.Window_GetCurrentScale()
   local num_lines=math.ceil(h/gfx.texth)
-  entry_width_pix=gfx.measurestr(element_storage["entry_width_string"])
+  local entry_width_pix=gfx.measurestr(element_storage["entry_width_string"])
   reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0)
   -- reset viewport for this listview
   gfx.setimgdim(reagirl.ListViewSlot, w-scale, h-scale)
