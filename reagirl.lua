@@ -3164,7 +3164,74 @@ end
 
 
 
-function reagirl.BlitText_AdaptLineLength(text, x, y, width, height, align)
+--[[function reagirl.BlitText_AdaptLineLength(text, x, y, width, height, align)
+--[[
+<US_ DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>BlitText_AdaptLineLength</slug>
+  <requires>
+    ReaGirl=1.0
+    Reaper=7.03
+    Lua=5.4
+  </requires>
+  <functioncall>boolean retval, integer width, integer height = reagirl.BlitText_AdaptLineLength(string text, integer x, integer y, integer width, optional integer height, optional integer align)</functioncall>
+  <description>
+    This draws text to x and y and adapts the line-lengths to fit into width and height.
+  </description>
+  <parameters>
+    string text - the text to be shown
+    integer x - the x-position of the text
+    integer y - the y-position of the text
+    integer width - the maximum width of a line in pixels; text after this will be put into the next line
+    optional integer height - the maximum height the text shall be shown in pixels; everything after this will be truncated
+    optional integer align - 0 or nil, left aligned text; 1, center text
+  </parameters>
+  <retvals>
+    boolean retval - true, text-blitting was successful; false, text-blitting was unsuccessful
+  </retvals>
+  <chapter_context>
+    Misc
+  </chapter_context>
+  <target_document>US_Api_GFX</target_document>
+  <source_document>ultraschall_gfx_engine.lua</source_document>
+  <tags>gfx, functions, blit, text, line breaks, adapt line length</tags>
+</US_DocBloc>
+]]
+--[[
+  if type(text)~="string" then error("GFX_BlitText_AdaptLineLength: param #1 - must be a string", 2) end
+  if math.type(x)~="integer" then error("GFX_BlitText_AdaptLineLength: param #2 - must be an integer", 2) end
+  if math.type(y)~="integer" then error("GFX_BlitText_AdaptLineLength: param #3 - must be an integer", 2) end
+  if math.type(width)~="integer" then error("GFX_BlitText_AdaptLineLength: param #4 - must be an integer", 2) end
+  if height~=nil and math.type(height)~="number" then error("GFX_BlitText_AdaptLineLength: param #5 - must be either nil or an integer", 2) end
+  if align~=nil and math.type(align)~="integer" then error("GFX_BlitText_AdaptLineLength: param #6 - must be either nil or an integer", 2) end
+  local l=gfx.measurestr("A")
+  if width<gfx.measurestr("A") then error("GFX_BlitText_AdaptLineLength: param #4 - must be at least "..l.." pixels for this font.", -7) end
+
+  if align==nil or align==0 then center=0 
+  elseif align==1 then center=1 
+  end
+  local newtext=""
+
+  for a=0, 100 do
+    newtext=newtext..text:sub(a,a)
+    local nwidth, nheight = gfx.measurestr(newtext)
+    if nwidth>width then
+      newtext=newtext:sub(1,a-1).."\n"..text:sub(a,a)
+    end
+    if height~=nil and nheight>=height then newtext=newtext:sub(1,-3) break end
+  end
+  local old_x, old_y=gfx.x, gfx.y
+  gfx.x=x
+  gfx.y=y
+  local xwidth, xheight = gfx.measurestr(newtext)
+  gfx.drawstr(newtext.."\n  ", center)--xwidth+3+x, xheight)
+  gfx.x=old_x
+  gfx.y=old_y
+  local w,h=gfx.measurestr(newtext)
+  return true, math.tointeger(w), math.tointeger(h)
+end
+--]]
+
+function reagirl.BlitText_AdaptLineLength(text, x, y, width, height, align, selected_start, selected_end, selection_offset, startline, positions, r, g, b, a, r1, g1, b1, a1)
 --[[
 <US_ DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>BlitText_AdaptLineLength</slug>
@@ -3200,33 +3267,47 @@ function reagirl.BlitText_AdaptLineLength(text, x, y, width, height, align)
   if math.type(x)~="integer" then error("GFX_BlitText_AdaptLineLength: param #2 - must be an integer", 2) end
   if math.type(y)~="integer" then error("GFX_BlitText_AdaptLineLength: param #3 - must be an integer", 2) end
   if math.type(width)~="integer" then error("GFX_BlitText_AdaptLineLength: param #4 - must be an integer", 2) end
-  if height~=nil and math.type(height)~="number" then error("GFX_BlitText_AdaptLineLength: param #5 - must be either nil or an integer", 2) end
+  if height~=nil and math.type(height)~="integer" then error("GFX_BlitText_AdaptLineLength: param #5 - must be either nil or an integer", 2) end
   if align~=nil and math.type(align)~="integer" then error("GFX_BlitText_AdaptLineLength: param #6 - must be either nil or an integer", 2) end
   local l=gfx.measurestr("A")
-  if width<gfx.measurestr("A") then error("GFX_BlitText_AdaptLineLength: param #4 - must be at least "..l.." pixels for this font.", -7) end
+  if width<gfx.measurestr("A") then width=l end --error("GFX_BlitText_AdaptLineLength: param #4 - must be at least "..l.." pixels for this font.", -7) end
+  if height==nil then height=0 end
 
-  if align==nil or align==0 then center=0 
-  elseif align==1 then center=1 
-  end
-  local newtext=""
-
-  for a=0, 100 do
-    newtext=newtext..text:sub(a,a)
-    local nwidth, nheight = gfx.measurestr(newtext)
-    if nwidth>width then
-      newtext=newtext:sub(1,a-1).."\n"..text:sub(a,a)
-    end
-    if height~=nil and nheight>=height then newtext=newtext:sub(1,-3) break end
-  end
-  local old_x, old_y=gfx.x, gfx.y
   gfx.x=x
   gfx.y=y
-  local xwidth, xheight = gfx.measurestr(newtext)
-  gfx.drawstr(newtext.."\n  ", center)--xwidth+3+x, xheight)
-  gfx.x=old_x
-  gfx.y=old_y
-  local w,h=gfx.measurestr(newtext)
-  return true, math.tointeger(w), math.tointeger(h)
+  local count=0
+  local linecount=1
+  for i=1, text:len() do
+    offset=gfx.measurestr((text:sub(i,i)))
+    if count+offset>=width+l or text:sub(i,i)=="\n" then
+      count=0
+      gfx.x=x
+      gfx.y=gfx.y+gfx.texth
+      linecount=linecount+1
+    end
+    count=count+gfx.measurestr(text:sub(i,i))
+    
+    if linecount==startline then
+      gfx.x=x
+      gfx.y=y
+    end
+    if linecount>startline then
+      if selection_offset~=nil and i==selection_offset+1 then
+        gfx.set(r,g,b,a)
+        gfx.rect(gfx.x, gfx.y, reagirl.Window_CurrentScale, gfx.texth)
+        gfx.set(r1,g1,b1,a1)
+      end
+      if text:sub(i,i)~="\n" then
+        if i>=selected_start and i<=selected_end then
+          gfx.setfont(1, "Arial", reagirl.Font_Size, 86)
+        else
+          gfx.setfont(1, "Arial", reagirl.Font_Size, (positions[i]["style"]))
+        end
+        gfx.drawstr(text:sub(i,i), 0)--, x+width, y+height)
+      end
+    end
+  end
+  return true, math.tointeger(w), math.tointeger(h), positions
 end
 
 function reagirl.ResizeImageKeepAspectRatio(image, neww, newh, bg_r, bg_g, bg_b)
@@ -3785,7 +3866,13 @@ function reagirl.Gui_New()
   reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0)
   reagirl.NewUI=true
   reagirl.MaxImage=1
+  
+  local oldr, oldg, oldb, olda = gfx.r, gfx.g, gfx.b, gfx.a
   gfx.set(reagirl["WindowBackgroundColorR"], reagirl["WindowBackgroundColorG"], reagirl["WindowBackgroundColorB"])
+  gfx.r=oldr
+  gfx.g=oldg
+  gfx.b=oldb
+  gfx.a=olda
   gfx.rect(0,0,gfx.w,gfx.h,1)
   gfx.x=0
   gfx.y=0
@@ -6057,8 +6144,21 @@ function reagirl.Gui_Draw(Key, Key_utf, clickstate, specific_clickstate, mouse_c
   
   
   reagirl.Scroll_Override_ScrollButtons=nil
-  --DebugRect()
+  reagirl.DebugRect()
   reagirl.Gui_Init_Me=false
+end
+
+function reagirl.DebugRect_Add(x,y,w,h)
+  reagirl.Debugx=x
+  reagirl.Debugy=y
+  reagirl.Debugw=w
+  reagirl.Debugh=h
+end
+
+function reagirl.DebugRect()
+  if reagirl.Debugx~=nil then
+    gfx.rect(reagirl.Debugx, reagirl.Debugy, reagirl.Debugw, reagirl.Debugh, 1)
+  end
 end
 
 function reagirl.Dummy()
@@ -12643,7 +12743,7 @@ function reagirl.Label_Add(x, y, label, meaningOfUI_Element, clickable, run_func
   if type(label)~="string" then error("Label_Add: param #3 - must be a string", 2) end
   if type(meaningOfUI_Element)~="string" then error("Label_Add: param #4 - must be a string", 2) end
   if meaningOfUI_Element:sub(-1,-1)~="." and meaningOfUI_Element:sub(-1,-1)~="?" then error("Label_Add: param #4 - must end on a . like a regular sentence.", 2) end
-  if type(clickable)~="boolean" then error("Label_Add: param #6 - must be a boolean", 2) end
+  if type(clickable)~="boolean" then error("Label_Add: param #5 - must be a boolean", 2) end
   if run_function==nil then run_function=reagirl.Dummy end
   if type(run_function)~="function" then error("Label_Add: param #6 - must be either nil or a function", 2) end
   
@@ -12684,14 +12784,85 @@ function reagirl.Label_Add(x, y, label, meaningOfUI_Element, clickable, run_func
   reagirl.Elements[slot]["style4"]=0
   reagirl.Elements[slot]["bg_w"]=0
   reagirl.Elements[slot]["bg_h"]=0
+  reagirl.Elements[slot]["startline"]=0
   reagirl.Elements[slot]["func_draw"]=reagirl.Label_Draw
   reagirl.Elements[slot]["run_function"]=run_function
   reagirl.Elements[slot]["func_manage"]=reagirl.Label_Manage
   
   return reagirl.Elements[slot]["Guid"]
 end
+
+function reagirl.Label_CalculatePositions(element_storage, x, y, width, height, startline)
+  local startx=0
+  local starty=0
+  local positions={}
+  local count=0
+  local linecount=0
+  local shown_height=0
+  for i=1, element_storage.Name:len() do
+    offset=gfx.measurestr((element_storage.Name:sub(i,i)))
+    if count+offset>=width or element_storage.Name:sub(i,i)=="\n" then
+      count=0
+      startx=0
+      starty=starty+gfx.texth
+      shown_height=shown_height+gfx.texth
+      linecount=linecount+1
+    end
+    
+    count=count+gfx.measurestr(element_storage.Name:sub(i,i))
+    positions[i]={}
+    positions[i]["x"]=startx
+    positions[i]["y"]=starty
+    positions[i]["style"]=0
+    positions[i]["command"]=""
+    gfx.setfont(1, "Arial", reagirl.Font_Size, positions[i]["style"])
+    positions[i]["w"]=gfx.measurestr(element_storage.Name:sub(i,i))
+    positions[i]["h"]=gfx.texth
+    startx=startx+gfx.measurestr(element_storage.Name:sub(i,i))
+  end
+  return positions, linecount+1, math.floor(shown_height/gfx.texth)+1
+end
+
+function reagirl.Label_FindCharacter(element_storage, x, y, startposition)
+  element_storage.positions[#element_storage.positions+1]=element_storage.positions[#element_storage.positions]
+  for i=1, #element_storage.positions-1 do
+    --reagirl.DebugRect_Add(x,y,10,10)
+    if gfx.mouse_x-x>=element_storage.positions[i]["x"] and
+       gfx.mouse_x-x<=element_storage.positions[i]["x"]+element_storage.positions[i]["w"] and
+       gfx.mouse_y-y>=element_storage.positions[i]["y"] and
+       gfx.mouse_y-y<=element_storage.positions[i]["y"]+element_storage.positions[i]["h"] then
+       return i,1
+    elseif gfx.mouse_x-x>=element_storage.positions[i]["x"]+element_storage.positions[i]["w"] and 
+           gfx.mouse_y-y>=element_storage.positions[i]["y"] and 
+           gfx.mouse_y-y<=element_storage.positions[i]["y"]+element_storage.positions[i]["w"] and
+           element_storage.positions[i]["y"]~=element_storage.positions[i+1]["y"] then
+      return i, 2
+    end
+  end
+  if gfx.mouse_x-x<=element_storage.positions[1]["x"] or gfx.mouse_y-y<element_storage.positions[1]["y"] then return 0 end
+  if gfx.mouse_y-y>=element_storage.positions[#element_storage.positions]["y"]+element_storage.positions[#element_storage.positions]["h"] then
+     return #element_storage.positions-1, 3
+  elseif gfx.mouse_x-x>=element_storage.positions[#element_storage.positions-1]["x"]+element_storage.positions[#element_storage.positions-1]["w"] then
+     return #element_storage.positions-1, 4
+  elseif gfx.mouse_x-x<=element_storage.positions[1]["x"]+element_storage.positions[1]["w"] or
+         gfx.mouse_y-y<=element_storage.positions[1]["y"]+element_storage.positions[1]["h"] then
+         return 1,5
+  end
+  return #element_storage.positions
+end
+
 -- mespotine
 function reagirl.Label_Manage(element_id, selected, hovered, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
+
+  if element_storage.positions==nil then
+    element_storage.start_pos=0
+    element_storage.end_pos=0
+    element_storage.pos0=1
+    element_storage.pos1=1
+    element_storage.pos2=1
+    element_storage.pos3=1
+    element_storage.positions, element_storage.num_lines, element_storage.shown_lines=reagirl.Label_CalculatePositions(element_storage, x, y, w, h, element_storage.startline)
+  end
   -- drop files for accessibility using a file-requester, after typing ctrl+shift+f
   if element_storage["DropZoneFunction"]~=nil and Key==6 and mouse_cap==12 then
     local retval, filenames = reaper.GetUserFileNameForRead("", "Choose file to drop into "..element_storage["Name"], "")
@@ -12716,6 +12887,147 @@ function reagirl.Label_Manage(element_id, selected, hovered, clicked, mouse_cap,
     gfx.x=oldx
     gfx.y=oldy
     --if selection==1 then reaper.CF_SetClipboard(name) end
+  end
+  
+  
+  -- Text-Selection
+  -- To Do:
+  --   currently affects all(!) labels, not just the one currently focused
+  if selected~="not selected" then
+    if Key==1919379572.0 then
+      -- right
+      element_storage.pos3=element_storage.pos3+1
+      if element_storage.pos3>element_storage.Name:len() then element_storage.pos3=element_storage.Name:len() end
+      element_storage.pos2=element_storage.pos3
+      element_storage.pos1=element_storage.pos3
+      if mouse_cap&8==8 then
+        if element_storage.pos3>element_storage.pos0 then 
+          element_storage.pos1=element_storage.pos0 
+          element_storage.pos2=element_storage.pos3
+        else 
+          element_storage.pos1=element_storage.pos3
+          element_storage.pos2=element_storage.pos0
+        end
+      else
+        element_storage.pos0=element_storage.pos3
+      end
+      reagirl.Gui_ForceRefresh()
+    elseif Key==1818584692.0 then
+      -- left
+      element_storage.pos3=element_storage.pos3-1
+      if element_storage.pos3<1 then element_storage.pos3=1 end
+      element_storage.pos2=element_storage.pos3
+      element_storage.pos1=element_storage.pos3
+      if mouse_cap&8==8 then
+        if element_storage.pos3>element_storage.pos0 then 
+          element_storage.pos1=element_storage.pos0 
+          element_storage.pos2=element_storage.pos3
+        else 
+          element_storage.pos1=element_storage.pos3
+          element_storage.pos2=element_storage.pos0
+        end
+      else
+        element_storage.pos0=element_storage.pos3
+      end
+      reagirl.Gui_ForceRefresh()
+    elseif Key==1685026670.0 then
+      -- down
+      local curx, cury=element_storage.positions[element_storage.pos3]["x"], element_storage.positions[element_storage.pos3]["y"]
+      local found=false
+      for i=element_storage.pos3, element_storage.Name:len() do
+        if element_storage.positions[i]["y"]>cury and element_storage.positions[i]["x"]>=curx then
+          found=i
+          break
+        end
+      end
+      if found==false then found=#element_storage.positions end
+      if mouse_cap&8==0 then
+        element_storage.pos3=found
+        element_storage.pos0=element_storage.pos3
+      elseif mouse_cap&8==8 then
+        if found>element_storage.pos0 then 
+          element_storage.pos1=element_storage.pos0 
+          element_storage.pos2=found 
+        else 
+          element_storage.pos1=found 
+          element_storage.pos2=element_storage.pos0
+        end
+        element_storage.pos3=found-1
+      end
+      reagirl.Gui_ForceRefresh()
+    elseif Key==30064.0 then
+      -- up
+      local curx, cury=element_storage.positions[element_storage.pos3]["x"], element_storage.positions[element_storage.pos3]["y"]
+      local found=false
+      for i=element_storage.pos3, 1, -1 do
+        if element_storage.positions[i]["y"]<cury and element_storage.positions[i]["x"]<=curx then
+          found=i+1
+          break
+        end
+      end
+      if found==false then found=1 end
+      if mouse_cap&8==0 then
+        element_storage.pos3=found
+        element_storage.pos0=element_storage.pos3
+      elseif mouse_cap&8==8 then
+        if found>element_storage.pos0 then 
+          element_storage.pos1=element_storage.pos0 
+          element_storage.pos2=found 
+        else 
+          element_storage.pos1=found 
+          element_storage.pos2=element_storage.pos0
+        end
+        element_storage.pos3=found-1
+      end
+      reagirl.Gui_ForceRefresh()
+    end
+    
+    if clicked=="FirstCLK" and mouse_cap&8==0 then
+      element_storage.pos1,E=reagirl.Label_FindCharacter(element_storage, x, y, element_storage.startline)
+      element_storage.pos2=element_storage.pos1
+      element_storage.pos3=element_storage.pos1
+      element_storage.pos0=element_storage.pos1
+      reagirl.Gui_ForceRefresh()
+    elseif clicked=="FirstCLK" and mouse_cap&8==8 then
+      element_storage.pos2,E=reagirl.Label_FindCharacter(element_storage, x, y, element_storage.startline)
+      element_storage.pos1=element_storage.pos0
+      element_storage.pos3=element_storage.pos2
+      reagirl.Gui_ForceRefresh()
+    elseif clicked=="DRAG" then
+      element_storage.pos2,E=reagirl.Label_FindCharacter(element_storage, x, y, element_storage.startline)
+      element_storage.pos3=element_storage.pos2
+      reagirl.Gui_ForceRefresh()
+    elseif clicked=="DBLCLK" then
+      element_storage.pos,E=
+      reagirl.Label_FindCharacter(element_storage, x, y, element_storage.startline)
+      for i=element_storage.pos, 1, -1 do
+        if element_storage.Name:sub(i,i):lower():match("[%a%d%_]")==nil then
+          break
+        end
+        element_storage.pos1=i-1
+      end
+      for i=element_storage.pos, (element_storage.Name.." "):len() do
+        if element_storage.Name:sub(i,i):lower():match("[%a%d%_]")==nil then
+          break
+        end
+        element_storage.pos2=i
+      end
+      element_storage.pos3=element_storage.pos2
+      reagirl.Gui_ForceRefresh()
+    end
+    
+    
+    if element_storage.pos2==nil or element_storage.pos1==nil then 
+      element_storage.pos3=nil 
+    else
+      if element_storage.pos2<element_storage.pos1 then 
+        element_storage.start_pos=element_storage.pos2+1 
+        element_storage.end_pos=element_storage.pos1 
+      elseif element_storage.pos2>=element_storage.pos1 then
+        element_storage.start_pos=element_storage.pos1+1 
+        element_storage.end_pos=element_storage.pos2 
+      end
+    end
   end
   
   if selected~="not selected" and 
@@ -12864,12 +13176,13 @@ function reagirl.Label_Draw(element_id, selected, hovered, clicked, mouse_cap, m
     gfx.set(col3)
     gfx.x=x+dpi_scale
     gfx.y=y+dpi_scale
-    gfx.drawstr(name, element_storage["align"])--, x+w, y+h)
+    --gfx.drawstr(name, element_storage["align"])--, x+w, y+h)
+    --reagirl.BlitText_AdaptLineLength(name, x+dpi_scale, y+dpi_scale, w, h, element_storage["align"], element_storage.start_pos, element_storage.end_pos, element_storage.pos3, element_storage.startline, element_storage.positions)
     
     gfx.set(col,col,col2)
     gfx.x=x
     gfx.y=y
-    gfx.drawstr(name, element_storage["align"])--, x+w, y+h)
+    reagirl.BlitText_AdaptLineLength(name, x, y, w, h, element_storage["align"], element_storage.start_pos, element_storage.end_pos, element_storage.pos3, element_storage.startline, element_storage.positions, 1, 1, 0, 1, col, col, col2, 1)
     
     if element_storage["bg"]=="auto" then
       _, _, _, _, _, _, _, _, bg_w = reagirl.Gui_GetBoundaries()
@@ -12884,11 +13197,9 @@ function reagirl.Label_Draw(element_id, selected, hovered, clicked, mouse_cap, m
         -- buggy
         bg_h=y2+h2
       end
-      --reaper.MB(bg_w, bg_h, 0)
       element_storage["bg_w"]=bg_w/reagirl.Window_GetCurrentScale()
       element_storage["bg_h"]=bg_h-1
       element_storage["bg"]=nil
-      --element_storage["bg_auto"]=true
     end
     
     local bg_h=element_storage["bg_h"]
@@ -12903,16 +13214,6 @@ function reagirl.Label_Draw(element_id, selected, hovered, clicked, mouse_cap, m
     end
     
     if bg_w~=0 and bg_h~=0 then
-    --[[
-      gfx.set(0.2)
-      gfx.rect(x-10+dpi_scale, y+(gfx.texth>>1)+dpi_scale, 5, dpi_scale, 1)
-      gfx.rect(x-10+dpi_scale, y+(gfx.texth>>1)+dpi_scale, dpi_scale, bg_h, 1)
-      if bg_h>1 then
-        gfx.rect(x-10+dpi_scale, y+bg_h+(gfx.texth>>1)+dpi_scale, bg_w+12, dpi_scale, 1)
-      end
-      gfx.rect(x+dpi_scale+bg_w+dpi_scale, y+(gfx.texth>>1)+dpi_scale, dpi_scale, bg_h, 1)
-      gfx.rect(x+dpi_scale+w2+5+dpi_scale, y+(gfx.texth>>1)+dpi_scale, bg_w-w2-5, dpi_scale, 1)
-      --]]
       gfx.set(0.5)
       gfx.rect(x-10*dpi_scale, y+(gfx.texth>>1), 5*dpi_scale, dpi_scale, 1)
       gfx.rect(x-10*dpi_scale, y+(gfx.texth>>1), dpi_scale, bg_h*dpi_scale, 1)
@@ -12950,15 +13251,7 @@ function reagirl.Label_Draw(element_id, selected, hovered, clicked, mouse_cap, m
       gfx.drawstr(name, element_storage["align"])
       gfx.dest=olddest
     end
-    --reagirl.SetFont(1, "Arial", element_storage["font_size"],0)
   end
-  --[[gfx.dest=-1
-  gfx.x=x
-  gfx.y=y
-  gfx.mode=1
-  gfx.blit(1001, 1, 0)
-  
-  --]]
   
   gfx.x=oldx
   gfx.y=oldy
