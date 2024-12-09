@@ -12789,6 +12789,8 @@ function reagirl.Label_Add(x, y, label, meaningOfUI_Element, clickable, run_func
   reagirl.Elements[slot]["run_function"]=run_function
   reagirl.Elements[slot]["func_manage"]=reagirl.Label_Manage
   
+  reagirl.Elements[slot]["text_selection"]=false
+  
   return reagirl.Elements[slot]["Guid"]
 end
 
@@ -12892,8 +12894,16 @@ function reagirl.Label_Manage(element_id, selected, hovered, clicked, mouse_cap,
   
   -- Text-Selection
   -- To Do:
-  --   currently affects all(!) labels, not just the one currently focused
-  if selected~="not selected" then
+  --   Can't go to first character with cursor keys/clicking
+  --   When going to first character, up-key crashes occasionally
+  --   Cursor must be set to blinking/non visible
+  --   Ctrl+Copy shall copy selected text
+  --   update positions when width/height change
+  --   home/end-keys(+shift) not implemented yet
+  --   pgup/PgDn(+shift) not implemented yet
+  --   occasional crashes when clicking and dragging
+  --   get/set text-selection functions
+  if selected~="not selected" and element_storage["text_selection"]==true then
     if Key==1919379572.0 then
       -- right
       element_storage.pos3=element_storage.pos3+1
@@ -13165,6 +13175,9 @@ function reagirl.Label_Draw(element_id, selected, hovered, clicked, mouse_cap, m
                                      element_storage["align"])
                                      --]]
   else
+    local cursor_alpha=0 -- text.selection-cursor
+    if element_storage["text_selection"]==true then cursor_alpha=1 end
+    
     local col=0.8
     local col2=0.8
     local col3=0.2
@@ -13177,12 +13190,12 @@ function reagirl.Label_Draw(element_id, selected, hovered, clicked, mouse_cap, m
     gfx.x=x+dpi_scale
     gfx.y=y+dpi_scale
     --gfx.drawstr(name, element_storage["align"])--, x+w, y+h)
-    --reagirl.BlitText_AdaptLineLength(name, x+dpi_scale, y+dpi_scale, w, h, element_storage["align"], element_storage.start_pos, element_storage.end_pos, element_storage.pos3, element_storage.startline, element_storage.positions)
-    
+    reagirl.BlitText_AdaptLineLength(name, x+dpi_scale, y+dpi_scale, w, h, element_storage["align"], element_storage.start_pos, element_storage.end_pos, element_storage.pos3, element_storage.startline, element_storage.positions, 1, 1, 0, cursor_alpha, col3, col3, col3, 1)
+
     gfx.set(col,col,col2)
     gfx.x=x
     gfx.y=y
-    reagirl.BlitText_AdaptLineLength(name, x, y, w, h, element_storage["align"], element_storage.start_pos, element_storage.end_pos, element_storage.pos3, element_storage.startline, element_storage.positions, 1, 1, 0, 1, col, col, col2, 1)
+    reagirl.BlitText_AdaptLineLength(name, x, y, w, h, element_storage["align"], element_storage.start_pos, element_storage.end_pos, element_storage.pos3, element_storage.startline, element_storage.positions, 1, 1, 0, cursor_alpha, col, col, col2, 1)
     
     if element_storage["bg"]=="auto" then
       _, _, _, _, _, _, _, _, bg_w = reagirl.Gui_GetBoundaries()
