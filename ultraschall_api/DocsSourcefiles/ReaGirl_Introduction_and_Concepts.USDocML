@@ -24,6 +24,8 @@
             Each ui-element can have a file-drop zone so you can easily drag n drop files onto them. And just like context-menus, you don't need to place or manage anything. Just add it to a ui-element and ReaGirl does the rest.  
             * AutoScaling    
             ReaGirl scales the gui automatically. So if you change the scaling-factor in Reaper's preferences or use a gui on HiDPI/Retina-displays, ReaGirl scales properly for you.  
+			* Linking of UI-Elements to states  
+			Many of the ui-elements can be linked to toggle-states, extstates, ini-file-entries and config-variables  
             * Screen Reader Support    
             Blind people can navigate through your gui via keyboard and get feedback to their screen readers, which reads to them the currently selected ui-element and the chosen setting. ReaGirl does it all for you.  
               
@@ -4304,6 +4306,90 @@
           Tutorials
         </chapter_context>
         <previous_chapter>Tutorial_009_Structuring_Guis_With_Labels</previous_chapter>  
+        <next_chapter>Tutorial_011_Linking_UI_Elements_To_States</next_chapter>  
+        <tags></tags>  
+    </US_DocBloc>  
+	
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">  
+        <slug>Tutorial_011_Linking_UI_Elements_To_States</slug>  
+        <title>Tutorial 011: Linking UI-elements to states</title>  
+        <description markup_type="markdown" markup_version="1.0.1" indent="default">  
+			In ReaGirl, you can link many of the ui-elements to states like toggle-command-states, extstates, ini-file-entries or config-variables.
+			That means: if the state is updated by something, the ui-element is updated immediately and clicking/altering the ui-element updates the state is is linked to immediately as well.
+			With that, you can easily create guis that alter configuration-settings without having to think about it a lot.
+			Let me show you an example by linking a checkbox to the toggle-state of the loop-button-action.
+			
+			We start with the basic gui containing one checkbox:
+			
+					-- 0. enable ReaGirl for the script
+					dofile(reaper.GetResourcePath().."/UserPlugins/reagirl.lua")
+
+					-- 1. add the run-functions for the ui-elements
+					function checkbox_run_function()
+					end
+
+					-- 2. start a new gui
+					reagirl.Gui_New()
+
+					-- 3. add the checkbox, that shall display the toggle-state of the loop-action
+					checkbox_id = reagirl.Checkbox_Add(10, 10, "Loop-State", "Shows the state of the loop-button.\nGets immediately updated when the loop-button is clicked/the loop-action is run.", true, checkbox_run_function)
+
+					-- 4. open the gui
+					reagirl.Gui_Open("My Dialog Name", false, "Dialog Title", "A short explanation of my dialog.", nil, nil, nil, nil, nil)
+
+					-- 5. start the gui with the manage-function, whose parameter is set to true
+					reagirl.Gui_Manage(true)
+
+			![A window with one checkbox that reads "Loop-State" in the caption.](gfx/Tutorial11_1.png "A window with one checkbox that reads "Loop-State" in the caption")  
+
+			This shows a nice little window with one checkbox, but clicking it does nothing to the loop-button.   
+			So let's add one new line, a functioncall to reagirl.Checkbox\_LinkToToggleState() directly after the Checkbox\_Add-function.
+			We link it to the action "Transport: Toggle repeat" with command-id 1068 in the main-section(0) and we set the last parameter to true that signals, that toggling the checkbox shall run the 
+			linked action to change the toggle-state(some actions require this, more about this later).  
+			Ok, let's see, how the code looks now with the new line:
+			
+					-- 0. enable ReaGirl for the script
+					dofile(reaper.GetResourcePath().."/UserPlugins/reagirl.lua")
+
+					-- 1. add the run-functions for the ui-elements
+					function checkbox_run_function()
+					end
+
+					-- 2. start a new gui
+					reagirl.Gui_New()
+
+					-- 3. add the checkbox, that shall display the toggle-state of the loop-action
+					checkbox_id = reagirl.Checkbox_Add(10, 10, "Loop-State", "Shows the state of the loop-button.\nGets immediately updated when the loop-button is clicked/the loop-action is run.", true, checkbox_run_function)
+					reagirl.Checkbox_LinkToToggleState(checkbox_id, 0, 1068, true)
+
+					-- 4. open the gui
+					reagirl.Gui_Open("My Dialog Name", false, "Dialog Title", "A short explanation of my dialog.", nil, nil, nil, nil, nil)
+
+					-- 5. start the gui with the manage-function, whose parameter is set to true
+					reagirl.Gui_Manage(true)
+
+			Looking good, so let's run it and check, what happens, when we toggle the checkbox and the loop-button.
+			
+			![A window with one checkbox that reads "Loop-State" in the caption. Toggling the checkbox toggles the loop-button-state as well. Toggling the loop-button toggles the checkbox-state as well.](gfx/Tutorial11_2.gif "A window with one checkbox that reads "Loop-State" in the caption. Toggling the checkbox toggles the loop-button-state as well. Toggling the loop-button toggles the checkbox-state as well.")  
+			
+			Nice. With just one additional line, we made the checkbox behaving according to the loop-button. And it even works, when you run the loop-action from the actionlist or from a shortcut: the checkbox is toggled accordingly.
+
+			Note: as I said, some actions need to be run for the toggle-state to change. In that case, set the last parameter of reagirl.Checkbox\_LinkToToggleState() to true.
+			If you need to set the last parameter to true or false depends on how the action actually works. Best is to check first with false and see, if the behavior is as you expected. If not, set it to true and test it again. This should work most of the times.
+			
+			As mentioned, you can link ui-elements to toggle-states(checkboxes), ext-states(checkbox, dropdownmenu, slider, inputbox), ini-file-entries(checkbox, dropdownmenu, slider, inputbox), integer-bitfield-config-variables(checkbox), integer/double config-variables(slider), string config-variables(inputbox).
+			And everytime the linked-state is updated, the ui-element gets updated and when the ui-element gets updated, the state gets updated immediately too.
+			
+			And to unlink a ui-element from a ui-element, use the \_UnLink() functions, like reagirl.Checkbox\_UnLink() for checkboxes.
+			
+			This should make things real easy for you, when making guis with certain settings available in one spot.	
+        </description>  
+        <target_document>ReaGirl_Introduction_and_Concepts.html</target_document>  
+        <source_document>ReaGirl_Introduction_and_Concepts.USDocML</source_document>  
+        <chapter_context>
+          Tutorials
+        </chapter_context>
+        <previous_chapter>Tutorial_010_Structuring_Guis_With_Labels_When_Autopositioning</previous_chapter>  
         <next_chapter>The_Gui_Elements_000</next_chapter>  
         <tags></tags>  
     </US_DocBloc>  
@@ -4395,8 +4481,14 @@
             - reagirl.Checkbox\_GetDisabled - gets the current disability-state of a checkbox, if it can be clicked  
             - reagirl.Checkbox\_SetCheckState - sets the checkstate of the checkbox  
             - reagirl.Checkbox\_GetCheckState - gets the current checkstate of the checkbox  
-            - reagirl.Checkbox\_SetWidth - sets width of a checkbox, which helps you with autopositioning
-              
+            - reagirl.Checkbox\_SetWidth - sets width of a checkbox, which helps you with autopositioning  
+			
+			- reagirl.Checkbox\_LinkToConfigVar - links the checkbox to a certain config-variable-bitfield  
+			- reagirl.Checkbox\_LinkToExtstate - links the checkbox to an extstate  
+			- reagirl.Checkbox\_LinkToIniValue - links the checkbox to an ini-value
+			- reagirl.Checkbox\_LinkToToggleState - links the checkbox to the toggle-state of an action  
+			- reagirl.Checkbox\_Unlink - removes the link between the checkbox and a certain state  
+			
             Check the [first tutorial "A basic gui"](#Tutorial_001_A_Basic_Gui) to see examples of guis with checkboxes.  
         </description>  
         <target_document>ReaGirl_Introduction_and_Concepts.html</target_document>  
@@ -4556,8 +4648,12 @@
             - reagirl.Inputbox\_SetText - sets the text in the editfield of an inputbox  
             - reagirl.Inputbox\_SetEmptyText - sets text that is shown when no text has been entered  
             - reagirl.Inputbox\_GetSelectedText - gets the currently selected text  
-            - reagirl.Inputbox\_GetCursorOffset - gets the current offset of the edit-cursor in the editfield of an inputbox              
-                          
+            - reagirl.InputBox\_GetCursorOffset - gets the current offset of the edit-cursor in the editfield of an inputbox              
+			
+			- reagirl.InputBox\_LinkToConfigVar - links the inputbox to a certain config-variable
+			- reagirl.InputBox\_LinkToExtstate - links the inputbox to an extstate  
+			- reagirl.InputBox\_LinkToIniValue - links the inputbox to an ini-value
+			- reagirl.InputBox\_Unlink - removes the link between the inputbox and a certain state  
             Check the examples in the subfolder Additional\_Examples for examples of guis with inputboxes. Run the action "ReaGirl\_OpenFolder\_ExampleScripts.lua" to open the example-folder.  
         </description>  
         <target_document>ReaGirl_Introduction_and_Concepts.html</target_document>  
@@ -4600,7 +4696,11 @@
             - reagirl.DropDownMenu\_GetDisabled - gets the current disability state of the drop down menu  
             - reagirl.DropDownMenu\_GetMenuItems - gets the menu-items of the drop down menu  
             - reagirl.DropDownMenu\_SetMenuItems - sets the menu-items of the drop down menu  
-              
+			
+			- reagirl.DropDownMenu\_LinkToExtstate - links the drop down menu to an extstate  
+			- reagirl.DropDownMenu\_LinkToIniValue - links the drop down menu to an ini-value
+			- reagirl.DropDownMenu\_Unlink - removes the link between the drop down menu and a certain state  
+			
             Check the [fourth tutorial "Disabled UI-Elements"](#Tutorial_004_Disabled_UI_Elements) to see examples of guis with sliders.  
         </description>  
         <target_document>ReaGirl_Introduction_and_Concepts.html</target_document>  
@@ -4659,7 +4759,12 @@
             - reagirl.Slider\_SetDimensions - sets the width of the slider  
             - reagirl.Slider\_GetDisabled - gets the disability-state of the slider  
             - reagirl.Slider\_SetDisabled - sets the disability-state of the slider, means, if it can be influenced by mouse or keyboard or not  
-              
+			
+            - reagirl.Slider\_LinkToIntConfigVar - links the slider to a certain integer config-variable
+			- reagirl.Slider\_LinkToDoubleConfigVar - links the slider to a certain double config-variable
+			- reagirl.Slider\_LinkToExtstate - links the slider to an extstate  
+			- reagirl.Slider\_LinkToIniValue - links the slider to an ini-value
+			- reagirl.Slider\_Unlink - removes the link between the checkbox and a certain state  
             Check the [fourth tutorial "Disabled UI-Elements"](#Tutorial_004_Disabled_UI_Elements) to see examples of guis with sliders.  
         </description>  
         <target_document>ReaGirl_Introduction_and_Concepts.html</target_document>  

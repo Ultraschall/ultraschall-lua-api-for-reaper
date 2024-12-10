@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API and ReaGirl">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API and ReaGirl package" type="extension">
-      <version name="56025.00" author="Meo-Ada Mespotine">
+      <version name="56031.00" author="Meo-Ada Mespotine">
 	<source file="reagirl.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5.1//reagirl.lua</source>
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5.1//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5.1//ultraschall_api_readme.txt</source>
@@ -55,6 +55,8 @@
 	<source file="/ultraschall_api/Documentation/Examples/ReaGirl/Tutorial_10/Tutorial_10_03.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5.1/ultraschall_api/Documentation/Examples/ReaGirl/Tutorial_10/Tutorial_10_03.lua</source>
 	<source file="/ultraschall_api/Documentation/Examples/ReaGirl/Tutorial_10/Tutorial_10_04.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5.1/ultraschall_api/Documentation/Examples/ReaGirl/Tutorial_10/Tutorial_10_04.lua</source>
 	<source file="/ultraschall_api/Documentation/Examples/ReaGirl/Tutorial_10/Tutorial_10_05.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5.1/ultraschall_api/Documentation/Examples/ReaGirl/Tutorial_10/Tutorial_10_05.lua</source>
+	<source file="/ultraschall_api/Documentation/Examples/ReaGirl/Tutorial_11/Tutorial_10_01.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5.1/ultraschall_api/Documentation/Examples/ReaGirl/Tutorial_11/Tutorial_10_01.lua</source>
+	<source file="/ultraschall_api/Documentation/Examples/ReaGirl/Tutorial_11/Tutorial_10_02.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5.1/ultraschall_api/Documentation/Examples/ReaGirl/Tutorial_11/Tutorial_10_02.lua</source>
 	<source file="/ultraschall_api/Documentation/Examples/ReaGirl/Tutorial_2/Tutorial_2_01.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5.1/ultraschall_api/Documentation/Examples/ReaGirl/Tutorial_2/Tutorial_2_01.lua</source>
 	<source file="/ultraschall_api/Documentation/Examples/ReaGirl/Tutorial_2/Tutorial_2_02.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5.1/ultraschall_api/Documentation/Examples/ReaGirl/Tutorial_2/Tutorial_2_02.lua</source>
 	<source file="/ultraschall_api/Documentation/Examples/ReaGirl/Tutorial_2/Tutorial_2_03.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5.1/ultraschall_api/Documentation/Examples/ReaGirl/Tutorial_2/Tutorial_2_03.lua</source>
@@ -182,6 +184,8 @@
 	<source file="/ultraschall_api/Documentation/gfx/Tutorial10_3.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5.1/ultraschall_api/Documentation/gfx/Tutorial10_3.png</source>
 	<source file="/ultraschall_api/Documentation/gfx/Tutorial10_4.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5.1/ultraschall_api/Documentation/gfx/Tutorial10_4.png</source>
 	<source file="/ultraschall_api/Documentation/gfx/Tutorial10_5.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5.1/ultraschall_api/Documentation/gfx/Tutorial10_5.png</source>
+	<source file="/ultraschall_api/Documentation/gfx/Tutorial11_1.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5.1/ultraschall_api/Documentation/gfx/Tutorial11_1.png</source>
+	<source file="/ultraschall_api/Documentation/gfx/Tutorial11_2.gif" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5.1/ultraschall_api/Documentation/gfx/Tutorial11_2.gif</source>
 	<source file="/ultraschall_api/Documentation/gfx/Tutorial1_1.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5.1/ultraschall_api/Documentation/gfx/Tutorial1_1.png</source>
 	<source file="/ultraschall_api/Documentation/gfx/Tutorial1_10.gif" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5.1/ultraschall_api/Documentation/gfx/Tutorial1_10.gif</source>
 	<source file="/ultraschall_api/Documentation/gfx/Tutorial1_2.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5.1/ultraschall_api/Documentation/gfx/Tutorial1_2.png</source>
@@ -681,7 +685,7 @@
 	<source main="true" file="/ultraschall_developertool_increment_mouse_modifier_and_store_name_of_mm_action_into_extstate.lua" type="script">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5.1//ultraschall_api/Scripts//Tools/DeveloperScripts//ultraschall_developertool_increment_mouse_modifier_and_store_name_of_mm_action_into_extstate.lua</source>
 <changelog><![CDATA[Ultraschall Framework - Changelog
 
-5.1 - “Beach Boys - Wind Chimes” - 20th of January 2025
+5.1 - “Beach Boys - Wind Chimes” - 11th of December 2024
 
 Has now 1834 functions, with 27 new ones
 
@@ -746,6 +750,8 @@ New features in 5.1
     integer-config-variable
 -   ReaGirl: Slider_Unlink - remove link of a slider with an
     ini-file-entry/configvar/extstate
+-   ReaGirl: Tutorials - a new tutorial to link a checkbox to a
+    toggle-command-state
 -   ReaGirl: Window_ResizedFunc - adds a run-function that is always
     executed, when the window is resized
 

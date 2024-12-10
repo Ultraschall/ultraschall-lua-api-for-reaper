@@ -7537,7 +7537,7 @@ end
 function reagirl.Checkbox_LinkToIniValue(element_id, ini_file, section, key, false_val, true_val, default
 )
 --[[
-<US_ DocBloc version="1.0" spok_lang="en" prog_lang="*">
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>Checkbox_LinkToIniValue</slug>
   <requires>
     ReaGirl=1.1
@@ -8582,7 +8582,7 @@ reagirl.Gui_ScriptInstance=reaper.genGuid()
 
 function reagirl.Gui_GetCurrentScriptInstance()
   --[[
-  <US_ DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
     <slug>Gui_GetCurrentScriptInstance</slug>
     <requires>
       ReaGirl=1.1

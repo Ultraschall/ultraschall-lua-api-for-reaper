@@ -393,7 +393,7 @@ Check why that is...probably because of Label_SetLabelText somehow resetting the
 
 ## Ultraschall Framework - Changelog
 
-### 5.1 - "Beach Boys - Wind Chimes" - 20th of January 2025
+### 5.1 - "Beach Boys - Wind Chimes" - 11th of December 2024
 
 Has now 1834 functions, with 27 new ones
 
@@ -434,6 +434,7 @@ Has now 1834 functions, with 27 new ones
   - ReaGirl: Slider\_LinkToIniValue - link a slider to an ini-file-entry
   - ReaGirl: Slider\_LinkToIntConfigVar - link a slider to an integer-config-variable
   - ReaGirl: Slider\_Unlink - remove link of a slider with an ini-file-entry/configvar/extstate
+  - ReaGirl: Tutorials - a new tutorial to link a checkbox to a toggle-command-state
   - ReaGirl: Window\_ResizedFunc - adds a run-function that is always executed, when the window is resized
 
 #### Changes from 5 to 5.1  
@@ -444,6 +445,7 @@ Has now 1834 functions, with 27 new ones
   - ReaGirl: Ext\_Window\_Focus - allows now focusing a dedicated ReaGirl-gui-instance, if multiple are opened with the same name
   - ReaGirl: Ext\_Window\_GetState - allows now getting window dimensions of a dedicated ReaGirl-gui-instance, if multiple are opened with the same name
   - ReaGirl: Ext\_Window\_SetState - allows now setting window dimensions of a dedicated ReaGirl-gui-instance, if multiple are opened with the same name
+  
 ---
 
 ### 5 - "Eels - Novocaine for the Soul" - 9th of August 2024
