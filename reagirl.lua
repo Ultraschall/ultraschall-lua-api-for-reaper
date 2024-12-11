@@ -3299,9 +3299,9 @@ function reagirl.BlitText_AdaptLineLength(text, x, y, width, height, align, sele
       end
       if text:sub(i,i)~="\n" then
         if i>=selected_start and i<=selected_end then
-          gfx.setfont(1, "Arial", reagirl.Font_Size, 86)
+          gfx.setfont(1, "Arial", reagirl.Font_Size*reagirl.Window_GetCurrentScale(), 86)
         else
-          gfx.setfont(1, "Arial", reagirl.Font_Size, (positions[i]["style"]))
+          gfx.setfont(1, "Arial", reagirl.Font_Size*reagirl.Window_GetCurrentScale(), (positions[i]["style"]))
         end
         gfx.drawstr(text:sub(i,i), 0)--, x+width, y+height)
       end
