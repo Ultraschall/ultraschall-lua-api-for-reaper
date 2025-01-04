@@ -1,3 +1,25 @@
+Issues:
+ReaGirl: Retina bläst ReaGirl-Gui auf doppelte Größe(also 2x wird 4x, etc) -> fixen
+Focus Rectangle sollte erst erscheinen, wenn man in der Gui Tab benutzt, sonst ausgeblendet(wird auch bei Klick in Feld ohne Gui-Element wieder ausgeblendet)
+	- optional immer einblendbar machen
+	(drin, aber teste es nochmal genauer aus)
+Docs: eine Doku, wie man eine Gui so schreibt, dass man einfach mal schnell ui-elemente hinzufügen kann, ohne alles per Hand neu verschieben zu müssen und ohne Autoposition zu nutzen.
+	Prinzipiell:
+		h=100
+		Checkbox_Add(10,h)
+		h=h+10
+		Checkbox_Add(10,h)
+		h=h+10
+		Image_Add(10,h,100,100)
+		h=h+100
+		Checkbox_Add(10,h)
+	So in Etwa.
+Slider: Clickarea des Slider-Knobs ist verschoben nach rechts, bitte nochmal nachjustieren(see ReaGirl-Settings)
+
+		
+
+
+
 <TODO>
     -- SPectral Edit: supports takes, but do the functions support takes too? Answer: NO, not yet...
 
@@ -402,13 +424,19 @@ Has now 1834 functions, with XX new ones
   - **Bla**  
   Bla
     
-#### New features in 5.12 
-  - Bla: Bla - Bla
+#### New features in 5.2 
+  - ReaGirl: ColorRectangle\_Add - adds a color-rectangle, optionally opening a color-selector-dialog when clicking item
+	- ReaGirl: ColorRectangle\_GetColor - gets the current color of a color-rectangle
+	- ReaGirl: ColorRectangle\_GetRadius - gets the current radius of the edges of a color-rectangle
+	- ReaGirl: ColorRectangle\_SetColor - sets the color of a color-rectangle
+	- ReaGirl: ColorRectangle\_SetRadius - sets the radius of the edges of a color-rectangle
+	- ReaGirl: UI\_Element\_GetSetSticky - gets/sets a ui-element to a sticky position, so it will not move when scrolling
+	- ReaGirl: Window\_GetScrollOffset - gets the scroll-offset of the window's gui
 
 #### Changes from 5.1 to 5.2  
 	- ReaGirl: keyboard-navigation - focus-rectangle is only shown, when the user uses the tab key to navigates; can be set to "show always" in the settings
 	- ReaGirl: mouse-cursors - when hovering above clickable/draggable areas, the mouse always changes the cursor to show you, where click/drag areas are
-	
+	- ReaGirl: Sliders - clickarea for the slider-knob should be more precise and not move to the left of the knob
 ---
 
 ### 5.1 - "Beach Boys - Wind Chimes" - 11th of December 2024

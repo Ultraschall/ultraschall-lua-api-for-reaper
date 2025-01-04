@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API and ReaGirl">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API and ReaGirl package" type="extension">
-      <version name="56034.00" author="Meo-Ada Mespotine">
+      <version name="56040.00" author="Meo-Ada Mespotine">
 	<source file="reagirl.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5.2//reagirl.lua</source>
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5.2//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5.2//ultraschall_api_readme.txt</source>
@@ -682,7 +682,20 @@
 	<source main="true" file="/ultraschall_developertool_findConfigVarsToggledByActions.lua" type="script">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5.2//ultraschall_api/Scripts//Tools/DeveloperScripts//ultraschall_developertool_findConfigVarsToggledByActions.lua</source>
 	<source main="true" file="/ultraschall_developertool_gfx_deltablit_displayer.lua" type="script">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5.2//ultraschall_api/Scripts//Tools/DeveloperScripts//ultraschall_developertool_gfx_deltablit_displayer.lua</source>
 	<source main="true" file="/ultraschall_developertool_increment_mouse_modifier_and_store_name_of_mm_action_into_extstate.lua" type="script">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5.2//ultraschall_api/Scripts//Tools/DeveloperScripts//ultraschall_developertool_increment_mouse_modifier_and_store_name_of_mm_action_into_extstate.lua</source>
-<changelog><![CDATA[Ultraschall Framework - Changelog
+<changelog><![CDATA[Issues: ReaGirl: Retina bläst ReaGirl-Gui auf doppelte Größe(also 2x
+wird 4x, etc) -> fixen Focus Rectangle sollte erst erscheinen, wenn man
+in der Gui Tab benutzt, sonst ausgeblendet(wird auch bei Klick in Feld
+ohne Gui-Element wieder ausgeblendet) - optional immer einblendbar
+machen (drin, aber teste es nochmal genauer aus) Docs: eine Doku, wie
+man eine Gui so schreibt, dass man einfach mal schnell ui-elemente
+hinzufügen kann, ohne alles per Hand neu verschieben zu müssen und ohne
+Autoposition zu nutzen. Prinzipiell: h=100 Checkbox_Add(10,h) h=h+10
+Checkbox_Add(10,h) h=h+10 Image_Add(10,h,100,100) h=h+100
+Checkbox_Add(10,h) So in Etwa. Slider: Clickarea des Slider-Knobs ist
+verschoben nach rechts, bitte nochmal nachjustieren(see
+ReaGirl-Settings)
+
+Ultraschall Framework - Changelog
 
 5.2 - “?? - ??” - 10th of February 2025
 
@@ -693,14 +706,28 @@ new in this release:
 -   Bla
     Bla
 
-New features in 5.12
+New features in 5.2
 
--   Bla: Bla - Bla
+-   ReaGirl: ColorRectangle_Add - adds a color-rectangle, optionally
+    opening a color-selector-dialog when clicking item
+    -   ReaGirl: ColorRectangle_GetColor - gets the current color of a
+        color-rectangle
+    -   ReaGirl: ColorRectangle_GetRadius - gets the current radius of
+        the edges of a color-rectangle
+    -   ReaGirl: ColorRectangle_SetColor - sets the color of a
+        color-rectangle
+    -   ReaGirl: ColorRectangle_SetRadius - sets the radius of the edges
+        of a color-rectangle
+    -   ReaGirl: UI_Element_GetSetSticky - gets/sets a ui-element to a
+        sticky position, so it will not move when scrolling
+    -   ReaGirl: Window_GetScrollOffset - gets the scroll-offset of the
+        window’s gui
 
 Changes from 5.1 to 5.2
 
     - ReaGirl: keyboard-navigation - focus-rectangle is only shown, when the user uses the tab key to navigates; can be set to "show always" in the settings
     - ReaGirl: mouse-cursors - when hovering above clickable/draggable areas, the mouse always changes the cursor to show you, where click/drag areas are
+    - ReaGirl: Sliders - clickarea for the slider-knob should be more precise and not move to the left of the knob
 ]]>
 </changelog>
       </version>
