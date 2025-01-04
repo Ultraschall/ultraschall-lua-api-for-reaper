@@ -30,8 +30,6 @@ else
   dofile(reaper.GetResourcePath().."/Scripts/Reaper_Internals/ultraschall_api.lua")
 end
 
-ultraschall.Lokasenna_LoadGuiLib_v2()
-
 function set_slem_val()
     local num =  GUI.Val("ShowLastErrorMessage")
     reaper.SetExtState("ultraschall_api", "ShowLastErrorMessage_Target", num-1, true)

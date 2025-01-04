@@ -393,6 +393,24 @@ Check why that is...probably because of Label_SetLabelText somehow resetting the
 
 ## Ultraschall Framework - Changelog
 
+### 5.2 - "?? - ??" - 10th of February 2025
+
+Has now 1834 functions, with XX new ones
+
+**new in this release:**  
+
+  - **Bla**  
+  Bla
+    
+#### New features in 5.12 
+  - Bla: Bla - Bla
+
+#### Changes from 5.1 to 5.2  
+	- ReaGirl: keyboard-navigation - focus-rectangle is only shown, when the user uses the tab key to navigates; can be set to "show always" in the settings
+	- ReaGirl: mouse-cursors - when hovering above clickable/draggable areas, the mouse always changes the cursor to show you, where click/drag areas are
+	
+---
+
 ### 5.1 - "Beach Boys - Wind Chimes" - 11th of December 2024
 
 Has now 1834 functions, with 27 new ones
