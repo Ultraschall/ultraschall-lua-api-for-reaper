@@ -91,7 +91,7 @@ TODO:
 -- DEBUG:
 --reaper.osara_outputMessage=nil
 
-
+gfx.ext_retina=0
 reagirl={}
 
 reagirl.Gui_Init_Me=true
