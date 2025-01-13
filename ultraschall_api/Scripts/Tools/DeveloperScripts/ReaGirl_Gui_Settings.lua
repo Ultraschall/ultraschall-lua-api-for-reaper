@@ -126,7 +126,7 @@ reaper.GetExtState("ReaGirl", "osara_enable_accmessage")
   reaper.SetExtState("ReaGirl", "scaling_override", val, true)
   if reagirl.Slider_GetValue(tab1.slider_blink_every_draggable)==0 then val="" else val=math.floor(reagirl.Slider_GetValue(tab1.slider_blink_every_draggable)*33) end
   reaper.SetExtState("ReaGirl", "highlight_drag_destination_blink", val, true)
-  reaper.SetExtState("ReaGirl", "font_face", reagirl.Inputbox_GetText(tab4.font_face), true)
+  --reaper.SetExtState("ReaGirl", "font_face", reagirl.Inputbox_GetText(tab4.font_face), true)
   reagirl.Gui_Close()
 end
 

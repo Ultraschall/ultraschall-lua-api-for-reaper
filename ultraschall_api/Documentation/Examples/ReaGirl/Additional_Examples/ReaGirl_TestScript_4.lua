@@ -73,13 +73,13 @@
   tab1.label_header2=reagirl.Label_Add(nil, nil, "Inputboxes", "Some demo-inputboxes.", false, nil)
   
   reagirl.NextLine()
-  tab1.inputbox_name_of_setting = reagirl.Inputbox_Add(nil, nil, 291, "Name:", 90, "Type in here the name of the setting.", "No title", nil, nil)
+  tab1.inputbox_name_of_setting = reagirl.Inputbox_Add(nil, nil, 300, "Name:", 90, "Type in here the name of the setting.", "No title", nil, nil)
   
   reagirl.NextLine()
-  tab1.inputbox_description_of_setting = reagirl.Inputbox_Add(nil, nil, 291, "Description:", 90, "Type in here a description of the setting.", "No Description", nil, nil)
+  tab1.inputbox_description_of_setting = reagirl.Inputbox_Add(nil, nil, 300, "Description:", 90, "Type in here a description of the setting.", "No Description", nil, nil)
   
   reagirl.NextLine()
-  tab1.button_choose_file_id = reagirl.Button_Add(255, nil, 0, 0, "Choose file", "Choose a file.", nil) -- a button
+  tab1.button_choose_file_id = reagirl.Button_Add(263, nil, 0, 0, "Choose file", "Choose a file.", nil) -- a button
 
   reagirl.Label_AutoBackdrop(tab1.label_header2, tab1.button_choose_file_id) -- set backdrop drawn by tab1.label_header2
                                                                              -- let it end underneath tab1.button_choose_file_id
@@ -90,13 +90,13 @@
 
   reagirl.NextLine() -- first line of checkboxes
   tab1.checkbox_mysetting = reagirl.Checkbox_Add(nil, nil, "My setting", "The first checkbox.", true, nil)
-  reagirl.Checkbox_SetWidth(tab1.checkbox_mysetting, 130) -- set the position of the next checkbox to a specific position to align it
+  reagirl.Checkbox_SetWidth(tab1.checkbox_mysetting, 85) -- set the position of the next checkbox to a specific position to align it
                                                          -- with the next line of checkboxes
   tab1.checkbox_another_setting = reagirl.Checkbox_Add(nil, nil, "Another setting", "The second checkbox.", true, nil)
   
   reagirl.NextLine() -- second line of checkboxes
   tab1.checkbox_extra_setting = reagirl.Checkbox_Add(nil, nil, "Extra", "A third checkbox?", true, nil)
-  reagirl.Checkbox_SetWidth(tab1.checkbox_extra_setting, 130) -- set the position of the next checkbox to a specific position to align it
+  reagirl.Checkbox_SetWidth(tab1.checkbox_extra_setting, 85) -- set the position of the next checkbox to a specific position to align it
                                                              -- with the previous line of checkboxes
   tab1.checkbox_remember = reagirl.Checkbox_Add(nil, nil, "Remember chosen setting", "Shall this setting be used as future default?", true, nil)
   
@@ -124,13 +124,13 @@
   tab1.label_header5=reagirl.Label_Add(nil, nil, "Sliders and DropDownMenus", ".", false, nil)
   
   reagirl.NextLine()
-  tab1.slider_blink_every = reagirl.Slider_Add(40, nil, 280, "Length in", 100, "Set the length in seconds.", "seconds", 1, 30, 0.1, 10, 1, nil)
+  tab1.slider_blink_every = reagirl.Slider_Add(40, nil, 300, "Length in", 100, "Set the length in seconds.", "seconds", 1, 30, 0.1, 10, 1, nil)
   
   reagirl.NextLine()
-  tab1.options=reagirl.DropDownMenu_Add(40, nil, 280, "Options:", 100, "Choose one of the options that set your settings.", {"Menu1", "Menu2", "Menu3"}, 1, nil)
+  tab1.options=reagirl.DropDownMenu_Add(40, nil, 300, "Options:", 100, "Choose one of the options that set your settings.", {"Menu1", "Menu2", "Menu3"}, 1, nil)
   
   reagirl.NextLine()
-  tab1.more_options=reagirl.DropDownMenu_Add(40, nil, 280, "More Options:", 100, "Choose additional settings in the options.", {"Option1", "Option2", "Option3"}, 2, nil)
+  tab1.more_options=reagirl.DropDownMenu_Add(40, nil, 300, "More Options:", 100, "Choose additional settings in the options.", {"Option1", "Option2", "Option3"}, 2, nil)
   
   reagirl.Label_AutoBackdrop(tab1.label_header5, tab1.more_options) -- set backdrop drawn by tab1.label_header5
                                                                     -- let it end underneath tab1.more_options
