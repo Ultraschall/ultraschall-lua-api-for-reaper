@@ -401,7 +401,11 @@ reagirl.UI_Element_NextLineX=10 -- don't change
 reagirl.Font_Size=15
 
 if reaper.GetExtState("ReaGirl", "Font_Face")=="" then
-  reagirl.Font_Face="Arial"
+  if reaper.GetOS()=="Other" then
+    reagirl.Font_Face="Liberation Sans"
+  else
+    reagirl.Font_Face="Arial"
+  end
 else
   reagirl.Font_Face=reaper.GetExtState("ReaGirl", "Font_Face")
 end
@@ -5096,6 +5100,21 @@ function reagirl.Gui_Manage(keep_running)
     reaper.SetExtState("Reagirl_Window_"..reagirl.Window_name.."-"..reagirl.Gui_ScriptInstance, "dock", dock, false)
   end
 
+  if reaper.GetExtState("ReaGirl", "Font_Face")=="" then
+    if reagirl.Font_Face~=reaper.GetExtState("ReaGirl", "Font_Face") and reagirl.Font_Face~="Arial" and reagirl.Font_Face~="Liberation Sans" then
+      reagirl.Gui_ForceRefresh(9855.1)
+    end
+    if reaper.GetOS()=="Other" then
+      reagirl.Font_Face="Liberation Sans"
+    else
+      reagirl.Font_Face="Arial"
+    end
+  else
+    if reagirl.Font_Face~=reaper.GetExtState("ReaGirl", "Font_Face") then
+      reagirl.Gui_ForceRefresh(9855)
+    end
+    reagirl.Font_Face=reaper.GetExtState("ReaGirl", "Font_Face")
+  end
 
   if reaper.GetExtState("ReaGirl", "ReFocusWindow")==reagirl.Window_name then
     reagirl.Window_SetFocus()
