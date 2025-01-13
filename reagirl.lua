@@ -26,6 +26,9 @@
 
 --[[
 TODO: 
+  - Zoom: change reagirl.ReScale to zoom
+      - ctrl++ and ctrl+- don't work due a Reaper-bug
+      - smaller stepsizes don't work due to the fact, that many parts of ReaGirl require integer-scaling and integer coordinates, but having smaller steps makes float ones
   - Sliders: add a way to limit unit to x digits after the punkt. Now: multiply it by 10^number_of_digits, make math.floor, then divide it back by 10^number_of_digits to get only the numbers needed.
              If that doesn't work, use your RoundNumber-function from Ultraschall-API.
  - fillable bar: vertical and horizontal, allows you to display a rectangle that gets filled to a certain point, like the "space on disk"-bars on windows of Workbench 1.3.
@@ -91,7 +94,7 @@ TODO:
 -- DEBUG:
 --reaper.osara_outputMessage=nil
 
-gfx.ext_retina=0
+gfx.ext_retina=1
 reagirl={}
 
 reagirl.Gui_Init_Me=true
@@ -396,6 +399,12 @@ reagirl.UI_Element_NextY_Default=10
 reagirl.UI_Element_NextLineY=0 -- don't change
 reagirl.UI_Element_NextLineX=10 -- don't change
 reagirl.Font_Size=15
+
+if reaper.GetExtState("ReaGirl", "Font_Face")=="" then
+  reagirl.Font_Face="Arial"
+else
+  reagirl.Font_Face=reaper.GetExtState("ReaGirl", "Font_Face")
+end
 
 reagirl.mouse={}
 reagirl.mouse.down=false
@@ -3327,9 +3336,9 @@ function reagirl.BlitText_AdaptLineLength(text, x, y, width, height, align, sele
           style2=style
         end
         if i>=selected_start and i<=selected_end then
-          gfx.setfont(1, "Arial", font_size*reagirl.Window_GetCurrentScale(), 86+(style2>>8))
+          gfx.setfont(1, reagirl.Font_Face, font_size*reagirl.Window_GetCurrentScale(), 86+(style2>>8))
         else
-          gfx.setfont(1, "Arial", font_size*reagirl.Window_GetCurrentScale(), style2)
+          gfx.setfont(1, reagirl.Font_Face, font_size*reagirl.Window_GetCurrentScale(), style2)
         end
         gfx.drawstr(text:sub(i,i), 0)--, x+width, y+height)
       end
@@ -3607,6 +3616,8 @@ function reagirl.Window_RescaleIfNeeded()
   if reagirl.Window_CurrentScale_Override==nil then
     if tonumber(reaper.GetExtState("ReaGirl", "scaling_override"))~=nil then
       scale=tonumber(reaper.GetExtState("ReaGirl", "scaling_override"))
+    elseif reagirl.ReScale~=nil then
+      scale=reagirl.ReScale
     else
       local retval, dpi = reaper.ThemeLayout_GetLayout("tcp", -3)
       local dpi=tonumber(dpi)
@@ -3644,7 +3655,7 @@ function reagirl.Window_RescaleIfNeeded()
       gfx.init("", math.floor(unscaled_w*scale), math.floor(unscaled_h*scale), 0, A, B)
     end
     reagirl.Window_CurrentScale=scale
-    reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0)
+    reagirl.SetFont(1, reagirl.Font_Face, reagirl.Font_Size, 0)
     reagirl.MoveItAllUp=0
     reagirl.MoveItAllRight=0
     for i=1, #reagirl.Elements do 
@@ -3891,7 +3902,7 @@ function reagirl.Gui_New()
   <tags>functions, new, gui</tags>
 </US_DocBloc>
 ]]
-  reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0)
+  reagirl.SetFont(1, reagirl.Font_Face, reagirl.Font_Size, 0)
   reagirl.NewUI=true
   reagirl.MaxImage=1
   
@@ -4223,7 +4234,7 @@ function reagirl.Window_SetCurrentScale(newscale)
     reagirl.Window_CurrentScale_Override=true
   end
   reagirl.Window_RescaleIfNeeded()
-  reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0, newscale)
+  reagirl.SetFont(1, reagirl.Font_Face, reagirl.Font_Size, 0, newscale)
 end
 
 --
@@ -4243,7 +4254,7 @@ function reagirl.SetFont(idx, fontface, size, flags, scale_override)
   </description>
   <parameters>
     integer idx - the index of the font to set
-    string fontface - the name of the font, like "arial" or "tahoma" or "times"
+    string fontface - the name of the font, like "arial" or "tahoma" or "times new roman"
     integer size - the size of the font(will be adjusted correctly on Mac)
     integer flags - a multibyte character, which can include 'i' for italics, 'u' for underline, or 'b' for bold. 
                       - These flags may or may not be supported depending on the font and OS. 
@@ -4361,7 +4372,7 @@ function reagirl.Gui_Open(name, restore_old_window_state, title, description, w,
   local tab_add=0
   if reagirl.Tabs_Count~=nil then tab_add=13 end 
   if w==nil then 
-    w=w2+15+tab_add
+    w=w2+19+tab_add
   end
   if h==nil then
     h=h2+15+tab_add
@@ -5189,7 +5200,16 @@ function reagirl.Gui_Manage(keep_running)
   
   
   -- [[ Keyboard Management ]]
-  local Key, Key_utf=gfx.getchar()
+  reagirl.Key={}
+  reagirl.Key_Utf={}
+  local Key, Key_utf = 0, 0
+  for i=1, 128 do
+    Key, Key_utf=gfx.getchar()
+    if Key==0 then break end
+    reagirl.Key[i]=Key
+    reagirl.Key_Utf[i]=Key_utf
+  end
+  Key, Key_utf = reagirl.Key[#reagirl.Key], reagirl.Key_Utf[#reagirl.Key]
   
   --Debug Code - move ui-elements via arrow keys, including stopping when end of ui-elements has been reached.
   -- This can be used to build more extensive scrollcode, including smooth scroll and scrollbars
@@ -7194,9 +7214,9 @@ function reagirl.Checkbox_Add(x, y, caption, meaningOfUI_Element, default, run_f
   --reagirl.UI_Element_NextX_Default=x
   
   table.insert(reagirl.Elements, slot, {})
-  reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0, 1)
+  reagirl.SetFont(1, reagirl.Font_Face, reagirl.Font_Size, 0, 1)
   local tx,ty=gfx.measurestr(caption)
-  reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0)
+  reagirl.SetFont(1, reagirl.Font_Face, reagirl.Font_Size, 0)
   
   reagirl.Elements[slot]["Guid"]=reaper.genGuid("")
   reagirl.Elements[slot]["GUI_Element_Type"]="Checkbox"
@@ -7430,7 +7450,7 @@ end
 
 function reagirl.Checkbox_Draw(element_id, selected, hovered, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
 
-  reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0)
+  reagirl.SetFont(1, reagirl.Font_Face, reagirl.Font_Size, 0)
   gfx.x=x
   gfx.y=y
   local offset
@@ -7478,7 +7498,7 @@ function reagirl.Checkbox_Draw(element_id, selected, hovered, clicked, mouse_cap
   gfx.x=x+h+4*scale
   gfx.y=y--+(h-gfx.texth)/2
   gfx.drawstr(name)
-  reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0)
+  reagirl.SetFont(1, reagirl.Font_Face, reagirl.Font_Size, 0)
   --]]
 end
 
@@ -8734,9 +8754,9 @@ function reagirl.ColorRectangle_Add(x, y, w, h, r, g, b, caption, meaningOfUI_El
   local x,y,slot=reagirl.UI_Element_GetNextXAndYPosition(x, y, "ColorRectangle_Add")
   --reagirl.UI_Element_NextX_Default=x
   
-  --reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0, 1)
+  --reagirl.SetFont(1, reagirl.Font_Face, reagirl.Font_Size, 0, 1)
   --local tx,ty=gfx.measurestr(caption)
-  --reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0)
+  --reagirl.SetFont(1, reagirl.Font_Face, reagirl.Font_Size, 0)
   if r<0 then r=0 end
   if r>255 then r=255 end
   if g<0 then g=0 end
@@ -9045,9 +9065,9 @@ function reagirl.ListView_Add(x, y, w, h, caption, meaningOfUI_Element, enable_s
   local x,y,slot=reagirl.UI_Element_GetNextXAndYPosition(x, y, "ListView_Add")
   --reagirl.UI_Element_NextX_Default=x
   
-  --reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0, 1)
+  --reagirl.SetFont(1, reagirl.Font_Face, reagirl.Font_Size, 0, 1)
   --local tx,ty=gfx.measurestr(caption)
-  --reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0)
+  --reagirl.SetFont(1, reagirl.Font_Face, reagirl.Font_Size, 0)
   
   table.insert(reagirl.Elements, slot, {})
   reagirl.Elements[slot]["Guid"]=reaper.genGuid("")
@@ -9069,7 +9089,7 @@ function reagirl.ListView_Add(x, y, w, h, caption, meaningOfUI_Element, enable_s
   local w=0
   local w_pix=0
   --if math.tointeger(ty+h_margin)>reagirl.NextLine_Overflow then reagirl.NextLine_Overflow=math.tointeger(ty+h_margin) end
-  reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0, 1)
+  reagirl.SetFont(1, reagirl.Font_Face, reagirl.Font_Size, 0, 1)
   --local tx,ty=gfx.measurestr(caption)
   local entries2={}
   for i=1, #entries do
@@ -9084,7 +9104,7 @@ function reagirl.ListView_Add(x, y, w, h, caption, meaningOfUI_Element, enable_s
       entries2[i]=false
     end
   end
-  reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0)
+  reagirl.SetFont(1, reagirl.Font_Face, reagirl.Font_Size, 0)
   
   reagirl.Elements[slot]["entry_width"]=math.floor(w)
   reagirl.Elements[slot]["entry_width_start"]=0
@@ -9727,7 +9747,7 @@ function reagirl.ListView_Draw(element_id, selected, hovered, clicked, mouse_cap
   local scale=reagirl.Window_GetCurrentScale()
   local num_lines=math.ceil(h/gfx.texth)
   local entry_width_pix=gfx.measurestr(element_storage["entry_width_string"])
-  reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0)
+  reagirl.SetFont(1, reagirl.Font_Face, reagirl.Font_Size, 0)
   -- reset viewport for this listview
   gfx.setimgdim(reagirl.ListViewSlot, w-scale, h-scale)
   gfx.dest=reagirl.ListViewSlot
@@ -9885,9 +9905,9 @@ function reagirl.Button_Add(x, y, w_margin, h_margin, caption, meaningOfUI_Eleme
   local x,y,slot=reagirl.UI_Element_GetNextXAndYPosition(x, y, "Button_Add")
   --reagirl.UI_Element_NextX_Default=x
   
-  reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0, 1)
+  reagirl.SetFont(1, reagirl.Font_Face, reagirl.Font_Size, 0, 1)
   local tx,ty=gfx.measurestr(caption)
-  reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0)
+  reagirl.SetFont(1, reagirl.Font_Face, reagirl.Font_Size, 0)
   
   table.insert(reagirl.Elements, slot, {})
   reagirl.Elements[slot]["Guid"]=reaper.genGuid("")
@@ -10112,7 +10132,7 @@ function reagirl.Button_Draw(element_id, selected, hovered, clicked, mouse_cap, 
   local offset
   local dpi_scale, state
   local radius = element_storage["radius"]
-  reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0)
+  reagirl.SetFont(1, reagirl.Font_Face, reagirl.Font_Size, 0)
   
   local sw,sh=gfx.measurestr(element_storage["Name"])
   
@@ -10140,7 +10160,7 @@ function reagirl.Button_Draw(element_id, selected, hovered, clicked, mouse_cap, 
       gfx.set(0.784)
       gfx.drawstr(element_storage["Name"])
     end
-    reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0)
+    reagirl.SetFont(1, reagirl.Font_Face, reagirl.Font_Size, 0)
   else
     local scale=1--reagirl.Window_CurrentScale
     state=0
@@ -10248,9 +10268,9 @@ function reagirl.Inputbox_Add(x, y, w, caption, Cap_width, meaningOfUI_Element, 
   local x,y,slot=reagirl.UI_Element_GetNextXAndYPosition(x, y, "Inputbox_Add")
   --reagirl.UI_Element_NextX_Default=x
   
-  reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0, 1)
+  reagirl.SetFont(1, reagirl.Font_Face, reagirl.Font_Size, 0, 1)
   local tx,ty=gfx.measurestr(caption)
-  reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0)
+  reagirl.SetFont(1, reagirl.Font_Face, reagirl.Font_Size, 0)
   
   table.insert(reagirl.Elements, slot, {})
   reagirl.Elements[slot]["Guid"]=reaper.genGuid("")
@@ -10385,7 +10405,7 @@ end
 
 
 function reagirl.Inputbox_OnMouseDown(mouse_cap, element_storage)
-  reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0)
+  reagirl.SetFont(1, reagirl.Font_Face, reagirl.Font_Size, 0)
   element_storage.hasfocus_old=element_storage.hasfocus
   element_storage.hasfocus=gfx.mouse_x>=element_storage.x2 and gfx.mouse_x<element_storage.x2+element_storage.w2 and
                            gfx.mouse_y>=element_storage.y2 and gfx.mouse_y<element_storage.y2+element_storage.h2
@@ -10495,7 +10515,7 @@ function reagirl.Inputbox_GetTextOffset(x,y,element_storage)
 end
 
 function reagirl.Inputbox_OnMouseMove(mouse_cap, element_storage)
-  reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0)
+  reagirl.SetFont(1, reagirl.Font_Face, reagirl.Font_Size, 0)
   if element_storage.selection_startoffset==-1 then element_storage.selection_startoffset=0 end
   if element_storage.cursor_startoffset==-1 then element_storage.cursor_startoffset=0 end
   if element_storage.hasfocus==false then return end
@@ -10973,7 +10993,7 @@ function reagirl.Inputbox_Manage(element_id, selected, hovered, clicked, mouse_c
       element_storage["selection_endoffset"]=element_storage["cursor_offset"]
       element_storage["selection_startoffset"]=element_storage["cursor_offset"]
     end
-    gfx.setfont(1, "Arial", reagirl.Font_Size, 0)
+    gfx.setfont(1, reagirl.Font_Face, reagirl.Font_Size, 0)
   
     
     if selected~="not selected" and mouse_cap==1 and (gfx.mouse_x>=x and gfx.mouse_y>=y and gfx.mouse_x<=x+w and gfx.mouse_y<=y+h) then 
@@ -11077,7 +11097,7 @@ end
 
 function reagirl.Inputbox_Draw(element_id, selected, hovered, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
   local dpi_scale=reagirl.Window_GetCurrentScale()
-  reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0)
+  reagirl.SetFont(1, reagirl.Font_Face, reagirl.Font_Size, 0)
   y=y+dpi_scale
   local cap_w
   if element_storage["Cap_width"]==nil then
@@ -11132,9 +11152,9 @@ function reagirl.Inputbox_Draw(element_id, selected, hovered, clicked, mouse_cap
     end
     if draw_offset+textw>w then break end
     if i>=element_storage.selection_startoffset+1 and i<=element_storage.selection_endoffset then
-      reagirl.SetFont(1, "Arial", reagirl.Font_Size, 86)
+      reagirl.SetFont(1, reagirl.Font_Face, reagirl.Font_Size, 86)
     else
-      reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0)
+      reagirl.SetFont(1, reagirl.Font_Face, reagirl.Font_Size, 0)
     end
     if element_storage["password"]=="*" then
       gfx.drawstr("*")
@@ -11358,7 +11378,7 @@ function reagirl.Inputbox_Unlink(element_id, section, key, default, persist)
 end
 
 function reagirl.Inputbox_Calculate_DrawOffset(forward, element_storage)
-  reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0)
+  reagirl.SetFont(1, reagirl.Font_Face, reagirl.Font_Size, 0)
   local dpi_scale = reagirl.Window_GetCurrentScale()
   local cap_w, x2, w2
   if element_storage["Cap_width"]==nil then
@@ -11735,10 +11755,10 @@ function reagirl.DropDownMenu_Add(x, y, w, caption, Cap_width, meaningOfUI_Eleme
   local x,y,slot=reagirl.UI_Element_GetNextXAndYPosition(x, y, "DropDownMenu_Add")
   --reagirl.UI_Element_NextX_Default=x
   
-  reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0, 1)
+  reagirl.SetFont(1, reagirl.Font_Face, reagirl.Font_Size, 0, 1)
   local tx1, ty1 =gfx.measurestr(caption)
   if Cap_width==nil then Cap_width=tx1+5 end
-  reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0)
+  reagirl.SetFont(1, reagirl.Font_Face, reagirl.Font_Size, 0)
   
   table.insert(reagirl.Elements, slot, {})
   reagirl.Elements[slot]["Guid"]=reaper.genGuid("")
@@ -11754,9 +11774,9 @@ function reagirl.DropDownMenu_Add(x, y, w, caption, Cap_width, meaningOfUI_Eleme
   reagirl.Elements[slot]["x"]=x
   reagirl.Elements[slot]["y"]=y
   reagirl.Elements[slot]["w"]=w
-  reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0, 1)
+  reagirl.SetFont(1, reagirl.Font_Face, reagirl.Font_Size, 0, 1)
   local tx,ty=gfx.measurestr(menuItems[menuSelectedItem])
-  reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0)
+  reagirl.SetFont(1, reagirl.Font_Face, reagirl.Font_Size, 0)
   reagirl.Elements[slot]["h"]=math.tointeger(ty)--math.tointeger(gfx.texth)
   if math.tointeger(ty)>reagirl.NextLine_Overflow then reagirl.NextLine_Overflow=math.tointeger(ty) end
   reagirl.Elements[slot]["radius"]=2
@@ -11943,7 +11963,7 @@ function reagirl.DropDownMenu_Draw(element_id, selected, hovered, clicked, mouse
   --w=w-5
   --h=h-5
   local radius=element_storage["radius"]
-  reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0)
+  reagirl.SetFont(1, reagirl.Font_Face, reagirl.Font_Size, 0)
   
   local sw,sh=gfx.measurestr(menuentry)
   local scale=1
@@ -11980,7 +12000,7 @@ function reagirl.DropDownMenu_Draw(element_id, selected, hovered, clicked, mouse
     gfx.y=y+dpi_scale--+(h-gfx.texth)/2+dpi_scale
     gfx.set(0.784)
     gfx.drawstr(menuentry, 0, x+w-21*dpi_scale, gfx.y+gfx.texth)
-    reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0)
+    reagirl.SetFont(1, reagirl.Font_Face, reagirl.Font_Size, 0)
   else
     state=0
     gfx.set(0.06) -- background 1
@@ -12555,9 +12575,9 @@ function reagirl.Label_SetFontSize(element_id, font_size)
       style=style+85
     end
     
-    reagirl.SetFont(1, "Arial", reagirl.Elements[element_id]["font_size"], style, 1)
+    reagirl.SetFont(1, reagirl.Font_Face, reagirl.Elements[element_id]["font_size"], style, 1)
     local w,h=gfx.measurestr(reagirl.Elements[element_id]["Name"])
-    reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0)
+    reagirl.SetFont(1, reagirl.Font_Face, reagirl.Font_Size, 0)
     --reaper.MB(h, reagirl.Elements[element_id]["Name"],0)
     reagirl.Elements[element_id]["w"]=math.tointeger(w)
     reagirl.Elements[element_id]["h"]=math.tointeger(h)
@@ -12712,9 +12732,9 @@ function reagirl.Label_SetStyle(element_id, style1, style2, style3)
       style=style+85
     end
     
-    reagirl.SetFont(1, "Arial", reagirl.Elements[element_id]["font_size"], style, 1)
+    reagirl.SetFont(1, reagirl.Font_Face, reagirl.Elements[element_id]["font_size"], style, 1)
     local w,h=gfx.measurestr(reagirl.Elements[element_id]["Name"])
-    reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0)
+    reagirl.SetFont(1, reagirl.Font_Face, reagirl.Font_Size, 0)
     
     reagirl.Elements[element_id]["w"]=math.tointeger(w)
     reagirl.Elements[element_id]["h"]=math.tointeger(h)
@@ -12827,9 +12847,9 @@ function reagirl.Label_Add(x, y, label, meaningOfUI_Element, clickable, run_func
   if clickable==true then clickable_text="Clickable " acc_clickable="Enter or leftclick to click link. " else acc_clickable="" end
   
   table.insert(reagirl.Elements, slot, {})
-  reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0, 1)
+  reagirl.SetFont(1, reagirl.Font_Face, reagirl.Font_Size, 0, 1)
   local w,h=gfx.measurestr(label)
-  reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0)
+  reagirl.SetFont(1, reagirl.Font_Face, reagirl.Font_Size, 0)
   reagirl.Elements[slot]["Guid"]=reaper.genGuid("")
   reagirl.Elements[slot]["GUI_Element_Type"]=clickable_text.."Label"
   reagirl.Elements[slot]["Name"]=label
@@ -12892,7 +12912,7 @@ function reagirl.Label_CalculatePositions(element_storage, x, y, width, height, 
     positions[i]["y"]=starty
     positions[i]["style"]=0
     positions[i]["command"]=""
-    gfx.setfont(1, "Arial", reagirl.Font_Size, positions[i]["style"])
+    gfx.setfont(1, reagirl.Font_Face, reagirl.Font_Size, positions[i]["style"])
     positions[i]["w"]=gfx.measurestr(element_storage.Name:sub(i,i))
     positions[i]["h"]=gfx.texth
     startx=startx+gfx.measurestr(element_storage.Name:sub(i,i))
@@ -13213,7 +13233,7 @@ function reagirl.Label_Draw(element_id, selected, hovered, clicked, mouse_cap, m
   end
   
   --print2(style)
-  reagirl.SetFont(1, "Arial", element_storage["font_size"], style)
+  reagirl.SetFont(1, reagirl.Font_Face, element_storage["font_size"], style)
   local olddest=gfx.dest
   local oldx, oldy = gfx.x, gfx.y
   local old_gfx_r=gfx.r
@@ -13264,15 +13284,15 @@ function reagirl.Label_Draw(element_id, selected, hovered, clicked, mouse_cap, m
     gfx.set(col3)
     gfx.x=x+dpi_scale
     gfx.y=y+dpi_scale
-    --gfx.drawstr(name, element_storage["align"])--, x+w, y+h)
-    reagirl.BlitText_AdaptLineLength(name, x+dpi_scale, y+dpi_scale, w, h, element_storage["align"], element_storage.start_pos, element_storage.end_pos, element_storage.pos3, element_storage.startline, element_storage.positions, 1, 1, 0, cursor_alpha, col3, col3, col3, 1, element_storage["font_size"], style)
+    gfx.drawstr(name, element_storage["align"])--, x+w, y+h)
+    --reagirl.BlitText_AdaptLineLength(name, x+dpi_scale, y+dpi_scale, w, h, element_storage["align"], element_storage.start_pos, element_storage.end_pos, element_storage.pos3, element_storage.startline, element_storage.positions, 1, 1, 0, cursor_alpha, col3, col3, col3, 1, element_storage["font_size"], style)
 
     gfx.set(col,col,col2)
     gfx.x=x
     gfx.y=y
     
-    --gfx.drawstr(name, element_storage["align"])--, x+w, y+h)
-    reagirl.BlitText_AdaptLineLength(name, x, y, w, h, element_storage["align"], element_storage.start_pos, element_storage.end_pos, element_storage.pos3, element_storage.startline, element_storage.positions, 1, 1, 0, cursor_alpha, col, col, col2, 1, element_storage["font_size"], style)
+    gfx.drawstr(name, element_storage["align"])--, x+w, y+h)
+    --reagirl.BlitText_AdaptLineLength(name, x, y, w, h, element_storage["align"], element_storage.start_pos, element_storage.end_pos, element_storage.pos3, element_storage.startline, element_storage.positions, 1, 1, 0, cursor_alpha, col, col, col2, 1, element_storage["font_size"], style)
     
     if element_storage["bg"]=="auto" then
       _, _, _, _, _, _, _, _, bg_w = reagirl.Gui_GetBoundaries()
@@ -15384,14 +15404,14 @@ function reagirl.Slider_Add(x, y, w, caption, Cap_width, meaningOfUI_Element, un
   local x,y,slot=reagirl.UI_Element_GetNextXAndYPosition(x, y, "Slider_Add")
   --reagirl.UI_Element_NextX_Default=x
   
-  reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0, 1)
+  reagirl.SetFont(1, reagirl.Font_Face, reagirl.Font_Size, 0, 1)
   local tx, ty =gfx.measurestr(caption.."")
   if Cap_width==nil then Cap_width=tx+5 end
   local unit2=" "..unit
   if unit==nil then unit2="" unit="" end
   local tx1,ty1=gfx.measurestr(unit2)
   tx1=tx1+gfx.texth+gfx.texth
-  reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0)
+  reagirl.SetFont(1, reagirl.Font_Face, reagirl.Font_Size, 0)
   
   local slot=reagirl.UI_Element_GetNextFreeSlot()
   table.insert(reagirl.Elements, slot, {})
@@ -15452,7 +15472,8 @@ function reagirl.Slider_Manage(element_id, selected, hovered, clicked, mouse_cap
   local refresh=false
   local dpi_scale=reagirl.Window_GetCurrentScale()
   local slider, slider4, slider_x, slider_x2
-  if w<element_storage["cap_w"]+element_storage["unit_w"]+20 then w=element_storage["cap_w"]+element_storage["unit_w"]+20 end
+  if w<element_storage["cap_w"]+element_storage["unit_w"]+20 then 
+    w=element_storage["cap_w"]+element_storage["unit_w"]+20 end
   local offset_cap=element_storage["cap_w"]
   if element_storage["Cap_width"]~=nil then
     offset_cap=element_storage["Cap_width"]*dpi_scale
@@ -15634,7 +15655,7 @@ function reagirl.Slider_Draw(element_id, selected, hovered, clicked, mouse_cap, 
   local dpi_scale=reagirl.Window_GetCurrentScale()
   y=y+dpi_scale
   local step_current, step_size
-  reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0)
+  reagirl.SetFont(1, reagirl.Font_Face, reagirl.Font_Size, 0)
   local offset_cap=gfx.measurestr(name.." ")+5
   if element_storage["Cap_width"]~=nil then
     offset_cap=element_storage["Cap_width"]
@@ -16589,7 +16610,7 @@ function reagirl.Tabs_Add(x, y, w_backdrop, h_backdrop, caption, meaningOfUI_Ele
   --reagirl.UI_Element_NextX_Default=x
   
   
-  reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0, 1)
+  reagirl.SetFont(1, reagirl.Font_Face, reagirl.Font_Size, 0, 1)
   local tx, ty =gfx.measurestr(caption.."")
   
   --reagirl.UI_Element_NextX_Default=10
@@ -16619,7 +16640,7 @@ function reagirl.Tabs_Add(x, y, w_backdrop, h_backdrop, caption, meaningOfUI_Ele
     width=width+gfx.measurestr(tab_names[i])
   end
   width=width+(#tab_names*(reagirl.Window_GetCurrentScale()+reagirl.Elements[slot]["text_offset_x"])*2)
-  reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0)
+  reagirl.SetFont(1, reagirl.Font_Face, reagirl.Font_Size, 0)
   reagirl.Elements[slot]["w"]=math.tointeger(width)
   reagirl.Elements[slot]["h"]=math.tointeger(ty)+15
   
@@ -16922,7 +16943,7 @@ end
 
 
 function reagirl.Tabs_Draw(element_id, selected, hovered, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
-  reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0)
+  reagirl.SetFont(1, reagirl.Font_Face, reagirl.Font_Size, 0)
   local dpi_scale=reagirl.Window_GetCurrentScale()
   local text_offset_x=dpi_scale*element_storage["text_offset_x"]
   local text_offset_y=dpi_scale*element_storage["text_offset_y"]
@@ -16992,7 +17013,7 @@ function reagirl.Tabs_Draw(element_id, selected, hovered, clicked, mouse_cap, mo
     
     if element_storage["w_background"]==nil then 
       _, _, _, _, _, _, _, _, bg_w = reagirl.Gui_GetBoundaries()
-      bg_w=(bg_w-x2+15*dpi_scale)--*dpi_scale 
+      bg_w=(bg_w-x2+19*dpi_scale)--*dpi_scale 
       element_storage["bg_w"]=bg_w
       --element_storage["w_background"]=bg_w
     else 

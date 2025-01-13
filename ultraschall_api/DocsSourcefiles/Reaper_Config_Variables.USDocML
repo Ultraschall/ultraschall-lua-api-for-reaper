@@ -94,6 +94,22 @@
     </US_DocBloc>  
   
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">  
+      <slug>__fx_loadstate_ctx</slug>  
+      <title>__fx_loadstate_ctx</title>  
+      <description>  
+          0 if unknown, or during FX state loading: 'u' (instantiating via undo), 'U' (updating via undo), 'P' (loading preset).         
+          It is an integer, global variable.
+      </description>  
+      <chapter_context>
+         Preferences
+         System
+      </chapter_context>
+      <source_document>Reaper_Config_Variables.USDocML</source_document>
+      <target_document>Reaper_Config_Variables</target_document>  
+      <tags></tags>
+    </US_DocBloc>  
+		
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">  
       <slug>__metronome_ptr</slug>  
       <title>__metronome_ptr</title>  
       <description>  
@@ -127,13 +143,28 @@
       <target_document>Reaper_Config_Variables</target_document>  
       <tags></tags>
     </US_DocBloc>  
-    
-    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">  
-      <slug>__fx_loadstate_ctx</slug>  
-      <title>__fx_loadstate_ctx</title>  
+		
+		<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">  
+      <slug>__reascript_runcnt</slug>  
+      <title>__reascript_runcnt</title>  
       <description>  
-          0 if unknown, or during FX state loading: 'u' (instantiating via undo), 'U' (updating via undo), 'P' (loading preset).         
-          It is an integer, global variable.
+          A counter that counts up every 33th of a second to signal, when all script-runs of the internal timer have been done.
+					Means: Reaper has an internal timer for the gui-thread, which is run 33 times per second.
+					In each run all started and deferred scripts are executed once. This config-variable counts up these runs.
+					  
+           >-2147483648 to 2147483647
+					 
+					 Note: when it reaches the highest number, it switches to the lowest number and counts up from there.
+					 
+					 This variable increments by one after(!) deferred scripts are processed. Deferred scripts and extension 
+					 timers are currently run from the same underlying Win32 timer. During most situations they are both executed 
+					 one after the other. However there are multiple edge cases causing one to run without the others, like extension 
+					 is halted and scripts run or scripts are halted and the extension still runs. For instance, deferred scripts 
+					 are bypassed while the splash screen is active and both have a separate reentrancy check.
+					 With this variable you can check from the extension, whether scripts have been halted and react accordingly, 
+					 if your extension needs to.
+					 
+					 Used by extensions like ReaImGui.
       </description>  
       <chapter_context>
          Preferences
@@ -143,6 +174,7 @@
       <target_document>Reaper_Config_Variables</target_document>  
       <tags></tags>
     </US_DocBloc>  
+    
   
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">  
       <slug>acidimport</slug>  
@@ -3706,7 +3738,45 @@
       <source_document>Reaper_Config_Variables.USDocML</source_document>
       <target_document>Reaper_Config_Variables</target_document>  
     </US_DocBloc>  
-  
+	
+		<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">  
+      <slug>env_pt_scale</slug>  
+      <title>env_pt_scale</title>  
+      <description>  
+          Envelope point size scaling-inputbox, as set in Preferences -> Appearance Settings  
+          It is an double-float-variable, preferences variable.
+          
+           >0.0 to 10.0, default is 1.0
+
+          Stored in reaper.ini under the same name in the section REAPER.  
+      </description>  
+      <chapter_context>
+         Preferences
+         Appearance
+      </chapter_context>
+      <source_document>Reaper_Config_Variables.USDocML</source_document>
+      <target_document>Reaper_Config_Variables</target_document>  
+    </US_DocBloc>  
+		
+		<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">  
+      <slug>env_pt_scale2</slug>  
+      <title>env_pt_scale2</title>  
+      <description>  
+          Scale non selected-inputbox, as set in Preferences -> Appearance Settings  
+          It is an double-float-variable, preferences variable.
+          
+           >0.0 to 10.0, default is 1.0
+
+          Stored in reaper.ini under the same name in the section REAPER.  
+      </description>  
+      <chapter_context>
+         Preferences
+         Appearance
+      </chapter_context>
+      <source_document>Reaper_Config_Variables.USDocML</source_document>
+      <target_document>Reaper_Config_Variables</target_document>  
+    </US_DocBloc>  
+	
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">  
       <slug>env_ol_minh</slug>  
       <title>env_ol_minh</title>  
@@ -5182,7 +5252,40 @@
       <source_document>Reaper_Config_Variables.USDocML</source_document>
       <target_document>Reaper_Config_Variables</target_document>  
     </US_DocBloc>  
+
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">  
+      <slug>itemranks</slug>  
+      <title>itemranks</title>  
+      <description>  
+          Take marker ranking levels-dropdownlist and Up/down/cycle actions skip 'no ranking'-checkbox, as set in Preferences -> Editing behavior  
+          It is an integer, preferences variable.
+						
+						>1, 1 up, 0 down
+						>2, 2 up, 0 down
+						>3, 3 up, 0 down
+						>4, 4 up, 0 down
+						>5, 5 up, 0 down
+						>17, 1 up, 1 down
+						>18, 2 up, 1 down
+						>19, 3 up, 1 down
+						>20, 4 up, 1 down
+						>21, 5 up, 1 down
+						
+						>&256=0, Up/down/cylce actions skip 'no ranking'-checkbox - checked
+						>&256=1, Up/down/cylce actions skip 'no ranking'-checkbox - unchecked
+						
+					Stored in reaper.ini under the same name in the section REAPER.  
+      </description>  
+      <chapter_context>
+				 Preferences
+         Editing Behavior
+      </chapter_context>
+      <source_document>Reaper_Config_Variables.USDocML</source_document>
+      <target_document>Reaper_Config_Variables</target_document>  
+    </US_DocBloc>  
   
+	
+	
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">  
       <slug>itemsnap</slug>  
       <title>itemsnap</title>  

@@ -90,13 +90,13 @@
 
   reagirl.NextLine() -- first line of checkboxes
   tab1.checkbox_mysetting = reagirl.Checkbox_Add(nil, nil, "My setting", "The first checkbox.", true, nil)
-  reagirl.Checkbox_SetWidth(tab1.checkbox_mysetting, 80) -- set the position of the next checkbox to a specific position to align it
+  reagirl.Checkbox_SetWidth(tab1.checkbox_mysetting, 130) -- set the position of the next checkbox to a specific position to align it
                                                          -- with the next line of checkboxes
   tab1.checkbox_another_setting = reagirl.Checkbox_Add(nil, nil, "Another setting", "The second checkbox.", true, nil)
   
   reagirl.NextLine() -- second line of checkboxes
   tab1.checkbox_extra_setting = reagirl.Checkbox_Add(nil, nil, "Extra", "A third checkbox?", true, nil)
-  reagirl.Checkbox_SetWidth(tab1.checkbox_extra_setting, 80) -- set the position of the next checkbox to a specific position to align it
+  reagirl.Checkbox_SetWidth(tab1.checkbox_extra_setting, 130) -- set the position of the next checkbox to a specific position to align it
                                                              -- with the previous line of checkboxes
   tab1.checkbox_remember = reagirl.Checkbox_Add(nil, nil, "Remember chosen setting", "Shall this setting be used as future default?", true, nil)
   

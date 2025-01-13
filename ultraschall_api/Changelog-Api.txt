@@ -15,7 +15,7 @@ Docs: eine Doku, wie man eine Gui so schreibt, dass man einfach mal schnell ui-e
 		Checkbox_Add(10,h)
 	So in Etwa.
 Slider: Clickarea des Slider-Knobs ist verschoben nach rechts, bitte nochmal nachjustieren(see ReaGirl-Settings)
-
+ColorRectangle: Tooltip muss den Farbwert kommunizieren(für Farbenblinde), entweder Farbname oder Farbwerte
 		
 
 
@@ -434,6 +434,7 @@ Has now 1834 functions, with XX new ones
 	- ReaGirl: Window\_GetScrollOffset - gets the scroll-offset of the window's gui
 
 #### Changes from 5.1 to 5.2  
+	- MediaItem Management: GetParentTrack\_MediaItem - had problems with items not having takes(note-items) -> fixed(thans to fernsehmuell)
 	- ReaGirl: keyboard-navigation - focus-rectangle is only shown, when the user uses the tab key to navigates; can be set to "show always" in the settings
 	- ReaGirl: mouse-cursors - when hovering above clickable/draggable areas, the mouse always changes the cursor to show you, where click/drag areas are
 	- ReaGirl: Sliders - clickarea for the slider-knob should be more precise and not move to the left of the knob
