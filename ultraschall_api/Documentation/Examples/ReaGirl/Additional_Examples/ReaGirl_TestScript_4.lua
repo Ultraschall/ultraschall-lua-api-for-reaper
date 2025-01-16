@@ -141,7 +141,7 @@
   button_cancel_id = reagirl.Button_Add(nil, nil, 0, 0, "Cancel", "Discard changes and close dialog.", nil)
 
   -- open the new gui
-  reagirl.Gui_Open("My Dialog Name", false, "The dialog", "This is a demo dialog with settings for tool xyz.")
+  reagirl.Gui_Open("My Dialog Name", false, "The dialog", "This is a demo dialog with settings for tool xyz.", nil, nil, 0, nil, nil)
 
   -- make the background grey
   reagirl.Background_GetSetColor(true, 55, 55, 55)

@@ -26,6 +26,10 @@
 
 --[[
 TODO: 
+  - Backdrop of Tab-height is not working correctly(wrong on higher scalings)
+  - auto-window-width is not correctly calculated in Gui_Open(): when tab with autoscale is present, it's too small
+  - Mac: y-position of window is not calculated properly
+         - auto_x and auto_y of opened window is not calculated properly when scale>1
   - Zoom: change reagirl.ReScale to zoom
       - ctrl++ and ctrl+- don't work due a Reaper-bug
       - smaller stepsizes don't work due to the fact, that many parts of ReaGirl require integer-scaling and integer coordinates, but having smaller steps makes float ones
@@ -3501,7 +3505,6 @@ function reagirl.Window_Open(...)
   maximum_scale_for_dpi = math.floor(maximum_scale_for_dpi)
   local A=gfx.getchar(65536)
   local HWND, retval
-  
   if A&4==0 then
     reagirl.Window_RescaleIfNeeded()
     --reagirl.MoveItAllRight=0
@@ -3516,7 +3519,6 @@ function reagirl.Window_Open(...)
     if temp==nil or type(temp)~="string" then temp="" end  
     if type(parms[1])~="string" then parms[1]="" 
     end
-    
     parms[2]=parms[2]*reagirl.Window_CurrentScale
     parms[3]=parms[3]*reagirl.Window_CurrentScale
     
@@ -3547,7 +3549,18 @@ function reagirl.Window_Open(...)
     retval=gfx.init(table.unpack(parms))
     
     -- find the window with the temporary windowtitle and get its HWND
-    HWND=reaper.JS_Window_Find(parms[1], true)
+    reagirl.HWND=reaper.JS_Window_Find(parms[1], true)
+    
+    -- resize window properly on Retina-macs
+    if gfx.w~=parms[2] or gfx.h~=parms[3] then
+      parms[1]=""
+      local scalex=gfx.w/(parms[2]/reagirl.Window_GetCurrentScale())
+      local scaley=gfx.h/(parms[3]/reagirl.Window_GetCurrentScale())
+      
+      parms[2]=parms[2]/scalex
+      parms[3]=parms[3]/scaley
+      gfx.init(table.unpack(parms))
+    end
     
     -- rename it to the original title
     if HWND~=nil then reaper.JS_Window_SetTitle(HWND, temp) end
@@ -3572,11 +3585,52 @@ function reagirl.Window_Open(...)
       parms[6]=(D-parms[3])/2
     end
     local B=gfx.init(table.unpack(parms)) 
+    -- resize window properly on Retina-macs
+    if gfx.w~=parms[2] or gfx.h~=parms[3] then
+      parms[1]=""
+      local scalex=gfx.w/(parms[2]/reagirl.Window_GetCurrentScale())
+      local scaley=gfx.h/(parms[3]/reagirl.Window_GetCurrentScale())
+      
+      parms[2]=parms[2]/scalex
+      parms[3]=parms[3]/scaley
+      gfx.init(table.unpack(parms))
+    end
     retval=0.0
   end
   
   return retval, reagirl.GFX_WindowHWND
 end
+
+function reagirl.Window_GetHWND()
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Window_GetHWND</slug>
+  <requires>
+    ReaGirl=1.2
+    Reaper=7.03
+    JS=0.964
+    Lua=5.4
+  </requires>
+  <functioncall>reagirl.Window_GetHWND()</functioncall>
+  <description>
+    Returns the hwnd-window-handler of the opened gui-window.
+    
+    Returns nil if no window is opened.
+  </description>
+  <retval>
+    HWND window - the window handler of the opened window
+  </retval>
+  <chapter_context>
+    Window
+  </chapter_context>
+  <target_document>ReaGirl_Docs</target_document>
+  <source_document>reagirl_GuiEngine.lua</source_document>
+  <tags>refocus, focus, window, hwnd</tags>
+</US_DocBloc>
+]]
+  return reagirl.HWND
+end
+
 
 function reagirl.Window_SetFocus(accmessage)
 --[[
@@ -3657,6 +3711,10 @@ function reagirl.Window_RescaleIfNeeded()
       if A<0 then A=0 end
       if B<0 then B=0 end
       gfx.init("", math.floor(unscaled_w*scale), math.floor(unscaled_h*scale), 0, A, B)
+      if gfx.w~=unscaled_w*scale or gfx.h~=unscaled_h*scale then
+        if gfx.ext_retina==0 then gfx.ext_retina=1 end
+        gfx.init("", math.floor((unscaled_w*scale)/gfx.ext_retina), math.floor((unscaled_h*scale)/gfx.ext_retina), 0, A, B)
+      end
     end
     reagirl.Window_CurrentScale=scale
     reagirl.SetFont(1, reagirl.Font_Face, reagirl.Font_Size, 0)
@@ -4373,6 +4431,8 @@ function reagirl.Gui_Open(name, restore_old_window_state, title, description, w,
   end
   
   local _, _, _, _, _, w2, _, h2 = reagirl.Gui_GetBoundaries()
+  w2=w2/reagirl.Window_GetCurrentScale()
+  h2=h2/reagirl.Window_GetCurrentScale()
   local tab_add=0
   if reagirl.Tabs_Count~=nil then tab_add=13 end 
   if w==nil then 
@@ -4503,6 +4563,7 @@ function reagirl.Gui_Close()
   reagirl.IsWindowOpen_attribute=false
   reagirl.IsWindowOpen_attribute_Old=true
   reaper.SetExtState("Reagirl_Window_"..reagirl.Window_name, "open", "", false)
+  reagirl.HWND=nil
   
   reagirl.UnRegisterWindow()
 end
@@ -14512,7 +14573,7 @@ function reagirl.Window_GetScrollOffset()
   <tags>window, get, scrollposition, vertical, horizontal</tags>
 </US_DocBloc>
 --]]
-  return -reagirl.MoveItAllRight, -reagirl.MoveItAllUp
+  return -reagirl.MoveItAllRight/reagirl.Window_GetCurrentScale(), -reagirl.MoveItAllUp/reagirl.Window_GetCurrentScale()
 end
 
 function reagirl.Window_ForceSize_Minimum(MinW, MinH)

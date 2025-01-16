@@ -431,12 +431,15 @@ Has now 1834 functions, with XX new ones
 	- ReaGirl: ColorRectangle\_SetColor - sets the color of a color-rectangle
 	- ReaGirl: ColorRectangle\_SetRadius - sets the radius of the edges of a color-rectangle
 	- ReaGirl: UI\_Element\_GetSetSticky - gets/sets a ui-element to a sticky position, so it will not move when scrolling
+	- ReaGirl: Window\_GetHWND - returns the window-handler of th gui-window  
 	- ReaGirl: Window\_GetScrollOffset - gets the scroll-offset of the window's gui
 
 #### Changes from 5.1 to 5.2  
 	- MediaItem Management: GetParentTrack\_MediaItem - had problems with items not having takes(note-items) -> fixed(thans to fernsehmuell)
 	- ReaGirl: keyboard-navigation - focus-rectangle is only shown, when the user uses the tab key to navigates; can be set to "show always" in the settings
+	- ReaGirl: Mac - fixed scaling of window on Retina-Macs
 	- ReaGirl: mouse-cursors - when hovering above clickable/draggable areas, the mouse always changes the cursor to show you, where click/drag areas are
+	- ReaGirl: scaling - scaled too big on Retina/hiDPI-resolutions -> fixed
 	- ReaGirl: Sliders - clickarea for the slider-knob should be more precise and not move to the left of the knob
 ---
 

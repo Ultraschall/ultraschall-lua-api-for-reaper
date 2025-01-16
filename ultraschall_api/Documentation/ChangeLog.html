@@ -30,7 +30,7 @@
         </div>
       
           <div class="ch"><p></p>
-<p>Issues: ReaGirl: Retina bläst ReaGirl-Gui auf doppelte Größe(also 2x wird 4x, etc) -&gt; fixen Focus Rectangle sollte erst erscheinen, wenn man in der Gui Tab benutzt, sonst ausgeblendet(wird auch bei Klick in Feld ohne Gui-Element wieder ausgeblendet) - optional immer einblendbar machen (drin, aber teste es nochmal genauer aus) Docs: eine Doku, wie man eine Gui so schreibt, dass man einfach mal schnell ui-elemente hinzufügen kann, ohne alles per Hand neu verschieben zu müssen und ohne Autoposition zu nutzen. Prinzipiell: h=100 Checkbox<em>Add(10,h) h=h+10 Checkbox</em>Add(10,h) h=h+10 Image<em>Add(10,h,100,100) h=h+100 Checkbox</em>Add(10,h) So in Etwa. Slider: Clickarea des Slider-Knobs ist verschoben nach rechts, bitte nochmal nachjustieren(see ReaGirl-Settings)</p>
+<p>Issues: ReaGirl: Retina bläst ReaGirl-Gui auf doppelte Größe(also 2x wird 4x, etc) -&gt; fixen Focus Rectangle sollte erst erscheinen, wenn man in der Gui Tab benutzt, sonst ausgeblendet(wird auch bei Klick in Feld ohne Gui-Element wieder ausgeblendet) - optional immer einblendbar machen (drin, aber teste es nochmal genauer aus) Docs: eine Doku, wie man eine Gui so schreibt, dass man einfach mal schnell ui-elemente hinzufügen kann, ohne alles per Hand neu verschieben zu müssen und ohne Autoposition zu nutzen. Prinzipiell: h=100 Checkbox<em>Add(10,h) h=h+10 Checkbox</em>Add(10,h) h=h+10 Image<em>Add(10,h,100,100) h=h+100 Checkbox</em>Add(10,h) So in Etwa. Slider: Clickarea des Slider-Knobs ist verschoben nach rechts, bitte nochmal nachjustieren(see ReaGirl-Settings) ColorRectangle: Tooltip muss den Farbwert kommunizieren(für Farbenblinde), entweder Farbname oder Farbwerte</p>
 <h2>Ultraschall Framework - Changelog</h2>
 <h3>5.2 - "?? - ??" - 10th of February 2025</h3>
 <p>Has now 1834 functions, with XX new ones</p>
@@ -48,12 +48,17 @@ Bla</li>
 <li>ReaGirl: ColorRectangle_SetColor - sets the color of a color-rectangle</li>
 <li>ReaGirl: ColorRectangle_SetRadius - sets the radius of the edges of a color-rectangle</li>
 <li>ReaGirl: UI_Element_GetSetSticky - gets/sets a ui-element to a sticky position, so it will not move when scrolling</li>
+<li>ReaGirl: Window_GetHWND - returns the window-handler of th gui-window<br />
+</li>
 <li>ReaGirl: Window_GetScrollOffset - gets the scroll-offset of the window's gui</li>
 </ul></li>
 </ul>
 <h4>Changes from 5.1 to 5.2</h4>
-<pre><code>- ReaGirl: keyboard-navigation - focus-rectangle is only shown, when the user uses the tab key to navigates; can be set to &quot;show always&quot; in the settings
+<pre><code>- MediaItem Management: GetParentTrack\_MediaItem - had problems with items not having takes(note-items) -&gt; fixed(thans to fernsehmuell)
+- ReaGirl: keyboard-navigation - focus-rectangle is only shown, when the user uses the tab key to navigates; can be set to &quot;show always&quot; in the settings
+- ReaGirl: Mac - fixed scaling of window on Retina-Macs
 - ReaGirl: mouse-cursors - when hovering above clickable/draggable areas, the mouse always changes the cursor to show you, where click/drag areas are
+- ReaGirl: scaling - scaled too big on Retina/hiDPI-resolutions -&gt; fixed
 - ReaGirl: Sliders - clickarea for the slider-knob should be more precise and not move to the left of the knob</code></pre>
 <hr />
 <h3>5.1 - "Beach Boys - Wind Chimes" - 11th of December 2024</h3>
