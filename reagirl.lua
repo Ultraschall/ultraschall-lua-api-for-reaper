@@ -28,7 +28,7 @@
 TODO: 
   - Backdrop of Tab-height is not working correctly(wrong on higher scalings)
   - auto-window-width is not correctly calculated in Gui_Open(): when tab with autoscale is present, it's too small
-  - Mac: y-position of window is not calculated properly
+  - Mac: y-position of window is not calculated properly(maybe do it with this: reaper.JS_Window_ClientToScreen() reaper.JS_Window_ScreenToClient()
          - auto_x and auto_y of opened window is not calculated properly when scale>1
   - Zoom: change reagirl.ReScale to zoom
       - ctrl++ and ctrl+- don't work due a Reaper-bug
@@ -97,6 +97,7 @@ TODO:
 
 -- DEBUG:
 --reaper.osara_outputMessage=nil
+
 
 gfx.ext_retina=1
 reagirl={}
@@ -3552,7 +3553,7 @@ function reagirl.Window_Open(...)
     reagirl.HWND=reaper.JS_Window_Find(parms[1], true)
     
     -- resize window properly on Retina-macs
-    if gfx.w~=parms[2] or gfx.h~=parms[3] then
+    if gfx.w>parms[2] or gfx.h>parms[3] then
       parms[1]=""
       local scalex=gfx.w/(parms[2]/reagirl.Window_GetCurrentScale())
       local scaley=gfx.h/(parms[3]/reagirl.Window_GetCurrentScale())
@@ -3586,7 +3587,7 @@ function reagirl.Window_Open(...)
     end
     local B=gfx.init(table.unpack(parms)) 
     -- resize window properly on Retina-macs
-    if gfx.w~=parms[2] or gfx.h~=parms[3] then
+    if gfx.w>parms[2] or gfx.h>parms[3] then
       parms[1]=""
       local scalex=gfx.w/(parms[2]/reagirl.Window_GetCurrentScale())
       local scaley=gfx.h/(parms[3]/reagirl.Window_GetCurrentScale())
