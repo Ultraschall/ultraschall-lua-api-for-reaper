@@ -3532,6 +3532,12 @@ function reagirl.Window_Open(...)
     if parms[6]==nil then
       parms[6]=(D-parms[3])/2
     end
+    local temp_y=parms[6]
+    reagirl.Window_TempY=temp_y
+    if reaper.GetOS():match("OS")~=nil then 
+      _, parms[6] = reaper.JS_Window_ClientToScreen(reaper.GetMainHwnd(), 10, parms[6]+parms[3])
+    end
+    
     if reaper.JS_Window_SetTitle==nil then 
       local B=gfx.init(table.unpack(parms)) 
       return B 
@@ -3560,6 +3566,9 @@ function reagirl.Window_Open(...)
       
       parms[2]=parms[2]/scalex
       parms[3]=parms[3]/scaley
+      if reaper.GetOS():match("OS")~=nil then 
+        _, parms[6] = reaper.JS_Window_ClientToScreen(reaper.GetMainHwnd(), 10, temp_y+parms[3])
+      end
       gfx.init(table.unpack(parms))
     end
     
@@ -3585,6 +3594,11 @@ function reagirl.Window_Open(...)
     if parms[6]==nil then
       parms[6]=(D-parms[3])/2
     end
+    local temp_y=parms[6]
+    reagirl.Window_TempY=temp_y
+    if reaper.GetOS():match("OS")~=nil then 
+      _, parms[6] = reaper.JS_Window_ClientToScreen(reaper.GetMainHwnd(), 10, parms[6]+parms[3])
+    end
     local B=gfx.init(table.unpack(parms)) 
     -- resize window properly on Retina-macs
     if gfx.w>parms[2] or gfx.h>parms[3] then
@@ -3594,6 +3608,9 @@ function reagirl.Window_Open(...)
       
       parms[2]=parms[2]/scalex
       parms[3]=parms[3]/scaley
+      if reaper.GetOS():match("OS")~=nil then 
+        _, parms[6] = reaper.JS_Window_ClientToScreen(reaper.GetMainHwnd(), 10, temp_y+parms[3])
+      end
       gfx.init(table.unpack(parms))
     end
     retval=0.0
@@ -3670,6 +3687,8 @@ end
 
 function reagirl.Window_RescaleIfNeeded()
   -- rescales window and gui, if the scaling changes
+  -- ToDo: rescale correct y-coordinate on Mac (use reagirl.Window_TempY
+  --       see Window_Open for more details
   local scale
   
   if reagirl.Window_CurrentScale_Override==nil then
@@ -13375,13 +13394,16 @@ function reagirl.Label_Draw(element_id, selected, hovered, clicked, mouse_cap, m
     gfx.drawstr(name, element_storage["align"])--, x+w, y+h)
     --reagirl.BlitText_AdaptLineLength(name, x, y, w, h, element_storage["align"], element_storage.start_pos, element_storage.end_pos, element_storage.pos3, element_storage.startline, element_storage.positions, 1, 1, 0, cursor_alpha, col, col, col2, 1, element_storage["font_size"], style)
     
+    -- backdrop
     if element_storage["bg"]=="auto" then
       _, _, _, _, _, _, _, _, bg_w = reagirl.Gui_GetBoundaries()
       bg_w=bg_w-x
       local element_id=reagirl.UI_Element_GetIDFromGuid(element_storage["bg_dest"])
       local y2=reagirl.Elements[element_id]["y"]
       local h2=reagirl.Elements[element_id]["h"]
-      y3=y/reagirl.Window_GetCurrentScale()
+      --reaper.MB(reagirl.Elements[element_id]["Name"],"",0)
+      y3=(y-reagirl.MoveItAllUp)/reagirl.Window_GetCurrentScale()
+      
       if y2>=0 then
         bg_h=y2+h2-y3
       else
@@ -13392,6 +13414,7 @@ function reagirl.Label_Draw(element_id, selected, hovered, clicked, mouse_cap, m
       element_storage["bg_h"]=bg_h-1
       element_storage["bg"]=nil
     end
+    
     
     local bg_h=element_storage["bg_h"]
     if bg_h<0 then bg_h=gfx.h+bg_h-y-(gfx.texth>>1) end
@@ -17110,7 +17133,11 @@ function reagirl.Tabs_Draw(element_id, selected, hovered, clicked, mouse_cap, mo
         bg_h=element_storage["bg_h"]
       end
     else
-      if element_storage["h_background"]>0 then bg_h=element_storage["h_background"]*dpi_scale else bg_h=gfx.h+element_storage["h_background"]*dpi_scale-offset_y end
+      if element_storage["h_background"]>0 then 
+        bg_h=element_storage["h_background"] 
+      else 
+        bg_h=gfx.h+element_storage["h_background"]-offset_y 
+      end
     end
     -- border around background
     gfx.set(reagirl.Colors.Tabs_Border_Background_r, reagirl.Colors.Tabs_Border_Background_g, reagirl.Colors.Tabs_Border_Background_b)

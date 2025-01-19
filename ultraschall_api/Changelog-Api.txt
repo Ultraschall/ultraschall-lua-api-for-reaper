@@ -436,7 +436,9 @@ Has now 1834 functions, with XX new ones
 
 #### Changes from 5.1 to 5.2  
 	- MediaItem Management: GetParentTrack\_MediaItem - had problems with items not having takes(note-items) -> fixed(thans to fernsehmuell)
+	- ReaGirl: Gui_Open - On Mac, it didn't position the window on the same spot as on Windows and Linux -> fixed
 	- ReaGirl: keyboard-navigation - focus-rectangle is only shown, when the user uses the tab key to navigates; can be set to "show always" in the settings
+	- ReaGirl: Labels - backdrop wasn't properly drawn, when the backdrop wasn't visible at startup and had to be scrolled in
 	- ReaGirl: Mac - fixed scaling of window on Retina-Macs
 	- ReaGirl: mouse-cursors - when hovering above clickable/draggable areas, the mouse always changes the cursor to show you, where click/drag areas are
 	- ReaGirl: scaling - scaled too big on Retina/hiDPI-resolutions -> fixed

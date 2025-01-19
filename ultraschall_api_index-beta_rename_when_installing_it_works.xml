@@ -729,7 +729,9 @@ New features in 5.2
 Changes from 5.1 to 5.2
 
     - MediaItem Management: GetParentTrack\_MediaItem - had problems with items not having takes(note-items) -> fixed(thans to fernsehmuell)
+    - ReaGirl: Gui_Open - On Mac, it didn't position the window on the same spot as on Windows and Linux -> fixed
     - ReaGirl: keyboard-navigation - focus-rectangle is only shown, when the user uses the tab key to navigates; can be set to "show always" in the settings
+    - ReaGirl: Labels - backdrop wasn't properly drawn, when the backdrop wasn't visible at startup and had to be scrolled in
     - ReaGirl: Mac - fixed scaling of window on Retina-Macs
     - ReaGirl: mouse-cursors - when hovering above clickable/draggable areas, the mouse always changes the cursor to show you, where click/drag areas are
     - ReaGirl: scaling - scaled too big on Retina/hiDPI-resolutions -> fixed
@@ -765,7 +767,7 @@ Changes from 5.1 to 5.2
         \par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af6\langfe2052\dbch\af8\afs24\lang1081\loch\f0\fs24\lang1031{\rtlch \ltrch\loch
         }
         \par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af6\langfe2052\dbch\af8\afs24\lang1081\loch\f0\fs24\lang1031{\rtlch \ltrch\loch\loch\f4
-        a 1691 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 56041 from 18.01.2025 21:04:11).}
+        a 1691 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 56041 from 19.01.2025 20:51:40).}
         \par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af6\langfe2052\dbch\af8\afs24\lang1081\loch\f0\fs24\lang1031{\rtlch \ltrch\loch
         }
         \par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af6\langfe2052\dbch\af8\afs24\lang1081\loch\f0\fs24\lang1031{\rtlch \ltrch\loch
