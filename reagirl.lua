@@ -15307,9 +15307,6 @@ function reagirl.UI_Element_ScrollToUIElement(element_id, x_offset, y_offset)
   end
   
   if reagirl.Elements[i]["sticky_y"]==false then
-    AA=y2+100+reagirl.MoveItAllUp>gfx.h-15*scale
-    AA2=y2+100+h2+reagirl.MoveItAllUp>gfx.h-(15)*scale
-    
     if y2-reagirl.Gui_Sticky_Y_top*scale+reagirl.MoveItAllUp<0 then
       reagirl.MoveItAllUp=-y2+y_offset+reagirl.Gui_Sticky_Y_top*scale
     elseif y2+reagirl.Gui_Sticky_Y_bottom*scale+reagirl.MoveItAllUp>gfx.h-15*scale and y2+reagirl.Gui_Sticky_Y_bottom*scale+h2+reagirl.MoveItAllUp>gfx.h-(15)*scale then
@@ -15714,8 +15711,8 @@ function reagirl.Slider_Manage(element_id, selected, hovered, clicked, mouse_cap
           if clicked=="DBLCLK" then
           else
             if clicked=="FirstCLK" or clicked=="DRAG" then
-              step_size=(rect_w/(element_storage["Stop"]-element_storage["Start"])/0.95)
-              slider4=slider_x2/step_size
+              step_size=(rect_w/(element_storage["Stop"]-element_storage["Start"])/1)
+              slider4=(slider_x2-2*dpi_scale)/step_size
               element_storage["CurValue"]=element_storage["Start"]+slider4
               if element_storage["Step"]~=-1 then 
                 local old=element_storage["Start"]
