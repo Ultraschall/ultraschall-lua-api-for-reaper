@@ -26,10 +26,7 @@
 
 --[[
 TODO: 
-  - Backdrop of Tab-height is not working correctly(wrong on higher scalings)
   - auto-window-width is not correctly calculated in Gui_Open(): when tab with autoscale is present, it's too small
-  - Mac: y-position of window is not calculated properly(maybe do it with this: reaper.JS_Window_ClientToScreen() reaper.JS_Window_ScreenToClient()
-         - auto_x and auto_y of opened window is not calculated properly when scale>1
   - Zoom: change reagirl.ReScale to zoom
       - ctrl++ and ctrl+- don't work due a Reaper-bug
       - smaller stepsizes don't work due to the fact, that many parts of ReaGirl require integer-scaling and integer coordinates, but having smaller steps makes float ones
@@ -44,8 +41,6 @@ TODO:
     > Shortcut-support(needs mechanism to override certain shortcuts)
   - Gui_Open - w and h parameters=nil mean, make the size of the window big enough to fit all ui-elements
   - Sliders: make default-value optional
-  - sticky elements need more work, as tabbing to one might move a ui-element behind a sticky-ui-element. In that case, we need to
-    scroll accordingly.
   - Draggable UI-Elements other than Image: use reagirl.DragImageSlot to draw the dragging-image, which will be blit by the Gui_Draw-function
   - EdgeCase: when the scrollbars dis(!)appear while dragging the slider, the slider doesn't drag anymore
               -- see this with a slider -100 to 100 that sets x and y of a button in a way, that scrollbars
@@ -103,8 +98,8 @@ gfx.ext_retina=1
 reagirl={}
 
 reagirl.Gui_Init_Me=true
-reagirl.Gui_Sticky_Y_top=100
-reagirl.Gui_Sticky_Y_bottom=100
+reagirl.Gui_Sticky_Y_top=0
+reagirl.Gui_Sticky_Y_bottom=0
 
 function reagirl.CheckForDependencies(ReaImGui, js_ReaScript, US_API, SWS, Osara)
   local function OpenURL(url)
@@ -5533,6 +5528,7 @@ function reagirl.Gui_Manage(keep_running)
          gfx.mouse_y<=y2+MoveItAllUp+h2 then
          reagirl.UI_Elements_HoveredElement=i
          -- tooltip management
+         
          if reagirl.TooltipWaitCounter==14 then
           local XX,YY=reaper.GetMousePosition()
           if reagirl.Window_State&8==8 and reaper.GetExtState("ReaGirl", "show_tooltips")~="false" then
@@ -5548,7 +5544,9 @@ function reagirl.Gui_Manage(keep_running)
             if reagirl.Elements[i]["Draggable"]==true then 
               draggable="Draggable. " 
             end
-            reaper.TrackCtl_SetToolTip(reagirl.Elements[i]["Description"].." "..draggable..contextmenu..dropfiles, XX+15, YY+10, true)
+            local color=""
+            if reagirl.Elements[i]["Color_Name"]~=nil then color=reagirl.Elements[i]["Color_Name"].." " end
+            reaper.TrackCtl_SetToolTip(reagirl.Elements[i]["Description"].." "..color..draggable..contextmenu..dropfiles, XX+15, YY+10, true)
           end
 
           if reagirl.SetPosition_MousePositionY~=gfx.mouse_y 
@@ -8877,8 +8875,8 @@ function reagirl.ColorRectangle_Add(x, y, w, h, r, g, b, caption, meaningOfUI_El
     integer b - blue-value from 0-255
     string caption - the caption of the color-rectangle
     string meaningOfUI_Element - the meaningOfUI_Element of the ui-element(for tooltips and blind users). Make it a sentence that ends with . or ?
-    boolean color_selector_when_clicked - true, clicking the color rectangle will open up a color-selection dialog(will ignore run_function parameter)
-                                        - false, clicking will run the run-function
+    boolean color_selector_when_clicked - true, clicking the color rectangle will open up a color-selection dialog. The run_function will be run right after the user closd the color-selector-dialog.
+                                        - false, clicking will not open a color-selector.
     optional function run_function - a function that shall be run when the color-rectangle is clicked; will get the color-rectangle-element_id passed over as first parameter and r,g,b as second, third and fourth parameter; nil, no run-function for this color-rectangle
   </parameters>
   <retvals>
@@ -8918,6 +8916,9 @@ function reagirl.ColorRectangle_Add(x, y, w, h, r, g, b, caption, meaningOfUI_El
   if b<0 then b=0 end
   if b>255 then b=255 end
   
+  local color_name=reagirl.Color_GetName(r, g, b)
+  if color_name~="" then color_name=color_name.." " end
+  
   table.insert(reagirl.Elements, slot, {})
   reagirl.Elements[slot]["Guid"]=reaper.genGuid("")
   reagirl.Elements[slot]["GUI_Element_Type"]="Color Rectangle"
@@ -8928,6 +8929,7 @@ function reagirl.ColorRectangle_Add(x, y, w, h, r, g, b, caption, meaningOfUI_El
   reagirl.Elements[slot]["sticky_y"]=false
   reagirl.Elements[slot]["Description"]=meaningOfUI_Element
   reagirl.Elements[slot]["AccHint"]="Click with space or left mouseclick."
+  reagirl.Elements[slot]["Color_Name"]="Color: "..color_name.."Red:"..r.." Green:"..g.." Blue:"..b
   reagirl.Elements[slot]["ContextMenu_ACC"]=""
   reagirl.Elements[slot]["DropZoneFunction_ACC"]=""
   reagirl.Elements[slot]["x"]=x
