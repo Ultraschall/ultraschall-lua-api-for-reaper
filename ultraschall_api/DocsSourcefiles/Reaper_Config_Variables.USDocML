@@ -9349,15 +9349,39 @@
             >> 1 0, Only snap at start/snap offset  
             >> 0 1, Snap both start/end  
            
-           >&8192=0, Snap cursor to edges of media items on any track(off) - unchecked  
-           >&8192=1, Snap cursor to edges of media items on any track(on) - checked  
+           >&8192=0, Snap cursor to edges of media items/take markers "cursor"-checkbox - unchecked  
+           >&8192=1, Snap cursor to edges of media items/take markers "cursor"-checkbox - checked  
+
+					 >&16384=0, Snap automation items to Automation Items-checkbox - unchecked
+					 >&16384=1, Snap automation items to Automation Items-checkbox - checked
 
            >&32768=0, Grid snap settings follow grid visibility(on) - checked  
            >&32768=1, Grid snap settings follow grid visibility(off) - unchecked  
+					 
+					 >&65536=0, Snap automation items to Media Items-checkbox - unchecked
+					 >&65536=1, Snap automation items to Media Items-checkbox - checked
 
            >&131072=0, Snap to project sample rate(off) - unchecked  
            >&131072=1, Snap to project sample rate(on) - checked  
-
+					 
+					 >&262144=0, Snap cursor to edges of media items/take markers "selection"-checkbox - unchecked  
+					 >&262144=1, Snap cursor to edges of media items/take markers "selection"-checkbox - checked  
+					 
+					 >&524288=0, Snap razor edits to Media Items - unchecked
+					 >&524288=1, Snap razor edits to Media Items - checked
+					 
+					 >&1048576=0, Snap razor edits to Automation Items - unchecked
+					 >&1048576=1, Snap razor edits to Automation Items - checked
+					 
+					 >&2097152=0, Snap media items to media item in other fixed lanes-checkbox - unchecked
+					 >&2097152=1, Snap media items to media item in other fixed lanes-checkbox - unchecked
+					 
+					 >&4194304=0, Snap fixed lane comp areas to media items-checkbox - checked
+					 >&4194304=1, Snap fixed lane comp areas to media items-checkbox - unchecked
+					
+  				 >&8388608=0, Snap media item edges to source media start/end-checkbox - checked
+					 >&8388608=1, Snap media item edges to source media start/end-checkbox - unchecked
+					 
           Stored in reaper.ini under the same name in the section REAPER, when Save as default project settings has been clicked.  
       </description>  
       <chapter_context>

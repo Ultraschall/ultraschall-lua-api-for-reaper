@@ -430,6 +430,7 @@ Has now 1834 functions, with XX new ones
 	- ReaGirl: ColorRectangle\_GetRadius - gets the current radius of the edges of a color-rectangle
 	- ReaGirl: ColorRectangle\_SetColor - sets the color of a color-rectangle
 	- ReaGirl: ColorRectangle\_SetRadius - sets the radius of the edges of a color-rectangle
+	- ReaGirl: Gui\_GetSetStickyOffset - gets/sets a y-offset to prevent ui-elements from getting stuck behind sticky elements
 	- ReaGirl: UI\_Element\_GetSetSticky - gets/sets a ui-element to a sticky position, so it will not move when scrolling
 	- ReaGirl: Window\_GetHWND - returns the window-handler of th gui-window  
 	- ReaGirl: Window\_GetScrollOffset - gets the scroll-offset of the window's gui

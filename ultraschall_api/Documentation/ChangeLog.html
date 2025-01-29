@@ -47,6 +47,7 @@ Bla</li>
 <li>ReaGirl: ColorRectangle_GetRadius - gets the current radius of the edges of a color-rectangle</li>
 <li>ReaGirl: ColorRectangle_SetColor - sets the color of a color-rectangle</li>
 <li>ReaGirl: ColorRectangle_SetRadius - sets the radius of the edges of a color-rectangle</li>
+<li>ReaGirl: Gui_GetSetStickyOffset - gets/sets a y-offset to prevent ui-elements from getting stuck behind sticky elements</li>
 <li>ReaGirl: UI_Element_GetSetSticky - gets/sets a ui-element to a sticky position, so it will not move when scrolling</li>
 <li>ReaGirl: Window_GetHWND - returns the window-handler of th gui-window<br />
 </li>
@@ -55,7 +56,9 @@ Bla</li>
 </ul>
 <h4>Changes from 5.1 to 5.2</h4>
 <pre><code>- MediaItem Management: GetParentTrack\_MediaItem - had problems with items not having takes(note-items) -&gt; fixed(thans to fernsehmuell)
+- ReaGirl: Gui_Open - On Mac, it didn&#39;t position the window on the same spot as on Windows and Linux -&gt; fixed
 - ReaGirl: keyboard-navigation - focus-rectangle is only shown, when the user uses the tab key to navigates; can be set to &quot;show always&quot; in the settings
+- ReaGirl: Labels - backdrop wasn&#39;t properly drawn, when the backdrop wasn&#39;t visible at startup and had to be scrolled in
 - ReaGirl: Mac - fixed scaling of window on Retina-Macs
 - ReaGirl: mouse-cursors - when hovering above clickable/draggable areas, the mouse always changes the cursor to show you, where click/drag areas are
 - ReaGirl: scaling - scaled too big on Retina/hiDPI-resolutions -&gt; fixed

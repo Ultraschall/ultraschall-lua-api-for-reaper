@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API and ReaGirl">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API and ReaGirl package" type="extension">
-      <version name="56041.00" author="Meo-Ada Mespotine">
+      <version name="56043.00" author="Meo-Ada Mespotine">
 	<source file="reagirl.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5.2//reagirl.lua</source>
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5.2//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5.2//ultraschall_api_readme.txt</source>
@@ -719,6 +719,8 @@ New features in 5.2
         color-rectangle
     -   ReaGirl: ColorRectangle_SetRadius - sets the radius of the edges
         of a color-rectangle
+    -   ReaGirl: Gui_GetSetStickyOffset - gets/sets a y-offset to
+        prevent ui-elements from getting stuck behind sticky elements
     -   ReaGirl: UI_Element_GetSetSticky - gets/sets a ui-element to a
         sticky position, so it will not move when scrolling
     -   ReaGirl: Window_GetHWND - returns the window-handler of th
@@ -767,7 +769,7 @@ Changes from 5.1 to 5.2
         \par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af6\langfe2052\dbch\af8\afs24\lang1081\loch\f0\fs24\lang1031{\rtlch \ltrch\loch
         }
         \par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af6\langfe2052\dbch\af8\afs24\lang1081\loch\f0\fs24\lang1031{\rtlch \ltrch\loch\loch\f4
-        a 1691 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 56041 from 19.01.2025 20:51:40).}
+        a 1691 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 56043 from 29.01.2025 13:04:54).}
         \par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af6\langfe2052\dbch\af8\afs24\lang1081\loch\f0\fs24\lang1031{\rtlch \ltrch\loch
         }
         \par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af6\langfe2052\dbch\af8\afs24\lang1081\loch\f0\fs24\lang1031{\rtlch \ltrch\loch

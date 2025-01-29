@@ -103,6 +103,8 @@ gfx.ext_retina=1
 reagirl={}
 
 reagirl.Gui_Init_Me=true
+reagirl.Gui_Sticky_Y_top=100
+reagirl.Gui_Sticky_Y_bottom=100
 
 function reagirl.CheckForDependencies(ReaImGui, js_ReaScript, US_API, SWS, Osara)
   local function OpenURL(url)
@@ -3470,6 +3472,8 @@ function reagirl.Window_Open(...)
   <functioncall>integer retval, optional HWND hwnd = reagirl.Window_Open(string title, optional integer width, optional integer height, optional integer dockstate, optional integer xpos, optional integer ypos)</functioncall>
   <description>
     Opens a new graphics window and returns its HWND-windowhandler object.
+    
+    Note for Mac-users: y=0 is at the top of the screen, not the bottom! So if you want to place a window at the top, use y=0!
   </description>
   <parameters>
     string title - the name of the window, which will be shown in the title of the window
@@ -3556,7 +3560,7 @@ function reagirl.Window_Open(...)
     retval=gfx.init(table.unpack(parms))
     
     -- find the window with the temporary windowtitle and get its HWND
-    reagirl.HWND=reaper.JS_Window_Find(parms[1], true)
+    reagirl.GFX_WindowHWND=reaper.JS_Window_Find(parms[1], true)
     
     -- resize window properly on Retina-macs
     if gfx.w>parms[2] or gfx.h>parms[3] then
@@ -3573,8 +3577,7 @@ function reagirl.Window_Open(...)
     end
     
     -- rename it to the original title
-    if HWND~=nil then reaper.JS_Window_SetTitle(HWND, temp) end
-    reagirl.GFX_WindowHWND=HWND    
+    if reagirl.GFX_WindowHWND~=nil then reaper.JS_Window_SetTitle(reagirl.GFX_WindowHWND, temp) end
   else 
     local A1,B,C,D=reaper.my_getViewport(0,0,0,0, 0,0,0,0, false)
     parms[2]=parms[2]*reagirl.Window_CurrentScale
@@ -3646,7 +3649,7 @@ function reagirl.Window_GetHWND()
   <tags>refocus, focus, window, hwnd</tags>
 </US_DocBloc>
 ]]
-  return reagirl.HWND
+  return reagirl.GFX_WindowHWND
 end
 
 
@@ -4112,7 +4115,7 @@ function reagirl.ScrollBar_Right_Draw(element_id, selected, hovered, clicked, mo
   --gfx.set(reagirl.Colors.Scrollbar_Foreground_r, reagirl.Colors.Scrollbar_Foreground_g, reagirl.Colors.Scrollbar_Foreground_b, element_storage.a)
   
   local y2=element_storage.scroll_pos
-  if y2==nil then y2=-((h-13*scale)/(reagirl.BoundaryY_Max-gfx.h))*reagirl.MoveItAllUp else y2=y2-22*scale end
+  if y2==nil then y2=-((h-(13)*scale)/(reagirl.BoundaryY_Max-gfx.h))*reagirl.MoveItAllUp else y2=y2-22*scale end
   
   gfx.set(reagirl.Colors.Scrollbar_Foreground_r, reagirl.Colors.Scrollbar_Foreground_g, reagirl.Colors.Scrollbar_Foreground_b, element_storage.a)
   gfx.rect(x,y2+15*scale,16*scale,14*scale,1)
@@ -4407,6 +4410,8 @@ function reagirl.Gui_Open(name, restore_old_window_state, title, description, w,
     Opens a gui-window. If x and/or y are not given, it will be opened centered.
     
     ReaGirl stores in the background the position, size and dockstate of the window. Set restore_old_window_state=true to automatically reopen the window with the position, size and dockstate of the window when it was closed the last time.
+    
+    Note for Mac-users: y=0 is at the top of the screen, not the bottom! So if you want to place a window at the top, use y=0!
   </description>
   <retvals>
     number retval - 1.0, if window is opened
@@ -4583,7 +4588,7 @@ function reagirl.Gui_Close()
   reagirl.IsWindowOpen_attribute=false
   reagirl.IsWindowOpen_attribute_Old=true
   reaper.SetExtState("Reagirl_Window_"..reagirl.Window_name, "open", "", false)
-  reagirl.HWND=nil
+  reagirl.GFX_WindowHWND=nil
   
   reagirl.UnRegisterWindow()
 end
@@ -6872,6 +6877,9 @@ function reagirl.UI_Element_GetSetSticky(element_id, is_set, sticky_x, sticky_y)
     Otherwise a ui-element might not be clickable, since it can't be scrolled to. 
     This would also affect blind users, as tabbing through ui-elements moves the mouse to the ui-element(so they can right-click context-menus), 
     which might be outside of the window and therefore the mouse would move to nowhere.
+    
+    Also important: to prevent ui-element getting stuck behind sticky-ui-elements via scrolling/tabbing, use reagirl.Gui_GetSetStickyOffset() to 
+    set offset that will move the ui-elements down/up accordingly
   </description>
   <retvals>
     boolean sticky_x - true, x-movement is sticky; false, x-movement isn't sticky
@@ -6904,6 +6912,52 @@ function reagirl.UI_Element_GetSetSticky(element_id, is_set, sticky_x, sticky_y)
     reagirl.Elements[element_id]["sticky_y"]=sticky_y
   end
   return reagirl.Elements[element_id]["sticky_x"], reagirl.Elements[element_id]["sticky_y"]
+end
+
+function reagirl.Gui_GetSetStickyOffset(is_set, y_offset_top, y_offset_bottom)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Gui_GetSetStickyOffset</slug>
+  <requires>
+    ReaGirl=1.2
+    Reaper=7.03
+    Lua=5.4
+  </requires>
+  <functioncall>integer y_offset_top, integer y_offset_bottom = reagirl.Gui_GetSetStickyOffset(boolean is_set, integer y_offset, integer y_offset_bottom)</functioncall>
+  <description>
+    gets/sets the y-offset of the ui-element, when tabbing through it.
+    
+    With this, you can prevent ui-elements getting stuck behind sticky elements when tabbing/scrolling through it.
+    
+    Rule of thumb for y_offset_top: 
+    Put the first ui-element right under the sticky element and use the same y-position as value for y_offset_top. That way, it looks seamless.
+  </description>
+  <retvals>
+    integer y_offset_top - the offset from the top. Tabbed ui-elements at the top will be moved down by this value.
+    integer y_offset_bottom - the offset from the bottom. Tabbed ui-elements at the bottom will be moved up by this value.
+  </retvals>
+  <parameters>
+    boolean is_set - true, set the sticky-offset; false, only retrieve current sticky-offset
+    integer y_offset_top - the offset from the top. Tabbed ui-elements at the top will be moved down by this value.
+    integer y_offset_bottom - the offset from the bottom. Tabbed ui-elements at the bottom will be moved up by this value.
+  </parameters>
+  <chapter_context>
+    Gui
+  </chapter_context>
+  <target_document>ReaGirl_Docs</target_document>
+  <source_document>reagirl_GuiEngine.lua</source_document>
+  <tags>gui, set, get, sticky</tags>
+</US_DocBloc>
+]]
+  if type(is_set)~="boolean" then error("Gui_GetSetStickyOffset: param #2 - must be a boolean", 2) end
+  if math.type(y_offset_top)~="integer" then error("Gui_GetSetStickyOffset: param #3 - must be a boolean", 2) end
+  if math.type(y_offset_bottom)~="integer" then error("Gui_GetSetStickyOffset: param #4 - must be a boolean", 2) end
+  
+  if is_set==true then
+    reagirl.Gui_Sticky_Y_top=y_offset_top
+    reagirl.Gui_Sticky_Y_bottom=y_offset_bottom
+  end
+  return reagirl.Gui_Sticky_Y_top, reagirl.Gui_Sticky_Y_bottom
 end
 
 function reagirl.UI_Element_GetSetMeaningOfUIElement(element_id, is_set, meaningOfUI_Element)
@@ -14819,8 +14873,8 @@ function reagirl.UI_Elements_Boundaries()
   
   reagirl.BoundaryX_Min=0--minx
   reagirl.BoundaryX_Max=maxx--+15*scale
-  reagirl.BoundaryY_Min=0--miny
-  reagirl.BoundaryY_Max=maxy+15*scale -- +scale_offset
+  reagirl.BoundaryY_Min=0+reagirl.Gui_Sticky_Y_top*scale--miny
+  reagirl.BoundaryY_Max=maxy+15*scale+reagirl.Gui_Sticky_Y_bottom*scale -- +scale_offset
   --gfx.rect(reagirl.BoundaryX_Min, reagirl.BoundaryY_Min+reagirl.MoveItAllUp, 10, 10, 1)
   --gfx.rect(reagirl.BoundaryX_Max-20, reagirl.BoundaryY_Max+reagirl.MoveItAllUp-20, 10, 10, 1)
   --gfx.drawstr(reagirl.MoveItAllUp.." "..reagirl.BoundaryY_Min)
@@ -15251,10 +15305,14 @@ function reagirl.UI_Element_ScrollToUIElement(element_id, x_offset, y_offset)
   end
   
   if reagirl.Elements[i]["sticky_y"]==false then
-    if y2+reagirl.MoveItAllUp<0 then
-      reagirl.MoveItAllUp=-y2+y_offset
-    elseif y2+reagirl.MoveItAllUp>gfx.h-15*scale and y2+h2+reagirl.MoveItAllUp>gfx.h-15*scale then
-      reagirl.MoveItAllUp=gfx.h-15*scale-h2-y2
+    AA=y2+100+reagirl.MoveItAllUp>gfx.h-15*scale
+    AA2=y2+100+h2+reagirl.MoveItAllUp>gfx.h-(15)*scale
+    
+    if y2-reagirl.Gui_Sticky_Y_top*scale+reagirl.MoveItAllUp<0 then
+      reagirl.MoveItAllUp=-y2+y_offset+reagirl.Gui_Sticky_Y_top*scale
+    elseif y2+reagirl.Gui_Sticky_Y_bottom*scale+reagirl.MoveItAllUp>gfx.h-15*scale and y2+reagirl.Gui_Sticky_Y_bottom*scale+h2+reagirl.MoveItAllUp>gfx.h-(15)*scale then
+      
+      reagirl.MoveItAllUp=gfx.h-15*scale-h2-y2-reagirl.Gui_Sticky_Y_bottom*scale
     end
   end
   --[[
