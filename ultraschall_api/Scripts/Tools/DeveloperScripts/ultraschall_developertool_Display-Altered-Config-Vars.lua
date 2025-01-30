@@ -45,6 +45,8 @@
 
 ultraschall_override=true
 
+reaper.set_action_options(1)
+
 A=reaper.GetAppVersion()
 B=tonumber(A:match("(.-)/"))
 if B==nil then

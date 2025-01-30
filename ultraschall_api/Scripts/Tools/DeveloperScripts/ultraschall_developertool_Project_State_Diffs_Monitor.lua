@@ -42,6 +42,8 @@ It will ask you, whether to put the changed lines into the clipboard.
 Meo Mespotine mespotine.de - 21 of January 2021
 --]]
 
+reaper.set_action_options(1)
+
 if reaper.file_exists(reaper.GetResourcePath().."/UserPlugins/ultraschall_api.lua")==true then
   dofile(reaper.GetResourcePath().."/UserPlugins/ultraschall_api.lua")
 else

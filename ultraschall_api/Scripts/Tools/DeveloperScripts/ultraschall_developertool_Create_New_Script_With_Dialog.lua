@@ -3,6 +3,9 @@ dofile(reaper.GetResourcePath().."/UserPlugins/ultraschall_api.lua")
 
 -- 0. enable ReaGirl for the script
 dofile(reaper.GetResourcePath().."/UserPlugins/reagirl.lua")
+
+reaper.set_action_options(1)
+
 -- check for required version; alter the version-number if necessary
 if reagirl.GetVersion()<1.0 then reaper.MB("Needs ReaGirl v"..(1.0).." to run", "Too old version", 2) return false end
 

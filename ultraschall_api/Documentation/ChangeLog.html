@@ -55,7 +55,10 @@ Bla</li>
 </ul></li>
 </ul>
 <h4>Changes from 5.1 to 5.2</h4>
-<pre><code>- MediaItem Management: GetParentTrack\_MediaItem - had problems with items not having takes(note-items) -&gt; fixed(thans to fernsehmuell)
+<pre><code>- Developer Tools: deferred tools and ReaGirl settings - will now stop when rerunning them (requested by amagalma)
+- MediaItem Management: GetParentTrack\_MediaItem - had problems with items not having takes(note-items) -&gt; fixed(thans to fernsehmuell)
+- ReaGirl: General - prevent possible crash, when not running Gui_Manage()
+- ReaGirl: Gui_Manage - simplified code, so it should run more smoothly now; ui-elements on top of other ui-elements were not recognised and therefor could&#39;t be clicked -&gt; fixed
 - ReaGirl: Gui_Open - On Mac, it didn&#39;t position the window on the same spot as on Windows and Linux -&gt; fixed
 - ReaGirl: keyboard-navigation - focus-rectangle is only shown, when the user uses the tab key to navigates; can be set to &quot;show always&quot; in the settings
 - ReaGirl: Labels - backdrop wasn&#39;t properly drawn, when the backdrop wasn&#39;t visible at startup and had to be scrolled in

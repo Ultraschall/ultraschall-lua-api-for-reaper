@@ -436,7 +436,10 @@ Has now 1834 functions, with XX new ones
 	- ReaGirl: Window\_GetScrollOffset - gets the scroll-offset of the window's gui
 
 #### Changes from 5.1 to 5.2  
+	- Developer Tools: deferred tools and ReaGirl settings - will now stop when rerunning them (requested by amagalma)
 	- MediaItem Management: GetParentTrack\_MediaItem - had problems with items not having takes(note-items) -> fixed(thans to fernsehmuell)
+	- ReaGirl: General - prevent possible crash, when not running Gui_Manage()
+	- ReaGirl: Gui_Manage - simplified code, so it should run more smoothly now; ui-elements on top of other ui-elements were not recognised and therefor could't be clicked -> fixed
 	- ReaGirl: Gui_Open - On Mac, it didn't position the window on the same spot as on Windows and Linux -> fixed
 	- ReaGirl: keyboard-navigation - focus-rectangle is only shown, when the user uses the tab key to navigates; can be set to "show always" in the settings
 	- ReaGirl: Labels - backdrop wasn't properly drawn, when the backdrop wasn't visible at startup and had to be scrolled in

@@ -3554,6 +3554,9 @@ function reagirl.Window_Open(...)
     -- open window  
     retval=gfx.init(table.unpack(parms))
     
+    -- set window-state-variable
+    reagirl.Window_State=gfx.getchar(65536)
+    
     -- find the window with the temporary windowtitle and get its HWND
     reagirl.GFX_WindowHWND=reaper.JS_Window_Find(parms[1], true)
     
@@ -3598,6 +3601,10 @@ function reagirl.Window_Open(...)
       _, parms[6] = reaper.JS_Window_ClientToScreen(reaper.GetMainHwnd(), 10, parms[6]+parms[3])
     end
     local B=gfx.init(table.unpack(parms)) 
+    
+    -- set window-state-variable
+    reagirl.Window_State=gfx.getchar(65536)
+    
     -- resize window properly on Retina-macs
     if gfx.w>parms[2] or gfx.h>parms[3] then
       parms[1]=""
@@ -4600,6 +4607,8 @@ function reagirl.UnRegisterWindow()
 end
 
 function reagirl.AtExit()
+  reagirl.Ext_IsAnyReaGirlGuiHovered()
+  reagirl.UnRegisterWindow()
   reaper.SetExtState("Reagirl_Window_"..reagirl.Window_name, "open", "", false)
   reaper.SetExtState("Reagirl_Window_"..reagirl.Window_name.."-"..reagirl.Gui_ScriptInstance, "stored", "", true)
   reaper.SetExtState("Reagirl_Window_"..reagirl.Window_name.."-"..reagirl.Gui_ScriptInstance, "x", "", false)
@@ -4609,8 +4618,6 @@ function reagirl.AtExit()
   reaper.SetExtState("Reagirl_Window_"..reagirl.Window_name.."-"..reagirl.Gui_ScriptInstance, "dock", "", false)
   gfx.quit()
   reagirl.IsWindowOpen_attribute=false
-  reagirl.Ext_IsAnyReaGirlGuiHovered()
-  reagirl.UnRegisterWindow()
 end
 
 function reagirl.Ext_UI_Element_GetHovered()
@@ -5035,13 +5042,13 @@ end
 function reagirl.Ext_IsAnyReaGirlGuiHovered()
   --[[
   <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-    <slug>IsAnyReaGirlGuiHovered</slug>
+    <slug>Ext_IsAnyReaGirlGuiHovered</slug>
     <requires>
       ReaGirl=1.1
       Reaper=7.03
       Lua=5.4
     </requires>
-    <functioncall>boolean retval = reagirl.IsAnyReaGirlGuiHovered()</functioncall>
+    <functioncall>boolean retval = reagirl.Ext_IsAnyReaGirlGuiHovered()</functioncall>
     <description>
       Returns, if any ReaGirl-window is currently hovered by the mouse.
     </description>
@@ -5497,6 +5504,122 @@ function reagirl.Gui_Manage(keep_running)
   local found_element, old_selection 
   local restore=false
   
+  for i=1, #reagirl.Elements do
+    if #reagirl.Elements==0 then break end
+    if reagirl.Elements[i]["hidden"]~=true then
+      local x2, y2, w2, h2
+      if reagirl.Elements[i]["x"]<0 then x2=gfx.w+(reagirl.Elements[i]["x"]*scale) else x2=reagirl.Elements[i]["x"]*scale end
+      if reagirl.Elements[i]["y"]<0 then y2=gfx.h+(reagirl.Elements[i]["y"]*scale) else y2=reagirl.Elements[i]["y"]*scale end
+      if reagirl.Elements[i]["w"]<0 then w2=gfx.w+(-x2+reagirl.Elements[i]["w"]*scale) else w2=reagirl.Elements[i]["w"]*scale end
+      if reagirl.Elements[i]["h"]<0 then h2=gfx.h+(-y2+reagirl.Elements[i]["h"]*scale) else h2=reagirl.Elements[i]["h"]*scale end
+      if reagirl.Elements[i]["GUI_Element_Type"]=="ComboBox" then if w2<20 then w2=20 end end
+  
+      -- is any gui-element outside of the window
+      local MoveItAllUp=reagirl.MoveItAllUp  
+      local MoveItAllRight=reagirl.MoveItAllRight
+      if reagirl.Elements[i]["sticky_y"]==true then MoveItAllUp=0 end
+      if reagirl.Elements[i]["sticky_x"]==true then MoveItAllRight=0 end
+      
+      if x2+MoveItAllRight<reagirl.UI_Element_MinX then reagirl.UI_Element_MinX=x2+MoveItAllRight end
+      if y2<reagirl.UI_Element_MinY+MoveItAllUp then reagirl.UI_Element_MinY=y2+MoveItAllUp end
+      
+      if x2+MoveItAllRight+w2>reagirl.UI_Element_MaxW then reagirl.UI_Element_MaxW=x2+MoveItAllRight+w2 end
+      if y2+MoveItAllUp+h2>reagirl.UI_Element_MaxH then reagirl.UI_Element_MaxH=y2+h2+MoveItAllUp end
+    
+      -- show tooltip when hovering over a ui-element
+      -- also set clicked ui-element to the one at mouse-position, when specific_clickstate="FirstCLK"
+      
+      if gfx.mouse_x>=x2+MoveItAllRight and
+         gfx.mouse_x<=x2+MoveItAllRight+w2 and
+         gfx.mouse_y>=y2+MoveItAllUp and
+         gfx.mouse_y<=y2+MoveItAllUp+h2 then
+        if reagirl.Elements[i]["hidden"]==nil then
+          reagirl.UI_Elements_HoveredElement=i
+        end
+         -- tooltip management
+         
+         if reagirl.TooltipWaitCounter==14 then
+          local XX,YY=reaper.GetMousePosition()
+          if reagirl.Window_State&8==8 and reaper.GetExtState("ReaGirl", "show_tooltips")~="false" and reagirl.Elements[i]["IsDecorative"]~=true and reagirl.UI_Elements_HoveredElement~=-1 then
+            local contextmenu=""
+            local dropfiles=""
+            local draggable=""
+            if reagirl.Elements[i]["ContextMenu_ACC"]~="" then
+              contextmenu="Has context-menu. "
+            end
+            if reagirl.Elements[i]["DropZoneFunction_ACC"]~="" then
+              dropfiles="Allows dropping of files. "
+            end
+            if reagirl.Elements[i]["Draggable"]==true then 
+              draggable="Draggable. " 
+            end
+            local color=""
+            if reagirl.Elements[i]["Color_Name"]~=nil then color=reagirl.Elements[i]["Color_Name"].." " end
+            reaper.TrackCtl_SetToolTip(reagirl.Elements[i]["Description"].." "..color..draggable..contextmenu..dropfiles, XX+15, YY+10, true)
+          end
+         end
+         
+         -- focused/clicked ui-element-management
+         --[[
+         if (specific_clickstate=="FirstCLK") and reagirl.Elements[i]["IsDisabled"]==false then
+           if i~=reagirl.Elements["FocusedElement"] then
+             init_message=reagirl.Elements[i]["Name"].." "..reagirl.Elements[i]["GUI_Element_Type"]:sub(1,-1).." "
+             local acc_message=""
+             if reaper.GetExtState("ReaGirl", "osara_enable_accmessage")~="false" then
+               acc_message=reagirl.Elements[i]["AccHint"]
+             end
+             helptext=reagirl.Elements[i]["Description"].." "..acc_message
+             reagirl.FocusRectangle_BlinkStartTime=reaper.time_precise()
+             reagirl.FocusRectangle_BlinkStop=nil
+           end
+           
+           -- set found ui-element as focused and clicked
+           old_selection=reagirl.Elements.FocusedElement
+           if reagirl.Elements[i].IsDecorative==true then restore=true end
+           reagirl.Elements["FocusedElement"]=i
+           if old_selection~=reagirl.Elements.FocusedElement then
+             reagirl.ui_element_selected="first selected"
+           else
+             reagirl.ui_element_selected="selected"
+           end
+           reagirl.Elements[i]["clicked"]=true
+           reagirl.UI_Element_SetFocusRect()
+           reagirl.Gui_ForceRefresh(9) 
+         end
+         
+         found_element=i
+         --]]
+         --break
+        if reagirl.UI_Elements_HoveredElement~=-1 then
+          if (specific_clickstate=="FirstCLK") and reagirl.Elements[i]["IsDisabled"]==false then 
+            local old_selection=reagirl.Elements.FocusedElement
+            if reagirl.UI_Elements_HoveredElement~=reagirl.Elements["FocusedElement"] then
+              init_message=reagirl.Elements[reagirl.UI_Elements_HoveredElement]["Name"].." "..reagirl.Elements[reagirl.UI_Elements_HoveredElement]["GUI_Element_Type"]:sub(1,-1).." "
+              local acc_message=""
+              if reaper.GetExtState("ReaGirl", "osara_enable_accmessage")~="false" then
+                acc_message=reagirl.Elements[reagirl.UI_Elements_HoveredElement]["AccHint"]
+              end
+              helptext=reagirl.Elements[reagirl.UI_Elements_HoveredElement]["Description"].." "..acc_message
+              reagirl.FocusRectangle_BlinkStartTime=reaper.time_precise()
+              reagirl.FocusRectangle_BlinkStop=nil
+            end
+            if reagirl.Elements[reagirl.UI_Elements_HoveredElement].IsDecorative~=true then
+              reagirl.Elements["FocusedElement"]=reagirl.UI_Elements_HoveredElement
+              if old_selection~=reagirl.Elements.FocusedElement then
+                reagirl.ui_element_selected="first selected"
+              else
+                reagirl.ui_element_selected="selected"
+              end
+              reagirl.Elements[reagirl.UI_Elements_HoveredElement]["clicked"]=true
+            end
+          end
+          break 
+        end
+      end
+    end
+  end
+  
+  --[[
   for i=#reagirl.Elements-Scroll_Override_ScrollButtons, #reagirl.Elements do
     if i==0 then break end
     if reagirl.Elements[i]["hidden"]~=true then
@@ -5531,7 +5654,7 @@ function reagirl.Gui_Manage(keep_running)
          
          if reagirl.TooltipWaitCounter==14 then
           local XX,YY=reaper.GetMousePosition()
-          if reagirl.Window_State&8==8 and reaper.GetExtState("ReaGirl", "show_tooltips")~="false" then
+          if reagirl.Window_State&8==8 and reaper.GetExtState("ReaGirl", "show_tooltips")~="false" and reagirl.Elements[i]["IsDecorative"]~=true then
             local contextmenu=""
             local dropfiles=""
             local draggable=""
@@ -5557,7 +5680,7 @@ function reagirl.Gui_Manage(keep_running)
             --reagirl.SetPosition_MousePositionY=-1
           end
           
-          --if reagirl.osara_outputMessage~=nil then reagirl.osara_outputMessage(reagirl.Elements[i]["Text"],2--[[:utf8_sub(1,20)]]) end
+          --if reagirl.osara_outputMessage~=nil then reagirl.osara_outputMessage(reagirl.Elements[i]["Text"],2--[[:utf8_sub(1,20)] ]) end
          end
          
          -- focused/clicked ui-element-management
@@ -5577,6 +5700,7 @@ function reagirl.Gui_Manage(keep_running)
            old_selection=reagirl.Elements.FocusedElement
            if reagirl.Elements[i].IsDecorative==true then restore=true end
            reagirl.Elements["FocusedElement"]=i
+           AAA=i
            if old_selection~=reagirl.Elements.FocusedElement then
              reagirl.ui_element_selected="first selected"
            else
@@ -5589,9 +5713,10 @@ function reagirl.Gui_Manage(keep_running)
          found_element=i
          break
       end
+      AAAAAA3=i
     end
   end
-  
+  --[[
   if found_element==nil then
     for i=1, #reagirl.Elements, 1 do
       if reagirl.Elements[i]["hidden"]~=true then
@@ -5649,7 +5774,7 @@ function reagirl.Gui_Manage(keep_running)
               --reagirl.SetPosition_MousePositionY=-1
             end
             
-            --if reagirl.osara_outputMessage~=nil then reagirl.osara_outputMessage(reagirl.Elements[i]["Text"],2--[[:utf8_sub(1,20)]]) end
+            --if reagirl.osara_outputMessage~=nil then reagirl.osara_outputMessage(reagirl.Elements[i]["Text"],2--[[:utf8_sub(1,20) ] ] ) end
            end
            
            -- focused/clicked ui-element-management
@@ -5668,6 +5793,7 @@ function reagirl.Gui_Manage(keep_running)
              -- set found ui-element as focused and clicked
              old_selection=reagirl.Elements.FocusedElement
              if reagirl.Elements[i].IsDecorative==true then restore=true end
+             
              reagirl.Elements["FocusedElement"]=i
              if old_selection~=reagirl.Elements.FocusedElement then
                reagirl.ui_element_selected="first selected"
@@ -5682,6 +5808,7 @@ function reagirl.Gui_Manage(keep_running)
            break
         end
       end
+      AAAAAA4=i
     end
   end
   -- notice if any ui-element is hovered for external scripts
@@ -5696,7 +5823,7 @@ function reagirl.Gui_Manage(keep_running)
       reaper.SetExtState("ReaGirl", "Hovered_Element", "", false)
     end
   end
-  
+  --]]
   
   -- if osara is installed, move mouse to hover above ui-element
   if reagirl.osara_outputMessage~=nil and reagirl.oldselection~=reagirl.Elements.FocusedElement then
@@ -6947,9 +7074,9 @@ function reagirl.Gui_GetSetStickyOffset(is_set, y_offset_top, y_offset_bottom)
   <tags>gui, set, get, sticky</tags>
 </US_DocBloc>
 ]]
-  if type(is_set)~="boolean" then error("Gui_GetSetStickyOffset: param #2 - must be a boolean", 2) end
-  if math.type(y_offset_top)~="integer" then error("Gui_GetSetStickyOffset: param #3 - must be a boolean", 2) end
-  if math.type(y_offset_bottom)~="integer" then error("Gui_GetSetStickyOffset: param #4 - must be a boolean", 2) end
+  if type(is_set)~="boolean" then error("Gui_GetSetStickyOffset: param #1 - must be a boolean", 2) end
+  if math.type(y_offset_top)~="integer" then error("Gui_GetSetStickyOffset: param #2 - must be a boolean", 2) end
+  if math.type(y_offset_bottom)~="integer" then error("Gui_GetSetStickyOffset: param #3 - must be a boolean", 2) end
   
   if is_set==true then
     reagirl.Gui_Sticky_Y_top=y_offset_top

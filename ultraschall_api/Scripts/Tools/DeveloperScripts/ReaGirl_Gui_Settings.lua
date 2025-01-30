@@ -27,6 +27,7 @@
 -- NOTE!! Osara is always enabled in this dialog so blind people can't shut themselves out of using this dialog!!!
 
 dofile(reaper.GetResourcePath().."/UserPlugins/reagirl.lua")
+reaper.set_action_options(1)
 
 reagirl.Settings_Override=true
 --dofile(reaper.GetResourcePath().."/UserPlugins/ultraschall_api.lua")
