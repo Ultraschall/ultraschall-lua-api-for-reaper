@@ -8962,6 +8962,115 @@ function reagirl.Gui_GetCurrentScriptInstance()
   return gui_name, reagirl.Gui_ScriptInstance
 end
 
+function reagirl.DecorRectangle_Add(x, y, w, h, radius, r, g, b)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>DecorRectangle_Add</slug>
+  <requires>
+    ReaGirl=1.2
+    Reaper=7.03
+    Lua=5.4
+  </requires>
+  <functioncall>string decor_rectangle_guid = reagirl.DecorRectangle_Add(optional integer x, optional integer y, integer w, integer h, integer radius, integer r, integer g, integer b)</functioncall>
+  <description>
+    Adds a decorative color-rectangle to a gui.
+    
+    A decorative rectangle is only there for gui-design and has no functionality. You can't tab it or click it.
+    
+    If you want to choose a color by name, use reagirl.Color_EnumerateNames() to get all possible color-names(all html-colornames as defined by the W3C are supported plus more).
+    Convert the name to the color-values using Color_GetColorValuesByName.
+    Colors who have a name are better for screen reader users, since the color name will be reported accordingly.
+    
+    See this page for more details and color-names: https://www.w3.org/wiki/CSS/Properties/color/keywords
+    
+  </description>
+  <parameters>
+    optional integer x - the x position of the color-rectangle in pixels; negative anchors the color-rectangle to the right window-side; nil, autoposition after the last ui-element(see description)
+    optional integer y - the y position of the color-rectangle in pixels; negative anchors the color-rectangle to the bottom window-side; nil, autoposition after the last ui-element(see description)
+    integer w - the width of the color-rectangle in pixels
+    integer h - the height of the color-rectangle in pixels
+    integer radius - the radius of the rectangle
+    integer r - red-value from 0-255
+    integer g - green-value from 0-255
+    integer b - blue-value from 0-255
+  </parameters>
+  <retvals>
+    string decor_rectangle_guid - a guid that can be used for altering the decorative color-rectangle's attributes
+  </retvals>
+  <chapter_context>
+    Decorative Color Rectangle
+  </chapter_context>
+  <tags>decorative color rectangle, add</tags>
+</US_DocBloc>
+--]]
+  if x~=nil and math.type(x)~="integer" then error("ColorRectangle_Add: param #1 - must be either nil or an integer", 2) end
+  if y~=nil and math.type(y)~="integer" then error("ColorRectangle_Add: param #2 - must be either nil or an integer", 2) end
+  if math.type(w)~="integer" then error("ColorRectangle_Add: param #3 - must be an integer", 2) end
+  if math.type(h)~="integer" then error("ColorRectangle_Add: param #4 - must be an integer", 2) end
+  if math.type(radius)~="integer" then error("ColorRectangle_Add: param #5 - must be an integer", 2) end
+  if math.type(r)~="integer" then error("ColorRectangle_Add: param #6 - must be an integer", 2) end
+  if math.type(g)~="integer" then error("ColorRectangle_Add: param #7 - must be an integer", 2) end
+  if math.type(b)~="integer" then error("ColorRectangle_Add: param #8 - must be an integer", 2) end
+  
+  
+  local _,_,slot=reagirl.UI_Element_GetNextXAndYPosition(x, y, "ColorRectangle_Add")
+  --reagirl.UI_Element_NextX_Default=x
+  
+  --reagirl.SetFont(1, reagirl.Font_Face, reagirl.Font_Size, 0, 1)
+  --local tx,ty=gfx.measurestr(caption)
+  --reagirl.SetFont(1, reagirl.Font_Face, reagirl.Font_Size, 0)
+  if r<0 then r=0 end
+  if r>255 then r=255 end
+  if g<0 then g=0 end
+  if g>255 then g=255 end
+  if b<0 then b=0 end
+  if b>255 then b=255 end
+  
+  local color_name=reagirl.Color_GetName(r, g, b)
+  if color_name~="" then color_name=color_name.." " end
+  
+  table.insert(reagirl.Elements, slot, {})
+  reagirl.Elements[slot]["Guid"]=reaper.genGuid("")
+  reagirl.Elements[slot]["GUI_Element_Type"]="Color Rectangle"
+  reagirl.Elements[slot]["Name"]="I AM A COLOR!!!"
+  reagirl.Elements[slot]["Text"]="I AM A COLOR2 "
+  reagirl.Elements[slot]["IsDisabled"]=false
+  reagirl.Elements[slot]["sticky_x"]=false
+  reagirl.Elements[slot]["sticky_y"]=false
+  reagirl.Elements[slot]["Description"]="I AM A COLOR 3!!"
+  reagirl.Elements[slot]["AccHint"]="Click with space or left mouseclick."
+  reagirl.Elements[slot]["Color_Name"]="Color: "..color_name.."Red:"..r.." Green:"..g.." Blue:"..b
+  reagirl.Elements[slot]["ContextMenu_ACC"]=""
+  reagirl.Elements[slot]["DropZoneFunction_ACC"]=""
+  reagirl.Elements[slot]["x"]=x
+  reagirl.Elements[slot]["y"]=y
+  reagirl.Elements[slot]["w"]=w
+  reagirl.Elements[slot]["h"]=h
+  reagirl.Elements[slot]["r"]=r/255
+  reagirl.Elements[slot]["g"]=g/255
+  reagirl.Elements[slot]["b"]=b/255
+  reagirl.Elements[slot]["r_full"]=r
+  reagirl.Elements[slot]["g_full"]=g
+  reagirl.Elements[slot]["b_full"]=b
+  reagirl.Elements[slot]["IsDecorative"]=true
+  --if math.tointeger(ty+h_margin)>reagirl.NextLine_Overflow then reagirl.NextLine_Overflow=math.tointeger(ty+h_margin) end
+  reagirl.Elements[slot]["radius"]=radius
+  reagirl.Elements[slot]["func_manage"]=reagirl.DecorRectangle_Manage
+  reagirl.Elements[slot]["func_draw"]=reagirl.DecorRectangle_Draw
+  reagirl.Elements[slot]["run_function"]=run_function
+  reagirl.Elements[slot]["color_selector_when_clicked"]=color_selector_when_clicked
+  reagirl.Elements[slot]["userspace"]={}
+  return reagirl.Elements[slot]["Guid"]
+end
+
+function reagirl.DecorRectangle_Manage(element_id, selected, hovered, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
+end
+
+function reagirl.DecorRectangle_Draw(element_id, selected, hovered, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
+  gfx.set(element_storage["r"],element_storage["g"],element_storage["b"])
+  reagirl.RoundRect(x,y,w,h, element_storage["radius"]*reagirl.Window_GetCurrentScale(), 1, 1)
+end
+
 function reagirl.ColorRectangle_Add(x, y, w, h, r, g, b, caption, meaningOfUI_Element, color_selector_when_clicked, run_function)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
