@@ -4677,7 +4677,7 @@ function reagirl.Ext_Window_GetInstances()
     Reaper=7.03
     Lua=5.4
   </requires>
-  <functioncall>integer window_count, table window_instances = reagirl.Ext_Window_GetInstances(string gui_name)</functioncall>
+  <functioncall>integer window_count, table window_instances = reagirl.Ext_Window_GetInstances()</functioncall>
   <description>
     Returns the currently opened ReaGirl-window-instances.
     
@@ -5056,11 +5056,11 @@ function reagirl.Ext_IsAnyReaGirlGuiHovered()
       boolean retval - true, a ReaGirl-window is currently hovered; false, no ReaGirl-window is currently hovered
     </parameters>
     <chapter_context>
-      Screen Reader
+      Ext
     </chapter_context>
     <target_document>ReaGirl_Docs</target_document>
     <source_document>reagirl_GuiEngine.lua</source_document>
-    <tags>screen reader, send, message</tags>
+    <tags>ext, is any reagirl instance hovered</tags>
   </US_DocBloc>
   ]]
   local chosen_one=false
@@ -9031,13 +9031,13 @@ function reagirl.DecorRectangle_Add(x, y, w, h, radius, r, g, b)
   
   table.insert(reagirl.Elements, slot, {})
   reagirl.Elements[slot]["Guid"]=reaper.genGuid("")
-  reagirl.Elements[slot]["GUI_Element_Type"]="Color Rectangle"
-  reagirl.Elements[slot]["Name"]="I AM A COLOR!!!"
-  reagirl.Elements[slot]["Text"]="I AM A COLOR2 "
+  reagirl.Elements[slot]["GUI_Element_Type"]="Decor Color Rectangle"
+  reagirl.Elements[slot]["Name"]=""
+  reagirl.Elements[slot]["Text"]=""
   reagirl.Elements[slot]["IsDisabled"]=false
   reagirl.Elements[slot]["sticky_x"]=false
   reagirl.Elements[slot]["sticky_y"]=false
-  reagirl.Elements[slot]["Description"]="I AM A COLOR 3!!"
+  reagirl.Elements[slot]["Description"]=""
   reagirl.Elements[slot]["AccHint"]="Click with space or left mouseclick."
   reagirl.Elements[slot]["Color_Name"]="Color: "..color_name.."Red:"..r.." Green:"..g.." Blue:"..b
   reagirl.Elements[slot]["ContextMenu_ACC"]=""
@@ -9052,6 +9052,10 @@ function reagirl.DecorRectangle_Add(x, y, w, h, radius, r, g, b)
   reagirl.Elements[slot]["r_full"]=r
   reagirl.Elements[slot]["g_full"]=g
   reagirl.Elements[slot]["b_full"]=b
+  reagirl.Elements[slot]["top_left"]=false
+  reagirl.Elements[slot]["bottom_left"]=false
+  reagirl.Elements[slot]["top_right"]=false
+  reagirl.Elements[slot]["bottom_right"]=false
   reagirl.Elements[slot]["IsDecorative"]=true
   --if math.tointeger(ty+h_margin)>reagirl.NextLine_Overflow then reagirl.NextLine_Overflow=math.tointeger(ty+h_margin) end
   reagirl.Elements[slot]["radius"]=radius
@@ -9068,7 +9072,91 @@ end
 
 function reagirl.DecorRectangle_Draw(element_id, selected, hovered, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
   gfx.set(element_storage["r"],element_storage["g"],element_storage["b"])
-  reagirl.RoundRect(x,y,w,h, element_storage["radius"]*reagirl.Window_GetCurrentScale(), 1, 1)
+  reagirl.RoundRect(x,y,w,h, element_storage["radius"]*reagirl.Window_GetCurrentScale(), 1, 1, element_storage["top_left"], element_storage["bottom_left"], element_storage["top_right"], element_storage["bottom_right"])
+end
+
+function reagirl.DecorRectangle_SetEdgeStyle(element_id, square_top_left, square_top_right, square_bottom_left, square_bottom_right)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>DecorRectangle_SetEdgeStyle</slug>
+  <requires>
+    ReaGirl=1.2
+    Reaper=7.03
+    Lua=5.4
+  </requires>
+  <functioncall>reagirl.DecorRectangle_SetEdgeStyle(string element_id, boolean square_top_left, boolean square_top_right, boolean square_bottom_left, boolean square_bottom_right)</functioncall>
+  <description>
+    Set, if the individual corners of a decorative rectangle are square or round.
+  </description>
+  <parameters>
+    string element_id - the element_id of the decorative rectangle, whose edges you want to set to square
+    boolean square_top_left - true, edge is square, false, edge is round
+    boolean square_top_right - true, edge is square, false, edge is round
+    boolean square_bottom_left - true, edge is square, false, edge is round
+    boolean square_bottom_right - true, edge is square, false, edge is round
+  </parameters>
+  <chapter_context>
+    Decorative Color Rectangle
+  </chapter_context>
+  <tags>decorative color rectangle, set, edges</tags>
+</US_DocBloc>
+--]]
+  if type(element_id)~="string" then error("DecorRectangle_SetEdgeStyle: param #1 - must be a string", 2) end
+  if reagirl.IsValidGuid(element_id, true)==nil then error("DecorRectangle_SetEdgeStyle: param #1 - must be a valid guid", 2) end
+  if type(square_top_left)~="boolean" then error("DecorRectangle_SetEdgeStyle: param #2 - must be a boolean", 2) end
+  if type(square_top_right)~="boolean" then error("DecorRectangle_SetEdgeStyle: param #3 - must be a boolean", 2) end
+  if type(square_bottom_left)~="boolean" then error("DecorRectangle_SetEdgeStyle: param #4 - must be a boolean", 2) end
+  if type(square_bottom_right)~="boolean" then error("DecorRectangle_SetEdgeStyle: param #5 - must be a boolean", 2) end
+  element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
+  if element_id==-1 then error("DecorRectangle_SetEdgeStyle: param #1 - no such ui-element", 2) end
+  if reagirl.Elements[element_id]["GUI_Element_Type"]~="Decor Color Rectangle" then
+    error("DecorRectangle_SetEdgeStyle: param #1 - ui-element is not a decor color-rectangle", 2)
+  else
+    reagirl.Elements[element_id]["top_left"]=square_top_left
+    reagirl.Elements[element_id]["bottom_left"]=square_top_right
+    reagirl.Elements[element_id]["top_right"]=square_bottom_left
+    reagirl.Elements[element_id]["bottom_right"]=square_bottom_right
+    reagirl.Gui_ForceRefresh()
+  end
+end
+
+function reagirl.DecorRectangle_GetEdgeStyle(element_id, square_top_left, square_top_right, square_bottom_left, square_bottom_right)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>DecorRectangle_GetEdgeStyle</slug>
+  <requires>
+    ReaGirl=1.2
+    Reaper=7.03
+    Lua=5.4
+  </requires>
+  <functioncall>boolean square_top_left, boolean square_top_right, boolean square_bottom_left, boolean square_bottom_right = reagirl.DecorRectangle_GetEdgeStyle(string element_id)</functioncall>
+  <description>
+    Get, if the individual corners of a decorative rectangle are square or round.
+  </description>
+  <parameters>
+    string element_id - the element_id of the decorative rectangle, whose edges you want to set to square
+  </parameters>
+  <retvals>
+    boolean square_top_left - true, edge is square, false, edge is round
+    boolean square_top_right - true, edge is square, false, edge is round
+    boolean square_bottom_left - true, edge is square, false, edge is round
+    boolean square_bottom_right - true, edge is square, false, edge is round
+  </retvals>
+  <chapter_context>
+    Decorative Color Rectangle
+  </chapter_context>
+  <tags>decorative color rectangle, get, edges</tags>
+</US_DocBloc>
+--]]
+  if type(element_id)~="string" then error("DecorRectangle_GetEdgeStyle: param #1 - must be a string", 2) end
+  if reagirl.IsValidGuid(element_id, true)==nil then error("DecorRectangle_GetEdgeStyle: param #1 - must be a valid guid", 2) end
+  element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
+  if element_id==-1 then error("DecorRectangle_GetEdgeStyle: param #1 - no such ui-element", 2) end
+  if reagirl.Elements[element_id]["GUI_Element_Type"]~="Decor Color Rectangle" then
+    error("DecorRectangle_GetEdgeStyle: param #1 - ui-element is not a decor color-rectangle", 2)
+  else
+    return reagirl.Elements[element_id]["top_left"], reagirl.Elements[element_id]["bottom_left"], reagirl.Elements[element_id]["top_right"], reagirl.Elements[element_id]["bottom_right"]
+  end
 end
 
 function reagirl.ColorRectangle_Add(x, y, w, h, r, g, b, caption, meaningOfUI_Element, color_selector_when_clicked, run_function)
@@ -9223,6 +9311,7 @@ function reagirl.ColorRectangle_Manage(element_id, selected, hovered, clicked, m
 end
 
 function reagirl.ColorRectangle_Draw(element_id, selected, hovered, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
+  --gfx.set(element_storage["r"],element_storage["g"],element_storage["b"])
   gfx.set(reagirl.Colors.ColorRectangle_Boundary_r, reagirl.Colors.ColorRectangle_Boundary_g, reagirl.Colors.ColorRectangle_Boundary_b)
   reagirl.RoundRect(x,y,w,h, element_storage["radius"]*reagirl.Window_GetCurrentScale(), 1, 1)
   gfx.set(reagirl.Colors.ColorRectangle_Boundary2_r, reagirl.Colors.ColorRectangle_Boundary2_g, reagirl.Colors.ColorRectangle_Boundary2_b)

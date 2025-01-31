@@ -33,7 +33,7 @@
 <p>Issues: ReaGirl: Retina bläst ReaGirl-Gui auf doppelte Größe(also 2x wird 4x, etc) -&gt; fixen Focus Rectangle sollte erst erscheinen, wenn man in der Gui Tab benutzt, sonst ausgeblendet(wird auch bei Klick in Feld ohne Gui-Element wieder ausgeblendet) - optional immer einblendbar machen (drin, aber teste es nochmal genauer aus) Docs: eine Doku, wie man eine Gui so schreibt, dass man einfach mal schnell ui-elemente hinzufügen kann, ohne alles per Hand neu verschieben zu müssen und ohne Autoposition zu nutzen. Prinzipiell: h=100 Checkbox<em>Add(10,h) h=h+10 Checkbox</em>Add(10,h) h=h+10 Image<em>Add(10,h,100,100) h=h+100 Checkbox</em>Add(10,h) So in Etwa. Slider: Clickarea des Slider-Knobs ist verschoben nach rechts, bitte nochmal nachjustieren(see ReaGirl-Settings) ColorRectangle: Tooltip muss den Farbwert kommunizieren(für Farbenblinde), entweder Farbname oder Farbwerte</p>
 <h2>Ultraschall Framework - Changelog</h2>
 <h3>5.2 - "?? - ??" - 10th of February 2025</h3>
-<p>Has now 1834 functions, with XX new ones</p>
+<p>Has now 1845 functions, with 11 new ones</p>
 <p><strong>new in this release:</strong></p>
 <ul>
 <li><strong>Bla</strong><br />
@@ -47,9 +47,12 @@ Bla</li>
 <li>ReaGirl: ColorRectangle_GetRadius - gets the current radius of the edges of a color-rectangle</li>
 <li>ReaGirl: ColorRectangle_SetColor - sets the color of a color-rectangle</li>
 <li>ReaGirl: ColorRectangle_SetRadius - sets the radius of the edges of a color-rectangle</li>
+<li>ReaGirl: DecorRectangle_Add - adds a decorative rectangle for design purposes only, which has can't be clicked or tabbed to</li>
+<li>ReaGirl: DecorRectangle_GetEdgeStyle - gets, if the individual corners of a decorative rectangle is square or round</li>
+<li>ReaGirl: DecorRectangle_SetEdgeStyle - sets, if the individual corners of a decorative rectangle is square or round</li>
 <li>ReaGirl: Gui_GetSetStickyOffset - gets/sets a y-offset to prevent ui-elements from getting stuck behind sticky elements</li>
 <li>ReaGirl: UI_Element_GetSetSticky - gets/sets a ui-element to a sticky position, so it will not move when scrolling</li>
-<li>ReaGirl: Window_GetHWND - returns the window-handler of th gui-window<br />
+<li>ReaGirl: Window_GetHWND - returns the window-handler of the gui-window<br />
 </li>
 <li>ReaGirl: Window_GetScrollOffset - gets the scroll-offset of the window's gui</li>
 </ul></li>
@@ -57,7 +60,6 @@ Bla</li>
 <h4>Changes from 5.1 to 5.2</h4>
 <pre><code>- Developer Tools: deferred tools and ReaGirl settings - will now stop when rerunning them (requested by amagalma)
 - MediaItem Management: GetParentTrack\_MediaItem - had problems with items not having takes(note-items) -&gt; fixed(thans to fernsehmuell)
-- ReaGirl: DecorRectangle\_Add - adds a decorative rectangle for design purposes only, which has can&#39;t be clicked or tabbed to.
 - ReaGirl: General - prevent possible crash, when not running Gui_Manage()
 - ReaGirl: Gui_Manage - simplified code, so it should run more smoothly now; ui-elements on top of other ui-elements were not recognised and therefor could&#39;t be clicked -&gt; fixed
 - ReaGirl: Gui_Open - On Mac, it didn&#39;t position the window on the same spot as on Windows and Linux -&gt; fixed
