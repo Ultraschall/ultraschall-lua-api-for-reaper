@@ -93,10 +93,13 @@ TODO:
 -- DEBUG:
 --reaper.osara_outputMessage=nil
 
+--dofile(reaper.GetResourcePath().."/Scripts/ReaTeam Extensions/API/gfx2imgui.lua")
+
+--GFX2IMGUI_DEBUG = true
 
 gfx.ext_retina=1
 reagirl={}
-
+reagirl.Window_Hovered=false
 reagirl.Gui_Init_Me=true
 reagirl.Gui_Sticky_Y_top=0
 reagirl.Gui_Sticky_Y_bottom=0
@@ -3620,7 +3623,7 @@ function reagirl.Window_Open(...)
     end
     retval=0.0
   end
-  
+  reagirl.Ext_IsAnyReaGirlGuiHovered(true)
   return retval, reagirl.GFX_WindowHWND
 end
 
@@ -4591,7 +4594,7 @@ function reagirl.Gui_Close()
   reagirl.IsWindowOpen_attribute_Old=true
   reaper.SetExtState("Reagirl_Window_"..reagirl.Window_name, "open", "", false)
   reagirl.GFX_WindowHWND=nil
-  
+  reagirl.Ext_IsAnyReaGirlGuiHovered()
   reagirl.UnRegisterWindow()
 end
 
@@ -4798,7 +4801,7 @@ function reagirl.Ext_Window_SetState(gui_name, width, height, dockstate, x_posit
   if y_position~=nil and math.type(y_position)~="integer" then error("Ext_Window_SetState: param #6 - must be nil or an integer", 2) end
   if gui_instance~=nil and type(gui_instance)~="string" then error("Ext_Window_SetState: param #7 - must be a string", 2) end
   if gui_instance==nil then gui_instance="" else gui_instance="-"..gui_instance end
-  
+  --mespotine
   reaper.SetExtState("Reagirl_Window_"..gui_name..gui_instance, "newstate", "newstate", false)
   reaper.SetExtState("Reagirl_Window_"..gui_name..gui_instance, "newstate_w", width, false)
   reaper.SetExtState("Reagirl_Window_"..gui_name..gui_instance, "newstate_h", height, false)
@@ -5039,7 +5042,7 @@ function reagirl.ScreenReader_SendMessage(message)
 end
 
 
-function reagirl.Ext_IsAnyReaGirlGuiHovered()
+function reagirl.Ext_IsAnyReaGirlGuiHovered(register)
   --[[
   <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
     <slug>Ext_IsAnyReaGirlGuiHovered</slug>
@@ -5064,7 +5067,10 @@ function reagirl.Ext_IsAnyReaGirlGuiHovered()
   </US_DocBloc>
   ]]
   local chosen_one=false
-  if reagirl.Window_State&8==8 then chosen_one=true end
+  local hovered=false
+  local unregister=false
+  if gfx.getchar()==-1 then unregister=true end
+  if reagirl.Window_State&8==8 then chosen_one=true hovered=true end
   local states=reaper.GetExtState("ReaGirl", "HoveredWindows")
   
   local sourcestring=(reagirl.Gui_ScriptInstance:gsub('%%', '%%%%')
@@ -5093,7 +5099,14 @@ function reagirl.Ext_IsAnyReaGirlGuiHovered()
     states=string.gsub(states, sourcestring..":true", reagirl.Gui_ScriptInstance..":false")
   end
   
-  reaper.SetExtState("ReaGirl", "HoveredWindows", states, false)
+  if unregister==true then
+    states=string.gsub(states, sourcestring..":.-\n", "")
+  end
+  
+  if hovered~=reagirl.Window_Hovered or register==true then
+    reaper.SetExtState("ReaGirl", "HoveredWindows", states, false)
+  end
+  reagirl.Window_Hovered=hovered
   if states:match("true")~=nil then return true else return false end
   
 end
@@ -5316,7 +5329,8 @@ function reagirl.Gui_Manage(keep_running)
     reagirl.Key[i]=Key
     reagirl.Key_Utf[i]=Key_utf
   end
-  Key, Key_utf = reagirl.Key[#reagirl.Key], reagirl.Key_Utf[#reagirl.Key]
+  Key, Key_utf = reagirl.Key[1], reagirl.Key_Utf[1]
+  if Key==nil then Key=0 Key_utf=0 end
   
   --Debug Code - move ui-elements via arrow keys, including stopping when end of ui-elements has been reached.
   -- This can be used to build more extensive scrollcode, including smooth scroll and scrollbars
@@ -11354,7 +11368,6 @@ function reagirl.Inputbox_OnTyping(Key, Key_UTF, mouse_cap, element_storage)
 end
 
 function reagirl.Inputbox_Manage(element_id, selected, hovered, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
-  
   local refresh=false
   local run_function=false
   -- drop files for accessibility using a file-requester, after typing ctrl+shift+f
