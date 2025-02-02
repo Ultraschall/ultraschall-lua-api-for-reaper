@@ -93,7 +93,7 @@ TODO:
 -- DEBUG:
 --reaper.osara_outputMessage=nil
 
---dofile(reaper.GetResourcePath().."/Scripts/ReaTeam Extensions/API/gfx2imgui.lua")
+--gfx = dofile(reaper.GetResourcePath().."/Scripts/ReaTeam Extensions/API/gfx2imgui.lua")
 
 --GFX2IMGUI_DEBUG = true
 
@@ -4592,6 +4592,7 @@ function reagirl.Gui_Close()
   gfx.quit()  
   reagirl.IsWindowOpen_attribute=false
   reagirl.IsWindowOpen_attribute_Old=true
+  reagirl.Window_State=gfx.getchar(65536)
   reaper.SetExtState("Reagirl_Window_"..reagirl.Window_name, "open", "", false)
   reagirl.GFX_WindowHWND=nil
   reagirl.Ext_IsAnyReaGirlGuiHovered()
@@ -5069,8 +5070,9 @@ function reagirl.Ext_IsAnyReaGirlGuiHovered(register)
   local chosen_one=false
   local hovered=false
   local unregister=false
-  if gfx.getchar()==-1 then unregister=true end
+  if reagirl.Window_State==1 then unregister=true AA=reaper.time_precise() end
   if reagirl.Window_State&8==8 then chosen_one=true hovered=true end
+  
   local states=reaper.GetExtState("ReaGirl", "HoveredWindows")
   
   local sourcestring=(reagirl.Gui_ScriptInstance:gsub('%%', '%%%%')
@@ -5103,7 +5105,7 @@ function reagirl.Ext_IsAnyReaGirlGuiHovered(register)
     states=string.gsub(states, sourcestring..":.-\n", "")
   end
   
-  if hovered~=reagirl.Window_Hovered or register==true then
+  if hovered~=reagirl.Window_Hovered or unregister==true or register==true then
     reaper.SetExtState("ReaGirl", "HoveredWindows", states, false)
   end
   reagirl.Window_Hovered=hovered
