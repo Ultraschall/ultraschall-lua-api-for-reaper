@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API and ReaGirl">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API and ReaGirl package" type="extension">
-      <version name="56048.00" author="Meo-Ada Mespotine">
+      <version name="56054.00" author="Meo-Ada Mespotine">
 	<source file="reagirl.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5.2//reagirl.lua</source>
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5.2//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5.2//ultraschall_api_readme.txt</source>
@@ -57,6 +57,11 @@
 	<source file="/ultraschall_api/Documentation/Examples/ReaGirl/Tutorial_10/Tutorial_10_05.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5.2/ultraschall_api/Documentation/Examples/ReaGirl/Tutorial_10/Tutorial_10_05.lua</source>
 	<source file="/ultraschall_api/Documentation/Examples/ReaGirl/Tutorial_11/Tutorial_10_01.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5.2/ultraschall_api/Documentation/Examples/ReaGirl/Tutorial_11/Tutorial_10_01.lua</source>
 	<source file="/ultraschall_api/Documentation/Examples/ReaGirl/Tutorial_11/Tutorial_10_02.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5.2/ultraschall_api/Documentation/Examples/ReaGirl/Tutorial_11/Tutorial_10_02.lua</source>
+	<source file="/ultraschall_api/Documentation/Examples/ReaGirl/Tutorial_12/Tutorial_12_01.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5.2/ultraschall_api/Documentation/Examples/ReaGirl/Tutorial_12/Tutorial_12_01.lua</source>
+	<source file="/ultraschall_api/Documentation/Examples/ReaGirl/Tutorial_12/Tutorial_12_02.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5.2/ultraschall_api/Documentation/Examples/ReaGirl/Tutorial_12/Tutorial_12_02.lua</source>
+	<source file="/ultraschall_api/Documentation/Examples/ReaGirl/Tutorial_12/Tutorial_12_03.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5.2/ultraschall_api/Documentation/Examples/ReaGirl/Tutorial_12/Tutorial_12_03.lua</source>
+	<source file="/ultraschall_api/Documentation/Examples/ReaGirl/Tutorial_12/Tutorial_12_04.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5.2/ultraschall_api/Documentation/Examples/ReaGirl/Tutorial_12/Tutorial_12_04.lua</source>
+	<source file="/ultraschall_api/Documentation/Examples/ReaGirl/Tutorial_12/Tutorial_12_05.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5.2/ultraschall_api/Documentation/Examples/ReaGirl/Tutorial_12/Tutorial_12_05.lua</source>
 	<source file="/ultraschall_api/Documentation/Examples/ReaGirl/Tutorial_2/Tutorial_2_01.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5.2/ultraschall_api/Documentation/Examples/ReaGirl/Tutorial_2/Tutorial_2_01.lua</source>
 	<source file="/ultraschall_api/Documentation/Examples/ReaGirl/Tutorial_2/Tutorial_2_02.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5.2/ultraschall_api/Documentation/Examples/ReaGirl/Tutorial_2/Tutorial_2_02.lua</source>
 	<source file="/ultraschall_api/Documentation/Examples/ReaGirl/Tutorial_2/Tutorial_2_03.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5.2/ultraschall_api/Documentation/Examples/ReaGirl/Tutorial_2/Tutorial_2_03.lua</source>
@@ -186,6 +191,11 @@
 	<source file="/ultraschall_api/Documentation/gfx/Tutorial10_5.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5.2/ultraschall_api/Documentation/gfx/Tutorial10_5.png</source>
 	<source file="/ultraschall_api/Documentation/gfx/Tutorial11_1.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5.2/ultraschall_api/Documentation/gfx/Tutorial11_1.png</source>
 	<source file="/ultraschall_api/Documentation/gfx/Tutorial11_2.gif" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5.2/ultraschall_api/Documentation/gfx/Tutorial11_2.gif</source>
+	<source file="/ultraschall_api/Documentation/gfx/Tutorial12_01.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5.2/ultraschall_api/Documentation/gfx/Tutorial12_01.png</source>
+	<source file="/ultraschall_api/Documentation/gfx/Tutorial12_02.gif" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5.2/ultraschall_api/Documentation/gfx/Tutorial12_02.gif</source>
+	<source file="/ultraschall_api/Documentation/gfx/Tutorial12_03.gif" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5.2/ultraschall_api/Documentation/gfx/Tutorial12_03.gif</source>
+	<source file="/ultraschall_api/Documentation/gfx/Tutorial12_04.gif" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5.2/ultraschall_api/Documentation/gfx/Tutorial12_04.gif</source>
+	<source file="/ultraschall_api/Documentation/gfx/Tutorial12_05.gif" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5.2/ultraschall_api/Documentation/gfx/Tutorial12_05.gif</source>
 	<source file="/ultraschall_api/Documentation/gfx/Tutorial1_1.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5.2/ultraschall_api/Documentation/gfx/Tutorial1_1.png</source>
 	<source file="/ultraschall_api/Documentation/gfx/Tutorial1_10.gif" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5.2/ultraschall_api/Documentation/gfx/Tutorial1_10.gif</source>
 	<source file="/ultraschall_api/Documentation/gfx/Tutorial1_2.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5.2/ultraschall_api/Documentation/gfx/Tutorial1_2.png</source>
@@ -703,7 +713,7 @@ Ultraschall Framework - Changelog
 
 5.2 - “?? - ??” - 10th of February 2025
 
-Has now 1845 functions, with 11 new ones
+Has now 1847 functions, with 13 new ones
 
 new in this release:
 
@@ -716,10 +726,14 @@ New features in 5.2
     opening a color-selector-dialog when clicking item
     -   ReaGirl: ColorRectangle_GetColor - gets the current color of a
         color-rectangle
+    -   ReaGirl: ColorRectangle_- sets the individual edges of the
+        color-rectangle to square/round
     -   ReaGirl: ColorRectangle_GetRadius - gets the current radius of
         the edges of a color-rectangle
     -   ReaGirl: ColorRectangle_SetColor - sets the color of a
         color-rectangle
+    -   ReaGirl: ColorRectangle_- sets the individual edges of the
+        color-rectangle to square/round
     -   ReaGirl: ColorRectangle_SetRadius - sets the radius of the edges
         of a color-rectangle
     -   ReaGirl: DecorRectangle_Add - adds a decorative rectangle for
@@ -742,8 +756,10 @@ Changes from 5.1 to 5.2
     - Developer Tools: deferred tools and ReaGirl settings - will now stop when rerunning them (requested by amagalma)
     - MediaItem Management: GetParentTrack\_MediaItem - had problems with items not having takes(note-items) -> fixed(thans to fernsehmuell)
     - ReaGirl: General - prevent possible crash, when not running Gui_Manage()
-    - ReaGirl: Gui_Manage - simplified code, so it should run more smoothly now; ui-elements on top of other ui-elements were not recognised and therefor could't be clicked -> fixed
-    - ReaGirl: Gui_Open - On Mac, it didn't position the window on the same spot as on Windows and Linux -> fixed
+    - ReaGirl: Gui\_Manage - simplified code, so it should run more smoothly now; ui-elements on top of other ui-elements were not recognised and therefor could't be clicked -> fixed
+    - ReaGirl: Gui\_Open - On Mac, it didn't position the window on the same spot as on Windows and Linux -> fixed
+    - ReaGirl: Inputboxes - could crash when typing insert key -> fixed  
+    - ReaGirl: Ext\_IsAnyReaGirlGuiHovered - needs less resources, now  
     - ReaGirl: keyboard-navigation - focus-rectangle is only shown, when the user uses the tab key to navigates; can be set to "show always" in the settings
     - ReaGirl: Labels - backdrop wasn't properly drawn, when the backdrop wasn't visible at startup and had to be scrolled in
     - ReaGirl: Mac - fixed scaling of window on Retina-Macs
@@ -781,7 +797,7 @@ Changes from 5.1 to 5.2
         \par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af6\langfe2052\dbch\af8\afs24\lang1081\loch\f0\fs24\lang1031{\rtlch \ltrch\loch
         }
         \par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af6\langfe2052\dbch\af8\afs24\lang1081\loch\f0\fs24\lang1031{\rtlch \ltrch\loch\loch\f4
-        a 1691 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 56048 from 02.02.2025 20:35:27).}
+        a 1691 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 56054 from 02.02.2025 22:44:42).}
         \par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af6\langfe2052\dbch\af8\afs24\lang1081\loch\f0\fs24\lang1031{\rtlch \ltrch\loch
         }
         \par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af6\langfe2052\dbch\af8\afs24\lang1081\loch\f0\fs24\lang1031{\rtlch \ltrch\loch

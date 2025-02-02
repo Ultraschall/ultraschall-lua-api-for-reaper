@@ -417,7 +417,7 @@ Check why that is...probably because of Label_SetLabelText somehow resetting the
 
 ### 5.2 - "?? - ??" - 10th of February 2025
 
-Has now 1845 functions, with 11 new ones
+Has now 1847 functions, with 13 new ones
 
 **new in this release:**  
 
@@ -427,8 +427,10 @@ Has now 1845 functions, with 11 new ones
 #### New features in 5.2 
   - ReaGirl: ColorRectangle\_Add - adds a color-rectangle, optionally opening a color-selector-dialog when clicking item
 	- ReaGirl: ColorRectangle\_GetColor - gets the current color of a color-rectangle
+	- ReaGirl: ColorRectangle_\GetEdgeStyle - sets the individual edges of the color-rectangle to square/round
 	- ReaGirl: ColorRectangle\_GetRadius - gets the current radius of the edges of a color-rectangle
 	- ReaGirl: ColorRectangle\_SetColor - sets the color of a color-rectangle
+	- ReaGirl: ColorRectangle_\GetEdgeStyle - sets the individual edges of the color-rectangle to square/round
 	- ReaGirl: ColorRectangle\_SetRadius - sets the radius of the edges of a color-rectangle
 	- ReaGirl: DecorRectangle\_Add - adds a decorative rectangle for design purposes only, which has can't be clicked or tabbed to
 	- ReaGirl: DecorRectangle\_GetEdgeStyle - gets, if the individual corners of a decorative rectangle is square or round
@@ -442,8 +444,10 @@ Has now 1845 functions, with 11 new ones
 	- Developer Tools: deferred tools and ReaGirl settings - will now stop when rerunning them (requested by amagalma)
 	- MediaItem Management: GetParentTrack\_MediaItem - had problems with items not having takes(note-items) -> fixed(thans to fernsehmuell)
 	- ReaGirl: General - prevent possible crash, when not running Gui_Manage()
-	- ReaGirl: Gui_Manage - simplified code, so it should run more smoothly now; ui-elements on top of other ui-elements were not recognised and therefor could't be clicked -> fixed
-	- ReaGirl: Gui_Open - On Mac, it didn't position the window on the same spot as on Windows and Linux -> fixed
+	- ReaGirl: Gui\_Manage - simplified code, so it should run more smoothly now; ui-elements on top of other ui-elements were not recognised and therefor could't be clicked -> fixed
+	- ReaGirl: Gui\_Open - On Mac, it didn't position the window on the same spot as on Windows and Linux -> fixed
+	- ReaGirl: Inputboxes - could crash when typing insert key -> fixed  
+	- ReaGirl: Ext\_IsAnyReaGirlGuiHovered - needs less resources, now  
 	- ReaGirl: keyboard-navigation - focus-rectangle is only shown, when the user uses the tab key to navigates; can be set to "show always" in the settings
 	- ReaGirl: Labels - backdrop wasn't properly drawn, when the backdrop wasn't visible at startup and had to be scrolled in
 	- ReaGirl: Mac - fixed scaling of window on Retina-Macs

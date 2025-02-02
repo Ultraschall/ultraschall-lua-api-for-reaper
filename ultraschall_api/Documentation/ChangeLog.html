@@ -33,7 +33,7 @@
 <p>Issues: ReaGirl: Retina bläst ReaGirl-Gui auf doppelte Größe(also 2x wird 4x, etc) -&gt; fixen Focus Rectangle sollte erst erscheinen, wenn man in der Gui Tab benutzt, sonst ausgeblendet(wird auch bei Klick in Feld ohne Gui-Element wieder ausgeblendet) - optional immer einblendbar machen (drin, aber teste es nochmal genauer aus) Docs: eine Doku, wie man eine Gui so schreibt, dass man einfach mal schnell ui-elemente hinzufügen kann, ohne alles per Hand neu verschieben zu müssen und ohne Autoposition zu nutzen. Prinzipiell: h=100 Checkbox<em>Add(10,h) h=h+10 Checkbox</em>Add(10,h) h=h+10 Image<em>Add(10,h,100,100) h=h+100 Checkbox</em>Add(10,h) So in Etwa. Slider: Clickarea des Slider-Knobs ist verschoben nach rechts, bitte nochmal nachjustieren(see ReaGirl-Settings) ColorRectangle: Tooltip muss den Farbwert kommunizieren(für Farbenblinde), entweder Farbname oder Farbwerte</p>
 <h2>Ultraschall Framework - Changelog</h2>
 <h3>5.2 - "?? - ??" - 10th of February 2025</h3>
-<p>Has now 1845 functions, with 11 new ones</p>
+<p>Has now 1847 functions, with 13 new ones</p>
 <p><strong>new in this release:</strong></p>
 <ul>
 <li><strong>Bla</strong><br />
@@ -44,8 +44,10 @@ Bla</li>
 <li>ReaGirl: ColorRectangle_Add - adds a color-rectangle, optionally opening a color-selector-dialog when clicking item
 <ul>
 <li>ReaGirl: ColorRectangle_GetColor - gets the current color of a color-rectangle</li>
+<li>ReaGirl: ColorRectangle_\GetEdgeStyle - sets the individual edges of the color-rectangle to square/round</li>
 <li>ReaGirl: ColorRectangle_GetRadius - gets the current radius of the edges of a color-rectangle</li>
 <li>ReaGirl: ColorRectangle_SetColor - sets the color of a color-rectangle</li>
+<li>ReaGirl: ColorRectangle_\GetEdgeStyle - sets the individual edges of the color-rectangle to square/round</li>
 <li>ReaGirl: ColorRectangle_SetRadius - sets the radius of the edges of a color-rectangle</li>
 <li>ReaGirl: DecorRectangle_Add - adds a decorative rectangle for design purposes only, which has can't be clicked or tabbed to</li>
 <li>ReaGirl: DecorRectangle_GetEdgeStyle - gets, if the individual corners of a decorative rectangle is square or round</li>
@@ -61,8 +63,10 @@ Bla</li>
 <pre><code>- Developer Tools: deferred tools and ReaGirl settings - will now stop when rerunning them (requested by amagalma)
 - MediaItem Management: GetParentTrack\_MediaItem - had problems with items not having takes(note-items) -&gt; fixed(thans to fernsehmuell)
 - ReaGirl: General - prevent possible crash, when not running Gui_Manage()
-- ReaGirl: Gui_Manage - simplified code, so it should run more smoothly now; ui-elements on top of other ui-elements were not recognised and therefor could&#39;t be clicked -&gt; fixed
-- ReaGirl: Gui_Open - On Mac, it didn&#39;t position the window on the same spot as on Windows and Linux -&gt; fixed
+- ReaGirl: Gui\_Manage - simplified code, so it should run more smoothly now; ui-elements on top of other ui-elements were not recognised and therefor could&#39;t be clicked -&gt; fixed
+- ReaGirl: Gui\_Open - On Mac, it didn&#39;t position the window on the same spot as on Windows and Linux -&gt; fixed
+- ReaGirl: Inputboxes - could crash when typing insert key -&gt; fixed  
+- ReaGirl: Ext\_IsAnyReaGirlGuiHovered - needs less resources, now  
 - ReaGirl: keyboard-navigation - focus-rectangle is only shown, when the user uses the tab key to navigates; can be set to &quot;show always&quot; in the settings
 - ReaGirl: Labels - backdrop wasn&#39;t properly drawn, when the backdrop wasn&#39;t visible at startup and had to be scrolled in
 - ReaGirl: Mac - fixed scaling of window on Retina-Macs

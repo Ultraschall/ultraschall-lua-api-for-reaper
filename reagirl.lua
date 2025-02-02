@@ -11247,6 +11247,8 @@ function reagirl.Inputbox_OnTyping(Key, Key_UTF, mouse_cap, element_storage)
     -- Pg down
   elseif Key==1885828464.0 then
     -- Pg up
+  elseif Key==6909555.0 then
+    -- Ins Key
   elseif Key==8 then
     -- Backspace
     if element_storage.cursor_offset>=0 then
