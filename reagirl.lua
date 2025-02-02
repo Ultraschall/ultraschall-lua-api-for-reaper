@@ -7091,8 +7091,8 @@ function reagirl.Gui_GetSetStickyOffset(is_set, y_offset_top, y_offset_bottom)
 </US_DocBloc>
 ]]
   if type(is_set)~="boolean" then error("Gui_GetSetStickyOffset: param #1 - must be a boolean", 2) end
-  if math.type(y_offset_top)~="integer" then error("Gui_GetSetStickyOffset: param #2 - must be a boolean", 2) end
-  if math.type(y_offset_bottom)~="integer" then error("Gui_GetSetStickyOffset: param #3 - must be a boolean", 2) end
+  if math.type(y_offset_top)~="integer" then error("Gui_GetSetStickyOffset: param #2 - must be an integer", 2) end
+  if math.type(y_offset_bottom)~="integer" then error("Gui_GetSetStickyOffset: param #3 - must be an integer", 2) end
   
   if is_set==true then
     reagirl.Gui_Sticky_Y_top=y_offset_top
@@ -9019,17 +9019,17 @@ function reagirl.DecorRectangle_Add(x, y, w, h, radius, r, g, b)
   <tags>decorative color rectangle, add</tags>
 </US_DocBloc>
 --]]
-  if x~=nil and math.type(x)~="integer" then error("ColorRectangle_Add: param #1 - must be either nil or an integer", 2) end
-  if y~=nil and math.type(y)~="integer" then error("ColorRectangle_Add: param #2 - must be either nil or an integer", 2) end
-  if math.type(w)~="integer" then error("ColorRectangle_Add: param #3 - must be an integer", 2) end
-  if math.type(h)~="integer" then error("ColorRectangle_Add: param #4 - must be an integer", 2) end
-  if math.type(radius)~="integer" then error("ColorRectangle_Add: param #5 - must be an integer", 2) end
-  if math.type(r)~="integer" then error("ColorRectangle_Add: param #6 - must be an integer", 2) end
-  if math.type(g)~="integer" then error("ColorRectangle_Add: param #7 - must be an integer", 2) end
-  if math.type(b)~="integer" then error("ColorRectangle_Add: param #8 - must be an integer", 2) end
+  if x~=nil and math.type(x)~="integer" then error("DecorRectangle_Add: param #1 - must be either nil or an integer", 2) end
+  if y~=nil and math.type(y)~="integer" then error("DecorRectangle_Add: param #2 - must be either nil or an integer", 2) end
+  if math.type(w)~="integer" then error("DecorRectangle_Add: param #3 - must be an integer", 2) end
+  if math.type(h)~="integer" then error("DecorRectangle_Add: param #4 - must be an integer", 2) end
+  if math.type(radius)~="integer" then error("DecorRectangle_Add: param #5 - must be an integer", 2) end
+  if math.type(r)~="integer" then error("DecorRectangle_Add: param #6 - must be an integer", 2) end
+  if math.type(g)~="integer" then error("DecorRectangle_Add: param #7 - must be an integer", 2) end
+  if math.type(b)~="integer" then error("DecorRectangle_Add: param #8 - must be an integer", 2) end
   
   
-  local _,_,slot=reagirl.UI_Element_GetNextXAndYPosition(x, y, "ColorRectangle_Add")
+  local _,_,slot=reagirl.UI_Element_GetNextXAndYPosition(x, y, "DecorRectangle_Add")
   --reagirl.UI_Element_NextX_Default=x
   
   --reagirl.SetFont(1, reagirl.Font_Face, reagirl.Font_Size, 0, 1)
@@ -9276,6 +9276,10 @@ function reagirl.ColorRectangle_Add(x, y, w, h, r, g, b, caption, meaningOfUI_El
   reagirl.Elements[slot]["y"]=y
   reagirl.Elements[slot]["w"]=w
   reagirl.Elements[slot]["h"]=h
+  reagirl.Elements[slot]["top_left"]=false
+  reagirl.Elements[slot]["bottom_left"]=false
+  reagirl.Elements[slot]["top_right"]=false
+  reagirl.Elements[slot]["bottom_right"]=false
   reagirl.Elements[slot]["r"]=r/255
   reagirl.Elements[slot]["g"]=g/255
   reagirl.Elements[slot]["b"]=b/255
@@ -9328,12 +9332,99 @@ end
 
 function reagirl.ColorRectangle_Draw(element_id, selected, hovered, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
   --gfx.set(element_storage["r"],element_storage["g"],element_storage["b"])
+  local scale=reagirl.Window_GetCurrentScale()
   gfx.set(reagirl.Colors.ColorRectangle_Boundary_r, reagirl.Colors.ColorRectangle_Boundary_g, reagirl.Colors.ColorRectangle_Boundary_b)
-  reagirl.RoundRect(x,y,w,h, element_storage["radius"]*reagirl.Window_GetCurrentScale(), 1, 1)
+  reagirl.RoundRect(x,y,w,h, element_storage["radius"]*reagirl.Window_GetCurrentScale(), 1, 1, element_storage["top_left"], element_storage["bottom_left"], element_storage["top_right"], element_storage["bottom_right"])
   gfx.set(reagirl.Colors.ColorRectangle_Boundary2_r, reagirl.Colors.ColorRectangle_Boundary2_g, reagirl.Colors.ColorRectangle_Boundary2_b)
-  reagirl.RoundRect(x+1,y+1,w-2,h-2, element_storage["radius"]*reagirl.Window_GetCurrentScale(), 1, 1)
+  reagirl.RoundRect(x+1*scale,y+1*scale,w-2*scale,h-2*scale, element_storage["radius"]*reagirl.Window_GetCurrentScale(), 1, 1, element_storage["top_left"], element_storage["bottom_left"], element_storage["top_right"], element_storage["bottom_right"])
   gfx.set(element_storage["r"],element_storage["g"],element_storage["b"])
-  reagirl.RoundRect(x+2,y+2,w-4,h-4, element_storage["radius"]*reagirl.Window_GetCurrentScale(), 1, 1)
+  local add=0
+  if element_storage["radius"]==1 then add=1 end
+  reagirl.RoundRect(x+2*scale,y+2*scale,w-4*scale,h-4*scale, (element_storage["radius"]-2+add)*scale, 1, 1, element_storage["top_left"], element_storage["bottom_left"], element_storage["top_right"], element_storage["bottom_right"])
+end
+
+function reagirl.ColorRectangle_SetEdgeStyle(element_id, square_top_left, square_top_right, square_bottom_left, square_bottom_right)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>ColorRectangle_SetEdgeStyle</slug>
+  <requires>
+    ReaGirl=1.2
+    Reaper=7.03
+    Lua=5.4
+  </requires>
+  <functioncall>reagirl.ColorRectangle_SetEdgeStyle(string element_id, boolean square_top_left, boolean square_top_right, boolean square_bottom_left, boolean square_bottom_right)</functioncall>
+  <description>
+    Set, if the individual corners of a color-rectangle are square or round.
+  </description>
+  <parameters>
+    string element_id - the element_id of the decorative rectangle, whose edges you want to set to square
+    boolean square_top_left - true, edge is square, false, edge is round
+    boolean square_top_right - true, edge is square, false, edge is round
+    boolean square_bottom_left - true, edge is square, false, edge is round
+    boolean square_bottom_right - true, edge is square, false, edge is round
+  </parameters>
+  <chapter_context>
+    Color Rectangle
+  </chapter_context>
+  <tags>color rectangle, set, edges</tags>
+</US_DocBloc>
+--]]
+  if type(element_id)~="string" then error("ColorRectangle_SetEdgeStyle: param #1 - must be a string", 2) end
+  if reagirl.IsValidGuid(element_id, true)==nil then error("ColorRectangle_SetEdgeStyle: param #1 - must be a valid guid", 2) end
+  if type(square_top_left)~="boolean" then error("ColorRectangle_SetEdgeStyle: param #2 - must be a boolean", 2) end
+  if type(square_top_right)~="boolean" then error("ColorRectangle_SetEdgeStyle: param #3 - must be a boolean", 2) end
+  if type(square_bottom_left)~="boolean" then error("ColorRectangle_SetEdgeStyle: param #4 - must be a boolean", 2) end
+  if type(square_bottom_right)~="boolean" then error("ColorRectangle_SetEdgeStyle: param #5 - must be a boolean", 2) end
+  element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
+  if element_id==-1 then error("ColorRectangle_SetEdgeStyle: param #1 - no such ui-element", 2) end
+  if reagirl.Elements[element_id]["GUI_Element_Type"]~="Color Rectangle" then
+    error("ColorRectangle_SetEdgeStyle: param #1 - ui-element is not a decor color-rectangle", 2)
+  else
+    reagirl.Elements[element_id]["top_left"]=square_top_left
+    reagirl.Elements[element_id]["bottom_left"]=square_top_right
+    reagirl.Elements[element_id]["top_right"]=square_bottom_left
+    reagirl.Elements[element_id]["bottom_right"]=square_bottom_right
+    reagirl.Gui_ForceRefresh()
+  end
+end
+
+function reagirl.ColorRectangle_GetEdgeStyle(element_id, square_top_left, square_top_right, square_bottom_left, square_bottom_right)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>ColorRectangle_GetEdgeStyle</slug>
+  <requires>
+    ReaGirl=1.2
+    Reaper=7.03
+    Lua=5.4
+  </requires>
+  <functioncall>boolean square_top_left, boolean square_top_right, boolean square_bottom_left, boolean square_bottom_right = reagirl.ColorRectangle_GetEdgeStyle(string element_id)</functioncall>
+  <description>
+    Get, if the individual corners of a decorative rectangle are square or round.
+  </description>
+  <parameters>
+    string element_id - the element_id of the decorative rectangle, whose edges you want to set to square
+  </parameters>
+  <retvals>
+    boolean square_top_left - true, edge is square, false, edge is round
+    boolean square_top_right - true, edge is square, false, edge is round
+    boolean square_bottom_left - true, edge is square, false, edge is round
+    boolean square_bottom_right - true, edge is square, false, edge is round
+  </retvals>
+  <chapter_context>
+    Color Rectangle
+  </chapter_context>
+  <tags>color rectangle, get, edges</tags>
+</US_DocBloc>
+--]]
+  if type(element_id)~="string" then error("ColorRectangle_GetEdgeStyle: param #1 - must be a string", 2) end
+  if reagirl.IsValidGuid(element_id, true)==nil then error("ColorRectangle_GetEdgeStyle: param #1 - must be a valid guid", 2) end
+  element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
+  if element_id==-1 then error("ColorRectangle_GetEdgeStyle: param #1 - no such ui-element", 2) end
+  if reagirl.Elements[element_id]["GUI_Element_Type"]~="Color Rectangle" then
+    error("ColorRectangle_GetEdgeStyle: param #1 - ui-element is not a decor color-rectangle", 2)
+  else
+    return reagirl.Elements[element_id]["top_left"], reagirl.Elements[element_id]["bottom_left"], reagirl.Elements[element_id]["top_right"], reagirl.Elements[element_id]["bottom_right"]
+  end
 end
 
 function reagirl.ColorRectangle_GetRadius(element_id)
@@ -9553,7 +9644,7 @@ function reagirl.ListView_Add(x, y, w, h, caption, meaningOfUI_Element, enable_s
   if type(caption)~="string" then error("ListView_Add: param #5 - must be a string", 2) end
   caption=string.gsub(caption, "[\n\r]", "")
   if type(meaningOfUI_Element)~="string" then error("ListView_Add: param #6 - must be a string", 2) end
-  if meaningOfUI_Element:sub(-1,-1)~="." and meaningOfUI_Element:sub(-1,-1)~="?" then error("ColorRectangle_Add: param #6 - must end on a . like a regular sentence.", 2) end
+  if meaningOfUI_Element:sub(-1,-1)~="." and meaningOfUI_Element:sub(-1,-1)~="?" then error("ListView_Add: param #6 - must end on a . like a regular sentence.", 2) end
   if type(enable_selection)~="boolean" then error("ListView_Add: param #7 - must be a boolean", 2) end
   if type(entries)~="table" then error("ListView_Add: param #8 - must be a table", 2) end
   if math.type(default)~="integer" then error("ListView_Add: param #9 - must be a boolean", 2) end

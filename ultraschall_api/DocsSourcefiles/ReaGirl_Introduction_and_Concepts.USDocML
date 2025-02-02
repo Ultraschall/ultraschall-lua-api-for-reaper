@@ -4822,7 +4822,48 @@
         <tags></tags>  
     </US_DocBloc>  
       
-  
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">  
+        <slug>The_Gui_Elements_009_ColorRectangle</slug>  
+        <title>Color Rectangle</title>  
+        <description markup_type="markdown" markup_version="1.0.1" indent="default">  
+            A color rectangle is a rectangle that is of a specific color of your choosing. It can be clicked by the user.
+						It is optionally possible to open a color-selector-dialog when clicking the color rectangle and the chosen color will be used right away in the rectangle.
+						It has a border around it and you can choose to add 
+              
+            You add tabs to your gui using reagirl.ColorRectangle\_Add(), which has 11 parameters.  
+              
+            - Parameters 1 and 2 are x and y-position of the color rectangle in pixels. You can set these to nil to autoposition the tabs.  
+            - Parameters 3 and 4 are the width and height of the color rectangle.
+              It's intended to show which ui-elements are parts of a specific tab. Set them to 0 for no background or nil to let the  
+              background be automatically around the added ui-elements.  
+            - Parameter 5 is a caption for the tabs, which is communicated to screen readers as a general overview of what the tabs are for.  
+            - Parameter 6 is meaningOfUI\_Element, which is a description for the tabs, communicated to screen reader users. Explain what the tabs are for and why.  
+            - Parameter 7 is a table with all tab-names, like {"Tab Number 1", "The second tab", "The third one"}  
+            - Parameter 8 is the tab that is selected when the gui is opened.  
+            - Parameter 9 is a run-function that is called everytime the user switched tabs  
+              You can set this to nil, if you don't want to use a run-function when tabs are switched.  
+              The run-function will get the element\_id of the tab as first, the selected tab as second and the selected tabname as third parameter.  
+              
+            There are more things you can do with tabs:  
+              
+            - reagirl.Tabs\_SetUIElementsForTab - associates ui-elements with a specific tab. Means, the associated ui-elements   
+                                                will only be shown when this tab is selected  
+            - reagirl.Tabs\_SetSelected - sets a specific tab as selected  
+            - reagirl.Tabs\_GetSelected - gets the currently selected tab  
+              
+            Check the [second tutorial "Adding Tabs to a Gui"](#Tutorial_002_Adding_Tabs_to_a_Gui) as well as the [eight tutorial "Autopositioning with tabs"](#Tutorial_008_Autopositioning_With_Tabs) to see, how to code tabs.  
+        </description>  
+        <target_document>ReaGirl_Introduction_and_Concepts.html</target_document>  
+        <source_document>ReaGirl_Introduction_and_Concepts.USDocML</source_document>  
+        <chapter_context>
+          The Gui Elements
+        </chapter_context>
+        <previous_chapter>The_Gui_Elements_007_Sliders</previous_chapter>  
+        <next_chapter>The_Gui_Elements_Concepts001_Context_Menus</next_chapter>  
+        <tags></tags>  
+    </US_DocBloc>  
+      
+	
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">  
         <slug>The_Gui_Elements_Concepts001_Context_Menus</slug>  
         <title>Context Menus</title>  
