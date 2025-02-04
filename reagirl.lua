@@ -15189,6 +15189,8 @@ function reagirl.Window_GetScrollOffset()
   <description>
     Gets the current scroll-offset of the window's gui.
     
+    Note: it is the unscaled value, which you can rely on on all scalings. But if you need to draw stuff yourself, you should multiply it with reagirl.Window_GetCurrentScale().
+    
     0,0 means, that the gui is scrolled to the top-left corner.
   </description>
   <retvals>
@@ -15201,7 +15203,7 @@ function reagirl.Window_GetScrollOffset()
   <tags>window, get, scrollposition, vertical, horizontal</tags>
 </US_DocBloc>
 --]]
-  return -reagirl.MoveItAllRight/reagirl.Window_GetCurrentScale(), -reagirl.MoveItAllUp/reagirl.Window_GetCurrentScale()
+  return (-reagirl.MoveItAllRight/reagirl.Window_GetCurrentScale())//1|0, (-reagirl.MoveItAllUp/reagirl.Window_GetCurrentScale())//1|0
 end
 
 function reagirl.Window_ForceSize_Minimum(MinW, MinH)
