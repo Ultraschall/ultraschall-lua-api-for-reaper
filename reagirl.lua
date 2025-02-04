@@ -10443,6 +10443,594 @@ function reagirl.ListView_Draw(element_id, selected, hovered, clicked, mouse_cap
   end
 end
 
+function reagirl.Textbox_Add(x, y, label, meaningOfUI_Element, run_function)
+-- TODO TODO TODO TODO TODO: 
+--      the run-functions management
+--      dragging management maybe
+--      numbering of error-messages
+--      optional width and height
+--[[
+<US_ DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Textbox_Add</slug>
+  <requires>
+    ReaGirl=1.5
+    Reaper=7.03
+    Lua=5.4
+  </requires>
+  <functioncall>string textbox_id = reagirl.Textbox_Add(optional integer x, optional integer y, string label, string meaningOfUI_Element, optional function run_function)</functioncall>
+  <description>
+    Adds a textox to the gui.
+    
+    You can autoposition the textbox by setting x and/or y to nil, which will position the new textbox after the last ui-element.
+    To autoposition into the next line, use reagirl.NextLine()
+    
+    TODO!!! It is possible to make labels draggable. See Label_SetDraggable and Label_GetDraggable for how to do it.
+    
+    The run-function will get as parameters:
+    
+    !!!TODO!!!: 
+     TODO TODO TODO TODO TODO
+  </description>
+  <parameters>
+    optional integer x - the x position of the textbox in pixels; negative anchors the textbox to the right window-side; nil, autoposition after the last ui-element(see description)
+    optional integer y - the y position of the textbox in pixels; negative anchors the textbox to the bottom window-side; nil, autoposition after the last ui-element(see description)
+    string caption - the text of the textbox
+    string meaningOfUI_Element - the meaningOfUI_Element of the ui-element(for tooltips and blind users). Make it a sentence that ends with . or ?
+    optional function run_function - a function that gets run when clicking a link-text(clickable=true)
+  </parameters>
+  <retvals>
+    string textbox_id - a guid that can be used for altering the textbox-attributes
+  </retvals>
+  <chapter_context>
+    Textbox
+  </chapter_context>
+  <tags>textbox, add</tags>
+</US_DocBloc>
+--]]
+  if x~=nil and math.type(x)~="integer" then error("Textbox_Add: param #1 - must be either nil or an integer", 2) end
+  if y~=nil and math.type(y)~="integer" then error("Textbox_Add: param #2 - must be either nil or an integer", 2) end
+  if type(label)~="string" then error("Textbox_Add: param #3 - must be a string", 2) end
+  if type(meaningOfUI_Element)~="string" then error("Textbox_Add: param #4 - must be a string", 2) end
+  if meaningOfUI_Element:sub(-1,-1)~="." and meaningOfUI_Element:sub(-1,-1)~="?" then error("Textbox_Add: param #4 - must end on a . like a regular sentence.", 2) end
+  if run_function==nil then run_function=reagirl.Dummy end
+  if type(run_function)~="function" then error("Textbox_Add: param #6 - must be either nil or a function", 2) end
+  
+  local x,y,slot=reagirl.UI_Element_GetNextXAndYPosition(x, y, "Label_Add")
+  --reagirl.UI_Element_NextX_Default=x
+  
+  local acc_clickable=""
+  local clickable_text=""
+  if clickable==true then clickable_text="Clickable " acc_clickable="Enter or leftclick to click link. " else acc_clickable="" end
+  
+  table.insert(reagirl.Elements, slot, {})
+  reagirl.SetFont(1, reagirl.Font_Face, reagirl.Font_Size, 0, 1)
+  local w,h=gfx.measurestr(label)
+  reagirl.SetFont(1, reagirl.Font_Face, reagirl.Font_Size, 0)
+  reagirl.Elements[slot]["Guid"]=reaper.genGuid("")
+  reagirl.Elements[slot]["GUI_Element_Type"]="Textbox"
+  reagirl.Elements[slot]["Name"]=label
+  reagirl.Elements[slot]["Text"]=""
+  reagirl.Elements[slot]["Description"]=meaningOfUI_Element
+  reagirl.Elements[slot]["IsDisabled"]=false
+  reagirl.Elements[slot]["AccHint"]=acc_clickable.."Ctrl+C copies label-text to clipboard. "
+  reagirl.Elements[slot]["ContextMenu_ACC"]=""
+  reagirl.Elements[slot]["DropZoneFunction_ACC"]=""
+  reagirl.Elements[slot]["x"]=x
+  reagirl.Elements[slot]["y"]=y
+  
+  reagirl.Elements[slot]["font_size"]=reagirl.Font_Size
+  reagirl.Elements[slot]["clickable"]=false
+  reagirl.Elements[slot]["sticky_x"]=false
+  reagirl.Elements[slot]["sticky_y"]=false
+  reagirl.Elements[slot]["w"]=math.tointeger(w)
+  reagirl.Elements[slot]["h"]=math.tointeger(h)
+  if math.tointeger(h)>reagirl.NextLine_Overflow then reagirl.NextLine_Overflow=math.tointeger(h) end
+  reagirl.Elements[slot]["align"]=0
+  reagirl.Elements[slot]["style1"]=0
+  reagirl.Elements[slot]["style2"]=0
+  reagirl.Elements[slot]["style3"]=0
+  reagirl.Elements[slot]["style4"]=0
+  reagirl.Elements[slot]["bg_w"]=0
+  reagirl.Elements[slot]["bg_h"]=0
+  reagirl.Elements[slot]["startline"]=0
+  reagirl.Elements[slot]["func_draw"]=reagirl.Textbox_Draw
+  reagirl.Elements[slot]["run_function"]=run_function
+  reagirl.Elements[slot]["func_manage"]=reagirl.Textbox_Manage
+  
+  reagirl.Elements[slot]["text_selection"]=true
+  
+  return reagirl.Elements[slot]["Guid"]
+end
+
+function reagirl.Textbox_CalculatePositions(element_storage, x, y, width, height, startline)
+  -- ToDo: calculate proper sizes when font-size and style are applied to label
+  --       also calculate them, when they are applied by character...
+  --       (maybe only the latter, since I might change the behavior for the former)
+  local startx=0
+  local starty=0
+  local positions={}
+  local count=0
+  local linecount=0
+  local shown_height=0
+  for i=1, element_storage.Name:len() do
+    offset=gfx.measurestr((element_storage.Name:sub(i,i)))
+    if count+offset>=width or element_storage.Name:sub(i,i)=="\n" then
+      count=0
+      startx=0
+      starty=starty+gfx.texth
+      shown_height=shown_height+gfx.texth
+      linecount=linecount+1
+    end
+    
+    count=count+gfx.measurestr(element_storage.Name:sub(i,i))
+    positions[i]={}
+    positions[i]["x"]=startx
+    positions[i]["y"]=starty
+    positions[i]["style"]=0
+    positions[i]["command"]=""
+    gfx.setfont(1, reagirl.Font_Face, reagirl.Font_Size, positions[i]["style"])
+    positions[i]["w"]=gfx.measurestr(element_storage.Name:sub(i,i))
+    positions[i]["h"]=gfx.texth
+    startx=startx+gfx.measurestr(element_storage.Name:sub(i,i))
+  end
+  return positions, linecount+1, math.floor(shown_height/gfx.texth)+1
+end
+
+function reagirl.Textbox_FindCharacter(element_storage, x, y, startposition)
+  element_storage.positions[#element_storage.positions+1]=element_storage.positions[#element_storage.positions]
+  for i=1, #element_storage.positions-1 do
+    --reagirl.DebugRect_Add(x,y,10,10)
+    if gfx.mouse_x-x>=element_storage.positions[i]["x"] and
+       gfx.mouse_x-x<=element_storage.positions[i]["x"]+element_storage.positions[i]["w"] and
+       gfx.mouse_y-y>=element_storage.positions[i]["y"] and
+       gfx.mouse_y-y<=element_storage.positions[i]["y"]+element_storage.positions[i]["h"] then
+       return i,1
+    elseif gfx.mouse_x-x>=element_storage.positions[i]["x"]+element_storage.positions[i]["w"] and 
+           gfx.mouse_y-y>=element_storage.positions[i]["y"] and 
+           gfx.mouse_y-y<=element_storage.positions[i]["y"]+element_storage.positions[i]["w"] and
+           element_storage.positions[i]["y"]~=element_storage.positions[i+1]["y"] then
+      return i, 2
+    end
+  end
+  if gfx.mouse_x-x<=element_storage.positions[1]["x"] or gfx.mouse_y-y<element_storage.positions[1]["y"] then return 0 end
+  if gfx.mouse_y-y>=element_storage.positions[#element_storage.positions]["y"]+element_storage.positions[#element_storage.positions]["h"] then
+     return #element_storage.positions-1, 3
+  elseif gfx.mouse_x-x>=element_storage.positions[#element_storage.positions-1]["x"]+element_storage.positions[#element_storage.positions-1]["w"] then
+     return #element_storage.positions-1, 4
+  elseif gfx.mouse_x-x<=element_storage.positions[1]["x"]+element_storage.positions[1]["w"] or
+         gfx.mouse_y-y<=element_storage.positions[1]["y"]+element_storage.positions[1]["h"] then
+         return 1,5
+  end
+  return #element_storage.positions
+end
+
+-- mespotine
+function reagirl.Textbox_Manage(element_id, selected, hovered, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
+-- text-selection in line 2 is buggy:
+-- with: reagirl.Textbox_Add(20, 35, "Hurtz\nFurtz\nTurtz", ".", run_function)
+  if element_storage.positions==nil then
+    element_storage.start_pos=0
+    element_storage.end_pos=0
+    element_storage.pos0=1
+    element_storage.pos1=1
+    element_storage.pos2=1
+    element_storage.pos3=1
+    element_storage.positions, element_storage.num_lines, element_storage.shown_lines=reagirl.Textbox_CalculatePositions(element_storage, x, y, w, h, element_storage.startline)
+  end
+  -- drop files for accessibility using a file-requester, after typing ctrl+shift+f
+  if element_storage["DropZoneFunction"]~=nil and Key==6 and mouse_cap==12 then
+    local retval, filenames = reaper.GetUserFileNameForRead("", "Choose file to drop into "..element_storage["Name"], "")
+    reagirl.Window_SetFocus()
+    if retval==true then element_storage["DropZoneFunction"](element_storage["Guid"], {filenames}) refresh=true end
+  end
+  
+  if hovered==true then
+    if element_storage["clickable"]==true then
+      gfx.setcursor(114)
+    elseif element_storage["DraggableDestinations"]~=nil then
+      gfx.setcursor(114)
+    end
+  end
+  
+  if Key==3 and selected~="not selected" then reaper.CF_SetClipboard(name) end
+  if gfx.mouse_cap&2==2 and selected~="not selected" and gfx.mouse_x>=x and gfx.mouse_x<=x+w and gfx.mouse_y>=y and gfx.mouse_y<=y+h then
+    local oldx, oldy=gfx.x, gfx.y
+    gfx.x=gfx.mouse_x
+    gfx.y=gfx.mouse_y
+    --local selection=gfx.showmenu("Copy Text to Clipboard")
+    gfx.x=oldx
+    gfx.y=oldy
+    --if selection==1 then reaper.CF_SetClipboard(name) end
+  end
+  
+  
+  -- Text-Selection
+  -- To Do:
+  --   Can't go to first character with cursor keys/clicking
+  --   When going to first character, up-key crashes occasionally
+  --   Cursor must be set to blinking/non visible
+  --   Ctrl+Copy shall copy selected text
+  --   update positions when width/height change
+  --   home/end-keys(+shift) not implemented yet
+  --   pgup/PgDn(+shift) not implemented yet
+  --   occasional crashes when clicking and dragging
+  --   get/set text-selection functions
+  if selected~="not selected" and element_storage["text_selection"]==true then
+    if Key==1919379572.0 then
+      -- right
+      element_storage.pos3=element_storage.pos3+1
+      if element_storage.pos3>element_storage.Name:len() then element_storage.pos3=element_storage.Name:len() end
+      element_storage.pos2=element_storage.pos3
+      element_storage.pos1=element_storage.pos3
+      if mouse_cap&8==8 then
+        if element_storage.pos3>element_storage.pos0 then 
+          element_storage.pos1=element_storage.pos0 
+          element_storage.pos2=element_storage.pos3
+        else 
+          element_storage.pos1=element_storage.pos3
+          element_storage.pos2=element_storage.pos0
+        end
+      else
+        element_storage.pos0=element_storage.pos3
+      end
+      reagirl.Gui_ForceRefresh()
+    elseif Key==1818584692.0 then
+      -- left
+      element_storage.pos3=element_storage.pos3-1
+      if element_storage.pos3<1 then element_storage.pos3=1 end
+      element_storage.pos2=element_storage.pos3
+      element_storage.pos1=element_storage.pos3
+      if mouse_cap&8==8 then
+        if element_storage.pos3>element_storage.pos0 then 
+          element_storage.pos1=element_storage.pos0 
+          element_storage.pos2=element_storage.pos3
+        else 
+          element_storage.pos1=element_storage.pos3
+          element_storage.pos2=element_storage.pos0
+        end
+      else
+        element_storage.pos0=element_storage.pos3
+      end
+      reagirl.Gui_ForceRefresh()
+    elseif Key==1685026670.0 then
+      -- down
+      local curx, cury=element_storage.positions[element_storage.pos3]["x"], element_storage.positions[element_storage.pos3]["y"]
+      local found=false
+      for i=element_storage.pos3, element_storage.Name:len() do
+        if element_storage.positions[i]["y"]>cury and element_storage.positions[i]["x"]>=curx then
+          found=i
+          break
+        end
+      end
+      if found==false then found=#element_storage.positions end
+      if mouse_cap&8==0 then
+        element_storage.pos3=found
+        element_storage.pos0=element_storage.pos3
+      elseif mouse_cap&8==8 then
+        if found>element_storage.pos0 then 
+          element_storage.pos1=element_storage.pos0 
+          element_storage.pos2=found 
+        else 
+          element_storage.pos1=found 
+          element_storage.pos2=element_storage.pos0
+        end
+        element_storage.pos3=found-1
+      end
+      reagirl.Gui_ForceRefresh()
+    elseif Key==30064.0 then
+      -- up
+      local curx, cury=element_storage.positions[element_storage.pos3]["x"], element_storage.positions[element_storage.pos3]["y"]
+      local found=false
+      for i=element_storage.pos3, 1, -1 do
+        if element_storage.positions[i]["y"]<cury and element_storage.positions[i]["x"]<=curx then
+          found=i+1
+          break
+        end
+      end
+      if found==false then found=1 end
+      if mouse_cap&8==0 then
+        element_storage.pos3=found
+        element_storage.pos0=element_storage.pos3
+      elseif mouse_cap&8==8 then
+        if found>element_storage.pos0 then 
+          element_storage.pos1=element_storage.pos0 
+          element_storage.pos2=found 
+        else 
+          element_storage.pos1=found 
+          element_storage.pos2=element_storage.pos0
+        end
+        element_storage.pos3=found-1
+      end
+      reagirl.Gui_ForceRefresh()
+    end
+    
+    if clicked=="FirstCLK" and mouse_cap&8==0 then
+      element_storage.pos1,E=reagirl.Textbox_FindCharacter(element_storage, x, y, element_storage.startline)
+      element_storage.pos2=element_storage.pos1
+      element_storage.pos3=element_storage.pos1
+      element_storage.pos0=element_storage.pos1
+      reagirl.Gui_ForceRefresh()
+    elseif clicked=="FirstCLK" and mouse_cap&8==8 then
+      element_storage.pos2,E=reagirl.Textbox_FindCharacter(element_storage, x, y, element_storage.startline)
+      element_storage.pos1=element_storage.pos0
+      element_storage.pos3=element_storage.pos2
+      reagirl.Gui_ForceRefresh()
+    elseif clicked=="DRAG" then
+      element_storage.pos2,E=reagirl.Textbox_FindCharacter(element_storage, x, y, element_storage.startline)
+      element_storage.pos3=element_storage.pos2
+      reagirl.Gui_ForceRefresh()
+    elseif clicked=="DBLCLK" then
+      element_storage.pos,E=
+      reagirl.Textbox_FindCharacter(element_storage, x, y, element_storage.startline)
+      for i=element_storage.pos, 1, -1 do
+        if element_storage.Name:sub(i,i):lower():match("[%a%d%_]")==nil then
+          break
+        end
+        element_storage.pos1=i-1
+      end
+      for i=element_storage.pos, (element_storage.Name.." "):len() do
+        if element_storage.Name:sub(i,i):lower():match("[%a%d%_]")==nil then
+          break
+        end
+        element_storage.pos2=i
+      end
+      element_storage.pos3=element_storage.pos2
+      reagirl.Gui_ForceRefresh()
+    end
+    
+    
+    if element_storage.pos2==nil or element_storage.pos1==nil then 
+      element_storage.pos3=nil 
+    else
+      if element_storage.pos2<element_storage.pos1 then 
+        element_storage.start_pos=element_storage.pos2+1 
+        element_storage.end_pos=element_storage.pos1 
+      elseif element_storage.pos2>=element_storage.pos1 then
+        element_storage.start_pos=element_storage.pos1+1 
+        element_storage.end_pos=element_storage.pos2 
+      end
+    end
+  end
+  
+  if selected~="not selected" and 
+    (Key==32 or mouse_cap==1) and 
+    (gfx.mouse_x>=x and gfx.mouse_x<=x+w and gfx.mouse_y>=y and gfx.mouse_y<=y+h) 
+    and clicked=="FirstCLK" 
+    and element_storage["run_function"]~=nil then 
+    --print("1")
+      element_storage["clickstate"]="clicked"
+      if element_storage["Draggable"]==true and hovered==true then
+        reagirl.Draggable_Element=element_id
+        element_storage["mouse_x"]=gfx.mouse_x
+        element_storage["mouse_y"]=gfx.mouse_y
+        gfx.setcursor(114)
+      end
+  end
+  if element_storage["Draggable"]==true and element_storage.DraggableDestinations~=nil then
+    if selected~="not selected" and gfx.mouse_cap==12 and Key==1885828464.0 then
+      if element_storage.Draggable_DestAccessibility==nil then 
+        element_storage.Draggable_DestAccessibility=1 
+      else
+        element_storage.Draggable_DestAccessibility=element_storage.Draggable_DestAccessibility+1
+        if element_storage.Draggable_DestAccessibility>#element_storage.DraggableDestinations then
+          element_storage.Draggable_DestAccessibility=1
+        end
+      end
+      local id = reagirl.UI_Element_GetIDFromGuid(element_storage.DraggableDestinations[element_storage.Draggable_DestAccessibility])
+      reagirl.Elements.GlobalAccHoverMessageOld=""
+      reagirl.Elements["GlobalAccHoverMessage"]="Dropdestination: "..reagirl.Elements[id]["Name"].." Destination "..element_storage.Draggable_DestAccessibility.." of "..#element_storage.DraggableDestinations
+    elseif selected~="not selected" and gfx.mouse_cap==12 and Key==1885824110.0 then
+      if element_storage.Draggable_DestAccessibility==nil then 
+        element_storage.Draggable_DestAccessibility=1 
+      else
+        element_storage.Draggable_DestAccessibility=element_storage.Draggable_DestAccessibility-1
+        if element_storage.Draggable_DestAccessibility<1 then
+          element_storage.Draggable_DestAccessibility=#element_storage.DraggableDestinations
+        end
+      end
+      local id = reagirl.UI_Element_GetIDFromGuid(element_storage.DraggableDestinations[element_storage.Draggable_DestAccessibility])
+      reagirl.Elements.GlobalAccHoverMessageOld=""
+      reagirl.Elements["GlobalAccHoverMessage"]="Dropdestination: "..reagirl.Elements[id]["Name"].." Destination "..element_storage.Draggable_DestAccessibility.." of "..#element_storage.DraggableDestinations
+    elseif selected~="not selected" and gfx.mouse_cap==12 and Key==13 then
+      if element_storage.Draggable_DestAccessibility==nil then 
+        element_storage.Draggable_DestAccessibility=1 
+      end
+      element_storage["run_function"](element_storage["Guid"], element_storage.DraggableDestinations[element_storage.Draggable_DestAccessibility]) 
+      local id = reagirl.UI_Element_GetIDFromGuid(element_storage.DraggableDestinations[element_storage.Draggable_DestAccessibility])
+      reagirl.Elements["GlobalAccHoverMessage"]="Dropped onto "..reagirl.Elements[id]["Name"]
+    end
+  end
+  if element_storage["clickstate"]=="clicked" and mouse_cap&1==0 then
+    element_storage["clickstate"]=nil
+    if element_storage["Draggable"]==true and (element_storage["mouse_x"]~=gfx.mouse_x or element_storage["mouse_y"]~=gfx.mouse_y) then
+      for i=1, #element_storage["DraggableDestinations"] do
+        if reagirl.UI_Element_IsElementAtMousePosition(element_storage["DraggableDestinations"][i])==true then
+          element_storage["run_function"](element_storage["Guid"], element_storage["DraggableDestinations"][i]) 
+        end
+      end
+    end
+    reagirl.Draggable_Element=nil
+  end
+  --]]
+  if element_storage["clickstate2"]==true and gfx.mouse_cap&1==0 and gfx.mouse_x>=x and gfx.mouse_x<=x+w and gfx.mouse_y>=y and gfx.mouse_y<=y+h then
+    if element_storage["run_function"]~=nil then reagirl.Elements[element_id]["run_function"](element_storage["Guid"]) end
+  end
+  
+  if element_storage["clickable"]==true and (Key==13 or gfx.mouse_cap&1==1) 
+    and selected~="not selected" and gfx.mouse_x>=x and gfx.mouse_x<=x+w and gfx.mouse_y>=y and gfx.mouse_y<=y+h then
+    element_storage["clickstate2"]=true
+  end
+  
+  if element_storage["clickable"]==true and Key==13 then
+    if element_storage["run_function"]~=nil then reagirl.Elements[element_id]["run_function"](element_storage["Guid"]) end
+  end
+  
+  if gfx.mouse_cap&1==0 then
+    element_storage["clickstate2"]=nil
+  end
+  local contextmenu=""
+  --if element_storage["ContextMenu"]~=nil then contextmenu="Has Contextmanu." end
+  local draggable=""
+  --if element_storage["Draggable"]==true then draggable="Draggable,. " draggable2=" Use Ctrl plus alt plus Tab and Ctrl plus alt plus Tab to select the dragging-destinations and ctrl plus alt plus enter to drop the image into the dragging-destination." else draggable="" end
+  return draggable..contextmenu.." ", false
+end
+
+function reagirl.Textbox_Draw(element_id, selected, hovered, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
+  -- BUG: with multiline-texts, when they scroll outside the top of the window, they disappear when the first line is outside of the window
+                        --   85 and 117, underline (U), (u)
+  local styles={66,73,77,79,83,85,86,89,90}
+  styles[0]=0
+  local dpi_scale=reagirl.Window_GetCurrentScale()
+  y=y+dpi_scale
+  local style=styles[element_storage["style1"]]<<8
+  style=style+styles[element_storage["style2"]]<<8
+  style=style+styles[element_storage["style3"]]<<8
+  if element_storage["clickable"] then
+    style=style+85
+  end
+  
+  --print2(style)
+  reagirl.SetFont(1, reagirl.Font_Face, element_storage["font_size"], style)
+  local olddest=gfx.dest
+  local oldx, oldy = gfx.x, gfx.y
+  local old_gfx_r=gfx.r
+  local old_gfx_g=gfx.g
+  local old_gfx_b=gfx.b
+  local old_gfx_a=gfx.a
+  local old_mode=gfx.mode
+  gfx.setimgdim(1001, gfx.w, gfx.h)
+  --gfx.dest=1001
+  --gfx.set(0)
+  --gfx.rect(0, 0, gfx.w, gfx.h, 1)
+  local w2,h2=gfx.measurestr(name)  
+  if selected~="not selected" then
+    reagirl.UI_Element_SetFocusRect(true, x, y, math.floor(w2), math.floor(h2))
+  end
+  
+  if element_storage["auto_breaks"]==true then
+  --[[
+  -- old code, might work now in most recent Reaper-version
+    gfx.set(0.1)
+    local retval, w, h = reagirl.BlitText_AdaptLineLength(name, 
+                                                          math.floor(x)+1, 
+                                                          math.floor(y)+2, 
+                                                          gfx.w,
+                                                          gfx.h,--gfx.texth,
+                                                          element_storage["align"])
+    
+    gfx.set(1,1,1)
+    reagirl.BlitText_AdaptLineLength(name, 
+                                     math.floor(x), 
+                                     math.floor(y)+1, 
+                                     gfx.w,
+                                     gfx.h,--gfx.texth,
+                                     element_storage["align"])
+                                     --]]
+  else
+    local cursor_alpha=0 -- text.selection-cursor
+    if element_storage["text_selection"]==true then cursor_alpha=1 end
+    
+    local col=0.8
+    local col2=0.8
+    local col3=0.2
+    if element_storage["clickable"]==true then 
+      col=0.4
+      col2=0.8
+      col3=0.2
+    end
+    gfx.set(col3)
+    gfx.x=x+dpi_scale
+    gfx.y=y+dpi_scale
+    --gfx.drawstr(name, element_storage["align"])--, x+w, y+h)
+    reagirl.BlitText_AdaptLineLength(name, x+dpi_scale, y+dpi_scale, w, h, element_storage["align"], element_storage.start_pos, element_storage.end_pos, element_storage.pos3, element_storage.startline, element_storage.positions, 1, 1, 0, cursor_alpha, col3, col3, col3, 1, element_storage["font_size"], style)
+
+    gfx.set(col,col,col2)
+    gfx.x=x
+    gfx.y=y
+    
+    --gfx.drawstr(name, element_storage["align"])--, x+w, y+h)
+    reagirl.BlitText_AdaptLineLength(name, x, y, w, h, element_storage["align"], element_storage.start_pos, element_storage.end_pos, element_storage.pos3, element_storage.startline, element_storage.positions, 1, 1, 0, cursor_alpha, col, col, col2, 1, element_storage["font_size"], style)
+    
+    -- backdrop
+    if element_storage["bg"]=="auto" then
+      _, _, _, _, _, _, _, _, bg_w = reagirl.Gui_GetBoundaries()
+      bg_w=bg_w-x
+      local element_id=reagirl.UI_Element_GetIDFromGuid(element_storage["bg_dest"])
+      local y2=reagirl.Elements[element_id]["y"]
+      local h2=reagirl.Elements[element_id]["h"]
+      --reaper.MB(reagirl.Elements[element_id]["Name"],"",0)
+      y3=(y-reagirl.MoveItAllUp)/reagirl.Window_GetCurrentScale()
+      
+      if y2>=0 then
+        bg_h=y2+h2-y3
+      else
+        -- buggy
+        bg_h=y2+h2
+      end
+      element_storage["bg_w"]=bg_w/reagirl.Window_GetCurrentScale()
+      element_storage["bg_h"]=bg_h-1
+      element_storage["bg"]=nil
+    end
+    
+    
+    local bg_h=element_storage["bg_h"]
+    if bg_h<0 then bg_h=gfx.h+bg_h-y-(gfx.texth>>1) end
+    bg_h=bg_h--*dpi_scale
+    local bg_w=element_storage["bg_w"]
+    if bg_w<0 then bg_w=gfx.w+bg_w-x end
+    bg_w=bg_w--*dpi_scale
+    if element_storage["bg_auto"]==true then
+      _, _, _, _, _, _, _, _, bg_w = reagirl.Gui_GetBoundaries()
+      bg_w=bg_w-x
+    end
+    
+    if bg_w~=0 and bg_h~=0 then
+      gfx.set(0.5)
+      gfx.rect(x-10*dpi_scale, y+(gfx.texth>>1), 5*dpi_scale, dpi_scale, 1)
+      gfx.rect(x-10*dpi_scale, y+(gfx.texth>>1), dpi_scale, bg_h*dpi_scale, 1)
+      if bg_h>1 then
+        gfx.rect(x-10*dpi_scale, y+bg_h*dpi_scale+(gfx.texth>>1)-dpi_scale, bg_w*dpi_scale+12*dpi_scale, dpi_scale, 1)
+      end
+      gfx.rect(x+dpi_scale+bg_w*dpi_scale, y+(gfx.texth>>1), dpi_scale, bg_h*dpi_scale, 1)
+      gfx.rect(x+dpi_scale+w2+5, y+(gfx.texth>>1), bg_w*dpi_scale-w2-5, dpi_scale, 1)
+    end
+    
+    
+    if selected~="not selected" then
+      local olddest=gfx.dest
+      gfx.dest=reagirl.DragImageSlot
+      local tx,ty=gfx.measurestr(name)
+      gfx.setimgdim(reagirl.DragImageSlot, tx, ty)
+      gfx.set(0)
+      gfx.rect(0,0,tx,ty,1)
+      local col=0.8
+      local col2=0.8
+      local col3=0.2
+      if element_storage["clickable"]==true then 
+        col=0.4
+        col2=0.8
+        col3=0.2
+      end
+      gfx.set(col3)
+      gfx.x=0+dpi_scale
+      gfx.y=0+dpi_scale
+      gfx.drawstr(name, element_storage["align"])
+      
+      gfx.set(col,col,col2)
+      gfx.x=0
+      gfx.y=0
+      gfx.drawstr(name, element_storage["align"])
+      gfx.dest=olddest
+    end
+  end
+  
+  gfx.x=oldx
+  gfx.y=oldy
+  gfx.set(old_gfx_r, old_gfx_g, old_gfx_b, old_gfx_a)
+  gfx.mode=old_mode
+end
+
+
 function reagirl.Button_Add(x, y, w_margin, h_margin, caption, meaningOfUI_Element, run_function)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
@@ -13392,7 +13980,7 @@ function reagirl.Label_Add(x, y, label, meaningOfUI_Element, clickable, run_func
     Reaper=7.03
     Lua=5.4
   </requires>
-  <functioncall>reagirl.Label_Add(optional integer x, optional integer y, string label, string meaningOfUI_Element, boolean clickable, optional function run_function)</functioncall>
+  <functioncall>string label_id = reagirl.Label_Add(optional integer x, optional integer y, string label, string meaningOfUI_Element, boolean clickable, optional function run_function)</functioncall>
   <description>
     Adds a label to the gui.
     
@@ -13413,6 +14001,9 @@ function reagirl.Label_Add(x, y, label, meaningOfUI_Element, clickable, run_func
     boolean clickable - true, the text is a clickable link-text; false or nil, the label-text is normal text
     optional function run_function - a function that gets run when clicking the link-text(clickable=true)
   </parameters>
+  <retvals>
+    string label_id - a guid that can be used for altering the label-attributes
+  </retvals>
   <chapter_context>
     Label
   </chapter_context>
