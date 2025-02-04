@@ -14288,6 +14288,7 @@ function reagirl.Image_Add(x, y, w, h, image_filename, caption, meaningOfUI_Elem
   reagirl.Elements[slot]["y"]=y
   reagirl.Elements[slot]["w"]=w
   reagirl.Elements[slot]["h"]=h
+  reagirl.Elements[slot]["auto_update"]=false
   if h>reagirl.NextLine_Overflow then reagirl.NextLine_Overflow=h end
   reagirl.Elements[slot]["sticky_x"]=false
   reagirl.Elements[slot]["sticky_y"]=false
@@ -14300,6 +14301,8 @@ function reagirl.Image_Add(x, y, w, h, image_filename, caption, meaningOfUI_Elem
   reagirl.Elements[slot]["Image_Storage"]=fb
   reagirl.Elements[slot]["Image_Filename"]=image_filename
   gfx.dest=reagirl.Elements[slot]["Image_Storage"]
+  local _
+  _, _, _, reagirl.Elements[slot]["Image_ChangeDateTime"]=reaper.JS_File_Stat(image_filename)
   local r,g,b,a=gfx.r,gfx.g,gfx.b,gfx.a
   gfx.set(0)
   gfx.rect(0,0,8192,8192)
@@ -14537,7 +14540,6 @@ function reagirl.Image_ReloadImage_Scaled(element_id)
 --]]
   if type(element_id)~="string" then error("Image_ReloadImage_Scaled: param #1 - must be a string", 2) end
   if reagirl.IsValidGuid(element_id, true)==false then error("Image_ReloadImage_Scaled: param #1 - must be a valid guid", 2) end
-  local slot=reagirl.UI_Element_GetIDFromGuid(element_id)
   
   element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
   if element_id==-1 then error("Image_ReloadImage_Scaled: param #1 - no such ui-element", 2) end
@@ -14564,11 +14566,89 @@ function reagirl.Image_ReloadImage_Scaled(element_id)
   gfx.rect(0,0,8192,8192,1)
   gfx.set(r,g,b,a)
   reagirl.Elements[element_id]["Image_Filename_Scaled"]=image_filename
-  local AImage=gfx.loadimg(image, image_filename )
+  
+  local AImage=gfx.loadimg(image, image_filename)
+  
   if AImage==-1 then return false end
 
   gfx.dest=-1
   return true
+end
+
+function reagirl.Image_GetAutoUpdate(element_id)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Image_GetAutoUpdate</slug>
+  <requires>
+    ReaGirl=1.2
+    Reaper=7.03
+    Lua=5.4
+  </requires>
+  <functioncall>boolean auto_update = reagirl.Image_GetAutoUpdate(string element_id)</functioncall>
+  <description>
+    Gets, if auto-update has been enabled for an image.
+    
+    Auto-update means, that the image is reloaded automatically when the file is changed. Will only check for the unscaled, original image-file, 
+    so if you want to auto-update scaled images, you need to update the unscaled image last.
+    
+    Used for things like "Cover images" where the user can update the cover-image in another app, so it instantly gets reloaded when the user has finished saving the file.
+    
+    The updating happens three seconds after the image-file has finished saving.
+  </description>
+  <parameters>
+    string element_id - the image-element, whose auto-update-state you want to get
+  </parameters>
+  <retvals>
+    boolean auto_update - true, auto-update is enabled for this image; false, auto-update is not enabled for this image
+  </retvals>
+  <chapter_context>
+    Image
+  </chapter_context>
+  <tags>image, reload, auto, update, get</tags>
+</US_DocBloc>
+--]]
+  if type(element_id)~="string" then error("Image_GetAutoUpdate: param #1 - must be a string", 2) end
+  if reagirl.IsValidGuid(element_id, true)==false then error("Image_GetAutoUpdate: param #1 - must be a valid guid", 2) end
+  
+  element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
+  return reagirl.Elements[element_id]["auto_update"]
+end
+
+function reagirl.Image_SetAutoUpdate(element_id, auto_update)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Image_SetAutoUpdate</slug>
+  <requires>
+    ReaGirl=1.2
+    Reaper=7.03
+    Lua=5.4
+  </requires>
+  <functioncall>reagirl.Image_SetAutoUpdate(string element_id, boolean auto_update)</functioncall>
+  <description>
+    Sets, auto-update-state for an image.
+    
+    Auto-update means, that the image is reloaded automatically when the file is changed. Will only check for the unscaled, original image-file, 
+    so if you want to auto-update scaled images, you need to update the unscaled image last.
+    
+    Used for things like "Cover images" where the user can update the cover-image in another app, so it instantly gets reloaded when the user has finished saving the file.
+    
+    The updating happens three seconds after the image-file has finished saving.
+  </description>
+  <parameters>
+    string element_id - the image-element, whose auto-update-state you want to set
+    boolean auto_update - true, auto-update is enabled for this image; false, auto-update is not enabled for this image
+  </parameters>
+  <chapter_context>
+    Image
+  </chapter_context>
+  <tags>image, reload, auto, update, set</tags>
+  --]]
+  if type(element_id)~="string" then error("Image_SetAutoUpdate: param #1 - must be a string", 2) end
+  if reagirl.IsValidGuid(element_id, true)==false then error("Image_SetAutoUpdate: param #1 - must be a valid guid", 2) end
+  if type(auto_update)~="boolean" then error("Image_SetAutoUpdate: #2 - must be a boolean", 2) end
+  
+  element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
+  reagirl.Elements[element_id]["auto_update"]=auto_update
 end
 
 
@@ -14579,6 +14659,41 @@ function reagirl.Image_Manage(element_id, selected, hovered, clicked, mouse_cap,
     reagirl.Window_SetFocus()
     if retval==true then element_storage["DropZoneFunction"](element_storage["Guid"], {filenames}) refresh=true end
   end
+  
+  if element_storage["auto_update"]==true and element_storage["Image_ReloadStarttime"]==nil then
+    local _, _, _, Image_ChangeDateTime=reaper.JS_File_Stat(element_storage["Image_Filename"])
+    if Image_ChangeDateTime~=element_storage["Image_ChangeDateTime"] then
+      element_storage["Image_ReloadStarttime"]=Image_ChangeDateTime
+    end
+  end
+  
+  if element_storage["Image_ReloadStarttime"]~=nil then
+    if element_storage["Image_ReloadStarttime_Count"]==nil then 
+      element_storage["Image_ReloadStarttime_Count"]=0
+    end
+    element_storage["Image_ReloadStarttime_Count"]=element_storage["Image_ReloadStarttime_Count"]+1
+    if element_storage["Image_ReloadStarttime_Count"]==99 then
+      reagirl.Image_ReloadImage_Scaled(element_storage["Guid"])
+      element_storage["Image_ChangeDateTime"]=element_storage["Image_ReloadStarttime"]
+      reagirl.Gui_ForceRefresh(7331)
+      element_storage["Image_ReloadStarttime_Count"]=nil
+      element_storage["Image_ReloadStarttime"]=nil
+    end
+    if element_storage["Image_ReloadStarttime"]~=nil then
+      local _, _, _, Image_ChangeDateTime=reaper.JS_File_Stat(element_storage["Image_Filename"])
+      if Image_ChangeDateTime~=element_storage["Image_ReloadStarttime"] then
+        element_storage["Image_ReloadStarttime"]=Image_ChangeDateTime
+        element_storage["Image_ReloadStarttime_Count"]=0
+      end
+    end
+  end
+
+--[[
+      reagirl.Image_ReloadImage_Scaled(element_storage["Guid"])
+      element_storage["Image_ChangeDateTime"]=Image_ChangeDateTime
+      reagirl.Gui_ForceRefresh(7331)
+--]]
+
 
   if hovered==true then
     if element_storage["clickable"]==true then
@@ -15308,7 +15423,7 @@ function reagirl.UI_Elements_Boundaries()
   
   reagirl.BoundaryX_Min=0--minx
   reagirl.BoundaryX_Max=maxx--+15*scale
-  reagirl.BoundaryY_Min=0+reagirl.Gui_Sticky_Y_top*scale--miny
+  reagirl.BoundaryY_Min=0--miny
   reagirl.BoundaryY_Max=maxy+15*scale+reagirl.Gui_Sticky_Y_bottom*scale -- +scale_offset
   --gfx.rect(reagirl.BoundaryX_Min, reagirl.BoundaryY_Min+reagirl.MoveItAllUp, 10, 10, 1)
   --gfx.rect(reagirl.BoundaryX_Max-20, reagirl.BoundaryY_Max+reagirl.MoveItAllUp-20, 10, 10, 1)

@@ -417,7 +417,7 @@ Check why that is...probably because of Label_SetLabelText somehow resetting the
 
 ### 5.2 - "?? - ??" - 10th of February 2025
 
-Has now 1847 functions, with 13 new ones
+Has now 1849 functions, with 15 new ones
 
 **new in this release:**  
 
@@ -436,6 +436,8 @@ Has now 1847 functions, with 13 new ones
 	- ReaGirl: DecorRectangle\_GetEdgeStyle - gets, if the individual corners of a decorative rectangle is square or round
 	- ReaGirl: DecorRectangle\_SetEdgeStyle - sets, if the individual corners of a decorative rectangle is square or round
 	- ReaGirl: Gui\_GetSetStickyOffset - gets/sets a y-offset to prevent ui-elements from getting stuck behind sticky elements
+	- ReaGirl: Image\_GetAutoUpdate - gets, if the image is automatically updated when the underlying image-file is changed/updated
+	- ReaGirl: Image\_SetAutoUpdate - gets, if the image is automatically updated when the underlying image-file is changed/updated
 	- ReaGirl: UI\_Element\_GetSetSticky - gets/sets a ui-element to a sticky position, so it will not move when scrolling
 	- ReaGirl: Window\_GetHWND - returns the window-handler of the gui-window  
 	- ReaGirl: Window\_GetScrollOffset - gets the scroll-offset of the window's gui

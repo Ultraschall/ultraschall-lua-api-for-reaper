@@ -4942,6 +4942,8 @@
                   
             You can do more things with images:  
               
+							- reagirl.Image\_GetAutoUpdate - gets, if the image is automatically updated when the underlying image-file is changed/updated
+							- reagirl.Image\_SetAutoUpdate - gets, if the image is automatically updated when the underlying image-file is changed/updated
               - reagirl.Image\_GetDraggable - get if the image is draggable and what the potential drag-destinations are  
               - reagirl.Image\_SetDraggable - set the image to draggable and set the potential drag-destination-ui-elements  
               - reagirl.Image\_GetDimensions - get the width and height of the image  
