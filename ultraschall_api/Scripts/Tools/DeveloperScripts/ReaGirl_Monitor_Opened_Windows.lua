@@ -35,7 +35,7 @@ function main()
   window_count, window_instances = reagirl.Ext_Window_GetInstances()
   A=""
   for i=1, window_count do
-    A=A.."name:"..window_instances[i][1].." guid:"..window_instances[i][2].."\n"
+    A=A.."name:"..window_instances[i][1].." guid:"..window_instances[i][2].."\n   processtime:"..reagirl.Ext_Window_GetProcessTime(window_instances[i][2]).."\n"
   end
   print_update("number open ReaGirl-windows:"..window_count.."\n"..A)
   reaper.defer(main)

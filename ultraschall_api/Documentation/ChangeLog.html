@@ -33,13 +33,14 @@
 <p>Issues: ReaGirl: Retina bläst ReaGirl-Gui auf doppelte Größe(also 2x wird 4x, etc) -&gt; fixen Focus Rectangle sollte erst erscheinen, wenn man in der Gui Tab benutzt, sonst ausgeblendet(wird auch bei Klick in Feld ohne Gui-Element wieder ausgeblendet) - optional immer einblendbar machen (drin, aber teste es nochmal genauer aus) Docs: eine Doku, wie man eine Gui so schreibt, dass man einfach mal schnell ui-elemente hinzufügen kann, ohne alles per Hand neu verschieben zu müssen und ohne Autoposition zu nutzen. Prinzipiell: h=100 Checkbox<em>Add(10,h) h=h+10 Checkbox</em>Add(10,h) h=h+10 Image<em>Add(10,h,100,100) h=h+100 Checkbox</em>Add(10,h) So in Etwa. Slider: Clickarea des Slider-Knobs ist verschoben nach rechts, bitte nochmal nachjustieren(see ReaGirl-Settings) ColorRectangle: Tooltip muss den Farbwert kommunizieren(für Farbenblinde), entweder Farbname oder Farbwerte</p>
 <h2>Ultraschall Framework - Changelog</h2>
 <h3>5.2 - "?? - ??" - 10th of February 2025</h3>
-<p>Has now 1849 functions, with 15 new ones</p>
+<p>Has now 1850 functions, with 16 new ones</p>
 <p><strong>new in this release:</strong></p>
 <ul>
 <li><strong>Bla</strong><br />
 Bla</li>
 </ul>
 <h4>New features in 5.2</h4>
+<pre><code>- Developer Tools: ReaGirl\_Monitor\_Opened\_Windows - shows all currently opened ReaGirl-window instances with name, guid and processing time</code></pre>
 <ul>
 <li>ReaGirl: ColorRectangle_Add - adds a color-rectangle, optionally opening a color-selector-dialog when clicking item
 <ul>
@@ -52,9 +53,11 @@ Bla</li>
 <li>ReaGirl: DecorRectangle_Add - adds a decorative rectangle for design purposes only, which has can't be clicked or tabbed to</li>
 <li>ReaGirl: DecorRectangle_GetEdgeStyle - gets, if the individual corners of a decorative rectangle is square or round</li>
 <li>ReaGirl: DecorRectangle_SetEdgeStyle - sets, if the individual corners of a decorative rectangle is square or round</li>
+<li>ReaGirl: Ext_Window_GetProcessTime - returns the processing time of a ReaGirl-window-instance in the last defer-cycle; good for measuring the resources needed for that gui-instance<br />
+</li>
 <li>ReaGirl: Gui_GetSetStickyOffset - gets/sets a y-offset to prevent ui-elements from getting stuck behind sticky elements</li>
 <li>ReaGirl: Image_GetAutoUpdate - gets, if the image is automatically updated when the underlying image-file is changed/updated</li>
-<li>ReaGirl: Image_SetAutoUpdate - gets, if the image is automatically updated when the underlying image-file is changed/updated</li>
+<li>ReaGirl: Image_SetAutoUpdate - sets, if the image is automatically updated when the underlying image-file is changed/updated</li>
 <li>ReaGirl: UI_Element_GetSetSticky - gets/sets a ui-element to a sticky position, so it will not move when scrolling</li>
 <li>ReaGirl: Window_GetHWND - returns the window-handler of the gui-window<br />
 </li>

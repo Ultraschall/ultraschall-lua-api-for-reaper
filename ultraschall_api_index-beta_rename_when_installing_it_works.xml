@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API and ReaGirl">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API and ReaGirl package" type="extension">
-      <version name="56055.00" author="Meo-Ada Mespotine">
+      <version name="56056.00" author="Meo-Ada Mespotine">
 	<source file="reagirl.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5.2//reagirl.lua</source>
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5.2//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5.2//ultraschall_api_readme.txt</source>
@@ -713,7 +713,7 @@ Ultraschall Framework - Changelog
 
 5.2 - “?? - ??” - 10th of February 2025
 
-Has now 1849 functions, with 15 new ones
+Has now 1850 functions, with 16 new ones
 
 new in this release:
 
@@ -721,6 +721,8 @@ new in this release:
     Bla
 
 New features in 5.2
+
+    - Developer Tools: ReaGirl\_Monitor\_Opened\_Windows - shows all currently opened ReaGirl-window instances with name, guid and processing time
 
 -   ReaGirl: ColorRectangle_Add - adds a color-rectangle, optionally
     opening a color-selector-dialog when clicking item
@@ -742,12 +744,15 @@ New features in 5.2
         corners of a decorative rectangle is square or round
     -   ReaGirl: DecorRectangle_SetEdgeStyle - sets, if the individual
         corners of a decorative rectangle is square or round
+    -   ReaGirl: Ext_Window_GetProcessTime - returns the processing time
+        of a ReaGirl-window-instance in the last defer-cycle; good for
+        measuring the resources needed for that gui-instance
     -   ReaGirl: Gui_GetSetStickyOffset - gets/sets a y-offset to
         prevent ui-elements from getting stuck behind sticky elements
     -   ReaGirl: Image_GetAutoUpdate - gets, if the image is
         automatically updated when the underlying image-file is
         changed/updated
-    -   ReaGirl: Image_SetAutoUpdate - gets, if the image is
+    -   ReaGirl: Image_SetAutoUpdate - sets, if the image is
         automatically updated when the underlying image-file is
         changed/updated
     -   ReaGirl: UI_Element_GetSetSticky - gets/sets a ui-element to a
@@ -803,7 +808,7 @@ Changes from 5.1 to 5.2
         \par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af6\langfe2052\dbch\af8\afs24\lang1081\loch\f0\fs24\lang1031{\rtlch \ltrch\loch
         }
         \par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af6\langfe2052\dbch\af8\afs24\lang1081\loch\f0\fs24\lang1031{\rtlch \ltrch\loch\loch\f4
-        a 1691 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 56055 from 04.02.2025 19:40:19).}
+        a 1691 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 56056 from 08.02.2025 23:38:59).}
         \par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af6\langfe2052\dbch\af8\afs24\lang1081\loch\f0\fs24\lang1031{\rtlch \ltrch\loch
         }
         \par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af6\langfe2052\dbch\af8\afs24\lang1081\loch\f0\fs24\lang1031{\rtlch \ltrch\loch

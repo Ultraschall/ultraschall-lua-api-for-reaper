@@ -104,6 +104,9 @@ reagirl.Gui_Init_Me=true
 reagirl.Gui_Sticky_Y_top=0
 reagirl.Gui_Sticky_Y_bottom=0
 
+reagirl.Defer=reaper.defer
+
+
 function reagirl.CheckForDependencies(ReaImGui, js_ReaScript, US_API, SWS, Osara)
   local function OpenURL(url)
   
@@ -4620,6 +4623,7 @@ function reagirl.AtExit()
   reaper.SetExtState("Reagirl_Window_"..reagirl.Window_name.."-"..reagirl.Gui_ScriptInstance, "w", "", false)
   reaper.SetExtState("Reagirl_Window_"..reagirl.Window_name.."-"..reagirl.Gui_ScriptInstance, "h", "", false)
   reaper.SetExtState("Reagirl_Window_"..reagirl.Window_name.."-"..reagirl.Gui_ScriptInstance, "dock", "", false)
+  reaper.SetExtState("ReaGirl", "ProcessTime_"..reagirl.Gui_ScriptInstance, "", false)
   gfx.quit()
   reagirl.IsWindowOpen_attribute=false
 end
@@ -5042,6 +5046,39 @@ function reagirl.ScreenReader_SendMessage(message)
   reagirl.osara_AddedMessage=message
 end
 
+function reagirl.Ext_Window_GetProcessTime(reagirl_instance_guid)
+  --[[
+  <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+    <slug>Ext_Window_GetProcessTime</slug>
+    <requires>
+      ReaGirl=1.2
+      Reaper=7.03
+      Lua=5.4
+    </requires>
+    <functioncall>number process_time = reagirl.Ext_Window_GetProcessTime(string reagirl_instance_guid)</functioncall>
+    <description>
+      Returns, how much processing time a ReaGirl-instance uses for its gui-management/drawing operations.
+      
+      Gives you a hint, whether you have too many gui-elements in your gui that could cause lagging of the gui or Reaper.
+    </description>
+    <parameters>
+      string reagirl_instance_guid - the guid of a ReaGirl-window-instance
+    </parameters>
+    <retvals>
+      number process_time - the amount of processing-time the instance needed in the last defer-cycle
+    </retvals>
+    <chapter_context>
+      Ext
+    </chapter_context>
+    <target_document>ReaGirl_Docs</target_document>
+    <source_document>reagirl_GuiEngine.lua</source_document>
+    <tags>ext, get, process time, in last defer</tags>
+  </US_DocBloc>
+  ]]
+--mespotine
+  local number=reaper.GetExtState("ReaGirl", "ProcessTime_"..reagirl_instance_guid)
+  if number=="" then return -1 else return tonumber(number) end
+end
 
 function reagirl.Ext_IsAnyReaGirlGuiHovered(register)
   --[[
@@ -5056,9 +5093,9 @@ function reagirl.Ext_IsAnyReaGirlGuiHovered(register)
     <description>
       Returns, if any ReaGirl-window is currently hovered by the mouse.
     </description>
-    <parameters>
+    <retvals>
       boolean retval - true, a ReaGirl-window is currently hovered; false, no ReaGirl-window is currently hovered
-    </parameters>
+    </retvals>
     <chapter_context>
       Ext
     </chapter_context>
@@ -5142,7 +5179,7 @@ function reagirl.Gui_Manage(keep_running)
 </US_DocBloc>
 ]]
   -- manages the gui, including tts, mouse and keyboard-management and ui-focused-management
-
+  reagirl.Defer_StartTime=reaper.time_precise()
   -- initialize shit
   if keep_running==true then reagirl.Gui_Manage_keep_running=true end
   local message
@@ -6138,6 +6175,9 @@ function reagirl.Gui_Manage(keep_running)
   end
   reagirl.ScreenReader_SendMessage_ActualMessage=""
   
+  -- calculate and store processing time
+  reaper.SetExtState("ReaGirl", "ProcessTime_"..reagirl.Gui_ScriptInstance, reaper.time_precise()-reagirl.Defer_StartTime, false)
+  
   -- go over to draw the ui-elements
   reagirl.Gui_Draw(Key, Key_utf, clickstate, specific_clickstate, mouse_cap, click_x, click_y, drag_x, drag_y, mouse_wheel, mouse_hwheel)
   if reagirl.Window_SetFocus_Trigger==true then
@@ -6459,6 +6499,7 @@ function reagirl.Gui_Draw(Key, Key_utf, clickstate, specific_clickstate, mouse_c
   reagirl.Scroll_Override_ScrollButtons=nil
   reagirl.DebugRect()
   reagirl.Gui_Init_Me=false
+  reaper.SetExtState("ReaGirl", "ProcessTime_"..reagirl.Gui_ScriptInstance, reaper.time_precise()-reagirl.Defer_StartTime, false)
 end
 
 function reagirl.DebugRect_Add(x,y,w,h)
