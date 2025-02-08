@@ -9132,6 +9132,91 @@ function reagirl.DecorRectangle_Draw(element_id, selected, hovered, clicked, mou
   reagirl.RoundRect(x,y,w,h, element_storage["radius"]*reagirl.Window_GetCurrentScale(), 1, 1, element_storage["top_left"], element_storage["bottom_left"], element_storage["top_right"], element_storage["bottom_right"])
 end
 
+function reagirl.DecorRectangle_SetColor(element_id, r, g, b)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>DecorRectangle_SetColor</slug>
+  <requires>
+    ReaGirl=1.2
+    Reaper=7.03
+    Lua=5.4
+  </requires>
+  <functioncall>reagirl.DecorRectangle_SetColor(string element_id, integer r, integer g, integer b)</functioncall>
+  <description>
+    Sets the color of a decorative-rectangle.
+  </description>
+  <parameters>
+    string element_id - the element_id of the decorative rectangle, whose edges you want to set to square
+    integer r - the red value of the decorative rectangle's color
+    integer g - the green value of the decorative rectangle's color
+    integer b - the blue value of the decorative rectangle's color
+  </parameters>
+  <chapter_context>
+    Decorative Color Rectangle
+  </chapter_context>
+  <tags>decorative color rectangle, set, color</tags>
+</US_DocBloc>
+--]]
+  if type(element_id)~="string" then error("DecorRectangle_SetColor: param #1 - must be a string", 2) end
+  if reagirl.IsValidGuid(element_id, true)==nil then error("DecorRectangle_SetColor: param #1 - must be a valid guid", 2) end
+  if math.type(r)~="integer" then error("DecorRectangle_SetColor: param #2 - must be an integer", 2) end
+  if math.type(g)~="integer" then error("DecorRectangle_SetColor: param #3 - must be an integer", 2) end
+  if math.type(b)~="integer" then error("DecorRectangle_SetColor: param #4 - must be an integer", 2) end
+  
+  element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
+  if element_id==-1 then error("DecorRectangle_SetColor: param #1 - no such ui-element", 2) end
+  if reagirl.Elements[element_id]["GUI_Element_Type"]~="Decor Color Rectangle" then
+    error("DecorRectangle_SetColor: param #1 - ui-element is not a decor color-rectangle", 2)
+  else
+    reagirl.Elements[element_id]["r"]=r/255
+    reagirl.Elements[element_id]["g"]=g/255
+    reagirl.Elements[element_id]["b"]=b/255
+    reagirl.Elements[element_id]["r_full"]=r
+    reagirl.Elements[element_id]["g_full"]=g
+    reagirl.Elements[element_id]["b_full"]=b
+    reagirl.Gui_ForceRefresh()
+  end
+end
+
+function reagirl.DecorRectangle_GetColor(element_id)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>DecorRectangle_GetColor</slug>
+  <requires>
+    ReaGirl=1.2
+    Reaper=7.03
+    Lua=5.4
+  </requires>
+  <functioncall>integer r, integer g, integer b = reagirl.DecorRectangle_GetColor(string element_id)</functioncall>
+  <description>
+    Sets the color of a decorative-rectangle.
+  </description>
+  <parameters>
+    string element_id - the element_id of the decorative rectangle, whose edges you want to set to square
+  </parameters>
+  <retvals>
+    integer r - the red value of the decorative rectangle's color
+    integer g - the green value of the decorative rectangle's color
+    integer b - the blue value of the decorative rectangle's color
+  </retvals>
+  <chapter_context>
+    Decorative Color Rectangle
+  </chapter_context>
+  <tags>decorative color rectangle, get, color</tags>
+</US_DocBloc>
+--]]
+  if type(element_id)~="string" then error("DecorRectangle_GetColor: param #1 - must be a string", 2) end
+  if reagirl.IsValidGuid(element_id, true)==nil then error("DecorRectangle_GetColor: param #1 - must be a valid guid", 2) end
+  
+  element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
+  if element_id==-1 then error("DecorRectangle_GetColor: param #1 - no such ui-element", 2) end
+  if reagirl.Elements[element_id]["GUI_Element_Type"]~="Decor Color Rectangle" then
+    error("DecorRectangle_GetColor: param #1 - ui-element is not a decor color-rectangle", 2)
+  else
+    return reagirl.Elements[element_id]["r_full"], reagirl.Elements[element_id]["g_full"], reagirl.Elements[element_id]["b_full"]
+  end
+end
+
 function reagirl.DecorRectangle_SetEdgeStyle(element_id, square_top_left, square_top_right, square_bottom_left, square_bottom_right)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">

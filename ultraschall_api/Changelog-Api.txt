@@ -417,7 +417,7 @@ Check why that is...probably because of Label_SetLabelText somehow resetting the
 
 ### 5.2 - "?? - ??" - 10th of February 2025
 
-Has now 1850 functions, with 16 new ones
+Has now 1852 functions, with 18 new ones
 
 **new in this release:**  
 
@@ -434,7 +434,9 @@ Has now 1850 functions, with 16 new ones
 	- ReaGirl: ColorRectangle_\GetEdgeStyle - sets the individual edges of the color-rectangle to square/round
 	- ReaGirl: ColorRectangle\_SetRadius - sets the radius of the edges of a color-rectangle
 	- ReaGirl: DecorRectangle\_Add - adds a decorative rectangle for design purposes only, which has can't be clicked or tabbed to
+	- ReaGirl: DecorRectangle\_GetColor - gets the current color of a deorative rectangle  
 	- ReaGirl: DecorRectangle\_GetEdgeStyle - gets, if the individual corners of a decorative rectangle is square or round
+	- ReaGirl: DecorRectangle\_SetColor - sets a new color of a deorative rectangle  
 	- ReaGirl: DecorRectangle\_SetEdgeStyle - sets, if the individual corners of a decorative rectangle is square or round
 	- ReaGirl: Ext\_Window\_GetProcessTime - returns the processing time of a ReaGirl-window-instance in the last defer-cycle; good for measuring the resources needed for that gui-instance  
 	- ReaGirl: Gui\_GetSetStickyOffset - gets/sets a y-offset to prevent ui-elements from getting stuck behind sticky elements
