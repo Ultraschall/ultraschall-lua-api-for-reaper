@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API and ReaGirl">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API and ReaGirl package" type="extension">
-      <version name="56057.00" author="Meo-Ada Mespotine">
+      <version name="56061.00" author="Meo-Ada Mespotine">
 	<source file="reagirl.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5.2//reagirl.lua</source>
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5.2//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5.2//ultraschall_api_readme.txt</source>
@@ -713,7 +713,7 @@ Ultraschall Framework - Changelog
 
 5.2 - “?? - ??” - 10th of February 2025
 
-Has now 1852 functions, with 18 new ones
+Has now 1853 functions, with 19 new ones
 
 new in this release:
 
@@ -723,6 +723,7 @@ new in this release:
 New features in 5.2
 
     - Developer Tools: ReaGirl\_Monitor\_Opened\_Windows - shows all currently opened ReaGirl-window instances with name, guid and processing time
+    - ReaGirl: Burgermenu_Add - adds a burger-menu to a gui
 
 -   ReaGirl: ColorRectangle_Add - adds a color-rectangle, optionally
     opening a color-selector-dialog when clicking item
@@ -773,7 +774,7 @@ Changes from 5.1 to 5.2
     - ReaGirl: General - prevent possible crash, when not running Gui_Manage()
     - ReaGirl: Gui\_Manage - simplified code, so it should run more smoothly now; ui-elements on top of other ui-elements were not recognised and therefor could't be clicked -> fixed
     - ReaGirl: Gui\_Open - On Mac, it didn't position the window on the same spot as on Windows and Linux -> fixed
-    - ReaGirl: Inputboxes - could crash when typing insert key -> fixed  
+    - ReaGirl: Inputboxes - adjusted height, so it is now the same as other ui-elements; cursor does only blink when not typing; could crash when typing insert key -> fixed  
     - ReaGirl: Ext\_IsAnyReaGirlGuiHovered - needs less resources, now  
     - ReaGirl: keyboard-navigation - focus-rectangle is only shown, when the user uses the tab key to navigates; can be set to "show always" in the settings
     - ReaGirl: Labels - backdrop wasn't properly drawn, when the backdrop wasn't visible at startup and had to be scrolled in
@@ -781,6 +782,7 @@ Changes from 5.1 to 5.2
     - ReaGirl: mouse-cursors - when hovering above clickable/draggable areas, the mouse always changes the cursor to show you, where click/drag areas are
     - ReaGirl: scaling - scaled too big on Retina/hiDPI-resolutions -> fixed
     - ReaGirl: Sliders - clickarea for the slider-knob should be more precise and not move to the left of the knob
+    - ReaGirl: UI\_Element\_GetSet\_ContextMenu - run-functions get now the name of the selected menu-item as third parameter
 ]]>
 </changelog>
       </version>
@@ -812,7 +814,7 @@ Changes from 5.1 to 5.2
         \par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af6\langfe2052\dbch\af8\afs24\lang1081\loch\f0\fs24\lang1031{\rtlch \ltrch\loch
         }
         \par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af6\langfe2052\dbch\af8\afs24\lang1081\loch\f0\fs24\lang1031{\rtlch \ltrch\loch\loch\f4
-        a 1691 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 56057 from 08.02.2025 23:55:30).}
+        a 1691 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 56061 from 13.02.2025 17:41:34).}
         \par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af6\langfe2052\dbch\af8\afs24\lang1081\loch\f0\fs24\lang1031{\rtlch \ltrch\loch
         }
         \par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af6\langfe2052\dbch\af8\afs24\lang1081\loch\f0\fs24\lang1031{\rtlch \ltrch\loch

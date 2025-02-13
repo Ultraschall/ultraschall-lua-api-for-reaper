@@ -51,7 +51,8 @@ ReaGirl Functions
 <script src="./scripts/scripts.js.Download"></script>
 <table class="indexpad" border="0"><tr><td><br><a class="inpad" id="Autoposition"><a href="#Autoposition">^</a></a><strong> <u>Autoposition</u></strong><br><br>
 </td></tr><tr><td class="tdsm"><a href="#AutoPosition_SetNextUIElementRelativeTo">AutoPosition_SetNextUIElementRelativeTo</a></td><td class="tdsm"><a href="#NextLine">NextLine</a></td><td class="inds">&nbsp;</td></tr></table><table class="indexpad" border="0"><tr><td><br><a class="inpad" id="Background"><a href="#Background">^</a></a><strong> <u>Background</u></strong><br><br>
-</td></tr><tr><td class="tdsm"><a href="#Background_GetSetColor">Background_GetSetColor</a></td><td class="inds">&nbsp;</td><td class="inds">&nbsp;</td></tr></table><table class="indexpad" border="0"><tr><td><br><a class="inpad" id="Button"><a href="#Button">^</a></a><strong> <u>Button</u></strong><br><br>
+</td></tr><tr><td class="tdsm"><a href="#Background_GetSetColor">Background_GetSetColor</a></td><td class="inds">&nbsp;</td><td class="inds">&nbsp;</td></tr></table><table class="indexpad" border="0"><tr><td><br><a class="inpad" id="Burgermenu"><a href="#Burgermenu">^</a></a><strong> <u>Burgermenu</u></strong><br><br>
+</td></tr><tr><td class="tdsm"><a href="#Burgermenu_Add">Burgermenu_Add</a></td><td class="inds">&nbsp;</td><td class="inds">&nbsp;</td></tr></table><table class="indexpad" border="0"><tr><td><br><a class="inpad" id="Button"><a href="#Button">^</a></a><strong> <u>Button</u></strong><br><br>
 </td></tr><tr><td class="tdsm"><a href="#Button_Add">Button_Add</a></td><td class="tdsm"><a href="#Button_GetDisabled">Button_GetDisabled</a></td><td class="tdsm"><a href="#Button_GetRadius">Button_GetRadius</a></td></tr><td class="tdsm"><a href="#Button_SetDisabled">Button_SetDisabled</a></td><td class="tdsm"><a href="#Button_SetRadius">Button_SetRadius</a></td><td class="inds">&nbsp;</td></tr></table><table class="indexpad" border="0"><tr><td><br><a class="inpad" id="Checkbox"><a href="#Checkbox">^</a></a><strong> <u>Checkbox</u></strong><br><br>
 </td></tr><tr><td class="tdsm"><a href="#Checkbox_Add">Checkbox_Add</a></td><td class="tdsm"><a href="#Checkbox_GetCheckState">Checkbox_GetCheckState</a></td><td class="tdsm"><a href="#Checkbox_GetDisabled">Checkbox_GetDisabled</a></td></tr><td class="tdsm"><a href="#Checkbox_LinkToConfigVar">Checkbox_LinkToConfigVar</a></td><td class="tdsm"><a href="#Checkbox_LinkToExtstate">Checkbox_LinkToExtstate</a></td><td class="tdsm"><a href="#Checkbox_LinkToIniValue">Checkbox_LinkToIniValue</a></td></tr><td class="tdsm"><a href="#Checkbox_LinkToToggleState">Checkbox_LinkToToggleState</a></td><td class="tdsm"><a href="#Checkbox_SetCheckState">Checkbox_SetCheckState</a></td><td class="tdsm"><a href="#Checkbox_SetDisabled">Checkbox_SetDisabled</a></td></tr><td class="tdsm"><a href="#Checkbox_Unlink">Checkbox_Unlink</a></td><td class="inds">&nbsp;</td><td class="inds">&nbsp;</td></tr></table><table class="indexpad" border="0"><tr><td><br><a class="inpad" id="Color Rectangle"><a href="#Color Rectangle">^</a></a><strong> <u>Color Rectangle</u></strong><br><br>
 </td></tr><tr><td class="tdsm"><a href="#ColorRectangle_Add">ColorRectangle_Add</a></td><td class="tdsm"><a href="#ColorRectangle_GetColor">ColorRectangle_GetColor</a></td><td class="tdsm"><a href="#ColorRectangle_GetEdgeStyle">ColorRectangle_GetEdgeStyle</a></td></tr><td class="tdsm"><a href="#ColorRectangle_GetRadius">ColorRectangle_GetRadius</a></td><td class="tdsm"><a href="#ColorRectangle_SetColor">ColorRectangle_SetColor</a></td><td class="tdsm"><a href="#ColorRectangle_SetEdgeStyle">ColorRectangle_SetEdgeStyle</a></td></tr><td class="tdsm"><a href="#ColorRectangle_SetRadius">ColorRectangle_SetRadius</a></td><td class="inds">&nbsp;</td><td class="inds">&nbsp;</td></tr></table><table class="indexpad" border="0"><tr><td><br><a class="inpad" id="Decorative Color Rectangle"><a href="#Decorative Color Rectangle">^</a></a><strong> <u>Decorative Color Rectangle</u></strong><br><br>
@@ -151,6 +152,58 @@ Gets/Sets the color of the background.<br>
 <table class="ch">
 <tr><td class="pr"><i>integer</i> blue</td></tr>
 <tr><td class="ch2">the new blue-color; 0-255</td></tr>
+</table>
+<br>
+</div>
+<div class="ch">
+<hr>
+<a class="anch" id="Burgermenu_Add"></a>
+<a href="#Burgermenu_Add"> ^</a> 
+<img width="3%" src="gfx/reaper7.03.png" alt="requires Reaper version 7.03">
+<img width="3%" src="gfx/reagirl1.2.png" alt="requires ReaGirl version 1.2"><u><b>Burgermenu_Add</b></u><br>			<p>
+<div class="cc">
+<div class="l">Lua: <code> <i>string</i> burgermenu_guid = <em>reagirl.Burgermenu_Add</em>(<i>optional</i> <i>integer</i> x, <i>optional</i> <i>integer</i> y, <i>string</i> caption, <i>string</i> meaningOfUI_Element, <i>string</i> menu, <i>optional</i> <i>function</i> run_function)</code></div>
+</div><p>
+<div class="ch">
+Adds a burgermenu to a gui.<br>
+<br>
+You can autoposition the burgermenu by setting x and/or y to nil, which will position the new burgermenu after the last ui-element.<br>
+To autoposition into the next line, use reagirl.NextLine()<br>
+<br>
+The run-function gets as parameter:<br>
+- string element_id - the element_id as string of the pressed burgermenu that uses this run-function<br>
+- integer selected_menu_id - the index of the selected menu-entry. Note: will skip the top-entry of a submenu and grayed out menus!<br>
+</div><br>      
+<u>Returnvalues:</u>
+<table class="ch">
+<tr><td class="pr"><i>string</i> burgermenu_guid</td></tr>
+<tr><td class="ch2">a guid that can be used for altering the button-attributes</td></tr>
+</table>
+<br>
+<u>Parameters:</u>
+<table class="ch">
+<tr><td class="pr"><i>optional</i> <i>integer</i> x</td></tr>
+<tr><td class="ch2">the x position of the burgermenu in pixels; negative anchors the burgermenu to the right window-side; nil, autoposition after the last ui-element(see description)</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>optional</i> <i>integer</i> y</td></tr>
+<tr><td class="ch2">the y position of the burgermenu in pixels; negative anchors the burgermenu to the bottom window-side; nil, autoposition after the last ui-element(see description)</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>string</i> caption</td></tr>
+<tr><td class="ch2">the caption of the burgermenu</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>string</i> meaningOfUI_Element</td></tr>
+<tr><td class="ch2">the meaningOfUI_Element of the ui-element(for tooltips and blind users). Make it a sentence that ends with . or ?</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>string</i> menu</td></tr>
+<tr><td class="ch2">the menu that shall be shown when clicking the button; refer to gfx.showmenu() on how to set this parameter</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>optional</i> <i>function</i> run_function</td></tr>
+<tr><td class="ch2">a function that shall be run when the burgermenu is clicked; will get the burgermenu-element_id passed over as first parameter; nil, no run-function for this burgermenu</td></tr>
 </table>
 <br>
 </div>
@@ -5223,7 +5276,7 @@ gets/sets the hidden-state of the ui-element<br>
 <a class="anch" id="UI_Element_GetSet_ContextMenu"></a>
 <a href="#UI_Element_GetSet_ContextMenu"> ^</a> 
 <img width="3%" src="gfx/reaper7.03.png" alt="requires Reaper version 7.03">
-<img width="3%" src="gfx/reagirl1.0.png" alt="requires ReaGirl version 1.0"><u><b>UI_Element_GetSet_ContextMenu</b></u><br>			<p>
+<img width="3%" src="gfx/reagirl1.2.png" alt="requires ReaGirl version 1.2"><u><b>UI_Element_GetSet_ContextMenu</b></u><br>			<p>
 <div class="cc">
 <div class="l">Lua: <code> <i>string</i> menu, <i>function</i> menu_runfunction = <em>reagirl.UI_Element_GetSet_ContextMenu</em>(<i>string</i> element_id, <i>boolean</i> is_set, <i>optional</i> <i>string</i> menu, <i>optional</i> <i>function</i> menu_runfunction)</code></div>
 </div><p>
@@ -5243,6 +5296,7 @@ Fields can start with special characters:<br>
 The menu_runfunction will be called with two parameters: <br>
 &nbsp;&nbsp;string element_id - the guid of the ui-element, whose context-menu has been used<br>
 &nbsp;&nbsp;integer selection - the index of the menu-item selected by the user<br>
+&nbsp;&nbsp;string menu_selection_name - the name of the selected menu_entry<br>
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
@@ -5630,7 +5684,7 @@ Sets window focus back to the ReaGirl-gui-window.<br>
       <div class="ch">
         <hr>
                      
-          <table><td class="td2"> &#160;</td><td>&#160;</td><td class="td3">Automatically generated by Ultraschall-API 5.2  - 164 elements available <br></td></table>
+          <table><td class="td2"> &#160;</td><td>&#160;</td><td class="td3">Automatically generated by Ultraschall-API 5.2  - 165 elements available <br></td></table>
         <hr>
       </div>
       <br>

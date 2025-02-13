@@ -417,7 +417,7 @@ Check why that is...probably because of Label_SetLabelText somehow resetting the
 
 ### 5.2 - "?? - ??" - 10th of February 2025
 
-Has now 1852 functions, with 18 new ones
+Has now 1853 functions, with 19 new ones
 
 **new in this release:**  
 
@@ -426,6 +426,7 @@ Has now 1852 functions, with 18 new ones
     
 #### New features in 5.2 
 	- Developer Tools: ReaGirl\_Monitor\_Opened\_Windows - shows all currently opened ReaGirl-window instances with name, guid and processing time
+	- ReaGirl: Burgermenu_Add - adds a burger-menu to a gui
   - ReaGirl: ColorRectangle\_Add - adds a color-rectangle, optionally opening a color-selector-dialog when clicking item
 	- ReaGirl: ColorRectangle\_GetColor - gets the current color of a color-rectangle
 	- ReaGirl: ColorRectangle_\GetEdgeStyle - sets the individual edges of the color-rectangle to square/round
@@ -452,7 +453,7 @@ Has now 1852 functions, with 18 new ones
 	- ReaGirl: General - prevent possible crash, when not running Gui_Manage()
 	- ReaGirl: Gui\_Manage - simplified code, so it should run more smoothly now; ui-elements on top of other ui-elements were not recognised and therefor could't be clicked -> fixed
 	- ReaGirl: Gui\_Open - On Mac, it didn't position the window on the same spot as on Windows and Linux -> fixed
-	- ReaGirl: Inputboxes - could crash when typing insert key -> fixed  
+	- ReaGirl: Inputboxes - adjusted height, so it is now the same as other ui-elements; cursor does only blink when not typing; could crash when typing insert key -> fixed  
 	- ReaGirl: Ext\_IsAnyReaGirlGuiHovered - needs less resources, now  
 	- ReaGirl: keyboard-navigation - focus-rectangle is only shown, when the user uses the tab key to navigates; can be set to "show always" in the settings
 	- ReaGirl: Labels - backdrop wasn't properly drawn, when the backdrop wasn't visible at startup and had to be scrolled in
@@ -460,6 +461,7 @@ Has now 1852 functions, with 18 new ones
 	- ReaGirl: mouse-cursors - when hovering above clickable/draggable areas, the mouse always changes the cursor to show you, where click/drag areas are
 	- ReaGirl: scaling - scaled too big on Retina/hiDPI-resolutions -> fixed
 	- ReaGirl: Sliders - clickarea for the slider-knob should be more precise and not move to the left of the knob
+	- ReaGirl: UI\_Element\_GetSet\_ContextMenu - run-functions get now the name of the selected menu-item as third parameter
 ---
 
 ### 5.1 - "Beach Boys - Wind Chimes" - 11th of December 2024
