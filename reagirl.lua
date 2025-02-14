@@ -5982,7 +5982,7 @@ function reagirl.Gui_Manage(keep_running)
       local selection=gfx.showmenu(reagirl.Elements[reagirl.UI_Elements_HoveredElement]["ContextMenu"])
       
       if selection>0 then
-        local name=reagirl.ParseMenu(element_storage["Menu"], element_storage["menu_selected"])
+        local name=reagirl.GetMenuEntry(element_storage["Menu"], element_storage["menu_selected"])
         reagirl.Elements[reagirl.UI_Elements_HoveredElement]["ContextMenuFunction"](reagirl.Elements[reagirl.UI_Elements_HoveredElement]["Guid"], math.tointeger(selection), name)
         reagirl.Gui_ForceRefresh(985)
       end
@@ -11357,7 +11357,7 @@ function reagirl.Button_SetRadius(element_id, radius)
     Reaper=7.03
     Lua=5.4
   </requires>
-  <functioncall>reagirl.Button_SetRadius(string element_id, integer radius)</functioncall>
+  <functioncall>boolean retval = reagirl.Button_SetRadius(string element_id, integer radius)</functioncall>
   <description>
     Sets the radius of a button.
   </description>
@@ -11365,6 +11365,9 @@ function reagirl.Button_SetRadius(element_id, radius)
     string element_id - the guid of the button, whose radius you want to set
     integer radius - between 0 and 10
   </parameters>
+  <retvals>
+    boolean retval - true, setting was succesful; false, setting was unsuccessful
+  </retvals>
   <chapter_context>
     Button
   </chapter_context>
@@ -11503,12 +11506,37 @@ function reagirl.Button_Draw(element_id, selected, hovered, clicked, mouse_cap, 
   end
 end
 
-function reagirl.ParseMenu(menu, find)
+function reagirl.GetMenuEntry(menu, entry_nr)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetMenuEntry</slug>
+  <requires>
+    ReaGirl=1.2
+    Reaper=7.03
+    Lua=5.4
+  </requires>
+  <functioncall>string menu_entry_name = reagirl.GetMenuEntry(string element_id, integer entry_nr)</functioncall>
+  <description>
+    Gets the name of a specific menu-entry by its index.
+  </description>
+  <parameters>
+    string element_id - the guid of the burgermenu, whose menu you want to set
+    integer entry_nr - the index of the menu, whose name you want to get
+  </parameters>
+  <retvals>
+    string menu_entry_name - the name of the menu-entry
+  </retvals>
+  <chapter_context>
+    Misc
+  </chapter_context>
+  <tags>misc, get, menu, entry</tags>
+</US_DocBloc>
+--]]
   local counter=0
   for k in string.gmatch(menu.."|", ".-|") do
     if k:sub(1,1)~=">" then
       counter=counter+1
-      if find==counter then return k:sub(1,-2) end
+      if entry_nr==counter then return k:sub(1,-2) end
     end
   end
 end
@@ -11577,7 +11605,7 @@ function reagirl.Burgermenu_Add(x, y, caption, meaningOfUI_Element, menu, run_fu
   reagirl.Elements[slot]["sticky_x"]=false
   reagirl.Elements[slot]["sticky_y"]=false
   reagirl.Elements[slot]["Description"]=meaningOfUI_Element
-  reagirl.Elements[slot]["AccHint"]="Click with space or left mouseclick."
+  reagirl.Elements[slot]["AccHint"]="Open menu with space or left mouseclick."
   reagirl.Elements[slot]["ContextMenu_ACC"]=""
   reagirl.Elements[slot]["DropZoneFunction_ACC"]=""
   reagirl.Elements[slot]["x"]=x
@@ -11595,6 +11623,84 @@ function reagirl.Burgermenu_Add(x, y, caption, meaningOfUI_Element, menu, run_fu
   return reagirl.Elements[slot]["Guid"]
 end
 
+function reagirl.Burgermenu_SetMenu(element_id, menu)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Burgermenu_SetMenu</slug>
+  <requires>
+    ReaGirl=1.2
+    Reaper=7.03
+    Lua=5.4
+  </requires>
+  <functioncall>boolean retval = reagirl.Burgermenu_SetMenu(string element_id, string menu)</functioncall>
+  <description>
+    Sets the menu of a burgermenu
+  </description>
+  <parameters>
+    string element_id - the guid of the burgermenu, whose menu you want to set
+    string menu - the new menu for the burgermenu
+  </parameters>
+  <retvals>
+    boolean retval - true, setting was succesful; false, setting was unsuccessful
+  </retvals>
+  <chapter_context>
+    Burgermenu
+  </chapter_context>
+  <tags>burgermenu, set, menu</tags>
+</US_DocBloc>
+--]]
+  if type(element_id)~="string" then error("Burgermenu_SetMenu: param #1 - must be a string", 2) end
+  if reagirl.IsValidGuid(element_id, true)==nil then error("Burgermenu_SetMenu: param #1 - must be a valid guid", 2) end
+  if type(menu)~="string" then error("Burgermenu_SetMenu: param #2 - must be a string", 2) end
+  element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
+  if element_id==-1 then error("Burgermenu_SetMenu: param #1 - no such ui-element", 2) end
+  
+  if reagirl.Elements[element_id]["GUI_Element_Type"]~="Burgermenu" then
+    error("Burgermenu_SetMenu: param #1 - ui-element is not a burgermenu", 2)
+  else
+    reagirl.Elements[element_id]["Menu"]=menu
+    reagirl.Gui_ForceRefresh(19.23)
+  end
+  return true
+end
+
+function reagirl.Burgermenu_GetMenu(element_id)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Burgermenu_GetMenu</slug>
+  <requires>
+    ReaGirl=1.2
+    Reaper=7.03
+    Lua=5.4
+  </requires>
+  <functioncall>string menu = reagirl.Burgermenu_GetMenu(string element_id)</functioncall>
+  <description>
+    Sets the menu of a burgermenu
+  </description>
+  <parameters>
+    string element_id - the guid of the burgermenu, whose menu you want to get
+  </parameters>
+  <retvals>
+    string menu - the menu of the burgermenu
+  </retvals>
+  <chapter_context>
+    Burgermenu
+  </chapter_context>
+  <tags>burgermenu, set, menu</tags>
+</US_DocBloc>
+--]]
+  if type(element_id)~="string" then error("Burgermenu_GetMenu: param #1 - must be a string", 2) end
+  if reagirl.IsValidGuid(element_id, true)==nil then error("Burgermenu_GetMenu: param #1 - must be a valid guid", 2) end
+  element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
+  if element_id==-1 then error("Burgermenu_GetMenu: param #1 - no such ui-element", 2) end
+  
+  if reagirl.Elements[element_id]["GUI_Element_Type"]~="Burgermenu" then
+    error("Burgermenu_GetMenu: param #1 - ui-element is not a burgermenu", 2)
+  else
+    return reagirl.Elements[element_id]["Menu"]
+  end
+end
+
 function reagirl.Burgermenu_Manage(element_id, selected, hovered, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
   local message=" "
   local refresh=false
@@ -11604,7 +11710,7 @@ function reagirl.Burgermenu_Manage(element_id, selected, hovered, clicked, mouse
     gfx.x=x
     gfx.y=y+h
     element_storage["menu_selected"]=math.floor(gfx.showmenu(element_storage["Menu"]))
-    element_storage["menu_selected_name"]=reagirl.ParseMenu(element_storage["Menu"], element_storage["menu_selected"])
+    element_storage["menu_selected_name"]=reagirl.GetMenuEntry(element_storage["Menu"], element_storage["menu_selected"])
     if element_storage["menu_selected"]>0 and element_storage["run_function"]~=nil then element_storage["run_function"](element_storage["Guid"], element_storage["menu_selected"], element_storage["menu_selected_name"]) message="pressed" end
   end
   

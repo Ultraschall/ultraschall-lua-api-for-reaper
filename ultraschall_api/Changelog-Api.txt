@@ -417,7 +417,7 @@ Check why that is...probably because of Label_SetLabelText somehow resetting the
 
 ### 5.2 - "?? - ??" - 10th of February 2025
 
-Has now 1853 functions, with 19 new ones
+Has now 1856 functions, with 22 new ones
 
 **new in this release:**  
 
@@ -426,7 +426,9 @@ Has now 1853 functions, with 19 new ones
     
 #### New features in 5.2 
 	- Developer Tools: ReaGirl\_Monitor\_Opened\_Windows - shows all currently opened ReaGirl-window instances with name, guid and processing time
-	- ReaGirl: Burgermenu_Add - adds a burger-menu to a gui
+	- ReaGirl: Burgermenu\_Add - adds a burger-menu to a gui
+	- ReaGirl: Burgermenu\_GetMenu - sets a new menu to a burgermenu
+	- ReaGirl: Burgermenu\_SetMenu - sets a new menu to a burgermenu
   - ReaGirl: ColorRectangle\_Add - adds a color-rectangle, optionally opening a color-selector-dialog when clicking item
 	- ReaGirl: ColorRectangle\_GetColor - gets the current color of a color-rectangle
 	- ReaGirl: ColorRectangle_\GetEdgeStyle - sets the individual edges of the color-rectangle to square/round
@@ -440,6 +442,7 @@ Has now 1853 functions, with 19 new ones
 	- ReaGirl: DecorRectangle\_SetColor - sets a new color of a deorative rectangle  
 	- ReaGirl: DecorRectangle\_SetEdgeStyle - sets, if the individual corners of a decorative rectangle is square or round
 	- ReaGirl: Ext\_Window\_GetProcessTime - returns the processing time of a ReaGirl-window-instance in the last defer-cycle; good for measuring the resources needed for that gui-instance  
+	- ReaGirl: GetMenuEntry - gets the menu-entry-name of a menu by its index  
 	- ReaGirl: Gui\_GetSetStickyOffset - gets/sets a y-offset to prevent ui-elements from getting stuck behind sticky elements
 	- ReaGirl: Image\_GetAutoUpdate - gets, if the image is automatically updated when the underlying image-file is changed/updated
 	- ReaGirl: Image\_SetAutoUpdate - sets, if the image is automatically updated when the underlying image-file is changed/updated
