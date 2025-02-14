@@ -93,12 +93,14 @@ TODO:
 -- DEBUG:
 --reaper.osara_outputMessage=nil
 
---gfx = dofile(reaper.GetResourcePath().."/Scripts/ReaTeam Extensions/API/gfx2imgui.lua")
 
 --GFX2IMGUI_DEBUG = true
 
 gfx.ext_retina=1
 reagirl={}
+--reagirl.setcursor=gfx.setcursor
+--gfx = dofile(reaper.GetResourcePath().."/Scripts/ReaTeam Extensions/API/gfx2imgui.lua")
+--gfx.setcursor=reagirl.setcursor
 reagirl.Window_Hovered=false
 reagirl.Gui_Init_Me=true
 reagirl.Gui_Sticky_Y_top=0
@@ -4507,7 +4509,9 @@ function reagirl.Gui_Open(name, restore_old_window_state, title, description, w,
     instances=instances.."\n"..reagirl.Window_name..":"..reagirl.Gui_ScriptInstance
     reaper.SetExtState("ReaGirl", "WindowInstances",instances,false)
   else
+    reagirl.Window_name=name
     local instances=reaper.GetExtState("ReaGirl", "WindowInstances")
+    
     instances=instances.."\n"..reagirl.Window_name..":"..reagirl.Gui_ScriptInstance
     reaper.SetExtState("ReaGirl", "WindowInstances",instances,false)
     reagirl.Window_Title_default=title
@@ -4603,6 +4607,13 @@ function reagirl.Gui_Close()
 end
 
 function reagirl.UnRegisterWindow()
+  reaper.SetExtState("Reagirl_Window_"..reagirl.Window_name, "stored", "true", true)
+  reaper.SetExtState("Reagirl_Window_"..reagirl.Window_name, "x", reagirl.Window_Actual_X, true)
+  reaper.SetExtState("Reagirl_Window_"..reagirl.Window_name, "y", reagirl.Window_Actual_Y, true)
+  reaper.SetExtState("Reagirl_Window_"..reagirl.Window_name, "w", reagirl.Window_Actual_W, true)
+  reaper.SetExtState("Reagirl_Window_"..reagirl.Window_name, "h", reagirl.Window_Actual_H, true)
+  reaper.SetExtState("Reagirl_Window_"..reagirl.Window_name, "dock", reagirl.Window_Actual_Dock, true)
+  
   local instances=reaper.GetExtState("ReaGirl", "WindowInstances").."\n"
   local newinstance=""
   for k in string.gmatch(instances, "(.-\n)") do
@@ -5107,7 +5118,7 @@ function reagirl.Ext_IsAnyReaGirlGuiHovered(register)
   local chosen_one=false
   local hovered=false
   local unregister=false
-  if reagirl.Window_State==1 then unregister=true AA=reaper.time_precise() end
+  if reagirl.Window_State==1 then unregister=true end
   if reagirl.Window_State&8==8 then chosen_one=true hovered=true end
   
   local states=reaper.GetExtState("ReaGirl", "HoveredWindows")
@@ -5201,7 +5212,13 @@ function reagirl.Gui_Manage(keep_running)
  
   -- store position, size and dockstate of window for next opening
   local dock,x,y,w,h=gfx.dock(-1,0,0,0,0)
- 
+  reagirl.Window_Actual_X=x
+  reagirl.Window_Actual_Y=y
+  reagirl.Window_Actual_W=w
+  reagirl.Window_Actual_H=h
+  reagirl.Window_Actual_Dock=dock
+ --[[
+ -- slowdowns in these lines of code...improve this...
   if reaper.GetExtState("Reagirl_Window_"..reagirl.Window_name, "stored")~="true" then
     reaper.SetExtState("Reagirl_Window_"..reagirl.Window_name, "stored", "true", true)
   end
@@ -5220,7 +5237,7 @@ function reagirl.Gui_Manage(keep_running)
   if reaper.GetExtState("Reagirl_Window_"..reagirl.Window_name, "dock")~=tostring(dock) then
     reaper.SetExtState("Reagirl_Window_"..reagirl.Window_name, "dock", dock, true)
   end
-  
+  --]]
   if reaper.GetExtState("Reagirl_Window_"..reagirl.Window_name.."-"..reagirl.Gui_ScriptInstance, "stored")~="true" then
     reaper.SetExtState("Reagirl_Window_"..reagirl.Window_name.."-"..reagirl.Gui_ScriptInstance, "stored", "true", true)
   end
@@ -5238,7 +5255,8 @@ function reagirl.Gui_Manage(keep_running)
   end
   if reaper.GetExtState("Reagirl_Window_"..reagirl.Window_name.."-"..reagirl.Gui_ScriptInstance, "dock")~=tostring(dock) then
     reaper.SetExtState("Reagirl_Window_"..reagirl.Window_name.."-"..reagirl.Gui_ScriptInstance, "dock", dock, false)
-  end
+  end 
+  --]]
 
   if reaper.GetExtState("ReaGirl", "Font_Face")=="" then
     if reagirl.Font_Face~=reaper.GetExtState("ReaGirl", "Font_Face") and reagirl.Font_Face~="Arial" and reagirl.Font_Face~="Liberation Sans" then

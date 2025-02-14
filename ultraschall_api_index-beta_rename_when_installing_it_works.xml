@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API and ReaGirl">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API and ReaGirl package" type="extension">
-      <version name="56064.00" author="Meo-Ada Mespotine">
+      <version name="56065.00" author="Meo-Ada Mespotine">
 	<source file="reagirl.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5.2//reagirl.lua</source>
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5.2//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5.2//ultraschall_api_readme.txt</source>
@@ -774,10 +774,10 @@ New features in 5.2
 Changes from 5.1 to 5.2
 
     - Developer Tools: deferred tools and ReaGirl settings - will now stop when rerunning them (requested by amagalma)
-    - MediaItem Management: GetParentTrack\_MediaItem - had problems with items not having takes(note-items) -> fixed(thans to fernsehmuell)
+    - MediaItem Management: GetParentTrack\_MediaItem - had problems with items not having takes(note-items) -> fixed(thanks to fernsehmuell)
     - ReaGirl: General - prevent possible crash, when not running Gui_Manage()
-    - ReaGirl: Gui\_Manage - simplified code, so it should run more smoothly now; ui-elements on top of other ui-elements were not recognised and therefor could't be clicked -> fixed
-    - ReaGirl: Gui\_Open - On Mac, it didn't position the window on the same spot as on Windows and Linux -> fixed
+    - ReaGirl: Gui\_Manage - simplified code, so it should run more smoothly now; improved performance; ui-elements on top of other ui-elements were not recognised and therefore could't be clicked -> fixed
+    - ReaGirl: Gui\_Open - fixed crash, when trying to open the window with last used position/dimension; On Mac, it didn't position the window on the same spot as on Windows and Linux -> fixed
     - ReaGirl: Inputboxes - adjusted height, so it is now the same as other ui-elements; cursor does only blink when not typing; could crash when typing insert key -> fixed  
     - ReaGirl: Ext\_IsAnyReaGirlGuiHovered - needs less resources, now  
     - ReaGirl: keyboard-navigation - focus-rectangle is only shown, when the user uses the tab key to navigates; can be set to "show always" in the settings
@@ -818,7 +818,7 @@ Changes from 5.1 to 5.2
         \par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af6\langfe2052\dbch\af8\afs24\lang1081\loch\f0\fs24\lang1031{\rtlch \ltrch\loch
         }
         \par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af6\langfe2052\dbch\af8\afs24\lang1081\loch\f0\fs24\lang1031{\rtlch \ltrch\loch\loch\f4
-        a 1691 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 56064 from 14.02.2025 10:55:52).}
+        a 1691 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 56065 from 14.02.2025 20:55:13).}
         \par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af6\langfe2052\dbch\af8\afs24\lang1081\loch\f0\fs24\lang1031{\rtlch \ltrch\loch
         }
         \par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af6\langfe2052\dbch\af8\afs24\lang1081\loch\f0\fs24\lang1031{\rtlch \ltrch\loch
