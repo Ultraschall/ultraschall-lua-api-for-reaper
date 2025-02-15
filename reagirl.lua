@@ -6000,8 +6000,8 @@ function reagirl.Gui_Manage(keep_running)
       local selection=gfx.showmenu(reagirl.Elements[reagirl.UI_Elements_HoveredElement]["ContextMenu"])
       
       if selection>0 then
-        local name=reagirl.GetMenuEntry(element_storage["Menu"], element_storage["menu_selected"])
-        reagirl.Elements[reagirl.UI_Elements_HoveredElement]["ContextMenuFunction"](reagirl.Elements[reagirl.UI_Elements_HoveredElement]["Guid"], math.tointeger(selection), name)
+        local name, checked=reagirl.Menu_GetEntryName(reagirl.Elements[reagirl.UI_Elements_HoveredElement]["ContextMenu"], selection)
+        reagirl.Elements[reagirl.UI_Elements_HoveredElement]["ContextMenuFunction"](reagirl.Elements[reagirl.UI_Elements_HoveredElement]["Guid"], math.tointeger(selection), name, checked)
         reagirl.Gui_ForceRefresh(985)
       end
     end
@@ -11523,17 +11523,16 @@ function reagirl.Button_Draw(element_id, selected, hovered, clicked, mouse_cap, 
     end
   end
 end
-
-function reagirl.GetMenuEntry(menu, entry_nr)
+function reagirl.Menu_GetEntryName(menu, entry_nr)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>GetMenuEntry</slug>
+  <slug>Menu_GetEntryName</slug>
   <requires>
     ReaGirl=1.2
     Reaper=7.03
     Lua=5.4
   </requires>
-  <functioncall>string menu_entry_name = reagirl.GetMenuEntry(string element_id, integer entry_nr)</functioncall>
+  <functioncall>string menu_entry_name, boolean checked = reagirl.Menu_GetEntryName(string element_id, integer entry_nr)</functioncall>
   <description>
     Gets the name of a specific menu-entry by its index.
   </description>
@@ -11543,6 +11542,7 @@ function reagirl.GetMenuEntry(menu, entry_nr)
   </parameters>
   <retvals>
     string menu_entry_name - the name of the menu-entry
+    boolean checked - true, item is checked; false, item is not checked
   </retvals>
   <chapter_context>
     Misc
@@ -11552,9 +11552,12 @@ function reagirl.GetMenuEntry(menu, entry_nr)
 --]]
   local counter=0
   for k in string.gmatch(menu.."|", ".-|") do
-    if k:sub(1,1)~=">" then
+    if k:sub(1,1)~=">" and k:sub(1,1)~="|" and k:sub(1,2)~="<|" then
       counter=counter+1
-      if entry_nr==counter then return k:sub(1,-2) end
+      local selected=false
+      if k:sub(1,1)=="!" then selected=true end
+      if k:sub(1,1)=="!" or k:sub(1,1)=="<" then k=k:sub(2,-1) end
+      if entry_nr==counter then return k:sub(1,-2), selected end
     end
   end
 end
@@ -11728,8 +11731,8 @@ function reagirl.Burgermenu_Manage(element_id, selected, hovered, clicked, mouse
     gfx.x=x
     gfx.y=y+h
     element_storage["menu_selected"]=math.floor(gfx.showmenu(element_storage["Menu"]))
-    element_storage["menu_selected_name"]=reagirl.GetMenuEntry(element_storage["Menu"], element_storage["menu_selected"])
-    if element_storage["menu_selected"]>0 and element_storage["run_function"]~=nil then element_storage["run_function"](element_storage["Guid"], element_storage["menu_selected"], element_storage["menu_selected_name"]) message="pressed" end
+    element_storage["menu_selected_name"], element_storage["menu_selected_name_checked"]=reagirl.Menu_GetEntryName(element_storage["Menu"], element_storage["menu_selected"])
+    if element_storage["menu_selected"]>0 and element_storage["run_function"]~=nil then element_storage["run_function"](element_storage["Guid"], element_storage["menu_selected"], element_storage["menu_selected_name"], element_storage["menu_selected_name_checked"]) message="pressed" end
   end
   
   -- drop files for accessibility using a file-requester, after typing ctrl+shift+f
