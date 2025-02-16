@@ -6878,6 +6878,7 @@ function reagirl.UI_Element_GetSet_ContextMenu(element_id, is_set, menu, menu_fu
       string element_id - the guid of the ui-element, whose context-menu has been used
       integer selection - the index of the menu-item selected by the user
       string menu_selection_name - the name of the selected menu_entry
+      boolean menu_selection_checked - true, if the menu-selection-entry is checked; false, if not
   </description>
   <retvals>
     string menu - the currently set menu for this ui-element; nil, no menu is available
@@ -11532,12 +11533,12 @@ function reagirl.Menu_GetEntryName(menu, entry_nr)
     Reaper=7.03
     Lua=5.4
   </requires>
-  <functioncall>string menu_entry_name, boolean checked = reagirl.Menu_GetEntryName(string element_id, integer entry_nr)</functioncall>
+  <functioncall>string menu_entry_name, boolean checked = reagirl.Menu_GetEntryName(string menu, integer entry_nr)</functioncall>
   <description>
     Gets the name of a specific menu-entry by its index.
   </description>
   <parameters>
-    string element_id - the guid of the burgermenu, whose menu you want to set
+    string menu - the menu, whose menu-entry-name you want to get
     integer entry_nr - the index of the menu, whose name you want to get
   </parameters>
   <retvals>
@@ -11581,6 +11582,8 @@ function reagirl.Burgermenu_Add(x, y, caption, meaningOfUI_Element, menu, run_fu
     The run-function gets as parameter:
     - string element_id - the element_id as string of the pressed burgermenu that uses this run-function
     - integer selected_menu_id - the index of the selected menu-entry. Note: will skip the top-entry of a submenu and grayed out menus!
+    - string selected_menu_name - the name of the selected menu-entry
+    - boolean menu_selection_checked - true, if the menu-selection-entry is checked; false, if not
   </description>
   <parameters>
     optional integer x - the x position of the burgermenu in pixels; negative anchors the burgermenu to the right window-side; nil, autoposition after the last ui-element(see description)

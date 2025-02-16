@@ -173,6 +173,8 @@ To autoposition into the next line, use reagirl.NextLine()<br>
 The run-function gets as parameter:<br>
 - string element_id - the element_id as string of the pressed burgermenu that uses this run-function<br>
 - integer selected_menu_id - the index of the selected menu-entry. Note: will skip the top-entry of a submenu and grayed out menus!<br>
+- string selected_menu_name - the name of the selected menu-entry<br>
+- boolean menu_selection_checked - true, if the menu-selection-entry is checked; false, if not<br>
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
@@ -4079,7 +4081,7 @@ where . is a hexadecimal value(0-F)<br>
 <img width="3%" src="gfx/reaper7.03.png" alt="requires Reaper version 7.03">
 <img width="3%" src="gfx/reagirl1.2.png" alt="requires ReaGirl version 1.2"><u><b>Menu_GetEntryName</b></u><br>			<p>
 <div class="cc">
-<div class="l">Lua: <code> <i>string</i> menu_entry_name, <i>boolean</i> checked = <em>reagirl.Menu_GetEntryName</em>(<i>string</i> element_id, <i>integer</i> entry_nr)</code></div>
+<div class="l">Lua: <code> <i>string</i> menu_entry_name, <i>boolean</i> checked = <em>reagirl.Menu_GetEntryName</em>(<i>string</i> menu, <i>integer</i> entry_nr)</code></div>
 </div><p>
 <div class="ch">
 Gets the name of a specific menu-entry by its index.<br>
@@ -4096,8 +4098,8 @@ Gets the name of a specific menu-entry by its index.<br>
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr"><i>string</i> element_id</td></tr>
-<tr><td class="ch2">the guid of the burgermenu, whose menu you want to set</td></tr>
+<tr><td class="pr"><i>string</i> menu</td></tr>
+<tr><td class="ch2">the menu, whose menu-entry-name you want to get</td></tr>
 </table>
 <table class="ch">
 <tr><td class="pr"><i>integer</i> entry_nr</td></tr>
@@ -5391,6 +5393,7 @@ The menu_runfunction will be called with two parameters: <br>
 &nbsp;&nbsp;string element_id - the guid of the ui-element, whose context-menu has been used<br>
 &nbsp;&nbsp;integer selection - the index of the menu-item selected by the user<br>
 &nbsp;&nbsp;string menu_selection_name - the name of the selected menu_entry<br>
+&nbsp;&nbsp;boolean menu_selection_checked - true, if the menu-selection-entry is checked; false, if not<br>
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
