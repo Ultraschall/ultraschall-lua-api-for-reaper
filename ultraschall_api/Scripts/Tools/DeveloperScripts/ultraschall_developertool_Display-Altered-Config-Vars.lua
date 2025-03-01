@@ -82,7 +82,7 @@ reaper.ShowConsoleMsg("Reaper-Config-Variable-Inspector by Meo Mespotine(mespoti
 reaper.ShowConsoleMsg("  Mismatch between int/double-values the currently set reaper.ini-value(as well as only int/double changing) is\n  a hint that the value is not stored into reaper.ini(e.g. only stored, when you set the current project's settings \n  as default settings).\n\n")
 reaper.ShowConsoleMsg("  Keep in mind, that some values can't be set, unless they were set in the dialogs first, lika afxcfg. So if they \n  don't appear after setting them through script, this isn't necessarily a bug!\n\n")
 reaper.ShowConsoleMsg("  Diffs to old double-values might be wrong, when the current or former value was NaN.\n")
-reaper.ShowConsoleMsg("  Note: __reascript_runcnt will not be shown, as it's updated constantly(see docs for more details).")
+reaper.ShowConsoleMsg("  Note: __reascript_runcnt will not be shown, as it's updated constantly(see docs for more details).\n\n")
 --gfx.init("Show Config Vars",900,187)
 gfx.setfont(1, "Arial", 15, 0)
 gfx.setfont(2, "Arial", 15, 16981)
