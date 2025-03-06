@@ -415,7 +415,7 @@ Check why that is...probably because of Label_SetLabelText somehow resetting the
 
 ## Ultraschall Framework - Changelog
 
-### 5.2 - "Warpaint - Keep it healthy" - 10th of March 2025
+### 5.2 - "Warpaint - Keep it healthy" - 7th of March 2025
 
 Has now 1856 functions, with 22 new ones
 
