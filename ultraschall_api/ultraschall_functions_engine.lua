@@ -958,6 +958,8 @@ function ultraschall.ShowLastErrorMessage(dunk, target, message_type)
  
   if target==nil then 
     target=tonumber(reaper.GetExtState("ultraschall_api", "ShowLastErrorMessage_Target"))
+		if target==nil then target=1 end
+		target=target-1
   end
   
   local CountErrMessage=ultraschall.CountErrorMessages()

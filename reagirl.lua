@@ -9061,6 +9061,7 @@ function reagirl.DecorRectangle_Add(x, y, w, h, radius, r, g, b)
     
     See this page for more details and color-names: https://www.w3.org/wiki/CSS/Properties/color/keywords
     
+    Note: if you want a clickable color-rectangle, use reagirl.ColorRectangle_Add()
   </description>
   <parameters>
     optional integer x - the x position of the color-rectangle in pixels; negative anchors the color-rectangle to the right window-side; nil, autoposition after the last ui-element(see description)
@@ -9283,7 +9284,7 @@ function reagirl.DecorRectangle_SetEdgeStyle(element_id, square_top_left, square
   end
 end
 
-function reagirl.DecorRectangle_GetEdgeStyle(element_id, square_top_left, square_top_right, square_bottom_left, square_bottom_right)
+function reagirl.DecorRectangle_GetEdgeStyle(element_id)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>DecorRectangle_GetEdgeStyle</slug>
@@ -9297,7 +9298,7 @@ function reagirl.DecorRectangle_GetEdgeStyle(element_id, square_top_left, square
     Get, if the individual corners of a decorative rectangle are square or round.
   </description>
   <parameters>
-    string element_id - the element_id of the decorative rectangle, whose edges you want to set to square
+    string element_id - the element_id of the decorative rectangle, whose square-state of the edges you want get
   </parameters>
   <retvals>
     boolean square_top_left - true, edge is square, false, edge is round
@@ -9319,6 +9320,78 @@ function reagirl.DecorRectangle_GetEdgeStyle(element_id, square_top_left, square
     error("DecorRectangle_GetEdgeStyle: param #1 - ui-element is not a decor color-rectangle", 2)
   else
     return reagirl.Elements[element_id]["top_left"], reagirl.Elements[element_id]["bottom_left"], reagirl.Elements[element_id]["top_right"], reagirl.Elements[element_id]["bottom_right"]
+  end
+end
+
+function reagirl.DecorRectangle_GetRadius(element_id)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>DecorRectangle_GetRadius</slug>
+  <requires>
+    ReaGirl=1.2
+    Reaper=7.03
+    Lua=5.4
+  </requires>
+  <functioncall>integer radius = reagirl.DecorRectangle_GetRadius(string element_id)</functioncall>
+  <description>
+    Gets the current radius of the edges of a decorative rectangle.
+  </description>
+  <parameters>
+    string element_id - the element_id of the decorative rectangle, whose edge-radius you want to get
+  </parameters>
+  <retvals>
+    integer radius - the radius of the edges of the decorative rectangle
+  </retvals>
+  <chapter_context>
+    Decorative Color Rectangle
+  </chapter_context>
+  <tags>decorative color rectangle, get, edges, radius</tags>
+</US_DocBloc>
+--]]
+  if type(element_id)~="string" then error("DecorRectangle_GetRadius: param #1 - must be a string", 2) end
+  if reagirl.IsValidGuid(element_id, true)==nil then error("DecorRectangle_GetRadius: param #1 - must be a valid guid", 2) end
+  element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
+  if element_id==-1 then error("DecorRectangle_GetRadius: param #1 - no such ui-element", 2) end
+  if reagirl.Elements[element_id]["GUI_Element_Type"]~="Decor Color Rectangle" then
+    error("DecorRectangle_GetRadius: param #1 - ui-element is not a decor color-rectangle", 2)
+  else
+    return reagirl.Elements[element_id]["radius"]
+  end
+end
+
+function reagirl.DecorRectangle_SetRadius(element_id, radius)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>DecorRectangle_SetRadius</slug>
+  <requires>
+    ReaGirl=1.2
+    Reaper=7.03
+    Lua=5.4
+  </requires>
+  <functioncall>integer radius = reagirl.DecorRectangle_SetRadius(string element_id, integer radius)</functioncall>
+  <description>
+    Sets the radius of the edges of a decorative rectangle.
+  </description>
+  <parameters>
+    string element_id - the element_id of the decorative rectangle, whose edge-radius you want to set
+    integer radius - the radius of the edges of the decorative rectangle
+  </parameters>
+  <chapter_context>
+    Decorative Color Rectangle
+  </chapter_context>
+  <tags>decorative color rectangle, set, edges, radius</tags>
+</US_DocBloc>
+--]]
+  if type(element_id)~="string" then error("DecorRectangle_SetRadius: param #1 - must be a string", 2) end
+  if reagirl.IsValidGuid(element_id, true)==nil then error("DecorRectangle_SetRadius: param #1 - must be a valid guid", 2) end
+  if math.type(radius)~="integer" then error("DecorRectangle_SetRadius: param #2 - must be an integer", 2) end
+  element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
+  if element_id==-1 then error("DecorRectangle_SetRadius: param #1 - no such ui-element", 2) end
+  if reagirl.Elements[element_id]["GUI_Element_Type"]~="Decor Color Rectangle" then
+    error("DecorRectangle_SetRadius: param #1 - ui-element is not a decor color-rectangle", 2)
+  else
+    reagirl.Elements[element_id]["radius"]=radius
+    reagirl.Gui_ForceRefresh(9889.1908)
   end
 end
 
@@ -9351,6 +9424,8 @@ function reagirl.ColorRectangle_Add(x, y, w, h, r, g, b, caption, meaningOfUI_El
     - integer red - the red color-value
     - integer green - the green color-value
     - integer blue - the blue color-value
+    
+    Note: if you want a decorative, non-clickable color-rectangle, use reagirl.DecorRectangle_Add()
   </description>
   <parameters>
     optional integer x - the x position of the color-rectangle in pixels; negative anchors the color-rectangle to the right window-side; nil, autoposition after the last ui-element(see description)
@@ -14969,6 +15044,7 @@ function reagirl.Label_Draw(element_id, selected, hovered, clicked, mouse_cap, m
     if element_storage["bg"]=="auto" then
       _, _, _, _, _, _, _, _, bg_w = reagirl.Gui_GetBoundaries()
       bg_w=bg_w-x
+      if reagirl.Tabs_Count==nil then bg_w=bg_w+5 end
       local element_id=reagirl.UI_Element_GetIDFromGuid(element_storage["bg_dest"])
       local y2=reagirl.Elements[element_id]["y"]
       local h2=reagirl.Elements[element_id]["h"]
@@ -15724,6 +15800,7 @@ function reagirl.Image_SetAutoUpdate(element_id, auto_update)
     Image
   </chapter_context>
   <tags>image, reload, auto, update, set</tags>
+</US_DocBloc>
   --]]
   if type(element_id)~="string" then error("Image_SetAutoUpdate: param #1 - must be a string", 2) end
   if reagirl.IsValidGuid(element_id, true)==false then error("Image_SetAutoUpdate: param #1 - must be a valid guid", 2) end

@@ -417,7 +417,7 @@ Check why that is...probably because of Label_SetLabelText somehow resetting the
 
 ### 5.2 - "Warpaint - Keep it healthy" - 7th of March 2025
 
-Has now 1856 functions, with 22 new ones
+Has now 1858 functions, with 24 new ones
 
 **new in this release:**  
 
@@ -444,8 +444,10 @@ Has now 1856 functions, with 22 new ones
 	- ReaGirl: DecorRectangle\_Add - adds a decorative rectangle for design purposes only, which has can't be clicked or tabbed to
 	- ReaGirl: DecorRectangle\_GetColor - gets the current color of a deorative rectangle  
 	- ReaGirl: DecorRectangle\_GetEdgeStyle - gets, if the individual corners of a decorative rectangle is square or round
+	- ReaGirl: DecorRectangle\_GetRadius - gets the current radius of the edges of a deorative rectangle  
 	- ReaGirl: DecorRectangle\_SetColor - sets a new color of a deorative rectangle  
 	- ReaGirl: DecorRectangle\_SetEdgeStyle - sets, if the individual corners of a decorative rectangle is square or round
+	- ReaGirl: DecorRectangle\_SetRadius - sets the radius of the edges of a deorative rectangle  
 	- ReaGirl: Ext\_Window\_GetProcessTime - returns the processing time of a ReaGirl-window-instance in the last defer-cycle; good for measuring the resources needed for that gui-instance  
 	- ReaGirl: Menu\_GetEntryName - gets the menu-entry-name of a menu by its index  
 	- ReaGirl: Gui\_GetSetStickyOffset - gets/sets a y-offset to prevent ui-elements from getting stuck behind sticky elements
@@ -471,6 +473,7 @@ Has now 1856 functions, with 22 new ones
 	- ReaGirl: scaling - scaled too big on Retina/hiDPI-resolutions -> fixed
 	- ReaGirl: Sliders - clickarea for the slider-knob should be more precise and not move to the left of the knob
 	- ReaGirl: UI\_Element\_GetSet\_ContextMenu - run-functions get now the name of the selected menu-item as third parameter
+	- Settings: Ultraschall-API settings - the dialog wasn't working anymore -> fixed
 ---
 
 ### 5.1 - "Beach Boys - Wind Chimes" - 11th of December 2024

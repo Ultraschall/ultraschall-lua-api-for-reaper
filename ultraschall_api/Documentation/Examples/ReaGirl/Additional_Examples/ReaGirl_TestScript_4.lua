@@ -31,7 +31,7 @@
 -- So you can combine them.
 
   dofile(reaper.GetResourcePath().."/UserPlugins/reagirl.lua")
-
+  
   -- create new gui
   reagirl.Gui_New()
   tabs=reagirl.Tabs_Add(nil, nil, nil, nil, "Tabs", "Demo-Tabs most elements in first tab only.", {"General Tab", "Advanced Tab", "Extras Tab"}, 1, nil )
@@ -74,16 +74,16 @@
   
   reagirl.NextLine()
   tab1.burgermenu = reagirl.Burgermenu_Add(nil, nil, "A Burgermenu", "A demo-burger-menu with some options.", "Setting 1|Setting 2|>Subfolder|Setting 3|Setting 4|<|Setting 5", nil)
-  tab1.colorrectangle1 = reagirl.ColorRectangle_Add(nil,nil,16,16,255,0,0,"A Color Rectangle", "A color rectangle with a color. Click it to select a different color.", true,nil)
-  tab1.colorrectangle2 = reagirl.ColorRectangle_Add(nil,nil,16,16,0,255,0,"A Color Rectangle", "A color rectangle with a color. Click it to select a different color.", true,nil)
-  tab1.colorrectangle3 = reagirl.ColorRectangle_Add(nil,nil,16,16,0,0,255,"A Color Rectangle", "A color rectangle with a color. Click it to select a different color.", true,nil)
-  tab1.colorrectangle4 = reagirl.ColorRectangle_Add(nil,nil,16,16,0,0,0,"A Color Rectangle", "A color rectangle with a color. Click it to select a different color.", true,nil)
-  tab1.colorrectangle5 = reagirl.ColorRectangle_Add(nil,nil,16,16,255,255,255,"A Color Rectangle", "A color rectangle with a color. Click it to select a different color.", true,nil)
-  tab1.colorrectangle6 = reagirl.ColorRectangle_Add(nil,nil,16,16,0,255,255,"A Color Rectangle", "A color rectangle with a color. Click it to select a different color.", true,nil)
-  tab1.colorrectangle7 = reagirl.ColorRectangle_Add(nil,nil,16,16,255,0,255,"A Color Rectangle", "A color rectangle with a color. Click it to select a different color.", true,nil)
-  tab1.colorrectangle8 = reagirl.ColorRectangle_Add(nil,nil,16,16,255,255,0,"A Color Rectangle", "A color rectangle with a color. Click it to select a different color.", true,nil)
-  tab1.colorrectangle9 = reagirl.ColorRectangle_Add(nil,nil,16,16,128,255,255,"A Color Rectangle", "A color rectangle with a color. Click it to select a different color.", true,nil)
-  tab1.colorrectangle10 = reagirl.ColorRectangle_Add(nil,nil,16,16,255,128,255,"A Color Rectangle", "A color rectangle with a color. Click it to select a different color.", true,nil)
+  tab1.colorrectangle1 = reagirl.ColorRectangle_Add(nil,nil,16,16,255,0,0,"A Color Rectangle", "A color rectangle with a color. Click it to select a different color.", true, nil)
+  tab1.colorrectangle2 = reagirl.ColorRectangle_Add(nil,nil,16,16,0,255,0,"A Color Rectangle", "A color rectangle with a color. Click it to select a different color.", true, nil)
+  tab1.colorrectangle3 = reagirl.ColorRectangle_Add(nil,nil,16,16,0,0,255,"A Color Rectangle", "A color rectangle with a color. Click it to select a different color.", true, nil)
+  tab1.colorrectangle4 = reagirl.ColorRectangle_Add(nil,nil,16,16,0,0,0,"A Color Rectangle", "A color rectangle with a color. Click it to select a different color.", true, nil)
+  tab1.colorrectangle5 = reagirl.ColorRectangle_Add(nil,nil,16,16,255,255,255,"A Color Rectangle", "A color rectangle with a color. Click it to select a different color.", true, nil)
+  tab1.colorrectangle6 = reagirl.ColorRectangle_Add(nil,nil,16,16,0,255,255,"A Color Rectangle", "A color rectangle with a color. Click it to select a different color.", true, nil)
+  tab1.colorrectangle7 = reagirl.ColorRectangle_Add(nil,nil,16,16,255,0,255,"A Color Rectangle", "A color rectangle with a color. Click it to select a different color.", true, nil)
+  tab1.colorrectangle8 = reagirl.ColorRectangle_Add(nil,nil,16,16,255,255,0,"A Color Rectangle", "A color rectangle with a color. Click it to select a different color.", true, nil)
+  tab1.colorrectangle9 = reagirl.ColorRectangle_Add(nil,nil,16,16,128,255,255,"A Color Rectangle", "A color rectangle with a color. Click it to select a different color.", true, nil)
+  tab1.colorrectangle10 = reagirl.ColorRectangle_Add(nil,nil,16,16,255,128,255,"A Color Rectangle", "A color rectangle with a color. Click it to select a different color.", true, nil)
   
   reagirl.Label_AutoBackdrop(tab1.label_header6, tab1.colorrectangle10) -- set backdrop drawn by tab1.label_header5
 
@@ -143,13 +143,13 @@
   tab1.label_header5=reagirl.Label_Add(nil, nil, "Sliders and DropDownMenus", "Some sliders and drop down menus.", false, nil)
   
   reagirl.NextLine()
-  tab1.slider_blink_every = reagirl.Slider_Add(40, nil, 290, "Length in", 100, "Set the length in seconds.", "seconds", 1, 30, 0.1, 10, 1, nil)
+  tab1.slider_blink_every = reagirl.Slider_Add(nil, nil, 290, "Length in", 100, "Set the length in seconds.", "seconds", 1, 30, 0.1, 10, 1, nil)
   
   reagirl.NextLine()
-  tab1.options=reagirl.DropDownMenu_Add(40, nil, 290, "Options:", 100, "Choose one of the options that set your settings.", {"Menu1", "Menu2", "Menu3"}, 1, nil)
+  tab1.options=reagirl.DropDownMenu_Add(nil, nil, 290, "Options:", 100, "Choose one of the options that set your settings.", {"Menu1", "Menu2", "Menu3"}, 1, nil)
   
   reagirl.NextLine()
-  tab1.more_options=reagirl.DropDownMenu_Add(40, nil, 290, "More Options:", 100, "Choose additional settings in the options.", {"Option1", "Option2", "Option3"}, 2, nil)
+  tab1.more_options=reagirl.DropDownMenu_Add(nil, nil, 290, "More Options:", 100, "Choose additional settings in the options.", {"Option1", "Option2", "Option3"}, 2, nil)
   
   reagirl.Label_AutoBackdrop(tab1.label_header5, tab1.more_options) -- set backdrop drawn by tab1.label_header5
                                                                     -- let it end underneath tab1.more_options

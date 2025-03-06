@@ -4943,7 +4943,7 @@
             You can do more things with images:  
               
 							- reagirl.Image\_GetAutoUpdate - gets, if the image is automatically updated when the underlying image-file is changed/updated
-							- reagirl.Image\_SetAutoUpdate - gets, if the image is automatically updated when the underlying image-file is changed/updated
+							- reagirl.Image\_SetAutoUpdate - sets, if the image is automatically updated when the underlying image-file is changed/updated
               - reagirl.Image\_GetDraggable - get if the image is draggable and what the potential drag-destinations are  
               - reagirl.Image\_SetDraggable - set the image to draggable and set the potential drag-destination-ui-elements  
               - reagirl.Image\_GetDimensions - get the width and height of the image  
@@ -5001,10 +5001,11 @@
             - reagirl.Inputbox\_GetSelectedText - gets the currently selected text  
             - reagirl.InputBox\_GetCursorOffset - gets the current offset of the edit-cursor in the editfield of an inputbox              
 			
-			- reagirl.InputBox\_LinkToConfigVar - links the inputbox to a certain config-variable
-			- reagirl.InputBox\_LinkToExtstate - links the inputbox to an extstate  
-			- reagirl.InputBox\_LinkToIniValue - links the inputbox to an ini-value
-			- reagirl.InputBox\_Unlink - removes the link between the inputbox and a certain state  
+						- reagirl.InputBox\_LinkToConfigVar - links the inputbox to a certain config-variable
+						- reagirl.InputBox\_LinkToExtstate - links the inputbox to an extstate  
+						- reagirl.InputBox\_LinkToIniValue - links the inputbox to an ini-value
+						- reagirl.InputBox\_Unlink - removes the link between the inputbox and a certain state  
+						
             Check the examples in the subfolder Additional\_Examples for examples of guis with inputboxes. Run the action "ReaGirl\_OpenFolder\_ExampleScripts.lua" to open the example-folder.  
         </description>  
         <target_document>ReaGirl_Introduction_and_Concepts.html</target_document>  
@@ -5048,9 +5049,9 @@
             - reagirl.DropDownMenu\_GetMenuItems - gets the menu-items of the drop down menu  
             - reagirl.DropDownMenu\_SetMenuItems - sets the menu-items of the drop down menu  
 			
-			- reagirl.DropDownMenu\_LinkToExtstate - links the drop down menu to an extstate  
-			- reagirl.DropDownMenu\_LinkToIniValue - links the drop down menu to an ini-value
-			- reagirl.DropDownMenu\_Unlink - removes the link between the drop down menu and a certain state  
+						- reagirl.DropDownMenu\_LinkToExtstate - links the drop down menu to an extstate  
+						- reagirl.DropDownMenu\_LinkToIniValue - links the drop down menu to an ini-value
+						- reagirl.DropDownMenu\_Unlink - removes the link between the drop down menu and a certain state  
 			
             Check the [fourth tutorial "Disabled UI-Elements"](#Tutorial_004_Disabled_UI_Elements) to see examples of guis with sliders.  
         </description>  
@@ -5112,10 +5113,10 @@
             - reagirl.Slider\_SetDisabled - sets the disability-state of the slider, means, if it can be influenced by mouse or keyboard or not  
 			
             - reagirl.Slider\_LinkToIntConfigVar - links the slider to a certain integer config-variable
-			- reagirl.Slider\_LinkToDoubleConfigVar - links the slider to a certain double config-variable
-			- reagirl.Slider\_LinkToExtstate - links the slider to an extstate  
-			- reagirl.Slider\_LinkToIniValue - links the slider to an ini-value
-			- reagirl.Slider\_Unlink - removes the link between the checkbox and a certain state  
+						- reagirl.Slider\_LinkToDoubleConfigVar - links the slider to a certain double config-variable
+						- reagirl.Slider\_LinkToExtstate - links the slider to an extstate  
+						- reagirl.Slider\_LinkToIniValue - links the slider to an ini-value
+						- reagirl.Slider\_Unlink - removes the link between the checkbox and a certain state  
             Check the [fourth tutorial "Disabled UI-Elements"](#Tutorial_004_Disabled_UI_Elements) to see examples of guis with sliders.  
         </description>  
         <target_document>ReaGirl_Introduction_and_Concepts.html</target_document>  
