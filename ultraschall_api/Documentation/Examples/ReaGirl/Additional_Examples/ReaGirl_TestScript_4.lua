@@ -70,7 +70,7 @@
 
   -- Burgermenus and Color-Rectangles
   reagirl.NextLine(10)
-  tab1.label_header6=reagirl.Label_Add(nil, nil, "Burgermenu and Color-Rectangle", ".", false, nil)
+  tab1.label_header6=reagirl.Label_Add(nil, nil, "Burgermenu and Color-Rectangle", "A burgermenu and some color-rectangles.", false, nil)
   
   reagirl.NextLine()
   tab1.burgermenu = reagirl.Burgermenu_Add(nil, nil, "A Burgermenu", "A demo-burger-menu with some options.", "Setting 1|Setting 2|>Subfolder|Setting 3|Setting 4|<|Setting 5", nil)
@@ -140,7 +140,7 @@
   
   -- Sliders and DropDownMenus
   reagirl.NextLine(10)
-  tab1.label_header5=reagirl.Label_Add(nil, nil, "Sliders and DropDownMenus", ".", false, nil)
+  tab1.label_header5=reagirl.Label_Add(nil, nil, "Sliders and DropDownMenus", "Some sliders and drop down menus.", false, nil)
   
   reagirl.NextLine()
   tab1.slider_blink_every = reagirl.Slider_Add(40, nil, 290, "Length in", 100, "Set the length in seconds.", "seconds", 1, 30, 0.1, 10, 1, nil)
