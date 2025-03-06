@@ -9331,7 +9331,7 @@ function reagirl.ColorRectangle_Add(x, y, w, h, r, g, b, caption, meaningOfUI_El
     Reaper=7.03
     Lua=5.4
   </requires>
-  <functioncall>string color_rectangle_guid = reagirl.ColorRectangle_Add(optional integer x, optional integer y, integer w, integer h, integer r, integer g, integer b, string caption, string meaningOfUI_Element, optional function run_function)</functioncall>
+  <functioncall>string color_rectangle_guid = reagirl.ColorRectangle_Add(optional integer x, optional integer y, integer w, integer h, integer r, integer g, integer b, string caption, string meaningOfUI_Element, boolean color_selector_when_clicked, optional function run_function)</functioncall>
   <description>
     Adds a color-rectangle to a gui.
     

@@ -5195,7 +5195,7 @@
             - Parameter 10 signals, if clicking the color-rectangle opens up a color-selector-dialog(true) or not(false)
 						- Parameter 11 is the run-function, that is run everytime the user clicks the color-rectangle. If a color-selector-dialog is opened, the run-function will be run after the user closed the color-selector.
               
-            There are more things you can do with tabs:  
+            There are more things you can do with color-rectangles:  
             
 						- reagirl.ColorRectangle\_GetEdgeStyle - gets if the individual edges of the color-rectangle are square or rounded			
             - reagirl.ColorRectangle\_SetEdgeStyle - sets the individual edges of the color-rectangle to square or rounded  
@@ -5212,8 +5212,36 @@
           The Gui Elements
         </chapter_context>
         <previous_chapter>The_Gui_Elements_008_Tabs</previous_chapter>  
-        <next_chapter>The_Gui_Elements_Concepts001_Context_Menus</next_chapter>  
+        <next_chapter>The_Gui_Elements_010_BurgerMenu</next_chapter>  
         <tags></tags>  
+    </US_DocBloc>  
+		
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">  
+        <slug>The_Gui_Elements_010_BurgerMenu</slug>  
+        <title>Burger Menu</title>  
+        <description markup_type="markdown" markup_version="1.0.1" indent="default">  
+            A burger-menu is a ui-element very common on websites, being a button with three horizontal lines on it. It opens a menu when clicking on it, so the user can select additional options.
+						
+						You add Burger-menus to your gui using reagirl.Burgermenu\_Add(), which has 6 parameters.  
+              
+            - Parameters 1 and 2 are x and y-position of the burger-menu in pixels. You can set these to nil to autoposition the tabs.  
+            - Parameter 3 is a caption read to accessibility-users
+            - Parameter 4 is a description of the burger-menu, communicated to accessibility-users by screen reader as well as a tooltip
+            - Parameter 5 is the menu shown, when the user clicks the burger-menu. It is formatted the way as gfx.showmenu() accepts it.
+						- Parameter 6 is the run-function, that is run everytime the user selects a menu-entry
+              
+            There are more things you can do with burgermenus:  
+						- reagirl.Burgermenu\_GetMenu - gets the currently set menu of the burger-menu
+						- reagirl.Burgermenu\_SetMenu - sets a new menu to the burger-menu 
+        </description>  
+        <target_document>ReaGirl_Introduction_and_Concepts.html</target_document>  
+        <source_document>ReaGirl_Introduction_and_Concepts.USDocML</source_document>  
+        <chapter_context>
+          The Gui Elements
+        </chapter_context>
+        <previous_chapter>The_Gui_Elements_009_ColorRectangle</previous_chapter>  
+        <next_chapter>The_Gui_Elements_Concepts001_Context_Menus</next_chapter>  
+        <tags>burger menu</tags>  
     </US_DocBloc>  
       
 	
