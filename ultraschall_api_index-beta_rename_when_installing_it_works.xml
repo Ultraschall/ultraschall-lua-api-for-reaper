@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API and ReaGirl">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API and ReaGirl package" type="extension">
-      <version name="56080.00" author="Meo-Ada Mespotine">
+      <version name="56082.00" author="Meo-Ada Mespotine">
 	<source file="reagirl.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5.2//reagirl.lua</source>
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5.2//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5.2//ultraschall_api_readme.txt</source>
@@ -718,14 +718,30 @@ kommunizieren(für Farbenblinde), entweder Farbname oder Farbwerte
 
 Ultraschall Framework - Changelog
 
-5.2 - “?? - ??” - 10th of February 2025
+5.2 - “Warpaint - Keep it healthy” - 10th of March 2025
 
 Has now 1856 functions, with 22 new ones
 
 new in this release:
 
--   Bla
-    Bla
+-   ReaGirl
+    New features, including a burgermenu, a color-rectangle, a
+    decorative rectangle, ui-elements can be made sticky(non scrollable)
+    now, images can auto-update now if the underlying image gets
+    altered. It also features tons of bugfixes, specifically on Mac, so
+    things are more robust now. I also improves performances, so all
+    experienced slowdowns should be a thing of the past.
+
+    -   Developer Tools
+        A new developer-tool that shows all opened
+        ReaGirl-window-instances including name, guid and processing
+        time. So you can check, whether the gui performs properly. Only
+        the actual gui-processing-time is measured, not the overall
+        code!
+        With the devtools who are deferred scripts, they will not open
+        the terminate-instance-dialog anymore when running them again,
+        but rather stop now. That way, you can toggle them on/off via
+        shortcut/menu/toolbar-buttons.
 
 New features in 5.2
 
@@ -781,6 +797,7 @@ New features in 5.2
 Changes from 5.1 to 5.2
 
     - Developer Tools: deferred tools and ReaGirl settings - will now stop when rerunning them (requested by amagalma)
+    - Docs: Reaper Internals - updated to Reaper 7.34
     - MediaItem Management: GetParentTrack\_MediaItem - had problems with items not having takes(note-items) -> fixed(thanks to fernsehmuell)
     - ReaGirl: General - prevent possible crash, when not running Gui_Manage()
     - ReaGirl: Gui\_Manage - simplified code, so it should run more smoothly now; improved performance; ui-elements on top of other ui-elements were not recognised and therefore could't be clicked -> fixed
@@ -825,7 +842,7 @@ Changes from 5.1 to 5.2
         \par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af6\langfe2052\dbch\af8\afs24\lang1081\loch\f0\fs24\lang1031{\rtlch \ltrch\loch
         }
         \par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af6\langfe2052\dbch\af8\afs24\lang1081\loch\f0\fs24\lang1031{\rtlch \ltrch\loch\loch\f4
-        a 1691 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 56080 from 06.03.2025 20:30:03).}
+        a 1680 Lua-functions library for Reaper.}
         \par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af6\langfe2052\dbch\af8\afs24\lang1081\loch\f0\fs24\lang1031{\rtlch \ltrch\loch
         }
         \par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af6\langfe2052\dbch\af8\afs24\lang1081\loch\f0\fs24\lang1031{\rtlch \ltrch\loch

@@ -415,15 +415,20 @@ Check why that is...probably because of Label_SetLabelText somehow resetting the
 
 ## Ultraschall Framework - Changelog
 
-### 5.2 - "?? - ??" - 10th of February 2025
+### 5.2 - "Warpaint - Keep it healthy" - 10th of March 2025
 
 Has now 1856 functions, with 22 new ones
 
 **new in this release:**  
 
-  - **Bla**  
-  Bla
+  - **ReaGirl**  
+  New features, including a burgermenu, a color-rectangle, a decorative rectangle, ui-elements can be made sticky(non scrollable) now, images can auto-update now if the underlying image gets altered.
+	It also features tons of bugfixes, specifically on Mac, so things are more robust now.  I also improves performances, so all experienced slowdowns should be a thing of the past.
     
+	- **Developer Tools**  
+	A new developer-tool that shows all opened ReaGirl-window-instances including name, guid and processing time. So you can check, whether the gui performs properly. Only the actual gui-processing-time is measured, not the overall code!  
+	With the devtools who are deferred scripts, they will not open the terminate-instance-dialog anymore when running them again, but rather stop now. That way, you can toggle them on/off via shortcut/menu/toolbar-buttons.
+		
 #### New features in 5.2 
 	- Developer Tools: ReaGirl\_Monitor\_Opened\_Windows - shows all currently opened ReaGirl-window instances with name, guid and processing time
 	- ReaGirl: Burgermenu\_Add - adds a burger-menu to a gui
@@ -452,6 +457,7 @@ Has now 1856 functions, with 22 new ones
 
 #### Changes from 5.1 to 5.2  
 	- Developer Tools: deferred tools and ReaGirl settings - will now stop when rerunning them (requested by amagalma)
+	- Docs: Reaper Internals - updated to Reaper 7.34
 	- MediaItem Management: GetParentTrack\_MediaItem - had problems with items not having takes(note-items) -> fixed(thanks to fernsehmuell)
 	- ReaGirl: General - prevent possible crash, when not running Gui_Manage()
 	- ReaGirl: Gui\_Manage - simplified code, so it should run more smoothly now; improved performance; ui-elements on top of other ui-elements were not recognised and therefore could't be clicked -> fixed
