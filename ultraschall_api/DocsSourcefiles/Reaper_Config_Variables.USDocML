@@ -3,7 +3,7 @@
       <slug>Introduction</slug>
       <title>Introduction to Config Variables</title>  
       <description markup_type="markdown" markup_version="1.0.1" indent="default">  
-         List of all Config Variables as of Reaper 7.33 and probably are missing some, but should be fairly complete anyway.  
+         List of all Config Variables as of Reaper 7.34 and probably are missing some, but should be fairly complete anyway.  
          These can be used to set configuration-stuff in the preferences, the project-settings, the render-dialog, many context-menus(like MCP or transport-context-menus) and many others.  
          To change them, you can use the following ReaScript API-functions(requires SWS being installed):
           
@@ -7422,8 +7422,7 @@
       <slug>optimizesilence</slug>  
       <title>optimizesilence</title>  
       <description>  
-          Reduce CPU use of silent tracks during playback (experimental)-checkbox, as set in Preferences -> Audio  as well as 
-          Disable FX auto-bypass when using offline render/apply FX/render stems-checkbox, as set in Preferences -> Rendering
+          Several settings/checkboxes, as set in Preferences -> Audio  as well as Disable FX auto-bypass when using offline render/apply FX/render stems-checkbox, as set in Preferences -> Rendering
           It is an integer, preferences variable.
           
            >&1=0, Reduce CPU use of silent tracks during playback (experimental)-checkbox - unchecked
@@ -7434,6 +7433,12 @@
            
            >&8=0, Disable FX auto-bypass when using offline render/apply FX/render stems-checkbox - unchecked
            >&8=1, Disable FX auto-bypass when using offline render/apply FX/render stems-checkbox - checked
+					 
+					 >&16=0, Temporarily bypass oversampling on record arm-affected tracks - unchecked
+					 >&16=1, Temporarily bypass oversampling on record arm-affected tracks - checked
+					 
+					 >&32=0, Auto-bypass FX on record arm-affected tracks whose PDC exceeds-checkbox - unchecked
+					 >&32=1, Auto-bypass FX on record arm-affected tracks whose PDC exceeds-checkbox - checked
 
           Stored in reaper.ini under the same name in the section REAPER.  
       </description>  
@@ -7542,6 +7547,25 @@
       <chapter_context>
          Project Settings
          Advanced
+      </chapter_context>
+      <source_document>Reaper_Config_Variables.USDocML</source_document>
+      <target_document>Reaper_Config_Variables</target_document>  
+    </US_DocBloc>  
+		
+		<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">  
+      <slug>pdcautobypassms</slug>  
+      <title>pdcautobypassms</title>  
+      <description>  
+          Auto-bypass FX on record arm-affected tracks whose PDC exceeds-inputbox, as set in Preferences -> Audio
+          It's a double-float, preferences variable.
+          
+          >-100000000.0 to 100000000.0 in ms
+
+          Stored in reaper.ini under the same name in the section REAPER, when Save as default project settings has been clicked.  
+      </description>  
+      <chapter_context>
+         Preferences
+         Audio
       </chapter_context>
       <source_document>Reaper_Config_Variables.USDocML</source_document>
       <target_document>Reaper_Config_Variables</target_document>  
@@ -8888,8 +8912,11 @@
            >&1=0, Dither isn't checked  
            >&1=1, Dither is checked  
            
-           >&2=0, Noise shaping isn't checked  
-           >&2=1, Noise shaping is checked  
+           >&2=0, Noise shape master - unchecked
+           >&2=1, Noise shape master - checked  
+					 
+					 >&8=0, Noise shape stems - unchecked
+					 >&8=1, Noise shape stems - checked
 
           Stored in reaper.ini under the same name in the section REAPER, when Save as default project settings has been clicked.  
       </description>  
@@ -9057,10 +9084,7 @@
            >> 1 1 0, True Peak  
            >> 0 0 1, LUFS-M max  
            >> 1 0 1, LUFS-S max  
-            
-           >&32=0, Nomalize stems to master target-checkbox(only available with source -> Master mix + stems) - unchecked  
-           >&32=1, Nomalize stems to master target-checkbox(only available with source -> Master mix + stems) - checked  
-           
+                      
            >&64=0, Brickwall Limit-checkbox - unchecked
            >&64=1, Brickwall Limit-checkbox - checked
            
@@ -9070,11 +9094,23 @@
            >&256=0, Only normalize that are too loud - unchecked 
            >&256=1, Only normalize that are too loud - checked
            
-           >512=0, Fade In-checkbox - unchecked
-           >512=1, Fade In-checkbox - checked
+           >&512=0, Fade In-checkbox - unchecked
+           >&512=1, Fade In-checkbox - checked
            
-           >1024=0, Fade Out-checkbox - unchecked
-           >1024=1, Fade Out-checkbox - checked
+           >&1024=0, Fade Out-checkbox - unchecked
+           >&1024=1, Fade Out-checkbox - checked
+					 
+					 >&2048=0, too quiet-checkbox - unchecked
+					 >&2048=1, too quiet-checkbox - checked
+					 
+					 >&32 &4096, Normalize-dropdownlist
+					 >> 0 0, Normalize each file separately
+					 >> 0 1, Normalize to loudest file
+					 >> 1 1, Normalize as if one long file
+					 >> 1 0, Normalize all files to master mix
+					 
+					 >&8192=0, Adjust mono media an additional -3dB - unchecked
+					 >&8192=1, Adjust mono media an additional -3dB - checked
 
           Stored in reaper.ini under the same name in the section REAPER, when Save as default project settings has been clicked.  
       </description>  
@@ -9234,7 +9270,7 @@
       <slug>projrenderstems</slug>  
       <title>projrenderstems</title>  
       <description>  
-          The Source-dropdownlist, as well as the "Embed stretch markers/transient guides"-checkbox, as set in the Render to File-dialog.  
+          The Source-dropdownlist, as well as some checkboxes, as set in the Render to File-dialog.  
           It is an integer, project variable.
           
            >0, Master mix  
@@ -10663,8 +10699,8 @@
           Some render-settings, as set in either the Rendering-page of the preferences, Render to File-dialog or in the Rendering to File-status window and the Project Render Metadata-dialog
           It is an integer-bitfield, project variable.
           
-           >&1=0, Automatically close, when finished - checkbox in the Rendering to File-status-window - unchecked  
-           >&1=1, Automatically close, when finished - checkbox in the Rendering to File-status-window - checked  
+           >&1=0, Auto-close all render windows when finished - checkbox - unchecked  
+           >&1=1, Auto-close all render windows when finished - checkbox - checked  
 
            >&16=0, Silently increment filenames to avoid overwriting - unchecked  
            >&16=1, Silently increment filenames to avoid overwriting - checked  
@@ -10698,13 +10734,14 @@
            >&65537=0, Save copy of project to outfile.wav.RPP - unchecked  
            >&65537=1, Save copy of project to outfile.wav.RPP - checked  
 					 
+					 >&131072=0, per rendered file-radiobutton
+					 >&131072=1, combined-radiobutton
+					 
 					 >&262144=0, Customize render statistics charts -> Hide project regions/markers - checked
 					 >&262144=1, Customize render statistics charts -> Hide project regions/markers - unchecked
 					 
 					 >&524288=0, Customize render statistics charts -> Hide file paths - checked
 					 >&524288=1, Customize render statistics charts -> Hide file paths - unchecked
-					 
-					 
 					 
       </description>  
       <chapter_context>

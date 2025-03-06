@@ -1407,9 +1407,9 @@
             Reaper=7.20
         </requires>
         <description prog_lang="*">
-						Discouraged, since it's inefficiently coded. For new code, do it the following way:
-						Get the MediaItems using GetMediaItem and check, if it's selected with GetMediaItemInfo_Value and B_UISEL in a loop. Count, how often B_UISEL==1
-						
+      Discouraged, since it's inefficiently coded. For new code, do it the following way:
+      Get the MediaItems using GetMediaItem and check, if it's selected with GetMediaItemInfo_Value and B_UISEL in a loop. Count, how often B_UISEL==1
+      
             count the number of selected items in the project (proj=0 for active project)
         </description>
         <retvals>
@@ -1426,7 +1426,7 @@
         </chapter_context>
         <tags>mediaitemmanagement, count, selected, mediaitem</tags>
         <changelog>
-					Reaper 7.20 - function is now deprecated
+     Reaper 7.20 - function is now deprecated
         </changelog>
     </US_DocBloc>
 
@@ -7642,7 +7642,7 @@
         <functioncall prog_lang="lua">number retval = reaper.GetMediaItemTakeInfo_Value(MediaItem_Take take, string parmname)</functioncall>
         <functioncall prog_lang="python">Float retval = RPR_GetMediaItemTakeInfo_Value(MediaItem_Take take, String parmname)</functioncall>
         <requires>
-            Reaper=7.08
+            Reaper=7.34
         </requires>
         <description prog_lang="*">
             Get media item take numerical-value attributes.
@@ -7662,6 +7662,35 @@
             I_RECPASSID : int * : record pass ID            
             I_TAKEFX_NCH : int * : number of internal audio channels for per-take FX to use (OK to call with setNewValue, but the returned value is read-only)
             I_CUSTOMCOLOR : int * : custom color, OS dependent color|0x1000000 (i.e. ColorToNative(r,g,b)|0x1000000). If you do not |0x1000000, then it will not be used, but will store the color.
+      IP_SPECEDIT:CNT : int : spectral edit count (read-only)
+      IP_SPECEDIT:DELETE:x : int : read or write this key to remove the spectral edit specified
+      IP_SPECEDIT:ADD : int : read or write this key to add a new spectral edit (returns index)
+      IP_SPECEDIT:SORT : int : read or write this key to re-sort spectral edits (be sure to do this following a position change or insert of new edit)
+      I_SPECEDIT:FFT_SIZE : int * : FFT size used by spectral edits for this take
+      D_SPECEDIT:x:POSITION : double * : position of spectral edit start (changing this requires a resort of spectral edits)
+      D_SPECEDIT:x:LENGTH : double * : length of spectral edit
+      F_SPECEDIT:x:GAIN : float * : gain of spectral edit
+      F_SPECEDIT:x:FADE_IN : float * : fade-in size 0..1
+      F_SPECEDIT:x:FADE_OUT : float * : fade-out size 0..1
+      F_SPECEDIT:x:FADE_LOW : float * : fade-lf size 0..1
+      F_SPECEDIT:x:FADE_HI : float * : fade-hf size 0..1
+      I_SPECEDIT:x:CHAN : int * : channel index, -1 for omni
+      I_SPECEDIT:x:FLAGS : int * : flags, &amp;1=bypassed, &amp;2=solo
+      F_SPECEDIT:x:GATE_THRESH : float * : gate threshold
+      F_SPECEDIT:x:GATE_FLOOR : float * : gate floor
+      F_SPECEDIT:x:COMP_THRESH : float * : comp threshold
+      F_SPECEDIT:x:COMP_RATIO : float * : comp ratio
+      B_SPECEDIT:x:SELECTED : bool * : selection state
+      I_SPECEDIT:x:TOPFREQ_CNT : int * : (read-only) number of top frequency-points
+      I_SPECEDIT:x:TOPFREQ_ADD:pos:val : int * : reading or writing will insert top frequency-point with position/value pair, returns index
+      I_SPECEDIT:x:TOPFREQ_DEL:y : int * : reading or writing will delete top frequency-point y. there will always be at least one point.
+      F_SPECEDIT:x:TOPFREQ_POS:y : float * : (read-only) get position of top frequency-point y
+      F_SPECEDIT:x:TOPFREQ_FREQ:y : float * : (read-only) get frequency of top frequency-point y
+      I_SPECEDIT:x:BOTFREQ_CNT : int * : number of bottom frequency-points
+      I_SPECEDIT:x:BOTFREQ_ADD:pos:val : int * : reading or writing will insert bottom frequency-point with position/value pair, returns index
+      I_SPECEDIT:x:BOTFREQ_DEL:y : int * : reading or writing will delete bottom frequency-point y. there will always be at least one point.
+      F_SPECEDIT:x:BOTFREQ_POS:y : float * : (read-only) get position of bottom frequency-point y
+      F_SPECEDIT:x:BOTFREQ_FREQ:y : float * : (read-only) get frequency of bottom frequency-point y
             IP_TAKENUMBER : int : take number (read-only, returns the take number directly)
             P_TRACK : pointer to MediaTrack (read-only)
             P_ITEM : pointer to MediaItem (read-only)
@@ -7682,8 +7711,9 @@
         </chapter_context>
         <tags></tags>
         <changelog>
-          Reaper 7.08 - I_STRETCHFLAGS, F_STRETCHFADESIZE, I_RECPASSID added
-          Reaper 7.07 - I_TAKEFX_NCH added as new attribute
+     Reaper 7.34 - new attributes added: IP_SPECEDIT:CNT, IP_SPECEDIT:DELETE:x, IP_SPECEDIT:ADD, IP_SPECEDIT:SORT, I_SPECEDIT:FFT_SIZE, D_SPECEDIT:x:POSITION, D_SPECEDIT:x:LENGTH, F_SPECEDIT:x:GAIN, F_SPECEDIT:x:FADE_IN, F_SPECEDIT:x:FADE_OUT, F_SPECEDIT:x:FADE_LOW, F_SPECEDIT:x:FADE_HI, I_SPECEDIT:x:CHAN, I_SPECEDIT:x:FLAGS, F_SPECEDIT:x:GATE_THRESH, F_SPECEDIT:x:GATE_FLOOR, F_SPECEDIT:x:COMP_THRESH, F_SPECEDIT:x:COMP_RATIO, B_SPECEDIT:x:SELECTED, I_SPECEDIT:x:TOPFREQ_CNT, I_SPECEDIT:x:TOPFREQ_ADD:pos:val, I_SPECEDIT:x:TOPFREQ_DEL:y, F_SPECEDIT:x:TOPFREQ_POS:y, F_SPECEDIT:x:TOPFREQ_FREQ:y, I_SPECEDIT:x:BOTFREQ_CNT, I_SPECEDIT:x:BOTFREQ_ADD:pos:val, I_SPECEDIT:x:BOTFREQ_DEL:y, F_SPECEDIT:x:BOTFREQ_POS:y, F_SPECEDIT:x:BOTFREQ_FREQ:y
+          Reaper 7.08 - new attributes added: I_STRETCHFLAGS, F_STRETCHFADESIZE, I_RECPASSID
+          Reaper 7.07 - new attribute added: I_TAKEFX_NCH
         </changelog>
     </US_DocBloc>
 
@@ -9085,9 +9115,9 @@
             Reaper=7.20
         </requires>
         <description>
-						Discouraged, since it's too inefficiently coded. In new code, do it like this:						
-						get the MediaItems using GetMediaItem and check, if it's selected with GetMediaItemInfo_Value and B_UISEL in a loop. Count, how often B_UISEL==1 and if it is the index you want, use the found MediaItem.
-						
+      Discouraged, since it's too inefficiently coded. In new code, do it like this:      
+      get the MediaItems using GetMediaItem and check, if it's selected with GetMediaItemInfo_Value and B_UISEL in a loop. Count, how often B_UISEL==1 and if it is the index you want, use the found MediaItem.
+      
             get a selected item by selected item count (zero-based)
         </description>
         <retvals>
@@ -9109,7 +9139,7 @@
         </chapter_context>
         <tags>mediaitemmanagement, get, selected, item, project</tags>
         <changelog>
-					Reaper 7.20 - function is now deprecated
+     Reaper 7.20 - function is now deprecated
         </changelog>
     </US_DocBloc>
 
@@ -9426,16 +9456,16 @@
         </requires>
         <description prog_lang="*">
             Gets/sets an attribute string:
-						
-						ACTIVE : active state (bool as a string "0" or "1")
-						ARM : armed state (bool...)
-						VISIBLE : visible state (bool...)
-						SHOWLANE : show envelope in separate lane (bool...)
+      
+      ACTIVE : active state (bool as a string "0" or "1")
+      ARM : armed state (bool...)
+      VISIBLE : visible state (bool...)
+      SHOWLANE : show envelope in separate lane (bool...)
 
             P_EXT:xyz : char * : extension-specific persistent data; this is basically a key-value-store for envelopes.
             GUID : GUID * : 16-byte GUID, can query only, not set. If using a _String() function, GUID is a string {xyz-...}.
 
-						Note that when writing some of these attributes you will need to manually update the arrange and/or track panels, see TrackList_AdjustWindows
+      Note that when writing some of these attributes you will need to manually update the arrange and/or track panels, see TrackList_AdjustWindows
         </description>
         <retvals>
             boolean retval - true, getting/setting the value was successful; falsem getting/setting the value was unsuccessful
@@ -9449,17 +9479,17 @@
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>Reaper_Api_Documentation.USDocML</source_document>
-				<linked_to desc="see also:">
-						Reaper:TrackList_AdjustWindows
-									 refreshes TCP and MCP
-				</linked_to>
+    <linked_to desc="see also:">
+      Reaper:TrackList_AdjustWindows
+          refreshes TCP and MCP
+    </linked_to>
         <chapter_context>
             Envelope Management
             Misc
         </chapter_context>
         <tags>envelopes, get, set, extstate, active, arm, visible, show lane</tags>
         <changelog>
-					Reaper 7.19 - added attributes ACTIVE, ARM, VISIBLE, SHOWLANE
+     Reaper 7.19 - added attributes ACTIVE, ARM, VISIBLE, SHOWLANE
         </changelog>
     </US_DocBloc>
 
@@ -9890,9 +9920,9 @@
               &2048==0 and &256==256 - only normalize files that are too loud
               &2048==2048 and &256==0 - only normalize files that are too quiet
               &4128=32 = normalize stems to common gain based on master, 
-							&4128=4096 = normalize to loudest file
-							&4128=4128 = normalize as if one long file
-							&8192=adjust mono media additional -3dB
+       &4128=4096 = normalize to loudest file
+       &4128=4128 = normalize as if one long file
+       &8192=adjust mono media additional -3dB
             RENDER_NORMALIZE_TARGET: render normalization target as amplitude, so 0.5 means -6.02dB, 0.25 means -12.04dB, etc  
             RENDER_BRICKWALL: render brickwall limit as amplitude, so 0.5 means -6.02dB, 0.25 means -12.04dB, etc
             RENDER_FADEIN: render fade-in (0.001 means 1 ms, requires RENDER_NORMALIZE&512)
@@ -9923,7 +9953,7 @@
         </chapter_context>
         <tags></tags>
         <changelog>
-					  Reaper 7.23 - RENDER_NORMALIZE allows now for normalize to loudest file, normalize as if one long file and adjust mono media additional
+       Reaper 7.23 - RENDER_NORMALIZE allows now for normalize to loudest file, normalize as if one long file and adjust mono media additional
             Reaper 7.08 - RENDER_NORMALIZE allows now for normalize files that are too quiet
             Reaper 6.64 - FadeIn/FadeOut now supported in RENDER_NORMALIZE, RENDER_FADEIN, RENDER_FADEINSHAPE, RENDER_FADEOUT, RENDER_FADEOUTSHAPE
             Reaper 6.62 - RENDER_BOUNDSFLAG and RENDER_TAILFLAG support now markers as well
@@ -10138,7 +10168,7 @@
         </changelog>
     </US_DocBloc>
 
-		<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
         <slug>GetSetTempoTimeSigMarkerFlag</slug>
         <title>GetSetTempoTimeSigMarkerFlag</title>
         <functioncall prog_lang="cpp">int retval = GetSetTempoTimeSigMarkerFlag(ReaProject* project, int point_index, int flag, bool is_set)</functioncall>
@@ -10150,40 +10180,40 @@
         </requires>
         <description prog_lang="*">
             Gets or sets the attribute flag of a tempo/time signature marker. 
-						
-						flag 
-						&1=sets time signature and starts new measure, &2=does not set tempo, 
-						&4=allow previous partial measure if starting new measure, 
-						&8=set new metronome pattern if starting new measure, 
-						&16=reset ruler grid if starting new measure
+      
+      flag 
+      &1=sets time signature and starts new measure, &2=does not set tempo, 
+      &4=allow previous partial measure if starting new measure, 
+      &8=set new metronome pattern if starting new measure, 
+      &16=reset ruler grid if starting new measure
         </description>
         <retvals>
             integer retval - the value of the attribute as bitmask/flags
-													 - &1=sets time signature and starts new measure
-													 - &2=does not set tempo
-													 - &4=allow previous partial measure if starting new measure
-													 - &8=set new metronome pattern if starting new measure
-													 - &16=reset ruler grid if starting new measure
+              - &1=sets time signature and starts new measure
+              - &2=does not set tempo
+              - &4=allow previous partial measure if starting new measure
+              - &8=set new metronome pattern if starting new measure
+              - &16=reset ruler grid if starting new measure
         </retvals>
         <parameters>
             ReaProject project - the project-number. 0 for the current project. 
             integer point_index - the index of the time-sig-marker; 0-based
-						integer flag - &1=sets time signature and starts new measure
-												 - &2=does not set tempo
-												 - &4=allow previous partial measure if starting new measure
-												 - &8=set new metronome pattern if starting new measure
-												 - &16=reset ruler grid if starting new measure
-						boolean is_set - true, set the value; false, get the value
+      integer flag - &1=sets time signature and starts new measure
+             - &2=does not set tempo
+             - &4=allow previous partial measure if starting new measure
+             - &8=set new metronome pattern if starting new measure
+             - &16=reset ruler grid if starting new measure
+      boolean is_set - true, set the value; false, get the value
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>Reaper_Api_Documentation.USDocML</source_document>
         <chapter_context>
-					Marker Management
-					Time Signature Markers
+     Marker Management
+     Time Signature Markers
         </chapter_context>
         <tags>time signature markers, timesigmarkers, get, set, attributes</tags>
         <changelog>
-					Reaper 7.19 - added to api
+     Reaper 7.19 - added to api
         </changelog>
     </US_DocBloc>
 
@@ -10234,13 +10264,13 @@
             integer setmask - 
             integer setvalue - 
         </parameters>
-				<linked_to desc="see also:">
-					Reaper: GetSetTrackGroupMembershipEx
-									Gets/sets track group membership by an offset
-				</linked>
+    <linked_to desc="see also:">
+     Reaper: GetSetTrackGroupMembershipEx
+         Gets/sets track group membership by an offset
+    </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>Reaper_Api_Documentation.USDocML</source_document>
-        <chapter_context> 
+        <chapter_context>
             Track Management
             Track States
         </chapter_context>
@@ -10261,33 +10291,33 @@
         </requires>
         <description prog_lang="*">
             Gets or modifies 32 bits (at offset, where 0 is the low 32 bits of the grouping) of the group membership for a track. Returns group state prior to call. if setmask has bits set, those bits in setvalue will be applied to group. Group can be one of:
-						MEDIA_EDIT_LEAD
-						MEDIA_EDIT_FOLLOW
-						VOLUME_LEAD
-						VOLUME_FOLLOW
-						VOLUME_VCA_LEAD
-						VOLUME_VCA_FOLLOW
-						PAN_LEAD
-						PAN_FOLLOW
-						WIDTH_LEAD
-						WIDTH_FOLLOW
-						MUTE_LEAD
-						MUTE_FOLLOW
-						SOLO_LEAD
-						SOLO_FOLLOW
-						RECARM_LEAD
-						RECARM_FOLLOW
-						POLARITY_LEAD
-						POLARITY_FOLLOW
-						AUTOMODE_LEAD
-						AUTOMODE_FOLLOW
-						VOLUME_REVERSE
-						PAN_REVERSE
-						WIDTH_REVERSE
-						NO_LEAD_WHEN_FOLLOW
-						VOLUME_VCA_FOLLOW_ISPREFX
+      MEDIA_EDIT_LEAD
+      MEDIA_EDIT_FOLLOW
+      VOLUME_LEAD
+      VOLUME_FOLLOW
+      VOLUME_VCA_LEAD
+      VOLUME_VCA_FOLLOW
+      PAN_LEAD
+      PAN_FOLLOW
+      WIDTH_LEAD
+      WIDTH_FOLLOW
+      MUTE_LEAD
+      MUTE_FOLLOW
+      SOLO_LEAD
+      SOLO_FOLLOW
+      RECARM_LEAD
+      RECARM_FOLLOW
+      POLARITY_LEAD
+      POLARITY_FOLLOW
+      AUTOMODE_LEAD
+      AUTOMODE_FOLLOW
+      VOLUME_REVERSE
+      PAN_REVERSE
+      WIDTH_REVERSE
+      NO_LEAD_WHEN_FOLLOW
+      VOLUME_VCA_FOLLOW_ISPREFX
 
-						Note: REAPER v6.11 and earlier used _MASTER and _SLAVE rather than _LEAD and _FOLLOW, which is deprecated but still supported (scripts that must support v6.11 and earlier can use the deprecated strings).
+      Note: REAPER v6.11 and earlier used _MASTER and _SLAVE rather than _LEAD and _FOLLOW, which is deprecated but still supported (scripts that must support v6.11 and earlier can use the deprecated strings).
         </description>
         <retvals>
             integer group_membership - 
@@ -10295,7 +10325,7 @@
         <parameters>
             MediaTrack tr - 
             string groupname - 
-						integer offset - 
+      integer offset - 
             integer setmask - 
             integer setvalue - 
         </parameters>
@@ -10305,13 +10335,13 @@
             Track Management
             Track States
         </chapter_context>
-				<linked_to desc="see also:">
-					Reaper: GetSetTrackGroupMembership
-									Gets/sets track group membership without an offset
-				</linked>
+    <linked_to desc="see also:">
+     Reaper: GetSetTrackGroupMembership
+         Gets/sets track group membership without an offset
+    </linked_to>
         <tags></tags>
         <changelog>
-					Reaper 7.23 - added to API
+     Reaper 7.23 - added to API
         </changelog>
     </US_DocBloc>
 
@@ -12794,7 +12824,7 @@
             &2048=insert into open reasamplomatic instance (add 512 to use high word as absolute track index), 
             &4096=move to source preferred position (BWF start offset), 
             &8192=reverse
-						&16385=apply ripple according to project setting
+      &16385=apply ripple according to project setting
             
             Example:
             To insert an item at a specific trackindex, use:
@@ -12820,7 +12850,7 @@
         </chapter_context>
         <tags></tags>
         <changelog>
-					Reaper 7.26 - added flag for applying ripple according to project settings when inserting media
+     Reaper 7.26 - added flag for applying ripple according to project settings when inserting media
         </changelog>
     </US_DocBloc>
 
@@ -12874,8 +12904,8 @@
         </requires>
         <description>
             inserts a track at idx,of course this will be clamped to 0..GetNumTracks().
-						
-						Superseded, see InsertTrackInProject 
+      
+      Superseded, see InsertTrackInProject 
         </description>
         <parameters>
             integer idx - the index, in which to insert the track; 0, insert before the first track.
@@ -12912,14 +12942,14 @@
         <parameters>
             ReaProject proj - the project, into which you want to add the track; 0, default
             integer idx - the position, at which the track shall be included
-						integer flags - 0, no default fx/envelopes will be added
-													- &1 adds default envelopes/FX
+      integer flags - 0, no default fx/envelopes will be added
+             - &1 adds default envelopes/FX
         </parameters>
         <linked_to desc="see also:">
             Reaper:CountTracks
                    counts the number of tracks
-						Reaper:InsertTrackAtIndex
-									 inserts a track at a certain index
+      Reaper:InsertTrackAtIndex
+          inserts a track at a certain index
         </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>Reaper_Api_Documentation.USDocML</source_document>
@@ -12929,7 +12959,7 @@
         </chapter_context>
         <tags>trackmanagement, insert, track, index, default</tags>
         <changelog>
-					Reaper 7.18 - added
+     Reaper 7.18 - added
         </changelog>
     </US_DocBloc>
 
@@ -13657,7 +13687,7 @@
         <functioncall prog_lang="lua">reaper.Main_SaveProjectEx(ReaProject proj, string filename, integer options)</functioncall>
         <functioncall prog_lang="python">RPR_Main_SaveProjectEx(ReaProject proj, String filename, Int options)</functioncall>
         <requires>
-            Reaper=6.53
+            Reaper=7.34
         </requires>
         <description prog_lang="*">
             Save the project and allows passing a filename.
@@ -13675,6 +13705,7 @@
                             - &1, save selected tracks as track template
                             - &2, include media with track templates 
                             - &4, include envelopes with track template
+              - &8, if not saving template, set as the new project filename for this ReaProject
         </parameters>
         <linked_to desc="see also:">
             Reaper:Main_openProject
@@ -13690,6 +13721,7 @@
         </chapter_context>
         <tags>projectmanagement, save, project, save dialog, filename</tags>
         <changelog>
+       Reaper 7.34 - added flag &8, which sets the saved projectfilename as the new one for the current ReaProject
             Reaper 6.53 - added to API
         </changelog>
     </US_DocBloc>
@@ -15129,7 +15161,7 @@
         </chapter_context>
         <tags>midi editor, refresh</tags>
         <changelog>
-					Reaper 7.18 - added
+     Reaper 7.18 - added
         </changelog>
     </US_DocBloc>
 
@@ -18523,7 +18555,7 @@
         <functioncall prog_lang="lua">boolean retval = reaper.SetMediaItemTakeInfo_Value(MediaItem_Take take, string parmname, number newvalue)</functioncall>
         <functioncall prog_lang="python">Boolean retval = RPR_SetMediaItemTakeInfo_Value(MediaItem_Take take, String parmname, Float newvalue)</functioncall>
         <requires>
-            Reaper=7.08
+            Reaper=7.34
         </requires>
         <description prog_lang="*">
             Set media item take numerical-value attributes.
@@ -18543,6 +18575,35 @@
             I_RECPASSID : int * : record pass ID
             I_TAKEFX_NCH : int * : number of internal audio channels for per-take FX to use (OK to call with setNewValue, but the returned value is read-only)
             I_CUSTOMCOLOR : int * : custom color, OS dependent color|0x1000000 (i.e. ColorToNative(r,g,b)|0x1000000). If you do not |0x1000000, then it will not be used, but will store the color.
+      IP_SPECEDIT:CNT : int : spectral edit count (read-only)
+      IP_SPECEDIT:DELETE:x : int : read or write this key to remove the spectral edit specified
+      IP_SPECEDIT:ADD : int : read or write this key to add a new spectral edit (returns index)
+      IP_SPECEDIT:SORT : int : read or write this key to re-sort spectral edits (be sure to do this following a position change or insert of new edit)
+      I_SPECEDIT:FFT_SIZE : int * : FFT size used by spectral edits for this take
+      D_SPECEDIT:x:POSITION : double * : position of spectral edit start (changing this requires a resort of spectral edits)
+      D_SPECEDIT:x:LENGTH : double * : length of spectral edit
+      F_SPECEDIT:x:GAIN : float * : gain of spectral edit
+      F_SPECEDIT:x:FADE_IN : float * : fade-in size 0..1
+      F_SPECEDIT:x:FADE_OUT : float * : fade-out size 0..1
+      F_SPECEDIT:x:FADE_LOW : float * : fade-lf size 0..1
+      F_SPECEDIT:x:FADE_HI : float * : fade-hf size 0..1
+      I_SPECEDIT:x:CHAN : int * : channel index, -1 for omni
+      I_SPECEDIT:x:FLAGS : int * : flags, &amp;1=bypassed, &amp;2=solo
+      F_SPECEDIT:x:GATE_THRESH : float * : gate threshold
+      F_SPECEDIT:x:GATE_FLOOR : float * : gate floor
+      F_SPECEDIT:x:COMP_THRESH : float * : comp threshold
+      F_SPECEDIT:x:COMP_RATIO : float * : comp ratio
+      B_SPECEDIT:x:SELECTED : bool * : selection state
+      I_SPECEDIT:x:TOPFREQ_CNT : int * : (read-only) number of top frequency-points
+      I_SPECEDIT:x:TOPFREQ_ADD:pos:val : int * : reading or writing will insert top frequency-point with position/value pair, returns index
+      I_SPECEDIT:x:TOPFREQ_DEL:y : int * : reading or writing will delete top frequency-point y. there will always be at least one point.
+      F_SPECEDIT:x:TOPFREQ_POS:y : float * : (read-only) get position of top frequency-point y
+      F_SPECEDIT:x:TOPFREQ_FREQ:y : float * : (read-only) get frequency of top frequency-point y
+      I_SPECEDIT:x:BOTFREQ_CNT : int * : number of bottom frequency-points
+      I_SPECEDIT:x:BOTFREQ_ADD:pos:val : int * : reading or writing will insert bottom frequency-point with position/value pair, returns index
+      I_SPECEDIT:x:BOTFREQ_DEL:y : int * : reading or writing will delete bottom frequency-point y. there will always be at least one point.
+      F_SPECEDIT:x:BOTFREQ_POS:y : float * : (read-only) get position of bottom frequency-point y
+      F_SPECEDIT:x:BOTFREQ_FREQ:y : float * : (read-only) get frequency of bottom frequency-point y
             IP_TAKENUMBER : int : take number (read-only, returns the take number directly)
         </description>
         <retvals>
@@ -18561,8 +18622,9 @@
         </chapter_context>
         <tags></tags>
         <changelog>
-          Reaper 7.08 - I_STRETCHFLAGS, F_STRETCHFADESIZE, I_RECPASSID added
-          Reaper 7.07 - I_TAKEFX_NCH added as attribute
+     Reaper 7.34 - new attributes added: IP_SPECEDIT:CNT, IP_SPECEDIT:DELETE:x, IP_SPECEDIT:ADD, IP_SPECEDIT:SORT, I_SPECEDIT:FFT_SIZE, D_SPECEDIT:x:POSITION, D_SPECEDIT:x:LENGTH, F_SPECEDIT:x:GAIN, F_SPECEDIT:x:FADE_IN, F_SPECEDIT:x:FADE_OUT, F_SPECEDIT:x:FADE_LOW, F_SPECEDIT:x:FADE_HI, I_SPECEDIT:x:CHAN, I_SPECEDIT:x:FLAGS, F_SPECEDIT:x:GATE_THRESH, F_SPECEDIT:x:GATE_FLOOR, F_SPECEDIT:x:COMP_THRESH, F_SPECEDIT:x:COMP_RATIO, B_SPECEDIT:x:SELECTED, I_SPECEDIT:x:TOPFREQ_CNT, I_SPECEDIT:x:TOPFREQ_ADD:pos:val, I_SPECEDIT:x:TOPFREQ_DEL:y, F_SPECEDIT:x:TOPFREQ_POS:y, F_SPECEDIT:x:TOPFREQ_FREQ:y, I_SPECEDIT:x:BOTFREQ_CNT, I_SPECEDIT:x:BOTFREQ_ADD:pos:val, I_SPECEDIT:x:BOTFREQ_DEL:y, F_SPECEDIT:x:BOTFREQ_POS:y, F_SPECEDIT:x:BOTFREQ_FREQ:y
+          Reaper 7.08 - new attributes added: I_STRETCHFLAGS, F_STRETCHFADESIZE, I_RECPASSID
+          Reaper 7.07 - new attributes added: I_TAKEFX_NCH
         </changelog>
     </US_DocBloc>
 
@@ -19466,7 +19528,7 @@
              * col_stretchmarker_text : Media item stretch marker text 
              * col_stretchmarker_tm : Media item transient guide handle 
              * take_marker : Media item take marker 
-						 * take_marker_sel : Media item take marker when item selected
+       * take_marker_sel : Media item take marker when item selected
              * selitem_tag : Selected media item bar color 
              * activetake_tag : Active media item take bar color 
              * col_tr1_bg : Track background (odd tracks) 
@@ -19516,12 +19578,12 @@
              * col_gridlines1dm : Grid lines (in between beats) - draw mode 
              * guideline_color : Editing guide line 
              * guideline_drawmode : Editing guide mode 
-						 * mouseitem_color : Mouse position indicator
-						 * mouseitem_mode : Mouse position indicator mode
+       * mouseitem_color : Mouse position indicator
+       * mouseitem_mode : Mouse position indicator mode
              * region : Regions 
              * region_lane_bg : Region lane background 
              * region_edge : Region text and edge
-						 * region_lane_text : Region text
+       * region_lane_text : Region text
              * region_edge_sel : Region text and edge (selected)             
              * marker : Markers 
              * marker_lane_bg : Marker lane background 
@@ -19781,8 +19843,8 @@
         </chapter_context>
         <tags></tags>
         <changelog>
-						Reaper 7.19 - new theme-colors: mouseitem_color, mouseitem_mode
-						Reaper 7.17 - new theme-colors: take_marker_sel, region_lane_text
+      Reaper 7.19 - new theme-colors: mouseitem_color, mouseitem_mode
+      Reaper 7.17 - new theme-colors: take_marker_sel, region_lane_text
             Reaper 7.16 - new theme-colors: region_edge, region_edge_sel, marker_edge, marker_edge_sel; removed: marker_lane_text
             Reaper 7.00 - new theme-colors: selitem_dot, track_lane_tabcol, track_lanesolo_tabcol, track_lanesolo_text, track_lane_gutter, track_lane_gutter_drawmode, linkedlane_fill, linkedlane_fillmode, linkedlane_outline, linkedlane_outlinemode, linkedlane_unsynced, linkedlane_unsynced_mode, vu_gr_bgcol, vu_gr_fgcol
             Reaper 6.74 - new theme-colors: col_routingact, wiring_activity
@@ -22884,16 +22946,16 @@
         </requires>
         <description prog_lang="*">
             Fills in a string representing the active metronome pattern. 
-						
-						For example, in a 7/8 measure divided 3+4, the pattern might be "ABCABCD". 
-						
-						For backwards compatibility, by default the function will return 1 for each primary beat and 2 for each non-primary beat, so "1221222" in this example, and does not support triplets. 
-						
-						If buf is set to "EXTENDED", the function will return the full string as displayed in the pattern editor, including all beat types and triplet representations. 
-						
-						Pass in "SET:string" with a correctly formed pattern string matching the current time signature numerator to set the click pattern. 
-						
-						The time signature numerator can be deduced from the returned string, and the function returns the time signature denominator.
+      
+      For example, in a 7/8 measure divided 3+4, the pattern might be "ABCABCD". 
+      
+      For backwards compatibility, by default the function will return 1 for each primary beat and 2 for each non-primary beat, so "1221222" in this example, and does not support triplets. 
+      
+      If buf is set to "EXTENDED", the function will return the full string as displayed in the pattern editor, including all beat types and triplet representations. 
+      
+      Pass in "SET:string" with a correctly formed pattern string matching the current time signature numerator to set the click pattern. 
+      
+      The time signature numerator can be deduced from the returned string, and the function returns the time signature denominator.
         </description>
         <retvals>
             boolean retval - 
@@ -22912,7 +22974,7 @@
         </chapter_context>
         <tags></tags>
         <changelog>
-					Reaper 6.28 - supports new pattern-schemes, returning the current pattern including beat types and triples representations; supports setting of patterns
+     Reaper 6.28 - supports new pattern-schemes, returning the current pattern including beat types and triples representations; supports setting of patterns
         </changelog>
     </US_DocBloc>
 
@@ -48153,7 +48215,7 @@ Mespotine
         </changelog>
     </US_DocBloc>
 
-		<US_DocBloc version="1.0" spok_lang="en" prog_lang="cpp">
+  <US_DocBloc version="1.0" spok_lang="en" prog_lang="cpp">
         <slug>AdvancePlaybackPosition</slug>
         <title>AdvancePlaybackPosition</title>
         <functioncall prog_lang="cpp">int retval = (*REAPERAPI_FUNCNAME(AdvancePlaybackPosition))(ReaProject* proj, double opos, double* npos, WDL_INT64* loopcnt, double srate, int* max_spls, int* sflags);</functioncall>
@@ -48162,31 +48224,31 @@ Mespotine
         </requires>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
             Steps through audio blocks for project. opos is start of current block in seconds, *npos should be set to start of estimated next block, will be updated with new start. loopcnt should be set to GetPlayLoopCnt initially, will be updated if discontinuity. max_spls may be updated to shorter block length if discontinuity. sflags should be 0 initially and is the running state used internally. returns 1 if looped sel, 2 if looped project, 4 if loopendskip, 8 if smoothseek, 16 if fade audition (all during this block).  Typically called with code something like:
-						 
-								 int asflags = 0;
-								 INT64 lc = GetPlayLoopCnt(proj, NULL);
-								 double oldpos = GetPlayPosition2Ex(proj);
-								 loop:
-									 double nextpos = old_pos + len / srate;
-									 int thislen = len;
-									 int ret = AdvancePlaybackPosition(proj, old_pos, &nextpos, &lc, srate, &thislen, &asflags);
-									 oldpos = nextpos;
-								 goto loop
+       
+         int asflags = 0;
+         INT64 lc = GetPlayLoopCnt(proj, NULL);
+         double oldpos = GetPlayPosition2Ex(proj);
+         loop:
+          double nextpos = old_pos + len / srate;
+          int thislen = len;
+          int ret = AdvancePlaybackPosition(proj, old_pos, &nextpos, &lc, srate, &thislen, &asflags);
+          oldpos = nextpos;
+         goto loop
 
             Stored in reaper_plugin_functions.h
         </description>
         <retvals>
             int retval -
         </retvals>
-				<parameters>
-						ReaProject* proj - 
-						double opos - 
-						double* npos - 
-						WDL_INT64* loopcnt - 
-						double srate - 
-						int* max_spls - 
-						int* sflags - 
-				</parameters>
+    <parameters>
+      ReaProject* proj - 
+      double opos - 
+      double* npos - 
+      WDL_INT64* loopcnt - 
+      double srate - 
+      int* max_spls - 
+      int* sflags - 
+    </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper_plugin.h</source_document>
         <chapter_context>
@@ -48195,7 +48257,7 @@ Mespotine
         </chapter_context>
         <tags>cpp, extension, menu, add</tags>
         <changelog>
-					Reaper 7.23 - added to API
+     Reaper 7.23 - added to API
         </changelog>
     </US_DocBloc>
 
@@ -48876,7 +48938,7 @@ Mespotine
         </retvals>
         <parameters>
             ReaProject* proj - 
-						WDL_INT64* render_skip_loopcnt - 
+      WDL_INT64* render_skip_loopcnt - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper_plugin.h</source_document>
@@ -48886,7 +48948,7 @@ Mespotine
         </chapter_context>
         <tags>cpp, peaks, bitmap</tags>
         <changelog>
-					Reaper 7.23 - added to API
+     Reaper 7.23 - added to API
         </changelog>
     </US_DocBloc>
 
@@ -49057,6 +49119,35 @@ Mespotine
                          -I_RECPASSID : int * : record pass ID
                          -I_TAKEFX_NCH : int * : number of internal audio channels for per-take FX to use (OK to call with setNewValue, but the returned value is read-only)
                          -I_CUSTOMCOLOR : int *, custom color, OS dependent color|0x1000000 (i.e. ColorToNative(r,g,b)|0x1000000). If you do not |0x1000000, then it will not be used (though will store the color anyway).
+												 -IP_SPECEDIT:CNT : int : spectral edit count (read-only)
+												 -IP_SPECEDIT:DELETE:x : int : read or write this key to remove the spectral edit specified
+												 -IP_SPECEDIT:ADD : int : read or write this key to add a new spectral edit (returns index)
+												 -IP_SPECEDIT:SORT : int : read or write this key to re-sort spectral edits (be sure to do this following a position change or insert of new edit)
+												 -I_SPECEDIT:FFT_SIZE : int * : FFT size used by spectral edits for this take
+												 -D_SPECEDIT:x:POSITION : double * : position of spectral edit start (changing this requires a resort of spectral edits)
+												 -D_SPECEDIT:x:LENGTH : double * : length of spectral edit
+												 -F_SPECEDIT:x:GAIN : float * : gain of spectral edit
+												 -F_SPECEDIT:x:FADE_IN : float * : fade-in size 0..1
+												 -F_SPECEDIT:x:FADE_OUT : float * : fade-out size 0..1
+												 -F_SPECEDIT:x:FADE_LOW : float * : fade-lf size 0..1
+												 -F_SPECEDIT:x:FADE_HI : float * : fade-hf size 0..1
+												 -I_SPECEDIT:x:CHAN : int * : channel index, -1 for omni
+												 -I_SPECEDIT:x:FLAGS : int * : flags, &amp;1=bypassed, &amp;2=solo
+												 -F_SPECEDIT:x:GATE_THRESH : float * : gate threshold
+												 -F_SPECEDIT:x:GATE_FLOOR : float * : gate floor
+												 -F_SPECEDIT:x:COMP_THRESH : float * : comp threshold
+												 -F_SPECEDIT:x:COMP_RATIO : float * : comp ratio
+												 -B_SPECEDIT:x:SELECTED : bool * : selection state
+												 -I_SPECEDIT:x:TOPFREQ_CNT : int * : (read-only) number of top frequency-points
+												 -I_SPECEDIT:x:TOPFREQ_ADD:pos:val : int * : reading or writing will insert top frequency-point with position/value pair, returns index
+												 -I_SPECEDIT:x:TOPFREQ_DEL:y : int * : reading or writing will delete top frequency-point y. there will always be at least one point.
+												 -F_SPECEDIT:x:TOPFREQ_POS:y : float * : (read-only) get position of top frequency-point y
+												 -F_SPECEDIT:x:TOPFREQ_FREQ:y : float * : (read-only) get frequency of top frequency-point y
+												 -I_SPECEDIT:x:BOTFREQ_CNT : int * : number of bottom frequency-points
+												 -I_SPECEDIT:x:BOTFREQ_ADD:pos:val : int * : reading or writing will insert bottom frequency-point with position/value pair, returns index
+												 -I_SPECEDIT:x:BOTFREQ_DEL:y : int * : reading or writing will delete bottom frequency-point y. there will always be at least one point.
+												 -F_SPECEDIT:x:BOTFREQ_POS:y : float * : (read-only) get position of bottom frequency-point y
+												 -F_SPECEDIT:x:BOTFREQ_FREQ:y : float * : (read-only) get frequency of bottom frequency-point y
                          -IP_TAKENUMBER : int, take number within the item (read-only, returns the take number directly)
             void* setNewValue - the new value to be set to the parameter. See the description of parmname above for more details.
         </parameters>
@@ -49068,6 +49159,7 @@ Mespotine
         </chapter_context>
         <tags>cpp, get, set, mediaitem, take, info</tags>
         <changelog>
+					Reaper 7.34 - new attributes added: IP_SPECEDIT:CNT, IP_SPECEDIT:DELETE:x, IP_SPECEDIT:ADD, IP_SPECEDIT:SORT, I_SPECEDIT:FFT_SIZE, D_SPECEDIT:x:POSITION, D_SPECEDIT:x:LENGTH, F_SPECEDIT:x:GAIN,	F_SPECEDIT:x:FADE_IN, F_SPECEDIT:x:FADE_OUT, F_SPECEDIT:x:FADE_LOW, F_SPECEDIT:x:FADE_HI, I_SPECEDIT:x:CHAN, I_SPECEDIT:x:FLAGS, F_SPECEDIT:x:GATE_THRESH, F_SPECEDIT:x:GATE_FLOOR, F_SPECEDIT:x:COMP_THRESH, F_SPECEDIT:x:COMP_RATIO, B_SPECEDIT:x:SELECTED, I_SPECEDIT:x:TOPFREQ_CNT, I_SPECEDIT:x:TOPFREQ_ADD:pos:val,	I_SPECEDIT:x:TOPFREQ_DEL:y, F_SPECEDIT:x:TOPFREQ_POS:y, F_SPECEDIT:x:TOPFREQ_FREQ:y, I_SPECEDIT:x:BOTFREQ_CNT, I_SPECEDIT:x:BOTFREQ_ADD:pos:val, I_SPECEDIT:x:BOTFREQ_DEL:y, F_SPECEDIT:x:BOTFREQ_POS:y, F_SPECEDIT:x:BOTFREQ_FREQ:y
           Reaper 7.08 - I_STRETCHFLAGS, F_STRETCHFADESIZE, I_RECPASSID added
           Reaper 7.07 - I_TAKEFX_NCH added as new attribute
         </changelog>

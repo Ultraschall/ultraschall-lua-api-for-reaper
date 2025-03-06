@@ -6204,7 +6204,7 @@ function reagirl.Gui_Manage(keep_running)
     reagirl.Window_SetFocus_Trigger=nil
   end
   if reagirl.UI_Elements_HoveredElement==-1 and gfx.mouse_cap==0 then
-    gfx.setcursor(1)
+    gfx.setcursor(0x7f00)
   end
   if reagirl.Gui_Manage_keep_running==true and reagirl.Gui_IsOpen()==true then
     reaper.defer(reagirl.Gui_Manage)
@@ -7614,7 +7614,7 @@ function reagirl.Checkbox_Manage(element_id, selected, hovered, clicked, mouse_c
   end
   
   if hovered==true then
-    gfx.setcursor(114)
+    gfx.setcursor(0x7f89)
   end
   
   if element_storage["linked_to"]~=0 then
@@ -9469,7 +9469,7 @@ function reagirl.ColorRectangle_Manage(element_id, selected, hovered, clicked, m
   end
   
   if hovered==true and element_storage["color_selector_when_clicked"]==true then
-    gfx.setcursor(114)
+    gfx.setcursor(0x7f89)
   end
   
   local col=reagirl.Color_GetName(element_storage["r_full"],element_storage["g_full"],element_storage["b_full"])
@@ -10773,9 +10773,9 @@ function reagirl.Textbox_Manage(element_id, selected, hovered, clicked, mouse_ca
   
   if hovered==true then
     if element_storage["clickable"]==true then
-      gfx.setcursor(114)
+      gfx.setcursor(0x7f89)
     elseif element_storage["DraggableDestinations"]~=nil then
-      gfx.setcursor(114)
+      gfx.setcursor(0x7f89)
     end
   end
   
@@ -10950,7 +10950,7 @@ function reagirl.Textbox_Manage(element_id, selected, hovered, clicked, mouse_ca
         reagirl.Draggable_Element=element_id
         element_storage["mouse_x"]=gfx.mouse_x
         element_storage["mouse_y"]=gfx.mouse_y
-        gfx.setcursor(114)
+        gfx.setcursor(0x7f89)
       end
   end
   if element_storage["Draggable"]==true and element_storage.DraggableDestinations~=nil then
@@ -11424,7 +11424,7 @@ function reagirl.Button_Manage(element_id, selected, hovered, clicked, mouse_cap
   end
   
   if hovered==true then
-    gfx.setcursor(114)
+    gfx.setcursor(0x7f89)
   end
   
   if selected~="not selected" and (Key==32 or Key==13) then 
@@ -11746,7 +11746,7 @@ function reagirl.Burgermenu_Manage(element_id, selected, hovered, clicked, mouse
   end
   
   if hovered==true then
-    gfx.setcursor(114)
+    gfx.setcursor(0x7f89)
   end
   
   if selected~="not selected" and (Key==32 or Key==13) and element_storage["pressed"]~=true then 
@@ -12556,12 +12556,12 @@ function reagirl.Inputbox_Manage(element_id, selected, hovered, clicked, mouse_c
   if hovered==true then
     if gfx.mouse_x>=x+Cap_width then
       if selected=="not selected" and gfx.mouse_cap==0 then
-        gfx.setcursor(101)
+        gfx.setcursor(0x7f01)
       elseif selected~="not selected" then
-        gfx.setcursor(101)
+        gfx.setcursor(0x7f01)
       end
     else
-      gfx.setcursor(1)
+      gfx.setcursor(0x7f00)
     end
   end
   local entered_character=""
@@ -13505,13 +13505,13 @@ function reagirl.DropDownMenu_Manage(element_id, selected, hovered, clicked, mou
   end
   
   if hovered==true and gfx.mouse_x>=x+cap_w and gfx.mouse_x<=x+w and gfx.mouse_y>=y and gfx.mouse_y<=y+h then
-    gfx.setcursor(114)
+    gfx.setcursor(0x7f89)
   elseif hovered==true and gfx.mouse_x>=x and gfx.mouse_x<=x+cap_w and gfx.mouse_y>=y and gfx.mouse_y<=y+h then
-    gfx.setcursor(1)
+    gfx.setcursor(0x7f00)
   end
   if gfx.mouse_x>=x+cap_w and gfx.mouse_x<=x+w and gfx.mouse_y>=y and gfx.mouse_y<=y+h then
     if hovered==true then
-      gfx.setcursor(114)
+      gfx.setcursor(0x7f89)
     end
     reagirl.Scroll_Override_MouseWheel=true
     if reagirl.MoveItAllRight_Delta==0 and reagirl.MoveItAllUp_Delta==0 then
@@ -14640,9 +14640,9 @@ function reagirl.Label_Manage(element_id, selected, hovered, clicked, mouse_cap,
   
   if hovered==true then
     if element_storage["clickable"]==true then
-      gfx.setcursor(114)
+      gfx.setcursor(0x7f89)
     elseif element_storage["DraggableDestinations"]~=nil then
-      gfx.setcursor(114)
+      gfx.setcursor(0x7f89)
     end
   end
   
@@ -14817,7 +14817,7 @@ function reagirl.Label_Manage(element_id, selected, hovered, clicked, mouse_cap,
         reagirl.Draggable_Element=element_id
         element_storage["mouse_x"]=gfx.mouse_x
         element_storage["mouse_y"]=gfx.mouse_y
-        gfx.setcursor(114)
+        gfx.setcursor(0x7f89)
       end
   end
   if element_storage["Draggable"]==true and element_storage.DraggableDestinations~=nil then
@@ -15779,9 +15779,9 @@ function reagirl.Image_Manage(element_id, selected, hovered, clicked, mouse_cap,
 
   if hovered==true then
     if element_storage["clickable"]==true then
-      gfx.setcursor(114)
+      gfx.setcursor(0x7f89)
     elseif element_storage["DraggableDestinations"]~=nil then
-      gfx.setcursor(114)
+      gfx.setcursor(0x7f89)
     end
   end
   
@@ -15802,7 +15802,7 @@ function reagirl.Image_Manage(element_id, selected, hovered, clicked, mouse_cap,
         reagirl.Draggable_Element=element_id
         element_storage["mouse_x"]=gfx.mouse_x
         element_storage["mouse_y"]=gfx.mouse_y
-        gfx.setcursor(114)
+        gfx.setcursor(0x7f89)
       end
   end
   if element_storage["Draggable"]==true and element_storage.DraggableDestinations~=nil then
@@ -17274,11 +17274,11 @@ function reagirl.Slider_Manage(element_id, selected, hovered, clicked, mouse_cap
   end
   
   if hovered==true and gfx.mouse_x>=x+offset_cap and gfx.mouse_x<=x+w-element_storage["unit_w"] and gfx.mouse_y>=y and gfx.mouse_y<=y+h then
-    gfx.setcursor(114)
+    gfx.setcursor(0x7f89)
   elseif hovered==true and gfx.mouse_x>=x and gfx.mouse_x<=x+offset_cap and gfx.mouse_y>=y and gfx.mouse_y<=y+h then
-    gfx.setcursor(1)
+    gfx.setcursor(0x7f00)
   elseif hovered==true and gfx.mouse_x>=x+w-element_storage["unit_w"] and gfx.mouse_x<=x+w and gfx.mouse_y>=y and gfx.mouse_y<=y+h then
-    gfx.setcursor(1)
+    gfx.setcursor(0x7f00)
   end
   
   if element_storage["linked_to"]~=0 then
@@ -18623,7 +18623,7 @@ function reagirl.Tabs_Manage(element_id, selected, hovered, clicked, mouse_cap, 
         if gfx.mouse_y>=y and gfx.mouse_y<=element_storage["Tabs_Pos"][i]["h"]+y then
           if gfx.mouse_x>=element_storage["Tabs_Pos"][i]["x"] and gfx.mouse_x<=element_storage["Tabs_Pos"][i]["x"]+element_storage["Tabs_Pos"][i]["w"] then
             --element_storage["AccHoverMessage"]=element_storage["TabNames"][i]
-            gfx.setcursor(114)
+            gfx.setcursor(0x7f89)
             local selected1=""
             if element_storage["TabSelected"]==i then selected1=" selected" end
             acc_message=element_storage["TabNames"][i].." tab"..selected1.."."
