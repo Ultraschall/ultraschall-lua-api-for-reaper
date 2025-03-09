@@ -26,6 +26,8 @@
 
 --[[
 TODO: 
+  - Buttons: add functions so set individual edges to round/square
+  
   - auto-window-width is not correctly calculated in Gui_Open(): when tab with autoscale is present, it's too small
   - Zoom: change reagirl.ReScale to zoom
       - ctrl++ and ctrl+- don't work due a Reaper-bug
@@ -2601,6 +2603,15 @@ reagirl.Colors.Scrollbar_Background_b=0.39
 reagirl.Colors.Scrollbar_Foreground_r=0.49
 reagirl.Colors.Scrollbar_Foreground_g=0.49
 reagirl.Colors.Scrollbar_Foreground_b=0.49
+reagirl.Colors.Toolbar_TextFG_r=0.8
+reagirl.Colors.Toolbar_TextFG_g=0.8
+reagirl.Colors.Toolbar_TextFG_b=0.8
+reagirl.Colors.Toolbar_TextBG_r=0.2
+reagirl.Colors.Toolbar_TextBG_g=0.2
+reagirl.Colors.Toolbar_TextBG_b=0.2
+reagirl.Colors.Toolbar_Area_r=0.274
+reagirl.Colors.Toolbar_Area_g=0.274
+reagirl.Colors.Toolbar_Area_b=0.274
 reagirl.Colors.Checkbox_TextBG_r=0.2
 reagirl.Colors.Checkbox_TextBG_g=0.2
 reagirl.Colors.Checkbox_TextBG_b=0.2
@@ -3756,6 +3767,8 @@ function reagirl.Window_RescaleIfNeeded()
     for i=1, #reagirl.Elements do 
       if reagirl.Elements[i]["GUI_Element_Type"]=="Image" then
         retval=reagirl.Image_ReloadImage_Scaled(reagirl.Elements[i]["Guid"])
+      elseif reagirl.Elements[i]["GUI_Element_Type"]=="ToolbarButton" then
+        retval=reagirl.ToolbarButton_ReloadImage_Scaled(reagirl.Elements[i]["Guid"])
       end
     end
     reagirl.Gui_ForceRefresh(1)
@@ -11579,7 +11592,7 @@ function reagirl.Button_Draw(element_id, selected, hovered, clicked, mouse_cap, 
     if element_storage["IsDisabled"]==false then
       gfx.x=x+(w-sw)/2+1
       if reaper.GetOS():match("OS")~=nil then offset=1 end
-      gfx.y=y--+(h-sh)/2-dpi_scale
+      gfx.y=y+(h-sh)/2-dpi_scale
       gfx.set(0.784)
       gfx.drawstr(element_storage["Name"])
     else
@@ -11599,6 +11612,261 @@ function reagirl.Button_Draw(element_id, selected, hovered, clicked, mouse_cap, 
     end
   end
 end
+
+function reagirl.ToolbarButton_ReloadImage_Scaled(element_id)
+  if type(element_id)~="string" then error("ToolbarButton_ReloadImage_Scaled: param #1 - must be a string", 2) end
+  if reagirl.IsValidGuid(element_id, true)==false then error("ToolbarButton_ReloadImage_Scaled: param #1 - must be a valid guid", 2) end
+  
+  element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
+  if element_id==-1 then error("ToolbarButton_ReloadImage_Scaled: param #1 - no such ui-element", 2) end
+  if reagirl.Elements[element_id]["GUI_Element_Type"]~="ToolbarButton" then
+    error("ToolbarButton_ReloadImage_Scaled: param #1 - ui-element is not a toolbar-button", 2)
+  end
+  
+  local image_filename=reagirl.Elements[element_id]["toolbaricon_filename"]
+  local scale=reagirl.Window_CurrentScale
+  
+  local path, filename = string.gsub(image_filename, "\\", "/"):match("(.*)(/.*)")
+  reagirl.Elements[element_id]["toolbaricon_scale"]=1
+  if reaper.file_exists(image_filename:match("(.*)%.").."-"..scale.."x"..image_filename:match(".*(%..*)"))==true then
+    image_filename=image_filename:match("(.*)%.").."-"..scale.."x"..image_filename:match(".*(%..*)")
+    reagirl.Elements[element_id]["toolbaricon_scale"]=scale
+  elseif reaper.file_exists(path.."/"..scale.."00/"..filename) then
+    image_filename=path.."/"..scale.."00/"..filename
+    reagirl.Elements[element_id]["toolbaricon_scale"]=scale
+  end
+  local image=reagirl.Elements[element_id]["toolbaricon"]
+  reagirl.Elements[element_id]["toolbaricon_filename_scaled"]=image_filename
+  
+  
+  local AImage=gfx.loadimg(image, image_filename)
+  
+  if AImage==-1 then 
+    gfx.setimgdim(reagirl.Elements[slot]["toolbaricon"], 0, 0)
+    return false
+  end
+  
+  return true
+end
+
+function reagirl.ToolbarButton_Add(x, y, toolbaricon, num_states, default_state, mode, caption, meaningOfUI_Element, run_function)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>ToolbarButton_Add</slug>
+  <requires>
+    ReaGirl=1.3
+    Reaper=7.03
+    Lua=5.4
+  </requires>
+  <functioncall>string toolbarbutton_guid = reagirl.ToolbarButton_Add(optional integer x, optional integer y, string toolbaricon, integer num_states, integer default_state, integer mode, string caption, string meaningOfUI_Element, optional function run_function)</functioncall>
+  <description>
+    Adds a toolbar-button to a gui.
+    
+    You can autoposition the toolbar-button by setting x and/or y to nil, which will position the new toolbar-button after the last ui-element.
+    To autoposition into the next line, use reagirl.NextLine()
+    
+    Toolbarbuttons have the same size as Reaper's own toolbar-buttons: 30x30 pixels(in 1x scaling)
+    
+    You can have max 1000 toolbarbuttons and/or images in your gui.
+    
+    The run-function gets as parameter:
+    - string element_id - the element_id as string of the pressed toolbar-button that uses this run-function
+  </description>
+  <parameters>
+    optional integer x - the x position of the toolbar-button in pixels; negative anchors the toolbar-button to the right window-side; nil, autoposition after the last ui-element(see description)
+    optional integer y - the y position of the toolbar-button in pixels; negative anchors the toolbar-button to the bottom window-side; nil, autoposition after the last ui-element(see description)
+    string toolbaricon - filename+path to the toolbar-icon-image; keep empty for text-icon
+    integer num_states - number of states when clicked; 1, 1-state; 2, 2-states; 3, 3-states, etc
+    integer default_state - default-state(1 or higher); must be maximum num_states
+    integer mode - 1, toolbar-icon only; 2, toolbar-icon+caption right
+    string caption - the caption of the toolbar-button
+    string meaningOfUI_Element - the meaningOfUI_Element of the ui-element(for tooltips and blind users). Make it a sentence that ends with . or ?
+    optional function run_function - a function that shall be run when the toolbar-button is clicked; will get the toolbar-button-element_id passed over as first parameter; nil, no run-function for this toolbar-button
+  </parameters>
+  <retvals>
+    string toolbarbutton_guid - a guid that can be used for altering the toolbar-button-attributes
+  </retvals>
+  <chapter_context>
+    Toolbarbutton
+  </chapter_context>
+  <tags>toolbarbutton, add</tags>
+</US_DocBloc>
+--]]
+  if x~=nil and math.type(x)~="integer" then error("ToolbarButton_Add: param #1 - must be either nil or an integer", 2) end
+  if y~=nil and math.type(y)~="integer" then error("ToolbarButton_Add: param #2 - must be either nil or an integer", 2) end
+  if type(toolbaricon)~="string" then error("ToolbarButton_Add: param #3 - must be a string", 2) end
+  if math.type(num_states)~="integer" then error("ToolbarButton_Add: param #4 - must be an integer", 2) end
+  if math.type(default_state)~="integer" then error("ToolbarButton_Add: param #5 - must be an integer", 2) end
+  
+  if default_state>num_states then error("ToolbarButton_Add: param #5 - must be between 1 and "..num_states, 2) end
+  if math.type(mode)~="integer" then error("ToolbarButton_Add: param #6 - must be a string", 2) end
+  if type(caption)~="string" then error("ToolbarButton_Add: param #7 - must be a string", 2) end
+  caption=string.gsub(caption, "[\n\r]", "")
+  if type(meaningOfUI_Element)~="string" then error("ToolbarButton_Add: param #8 - must be a string", 2) end
+  if meaningOfUI_Element:sub(-1,-1)~="." and meaningOfUI_Element:sub(-1,-1)~="?" then error("ToolbarButton_Add: param #8 - must end on a . like a regular sentence.", 2) end
+  if run_function~=nil and type(run_function)~="function" then error("ToolbarButton_Add: param #9 - must be either nil or a function", 2) end
+  
+  local x,y,slot=reagirl.UI_Element_GetNextXAndYPosition(x, y, "ToolbarButton_Add")
+  --reagirl.UI_Element_NextX_Default=x
+  
+  reagirl.SetFont(1, reagirl.Font_Face, reagirl.Font_Size, 0, 1)
+  local tx,ty=gfx.measurestr(caption)
+  reagirl.SetFont(1, reagirl.Font_Face, reagirl.Font_Size, 0)
+  
+  table.insert(reagirl.Elements, slot, {})
+  reagirl.Elements[slot]["Guid"]=reaper.genGuid("")
+  reagirl.Elements[slot]["GUI_Element_Type"]="ToolbarButton"
+  reagirl.Elements[slot]["Name"]=caption
+  reagirl.Elements[slot]["Text"]=caption
+  reagirl.Elements[slot]["IsDisabled"]=false
+  reagirl.Elements[slot]["sticky_x"]=false
+  reagirl.Elements[slot]["sticky_y"]=false
+  reagirl.Elements[slot]["Description"]=meaningOfUI_Element
+  reagirl.Elements[slot]["AccHint"]="Click with space or left mouseclick."
+  reagirl.Elements[slot]["ContextMenu_ACC"]=""
+  reagirl.Elements[slot]["DropZoneFunction_ACC"]=""
+  reagirl.Elements[slot]["x"]=x
+  reagirl.Elements[slot]["y"]=y
+  reagirl.Elements[slot]["w"]=30
+  reagirl.Elements[slot]["h"]=30
+  if mode==2 then
+    reagirl.Elements[slot]["w"]=30+tx+5
+  end
+  reagirl.Elements[slot]["mode"]=mode
+  reagirl.Elements[slot]["num_states"]=num_states
+  reagirl.Elements[slot]["cur_state"]=default_state
+  reagirl.Elements[slot]["toolbaricon_filename"]=toolbaricon
+  reagirl.Elements[slot]["toolbaricon"]=reagirl.Gui_ReserveImageBuffer()
+  reagirl.ToolbarButton_ReloadImage_Scaled(reagirl.Elements[slot]["Guid"])
+  
+  if math.tointeger(ty)>reagirl.NextLine_Overflow then reagirl.NextLine_Overflow=math.tointeger(ty) end
+  reagirl.Elements[slot]["w_margin"]=0
+  reagirl.Elements[slot]["h_margin"]=0
+  reagirl.Elements[slot]["radius"]=2
+  reagirl.Elements[slot]["func_manage"]=reagirl.ToolbarButton_Manage
+  reagirl.Elements[slot]["func_draw"]=reagirl.ToolbarButton_Draw
+  reagirl.Elements[slot]["run_function"]=run_function
+  reagirl.Elements[slot]["userspace"]={}
+  return reagirl.Elements[slot]["Guid"]
+end
+
+function reagirl.ToolbarButton_Manage(element_id, selected, hovered, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
+  local message=" "
+  local refresh=false
+  local oldpressed=element_storage["pressed"]
+  
+  -- drop files for accessibility using a file-requester, after typing ctrl+shift+f
+  if element_storage["DropZoneFunction"]~=nil and Key==6 and mouse_cap==12 then
+    local retval, filenames = reaper.GetUserFileNameForRead("", "Choose file to drop into "..element_storage["Name"], "")
+    reagirl.Window_SetFocus()
+    if retval==true then element_storage["DropZoneFunction"](element_storage["Guid"], {filenames}) refresh=true end
+  end
+  
+  if hovered==true then
+    gfx.setcursor(0x7f89)
+  end
+  
+  if selected~="not selected" and (Key==32 or Key==13) then 
+    element_storage["pressed"]=true
+    message=""
+    reagirl.Gui_ForceRefresh(20)
+  elseif selected~="not selected" and mouse_cap&1~=0 and gfx.mouse_x>x and gfx.mouse_y>y and gfx.mouse_x<x+w and gfx.mouse_y<y+h then
+    local oldstate=element_storage["pressed"]
+    element_storage["pressed"]=true
+    if oldstate~=element_storage["pressed"] then
+      reagirl.Gui_ForceRefresh(21)
+    end
+    message=""
+  else
+    local oldstate=element_storage["pressed"]
+    element_storage["pressed"]=false
+    if oldstate~=element_storage["pressed"] then
+      reagirl.Gui_ForceRefresh(22)
+    end
+  end
+  if oldpressed==true and element_storage["pressed"]==false and (mouse_cap&1==0 and Key~=32) then
+    element_storage["cur_state"]=element_storage["cur_state"]+1
+    if element_storage["cur_state"]>element_storage["num_states"] then element_storage["cur_state"]=1 end
+    if element_storage["run_function"]~=nil then element_storage["run_function"](element_storage["Guid"]) message="pressed" end
+  end
+
+  return message, oldpressed~=element_storage["pressed"]
+end
+
+function reagirl.ToolbarButton_Draw(element_id, selected, hovered, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
+  gfx.x=x
+  gfx.y=y
+  
+  local offset
+  local dpi_scale, state
+  local radius = element_storage["radius"]
+  reagirl.SetFont(1, reagirl.Font_Face, reagirl.Font_Size, 0)
+  
+  local sw,sh=gfx.measurestr(element_storage["Name"])
+  
+  local dpi_scale=reagirl.Window_CurrentScale
+  y=y+dpi_scale
+  w=30*dpi_scale
+  if reagirl.Elements[element_id]["pressed"]==true then
+    local scale=reagirl.Window_CurrentScale-1
+    state=1*dpi_scale-1
+    
+    offset=1--math.floor(dpi_scale)
+    
+    if offset==0 then offset=1 end
+    
+    gfx.set(0.06) -- background 2
+    reagirl.RoundRect(x, y, w, h, (radius) * dpi_scale, 1, 1)
+    
+    --gfx.set(0.274) -- button-area
+    gfx.set(reagirl.Colors.Toolbar_Area_r, reagirl.Colors.Toolbar_Area_g, reagirl.Colors.Toolbar_Area_b) -- button-area
+    reagirl.RoundRect(x+dpi_scale, y+dpi_scale, w-dpi_scale, h-dpi_scale, (radius-1) * dpi_scale, 1, 1)
+
+    gfx.blit(element_storage["toolbaricon"], 1, 0, (element_storage["cur_state"]-1)*30*element_storage["toolbaricon_scale"], 0, 30*element_storage["toolbaricon_scale"], 30*element_storage["toolbaricon_scale"], x+dpi_scale, y+dpi_scale, w, h)
+    gfx.set(reagirl.Colors.Toolbar_TextBG_r, reagirl.Colors.Toolbar_TextBG_g, reagirl.Colors.Toolbar_TextBG_b, 1)
+    gfx.x=x+35*dpi_scale+dpi_scale
+    gfx.y=y+(h-sh)/2+dpi_scale
+    gfx.drawstr(name)
+    gfx.set(reagirl.Colors.Toolbar_TextFG_r, reagirl.Colors.Toolbar_TextFG_g, reagirl.Colors.Toolbar_TextFG_b, 1)
+    gfx.x=x+35*dpi_scale
+    gfx.y=y+(h-sh)/2
+    gfx.drawstr(name)
+    
+    if element_storage["IsDisabled"]==false then
+      gfx.x=x+(w-sw)/2+2+scale
+      gfx.y=y+(h-sh)/2+scale
+      
+    end
+  else
+    local scale=1--reagirl.Window_CurrentScale
+    state=0
+    
+    gfx.set(0.06) -- background 1
+    reagirl.RoundRect((x)*scale, (y)*scale, w, h, radius * dpi_scale, 1, 1)
+    
+    gfx.set(0.45) -- background 2
+    reagirl.RoundRect(x*scale, (y - dpi_scale) * scale, w-dpi_scale, h, radius * dpi_scale, 1, 1)
+    
+    gfx.set(reagirl.Colors.Toolbar_Area_r, reagirl.Colors.Toolbar_Area_g, reagirl.Colors.Toolbar_Area_b) -- button-area
+    reagirl.RoundRect((x + dpi_scale) * scale, (y) * scale, w-dpi_scale-dpi_scale, h-dpi_scale, (radius-1) * dpi_scale, 1, 1)
+    gfx.blit(element_storage["toolbaricon"], 1, 0, (element_storage["cur_state"]-1)*30*element_storage["toolbaricon_scale"], 0, 30*element_storage["toolbaricon_scale"], 30*element_storage["toolbaricon_scale"], x, y, w, h)
+    gfx.set(reagirl.Colors.Toolbar_TextBG_r, reagirl.Colors.Toolbar_TextBG_g, reagirl.Colors.Toolbar_TextBG_b, 1)
+    gfx.x=x+35*dpi_scale+dpi_scale
+    gfx.y=y+(h-sh)/2+dpi_scale
+    gfx.drawstr(name)
+    gfx.set(reagirl.Colors.Toolbar_TextFG_r, reagirl.Colors.Toolbar_TextFG_g, reagirl.Colors.Toolbar_TextFG_b, 1)
+    gfx.x=x+35*dpi_scale
+    gfx.y=y+(h-sh)/2
+    gfx.drawstr(name)
+    
+    
+    local offset=0
+    gfx.x=x+(w-sw)/2+1
+    if reaper.GetOS():match("OS")~=nil then offset=1 end
+    gfx.y=y+(h-sh)/2-dpi_scale
+  end
+end
+
 function reagirl.Menu_GetEntryName(menu, entry_nr)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">

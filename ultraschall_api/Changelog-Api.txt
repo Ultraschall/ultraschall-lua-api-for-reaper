@@ -428,7 +428,7 @@ Has now 1858 functions, with XX new ones
 	- BLA  
 
 #### Changes from 5.2 to 5.3  
-
+	- ReaGirl: Buttons - caption wasn't properly drawn when y-margin was>0 -> fixed
 ---
 
 ### 5.2 - "Warpaint - Keep it healthy" - 7th of March 2025
