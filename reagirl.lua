@@ -218,7 +218,7 @@ function reagirl.GetVersion()
     <tags>misc, get, version</tags>
   </US_DocBloc>
   --]]
-  return 1.2
+  return 1.3
 end
 
 reagirl.osara_outputMessage=reaper.osara_outputMessage

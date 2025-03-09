@@ -415,6 +415,22 @@ Check why that is...probably because of Label_SetLabelText somehow resetting the
 
 ## Ultraschall Framework - Changelog
 
+### 5.3 - " - " - 7th of March 2025
+
+Has now 1858 functions, with XX new ones
+
+**new in this release:**  
+
+  - **Bla**  
+  Bla
+		
+#### New features in 5.3  
+	- BLA  
+
+#### Changes from 5.2 to 5.3  
+
+---
+
 ### 5.2 - "Warpaint - Keep it healthy" - 7th of March 2025
 
 Has now 1858 functions, with 24 new ones
