@@ -2603,6 +2603,15 @@ reagirl.Colors.Scrollbar_Background_b=0.39
 reagirl.Colors.Scrollbar_Foreground_r=0.49
 reagirl.Colors.Scrollbar_Foreground_g=0.49
 reagirl.Colors.Scrollbar_Foreground_b=0.49
+reagirl.Colors.Buttons_Area_r=0.274
+reagirl.Colors.Buttons_Area_g=0.274
+reagirl.Colors.Buttons_Area_b=0.274
+reagirl.Colors.Buttons_TextFG_r=0.784
+reagirl.Colors.Buttons_TextFG_g=0.784
+reagirl.Colors.Buttons_TextFG_b=0.784
+reagirl.Colors.Buttons_TextBG_r=0.2
+reagirl.Colors.Buttons_TextBG_g=0.2
+reagirl.Colors.Buttons_TextBG_b=0.2
 reagirl.Colors.Toolbar_TextFG_r=0.8
 reagirl.Colors.Toolbar_TextFG_g=0.8
 reagirl.Colors.Toolbar_TextFG_b=0.8
@@ -7693,6 +7702,11 @@ function reagirl.Checkbox_Manage(element_id, selected, hovered, clicked, mouse_c
   
   --if linked_refresh==true then reagirl.ScreenReader_SendMessage(element_storage["Name"].." - toggle state changed to "..tostring(element_storage["checked"])) end
   
+  if element_storage.hovered~=hovered then
+    reagirl.Gui_ForceRefresh(111222.23244)
+  end
+  element_storage.hovered=hovered
+  
   if selected~="not selected" and (((clicked=="FirstCLK" or clicked=="DBLCLK" )and mouse_cap&1==1) or Key==32) then 
     if (gfx.mouse_x>=x 
       and gfx.mouse_x<=x+w 
@@ -7830,16 +7844,19 @@ function reagirl.Checkbox_Draw(element_id, selected, hovered, clicked, mouse_cap
   local bottom=element_storage["bottom_edge"]
   --gfx.set(1)
   --gfx.rect(x,y,w,h,1)
-
-  gfx.set(reagirl.Colors.Checkbox_rectangle_r, reagirl.Colors.Checkbox_rectangle_g, reagirl.Colors.Checkbox_rectangle_b)
+  local add_color=0
+  if hovered==true then 
+    add_color=reagirl.Color_CalculateHighlighter(reagirl.Colors.Checkbox_rectangle_r, reagirl.Colors.Checkbox_rectangle_g, reagirl.Colors.Checkbox_rectangle_b)
+  end
+  gfx.set(reagirl.Colors.Checkbox_rectangle_r+add_color, reagirl.Colors.Checkbox_rectangle_g+add_color, reagirl.Colors.Checkbox_rectangle_b+add_color)
   reagirl.RoundRect(x, y-scale, h, h, 2*scale-1, 1,1, false, false, false, false)
   
-  gfx.set(reagirl.Colors.Checkbox_background_r, reagirl.Colors.Checkbox_background_g, reagirl.Colors.Checkbox_background_b)
+  gfx.set(reagirl.Colors.Checkbox_background_r+add_color, reagirl.Colors.Checkbox_background_g+add_color, reagirl.Colors.Checkbox_background_b+add_color)
   reagirl.RoundRect(x+scale, y, h-scale*2, h-scale*2, scale-1, 0, 1, false, false, false, false)
 
   if element_storage["checked"]==true then
     if element_storage["IsDisabled"]==false then
-      gfx.set(reagirl.Colors.Checkbox_r, reagirl.Colors.Checkbox_g, reagirl.Colors.Checkbox_b)
+      gfx.set(reagirl.Colors.Checkbox_r+add_color, reagirl.Colors.Checkbox_g+add_color, reagirl.Colors.Checkbox_b+add_color)
     else
       gfx.set(reagirl.Colors.Checkbox_disabled_r, reagirl.Colors.Checkbox_disabled_g, reagirl.Colors.Checkbox_disabled_b)
     end
@@ -11519,6 +11536,11 @@ function reagirl.Button_Manage(element_id, selected, hovered, clicked, mouse_cap
     gfx.setcursor(0x7f89)
   end
   
+  if element_storage.hovered~=hovered then
+    reagirl.Gui_ForceRefresh(111222.23248)
+  end
+  element_storage.hovered=hovered
+  
   if selected~="not selected" and (Key==32 or Key==13) then 
     element_storage["pressed"]=true
     message=""
@@ -11554,6 +11576,11 @@ function reagirl.Button_Draw(element_id, selected, hovered, clicked, mouse_cap, 
   
   local sw,sh=gfx.measurestr(element_storage["Name"])
   
+  local add_color=0
+  if hovered==true then 
+    add_color=reagirl.Color_CalculateHighlighter(reagirl.Colors.Checkbox_rectangle_r, reagirl.Colors.Checkbox_rectangle_g, reagirl.Colors.Checkbox_rectangle_b)
+  end
+  
   local dpi_scale=reagirl.Window_CurrentScale
   y=y+dpi_scale
   if reagirl.Elements[element_id]["pressed"]==true then
@@ -11565,17 +11592,21 @@ function reagirl.Button_Draw(element_id, selected, hovered, clicked, mouse_cap, 
     if offset==0 then offset=1 end
     
     gfx.set(0.06) -- background 2
-    reagirl.RoundRect(x, y, w+dpi_scale+dpi_scale, h, (radius) * dpi_scale, 1, 1, element_storage["square_topleft"], element_storage["square_bottomleft"], element_storage["square_topright"], element_storage["square_bottomright"])
+    reagirl.RoundRect(x, y, w, h, (radius) * dpi_scale, 1, 1, element_storage["square_topleft"], element_storage["square_bottomleft"], element_storage["square_topright"], element_storage["square_bottomright"])
     
-    gfx.set(0.274) -- button-area
-    reagirl.RoundRect(x+dpi_scale, y+dpi_scale, w+dpi_scale, h, (radius-1) * dpi_scale, 1, 1, element_storage["square_topleft"], element_storage["square_bottomleft"], element_storage["square_topright"], element_storage["square_bottomright"])
+    gfx.set(reagirl.Colors.Buttons_Area_r+add_color, reagirl.Colors.Buttons_Area_g+add_color, reagirl.Colors.Buttons_Area_b+add_color) -- button-area
+    reagirl.RoundRect(x+dpi_scale, y+dpi_scale, w-dpi_scale, h, (radius-1) * dpi_scale, 1, 1, element_storage["square_topleft"], element_storage["square_bottomleft"], element_storage["square_topright"], element_storage["square_bottomright"])
     
     if element_storage["IsDisabled"]==false then
-      gfx.x=x+(w-sw)/2+2+scale
-    
       if reaper.GetOS():match("OS")~=nil then offset=1 end
-      gfx.y=y+(h-sh)/2+scale
-      gfx.set(0.784)
+      gfx.x=x+(w-sw)/2+2+scale+dpi_scale
+      gfx.y=y+(h-sh)/2+scale+dpi_scale+dpi_scale
+      gfx.set(reagirl.Colors.Buttons_TextBG_r, reagirl.Colors.Buttons_TextBG_g, reagirl.Colors.Buttons_TextBG_b)
+      gfx.drawstr(element_storage["Name"])
+      
+      gfx.x=x+(w-sw)/2+2+scale
+      gfx.y=y+(h-sh)/2+scale+dpi_scale
+      gfx.set(reagirl.Colors.Buttons_TextFG_r, reagirl.Colors.Buttons_TextFG_g, reagirl.Colors.Buttons_TextFG_b)
       gfx.drawstr(element_storage["Name"])
     end
     reagirl.SetFont(1, reagirl.Font_Face, reagirl.Font_Size, 0)
@@ -11589,15 +11620,20 @@ function reagirl.Button_Draw(element_id, selected, hovered, clicked, mouse_cap, 
     gfx.set(0.45) -- background 2
     reagirl.RoundRect(x*scale, (y - dpi_scale) * scale, w-dpi_scale, h, radius * dpi_scale, 1, 1, element_storage["square_topleft"], element_storage["square_bottomleft"], element_storage["square_topright"], element_storage["square_bottomright"])
     
-    gfx.set(0.274) -- button-area
+    gfx.set(reagirl.Colors.Buttons_Area_r+add_color, reagirl.Colors.Buttons_Area_g+add_color, reagirl.Colors.Buttons_Area_b+add_color) -- button-area
     reagirl.RoundRect((x + dpi_scale) * scale, (y) * scale, w-dpi_scale-dpi_scale, h-dpi_scale, (radius-1) * dpi_scale, 1, 1, element_storage["square_topleft"], element_storage["square_bottomleft"], element_storage["square_topright"], element_storage["square_bottomright"])
     
     local offset=0
     if element_storage["IsDisabled"]==false then
-      gfx.x=x+(w-sw)/2+1
       if reaper.GetOS():match("OS")~=nil then offset=1 end
+      gfx.x=x+(w-sw)/2+1+dpi_scale
+      gfx.y=y+(h-sh)/2
+      gfx.set(reagirl.Colors.Buttons_TextBG_r, reagirl.Colors.Buttons_TextBG_g, reagirl.Colors.Buttons_TextBG_b)
+      gfx.drawstr(element_storage["Name"])
+      
+      gfx.x=x+(w-sw)/2+1
       gfx.y=y+(h-sh)/2-dpi_scale
-      gfx.set(0.784)
+      gfx.set(reagirl.Colors.Buttons_TextFG_r, reagirl.Colors.Buttons_TextFG_g, reagirl.Colors.Buttons_TextFG_b)
       gfx.drawstr(element_storage["Name"])
     else
       if reaper.GetOS():match("OS")~=nil then offset=1 end
@@ -11651,6 +11687,11 @@ function reagirl.ToolbarButton_ReloadImage_Scaled(element_id)
   end
   
   return true
+end
+
+function reagirl.Color_CalculateHighlighter(r, g, b)
+  color=(r+g+b)/2
+  if color>0.8 then return -0.075 else return 0.075 end
 end
 
 function reagirl.ToolbarButton_Add(x, y, toolbaricon, num_states, default_state, mode, caption, meaningOfUI_Element, run_function)
@@ -11771,6 +11812,11 @@ function reagirl.ToolbarButton_Manage(element_id, selected, hovered, clicked, mo
     if retval==true then element_storage["DropZoneFunction"](element_storage["Guid"], {filenames}) refresh=true end
   end
   
+  if element_storage.hovered~=hovered then
+    reagirl.Gui_ForceRefresh(111222.23245)
+  end
+  element_storage.hovered=hovered
+  
   if hovered==true then
     gfx.setcursor(0x7f89)
   end
@@ -11811,6 +11857,11 @@ function reagirl.ToolbarButton_Draw(element_id, selected, hovered, clicked, mous
   local radius = element_storage["radius"]
   reagirl.SetFont(1, reagirl.Font_Face, reagirl.Font_Size, 0)
   
+  local add_color=0
+  if hovered==true then 
+    add_color=reagirl.Color_CalculateHighlighter(reagirl.Colors.Toolbar_Area_r, reagirl.Colors.Toolbar_Area_g, reagirl.Colors.Toolbar_Area_b)
+  end
+  
   local sw,sh=gfx.measurestr(element_storage["Name"])
   
   local dpi_scale=reagirl.Window_CurrentScale
@@ -11828,7 +11879,7 @@ function reagirl.ToolbarButton_Draw(element_id, selected, hovered, clicked, mous
     reagirl.RoundRect(x, y, w, h, (radius) * dpi_scale, 1, 1, element_storage["square_topleft"], element_storage["square_bottomleft"], element_storage["square_topright"], element_storage["square_bottomright"])
     
     --gfx.set(0.274) -- button-area
-    gfx.set(reagirl.Colors.Toolbar_Area_r, reagirl.Colors.Toolbar_Area_g, reagirl.Colors.Toolbar_Area_b) -- button-area
+    gfx.set(reagirl.Colors.Toolbar_Area_r+add_color, reagirl.Colors.Toolbar_Area_g+add_color, reagirl.Colors.Toolbar_Area_b+add_color) -- button-area
     reagirl.RoundRect(x+dpi_scale, y+dpi_scale, w-dpi_scale, h-dpi_scale, (radius-1) * dpi_scale, 1, 1, element_storage["square_topleft"], element_storage["square_bottomleft"], element_storage["square_topright"], element_storage["square_bottomright"])
 
     gfx.blit(element_storage["toolbaricon"], 1, 0, (element_storage["cur_state"]-1)*30*element_storage["toolbaricon_scale"], 0, 30*element_storage["toolbaricon_scale"], 30*element_storage["toolbaricon_scale"], x+dpi_scale, y+dpi_scale, w, h)
@@ -11858,8 +11909,9 @@ function reagirl.ToolbarButton_Draw(element_id, selected, hovered, clicked, mous
     gfx.set(0.45) -- background 2
     reagirl.RoundRect(x*scale, (y - dpi_scale) * scale, w-dpi_scale, h, radius * dpi_scale, 1, 1, element_storage["square_topleft"], element_storage["square_bottomleft"], element_storage["square_topright"], element_storage["square_bottomright"])
     
-    gfx.set(reagirl.Colors.Toolbar_Area_r, reagirl.Colors.Toolbar_Area_g, reagirl.Colors.Toolbar_Area_b) -- button-area
+    gfx.set(reagirl.Colors.Toolbar_Area_r+add_color, reagirl.Colors.Toolbar_Area_g+add_color, reagirl.Colors.Toolbar_Area_b+add_color) -- button-area
     reagirl.RoundRect((x + dpi_scale) * scale, (y) * scale, w-dpi_scale-dpi_scale, h-dpi_scale, (radius-1) * dpi_scale, 1, 1, element_storage["square_topleft"], element_storage["square_bottomleft"], element_storage["square_topright"], element_storage["square_bottomright"])
+    
     gfx.blit(element_storage["toolbaricon"], 1, 0, (element_storage["cur_state"]-1)*30*element_storage["toolbaricon_scale"], 0, 30*element_storage["toolbaricon_scale"], 30*element_storage["toolbaricon_scale"], x, y, w, h)
     gfx.set(reagirl.Colors.Toolbar_TextBG_r, reagirl.Colors.Toolbar_TextBG_g, reagirl.Colors.Toolbar_TextBG_b, 1)
     if element_storage["mode"]==2 then
