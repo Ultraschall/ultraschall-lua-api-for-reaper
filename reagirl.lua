@@ -2729,7 +2729,8 @@ end
   
 function reagirl.FormatNumber(n, p)
   --reaper.MB(n,"",0)
-  if n<0.00000000000001 then return 0 end
+  local negative=false
+  if n<0.00000000000001 then negative=true n=-n end
   --if number<0.0000001 then return 0 end
   --[[
   local adder, fraction, fraction2, int
@@ -2746,9 +2747,10 @@ function reagirl.FormatNumber(n, p)
   end
   return int.."."..(fraction2+adder)
   --]]
+  if tostring(n):match("e")~=nil then return 0 end
   local p = (math.log(math.abs(n), 10) // 1) + (p or 3) + 1
   if tostring(p):match("INF")~=nil then p=0 end
-  return ('%%.%dg'):format(p):format(n)
+  if negative==false then return ('%%.%dg'):format(p):format(n) else return -('%%.%dg'):format(p):format(n) end
 end
 
 function string.has_control(String)
@@ -7846,7 +7848,7 @@ function reagirl.Checkbox_Draw(element_id, selected, hovered, clicked, mouse_cap
   --gfx.rect(x,y,w,h,1)
   local add_color=0
   if hovered==true then 
-    add_color=reagirl.Color_CalculateHighlighter(reagirl.Colors.Checkbox_rectangle_r, reagirl.Colors.Checkbox_rectangle_g, reagirl.Colors.Checkbox_rectangle_b)
+    add_color=reagirl.Color_CalculateHighlighter(reagirl.Colors.Checkbox_rectangle_r, reagirl.Colors.Checkbox_rectangle_g, reagirl.Colors.Checkbox_rectangle_b)*2
   end
   gfx.set(reagirl.Colors.Checkbox_rectangle_r+add_color, reagirl.Colors.Checkbox_rectangle_g+add_color, reagirl.Colors.Checkbox_rectangle_b+add_color)
   reagirl.RoundRect(x, y-scale, h, h, 2*scale-1, 1,1, false, false, false, false)
@@ -7856,7 +7858,7 @@ function reagirl.Checkbox_Draw(element_id, selected, hovered, clicked, mouse_cap
 
   if element_storage["checked"]==true then
     if element_storage["IsDisabled"]==false then
-      gfx.set(reagirl.Colors.Checkbox_r+add_color, reagirl.Colors.Checkbox_g+add_color, reagirl.Colors.Checkbox_b+add_color)
+      gfx.set(reagirl.Colors.Checkbox_r, reagirl.Colors.Checkbox_g, reagirl.Colors.Checkbox_b)
     else
       gfx.set(reagirl.Colors.Checkbox_disabled_r, reagirl.Colors.Checkbox_disabled_g, reagirl.Colors.Checkbox_disabled_b)
     end
@@ -11691,7 +11693,10 @@ end
 
 function reagirl.Color_CalculateHighlighter(r, g, b)
   color=(r+g+b)/2
-  if color>0.8 then return -0.075 else return 0.075 end
+  local val=tonumber(reaper.GetExtState("ReaGirl", "Highlight_Intensity"))
+  if val==nil then val=0.075 end
+  if val<0.025 then return 0 end
+  if color>0.8 then return -val else return val end
 end
 
 function reagirl.ToolbarButton_Add(x, y, toolbaricon, num_states, default_state, mode, caption, meaningOfUI_Element, run_function)
@@ -17883,6 +17888,7 @@ function reagirl.Slider_Draw(element_id, selected, hovered, clicked, mouse_cap, 
   
   -- draw unit
   local unit=reagirl.FormatNumber(element_storage["CurValue"], element_storage["UnitLen"])
+  -- mespotine
   if element_storage["Unit"]~=nil then 
     gfx.x=x+w-offset_unit+9*dpi_scale
     gfx.y=y+dpi_scale+(h-gfx.texth)/2
