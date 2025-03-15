@@ -2612,6 +2612,7 @@ reagirl.Colors.Buttons_TextFG_b=0.784
 reagirl.Colors.Buttons_TextBG_r=0.2
 reagirl.Colors.Buttons_TextBG_g=0.2
 reagirl.Colors.Buttons_TextBG_b=0.2
+
 reagirl.Colors.Toolbar_TextFG_r=0.8
 reagirl.Colors.Toolbar_TextFG_g=0.8
 reagirl.Colors.Toolbar_TextFG_b=0.8
@@ -2621,6 +2622,30 @@ reagirl.Colors.Toolbar_TextBG_b=0.2
 reagirl.Colors.Toolbar_Area_r=0.274
 reagirl.Colors.Toolbar_Area_g=0.274
 reagirl.Colors.Toolbar_Area_b=0.274
+
+reagirl.Colors.DropDownMenu_TextFG_r=0.8
+reagirl.Colors.DropDownMenu_TextFG_g=0.8
+reagirl.Colors.DropDownMenu_TextFG_b=0.8
+reagirl.Colors.DropDownMenu_TextFGdisabled_r=0.6
+reagirl.Colors.DropDownMenu_TextFGdisabled_g=0.6
+reagirl.Colors.DropDownMenu_TextFGdisabled_b=0.6
+reagirl.Colors.DropDownMenu_TextBG_r=0.2
+reagirl.Colors.DropDownMenu_TextBG_g=0.2
+reagirl.Colors.DropDownMenu_TextBG_b=0.2
+reagirl.Colors.DropDownMenu_Area_r=0.274
+reagirl.Colors.DropDownMenu_Area_g=0.274
+reagirl.Colors.DropDownMenu_Area_b=0.274
+
+reagirl.Colors.DropDownMenu_AreaTextFG_r=0.784
+reagirl.Colors.DropDownMenu_AreaTextFG_g=0.784
+reagirl.Colors.DropDownMenu_AreaTextFG_b=0.784
+reagirl.Colors.DropDownMenu_AreaTextFGdisabled_r=0.09
+reagirl.Colors.DropDownMenu_AreaTextFGdisabled_g=0.09
+reagirl.Colors.DropDownMenu_AreaTextFGdisabled_b=0.09
+reagirl.Colors.DropDownMenu_AreaTextBG_r=0.2
+reagirl.Colors.DropDownMenu_AreaTextBG_g=0.2
+reagirl.Colors.DropDownMenu_AreaTextBG_b=0.2
+
 reagirl.Colors.Checkbox_TextBG_r=0.2
 reagirl.Colors.Checkbox_TextBG_g=0.2
 reagirl.Colors.Checkbox_TextBG_b=0.2
@@ -11863,7 +11888,7 @@ function reagirl.ToolbarButton_Draw(element_id, selected, hovered, clicked, mous
   reagirl.SetFont(1, reagirl.Font_Face, reagirl.Font_Size, 0)
   
   local add_color=0
-  if hovered==true then 
+  if hovered==true then  
     add_color=reagirl.Color_CalculateHighlighter(reagirl.Colors.Toolbar_Area_r, reagirl.Colors.Toolbar_Area_g, reagirl.Colors.Toolbar_Area_b)
   end
   
@@ -13893,6 +13918,11 @@ function reagirl.DropDownMenu_Manage(element_id, selected, hovered, clicked, mou
   if w<50 then w=50 end
   local refresh=false
   
+  if element_storage.hovered~=hovered then
+    reagirl.Gui_ForceRefresh(111222.23245)
+  end
+  element_storage.hovered=hovered
+  
   if element_storage["linked_to"]~=0 then
     if element_storage["linked_to"]==1 then
       local val=reaper.GetExtState(element_storage["linked_to_section"], element_storage["linked_to_key"])
@@ -13968,6 +13998,7 @@ function reagirl.DropDownMenu_Manage(element_id, selected, hovered, clicked, mou
       element_storage["pressed"]=true
       collapsed=""
       refresh=true
+      reagirl.Gui_ForceRefresh()
     elseif Key==1685026670 then
       element_storage["menuSelectedItem"]=element_storage["menuSelectedItem"]+1
       refresh=true
@@ -13996,6 +14027,7 @@ function reagirl.DropDownMenu_Manage(element_id, selected, hovered, clicked, mou
     elseif selected~="not selected" and (clicked=="FirstCLK" and mouse_cap&1==1) and (gfx.mouse_x>=x+cap_w and gfx.mouse_x<=x+w and gfx.mouse_y>=y and gfx.mouse_y<=y+h) then
       element_storage["pressed"]=true
       collapsed=""
+      reagirl.Gui_ForceRefresh()
     else
       element_storage["pressed"]=false
     end
@@ -14032,6 +14064,12 @@ function reagirl.DropDownMenu_Draw(element_id, selected, hovered, clicked, mouse
   if element_storage["Cap_width"]~=nil then
     cap_w=element_storage["Cap_width"]
   end
+  
+  local add_color=0
+  if hovered==true then 
+    add_color=reagirl.Color_CalculateHighlighter(reagirl.Colors.Toolbar_Area_r, reagirl.Colors.Toolbar_Area_g, reagirl.Colors.Toolbar_Area_b)
+  end
+  
   cap_w=cap_w*reagirl.Window_GetCurrentScale()
   if w-cap_w<50 then w=50+cap_w end
   local offset=gfx.measurestr(name.." ")
@@ -14055,43 +14093,50 @@ function reagirl.DropDownMenu_Draw(element_id, selected, hovered, clicked, mouse
   gfx.set(0.2)
   gfx.drawstr(element_storage["Name"])
   
+  gfx.x=x+dpi_scale
+  gfx.y=y+dpi_scale
+  gfx.set(reagirl.Colors.DropDownMenu_TextBG_r, reagirl.Colors.DropDownMenu_TextBG_g, reagirl.Colors.DropDownMenu_TextBG_b)
+  gfx.drawstr(element_storage["Name"])
+  
   gfx.x=x
   gfx.y=y--+dpi_scale+(h-gfx.texth)/2
-  if element_storage["IsDisabled"]==true then gfx.set(0.6) else gfx.set(0.8) end
+  if element_storage["IsDisabled"]==true then gfx.set(reagirl.Colors.DropDownMenu_TextFGdisabled_r, reagirl.Colors.DropDownMenu_TextFGdisabled_g, reagirl.Colors.DropDownMenu_TextFGdisabled_b) else gfx.set(reagirl.Colors.DropDownMenu_TextFG_r, reagirl.Colors.DropDownMenu_TextFG_g, reagirl.Colors.DropDownMenu_TextFG_b) end
   gfx.drawstr(element_storage["Name"])
   
   if reagirl.Elements[element_id]["pressed"]==true then
     state=1*dpi_scale-1
     if offset==0 then offset=1 end
-
     gfx.set(0.06) -- background 2
-    reagirl.RoundRect(cap_w+x, y, w-cap_w+dpi_scale+dpi_scale+dpi_scale, h+dpi_scale, (radius) * dpi_scale, 1, 1)
+    reagirl.RoundRect(cap_w+x, y, w-cap_w, h+dpi_scale, (radius) * dpi_scale, 1, 1)
     
-    gfx.set(0.274) -- button-area
-    reagirl.RoundRect(cap_w+x+dpi_scale, y+dpi_scale+dpi_scale, w-cap_w+dpi_scale, h+dpi_scale, (radius-1) * dpi_scale, 1, 1)
+    gfx.set(reagirl.Colors.DropDownMenu_Area_r+add_color, reagirl.Colors.DropDownMenu_Area_g+add_color, reagirl.Colors.DropDownMenu_Area_b+add_color) -- button-area
+    reagirl.RoundRect(cap_w+x+dpi_scale, y+dpi_scale, w-cap_w-dpi_scale-dpi_scale, h, (radius-1) * dpi_scale, 1, 1)
     
     gfx.set(0.45)
     local circ=dpi_scale
-    gfx.circle(x+dpi_scale+w-h/2, y+dpi_scale+dpi_scale+dpi_scale+dpi_scale+dpi_scale+dpi_scale+dpi_scale+dpi_scale, 3*dpi_scale, 1, 0)
-    gfx.rect(x-dpi_scale+w-h+2*(dpi_scale-1), y+dpi_scale+dpi_scale, dpi_scale, h-dpi_scale, 1)
+    gfx.circle(x+w-h/2, y+dpi_scale+dpi_scale+dpi_scale+dpi_scale+dpi_scale+dpi_scale+dpi_scale+dpi_scale+dpi_scale, 3*dpi_scale, 1, 0)
+    gfx.rect(x-dpi_scale-dpi_scale+w-h+2*(dpi_scale-1), y+dpi_scale, dpi_scale, h+dpi_scale, 1)
     
+    gfx.x=x+(4*dpi_scale)+cap_w+dpi_scale+dpi_scale
+    gfx.y=y+dpi_scale+dpi_scale--+(h-gfx.texth)/2+dpi_scale
+    gfx.set(reagirl.Colors.DropDownMenu_AreaTextBG_r, reagirl.Colors.DropDownMenu_AreaTextBG_g, reagirl.Colors.DropDownMenu_AreaTextBG_b)
+    gfx.drawstr(menuentry, 0, x+w-21*dpi_scale, gfx.y+gfx.texth)
     
     gfx.x=x+(4*dpi_scale)+cap_w+dpi_scale
-    if reaper.GetOS():match("OS")~=nil then offset=1 end
     gfx.y=y+dpi_scale--+(h-gfx.texth)/2+dpi_scale
-    gfx.set(0.784)
+    gfx.set(reagirl.Colors.DropDownMenu_AreaTextFG_r, reagirl.Colors.DropDownMenu_AreaTextFG_g, reagirl.Colors.DropDownMenu_AreaTextFG_b)
     gfx.drawstr(menuentry, 0, x+w-21*dpi_scale, gfx.y+gfx.texth)
     reagirl.SetFont(1, reagirl.Font_Face, reagirl.Font_Size, 0)
   else
     state=0
     gfx.set(0.06) -- background 1
-    reagirl.RoundRect(cap_w+x, y, w-cap_w+dpi_scale+dpi_scale, h, (radius) * dpi_scale, 1, 1)
+    reagirl.RoundRect(cap_w+x, y, w-cap_w, h, (radius) * dpi_scale, 1, 1)
     
     gfx.set(0.45) -- background 2
-    reagirl.RoundRect(cap_w+x, y-dpi_scale, w-cap_w+dpi_scale, h, (radius) * dpi_scale, 1, 1)
+    reagirl.RoundRect(cap_w+x, y-dpi_scale, w-cap_w-dpi_scale, h, (radius) * dpi_scale, 1, 1)
     
-    gfx.set(0.274) -- button-area
-    reagirl.RoundRect(cap_w+x+dpi_scale, y, w-cap_w, h-dpi_scale, (radius-1) * dpi_scale, 1, 1)
+    gfx.set(reagirl.Colors.DropDownMenu_Area_r+add_color, reagirl.Colors.DropDownMenu_Area_g+add_color, reagirl.Colors.DropDownMenu_Area_b+add_color) -- button-area
+    reagirl.RoundRect(cap_w+x+dpi_scale, y, w-cap_w-dpi_scale-dpi_scale, h-dpi_scale, (radius-1) * dpi_scale, 1, 1)
     
     if element_storage["IsDisabled"]==false then
       gfx.set(0.45)
@@ -14099,27 +14144,29 @@ function reagirl.DropDownMenu_Draw(element_id, selected, hovered, clicked, mouse
       gfx.set(0.35)
     end
     local circ=dpi_scale    
-    gfx.circle(x+w-h/2, y+dpi_scale+dpi_scale+dpi_scale+dpi_scale+dpi_scale+dpi_scale+dpi_scale, 3*dpi_scale, 1, 0)
-    gfx.rect(x-dpi_scale-dpi_scale+w-h+2*(dpi_scale-1), y, dpi_scale, h-dpi_scale, 1)
+    gfx.circle(x+w-dpi_scale-h/2, y+dpi_scale+dpi_scale+dpi_scale+dpi_scale+dpi_scale+dpi_scale+dpi_scale, 3*dpi_scale, 1, 0)
+    gfx.rect(x-dpi_scale-dpi_scale-dpi_scale+w-h+2*(dpi_scale-1), y, dpi_scale, h-dpi_scale, 1)
     
     local offset=0
     if element_storage["IsDisabled"]==false then
+      gfx.x=x+(4*dpi_scale)+cap_w+dpi_scale
+      gfx.y=y+dpi_scale
+      gfx.set(reagirl.Colors.DropDownMenu_AreaTextBG_r, reagirl.Colors.DropDownMenu_AreaTextBG_g, reagirl.Colors.DropDownMenu_AreaTextBG_b)
+      gfx.drawstr(menuentry, 0, x+w-21*dpi_scale, gfx.y+gfx.texth)
+      
       gfx.x=x+(4*dpi_scale)+cap_w
-      if reaper.GetOS():match("OS")~=nil then offset=1 end
       gfx.y=y
-      gfx.set(0.784)
+      gfx.set(reagirl.Colors.DropDownMenu_AreaTextFG_r, reagirl.Colors.DropDownMenu_AreaTextFG_g, reagirl.Colors.DropDownMenu_AreaTextFG_b)
       gfx.drawstr(menuentry, 0, x+w-21*dpi_scale, gfx.y+gfx.texth)
     else
-      if reaper.GetOS():match("OS")~=nil then offset=1 end
-      
-      gfx.x=x+(4*dpi_scale)+offset+cap_w--+(w-sw)/2+1
-      gfx.y=y+2--+dpi_scale+(h-gfx.texth)/2+offset+2
-      gfx.set(0.09)
+      gfx.x=x+(4*dpi_scale)+offset+cap_w+dpi_scale--+(w-sw)/2+1
+      gfx.y=y+dpi_scale--+dpi_scale+(h-gfx.texth)/2+offset+2
+      gfx.set(reagirl.Colors.DropDownMenu_AreaTextBG_r, reagirl.Colors.DropDownMenu_AreaTextBG_g, reagirl.Colors.DropDownMenu_AreaTextBG_b)
       gfx.drawstr(menuentry,0,x+w-21*dpi_scale, gfx.y+gfx.texth)
       
       gfx.x=x+(4*dpi_scale)+offset+cap_w--+(w-sw)/2+1
       gfx.y=y--+dpi_scale+(h-gfx.texth)/2+offset
-      gfx.set(0.55)
+      gfx.set(reagirl.Colors.DropDownMenu_AreaTextFGdisabled_r, reagirl.Colors.DropDownMenu_AreaTextFGdisabled_g, reagirl.Colors.DropDownMenu_AreaTextFGdisabled_b)
       gfx.drawstr(menuentry,0,x+w-21*dpi_scale, gfx.y+gfx.texth)
     end
   end
