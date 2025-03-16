@@ -5674,8 +5674,11 @@ function reagirl.Gui_Manage(keep_running)
               draggable="Draggable. " 
             end
             local color=""
-            if reagirl.Elements[i]["Color_Name"]~=nil then color=reagirl.Elements[i]["Color_Name"].." " end
-            reaper.TrackCtl_SetToolTip(reagirl.Elements[i]["Description"].." "..color..draggable..contextmenu..dropfiles, XX+15, YY+10, true)
+            local add_info=""
+            local desc=reagirl.Elements[i]["Description"]
+            if reagirl.Elements[i]["Color_Name"]~=nil then add_info=" "..reagirl.Elements[i]["Color_Name"].." " end
+            if reagirl.Elements[i]["state_names"]~=nil then add_info=reagirl.Elements[i]["state_names"][reagirl.Elements[i]["cur_state"]] desc="" end
+            reaper.TrackCtl_SetToolTip(desc..""..add_info.."\n"..draggable..contextmenu..dropfiles, XX+15, YY+10, true)
           end
          end
          
@@ -11724,7 +11727,7 @@ function reagirl.Color_CalculateHighlighter(r, g, b)
   if color>0.8 then return -val else return val end
 end
 
-function reagirl.ToolbarButton_Add(x, y, toolbaricon, num_states, default_state, mode, caption, meaningOfUI_Element, run_function)
+function reagirl.ToolbarButton_Add(x, y, toolbaricon, num_states, default_state, state_names, mode, caption, meaningOfUI_Element, run_function)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>ToolbarButton_Add</slug>
@@ -11733,7 +11736,7 @@ function reagirl.ToolbarButton_Add(x, y, toolbaricon, num_states, default_state,
     Reaper=7.03
     Lua=5.4
   </requires>
-  <functioncall>string toolbarbutton_guid = reagirl.ToolbarButton_Add(optional integer x, optional integer y, string toolbaricon, integer num_states, integer default_state, integer mode, string caption, string meaningOfUI_Element, optional function run_function)</functioncall>
+  <functioncall>string toolbarbutton_guid = reagirl.ToolbarButton_Add(optional integer x, optional integer y, string toolbaricon, integer num_states, integer default_state, table state_names, integer mode, string caption, string meaningOfUI_Element, optional function run_function)</functioncall>
   <description>
     Adds a toolbar-button to a gui.
     
@@ -11754,6 +11757,8 @@ function reagirl.ToolbarButton_Add(x, y, toolbaricon, num_states, default_state,
     string toolbaricon - filename+path to the toolbar-icon-image; keep empty for text-icon
     integer num_states - number of states when clicked; 1, 1-state; 2, 2-states; 3, 3-states, etc
     integer default_state - default-state(1 or higher); must be maximum num_states
+    table state_names - a table with all state-names. These will be shown in the tooltip/screen reader message when a certain state has been set. 
+                      - Each entry must be a string!
     integer mode - 1, toolbar-icon only; 2, toolbar-icon+caption right
     string caption - the caption of the toolbar-button
     string meaningOfUI_Element - the meaningOfUI_Element of the ui-element(for tooltips and blind users). Make it a sentence that ends with . or ?
@@ -11775,12 +11780,16 @@ function reagirl.ToolbarButton_Add(x, y, toolbaricon, num_states, default_state,
   if math.type(default_state)~="integer" then error("ToolbarButton_Add: param #5 - must be an integer", 2) end
   
   if default_state>num_states then error("ToolbarButton_Add: param #5 - must be between 1 and "..num_states, 2) end
-  if math.type(mode)~="integer" then error("ToolbarButton_Add: param #6 - must be a string", 2) end
-  if type(caption)~="string" then error("ToolbarButton_Add: param #7 - must be a string", 2) end
+  if type(state_names)~="table" then error("ToolbarButton_Add: param #6 - must be a table", 2) end
+  for i=1, #state_names do
+    state_names[i]=tostring(state_names[i])
+  end
+  if math.type(mode)~="integer" then error("ToolbarButton_Add: param #7 - must be a string", 2) end
+  if type(caption)~="string" then error("ToolbarButton_Add: param #8 - must be a string", 2) end
   caption=string.gsub(caption, "[\n\r]", "")
-  if type(meaningOfUI_Element)~="string" then error("ToolbarButton_Add: param #8 - must be a string", 2) end
-  if meaningOfUI_Element:sub(-1,-1)~="." and meaningOfUI_Element:sub(-1,-1)~="?" then error("ToolbarButton_Add: param #8 - must end on a . like a regular sentence.", 2) end
-  if run_function~=nil and type(run_function)~="function" then error("ToolbarButton_Add: param #9 - must be either nil or a function", 2) end
+  if type(meaningOfUI_Element)~="string" then error("ToolbarButton_Add: param #9 - must be a string", 2) end
+  if meaningOfUI_Element:sub(-1,-1)~="." and meaningOfUI_Element:sub(-1,-1)~="?" then error("ToolbarButton_Add: param #9 - must end on a . like a regular sentence.", 2) end
+  if run_function~=nil and type(run_function)~="function" then error("ToolbarButton_Add: param #10 - must be either nil or a function", 2) end
   
   local x,y,slot=reagirl.UI_Element_GetNextXAndYPosition(x, y, "ToolbarButton_Add")
   --reagirl.UI_Element_NextX_Default=x
@@ -11815,6 +11824,7 @@ function reagirl.ToolbarButton_Add(x, y, toolbaricon, num_states, default_state,
   reagirl.Elements[slot]["mode"]=mode
   reagirl.Elements[slot]["num_states"]=num_states
   reagirl.Elements[slot]["cur_state"]=default_state
+  reagirl.Elements[slot]["state_names"]=state_names
   reagirl.Elements[slot]["toolbaricon_filename"]=toolbaricon
   reagirl.Elements[slot]["toolbaricon"]=reagirl.Gui_ReserveImageBuffer()
   reagirl.ToolbarButton_ReloadImage_Scaled(reagirl.Elements[slot]["Guid"])
@@ -11834,6 +11844,7 @@ function reagirl.ToolbarButton_Manage(element_id, selected, hovered, clicked, mo
   local message=" "
   local refresh=false
   local oldpressed=element_storage["pressed"]
+  local dpi_scale=reagirl.Window_GetCurrentScale()
   
   -- drop files for accessibility using a file-requester, after typing ctrl+shift+f
   if element_storage["DropZoneFunction"]~=nil and Key==6 and mouse_cap==12 then
@@ -11874,7 +11885,18 @@ function reagirl.ToolbarButton_Manage(element_id, selected, hovered, clicked, mo
     if element_storage["cur_state"]>element_storage["num_states"] then element_storage["cur_state"]=1 end
     if element_storage["run_function"]~=nil then element_storage["run_function"](element_storage["Guid"], element_storage["cur_state"]) message="pressed" end
   end
-
+  message=element_storage["state_names"][element_storage["cur_state"]]
+  if element_storage["pressed"]==true and gfx.mouse_x>=x and gfx.mouse_x<=x+(30*dpi_scale) and gfx.mouse_y>=y and gfx.mouse_y<=y+(30*dpi_scale) then
+    local XX, YY= reaper.GetMousePosition()
+    local dropfiles=""
+    local draggable=""
+    local contextmenu=""
+    if element_storage["DropZoneFunction_ACC"]~="" then dropfiles="Allows dropping of files. " end
+    if element_storage["Draggable"]==true then draggable="Draggable. " end
+    if element_storage["ContextMenu_ACC"]~="" then contextmenu="Has context-menu. " end
+    reaper.TrackCtl_SetToolTip(message.."\n"..draggable..contextmenu..dropfiles, XX+15, YY+10, true)
+    --print2("")
+  end
   return message, oldpressed~=element_storage["pressed"]
 end
 

@@ -5113,7 +5113,7 @@ The element_ids in the table element_ids_table consists of all ui-elements that 
 <img width="3%" src="gfx/reaper7.03.png" alt="requires Reaper version 7.03">
 <img width="3%" src="gfx/reagirl1.3.png" alt="requires ReaGirl version 1.3"><u><b>ToolbarButton_Add</b></u><br>			<p>
 <div class="cc">
-<div class="l">Lua: <code> <i>string</i> toolbarbutton_guid = <em>reagirl.ToolbarButton_Add</em>(<i>optional</i> <i>integer</i> x, <i>optional</i> <i>integer</i> y, <i>string</i> toolbaricon, <i>integer</i> num_states, <i>integer</i> default_state, <i>integer</i> mode, <i>string</i> caption, <i>string</i> meaningOfUI_Element, <i>optional</i> <i>function</i> run_function)</code></div>
+<div class="l">Lua: <code> <i>string</i> toolbarbutton_guid = <em>reagirl.ToolbarButton_Add</em>(<i>optional</i> <i>integer</i> x, <i>optional</i> <i>integer</i> y, <i>string</i> toolbaricon, <i>integer</i> num_states, <i>integer</i> default_state, <i>table</i> state_names, <i>integer</i> mode, <i>string</i> caption, <i>string</i> meaningOfUI_Element, <i>optional</i> <i>function</i> run_function)</code></div>
 </div><p>
 <div class="ch">
 Adds a toolbar-button to a gui.<br>
@@ -5127,6 +5127,7 @@ You can have max 1000 toolbarbuttons and/or images in your gui.<br>
 <br>
 The run-function gets as parameter:<br>
 - string element_id - the element_id as string of the pressed toolbar-button that uses this run-function<br>
+- integer cur_state - the current state of the toolbar-button, 1 or higher. Will stay 1 if the button allows only 1 state!<br>
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
@@ -5154,6 +5155,11 @@ The run-function gets as parameter:<br>
 <table class="ch">
 <tr><td class="pr"><i>integer</i> default_state</td></tr>
 <tr><td class="ch2">default-state(1 or higher); must be maximum num_states</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>table</i> state_names</td></tr>
+<tr><td class="ch2">a table with all state-names. These will be shown in the tooltip/screen reader message when a certain state has been set. <br/>
+Each entry must be a string!</td></tr>
 </table>
 <table class="ch">
 <tr><td class="pr"><i>integer</i> mode</td></tr>

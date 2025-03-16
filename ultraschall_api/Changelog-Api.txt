@@ -425,11 +425,12 @@ Has now 1858 functions, with XX new ones
   Bla
 		
 #### New features in 5.3  
-	- BLA  
+	- ReaGirl: ToolbarButton_Add - adds a toolbar-button to a ReaGirl-gui
 
 #### Changes from 5.2 to 5.3  
 	- ReaGirl: Buttons - caption wasn't properly drawn when y-margin was>0 -> fixed
 	- ReaGirl: Sliders - couldn't show negative unit-values -> fixed
+	- ReaGirl: DropDownLists - clicking dropdownlists wasn't shown properly, when focus rectangle was set as show always -> fixed
 ---
 
 ### 5.2 - "Warpaint - Keep it healthy" - 7th of March 2025
