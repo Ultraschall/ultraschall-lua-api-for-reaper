@@ -13741,7 +13741,7 @@ function reagirl.Inputbox_Draw(element_id, selected, hovered, clicked, mouse_cap
   
   gfx.y=y--+(h-gfx.texth)/2
   if element_storage["Text"]:len()==0 then
-    gfx.set(reagirl.Colors.InputBox_TextBGTyped_r, reagirl.Colors.InputBox_TextBGTyped_g, reagirl.Colors.InputBox_TextBGTyped_b)
+    gfx.set(reagirl.Colors.InputBox_TextFGTyped_r, reagirl.Colors.InputBox_TextFGTyped_g, reagirl.Colors.InputBox_TextFGTyped_b)
     gfx.x=gfx.x+dpi_scale*5
     gfx.drawstr(element_storage["empty_text"],0, x+w, y+h)
     --gfx.set(reagirl.Colors.InputBox_TextFGTyped_r, reagirl.Colors.InputBox_TextFGTyped_g, reagirl.Colors.InputBox_TextFGTyped_b)
@@ -18516,6 +18516,122 @@ function reagirl.Slider_Draw(element_id, selected, hovered, clicked, mouse_cap, 
   
   gfx.circle(x+offset_cap+step_current, math.floor(y+h/2), 5*dpi_scale, 1, 1)  
 end
+
+function reagirl.Settings_Global_GetSet(setting, is_set, value)
+  local val
+  if is_set==false then
+    if setting=="Show_Tooltips" then 
+      val=reaper.GetExtState("ReaGirl", "show_tooltips")
+      if val=="" or val=="true" then val=1 else val=0 end
+    elseif setting=="FocusRectangle_BlinkSpeed" then
+      val=reaper.GetExtState("ReaGirl", "FocusRectangle_BlinkSpeed")
+      if val=="" then val=1 else val=tonumber(val) end
+    elseif setting=="FocusRectangle_BlinkTime" then
+      val=reaper.GetExtState("ReaGirl", "FocusRectangle_BlinkTime")
+      if val=="" then val=0 else val=tonumber(val) end
+    elseif setting=="Inputbox_Blinkspeed" then
+      val=reaper.GetExtState("ReaGirl", "InputBox_BlinkSpeed")
+      if val=="" then val=0 else val=tonumber(val) end
+    elseif setting=="Scaling_Override" then
+      val=reaper.GetExtState("ReaGirl", "scaling_override")
+      if val=="" then val=0 else val=tonumber(val) end
+    elseif setting=="Osara_Enabled" then
+      val=reaper.GetExtState("ReaGirl", "osara_override")
+      if val=="" or val=="true" then val=1 else val=0 end
+    elseif setting=="Osara_Debug" then
+      val=reaper.GetExtState("ReaGirl", "osara_debug")
+      if val=="" or val=="false" then val=0 else val=1 end
+    elseif setting=="Osara_Move_Mouse" then
+      val=reaper.GetExtState("ReaGirl", "osara_move_mouse")
+      if val=="" or val=="true" then val=1 else val=0 end
+    elseif setting=="Osara_Hover_Mouse" then
+      val=reaper.GetExtState("ReaGirl", "osara_hover_mouse")
+      if val=="" or val=="true" then val=1 else val=0 end
+    elseif setting=="Drag_Highlight_Destinations" then
+      val=reaper.GetExtState("ReaGirl", "highlight_drag_destinations")
+      if val=="" or val=="true" then val=1 else val=0 end
+    elseif setting=="Drag_Highlight_Destinations_Blink" then
+      val=reaper.GetExtState("ReaGirl", "highlight_drag_destination_blink")
+      if val=="" then val=0.4 else val=tonumber(val) end
+    elseif setting=="Scroll_Via_Keyboard" then
+      val=reaper.GetExtState("ReaGirl", "scroll_via_keyboard")
+      if val=="" or val=="true" then val=1 else val=0 end
+    elseif setting=="FocusRectangle_Always_On" then
+      val=reaper.GetExtState("ReaGirl", "FocusRectangle_AlwaysOn")
+      if val=="" or val=="false" then val=0 else val=1 end
+    elseif setting=="Highlight_UI_Element_Intensity" then
+      val=reaper.GetExtState("ReaGirl", "Highlight_Intensity")
+      if val=="" then val=0.075 else val=tonumber(val) end
+    elseif setting=="Osara_Enable_AccessibilityMessages" then
+      val=reaper.GetExtState("ReaGirl", "osara_enable_accmessage")
+      if val=="" or val=="true" then val=1 else val=0 end
+    elseif setting=="Debug_Message_Destination" then
+      val=reaper.GetExtState("ReaGirl", "Error_Message_Destination")
+      if val=="" then val=1 else val=tonumber(val) end
+    end
+    return val
+  else
+    if setting=="Show_Tooltips" then 
+      if value==1 then value="" else value="false" end
+      reaper.SetExtState("ReaGirl", "show_tooltips", value, true)
+    elseif setting=="FocusRectangle_BlinkSpeed" then
+      if value<0.3 then value=0.3 end
+      if value>3 then value=3 end
+      if value==1 then value="" end
+      reaper.SetExtState("ReaGirl", "FocusRectangle_BlinkSpeed", value, true)
+    elseif setting=="FocusRectangle_BlinkTime" then
+      if value<0 then value=0 end
+      if value>10 then value=10 end
+      if value==0 then value="" end
+      reaper.SetExtState("ReaGirl", "FocusRectangle_BlinkTime", value, true)
+    elseif setting=="Inputbox_Blinkspeed" then
+      if value<0 then value=0 end
+      if value>165 then value=165 end
+      if value==33 then value="" end
+      reaper.SetExtState("ReaGirl", "InputBox_BlinkSpeed", value, true)
+    elseif setting=="Scaling_Override" then
+      if value==0 then value="" end
+      reaper.SetExtState("ReaGirl", "scaling_override", value, true)
+    elseif setting=="Osara_Enabled" then
+      if value==1 then value="" else value="false" end
+      reaper.SetExtState("ReaGirl", "osara_override", value, true)
+      if val=="" or val=="true" then val=1 else val=0 end
+-- mespotine ab hier weitermachen
+    elseif setting=="Osara_Debug" then
+      val=reaper.GetExtState("ReaGirl", "osara_debug")
+      if val=="" or val=="false" then val=0 else val=1 end
+    elseif setting=="Osara_Move_Mouse" then
+      val=reaper.GetExtState("ReaGirl", "osara_move_mouse")
+      if val=="" or val=="true" then val=1 else val=0 end
+    elseif setting=="Osara_Hover_Mouse" then
+      val=reaper.GetExtState("ReaGirl", "osara_hover_mouse")
+      if val=="" or val=="true" then val=1 else val=0 end
+    elseif setting=="Drag_Highlight_Destinations" then
+      val=reaper.GetExtState("ReaGirl", "highlight_drag_destinations")
+      if val=="" or val=="true" then val=1 else val=0 end
+    elseif setting=="Drag_Highlight_Destinations_Blink" then
+      val=reaper.GetExtState("ReaGirl", "highlight_drag_destination_blink")
+      if val=="" then val=0.4 else val=tonumber(val) end
+    elseif setting=="Scroll_Via_Keyboard" then
+      val=reaper.GetExtState("ReaGirl", "scroll_via_keyboard")
+      if val=="" or val=="true" then val=1 else val=0 end
+    elseif setting=="FocusRectangle_Always_On" then
+      val=reaper.GetExtState("ReaGirl", "FocusRectangle_AlwaysOn")
+      if val=="" or val=="false" then val=0 else val=1 end
+    elseif setting=="Highlight_UI_Element_Intensity" then
+      val=reaper.GetExtState("ReaGirl", "Highlight_Intensity")
+      if val=="" then val=0.075 else val=tonumber(val) end
+    elseif setting=="Osara_Enable_AccessibilityMessages" then
+      val=reaper.GetExtState("ReaGirl", "osara_enable_accmessage")
+      if val=="" or val=="true" then val=1 else val=0 end
+    elseif setting=="Debug_Message_Destination" then
+      val=reaper.GetExtState("ReaGirl", "Error_Message_Destination")
+      if val=="" then val=1 else val=tonumber(val) end
+    end
+  end
+end
+
+A,B,C=reagirl.Settings_Global_GetSet("Osara_Enabled", true, 1)
 
 function reagirl.Slider_LinkToExtstate(element_id, section, key, default, persist)
 --[[

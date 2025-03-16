@@ -342,6 +342,8 @@ function CheckIfSettingChanged()
     else
       return false
     end
+  --elseif inputbox_blinkspeed_cancel~=tonumber(reaper.GetExtState("ReaGirl", "InputBox_BlinkSpeed", value, true)) then
+--    return true, 4.2
   elseif highlighting~=tonumber(reaper.GetExtState("ReaGirl", "Highlight_Intensity", value, true)) then
     return true, 4.5
   elseif osara_move_mouse~=toboolean(reaper.GetExtState("ReaGirl", "osara_move_mouse"), true) then
@@ -350,6 +352,8 @@ function CheckIfSettingChanged()
     return true, 5
   elseif show_tooltips~=toboolean(reaper.GetExtState("ReaGirl", "show_tooltips"), true) then
     return true, 6
+  --elseif focus_rectangle_blinktime_cancel~=tonumber(reaper.GetExtState("ReaGirl", "FocusRectangle_BlinkSpeed")) then
+    --return true, 6.5
   elseif osara_enable_accmessage~=toboolean(reaper.GetExtState("ReaGirl", "osara_enable_accmessage"), true) then
     return true, 7
   elseif scroll_via_keyboard~=toboolean(reaper.GetExtState("ReaGirl", "scroll_via_keyboard"), true) then

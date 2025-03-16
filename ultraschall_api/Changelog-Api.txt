@@ -424,6 +424,8 @@ Has now 1858 functions, with XX new ones
   - **Bla**  
   Bla
 		
+	-- Settings: FocusRectangle_BlinkSpeed und InputBox_BlinkSpeed updaten nicht...wenn extern geändert
+		
 #### New features in 5.3  
 	- ReaGirl: Button\_GetEdgeStyle - gets, if the individual edges of a button are rounded or square
 	- ReaGirl: Button\_SetEdgeStyle - sets, if the individual edges of a button are rounded or square
