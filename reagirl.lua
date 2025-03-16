@@ -2709,9 +2709,12 @@ reagirl.Colors.Tabs_Inner_Tabs_Selected_b=0.253921568627451
 reagirl.Colors.Tabs_Inner_Tabs_Unselected_r=0.153921568627451
 reagirl.Colors.Tabs_Inner_Tabs_Unselected_g=0.153921568627451
 reagirl.Colors.Tabs_Inner_Tabs_Unselected_b=0.153921568627451
-reagirl.Colors.Tabs_Text_r=0.8
-reagirl.Colors.Tabs_Text_g=0.8
-reagirl.Colors.Tabs_Text_b=0.8
+reagirl.Colors.Tabs_TextFG_r=0.8
+reagirl.Colors.Tabs_TextFG_g=0.8
+reagirl.Colors.Tabs_TextFG_b=0.8
+reagirl.Colors.Tabs_TextBG_r=0.2
+reagirl.Colors.Tabs_TextBG_g=0.2
+reagirl.Colors.Tabs_TextBG_b=0.2
 reagirl.Colors.Tabs_Border_Background_r=0.403921568627451
 reagirl.Colors.Tabs_Border_Background_g=0.403921568627451
 reagirl.Colors.Tabs_Border_Background_b=0.403921568627451
@@ -19731,7 +19734,17 @@ function reagirl.Tabs_Draw(element_id, selected, hovered, clicked, mouse_cap, mo
     end
     
     -- text of tabname
-    gfx.set(reagirl.Colors.Tabs_Text_r, reagirl.Colors.Tabs_Text_g, reagirl.Colors.Tabs_Text_b)
+    oldx, oldy=gfx.x, gfx.y
+    gfx.x=gfx.x+dpi_scale
+    gfx.y=gfx.y+dpi_scale
+    
+    gfx.set(reagirl.Colors.Tabs_TextBG_r, reagirl.Colors.Tabs_TextBG_g, reagirl.Colors.Tabs_TextBG_b)
+    gfx.drawstr(element_storage["TabNames"][i])
+    
+    gfx.x=oldx
+    gfx.y=oldy
+    
+    gfx.set(reagirl.Colors.Tabs_TextFG_r, reagirl.Colors.Tabs_TextFG_g, reagirl.Colors.Tabs_TextFG_b)
     gfx.drawstr(element_storage["TabNames"][i])
   end
   
