@@ -159,9 +159,9 @@ Gets/Sets the color of the background.<br>
 <a class="anch" id="Burgermenu_Add"></a>
 <a href="#Burgermenu_Add"> ^</a> 
 <img width="3%" src="gfx/reaper7.03.png" alt="requires Reaper version 7.03">
-<img width="3%" src="gfx/reagirl1.2.png" alt="requires ReaGirl version 1.2"><u><b>Burgermenu_Add</b></u><br>			<p>
+<img width="3%" src="gfx/reagirl1.3.png" alt="requires ReaGirl version 1.3"><u><b>Burgermenu_Add</b></u><br>			<p>
 <div class="cc">
-<div class="l">Lua: <code> <i>string</i> burgermenu_guid = <em>reagirl.Burgermenu_Add</em>(<i>optional</i> <i>integer</i> x, <i>optional</i> <i>integer</i> y, <i>string</i> caption, <i>string</i> meaningOfUI_Element, <i>string</i> menu, <i>optional</i> <i>function</i> run_function)</code></div>
+<div class="l">Lua: <code> <i>string</i> burgermenu_guid = <em>reagirl.Burgermenu_Add</em>(<i>optional</i> <i>integer</i> x, <i>optional</i> <i>integer</i> y, <i>string</i> caption, <i>integer</i> mode, <i>string</i> meaningOfUI_Element, <i>string</i> menu, <i>optional</i> <i>function</i> run_function)</code></div>
 </div><p>
 <div class="ch">
 Adds a burgermenu to a gui.<br>
@@ -193,6 +193,10 @@ The run-function gets as parameter:<br>
 <table class="ch">
 <tr><td class="pr"><i>string</i> caption</td></tr>
 <tr><td class="ch2">the caption of the burgermenu</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>integer</i> mode</td></tr>
+<tr><td class="ch2">1, burger-menu is 15x15 pixels*scale; 2, burger-menu is 30x30 pixes*scale</td></tr>
 </table>
 <table class="ch">
 <tr><td class="pr"><i>string</i> meaningOfUI_Element</td></tr>

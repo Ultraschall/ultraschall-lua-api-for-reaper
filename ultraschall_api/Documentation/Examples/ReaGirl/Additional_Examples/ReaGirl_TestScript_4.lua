@@ -73,7 +73,7 @@
   tab1.label_header6=reagirl.Label_Add(nil, nil, "Burgermenu and Color-Rectangle", "A burgermenu and some color-rectangles.", false, nil)
   
   reagirl.NextLine()
-  tab1.burgermenu = reagirl.Burgermenu_Add(nil, nil, "A Burgermenu", "A demo-burger-menu with some options.", "Setting 1|Setting 2|>Subfolder|Setting 3|Setting 4|<|Setting 5", nil)
+  tab1.burgermenu = reagirl.Burgermenu_Add(nil, nil, "A Burgermenu", 1, "A demo-burger-menu with some options.", "Setting 1|Setting 2|>Subfolder|Setting 3|Setting 4|<|Setting 5", nil)
   tab1.colorrectangle1 = reagirl.ColorRectangle_Add(nil,nil,16,16,255,0,0,"A Color Rectangle", "A color rectangle with a color. Click it to select a different color.", true, nil)
   tab1.colorrectangle2 = reagirl.ColorRectangle_Add(nil,nil,16,16,0,255,0,"A Color Rectangle", "A color rectangle with a color. Click it to select a different color.", true, nil)
   tab1.colorrectangle3 = reagirl.ColorRectangle_Add(nil,nil,16,16,0,0,255,"A Color Rectangle", "A color rectangle with a color. Click it to select a different color.", true, nil)

@@ -2738,12 +2738,12 @@ reagirl.Colors.Slider_Circle_1_b=0.584
 reagirl.Colors.Slider_Circle_2_r=0.2725490196078431
 reagirl.Colors.Slider_Circle_2_g=0.2725490196078431
 reagirl.Colors.Slider_Circle_2_b=0.2725490196078431
-reagirl.Colors.Slider_Circle_center_r=0.584
-reagirl.Colors.Slider_Circle_center_g=0.584
-reagirl.Colors.Slider_Circle_center_b=0.584
-reagirl.Colors.Slider_Circle_center_disabled_r=0.9843137254901961
-reagirl.Colors.Slider_Circle_center_disabled_g=0.8156862745098039
-reagirl.Colors.Slider_Circle_center_disabled_b=0
+reagirl.Colors.Slider_Circle_center_r=0.9843137254901961
+reagirl.Colors.Slider_Circle_center_g=0.8156862745098039
+reagirl.Colors.Slider_Circle_center_b=0
+reagirl.Colors.Slider_Circle_center_disabled_r=0.584
+reagirl.Colors.Slider_Circle_center_disabled_g=0.584
+reagirl.Colors.Slider_Circle_center_disabled_b=0.584
 reagirl.Colors.Tabs_Border_Tabs_r=0.403921568627451
 reagirl.Colors.Tabs_Border_Tabs_g=0.403921568627451
 reagirl.Colors.Tabs_Border_Tabs_b=0.403921568627451
@@ -18262,6 +18262,11 @@ function reagirl.Slider_Manage(element_id, selected, hovered, clicked, mouse_cap
     gfx.setcursor(0x7f00)
   end
   
+  if element_storage.hovered~=hovered then
+    reagirl.Gui_ForceRefresh(111222.3485456)
+  end
+  element_storage.hovered=hovered
+  
   if element_storage["linked_to"]~=0 then
     if element_storage["linked_to"]==1 then
       local val=tonumber(reaper.GetExtState(element_storage["linked_to_section"], element_storage["linked_to_key"]))
@@ -18435,6 +18440,7 @@ function reagirl.Slider_Draw(element_id, selected, hovered, clicked, mouse_cap, 
     offset_cap=element_storage["Cap_width"]
     offset_cap=offset_cap+dpi_scale
   end
+  
   offset_cap=offset_cap*dpi_scale
   local offset_unit=gfx.measurestr(element_storage["Unit"].."8888")
   
@@ -18485,7 +18491,11 @@ function reagirl.Slider_Draw(element_id, selected, hovered, clicked, mouse_cap, 
   gfx.set(reagirl.Colors.Slider_Border_r, reagirl.Colors.Slider_Border_g, reagirl.Colors.Slider_Border_b)
   reagirl.RoundRect(math.tointeger(x+offset_cap-dpi_scale), math.floor(y+(h-7*dpi_scale)/2), math.tointeger(w-offset_cap-offset_unit+dpi_scale+dpi_scale), math.tointeger(dpi_scale)*6, 2*math.tointeger(dpi_scale), 1, 1)
   
-  if element_storage["IsDisabled"]==true then gfx.set(reagirl.Colors.Slider_Center_disabled_r, reagirl.Colors.Slider_Center_disabled_g, reagirl.Colors.Slider_Center_disabled_b) else gfx.set(reagirl.Colors.Slider_Center_r, reagirl.Colors.Slider_Center_g, reagirl.Colors.Slider_Center_b) end
+  local add_color=0
+  if hovered==true then 
+    add_color=reagirl.Color_CalculateHighlighter(reagirl.Colors.Slider_Center_r, reagirl.Colors.Slider_Center_g, reagirl.Colors.Slider_Center_b)*2
+  end
+  if element_storage["IsDisabled"]==true then gfx.set(reagirl.Colors.Slider_Center_disabled_r, reagirl.Colors.Slider_Center_disabled_g, reagirl.Colors.Slider_Center_disabled_b) else gfx.set(reagirl.Colors.Slider_Center_r+add_color, reagirl.Colors.Slider_Center_g+add_color, reagirl.Colors.Slider_Center_b+add_color) end
   reagirl.RoundRect(math.tointeger(x+offset_cap),math.floor(y+(h-5*dpi_scale)/2), math.tointeger(w-offset_cap-offset_unit), math.tointeger(dpi_scale)*4, dpi_scale, 1, 1)
   offset_cap=offset_cap+6*dpi_scale  
   
@@ -18495,10 +18505,13 @@ function reagirl.Slider_Draw(element_id, selected, hovered, clicked, mouse_cap, 
   gfx.set(reagirl.Colors.Slider_Circle_2_r, reagirl.Colors.Slider_Circle_2_g, reagirl.Colors.Slider_Circle_2_b)
   gfx.circle(x+offset_cap+step_current, math.floor(y+h/2), 6*dpi_scale, 1, 1)
   
+  if hovered==true then 
+    add_color=reagirl.Color_CalculateHighlighter(reagirl.Colors.Slider_Circle_center_disabled_r, reagirl.Colors.Slider_Circle_center_disabled_g, reagirl.Colors.Slider_Circle_center_disabled_b)*2
+  end
   if element_storage["IsDisabled"]==true then
-    gfx.set(reagirl.Colors.Slider_Circle_center_r, reagirl.Colors.Slider_Circle_center_g, reagirl.Colors.Slider_Circle_center_b)
-  else
     gfx.set(reagirl.Colors.Slider_Circle_center_disabled_r, reagirl.Colors.Slider_Circle_center_disabled_g, reagirl.Colors.Slider_Circle_center_disabled_b)
+  else
+    gfx.set(reagirl.Colors.Slider_Circle_center_r+add_color, reagirl.Colors.Slider_Circle_center_g+add_color, reagirl.Colors.Slider_Circle_center_b+add_color)
   end
   
   gfx.circle(x+offset_cap+step_current, math.floor(y+h/2), 5*dpi_scale, 1, 1)  
