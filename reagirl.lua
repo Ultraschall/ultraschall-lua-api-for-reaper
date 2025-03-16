@@ -11550,6 +11550,90 @@ function reagirl.Button_SetRadius(element_id, radius)
   return true
 end
 
+function reagirl.Button_SetEdgeStyle(element_id, top_left, top_right, bottom_left, bottom_right)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Button_SetEdgeStyle</slug>
+  <requires>
+    ReaGirl=1.3
+    Reaper=7.03
+    Lua=5.4
+  </requires>
+  <functioncall>reagirl.Button_SetEdgeStyle(string element_id, boolean top_left, boolean top_right, boolean bottom_left, boolean bottom_right)</functioncall>
+  <description>
+    Sets, if the individual edges of a button are rounded or square.
+  </description>
+  <parameters>
+    string element_id - the guid of the button, whose edge-styles you want to set
+    boolean top_left - true, edge is square; false, edge is rounded
+    boolean top_right - true, edge is square; false, edge is rounded
+    boolean bottom_left - true, edge is square; false, edge is rounded
+    boolean bottom_right - true, edge is square; false, edge is rounded
+  </parameters>
+  <chapter_context>
+    Button
+  </chapter_context>
+  <tags>button, set, edge, style</tags>
+</US_DocBloc>
+--]]
+  if type(element_id)~="string" then error("Button_SetEdgeStyle: param #1 - must be a string", 2) end
+  if reagirl.IsValidGuid(element_id, true)==nil then error("Button_SetEdgeStyle: param #1 - must be a valid guid", 2) end
+  if type(top_left)~="boolean" then error("Button_SetEdgeStyle: param #2 - must be a boolean", 2) end
+  if type(top_right)~="boolean" then error("Button_SetEdgeStyle: param #3 - must be a boolean", 2) end
+  if type(bottom_left)~="boolean" then error("Button_SetEdgeStyle: param #4 - must be a boolean", 2) end
+  if type(bottom_right)~="boolean" then error("Button_SetEdgeStyle: param #5 - must be a boolean", 2) end
+  element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
+  if element_id==-1 then error("Button_SetEdgeStyle: param #1 - no such ui-element", 2) end
+  if reagirl.Elements[element_id]["GUI_Element_Type"]~="Button" then
+    error("Button_SetEdgeStyle: param #1 - ui-element is not a button", 2)
+  else
+    reagirl.Elements[element_id]["square_topleft"]=top_left
+    reagirl.Elements[element_id]["square_topright"]=top_right
+    reagirl.Elements[element_id]["square_bottomleft"]=bottom_left
+    reagirl.Elements[element_id]["square_bottomright"]=bottom_right
+    reagirl.Gui_ForceRefresh(18.09812)
+  end
+end
+
+function reagirl.Button_GetEdgeStyle(element_id)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Button_GetEdgeStyle</slug>
+  <requires>
+    ReaGirl=1.3
+    Reaper=7.03
+    Lua=5.4
+  </requires>
+  <functioncall>boolean top_left, boolean top_right, boolean bottom_left, boolean bottom_right = reagirl.Button_GetEdgeStyle(string element_id)</functioncall>
+  <description>
+    Gets, if the individual edges of a button are rounded or square.
+  </description>
+  <parameters>
+    string element_id - the guid of the button, whose state you want to get
+  </parameters>
+  <retvals>
+    boolean top_left - true, edge is square; false, edge is rounded
+    boolean top_right - true, edge is square; false, edge is rounded
+    boolean bottom_left - true, edge is square; false, edge is rounded
+    boolean bottom_right - true, edge is square; false, edge is rounded
+  </retvals>
+  <chapter_context>
+    Button
+  </chapter_context>
+  <tags>button, get, edge, style</tags>
+</US_DocBloc>
+--]]
+  if type(element_id)~="string" then error("Button_GetEdgeStyle: param #1 - must be a string", 2) end
+  if reagirl.IsValidGuid(element_id, true)==nil then error("Button_GetEdgeStyle: param #1 - must be a valid guid", 2) end
+  element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
+  if element_id==-1 then error("Button_GetEdgeStyle: param #1 - no such ui-element", 2) end
+  if reagirl.Elements[element_id]["GUI_Element_Type"]~="Button" then
+    error("Button_GetEdgeStyle: param #1 - ui-element is not a toolbarbutton", 2)
+  else
+    return reagirl.Elements[element_id]["square_topleft"], reagirl.Elements[element_id]["square_topright"], reagirl.Elements[element_id]["square_bottomleft"], reagirl.Elements[element_id]["square_bottomright"]
+  end
+end
+
 function reagirl.Button_Manage(element_id, selected, hovered, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
   local message=" "
   local refresh=false
@@ -11630,12 +11714,12 @@ function reagirl.Button_Draw(element_id, selected, hovered, clicked, mouse_cap, 
     if element_storage["IsDisabled"]==false then
       if reaper.GetOS():match("OS")~=nil then offset=1 end
       gfx.x=x+(w-sw)/2+2+scale+dpi_scale
-      gfx.y=y+(h-sh)/2+scale+dpi_scale+dpi_scale
+      gfx.y=y+dpi_scale+(h-sh)/2+scale+dpi_scale+dpi_scale
       gfx.set(reagirl.Colors.Buttons_TextBG_r, reagirl.Colors.Buttons_TextBG_g, reagirl.Colors.Buttons_TextBG_b)
       gfx.drawstr(element_storage["Name"])
       
       gfx.x=x+(w-sw)/2+2+scale
-      gfx.y=y+(h-sh)/2+scale+dpi_scale
+      gfx.y=y+dpi_scale+(h-sh)/2+scale+dpi_scale
       gfx.set(reagirl.Colors.Buttons_TextFG_r, reagirl.Colors.Buttons_TextFG_g, reagirl.Colors.Buttons_TextFG_b)
       gfx.drawstr(element_storage["Name"])
     end
@@ -11657,12 +11741,12 @@ function reagirl.Button_Draw(element_id, selected, hovered, clicked, mouse_cap, 
     if element_storage["IsDisabled"]==false then
       if reaper.GetOS():match("OS")~=nil then offset=1 end
       gfx.x=x+(w-sw)/2+1+dpi_scale
-      gfx.y=y+(h-sh)/2
+      gfx.y=y+dpi_scale+(h-sh)/2
       gfx.set(reagirl.Colors.Buttons_TextBG_r, reagirl.Colors.Buttons_TextBG_g, reagirl.Colors.Buttons_TextBG_b)
       gfx.drawstr(element_storage["Name"])
       
       gfx.x=x+(w-sw)/2+1
-      gfx.y=y+(h-sh)/2-dpi_scale
+      gfx.y=y+dpi_scale+(h-sh)/2-dpi_scale
       gfx.set(reagirl.Colors.Buttons_TextFG_r, reagirl.Colors.Buttons_TextFG_g, reagirl.Colors.Buttons_TextFG_b)
       gfx.drawstr(element_storage["Name"])
     else
@@ -19417,12 +19501,27 @@ end
 function reagirl.Tabs_Manage(element_id, selected, hovered, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
   local refresh
   
+  if hovered==true then 
+    add_color=reagirl.Color_CalculateHighlighter(reagirl.Colors.Checkbox_rectangle_r, reagirl.Colors.Checkbox_rectangle_g, reagirl.Colors.Checkbox_rectangle_b)*2
+  end
+  
   -- drop files for accessibility using a file-requester, after typing ctrl+shift+f
   if element_storage["DropZoneFunction"]~=nil and Key==6 and mouse_cap==12 then
     local retval, filenames = reaper.GetUserFileNameForRead("", "Choose file to drop into "..element_storage["Name"], "")
     reagirl.Window_SetFocus()
     if retval==true then element_storage["DropZoneFunction"](element_storage["Guid"], {filenames}) refresh=true end
   end
+  
+  if element_storage.hovered~=hovered then
+    reagirl.Gui_ForceRefresh(111222.2324487)
+  end
+  element_storage.hovered=hovered
+  
+  if element_storage.TabHoveredIndex~=element_storage.TabHoveredIndex_old then
+    reagirl.Gui_ForceRefresh(111222.23244871)
+  end
+  
+  element_storage.TabHoveredIndex_old=element_storage.TabHoveredIndex
   
   -- external influence on the opened tab
   if reagirl.Window_name~=nil and reaper.GetExtState("Reagirl_Window_"..reagirl.Window_name, "open_tabnumber")~="" then
@@ -19444,6 +19543,7 @@ function reagirl.Tabs_Manage(element_id, selected, hovered, clicked, mouse_cap, 
   end
   -- hover management for the tabs
   element_storage["TabHovered"]=""
+  element_storage["TabHoveredIndex"]=-1
   if hovered==true and reaper.GetExtState("ReaGirl", "osara_hover_mouse")~="false" then
     if element_storage["Tabs_Pos"]~=nil then
       for i=1, #element_storage["Tabs_Pos"] do
@@ -19455,6 +19555,7 @@ function reagirl.Tabs_Manage(element_id, selected, hovered, clicked, mouse_cap, 
             if element_storage["TabSelected"]==i then selected1=" selected" end
             acc_message=element_storage["TabNames"][i].." tab"..selected1.."."
             element_storage["TabHovered"]=element_storage["TabNames"][i]
+            element_storage["TabHoveredIndex"]=i
             if selected=="not selected" then
               reagirl.Elements["GlobalAccHoverMessage"]=element_storage["TabNames"][i].." tab "..selected1
             end
@@ -19563,6 +19664,14 @@ end
 
 
 function reagirl.Tabs_Draw(element_id, selected, hovered, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
+  --element_storage["TabHoveredIndex"]=-1
+  --reagirl.Colors.Tabs_Inner_Tabs_Selected_r=0.253921568627451
+  --reagirl.Colors.Tabs_Inner_Tabs_Selected_g=0.253921568627451
+  --reagirl.Colors.Tabs_Inner_Tabs_Selected_b=0.253921568627451
+  --reagirl.Colors.Tabs_Inner_Tabs_Unselected_r=0.153921568627451
+  --reagirl.Colors.Tabs_Inner_Tabs_Unselected_g=0.153921568627451
+  --reagirl.Colors.Tabs_Inner_Tabs_Unselected_b=0.153921568627451  
+  
   reagirl.SetFont(1, reagirl.Font_Face, reagirl.Font_Size, 0)
   local dpi_scale=reagirl.Window_GetCurrentScale()
   local text_offset_x=dpi_scale*element_storage["text_offset_x"]
@@ -19591,7 +19700,15 @@ function reagirl.Tabs_Draw(element_id, selected, hovered, clicked, mouse_cap, mo
     reagirl.RoundRect(math.tointeger(x+x_offset-text_offset_x), y, math.tointeger(tx+text_offset_x+text_offset_x), tab_height+ty, 3*dpi_scale, 1, 1, false, true, false, true)
     
     -- inner part of tabs
-    if i==element_storage["TabSelected"] then offset=dpi_scale gfx.set(reagirl.Colors.Tabs_Inner_Tabs_Selected_r, reagirl.Colors.Tabs_Inner_Tabs_Selected_g, reagirl.Colors.Tabs_Inner_Tabs_Selected_b) else offset=0 gfx.set(reagirl.Colors.Tabs_Inner_Tabs_Unselected_r, reagirl.Colors.Tabs_Inner_Tabs_Unselected_g, reagirl.Colors.Tabs_Inner_Tabs_Unselected_b) end
+    add_color=0
+    if i==element_storage["TabHoveredIndex"] then
+      if i==element_storage["TabSelected"] then
+        add_color=reagirl.Color_CalculateHighlighter(reagirl.Colors.Tabs_Inner_Tabs_Selected_r, reagirl.Colors.Tabs_Inner_Tabs_Selected_g, reagirl.Colors.Tabs_Inner_Tabs_Selected_b) 
+      else
+        add_color=reagirl.Color_CalculateHighlighter(reagirl.Colors.Tabs_Inner_Tabs_Unselected_r, reagirl.Colors.Tabs_Inner_Tabs_Unselected_g, reagirl.Colors.Tabs_Inner_Tabs_Unselected_b)
+      end
+    end
+    if i==element_storage["TabSelected"] then offset=dpi_scale gfx.set(reagirl.Colors.Tabs_Inner_Tabs_Selected_r, reagirl.Colors.Tabs_Inner_Tabs_Selected_g, reagirl.Colors.Tabs_Inner_Tabs_Selected_b) else offset=0 gfx.set(reagirl.Colors.Tabs_Inner_Tabs_Unselected_r+add_color, reagirl.Colors.Tabs_Inner_Tabs_Unselected_g+add_color, reagirl.Colors.Tabs_Inner_Tabs_Unselected_b+add_color) end
     reagirl.RoundRect(math.tointeger(x+x_offset-text_offset_x)+dpi_scale, y+dpi_scale, math.tointeger(tx+text_offset_x+text_offset_x)-dpi_scale-dpi_scale, tab_height+ty+dpi_scale, 2*dpi_scale, 1, 1, false, true, false, true)
     
     
