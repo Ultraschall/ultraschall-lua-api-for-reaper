@@ -2603,6 +2603,7 @@ reagirl.Colors.Scrollbar_Background_b=0.39
 reagirl.Colors.Scrollbar_Foreground_r=0.49
 reagirl.Colors.Scrollbar_Foreground_g=0.49
 reagirl.Colors.Scrollbar_Foreground_b=0.49
+
 reagirl.Colors.Buttons_Area_r=0.274
 reagirl.Colors.Buttons_Area_g=0.274
 reagirl.Colors.Buttons_Area_b=0.274
@@ -2612,6 +2613,14 @@ reagirl.Colors.Buttons_TextFG_b=0.784
 reagirl.Colors.Buttons_TextBG_r=0.2
 reagirl.Colors.Buttons_TextBG_g=0.2
 reagirl.Colors.Buttons_TextBG_b=0.2
+
+reagirl.Colors.Burgermenu_Area_r=0.274
+reagirl.Colors.Burgermenu_Area_g=0.274
+reagirl.Colors.Burgermenu_Area_b=0.274
+reagirl.Colors.Burgermenu_Stripes_r=0.55
+reagirl.Colors.Burgermenu_Stripes_g=0.55
+reagirl.Colors.Burgermenu_Stripes_b=0.55
+
 
 reagirl.Colors.Label_TextFG_r=0.8
 reagirl.Colors.Label_TextFG_g=0.8
@@ -11744,6 +11753,7 @@ function reagirl.Button_Draw(element_id, selected, hovered, clicked, mouse_cap, 
   
   local dpi_scale=reagirl.Window_CurrentScale
   y=y+dpi_scale
+  
   if reagirl.Elements[element_id]["pressed"]==true then
     local scale=reagirl.Window_CurrentScale-1
     state=1*dpi_scale-1
@@ -12497,16 +12507,16 @@ function reagirl.Menu_GetEntryName(menu, entry_nr)
   end
 end
 
-function reagirl.Burgermenu_Add(x, y, caption, meaningOfUI_Element, menu, run_function)
+function reagirl.Burgermenu_Add(x, y, caption, mode, meaningOfUI_Element, menu, run_function)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>Burgermenu_Add</slug>
   <requires>
-    ReaGirl=1.2
+    ReaGirl=1.3
     Reaper=7.03
     Lua=5.4
   </requires>
-  <functioncall>string burgermenu_guid = reagirl.Burgermenu_Add(optional integer x, optional integer y, string caption, string meaningOfUI_Element, string menu, optional function run_function)</functioncall>
+  <functioncall>string burgermenu_guid = reagirl.Burgermenu_Add(optional integer x, optional integer y, string caption, integer mode, string meaningOfUI_Element, string menu, optional function run_function)</functioncall>
   <description>
     Adds a burgermenu to a gui.
     
@@ -12523,6 +12533,7 @@ function reagirl.Burgermenu_Add(x, y, caption, meaningOfUI_Element, menu, run_fu
     optional integer x - the x position of the burgermenu in pixels; negative anchors the burgermenu to the right window-side; nil, autoposition after the last ui-element(see description)
     optional integer y - the y position of the burgermenu in pixels; negative anchors the burgermenu to the bottom window-side; nil, autoposition after the last ui-element(see description)
     string caption - the caption of the burgermenu
+    integer mode - 1, burger-menu is 15x15 pixels*scale; 2, burger-menu is 30x30 pixes*scale
     string meaningOfUI_Element - the meaningOfUI_Element of the ui-element(for tooltips and blind users). Make it a sentence that ends with . or ?
     string menu - the menu that shall be shown when clicking the button; refer to gfx.showmenu() on how to set this parameter
     optional function run_function - a function that shall be run when the burgermenu is clicked; will get the burgermenu-element_id passed over as first parameter; nil, no run-function for this burgermenu
@@ -12540,10 +12551,11 @@ function reagirl.Burgermenu_Add(x, y, caption, meaningOfUI_Element, menu, run_fu
   if y~=nil and math.type(y)~="integer" then error("Burgermenu_Add: param #2 - must be either nil or an integer", 2) end
   if type(caption)~="string" then error("Burgermenu_Add: param #3 - must be a string", 2) end
   caption=string.gsub(caption, "[\n\r]", "")
-  if type(meaningOfUI_Element)~="string" then error("Burgermenu_Add: param #4 - must be a string", 2) end
-  if meaningOfUI_Element:sub(-1,-1)~="." and meaningOfUI_Element:sub(-1,-1)~="?" then error("Burgermenu_Add: param #4 - must end on a . like a regular sentence.", 2) end
-  if type(menu)~="string" then error("Burgermenu_Add: param #5 - must be a string", 2) end
-  if run_function~=nil and type(run_function)~="function" then error("Burgermenu_Add: param #6 - must be either nil or a function", 2) end
+  if math.type(mode)~="integer" then error("Burgermenu_Add: param #4 - must be an integer", 2) end
+  if type(meaningOfUI_Element)~="string" then error("Burgermenu_Add: param #5 - must be a string", 2) end
+  if meaningOfUI_Element:sub(-1,-1)~="." and meaningOfUI_Element:sub(-1,-1)~="?" then error("Burgermenu_Add: param #5 - must end on a . like a regular sentence.", 2) end
+  if type(menu)~="string" then error("Burgermenu_Add: param #6 - must be a string", 2) end
+  if run_function~=nil and type(run_function)~="function" then error("Burgermenu_Add: param #7 - must be either nil or a function", 2) end
   
   local x,y,slot=reagirl.UI_Element_GetNextXAndYPosition(x, y, "Burgermenu_Add")
   --reagirl.UI_Element_NextX_Default=x
@@ -12568,8 +12580,9 @@ function reagirl.Burgermenu_Add(x, y, caption, meaningOfUI_Element, menu, run_fu
   reagirl.Elements[slot]["DropZoneFunction_ACC"]=""
   reagirl.Elements[slot]["x"]=x
   reagirl.Elements[slot]["y"]=y
-  reagirl.Elements[slot]["w"]=math.tointeger(tx+16)
-  reagirl.Elements[slot]["h"]=math.tointeger(ty)
+  if mode==2 then mode=30 else mode=15 end
+  reagirl.Elements[slot]["w"]=mode
+  reagirl.Elements[slot]["h"]=mode
   if math.tointeger(ty)>reagirl.NextLine_Overflow then reagirl.NextLine_Overflow=math.tointeger(ty) end
   reagirl.Elements[slot]["w_margin"]=0
   reagirl.Elements[slot]["h_margin"]=0
@@ -12683,6 +12696,11 @@ function reagirl.Burgermenu_Manage(element_id, selected, hovered, clicked, mouse
     gfx.setcursor(0x7f89)
   end
   
+  if element_storage.hovered~=hovered then
+    reagirl.Gui_ForceRefresh(111222.23248656987)
+  end
+  element_storage.hovered=hovered
+  
   if selected~="not selected" and (Key==32 or Key==13) and element_storage["pressed"]~=true then 
     element_storage["pressed"]=true
     message=""
@@ -12714,6 +12732,10 @@ function reagirl.Burgermenu_Draw(element_id, selected, hovered, clicked, mouse_c
   reagirl.SetFont(1, reagirl.Font_Face, reagirl.Font_Size, 0)
   local temp=""
   local sw,sh=gfx.measurestr(temp)
+  local add_color=0
+  if hovered==true then 
+    add_color=reagirl.Color_CalculateHighlighter(reagirl.Colors.ColorRectangle_Boundary2_r, reagirl.Colors.ColorRectangle_Boundary2_g, reagirl.Colors.ColorRectangle_Boundary2_b)
+  end
   
   local dpi_scale=reagirl.Window_CurrentScale
   y=y+dpi_scale
@@ -12728,29 +12750,23 @@ function reagirl.Burgermenu_Draw(element_id, selected, hovered, clicked, mouse_c
     gfx.set(0.06) -- background 2
     reagirl.RoundRect(x, y, w+dpi_scale+dpi_scale, h, (radius) * dpi_scale, 1, 1)
     
-    gfx.set(0.274) -- button-area
+    gfx.set(reagirl.Colors.Buttons_Area_r+add_color, reagirl.Colors.Buttons_Area_g+add_color, reagirl.Colors.Buttons_Area_b+add_color) -- button-area
     reagirl.RoundRect(x+dpi_scale, y+dpi_scale, w+dpi_scale, h, (radius-1) * dpi_scale, 1, 1)
     
-    gfx.set(0.55)
-    local height=h/8
-    local width=math.floor(w*0.84)
-    local x_offset=math.floor(width*0.1)
+    gfx.set(reagirl.Colors.Burgermenu_Stripes_r, reagirl.Colors.Burgermenu_Stripes_g, reagirl.Colors.Burgermenu_Stripes_b)
+    
     local y_offset=0
-    if dpi_scale>1 then y_offset=1 end
-    if w<50*dpi_scale then width=w-dpi_scale-dpi_scale-dpi_scale-dpi_scale-dpi_scale-dpi_scale+1 x_offset=dpi_scale+dpi_scale+dpi_scale end
-    if h<50*dpi_scale then height=dpi_scale+dpi_scale end
-    gfx.rect(x+dpi_scale+(x_offset) * scale, y+dpi_scale+math.floor(((h/12*3)-height/2)) * scale, math.floor(width), math.floor(height), (radius-1) * dpi_scale, 1, 1)
-    gfx.rect(x+dpi_scale+(x_offset) * scale, y+dpi_scale+math.floor(((h/12*6)-height/2)) * scale, math.floor(width), math.floor(height), (radius-1) * dpi_scale, 1, 1)
-    gfx.rect(x+dpi_scale+(x_offset) * scale, y+dpi_scale+y_offset+math.floor(((h/12*9)-height/2)) * scale, math.floor(width), math.floor(height), (radius-1) * dpi_scale, 1, 1)
-    
-    if element_storage["IsDisabled"]==false then
-      gfx.x=x+(w-sw)/2+2+scale
-    
-      if reaper.GetOS():match("OS")~=nil then offset=1 end
-      gfx.y=y+(h-sh)/2+scale
-      gfx.set(0.784)
-      gfx.drawstr(temp)
+    if dpi_scale%2==0 then y_offset=1 end
+    if w<30*dpi_scale then
+      gfx.rect((x+5*dpi_scale)*scale, y+(h/4),   w-6*dpi_scale, dpi_scale*2, 1)
+      gfx.rect((x+5*dpi_scale)*scale, y+(h/2),   w-6*dpi_scale, dpi_scale*2, 1)
+      gfx.rect((x+5*dpi_scale)*scale, y+h-(h/4)+y_offset, w-6*dpi_scale, dpi_scale*2, 1)
+    else
+      gfx.rect((x+5*dpi_scale)*scale, y+(h/4)+dpi_scale,   w-6*dpi_scale, dpi_scale*3, 1)
+      gfx.rect((x+5*dpi_scale)*scale, y+(h/2),   w-6*dpi_scale, dpi_scale*3, 1)
+      gfx.rect((x+5*dpi_scale)*scale, y+h-(h/4), w-6*dpi_scale, dpi_scale*3, 1)
     end
+
     reagirl.SetFont(1, reagirl.Font_Face, reagirl.Font_Size, 0)
   else
     local scale=1--reagirl.Window_CurrentScale
@@ -12762,42 +12778,21 @@ function reagirl.Burgermenu_Draw(element_id, selected, hovered, clicked, mouse_c
     gfx.set(0.45) -- background 2
     reagirl.RoundRect(x*scale, (y - dpi_scale) * scale, w-dpi_scale, h, radius * dpi_scale, 1, 1)
     
-    gfx.set(0.274) -- button-area
+    gfx.set(reagirl.Colors.Buttons_Area_r+add_color, reagirl.Colors.Buttons_Area_g+add_color, reagirl.Colors.Buttons_Area_b+add_color) -- button-area
     reagirl.RoundRect((x + dpi_scale) * scale, (y) * scale, w-dpi_scale-dpi_scale, h-dpi_scale, (radius-1) * dpi_scale, 1, 1)
 
-    gfx.set(0.55)
-    local height=h/8
-    local width=math.floor(w*0.84)
-    local x_offset=math.floor(width*0.1)
+    gfx.set(reagirl.Colors.Burgermenu_Stripes_r, reagirl.Colors.Burgermenu_Stripes_g, reagirl.Colors.Burgermenu_Stripes_b)
+    
     local y_offset=0
-    if dpi_scale>1 then y_offset=1 end
-    if w<50*dpi_scale then width=w-dpi_scale-dpi_scale-dpi_scale-dpi_scale-dpi_scale-dpi_scale+1 x_offset=dpi_scale+dpi_scale+dpi_scale end
-    if h<50*dpi_scale then height=dpi_scale+dpi_scale end
-    gfx.rect((x+x_offset) * scale, y+math.floor(((h/12*3)-height/2)) * scale, math.floor(width), math.floor(height), (radius-1) * dpi_scale, 1, 1)
-    gfx.rect((x+x_offset) * scale, y+math.floor(((h/12*6)-height/2)) * scale, math.floor(width), math.floor(height), (radius-1) * dpi_scale, 1, 1)
-    gfx.rect((x+x_offset) * scale, y+y_offset+math.floor(((h/12*9)-height/2)) * scale, math.floor(width), math.floor(height), (radius-1) * dpi_scale, 1, 1)
-
-    local offset=0
-    if element_storage["IsDisabled"]==false then
-      gfx.x=x+(w-sw)/2+1
-      if reaper.GetOS():match("OS")~=nil then offset=1 end
-      gfx.y=y--+(h-sh)/2-dpi_scale
-      gfx.set(0.784)
-      gfx.drawstr(temp)
+    if dpi_scale%2==0 then y_offset=1 end
+    if w<30*dpi_scale then
+      gfx.rect((x+3*dpi_scale)*scale, y+(h/4)-dpi_scale,   w-6*dpi_scale, dpi_scale*2, 1)
+      gfx.rect((x+3*dpi_scale)*scale, y+(h/2)-dpi_scale,   w-6*dpi_scale, dpi_scale*2, 1)
+      gfx.rect((x+3*dpi_scale)*scale, y+h-(h/4)-dpi_scale+y_offset, w-6*dpi_scale, dpi_scale*2, 1)
     else
-      if reaper.GetOS():match("OS")~=nil then offset=1 end
-      
-      gfx.x=x+(w-sw)/2+1+dpi_scale
-      gfx.y=y+(h-sh)/2+1+offset-1
-      gfx.y=y+dpi_scale--(h-gfx.texth)/2+offset
-      gfx.set(0.09)
-      gfx.drawstr(temp)
-      
-      gfx.x=x+(w-sw)/2+1
-      
-      gfx.y=y--+(h-gfx.texth)/2+offset-1
-      gfx.set(0.55)
-      gfx.drawstr(temp)
+      gfx.rect((x+3*dpi_scale)*scale, y+(h/4)-dpi_scale,   w-6*dpi_scale, dpi_scale*3, 1)
+      gfx.rect((x+3*dpi_scale)*scale, y+(h/2)-dpi_scale-dpi_scale,   w-6*dpi_scale, dpi_scale*3, 1)
+      gfx.rect((x+3*dpi_scale)*scale, y+h-(h/4)-dpi_scale-dpi_scale, w-6*dpi_scale, dpi_scale*3, 1)
     end
   end
 end
