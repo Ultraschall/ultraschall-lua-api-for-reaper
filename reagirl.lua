@@ -2613,6 +2613,17 @@ reagirl.Colors.Buttons_TextBG_r=0.2
 reagirl.Colors.Buttons_TextBG_g=0.2
 reagirl.Colors.Buttons_TextBG_b=0.2
 
+reagirl.Colors.Label_TextFG_r=0.8
+reagirl.Colors.Label_TextFG_g=0.8
+reagirl.Colors.Label_TextFG_b=0.8
+reagirl.Colors.Label_TextFGclickable_r=0.4
+reagirl.Colors.Label_TextFGclickable_g=0.65
+reagirl.Colors.Label_TextFGclickable_b=1
+reagirl.Colors.Label_TextBG_r=0.2
+reagirl.Colors.Label_TextBG_g=0.2
+reagirl.Colors.Label_TextBG_b=0.2
+
+
 reagirl.Colors.Toolbar_TextFG_r=0.8
 reagirl.Colors.Toolbar_TextFG_g=0.8
 reagirl.Colors.Toolbar_TextFG_b=0.8
@@ -15855,21 +15866,18 @@ function reagirl.Label_Draw(element_id, selected, hovered, clicked, mouse_cap, m
     local cursor_alpha=0 -- text.selection-cursor
     if element_storage["text_selection"]==true then cursor_alpha=1 end
     
-    local col=0.8
-    local col2=0.8
-    local col3=0.2
-    if element_storage["clickable"]==true then 
-      col=0.4
-      col2=0.8
-      col3=0.2
-    end
-    gfx.set(col3)
+    
+    gfx.set(reagirl.Colors.Label_TextBG_r, reagirl.Colors.Label_TextBG_g, reagirl.Colors.Label_TextBG_b)
+    
     gfx.x=x+dpi_scale
     gfx.y=y+dpi_scale
     gfx.drawstr(name, element_storage["align"])--, x+w, y+h)
     --reagirl.BlitText_AdaptLineLength(name, x+dpi_scale, y+dpi_scale, w, h, element_storage["align"], element_storage.start_pos, element_storage.end_pos, element_storage.pos3, element_storage.startline, element_storage.positions, 1, 1, 0, cursor_alpha, col3, col3, col3, 1, element_storage["font_size"], style)
 
-    gfx.set(col,col,col2)
+    gfx.set(reagirl.Colors.Label_TextFG_r, reagirl.Colors.Label_TextFG_g, reagirl.Colors.Label_TextFG_b)
+    if element_storage["clickable"]==true then 
+      gfx.set(reagirl.Colors.Label_TextFGclickable_r, reagirl.Colors.Label_TextFGclickable_g, reagirl.Colors.Label_TextFGclickable_b)
+    end
     gfx.x=x
     gfx.y=y
     
