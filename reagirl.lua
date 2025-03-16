@@ -11487,7 +11487,7 @@ function reagirl.Button_GetRadius(element_id)
     string element_id - the guid of the button, whose radius you want to get
   </parameters>
   <retvals>
-    integer radius - the radius of the button
+    integer radius - the radius of the button; between 0 and 10
   </retvals>
   <chapter_context>
     Button
@@ -11521,7 +11521,7 @@ function reagirl.Button_SetRadius(element_id, radius)
   </description>
   <parameters>
     string element_id - the guid of the button, whose radius you want to set
-    integer radius - between 0 and 10
+    integer radius - the radius of the edges of the button; between 0 and 10
   </parameters>
   <retvals>
     boolean retval - true, setting was succesful; false, setting was unsuccessful
@@ -11781,9 +11781,7 @@ function reagirl.ToolbarButton_Add(x, y, toolbaricon, num_states, default_state,
   
   if default_state>num_states then error("ToolbarButton_Add: param #5 - must be between 1 and "..num_states, 2) end
   if type(state_names)~="table" then error("ToolbarButton_Add: param #6 - must be a table", 2) end
-  for i=1, #state_names do
-    state_names[i]=tostring(state_names[i])
-  end
+  
   if math.type(mode)~="integer" then error("ToolbarButton_Add: param #7 - must be a string", 2) end
   if type(caption)~="string" then error("ToolbarButton_Add: param #8 - must be a string", 2) end
   caption=string.gsub(caption, "[\n\r]", "")
@@ -11794,8 +11792,16 @@ function reagirl.ToolbarButton_Add(x, y, toolbaricon, num_states, default_state,
   local x,y,slot=reagirl.UI_Element_GetNextXAndYPosition(x, y, "ToolbarButton_Add")
   --reagirl.UI_Element_NextX_Default=x
   
+  local tx,ty=0,0
+  
   reagirl.SetFont(1, reagirl.Font_Face, reagirl.Font_Size, 0, 1)
-  local tx,ty=gfx.measurestr(caption)
+  for i=1, num_states do
+    if type(state_names[i])~="string" then error("ToolbarButton_Add: param #6 - state-name #"..i.." is not a string", 2) end
+    local tx1,ty1=gfx.measurestr(state_names[i])
+    if tx1>tx then tx=tx1 end
+    if ty1>ty then ty=ty1 end
+  end
+  
   reagirl.SetFont(1, reagirl.Font_Face, reagirl.Font_Size, 0)
   
   table.insert(reagirl.Elements, slot, {})
@@ -11883,20 +11889,21 @@ function reagirl.ToolbarButton_Manage(element_id, selected, hovered, clicked, mo
   if oldpressed==true and element_storage["pressed"]==false and (mouse_cap&1==0 and Key~=32) then
     element_storage["cur_state"]=element_storage["cur_state"]+1
     if element_storage["cur_state"]>element_storage["num_states"] then element_storage["cur_state"]=1 end
+    local message=element_storage["state_names"][element_storage["cur_state"]]
+    if gfx.mouse_x>=x and gfx.mouse_x<=x+(30*dpi_scale) and gfx.mouse_y>=y and gfx.mouse_y<=y+(30*dpi_scale) then
+      local XX, YY= reaper.GetMousePosition()
+      local dropfiles=""
+      local draggable=""
+      local contextmenu=""
+      if element_storage["DropZoneFunction_ACC"]~="" then dropfiles="Allows dropping of files. " end
+      if element_storage["Draggable"]==true then draggable="Draggable. " end
+      if element_storage["ContextMenu_ACC"]~="" then contextmenu="Has context-menu. " end
+      reaper.TrackCtl_SetToolTip(element_storage["state_names"][element_storage["cur_state"]].."\n"..draggable..contextmenu..dropfiles, XX+15, YY+10, true)
+      --print2("")
+    end
     if element_storage["run_function"]~=nil then element_storage["run_function"](element_storage["Guid"], element_storage["cur_state"]) message="pressed" end
   end
-  message=element_storage["state_names"][element_storage["cur_state"]]
-  if element_storage["pressed"]==true and gfx.mouse_x>=x and gfx.mouse_x<=x+(30*dpi_scale) and gfx.mouse_y>=y and gfx.mouse_y<=y+(30*dpi_scale) then
-    local XX, YY= reaper.GetMousePosition()
-    local dropfiles=""
-    local draggable=""
-    local contextmenu=""
-    if element_storage["DropZoneFunction_ACC"]~="" then dropfiles="Allows dropping of files. " end
-    if element_storage["Draggable"]==true then draggable="Draggable. " end
-    if element_storage["ContextMenu_ACC"]~="" then contextmenu="Has context-menu. " end
-    reaper.TrackCtl_SetToolTip(message.."\n"..draggable..contextmenu..dropfiles, XX+15, YY+10, true)
-    --print2("")
-  end
+  
   return message, oldpressed~=element_storage["pressed"]
 end
 
@@ -11909,9 +11916,15 @@ function reagirl.ToolbarButton_Draw(element_id, selected, hovered, clicked, mous
   local radius = element_storage["radius"]
   reagirl.SetFont(1, reagirl.Font_Face, reagirl.Font_Size, 0)
   
+  local colr, colg, colb = reagirl.Colors.Toolbar_Area_r, reagirl.Colors.Toolbar_Area_g, reagirl.Colors.Toolbar_Area_b
+  if element_storage["r"]~=nil then
+    colr, colg, colb = element_storage["r"], element_storage["g"], element_storage["b"]
+    --reagirl.Elements[slot]["b_full"]
+  end
   local add_color=0
+  
   if hovered==true then  
-    add_color=reagirl.Color_CalculateHighlighter(reagirl.Colors.Toolbar_Area_r, reagirl.Colors.Toolbar_Area_g, reagirl.Colors.Toolbar_Area_b)
+    add_color=reagirl.Color_CalculateHighlighter(colr, colg, colb)
   end
   
   local sw,sh=gfx.measurestr(element_storage["Name"])
@@ -11931,7 +11944,7 @@ function reagirl.ToolbarButton_Draw(element_id, selected, hovered, clicked, mous
     reagirl.RoundRect(x, y, w, h, (radius) * dpi_scale, 1, 1, element_storage["square_topleft"], element_storage["square_bottomleft"], element_storage["square_topright"], element_storage["square_bottomright"])
     
     --gfx.set(0.274) -- button-area
-    gfx.set(reagirl.Colors.Toolbar_Area_r+add_color, reagirl.Colors.Toolbar_Area_g+add_color, reagirl.Colors.Toolbar_Area_b+add_color) -- button-area
+    gfx.set(colr+add_color, colg+add_color, colb+add_color) -- button-area
     reagirl.RoundRect(x+dpi_scale, y+dpi_scale, w-dpi_scale, h-dpi_scale, (radius-1) * dpi_scale, 1, 1, element_storage["square_topleft"], element_storage["square_bottomleft"], element_storage["square_topright"], element_storage["square_bottomright"])
 
     gfx.blit(element_storage["toolbaricon"], 1, 0, (element_storage["cur_state"]-1)*30*element_storage["toolbaricon_scale"], 0, 30*element_storage["toolbaricon_scale"], 30*element_storage["toolbaricon_scale"], x+dpi_scale, y+dpi_scale, w, h)
@@ -11939,11 +11952,11 @@ function reagirl.ToolbarButton_Draw(element_id, selected, hovered, clicked, mous
     if element_storage["mode"]==2 then
       gfx.x=x+35*dpi_scale+dpi_scale
       gfx.y=y+(h-sh)/2+dpi_scale
-      gfx.drawstr(name)
+      gfx.drawstr(element_storage["state_names"][element_storage["cur_state"]])
       gfx.set(reagirl.Colors.Toolbar_TextFG_r, reagirl.Colors.Toolbar_TextFG_g, reagirl.Colors.Toolbar_TextFG_b, 1)
       gfx.x=x+35*dpi_scale
       gfx.y=y+(h-sh)/2
-      gfx.drawstr(name)
+      gfx.drawstr(element_storage["state_names"][element_storage["cur_state"]])
     end
     
     if element_storage["IsDisabled"]==false then
@@ -11961,7 +11974,7 @@ function reagirl.ToolbarButton_Draw(element_id, selected, hovered, clicked, mous
     gfx.set(0.45) -- background 2
     reagirl.RoundRect(x*scale, (y - dpi_scale) * scale, w-dpi_scale, h, radius * dpi_scale, 1, 1, element_storage["square_topleft"], element_storage["square_bottomleft"], element_storage["square_topright"], element_storage["square_bottomright"])
     
-    gfx.set(reagirl.Colors.Toolbar_Area_r+add_color, reagirl.Colors.Toolbar_Area_g+add_color, reagirl.Colors.Toolbar_Area_b+add_color) -- button-area
+    gfx.set(colr+add_color, colg+add_color, colb+add_color) -- button-area
     reagirl.RoundRect((x + dpi_scale) * scale, (y) * scale, w-dpi_scale-dpi_scale, h-dpi_scale, (radius-1) * dpi_scale, 1, 1, element_storage["square_topleft"], element_storage["square_bottomleft"], element_storage["square_topright"], element_storage["square_bottomright"])
     
     gfx.blit(element_storage["toolbaricon"], 1, 0, (element_storage["cur_state"]-1)*30*element_storage["toolbaricon_scale"], 0, 30*element_storage["toolbaricon_scale"], 30*element_storage["toolbaricon_scale"], x, y, w, h)
@@ -11969,11 +11982,11 @@ function reagirl.ToolbarButton_Draw(element_id, selected, hovered, clicked, mous
     if element_storage["mode"]==2 then
       gfx.x=x+35*dpi_scale+dpi_scale
       gfx.y=y+(h-sh)/2+dpi_scale
-      gfx.drawstr(name)
+      gfx.drawstr(element_storage["state_names"][element_storage["cur_state"]])
       gfx.set(reagirl.Colors.Toolbar_TextFG_r, reagirl.Colors.Toolbar_TextFG_g, reagirl.Colors.Toolbar_TextFG_b, 1)
       gfx.x=x+35*dpi_scale
       gfx.y=y+(h-sh)/2
-      gfx.drawstr(name)
+      gfx.drawstr(element_storage["state_names"][element_storage["cur_state"]])
     end
     
     
@@ -11983,6 +11996,335 @@ function reagirl.ToolbarButton_Draw(element_id, selected, hovered, clicked, mous
     gfx.y=y+(h-sh)/2-dpi_scale
   end
 end
+
+function reagirl.ToolbarButton_SetColor(element_id, r, g, b)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>ToolbarButton_SetColor</slug>
+  <requires>
+    ReaGirl=1.3
+    Reaper=7.03
+    Lua=5.4
+  </requires>
+  <functioncall>reagirl.ToolbarButton_SetColor(string element_id, integer r, integer g, integer b)</functioncall>
+  <description>
+    Sets the color of a toolbar-button.
+    
+    Set r=nil to use default color.
+  </description>
+  <parameters>
+    string element_id - the guid of the toolbar-button, whose color you want to set
+    optional integer r - the red-value of the color; 0-255; nil to use default
+    optional integer g - the green-value of the color; 0-255; will be ignored, if r=nil
+    optional integer b - the blue-value of the color; 0-255; will be ignored, if r=nil
+  </parameters>
+  <chapter_context>
+    Toolbarbutton
+  </chapter_context>
+  <tags>toolbarbutton, set, color</tags>
+</US_DocBloc>
+--]]
+  if type(element_id)~="string" then error("ToolbarButton_SetColor: param #1 - must be a string", 2) end
+  if reagirl.IsValidGuid(element_id, true)==nil then error("ToolbarButton_SetColor: param #1 - must be a valid guid", 2) end
+  if r~=nil and math.type(r)~="integer" then error("ToolbarButton_SetColor: param #2 - must be an integer", 2) end
+  if g~=nil and math.type(g)~="integer" then error("ToolbarButton_SetColor: param #3 - must be an integer", 2) end
+  if b~=nil and math.type(b)~="integer" then error("ToolbarButton_SetColor: param #4 - must be an integer", 2) end
+  element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
+  if element_id==-1 then error("ToolbarButton_SetColor: param #1 - no such ui-element", 2) end
+  if reagirl.Elements[element_id]["GUI_Element_Type"]~="ToolbarButton" then
+    error("ToolbarButton_SetColor: param #1 - ui-element is not a toolbar-button", 2)
+  else
+    if r~=nil then
+      reagirl.Elements[element_id]["r"]=r/255
+      reagirl.Elements[element_id]["g"]=g/255
+      reagirl.Elements[element_id]["b"]=b/255
+    else
+      reagirl.Elements[element_id]["r"]=nil
+      reagirl.Elements[element_id]["g"]=nil
+      reagirl.Elements[element_id]["b"]=nil
+    end
+    reagirl.Gui_ForceRefresh(18.72692)
+  end
+end
+
+function reagirl.ToolbarButton_GetColor(element_id)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>ToolbarButton_GetColor</slug>
+  <requires>
+    ReaGirl=1.3
+    Reaper=7.03
+    Lua=5.4
+  </requires>
+  <functioncall>boolean default_color, integer r, integer g, integer b = reagirl.ToolbarButton_GetColor(string element_id)</functioncall>
+  <description>
+    Gets a toolbar-button's color.
+  </description>
+  <parameters>
+    string element_id - the guid of the toolbar-button, whose color you want to get
+  </parameters>
+  <retvals>
+    boolean default_color - true, the toolbar-button has default color; false, the toolbar-button has its own color
+    integer r - the red-value of the color; 0-255
+    integer g - the green-value of the color; 0-255
+    integer b - the blue-value of the color; 0-255
+  </retvals>
+  <chapter_context>
+    Toolbarbutton
+  </chapter_context>
+  <tags>toolbarbutton, get, color</tags>
+</US_DocBloc>
+--]]
+  if type(element_id)~="string" then error("ToolbarButton_GetColor: param #1 - must be a string", 2) end
+  if reagirl.IsValidGuid(element_id, true)==nil then error("ToolbarButton_GetColor: param #1 - must be a valid guid", 2) end
+  element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
+  if element_id==-1 then error("ToolbarButton_GetColor: param #1 - no such ui-element", 2) end
+  if reagirl.Elements[element_id]["GUI_Element_Type"]~="ToolbarButton" then
+    error("ToolbarButton_GetColor: param #1 - ui-element is not a toolbarbutton", 2)
+  else
+    if reagirl.Elements[element_id]["r"]~=nil then
+      return false, math.ceil(reagirl.Elements[element_id]["r"]*255), math.ceil(reagirl.Elements[element_id]["g"]*255), math.ceil(reagirl.Elements[element_id]["b"]*255)
+    else
+      return true, math.ceil(reagirl.Colors.Toolbar_Area_r*255), math.ceil(reagirl.Colors.Toolbar_Area_g*255), math.ceil(reagirl.Colors.Toolbar_Area_b*255)
+    end
+  end
+end
+
+
+function reagirl.ToolbarButton_SetRadius(element_id, radius)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>ToolbarButton_SetRadius</slug>
+  <requires>
+    ReaGirl=1.3
+    Reaper=7.03
+    Lua=5.4
+  </requires>
+  <functioncall>reagirl.ToolbarButton_SetRadius(string element_id, integer radius)</functioncall>
+  <description>
+    Sets the radius of the edges of a toolbar-button.
+  </description>
+  <parameters>
+    string element_id - the guid of the toolbar-button, whose radius you want to set
+    integer radius - the radius of the toolbar-button; between 0-14
+  </parameters>
+  <chapter_context>
+    Toolbarbutton
+  </chapter_context>
+  <tags>toolbarbutton, set, radius</tags>
+</US_DocBloc>
+--]]
+  if type(element_id)~="string" then error("ToolbarButton_SetRadius: param #1 - must be a string", 2) end
+  if reagirl.IsValidGuid(element_id, true)==nil then error("ToolbarButton_SetRadius: param #1 - must be a valid guid", 2) end
+  if math.type(radius)~="integer" then error("ToolbarButton_SetRadius: param #2 - must be an integer", 2) end
+  if radius<0 or radius>14 then error("ToolbarButton_SetRadius: param #2 - must be between 0 and 10", 2) end
+
+  element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
+  if element_id==-1 then error("ToolbarButton_SetRadius: param #1 - no such ui-element", 2) end
+  if reagirl.Elements[element_id]["GUI_Element_Type"]~="ToolbarButton" then
+    error("ToolbarButton_SetRadius: param #1 - ui-element is not a toolbar-button", 2)
+  else
+    reagirl.Elements[element_id]["radius"]=radius
+    reagirl.Gui_ForceRefresh(18.098)
+  end
+end
+
+function reagirl.ToolbarButton_GetRadius(element_id)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>ToolbarButton_GetRadius</slug>
+  <requires>
+    ReaGirl=1.3
+    Reaper=7.03
+    Lua=5.4
+  </requires>
+  <functioncall>integer radius = reagirl.ToolbarButton_GetRadius(string element_id)</functioncall>
+  <description>
+    Gets a toolbar-button's radius of the edges.
+  </description>
+  <parameters>
+    string element_id - the guid of the toolbar-button, whose radius you want to get
+  </parameters>
+  <retvals>
+    integer radius - the radius of the edges of the toolbar-button; between 0 and 10
+  </retvals>
+  <chapter_context>
+    Toolbarbutton
+  </chapter_context>
+  <tags>toolbarbutton, get, radius</tags>
+</US_DocBloc>
+--]]
+  if type(element_id)~="string" then error("ToolbarButton_GetRadius: param #1 - must be a string", 2) end
+  if reagirl.IsValidGuid(element_id, true)==nil then error("ToolbarButton_GetRadius: param #1 - must be a valid guid", 2) end
+  element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
+  if element_id==-1 then error("ToolbarButton_GetRadius: param #1 - no such ui-element", 2) end
+  if reagirl.Elements[element_id]["GUI_Element_Type"]~="ToolbarButton" then
+    error("ToolbarButton_GetRadius: param #1 - ui-element is not a toolbarbutton", 2)
+  else
+    return reagirl.Elements[element_id]["radius"]
+  end
+end
+
+function reagirl.ToolbarButton_SetCurrentState(element_id, state)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>ToolbarButton_SetCurrentState</slug>
+  <requires>
+    ReaGirl=1.3
+    Reaper=7.03
+    Lua=5.4
+  </requires>
+  <functioncall>reagirl.ToolbarButton_SetCurrentState(string element_id, integer state)</functioncall>
+  <description>
+    Sets the current state of a toolbar-button.
+  </description>
+  <parameters>
+    string element_id - the guid of the toolbar-button, whose state you want to set
+    integer state - the new state of the toolbar-button
+  </parameters>
+  <chapter_context>
+    Toolbarbutton
+  </chapter_context>
+  <tags>toolbarbutton, set, state</tags>
+</US_DocBloc>
+--]]
+  if type(element_id)~="string" then error("ToolbarButton_SetCurrentState: param #1 - must be a string", 2) end
+  if reagirl.IsValidGuid(element_id, true)==nil then error("ToolbarButton_SetCurrentState: param #1 - must be a valid guid", 2) end
+  if math.type(state)~="integer" then error("ToolbarButton_SetCurrentState: param #2 - must be an integer", 2) end
+  element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
+  if state<1 or state>reagirl.Elements[element_id]["num_states"] then error("ToolbarButton_SetCurrentState: param #2 - must be between 0 and 10", 2) end
+  if element_id==-1 then error("ToolbarButton_SetCurrentState: param #1 - no such ui-element", 2) end
+  if reagirl.Elements[element_id]["GUI_Element_Type"]~="ToolbarButton" then
+    error("ToolbarButton_SetCurrentState: param #1 - ui-element is not a toolbar-button", 2)
+  else
+    reagirl.Elements[element_id]["cur_state"]=state
+    reagirl.Gui_ForceRefresh(18.0985)
+  end
+end
+
+function reagirl.ToolbarButton_GetCurrentState(element_id)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>ToolbarButton_GetCurrentState</slug>
+  <requires>
+    ReaGirl=1.3
+    Reaper=7.03
+    Lua=5.4
+  </requires>
+  <functioncall>integer state = reagirl.ToolbarButton_GetCurrentState(string element_id)</functioncall>
+  <description>
+    Gets a toolbar-button's current state.
+    
+    The state is incremented, when the user clicks the button.
+  </description>
+  <parameters>
+    string element_id - the guid of the toolbar-button, whose state you want to get
+  </parameters>
+  <retvals>
+    integer state - the current state of the toolbar-button
+    integer num_states - the number of available states
+  </retvals>
+  <chapter_context>
+    Toolbarbutton
+  </chapter_context>
+  <tags>toolbarbutton, get, state</tags>
+</US_DocBloc>
+--]]
+  if type(element_id)~="string" then error("ToolbarButton_GetRadius: param #1 - must be a string", 2) end
+  if reagirl.IsValidGuid(element_id, true)==nil then error("ToolbarButton_GetRadius: param #1 - must be a valid guid", 2) end
+  element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
+  if element_id==-1 then error("ToolbarButton_GetRadius: param #1 - no such ui-element", 2) end
+  if reagirl.Elements[element_id]["GUI_Element_Type"]~="ToolbarButton" then
+    error("ToolbarButton_GetRadius: param #1 - ui-element is not a toolbarbutton", 2)
+  else
+    return reagirl.Elements[element_id]["cur_state"], reagirl.Elements[element_id]["num_states"]
+  end
+end
+
+function reagirl.ToolbarButton_SetEdgeStyle(element_id, top_left, top_right, bottom_left, bottom_right)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>ToolbarButton_SetEdgeStyle</slug>
+  <requires>
+    ReaGirl=1.3
+    Reaper=7.03
+    Lua=5.4
+  </requires>
+  <functioncall>reagirl.ToolbarButton_SetEdgeStyle(string element_id, boolean top_left, boolean top_right, boolean bottom_left, boolean bottom_right)</functioncall>
+  <description>
+    Sets, if the individual edges of a toolbar-button are rounded or square.
+  </description>
+  <parameters>
+    string element_id - the guid of the toolbar-button, whose edge-styles you want to set
+    boolean top_left - true, edge is square; false, edge is rounded
+    boolean top_right - true, edge is square; false, edge is rounded
+    boolean bottom_left - true, edge is square; false, edge is rounded
+    boolean bottom_right - true, edge is square; false, edge is rounded
+  </parameters>
+  <chapter_context>
+    Toolbarbutton
+  </chapter_context>
+  <tags>toolbarbutton, set, edge, style</tags>
+</US_DocBloc>
+--]]
+  if type(element_id)~="string" then error("ToolbarButton_SetEdgeStyle: param #1 - must be a string", 2) end
+  if reagirl.IsValidGuid(element_id, true)==nil then error("ToolbarButton_SetEdgeStyle: param #1 - must be a valid guid", 2) end
+  if type(top_left)~="boolean" then error("ToolbarButton_SetEdgeStyle: param #2 - must be a boolean", 2) end
+  if type(top_right)~="boolean" then error("ToolbarButton_SetEdgeStyle: param #3 - must be a boolean", 2) end
+  if type(bottom_left)~="boolean" then error("ToolbarButton_SetEdgeStyle: param #4 - must be a boolean", 2) end
+  if type(bottom_right)~="boolean" then error("ToolbarButton_SetEdgeStyle: param #5 - must be a boolean", 2) end
+  element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
+  if element_id==-1 then error("ToolbarButton_SetEdgeStyle: param #1 - no such ui-element", 2) end
+  if reagirl.Elements[element_id]["GUI_Element_Type"]~="ToolbarButton" then
+    error("ToolbarButton_SetEdgeStyle: param #1 - ui-element is not a toolbar-button", 2)
+  else
+    reagirl.Elements[element_id]["square_topleft"]=top_left
+    reagirl.Elements[element_id]["square_topright"]=top_right
+    reagirl.Elements[element_id]["square_bottomleft"]=bottom_left
+    reagirl.Elements[element_id]["square_bottomright"]=bottom_right
+    reagirl.Gui_ForceRefresh(18.09812)
+  end
+end
+
+function reagirl.ToolbarButton_GetEdgeStyle(element_id)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>ToolbarButton_GetEdgeStyle</slug>
+  <requires>
+    ReaGirl=1.3
+    Reaper=7.03
+    Lua=5.4
+  </requires>
+  <functioncall>boolean top_left, boolean top_right, boolean bottom_left, boolean bottom_right = reagirl.ToolbarButton_GetEdgeStyle(string element_id)</functioncall>
+  <description>
+    Gets, if the individual edges of a toolbar-button are rounded or square.
+  </description>
+  <parameters>
+    string element_id - the guid of the toolbar-button, whose state you want to get
+  </parameters>
+  <retvals>
+    boolean top_left - true, edge is square; false, edge is rounded
+    boolean top_right - true, edge is square; false, edge is rounded
+    boolean bottom_left - true, edge is square; false, edge is rounded
+    boolean bottom_right - true, edge is square; false, edge is rounded
+  </retvals>
+  <chapter_context>
+    Toolbarbutton
+  </chapter_context>
+  <tags>toolbarbutton, get, edge, style</tags>
+</US_DocBloc>
+--]]
+  if type(element_id)~="string" then error("ToolbarButton_GetEdgeStyle: param #1 - must be a string", 2) end
+  if reagirl.IsValidGuid(element_id, true)==nil then error("ToolbarButton_GetEdgeStyle: param #1 - must be a valid guid", 2) end
+  element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
+  if element_id==-1 then error("ToolbarButton_GetEdgeStyle: param #1 - no such ui-element", 2) end
+  if reagirl.Elements[element_id]["GUI_Element_Type"]~="ToolbarButton" then
+    error("ToolbarButton_GetEdgeStyle: param #1 - ui-element is not a toolbarbutton", 2)
+  else
+    return reagirl.Elements[element_id]["square_topleft"], reagirl.Elements[element_id]["square_topright"], reagirl.Elements[element_id]["square_bottomleft"], reagirl.Elements[element_id]["square_bottomright"]
+  end
+end
+
 
 function reagirl.Menu_GetEntryName(menu, entry_nr)
 --[[

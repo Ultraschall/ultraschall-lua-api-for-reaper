@@ -426,8 +426,17 @@ Has now 1858 functions, with XX new ones
 		
 #### New features in 5.3  
 	- ReaGirl: ToolbarButton_Add - adds a toolbar-button to a ReaGirl-gui
+	- ReaGirl: ToolbarButton\_GetColor - gets the background-color of a toolbar-button
+	- ReaGirl: ToolbarButton\_GetCurrentState - gets the current state of the toolbar-button
+	- ReaGirl: ToolbarButton\_GetEdgeStyle - gets, if the individual edges of a toolbar-button are rounded or square
+	- ReaGirl: ToolbarButton\_GetRadius - gets the radius of the edges of a toolbar-button
+	- ReaGirl: ToolbarButton\_SetColor - sets the background-color of a toolbar-button
+	- ReaGirl: ToolbarButton\_SetCurrentState - sets the current state of the toolbar-button
+	- ReaGirl: ToolbarButton\_SetEdgeStyle - sets the individual edges of a toolbar-button to either rounded or square
+	- ReaGirl: ToolbarButton\_SetRadius - sets the radius of the edges of a toolbar-button
 
 #### Changes from 5.2 to 5.3  
+	- ReaGirl: Tooltips - the meaning_ofUIElement is now in the first line, the info Has contextmenu, draggable and Allows dropping of files is now in the second line. Looks more clean that way.
 	- ReaGirl: Buttons - caption wasn't properly drawn when y-margin was>0 -> fixed
 	- ReaGirl: Sliders - couldn't show negative unit-values -> fixed
 	- ReaGirl: DropDownLists - clicking dropdownlists wasn't shown properly, when focus rectangle was set as show always -> fixed
