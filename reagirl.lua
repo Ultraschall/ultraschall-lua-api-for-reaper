@@ -11818,7 +11818,8 @@ function reagirl.ToolbarButton_ReloadImage_Scaled(element_id)
 end
 
 function reagirl.Color_CalculateHighlighter(r, g, b)
-  color=(r+g+b)/2
+  local color=(r+g+b)/3
+  --reaper.ShowConsoleMsg(color.."\n")
   local val=tonumber(reaper.GetExtState("ReaGirl", "Highlight_Intensity"))
   if val==nil then val=0.075 end
   if val<0.025 then return 0 end
@@ -15543,7 +15544,12 @@ end
 
 -- mespotine
 function reagirl.Label_Manage(element_id, selected, hovered, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
-
+  
+  if element_storage["clickable"]==true and element_storage.hovered~=hovered then
+    reagirl.Gui_ForceRefresh(111222.23244112)
+  end
+  element_storage.hovered=hovered
+  
   if element_storage.positions==nil then
     element_storage.start_pos=0
     element_storage.end_pos=0
@@ -15876,7 +15882,12 @@ function reagirl.Label_Draw(element_id, selected, hovered, clicked, mouse_cap, m
 
     gfx.set(reagirl.Colors.Label_TextFG_r, reagirl.Colors.Label_TextFG_g, reagirl.Colors.Label_TextFG_b)
     if element_storage["clickable"]==true then 
-      gfx.set(reagirl.Colors.Label_TextFGclickable_r, reagirl.Colors.Label_TextFGclickable_g, reagirl.Colors.Label_TextFGclickable_b)
+      local add_color=0
+      if hovered==true then
+        add_color=reagirl.Color_CalculateHighlighter(reagirl.Colors.Label_TextFGclickable_r, reagirl.Colors.Label_TextFGclickable_g, reagirl.Colors.Label_TextFGclickable_b)
+        --reaper.ShowConsoleMsg(add_color.."\n")
+      end
+      gfx.set(reagirl.Colors.Label_TextFGclickable_r+add_color, reagirl.Colors.Label_TextFGclickable_g+add_color, reagirl.Colors.Label_TextFGclickable_b+add_color)
     end
     gfx.x=x
     gfx.y=y
