@@ -2623,6 +2623,30 @@ reagirl.Colors.Label_TextBG_r=0.2
 reagirl.Colors.Label_TextBG_g=0.2
 reagirl.Colors.Label_TextBG_b=0.2
 
+reagirl.Colors.Inputbox_TextFG_r=0.8
+reagirl.Colors.Inputbox_TextFG_g=0.8
+reagirl.Colors.Inputbox_TextFG_b=0.8
+reagirl.Colors.InputBox_TextBG_r=0.0
+reagirl.Colors.InputBox_TextBG_g=0.2
+reagirl.Colors.InputBox_TextBG_b=0.2
+reagirl.Colors.Inputbox_TextFGdisabled_r=0.6
+reagirl.Colors.InputBox_TextFGdisabled_g=0.6
+reagirl.Colors.InputBox_TextFGdisabled_b=0.6
+reagirl.Colors.InputBox_TextFGTyped_r=0.8
+reagirl.Colors.InputBox_TextFGTyped_g=0.8
+reagirl.Colors.InputBox_TextFGTyped_b=0.8
+reagirl.Colors.InputBox_TextFGTypeddisabled_r=0.6
+reagirl.Colors.InputBox_TextFGTypeddisabled_g=0.6
+reagirl.Colors.InputBox_TextFGTypeddisabled_b=0.6
+reagirl.Colors.InputBox_TextBGTyped_r=0.2
+reagirl.Colors.InputBox_TextBGTyped_g=0.2
+reagirl.Colors.InputBox_TextBGTyped_b=0.2
+reagirl.Colors.Inputbox_Area_r=0.234
+reagirl.Colors.Inputbox_Area_g=0.234
+reagirl.Colors.Inputbox_Area_b=0.234
+reagirl.Colors.Inputbox_Cursor_r=0.9843137254901961
+reagirl.Colors.Inputbox_Cursor_g=0.8156862745098039
+reagirl.Colors.Inputbox_Cursor_b=0
 
 reagirl.Colors.Toolbar_TextFG_r=0.8
 reagirl.Colors.Toolbar_TextFG_g=0.8
@@ -13461,6 +13485,11 @@ function reagirl.Inputbox_Manage(element_id, selected, hovered, clicked, mouse_c
     if retval==true then element_storage["DropZoneFunction"](element_storage["Guid"], {filenames}) refresh=true end
   end  
   
+  if element_storage.hovered~=hovered then
+    reagirl.Gui_ForceRefresh(111222.232486569)
+  end
+  element_storage.hovered=hovered
+  
   local Cap_width=element_storage.Cap_width
   
   if hovered==true then
@@ -13689,10 +13718,10 @@ function reagirl.Inputbox_Draw(element_id, selected, hovered, clicked, mouse_cap
   -- draw caption
   gfx.x=x+dpi_scale
   gfx.y=y+dpi_scale--+dpi_scale+(h-gfx.texth)/2
-  gfx.set(0.2)
+  gfx.set(reagirl.Colors.InputBox_TextBG_r, reagirl.Colors.InputBox_TextBG_g, reagirl.Colors.InputBox_TextBG_b)
   gfx.drawstr(name)
   
-  if element_storage["IsDisabled"]==false then gfx.set(0.8) else gfx.set(0.6) end
+  if element_storage["IsDisabled"]==false then gfx.set(reagirl.Colors.Inputbox_TextFG_r, reagirl.Colors.Inputbox_TextFG_g, reagirl.Colors.Inputbox_TextFG_b) else gfx.set(reagirl.Colors.Inputbox_TextFGdisabled_r, reagirl.Colors.Inputbox_TextFGdisabled_g, reagirl.Colors.Inputbox_TextFGdisabled_b) end
   gfx.x=x
   gfx.y=y--+(h-gfx.texth)/2
   gfx.drawstr(name)
@@ -13703,20 +13732,24 @@ function reagirl.Inputbox_Draw(element_id, selected, hovered, clicked, mouse_cap
   gfx.set(0.45)
   reagirl.RoundRect(x+cap_w-dpi_scale, y-dpi_scale, w-cap_w+dpi_scale+dpi_scale, h+dpi_scale, 2*dpi_scale-1, 0, 1)
   
-  gfx.set(0.234)
+  local add_color=0
+  if hovered==true then 
+    add_color=reagirl.Color_CalculateHighlighter(reagirl.Colors.Inputbox_Area_r, reagirl.Colors.Inputbox_Area_g, reagirl.Colors.Inputbox_Area_b)
+  end
+  gfx.set(reagirl.Colors.Inputbox_Area_r+add_color, reagirl.Colors.Inputbox_Area_g+add_color, reagirl.Colors.Inputbox_Area_b+add_color)
   reagirl.RoundRect(x+cap_w, y, w-cap_w, h-dpi_scale, dpi_scale-1, 0, 1)
   
   
   -- draw text
-  if element_storage["IsDisabled"]==false then gfx.set(0.8) else gfx.set(0.6) end
+  if element_storage["IsDisabled"]==false then gfx.set(reagirl.Colors.InputBox_TextFGTyped_r, reagirl.Colors.InputBox_TextFGTyped_g, reagirl.Colors.InputBox_TextFGTyped_b) else gfx.set(reagirl.Colors.InputBox_TextFGTypeddisabled_r, reagirl.Colors.InputBox_TextFGTypeddisabled_g, reagirl.Colors.InputBox_TextFGTypeddisabled_b) end
   gfx.x=x+cap_w+dpi_scale+dpi_scale+dpi_scale
   
   gfx.y=y--+(h-gfx.texth)/2
   if element_storage["Text"]:len()==0 then
-    gfx.set(0.6)
+    gfx.set(reagirl.Colors.InputBox_TextBGTyped_r, reagirl.Colors.InputBox_TextBGTyped_g, reagirl.Colors.InputBox_TextBGTyped_b)
     gfx.x=gfx.x+dpi_scale*5
     gfx.drawstr(element_storage["empty_text"],0, x+w, y+h)
-    gfx.set(0.8)
+    --gfx.set(reagirl.Colors.InputBox_TextFGTyped_r, reagirl.Colors.InputBox_TextFGTyped_g, reagirl.Colors.InputBox_TextFGTyped_b)
   end
   local draw_offset=0
   
@@ -13734,6 +13767,18 @@ function reagirl.Inputbox_Draw(element_id, selected, hovered, clicked, mouse_cap
     else
       reagirl.SetFont(1, reagirl.Font_Face, reagirl.Font_Size, 0)
     end
+    local oldx, oldy=gfx.x, gfx.y
+    gfx.x=gfx.x+dpi_scale
+    gfx.y=gfx.y+dpi_scale
+    gfx.set(reagirl.Colors.InputBox_TextBGTyped_r, reagirl.Colors.InputBox_TextBGTyped_g, reagirl.Colors.InputBox_TextBGTyped_b)
+    if element_storage["password"]=="*" then
+      gfx.drawstr("*")
+    else
+      gfx.drawstr(element_storage.Text:utf8_sub(i,i))
+    end
+    gfx.x=oldx
+    gfx.y=oldy
+    gfx.set(reagirl.Colors.InputBox_TextFGTyped_r, reagirl.Colors.InputBox_TextFGTyped_g, reagirl.Colors.InputBox_TextFGTyped_b)
     if element_storage["password"]=="*" then
       gfx.drawstr("*")
     else
@@ -13741,7 +13786,7 @@ function reagirl.Inputbox_Draw(element_id, selected, hovered, clicked, mouse_cap
     end
     
     if selected~="not selected" and element_storage.hasfocus==true and element_storage.cursor_offset==i then 
-      gfx.set(0.9843137254901961, 0.8156862745098039, 0)
+      gfx.set(reagirl.Colors.Inputbox_Cursor_r, reagirl.Colors.Inputbox_Cursor_g, reagirl.Colors.Inputbox_Cursor_b)
       if element_storage["blink"]>0 and element_storage["blink"]<(reagirl.Inputbox_BlinkSpeed>>1)+4 then
         local y3=y+(h-gfx.texth)/3
         if reagirl.Window_State&2==2 then
@@ -13754,7 +13799,7 @@ function reagirl.Inputbox_Draw(element_id, selected, hovered, clicked, mouse_cap
     draw_offset=draw_offset+textw
   end
   if selected~="not selected" and element_storage.cursor_offset==element_storage.draw_offset-1 then
-    gfx.set(0.9843137254901961, 0.8156862745098039, 0)
+    gfx.set(reagirl.Colors.Inputbox_Cursor_r, reagirl.Colors.Inputbox_Cursor_g, reagirl.Colors.Inputbox_Cursor_b)
     --gfx.set(1,0,0)
     if reagirl.Window_State&2==2 and element_storage["blink"]>0 and element_storage["blink"]<(reagirl.Inputbox_BlinkSpeed>>1)+4 then
       --gfx.line(x+cap_w+dpi_scale+dpi_scale+dpi_scale, y+dpi_scale, x+cap_w+dpi_scale+dpi_scale+dpi_scale, y+gfx.texth-dpi_scale)
