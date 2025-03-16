@@ -9621,6 +9621,11 @@ function reagirl.ColorRectangle_Manage(element_id, selected, hovered, clicked, m
     gfx.setcursor(0x7f89)
   end
   
+  if element_storage.hovered~=hovered then
+    reagirl.Gui_ForceRefresh(111222.23248656)
+  end
+  element_storage.hovered=hovered
+  
   local col=reagirl.Color_GetName(element_storage["r_full"],element_storage["g_full"],element_storage["b_full"])
   if col~="" then col=col:sub(1,1):upper()..col:sub(2,-1).." colored." end
   return col.." Red: "..element_storage["r_full"]..", Green: "..element_storage["g_full"]..", Blue: "..element_storage["b_full"]..". ", refresh
@@ -9629,9 +9634,13 @@ end
 function reagirl.ColorRectangle_Draw(element_id, selected, hovered, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
   --gfx.set(element_storage["r"],element_storage["g"],element_storage["b"])
   local scale=reagirl.Window_GetCurrentScale()
+  local add_color=0
+  if hovered==true then 
+    add_color=reagirl.Color_CalculateHighlighter(reagirl.Colors.ColorRectangle_Boundary2_r, reagirl.Colors.ColorRectangle_Boundary2_g, reagirl.Colors.ColorRectangle_Boundary2_b)*7
+  end
   gfx.set(reagirl.Colors.ColorRectangle_Boundary_r, reagirl.Colors.ColorRectangle_Boundary_g, reagirl.Colors.ColorRectangle_Boundary_b)
   reagirl.RoundRect(x,y,w,h, element_storage["radius"]*reagirl.Window_GetCurrentScale(), 1, 1, element_storage["top_left"], element_storage["bottom_left"], element_storage["top_right"], element_storage["bottom_right"])
-  gfx.set(reagirl.Colors.ColorRectangle_Boundary2_r, reagirl.Colors.ColorRectangle_Boundary2_g, reagirl.Colors.ColorRectangle_Boundary2_b)
+  gfx.set(reagirl.Colors.ColorRectangle_Boundary2_r+add_color, reagirl.Colors.ColorRectangle_Boundary2_g+add_color, reagirl.Colors.ColorRectangle_Boundary2_b+add_color)
   reagirl.RoundRect(x+1*scale,y+1*scale,w-2*scale,h-2*scale, element_storage["radius"]*reagirl.Window_GetCurrentScale(), 1, 1, element_storage["top_left"], element_storage["bottom_left"], element_storage["top_right"], element_storage["bottom_right"])
   gfx.set(element_storage["r"],element_storage["g"],element_storage["b"])
   local add=0
