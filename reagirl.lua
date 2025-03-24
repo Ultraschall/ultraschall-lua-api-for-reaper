@@ -227,7 +227,7 @@ reagirl.osara_outputMessage=reaper.osara_outputMessage
 reagirl.osara=reaper.osara_outputMessage
 
     if tonumber(reaper.GetExtState("ReaGirl", "scaling_override"))~=nil then
-      reagirl.Window_CurrentScale=tonumber(reaper.GetExtState("ReaGirl", "scaling_override"))
+      reagirl.Window_CurrentScale=math.floor(tonumber(reaper.GetExtState("ReaGirl", "scaling_override")))
     else
       local retval, dpi = reaper.ThemeLayout_GetLayout("tcp", -3)
       local dpi=tonumber(dpi)
@@ -2800,6 +2800,7 @@ else
 end
   
 function reagirl.FormatNumber(n, p)
+  if n==math.floor(n) then return math.floor(n) end
   n=n+0.0
   local int, float=tostring(n):match("(.-)%.(.*)")
   float=float:sub(1,p)
@@ -2808,7 +2809,7 @@ function reagirl.FormatNumber(n, p)
     if float:sub(i,i)=="0" then len=i end
   end
   float=float:sub(1, len)
-  return tonumber(int.."."..float)
+  if tonumber(float)==0 then return int else return tonumber(int.."."..float) end
   --[[
   --reaper.MB(n,"",0)
   local negative=false
@@ -3817,7 +3818,7 @@ function reagirl.Window_RescaleIfNeeded()
   
   if reagirl.Window_CurrentScale_Override==nil then
     if tonumber(reaper.GetExtState("ReaGirl", "scaling_override"))~=nil then
-      scale=tonumber(reaper.GetExtState("ReaGirl", "scaling_override"))
+      scale=math.floor(tonumber(reaper.GetExtState("ReaGirl", "scaling_override")))
     elseif reagirl.ReScale~=nil then
       scale=reagirl.ReScale
     else
@@ -5425,6 +5426,7 @@ function reagirl.Gui_Manage(keep_running)
     reagirl.FocusRectangle_BlinkSpeed=33
   else
     reagirl.FocusRectangle_BlinkSpeed=tonumber(reaper.GetExtState("ReaGirl", "FocusRectangle_BlinkSpeed"))
+    reagirl.FocusRectangle_BlinkSpeed=math.floor(reagirl.FocusRectangle_BlinkSpeed)
   end
   if reagirl.FocusRectangle_BlinkStartTime==nil then
     reagirl.FocusRectangle_BlinkStartTime=reaper.time_precise()
@@ -5434,6 +5436,7 @@ function reagirl.Gui_Manage(keep_running)
     reagirl.FocusRectangle_BlinkTime=0.001
   else
     reagirl.FocusRectangle_BlinkTime=tonumber(reaper.GetExtState("ReaGirl", "FocusRectangle_BlinkTime"))
+    reagirl.FocusRectangle_BlinkTime=math.floor(reagirl.FocusRectangle_BlinkTime)
   end
   if reagirl.FocusRectangle_BlinkStartTime==nil then
     reagirl.FocusRectangle_BlinkStartTime=reaper.time_precise()
@@ -18288,23 +18291,27 @@ function reagirl.Slider_Manage(element_id, selected, hovered, clicked, mouse_cap
     if element_storage["linked_to"]==1 then
       local val=tonumber(reaper.GetExtState(element_storage["linked_to_section"], element_storage["linked_to_key"]))
       if val==nil then val=element_storage["linked_to_default"] refresh=true end
+      val=val/element_storage["link_factor"]
       if element_storage["CurValue"]~=val then element_storage["CurValue"]=val reagirl.Gui_ForceRefresh() linked_refresh=true end
     elseif element_storage["linked_to"]==2 then
       local retval, val = reaper.BR_Win32_GetPrivateProfileString(element_storage["linked_to_section"], element_storage["linked_to_key"], "", element_storage["linked_to_ini_file"])
       val=tonumber(val)
+      val=val/element_storage["link_factor"]
       if val==nil then val=element_storage["linked_to_default"] refresh=true end
       if element_storage["CurValue"]~=val then element_storage["CurValue"]=val reagirl.Gui_ForceRefresh() linked_refresh=true end
     elseif element_storage["linked_to"]==3 then
       local val=reaper.SNM_GetDoubleConfigVar(element_storage["linked_to_configvar"], -9999999)
+      val=val/element_storage["link_factor"]
       if element_storage["CurValue"]~=val then element_storage["CurValue"]=val reagirl.Gui_ForceRefresh() linked_refresh=true end
       if element_storage["linked_to_persist"]==true then
-        reaper.BR_Win32_WritePrivateProfileString("REAPER", element_storage["linked_to_configvar"], val, reaper.get_ini_file())
+        reaper.BR_Win32_WritePrivateProfileString("REAPER", element_storage["linked_to_configvar"], val*element_storage["link_factor"], reaper.get_ini_file())
       end
     elseif element_storage["linked_to"]==4 then
       local val=reaper.SNM_GetIntConfigVar(element_storage["linked_to_configvar"], -9999999)
+      val=val/element_storage["link_factor"]
       if element_storage["CurValue"]~=val then element_storage["CurValue"]=val reagirl.Gui_ForceRefresh() linked_refresh=true end
       if element_storage["linked_to_persist"]==true then
-        reaper.BR_Win32_WritePrivateProfileString("REAPER", element_storage["linked_to_configvar"], val, reaper.get_ini_file())
+        reaper.BR_Win32_WritePrivateProfileString("REAPER", element_storage["linked_to_configvar"], val*element_storage["link_factor"], reaper.get_ini_file())
       end
     end
   end
@@ -18426,13 +18433,13 @@ function reagirl.Slider_Manage(element_id, selected, hovered, clicked, mouse_cap
     
     if element_storage["linked_to"]~=0 then
       if element_storage["linked_to"]==1 then
-        reaper.SetExtState(element_storage["linked_to_section"], element_storage["linked_to_key"], element_storage["CurValue"], element_storage["linked_to_persist"])
+        reaper.SetExtState(element_storage["linked_to_section"], element_storage["linked_to_key"], element_storage["CurValue"]*element_storage["link_factor"], element_storage["linked_to_persist"])
       elseif element_storage["linked_to"]==2 then
-        local retval, val = reaper.BR_Win32_WritePrivateProfileString(element_storage["linked_to_section"], element_storage["linked_to_key"], element_storage["CurValue"], element_storage["linked_to_ini_file"])
+        local retval, val = reaper.BR_Win32_WritePrivateProfileString(element_storage["linked_to_section"], element_storage["linked_to_key"], element_storage["CurValue"]*element_storage["link_factor"], element_storage["linked_to_ini_file"])
       elseif element_storage["linked_to"]==3 then
-        reaper.SNM_SetDoubleConfigVar(element_storage["linked_to_configvar"], element_storage["CurValue"])
+        reaper.SNM_SetDoubleConfigVar(element_storage["linked_to_configvar"], element_storage["CurValue"]*element_storage["link_factor"])
       elseif element_storage["linked_to"]==4 then
-        reaper.SNM_SetIntConfigVar(element_storage["linked_to_configvar"], math.floor(element_storage["CurValue"]))
+        reaper.SNM_SetIntConfigVar(element_storage["linked_to_configvar"], math.floor(element_storage["CurValue"])*element_storage["link_factor"])
       end
     end
   end
@@ -18535,6 +18542,56 @@ function reagirl.Slider_Draw(element_id, selected, hovered, clicked, mouse_cap, 
 end
 
 function reagirl.Settings_Global_GetSet(setting, is_set, value)
+--[[
+--]]
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Settings_Global_GetSet</slug>
+  <requires>
+    ReaGirl=1.3
+    Reaper=7.03
+    Lua=5.4
+  </requires>
+  <functioncall>number value = reagirl.Settings_Global_GetSet(string setting, boolean is_set, number value)</functioncall>
+  <description>
+    Sets the global settings, as set in the ReaGirl-settings dialog. The changes will have immediate effect on
+    all ReaGirl-gui-instances.
+    
+    The following settings are valid:
+      Show_Tooltips - 0, don't show tooltips; 1, show tooltips
+      Scroll_Via_Keyboard - 0, don't scroll via keyboard; 1, enable scroll via keyboard(default)
+      FocusRectangle_Always_On - 0, only show focus rectangle, when tabbing; 1, always show focus rectangle(default)
+      FocusRectangle_BlinkSpeed - the speed of the blinking of the focus rectangle; 0-3(default 1)
+      FocusRectangle_BlinkTime - the length of the blinking in seconds; 0-10 seconds(default: 0)
+      Inputbox_Blinkspeed - the blinkspeed of the inputbox-cursor; 0.4-5 seconds(default: 1)
+      Scaling_Override - the default scaling of the guis; 0-8(default: 0=auto-scaling)
+      Highlight_UI_Element_Intensity - the intensity of highlighting when hovering above ui-elements; 0-3(default 0.75)
+      Drag_Highlight_Destinations - 0, don't highlight drag destinations; 1, highlight drag destinations(default)
+      Drag_Highlight_Destinations_Blink - the speed of blinking of the highlighted drag-destinations; 0-5 seconds(default: 0)
+      Osara_Enabled - 0, osara-screen reader support is disabled; 1, osara-screen reader support is enabled(default)
+      Osara_Hover_Mouse - 0, don't report hovered ui-elements to screen reader; 1, report hovered ui-elements to screen reader(default)
+      Osara_Move_Mouse - 0, don't move mouse when tabbing; 1, move mouse when tabbing to tabbed ui-element(default)
+      Osara_Enable_AccessibilityMessages - 0, only report caption+state to screen reader; 1, also report help-messages for ui-element to screen reader(default)
+      Osara_Debug - 0, don't show screen reader messages in ReaScript console(default); 1, show screen reader messages in ReaScript console
+      Debug_Message_Destination - the destination of error-messages; 1, IDE; 2, a messagebox; 3, ReaScript console window
+  </description>
+  <retvals>
+    string value - the current value set for a specific setting
+  </retvals>
+  <parameters>
+    string setting - the name of the setting, that you want to get/set
+    boolean is_set - true, set a new value; false, only get the current value
+    number value - the new value set for a setting(when is_set=true)
+  </parameters>
+  <chapter_context>
+    Slider
+  </chapter_context>
+  <tags>slider, link to, extstate</tags>
+  <changelog>
+    ReaGirl 1.3 - added to ReaGirl
+  </changelog>
+</US_DocBloc>
+--]]
   local val
   if is_set==false then
     if setting=="Show_Tooltips" then 
@@ -18542,16 +18599,16 @@ function reagirl.Settings_Global_GetSet(setting, is_set, value)
       if val=="" or val=="true" then val=1 else val=0 end
     elseif setting=="FocusRectangle_BlinkSpeed" then
       val=reaper.GetExtState("ReaGirl", "FocusRectangle_BlinkSpeed")
-      if val=="" then val=1 else val=tonumber(val) end
+      if val=="" then val=1 else val=tonumber(val)/33 end
     elseif setting=="FocusRectangle_BlinkTime" then
       val=reaper.GetExtState("ReaGirl", "FocusRectangle_BlinkTime")
       if val=="" then val=0 else val=tonumber(val) end
     elseif setting=="Inputbox_Blinkspeed" then
       val=reaper.GetExtState("ReaGirl", "InputBox_BlinkSpeed")
-      if val=="" then val=0 else val=tonumber(val) end
+      if val=="" then val=0 else val=tonumber(val/33) end
     elseif setting=="Scaling_Override" then
       val=reaper.GetExtState("ReaGirl", "scaling_override")
-      if val=="" then val=0 else val=tonumber(val) end
+      if val=="" then val=0 else val=math.floor(tonumber(val)) end
     elseif setting=="Osara_Enabled" then
       val=reaper.GetExtState("ReaGirl", "osara_override")
       if val=="" or val=="true" then val=1 else val=0 end
@@ -18569,7 +18626,7 @@ function reagirl.Settings_Global_GetSet(setting, is_set, value)
       if val=="" or val=="true" then val=1 else val=0 end
     elseif setting=="Drag_Highlight_Destinations_Blink" then
       val=reaper.GetExtState("ReaGirl", "highlight_drag_destination_blink")
-      if val=="" then val=0 else val=tonumber(val) end
+      if val=="" then val=0 else val=tonumber(val)/33 end
     elseif setting=="Scroll_Via_Keyboard" then
       val=reaper.GetExtState("ReaGirl", "scroll_via_keyboard")
       if val=="" or val=="true" then val=1 else val=0 end
@@ -18586,24 +18643,31 @@ function reagirl.Settings_Global_GetSet(setting, is_set, value)
       val=reaper.GetExtState("ReaGirl", "Error_Message_Destination")
       if val=="" then val=1 else val=tonumber(val) end
     end
+    if val==math.floor(val) then val=math.floor(val) end
     return val
   else
+    local val=value
     if setting=="Show_Tooltips" then 
       if value==1 then value="" else value="false" end
       reaper.SetExtState("ReaGirl", "show_tooltips", value, true)
     elseif setting=="FocusRectangle_BlinkSpeed" then
       if value<0.3 then value=0.3 end
       if value>3 then value=3 end
-      if value==1 then value="" end
+      val=value
+      value=value*33
+      if value==33 then value="" end
       reaper.SetExtState("ReaGirl", "FocusRectangle_BlinkSpeed", value, true)
     elseif setting=="FocusRectangle_BlinkTime" then
       if value<0 then value=0 end
       if value>10 then value=10 end
+      val=value
       if value==0 then value="" end
       reaper.SetExtState("ReaGirl", "FocusRectangle_BlinkTime", value, true)
     elseif setting=="Inputbox_Blinkspeed" then
-      if value<0 then value=0 end
-      if value>165 then value=165 end
+      if value<0.4 then value=0.4 end
+      if value>5 then value=5 end
+      val=value
+      value=value*33
       if value==33 then value="" end
       reaper.SetExtState("ReaGirl", "InputBox_BlinkSpeed", value, true)
     elseif setting=="Scaling_Override" then
@@ -18625,11 +18689,11 @@ function reagirl.Settings_Global_GetSet(setting, is_set, value)
     elseif setting=="Drag_Highlight_Destinations" then
       if value==1 then value="" else value="false" end
       reaper.SetExtState("ReaGirl", "highlight_drag_destinations", value, true)
-      
     elseif setting=="Drag_Highlight_Destinations_Blink" then
       if value<0 then value=0 end
+      if value>5*33 then value=5 end
+      val=value
       if value==0 then value="" else value=value*33 end
-      if value>5*33 then value=5*33 end
       reaper.SetExtState("ReaGirl", "highlight_drag_destination_blink", value, true)
     elseif setting=="Scroll_Via_Keyboard" then
       if value==1 then value="" else value="false" end
@@ -18639,9 +18703,10 @@ function reagirl.Settings_Global_GetSet(setting, is_set, value)
       reaper.SetExtState("ReaGirl", "FocusRectangle_AlwaysOn", value, true)
     elseif setting=="Highlight_UI_Element_Intensity" then
       val=reaper.GetExtState("ReaGirl", "Highlight_Intensity")
-      value=value/10
       if value<0 then value=0 end
-      if value>0.5 then value=0.5 end
+      if value>3 then value=3 end
+      val=value
+      value=value/10
       if value==0.075 then value="" end
       reaper.SetExtState("ReaGirl", "Highlight_Intensity", value, true)
     elseif setting=="Osara_Enable_AccessibilityMessages" then
@@ -18652,26 +18717,25 @@ function reagirl.Settings_Global_GetSet(setting, is_set, value)
     elseif setting=="Debug_Message_Destination" then
       if value<1 then value=1 end
       if value>3 then value=3 end
+      val=value
       if value==1 then value="" end
-      --val=reaper.GetExtState("ReaGirl", "Error_Message_Destination")
-      --if val=="" then val=1 else val=tonumber(val) end
       reaper.SetExtState("ReaGirl", "Error_Message_Destination", value, true)
     end
+    return val
   end
 end
+--A1,B1,C1=reagirl.Settings_Global_GetSet("Debug_Message_Destination", true, 20)
 
-A,B,C=reagirl.Settings_Global_GetSet("Debug_Message_Destination", true, 1)
-
-function reagirl.Slider_LinkToExtstate(element_id, section, key, default, persist)
+function reagirl.Slider_LinkToExtstate(element_id, section, key, default, persist, factor)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>Slider_LinkToExtstate</slug>
   <requires>
-    ReaGirl=1.1
+    ReaGirl=1.3
     Reaper=7.03
     Lua=5.4
   </requires>
-  <functioncall>reagirl.Slider_LinkToExtstate(string element_id, string section, string key, string default, boolean persist)</functioncall>
+  <functioncall>reagirl.Slider_LinkToExtstate(string element_id, string section, string key, number default, boolean persist, optional number factor)</functioncall>
   <description>
     Links a slider to an extstate. 
     
@@ -18684,14 +18748,18 @@ function reagirl.Slider_LinkToExtstate(element_id, section, key, default, persis
   <parameters>
     string element_id - the guid of the slider, that you want to link to an extstate
     string section - the section of the linked extstate
-    string key - the key of the linked extstate
+    number key - the key of the linked extstate
     string default - the default value, if the extstate hasn't been set yet
     boolean persist - true, the extstate shall be stored persistantly; false, the extstate shall not be stored persistantly
+    optional number factor - a factor, by which the value shall be multiplied
   </parameters>
   <chapter_context>
     Slider
   </chapter_context>
   <tags>slider, link to, extstate</tags>
+  <changelog>
+    ReaGirl 1.3 - new parameter "factor" added
+  </changelog>
 </US_DocBloc>
 --]]
   if type(element_id)~="string" then error("Slider_LinkToExtstate: param #1 - must be a string", 2) end
@@ -18700,6 +18768,8 @@ function reagirl.Slider_LinkToExtstate(element_id, section, key, default, persis
   if type(key)~="string" then error("Slider_LinkToExtstate: param #3 - must be a string", 2) end
   if type(default)~="number" then error("Slider_LinkToExtstate: param #4 - must be a number", 2) end
   if type(persist)~="boolean" then error("Slider_LinkToExtstate: param #5 - must be a boolean", 2) end
+  if factor~=nil and type(factor)~="number" then error("Slider_LinkToExtstate: param #6 - must be nil or a number", 2) end
+  if factor==nil then factor=1 end
   element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
   if element_id==-1 then error("Slider_LinkToExtstate: param #1 - no such ui-element", 2) end
   if reagirl.Elements[element_id]["GUI_Element_Type"]~="Slider" then
@@ -18710,20 +18780,21 @@ function reagirl.Slider_LinkToExtstate(element_id, section, key, default, persis
     reagirl.Elements[element_id]["linked_to_key"]=key
     reagirl.Elements[element_id]["linked_to_default"]=default
     reagirl.Elements[element_id]["linked_to_persist"]=persist
+    reagirl.Elements[element_id]["link_factor"]=factor
     reagirl.Gui_ForceRefresh(16)
   end
 end
 
-function reagirl.Slider_LinkToIniValue(element_id, ini_file, section, key, default, persist)
+function reagirl.Slider_LinkToIniValue(element_id, ini_file, section, key, default, persist, factor)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>Slider_LinkToIniValue</slug>
   <requires>
-    ReaGirl=1.1
+    ReaGirl=1.3
     Reaper=7.03
     Lua=5.4
   </requires>
-  <functioncall>reagirl.Slider_LinkToIniValue(string element_id, string ini_file, string section, string key, string default, boolean persist)</functioncall>
+  <functioncall>reagirl.Slider_LinkToIniValue(string element_id, string ini_file, string section, string key, string default, boolean persist, optional number factor)</functioncall>
   <description>
     Links a slider to an ini-file-entry. 
     
@@ -18740,11 +18811,15 @@ function reagirl.Slider_LinkToIniValue(element_id, ini_file, section, key, defau
     string key - the key of the linked ini-file
     string default - the default value, if the ini-file hasn't been set yet
     boolean persist - true, the ini-file shall be stored persistantly; false, the ini-file shall not be stored persistantly
+    optional number factor - a factor, by which the value shall be multiplied
   </parameters>
   <chapter_context>
     Slider
   </chapter_context>
   <tags>slider, link to, ini-file</tags>
+  <changelog>
+    ReaGirl 1.3 - new parameter "factor" added
+  </changelog>
 </US_DocBloc>
 --]]
   if type(element_id)~="string" then error("Slider_LinkToIniValue: param #1 - must be a string", 2) end
@@ -18753,7 +18828,9 @@ function reagirl.Slider_LinkToIniValue(element_id, ini_file, section, key, defau
   if type(section)~="string" then error("Slider_LinkToIniValue: param #3 - must be a string", 2) end
   if type(key)~="string" then error("Slider_LinkToIniValue: param #4 - must be a string", 2) end
   if type(default)~="number" then error("Slider_LinkToIniValue: param #5 - must be a number", 2) end
-
+  if factor~=nil and type(factor)~="number" then error("Slider_LinkToIniValue: param #6 - must be nil or a number", 2) end
+  if factor==nil then factor=1 end
+  
   element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
   if element_id==-1 then error("Slider_LinkToIniValue: param #1 - no such ui-element", 2) end
   if reagirl.Elements[element_id]["GUI_Element_Type"]~="Slider" then
@@ -18765,21 +18842,22 @@ function reagirl.Slider_LinkToIniValue(element_id, ini_file, section, key, defau
     reagirl.Elements[element_id]["linked_to_key"]=key
     reagirl.Elements[element_id]["linked_to_default"]=default
     reagirl.Elements[element_id]["linked_to_persist"]=persist
+    reagirl.Elements[element_id]["link_factor"]=factor
     reagirl.Gui_ForceRefresh(16)
   end
 end
 
-function reagirl.Slider_LinkToDoubleConfigVar(element_id, configvar_name, persist)
+function reagirl.Slider_LinkToDoubleConfigVar(element_id, configvar_name, persist, factor)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>Slider_LinkToDoubleConfigVar</slug>
   <requires>
-    ReaGirl=1.1
+    ReaGirl=1.3
     Reaper=7.03
     SWS=2.10.0.1
     Lua=5.4
   </requires>
-  <functioncall>reagirl.Slider_LinkToDoubleConfigVar(string element_id, string configvar_name, boolean persist)</functioncall>
+  <functioncall>reagirl.Slider_LinkToDoubleConfigVar(string element_id, string configvar_name, boolean persist, optional number factor)</functioncall>
   <description>
     Links a slider to a configvar. 
     
@@ -18798,17 +18876,23 @@ function reagirl.Slider_LinkToDoubleConfigVar(element_id, configvar_name, persis
     string element_id - the guid of the slider that shall set a config-var
     string configvar_name - the config-variable, whose value you want to update using the slider
     boolean persist - true, make this setting persist; false, make this setting only temporary until Reaper restart
+    optional number factor - a factor, by which the value shall be multiplied
   </parameters>
   <chapter_context>
     Slider
   </chapter_context>
   <tags>slider, link to, double, config variable</tags>
+  <changelog>
+    ReaGirl 1.3 - new parameter "factor" added
+  </changelog>
 </US_DocBloc>
 --]]
   if type(element_id)~="string" then error("Slider_LinkToDoubleConfigVar: param #1 - must be a string", 2) end
   if reagirl.IsValidGuid(element_id, true)==nil then error("Slider_LinkToDoubleConfigVar: param #1 - must be a valid guid", 2) end
   if type(configvar_name)~="string" then error("Slider_LinkToDoubleConfigVar: param #2 - must be a string", 2) end
   if type(persist)~="boolean" then error("Slider_LinkToDoubleConfigVar: param #3 - must be a boolean", 2) end
+  if factor~=nil and type(factor)~="number" then error("Slider_LinkToDoubleConfigVar: param #4 - must be nil or a number", 2) end
+  if factor==nil then factor=1 end
   
   element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
   if element_id==-1 then error("Slider_LinkToDoubleConfigVar: param #1 - no such ui-element", 2) end
@@ -18818,21 +18902,22 @@ function reagirl.Slider_LinkToDoubleConfigVar(element_id, configvar_name, persis
     reagirl.Elements[element_id]["linked_to"]=3
     reagirl.Elements[element_id]["linked_to_configvar"]=configvar_name
     reagirl.Elements[element_id]["linked_to_persist"]=persist
+    reagirl.Elements[element_id]["link_factor"]=factor
     reagirl.Gui_ForceRefresh(16)
   end
 end
 
-function reagirl.Slider_LinkToIntConfigVar(element_id, configvar_name, persist)
+function reagirl.Slider_LinkToIntConfigVar(element_id, configvar_name, persist, factor)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>Slider_LinkToIntConfigVar</slug>
   <requires>
-    ReaGirl=1.1
+    ReaGirl=1.3
     Reaper=7.03
     SWS=2.10.0.1
     Lua=5.4
   </requires>
-  <functioncall>reagirl.Slider_LinkToIntConfigVar(string element_id, string configvar_name, boolean persist)</functioncall>
+  <functioncall>reagirl.Slider_LinkToIntConfigVar(string element_id, string configvar_name, boolean persist, optional number factor)</functioncall>
   <description>
     Links a slider to a configvar. 
     
@@ -18851,17 +18936,23 @@ function reagirl.Slider_LinkToIntConfigVar(element_id, configvar_name, persist)
     string element_id - the guid of the slider that shall set a config-var
     string configvar_name - the config-variable, whose value you want to update using the slider
     boolean persist - true, make this setting persist; false, make this setting only temporary until Reaper restart
+    optional number factor - a factor, by which the value shall be multiplied
   </parameters>
   <chapter_context>
     Slider
   </chapter_context>
   <tags>slider, link to, int, config variable</tags>
+  <changelog>
+    ReaGirl 1.3 - new parameter "factor" added
+  </changelog>
 </US_DocBloc>
 --]]
   if type(element_id)~="string" then error("Slider_LinkToIntConfigVar: param #1 - must be a string", 2) end
   if reagirl.IsValidGuid(element_id, true)==nil then error("Slider_LinkToIntConfigVar: param #1 - must be a valid guid", 2) end
   if type(configvar_name)~="string" then error("Slider_LinkToIntConfigVar: param #2 - must be a string", 2) end
   if type(persist)~="boolean" then error("Slider_LinkToIntConfigVar: param #3 - must be a boolean", 2) end
+  if factor~=nil and type(factor)~="number" then error("Slider_LinkToIntConfigVar: param #4 - must be nil or a number", 2) end
+  if factor==nil then factor=1 end
   
   element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
   if element_id==-1 then error("Slider_LinkToIntConfigVar: param #1 - no such ui-element", 2) end
@@ -18871,6 +18962,7 @@ function reagirl.Slider_LinkToIntConfigVar(element_id, configvar_name, persist)
     reagirl.Elements[element_id]["linked_to"]=4
     reagirl.Elements[element_id]["linked_to_configvar"]=configvar_name
     reagirl.Elements[element_id]["linked_to_persist"]=persist
+    reagirl.Elements[element_id]["link_factor"]=factor
     reagirl.Gui_ForceRefresh(16)
   end
 end
@@ -19755,16 +19847,19 @@ function reagirl.Tabs_Manage(element_id, selected, hovered, clicked, mouse_cap, 
   -- external influence on the opened tab
   if reagirl.Window_name~=nil and reaper.GetExtState("Reagirl_Window_"..reagirl.Window_name, "open_tabnumber")~="" then
     local tabnumber=tonumber(reaper.GetExtState("Reagirl_Window_"..reagirl.Window_name, "open_tabnumber"))
-    if tabnumber>=1 and tabnumber<=#element_storage["TabNames"] then
-      element_storage["TabSelected"]=tabnumber
-      if reaper.GetExtState("ReaGirl", "osara_override")=="" then
-        element_storage["TabsSelected_MouseJump"]=element_storage["TabSelected"]
+    if tabnumber~=nil then
+      if tabnumber>=1 and tabnumber<=#element_storage["TabNames"] then
+        element_storage["TabSelected"]=tabnumber
+        if reaper.GetExtState("ReaGirl", "osara_override")=="" then
+          element_storage["TabsSelected_MouseJump"]=element_storage["TabSelected"]
+        end
+        element_storage["TabRefresh"]=true 
+        refresh=true
       end
-      element_storage["TabRefresh"]=true 
-      refresh=true
+      reaper.SetExtState("Reagirl_Window_"..reagirl.Window_name, "open_tabnumber", "", false)
     end
-    reaper.SetExtState("Reagirl_Window_"..reagirl.Window_name, "open_tabnumber", "", false)
   end
+  --]]
   
   local acc_message=""
   if selected~="not selected" then
@@ -19926,7 +20021,7 @@ function reagirl.Tabs_Draw(element_id, selected, hovered, clicked, mouse_cap, mo
     if i==element_storage["TabSelected"] then offset=dpi_scale else offset=0 end
     -- border around tabs
     gfx.set(reagirl.Colors.Tabs_Border_Tabs_r, reagirl.Colors.Tabs_Border_Tabs_g, reagirl.Colors.Tabs_Border_Tabs_b)
-    reagirl.RoundRect(math.tointeger(x+x_offset-text_offset_x), y, math.tointeger(tx+text_offset_x+text_offset_x), tab_height+ty, 3*dpi_scale, 1, 1, false, true, false, true)
+    reagirl.RoundRect(math.tointeger(x+x_offset-text_offset_x), y, math.tointeger(tx+text_offset_x+text_offset_x), math.tointeger(tab_height+ty), 3*dpi_scale, 1, 1, false, true, false, true)
     
     -- inner part of tabs
     add_color=0
@@ -19938,6 +20033,7 @@ function reagirl.Tabs_Draw(element_id, selected, hovered, clicked, mouse_cap, mo
       end
     end
     if i==element_storage["TabSelected"] then offset=dpi_scale gfx.set(reagirl.Colors.Tabs_Inner_Tabs_Selected_r, reagirl.Colors.Tabs_Inner_Tabs_Selected_g, reagirl.Colors.Tabs_Inner_Tabs_Selected_b) else offset=0 gfx.set(reagirl.Colors.Tabs_Inner_Tabs_Unselected_r+add_color, reagirl.Colors.Tabs_Inner_Tabs_Unselected_g+add_color, reagirl.Colors.Tabs_Inner_Tabs_Unselected_b+add_color) end
+
     reagirl.RoundRect(math.tointeger(x+x_offset-text_offset_x)+dpi_scale, y+dpi_scale, math.tointeger(tx+text_offset_x+text_offset_x)-dpi_scale-dpi_scale, tab_height+ty+dpi_scale, 2*dpi_scale, 1, 1, false, true, false, true)
     
     
