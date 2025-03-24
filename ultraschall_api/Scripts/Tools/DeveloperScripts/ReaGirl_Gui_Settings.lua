@@ -133,7 +133,7 @@ function button_apply_and_close()
   if reagirl.Slider_GetValue(tab1.slider_blink_every_draggable)==0 then val="" else val=math.floor(reagirl.Slider_GetValue(tab1.slider_blink_every_draggable)*33) end
   reaper.SetExtState("ReaGirl", "highlight_drag_destination_blink", val, true)
   --reaper.SetExtState("ReaGirl", "font_face", reagirl.Inputbox_GetText(tab4.font_face), true)
-  if reagirl.Slider_GetValue(tab1.highlighting)==0.075 then val="" else val=reagirl.Slider_GetValue(tab1.highlighting) end
+  if reagirl.Slider_GetValue(tab1.highlighting)==0.75 then val="" else val=reagirl.Slider_GetValue(tab1.highlighting)/10 end
   highlighting2=reaper.SetExtState("ReaGirl", "Highlight_Intensity", val, true)
   reagirl.Gui_Close()
 end
@@ -180,6 +180,7 @@ function SetUpNewGui()
   focus_rectangle_blinktime_cancel=val2
   
   fr_always_on=reaper.GetExtState("ReaGirl", "FocusRectangle_AlwaysOn")
+  --reaper.MB(fr_always_on,"",0)
   if fr_always_on=="" then fr_always_on=false else fr_always_on=true end
   
   tab1.checkbox_blink_always_on = reagirl.Checkbox_Add(nil, nil, "Always show focus rectangle", "When checked, ReaGirl will show focus rectangle always, when unchecked, it will only show, when you tab through the gui with the tab-key.", fr_always_on, checkbox)
@@ -208,7 +209,8 @@ function SetUpNewGui()
   reagirl.NextLine()
   highlighting=tonumber(reaper.GetExtState("ReaGirl", "Highlight_Intensity", value, true))
   if highlighting==nil then highlighting2=0.075 else highlighting2=highlighting end
-  tab1.highlighting = reagirl.Slider_Add(nil, nil, 285, "Highlight intensity", 100, "Set the highlighting intensity when hovering above ui-elements; 0, no highlighting.", "", 0, 0.5, 0.025, highlighting2, 0.075, Highlighting)
+  highlighting2=highlighting2*10
+  tab1.highlighting = reagirl.Slider_Add(nil, nil, 285, "Highlight intensity", 100, "Set the highlighting intensity when hovering above ui-elements; 0, no highlighting.", "", 0, 5, 0.25, highlighting2, 0.75, Highlighting)
   reagirl.NextLine(15)
   
   -- [[ Scaling Override ]]
@@ -322,7 +324,7 @@ reagirl.Gui_AtEnter(button_apply_and_close)
 SetUpNewGui()
 color=40
 reagirl.Background_GetSetColor(true,color,color,color)
-reagirl.Gui_Open("ReaGirl_Settings", false, "ReaGirl Settings (v."..reagirl.GetVersion()..")", "various settings for ReaGirl-Accessible Guis.", 352, 555, nil, nil, nil)
+reagirl.Gui_Open("ReaGirl_Settings", true, "ReaGirl Settings (v."..reagirl.GetVersion()..")", "various settings for ReaGirl-Accessible Guis.", 352, 555, nil, nil, nil)
   
 --reagirl.Window_ForceSize_Minimum(355, 470) -- set the minimum size of the window
 --reagirl.Window_ForceSize_Maximum(355, 470) -- set the maximum size of the window
