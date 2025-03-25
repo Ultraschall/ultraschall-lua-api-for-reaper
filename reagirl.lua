@@ -2595,7 +2595,6 @@ reagirl.ColorName[#reagirl.ColorName+1]="Zombie Green"
 
 
 reagirl.Colors={}
-reagirl.Colors.Scrollbar={}
 reagirl.Colors.Scrollbar_Background_r=0.39
 reagirl.Colors.Scrollbar_Background_g=0.39
 reagirl.Colors.Scrollbar_Background_b=0.39
@@ -2632,15 +2631,15 @@ reagirl.Colors.Label_TextBG_r=0.2
 reagirl.Colors.Label_TextBG_g=0.2
 reagirl.Colors.Label_TextBG_b=0.2
 
-reagirl.Colors.Inputbox_TextFG_r=0.8
-reagirl.Colors.Inputbox_TextFG_g=0.8
-reagirl.Colors.Inputbox_TextFG_b=0.8
-reagirl.Colors.InputBox_TextBG_r=0.0
-reagirl.Colors.InputBox_TextBG_g=0.2
-reagirl.Colors.InputBox_TextBG_b=0.2
-reagirl.Colors.Inputbox_TextFGdisabled_r=0.6
-reagirl.Colors.InputBox_TextFGdisabled_g=0.6
-reagirl.Colors.InputBox_TextFGdisabled_b=0.6
+reagirl.Colors.Inputbox_CaptionFG_r=0.8
+reagirl.Colors.Inputbox_CaptionFG_g=0.8
+reagirl.Colors.Inputbox_CaptionFG_b=0.8
+reagirl.Colors.InputBox_CaptionBG_r=0.0
+reagirl.Colors.InputBox_CaptionBG_g=0.2
+reagirl.Colors.InputBox_CaptionBG_b=0.2
+reagirl.Colors.Inputbox_CaptionFGdisabled_r=0.6
+reagirl.Colors.Inputbox_CaptionFGdisabled_g=0.6
+reagirl.Colors.Inputbox_CaptionFGdisabled_b=0.6
 reagirl.Colors.InputBox_TextFGTyped_r=0.8
 reagirl.Colors.InputBox_TextFGTyped_g=0.8
 reagirl.Colors.InputBox_TextFGTyped_b=0.8
@@ -2667,15 +2666,15 @@ reagirl.Colors.Toolbar_Area_r=0.274
 reagirl.Colors.Toolbar_Area_g=0.274
 reagirl.Colors.Toolbar_Area_b=0.274
 
-reagirl.Colors.DropDownMenu_TextFG_r=0.8
-reagirl.Colors.DropDownMenu_TextFG_g=0.8
-reagirl.Colors.DropDownMenu_TextFG_b=0.8
-reagirl.Colors.DropDownMenu_TextFGdisabled_r=0.6
-reagirl.Colors.DropDownMenu_TextFGdisabled_g=0.6
-reagirl.Colors.DropDownMenu_TextFGdisabled_b=0.6
-reagirl.Colors.DropDownMenu_TextBG_r=0.2
-reagirl.Colors.DropDownMenu_TextBG_g=0.2
-reagirl.Colors.DropDownMenu_TextBG_b=0.2
+reagirl.Colors.DropDownMenu_CaptionFG_r=0.8
+reagirl.Colors.DropDownMenu_CaptionFG_g=0.8
+reagirl.Colors.DropDownMenu_CaptionFG_b=0.8
+reagirl.Colors.DropDownMenu_CaptionFGdisabled_r=0.6
+reagirl.Colors.DropDownMenu_CaptionFGdisabled_g=0.6
+reagirl.Colors.DropDownMenu_CaptionFGdisabled_b=0.6
+reagirl.Colors.DropDownMenu_CaptionBG_r=0.2
+reagirl.Colors.DropDownMenu_CaptionBG_g=0.2
+reagirl.Colors.DropDownMenu_CaptionBG_b=0.2
 reagirl.Colors.DropDownMenu_Area_r=0.274
 reagirl.Colors.DropDownMenu_Area_g=0.274
 reagirl.Colors.DropDownMenu_Area_b=0.274
@@ -2690,36 +2689,36 @@ reagirl.Colors.DropDownMenu_AreaTextBG_r=0.2
 reagirl.Colors.DropDownMenu_AreaTextBG_g=0.2
 reagirl.Colors.DropDownMenu_AreaTextBG_b=0.2
 
-reagirl.Colors.Checkbox_TextBG_r=0.2
-reagirl.Colors.Checkbox_TextBG_g=0.2
-reagirl.Colors.Checkbox_TextBG_b=0.2
-reagirl.Colors.Checkbox_TextFG_r=0.8
-reagirl.Colors.Checkbox_TextFG_g=0.8
-reagirl.Colors.Checkbox_TextFG_b=0.8
-reagirl.Colors.Checkbox_TextFG_disabled_r=0.6
-reagirl.Colors.Checkbox_TextFG_disabled_g=0.6
-reagirl.Colors.Checkbox_TextFG_disabled_b=0.6
-reagirl.Colors.Checkbox_r=0.9843137254901961
-reagirl.Colors.Checkbox_g=0.8156862745098039
-reagirl.Colors.Checkbox_b=0
+reagirl.Colors.Checkbox_CaptionBG_r=0.2
+reagirl.Colors.Checkbox_CaptionBG_g=0.2
+reagirl.Colors.Checkbox_CaptionBG_b=0.2
+reagirl.Colors.Checkbox_CaptionFG_r=0.8
+reagirl.Colors.Checkbox_CaptionFG_g=0.8
+reagirl.Colors.Checkbox_CaptionFG_b=0.8
+reagirl.Colors.Checkbox_CaptionFG_disabled_r=0.6
+reagirl.Colors.Checkbox_CaptionFG_disabled_g=0.6
+reagirl.Colors.Checkbox_CaptionFG_disabled_b=0.6
+reagirl.Colors.Checkbox_CheckArea_r=0.9843137254901961
+reagirl.Colors.Checkbox_CheckArea_g=0.8156862745098039
+reagirl.Colors.Checkbox_CheckArea_b=0
 reagirl.Colors.Checkbox_rectangle_r=0.5
 reagirl.Colors.Checkbox_rectangle_g=0.5
 reagirl.Colors.Checkbox_rectangle_b=0.5
-reagirl.Colors.Checkbox_disabled_r=0.5843137254901961
-reagirl.Colors.Checkbox_disabled_g=0.5843137254901961
-reagirl.Colors.Checkbox_disabled_b=0
+reagirl.Colors.Checkbox_CheckArea_disabled_r=0.5843137254901961
+reagirl.Colors.Checkbox_CheckArea_disabled_g=0.5843137254901961
+reagirl.Colors.Checkbox_CheckArea_disabled_b=0
 reagirl.Colors.Checkbox_background_r=0.234
 reagirl.Colors.Checkbox_background_g=0.234
 reagirl.Colors.Checkbox_background_b=0.234
-reagirl.Colors.Slider_TextBG_r=0.2
-reagirl.Colors.Slider_TextBG_g=0.2
-reagirl.Colors.Slider_TextBG_b=0.2
-reagirl.Colors.Slider_TextFG_r=0.8
-reagirl.Colors.Slider_TextFG_g=0.8
-reagirl.Colors.Slider_TextFG_b=0.8
-reagirl.Colors.Slider_TextFG_disabled_r=0.6
-reagirl.Colors.Slider_TextFG_disabled_g=0.6
-reagirl.Colors.Slider_TextFG_disabled_b=0.6
+reagirl.Colors.Slider_CaptionBG_r=0.2
+reagirl.Colors.Slider_CaptionBG_g=0.2
+reagirl.Colors.Slider_CaptionBG_b=0.2
+reagirl.Colors.Slider_CaptionFG_r=0.8
+reagirl.Colors.Slider_CaptionFG_g=0.8
+reagirl.Colors.Slider_CaptionFG_b=0.8
+reagirl.Colors.Slider_CaptionFG_disabled_r=0.6
+reagirl.Colors.Slider_CaptionFG_disabled_g=0.6
+reagirl.Colors.Slider_CaptionFG_disabled_b=0.6
 reagirl.Colors.Slider_DefaultLine_r=0.584
 reagirl.Colors.Slider_DefaultLine_g=0.584
 reagirl.Colors.Slider_DefaultLine_b=0.584
@@ -2753,12 +2752,12 @@ reagirl.Colors.Tabs_Inner_Tabs_Selected_b=0.253921568627451
 reagirl.Colors.Tabs_Inner_Tabs_Unselected_r=0.153921568627451
 reagirl.Colors.Tabs_Inner_Tabs_Unselected_g=0.153921568627451
 reagirl.Colors.Tabs_Inner_Tabs_Unselected_b=0.153921568627451
-reagirl.Colors.Tabs_TextFG_r=0.8
-reagirl.Colors.Tabs_TextFG_g=0.8
-reagirl.Colors.Tabs_TextFG_b=0.8
-reagirl.Colors.Tabs_TextBG_r=0.2
-reagirl.Colors.Tabs_TextBG_g=0.2
-reagirl.Colors.Tabs_TextBG_b=0.2
+reagirl.Colors.Tabs_CaptionFG_r=0.8
+reagirl.Colors.Tabs_CaptionFG_g=0.8
+reagirl.Colors.Tabs_CaptionFG_b=0.8
+reagirl.Colors.Tabs_CaptionBG_r=0.2
+reagirl.Colors.Tabs_CaptionBG_g=0.2
+reagirl.Colors.Tabs_CaptionBG_b=0.2
 reagirl.Colors.Tabs_Border_Background_r=0.403921568627451
 reagirl.Colors.Tabs_Border_Background_g=0.403921568627451
 reagirl.Colors.Tabs_Border_Background_b=0.403921568627451
@@ -7953,9 +7952,9 @@ function reagirl.Checkbox_Draw(element_id, selected, hovered, clicked, mouse_cap
 
   if element_storage["checked"]==true then
     if element_storage["IsDisabled"]==false then
-      gfx.set(reagirl.Colors.Checkbox_r, reagirl.Colors.Checkbox_g, reagirl.Colors.Checkbox_b)
+      gfx.set(reagirl.Colors.Checkbox_CheckArea_r, reagirl.Colors.Checkbox_CheckArea_g, reagirl.Colors.Checkbox_CheckArea_b)
     else
-      gfx.set(reagirl.Colors.Checkbox_disabled_r, reagirl.Colors.Checkbox_disabled_g, reagirl.Colors.Checkbox_disabled_b)
+      gfx.set(reagirl.Colors.Checkbox_CheckArea_disabled_r, reagirl.Colors.Checkbox_CheckArea_disabled_g, reagirl.Colors.Checkbox_CheckArea_disabled_b)
     end
     reagirl.RoundRect(x+(scale)*3, y+scale+scale, h-scale*6, h-scale*6, 3*scale, 1, 1, top, bottom, true, true)
     
@@ -7975,10 +7974,10 @@ function reagirl.Checkbox_Draw(element_id, selected, hovered, clicked, mouse_cap
   
   gfx.x=x+h+5*scale
   gfx.y=y+scale--+scale+(h-gfx.texth)/2
-  gfx.set(reagirl.Colors.Checkbox_TextBG_r, reagirl.Colors.Checkbox_TextBG_g, reagirl.Colors.Checkbox_TextBG_b)
+  gfx.set(reagirl.Colors.Checkbox_CaptionBG_r, reagirl.Colors.Checkbox_CaptionBG_g, reagirl.Colors.Checkbox_CaptionBG_b)
   gfx.drawstr(name)
   
-  if element_storage["IsDisabled"]==false then gfx.set(reagirl.Colors.Checkbox_TextFG_r, reagirl.Colors.Checkbox_TextFG_g, reagirl.Colors.Checkbox_TextFG_b) else gfx.set(reagirl.Colors.Checkbox_TextFG_disabled_r, reagirl.Colors.Checkbox_TextFG_disabled_g, reagirl.Colors.Checkbox_TextFG_disabled_b) end
+  if element_storage["IsDisabled"]==false then gfx.set(reagirl.Colors.Checkbox_CaptionFG_r, reagirl.Colors.Checkbox_CaptionFG_g, reagirl.Colors.Checkbox_CaptionFG_b) else gfx.set(reagirl.Colors.Checkbox_CaptionFG_disabled_r, reagirl.Colors.Checkbox_CaptionFG_disabled_g, reagirl.Colors.Checkbox_CaptionFG_disabled_b) end
   gfx.x=x+h+4*scale
   gfx.y=y--+(h-gfx.texth)/2
   gfx.drawstr(name)
@@ -12617,7 +12616,120 @@ function reagirl.ToolbarButton_GetEdgeStyle(element_id)
     return reagirl.Elements[element_id]["square_topleft"], reagirl.Elements[element_id]["square_topright"], reagirl.Elements[element_id]["square_bottomleft"], reagirl.Elements[element_id]["square_bottomright"]
   end
 end
-
+--mespotine
+--PINisdo()
+function reagirl.Color_GetSet(color_name, is_set, r, g, b)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Color_GetSet</slug>
+  <requires>
+    ReaGirl=1.3
+    Reaper=7.03
+    Lua=5.4
+  </requires>
+  <functioncall>integer r, integer g, integer b = reagirl.Color_GetSet(string color_name, booean is_set, integer r, integer g, integer b)</functioncall>
+  <description>
+    Get/set a new color-value for areas of the ui-elements. It will have an immediate effect on all ui-elements sharing that color. 
+    Setting colors will affect only this ReaGirl-gui-instance.
+    
+    Note: if the user has chosen a theme in the settings, then the theme settings will be used instead of the ones you try to set.
+    
+    Also note: it will not check, if the colors are properly readable, so check twice, if readability is present by having huge contrasts between colors.
+    Also make a screenshot of your gui, put it into an image-program and turn it into grayscale. If everything is still readable, you are good to go. If not, then make some of the hard to read colors darker or brighter.
+    That way you can be sure, that color-blind people or people who need high contrast can read and use your gui.
+    (This is the reason, why a user-theme overrides your colors, as the user might want to choose a different color-layout for better readability for all ReaGirl-guis.)
+    
+    The following colors can be set:
+    Burgermenu_Area
+    Burgermenu_Stripes
+    Buttons_Area
+    Buttons_TextBG
+    Buttons_TextFG
+    Checkbox_CheckArea
+    Checkbox_CheckArea_disabled
+    Checkbox_CaptionBG
+    Checkbox_CaptionFG
+    Checkbox_CaptionFG_disabled
+    Checkbox_background
+    DropDownMenu_Area
+    DropDownMenu_AreaTextBG
+    DropDownMenu_AreaTextFG
+    DropDownMenu_AreaTextFGdisabled
+    DropDownMenu_CaptionBG
+    DropDownMenu_CaptionFG
+    DropDownMenu_CaptionFGdisabled
+    InputBox_CaptionBG
+    InputBox_TextBGTyped
+    InputBox_TextFGTyped
+    InputBox_TextFGTypeddisabled
+    Inputbox_Area
+    Inputbox_Cursor
+    Inputbox_CaptionFG
+    Inputbox_CaptionFGdisabled
+    Label_TextBG
+    Label_TextFG
+    Label_TextFGclickable
+    Scrollbar_Background
+    Scrollbar_Foreground
+    Slider_Border
+    Slider_Center
+    Slider_Center_disabled
+    Slider_Circle_1
+    Slider_Circle_2
+    Slider_Circle_center
+    Slider_Circle_center_disabled
+    Slider_DefaultLine
+    Slider_CaptionBG
+    Slider_CaptionFG
+    Slider_CaptionFG_disabled
+    Tabs_Border_Background
+    Tabs_Border_Tabs
+    Tabs_Inner_Background
+    Tabs_Inner_Tabs_Selected
+    Tabs_Inner_Tabs_Unselected
+    Tabs_CaptionBG
+    Tabs_TextFG
+    Toolbar_Area
+    Toolbar_TextBG
+    Toolbar_TextFG
+  </description>
+  <parameters>
+    string color_name - the name of the color(see description for more details); case sensitive!
+    boolean is_set - true, set a new color; false, get the current set color
+    integer r - the red value of the color; 0-255
+    integer g - the green value of the color; 0-255
+    integer b - the blue value of the color; 0-255
+  </parameters>
+  <retvals>
+    integer r - the red value of the color; 0-255
+    integer g - the green value of the color; 0-255
+    integer b - the blue value of the color; 0-255
+  </retvals>
+  <chapter_context>
+    Colors and Themes
+  </chapter_context>
+  <tags>colors and themes, get, set, color</tags>
+</US_DocBloc>
+--]]
+  if type(color_name)~="string" then error("Color_GetSet: param #1 - must be a string", 2) end
+  if reagirl.Colors[color_name.."_r"]==nil then error("Color_GetSet: param #1 - no such color", 2) end
+  if type(is_set)~="boolean" then error("Color_GetSet: param #2 - must be a boolean", 2) end
+  if is_set==true and math.type(r)~="integer" then error("Color_GetSet: param #3 - must be an integer", 2) end
+  if is_set==true and math.type(g)~="integer" then error("Color_GetSet: param #4 - must be an integer", 2) end
+  if is_set==true and math.type(b)~="integer" then error("Color_GetSet: param #5 - must be an integer", 2) end
+  if reaper.GetExtState("ReaGirl", "ColorTheme")=="" then
+    if is_set==true then
+      reagirl.Colors[color_name.."_r"]=r/255
+      reagirl.Colors[color_name.."_g"]=g/255
+      reagirl.Colors[color_name.."_b"]=b/255
+    else
+      return math.floor(reagirl.Colors[color_name.."_r"]*255), math.floor(reagirl.Colors[color_name.."_g"]*255), math.floor(reagirl.Colors[color_name.."_b"]*255)
+    end
+  else
+    -- when a theme has been set, don't set color and return the color of the theme
+    -- will be implemented, when I added theme support
+  end
+end
 
 function reagirl.Menu_GetEntryName(menu, entry_nr)
 --[[
@@ -13864,10 +13976,10 @@ function reagirl.Inputbox_Draw(element_id, selected, hovered, clicked, mouse_cap
   -- draw caption
   gfx.x=x+dpi_scale
   gfx.y=y+dpi_scale--+dpi_scale+(h-gfx.texth)/2
-  gfx.set(reagirl.Colors.InputBox_TextBG_r, reagirl.Colors.InputBox_TextBG_g, reagirl.Colors.InputBox_TextBG_b)
+  gfx.set(reagirl.Colors.InputBox_CaptionBG_r, reagirl.Colors.InputBox_CaptionBG_g, reagirl.Colors.InputBox_CaptionBG_b)
   gfx.drawstr(name)
   
-  if element_storage["IsDisabled"]==false then gfx.set(reagirl.Colors.Inputbox_TextFG_r, reagirl.Colors.Inputbox_TextFG_g, reagirl.Colors.Inputbox_TextFG_b) else gfx.set(reagirl.Colors.Inputbox_TextFGdisabled_r, reagirl.Colors.Inputbox_TextFGdisabled_g, reagirl.Colors.Inputbox_TextFGdisabled_b) end
+  if element_storage["IsDisabled"]==false then gfx.set(reagirl.Colors.Inputbox_CaptionFG_r, reagirl.Colors.Inputbox_CaptionFG_g, reagirl.Colors.Inputbox_CaptionFG_b) else gfx.set(reagirl.Colors.Inputbox_CaptionFGdisabled_r, reagirl.Colors.Inputbox_CaptionFGdisabled_g, reagirl.Colors.Inputbox_CaptionFGdisabled_b) end
   gfx.x=x
   gfx.y=y--+(h-gfx.texth)/2
   gfx.drawstr(name)
@@ -14758,12 +14870,12 @@ function reagirl.DropDownMenu_Draw(element_id, selected, hovered, clicked, mouse
   
   gfx.x=x+dpi_scale
   gfx.y=y+dpi_scale
-  gfx.set(reagirl.Colors.DropDownMenu_TextBG_r, reagirl.Colors.DropDownMenu_TextBG_g, reagirl.Colors.DropDownMenu_TextBG_b)
+  gfx.set(reagirl.Colors.DropDownMenu_CaptionBG_r, reagirl.Colors.DropDownMenu_CaptionBG_g, reagirl.Colors.DropDownMenu_CaptionBG_b)
   gfx.drawstr(element_storage["Name"])
   
   gfx.x=x
   gfx.y=y--+dpi_scale+(h-gfx.texth)/2
-  if element_storage["IsDisabled"]==true then gfx.set(reagirl.Colors.DropDownMenu_TextFGdisabled_r, reagirl.Colors.DropDownMenu_TextFGdisabled_g, reagirl.Colors.DropDownMenu_TextFGdisabled_b) else gfx.set(reagirl.Colors.DropDownMenu_TextFG_r, reagirl.Colors.DropDownMenu_TextFG_g, reagirl.Colors.DropDownMenu_TextFG_b) end
+  if element_storage["IsDisabled"]==true then gfx.set(reagirl.Colors.DropDownMenu_CaptionFGdisabled_r, reagirl.Colors.DropDownMenu_CaptionFGdisabled_g, reagirl.Colors.DropDownMenu_CaptionFGdisabled_b) else gfx.set(reagirl.Colors.DropDownMenu_CaptionFG_r, reagirl.Colors.DropDownMenu_CaptionFG_g, reagirl.Colors.DropDownMenu_CaptionFG_b) end
   gfx.drawstr(element_storage["Name"])
   
   if reagirl.Elements[element_id]["pressed"]==true then
@@ -18604,12 +18716,12 @@ function reagirl.Slider_Draw(element_id, selected, hovered, clicked, mouse_cap, 
   element_storage["slider_w"]=w-offset_cap-offset_unit
   gfx.x=x+dpi_scale
   gfx.y=y+dpi_scale--+(h-gfx.texth)/2
-  gfx.set(reagirl.Colors.Slider_TextBG_r, reagirl.Colors.Slider_TextBG_g, reagirl.Colors.Slider_TextBG_b)
+  gfx.set(reagirl.Colors.Slider_CaptionBG_r, reagirl.Colors.Slider_CaptionBG_g, reagirl.Colors.Slider_CaptionBG_b)
   gfx.drawstr(element_storage["Name"])
   
   gfx.x=x
   gfx.y=y--+(h-gfx.texth)/2
-  if element_storage["IsDisabled"]==true then gfx.set(reagirl.Colors.Slider_TextFG_disabled_r, reagirl.Colors.Slider_TextFG_disabled_g, reagirl.Colors.Slider_TextFG_disabled_b) else gfx.set(reagirl.Colors.Slider_TextFG_r,reagirl.Colors.Slider_TextFG_g,reagirl.Colors.Slider_TextFG_b) end
+  if element_storage["IsDisabled"]==true then gfx.set(reagirl.Colors.Slider_CaptionFG_disabled_r, reagirl.Colors.Slider_CaptionFG_disabled_g, reagirl.Colors.Slider_CaptionFG_disabled_b) else gfx.set(reagirl.Colors.Slider_CaptionFG_r,reagirl.Colors.Slider_CaptionFG_g,reagirl.Colors.Slider_CaptionFG_b) end
   -- draw caption
   gfx.drawstr(element_storage["Name"])
   
@@ -18619,13 +18731,13 @@ function reagirl.Slider_Draw(element_id, selected, hovered, clicked, mouse_cap, 
   if element_storage["Unit"]~=nil then 
     gfx.x=x+w-offset_unit+9*dpi_scale
     gfx.y=y+dpi_scale+(h-gfx.texth)/2
-    gfx.set(reagirl.Colors.Slider_TextBG_r, reagirl.Colors.Slider_TextBG_g, reagirl.Colors.Slider_TextBG_b)
+    gfx.set(reagirl.Colors.Slider_CaptionBG_r, reagirl.Colors.Slider_CaptionBG_g, reagirl.Colors.Slider_CaptionBG_b)
     gfx.drawstr(" "..unit..element_storage["Unit"])
     
     gfx.x=x+w-offset_unit+8*dpi_scale
     gfx.y=y+(h-gfx.texth)/2
   
-    if element_storage["IsDisabled"]==true then gfx.set(reagirl.Colors.Slider_TextFG_disabled_r, reagirl.Colors.Slider_TextFG_disabled_g, reagirl.Colors.Slider_TextFG_disabled_b) else gfx.set(reagirl.Colors.Slider_TextFG_r, reagirl.Colors.Slider_TextFG_g, reagirl.Colors.Slider_TextFG_b) end
+    if element_storage["IsDisabled"]==true then gfx.set(reagirl.Colors.Slider_CaptionFG_disabled_r, reagirl.Colors.Slider_CaptionFG_disabled_g, reagirl.Colors.Slider_CaptionFG_disabled_b) else gfx.set(reagirl.Colors.Slider_CaptionFG_r, reagirl.Colors.Slider_CaptionFG_g, reagirl.Colors.Slider_CaptionFG_b) end
     gfx.drawstr(" "..unit..element_storage["Unit"]) 
   end
 
@@ -20191,13 +20303,13 @@ function reagirl.Tabs_Draw(element_id, selected, hovered, clicked, mouse_cap, mo
     gfx.x=gfx.x+dpi_scale
     gfx.y=gfx.y+dpi_scale
     
-    gfx.set(reagirl.Colors.Tabs_TextBG_r, reagirl.Colors.Tabs_TextBG_g, reagirl.Colors.Tabs_TextBG_b)
+    gfx.set(reagirl.Colors.Tabs_CaptionBG_r, reagirl.Colors.Tabs_CaptionBG_g, reagirl.Colors.Tabs_CaptionBG_b)
     gfx.drawstr(element_storage["TabNames"][i])
     
     gfx.x=oldx
     gfx.y=oldy
     
-    gfx.set(reagirl.Colors.Tabs_TextFG_r, reagirl.Colors.Tabs_TextFG_g, reagirl.Colors.Tabs_TextFG_b)
+    gfx.set(reagirl.Colors.Tabs_CaptionFG_r, reagirl.Colors.Tabs_CaptionFG_g, reagirl.Colors.Tabs_CaptionFG_b)
     gfx.drawstr(element_storage["TabNames"][i])
   end
   
