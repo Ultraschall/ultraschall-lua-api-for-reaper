@@ -3052,6 +3052,8 @@ end
 
 reagirl.DragImageSlot=reagirl.Gui_ReserveImageBuffer()
 reagirl.ListViewSlot=reagirl.Gui_ReserveImageBuffer()
+reagirl.ToolbarButtonTextIconSlot=reagirl.Gui_ReserveImageBuffer()
+gfx.loadimg(reagirl.ToolbarButtonTextIconSlot, reaper.GetResourcePath().."/UserPlugins/ultraschall_api/misc/reagirl-toolbarbutton.png")
 
 function reagirl.Gui_PreventScrollingForOneCycle(keyboard, mousewheel_swipe, scroll_buttons)
 --[[
@@ -11916,12 +11918,12 @@ function reagirl.ToolbarButton_Add(x, y, toolbaricon, num_states, default_state,
   <parameters>
     optional integer x - the x position of the toolbar-button in pixels; negative anchors the toolbar-button to the right window-side; nil, autoposition after the last ui-element(see description)
     optional integer y - the y position of the toolbar-button in pixels; negative anchors the toolbar-button to the bottom window-side; nil, autoposition after the last ui-element(see description)
-    string toolbaricon - filename+path to the toolbar-icon-image; keep empty for text-icon
+    string toolbaricon - filename+path to the toolbar-icon-image; will be ignored for text-toolbar-icons
     integer num_states - number of states when clicked; 1, 1-state; 2, 2-states; 3, 3-states, etc
     integer default_state - default-state(1 or higher); must be maximum num_states
     table state_names - a table with all state-names. These will be shown in the tooltip/screen reader message when a certain state has been set. 
                       - Each entry must be a string!
-    integer mode - 1, toolbar-icon only; 2, toolbar-icon+caption right
+    integer mode - 1, toolbar-icon only; 2, toolbar-icon+caption right; 3, text-toolbar-icon; 4, text-toolbar-icon double width
     string caption - the caption of the toolbar-button
     string meaningOfUI_Element - the meaningOfUI_Element of the ui-element(for tooltips and blind users). Make it a sentence that ends with . or ?
     optional function run_function - a function that shall be run when the toolbar-button is clicked; will get the toolbar-button-element_id passed over as first parameter; nil, no run-function for this toolbar-button
@@ -11982,9 +11984,6 @@ function reagirl.ToolbarButton_Add(x, y, toolbaricon, num_states, default_state,
   reagirl.Elements[slot]["y"]=y
   reagirl.Elements[slot]["w"]=30
   reagirl.Elements[slot]["h"]=30
-  if mode==2 then
-    reagirl.Elements[slot]["w"]=30+tx+5
-  end
   reagirl.Elements[slot]["square_topleft"]=false
   reagirl.Elements[slot]["square_topright"]=false
   reagirl.Elements[slot]["square_bottomleft"]=false
@@ -11994,9 +11993,17 @@ function reagirl.ToolbarButton_Add(x, y, toolbaricon, num_states, default_state,
   reagirl.Elements[slot]["cur_state"]=default_state
   reagirl.Elements[slot]["state_names"]=state_names
   reagirl.Elements[slot]["toolbaricon_filename"]=toolbaricon
+  if mode==2 then
+    reagirl.Elements[slot]["w"]=30+tx+5
+  elseif mode==3 then
+    reagirl.Elements[slot]["w"]=30
+    reagirl.Elements[slot]["toolbaricon_filename"]=reaper.GetResourcePath().."/UserPlugins/ultraschall_api/misc/reagirl-toolbarbutton.png"
+  elseif mode==4 then
+    reagirl.Elements[slot]["w"]=60
+    reagirl.Elements[slot]["toolbaricon_filename"]=reaper.GetResourcePath().."/UserPlugins/ultraschall_api/misc/reagirl-toolbarbutton.png"
+  end
   reagirl.Elements[slot]["toolbaricon"]=reagirl.Gui_ReserveImageBuffer()
   reagirl.ToolbarButton_ReloadImage_Scaled(reagirl.Elements[slot]["Guid"])
-  
   if math.tointeger(ty)>reagirl.NextLine_Overflow then reagirl.NextLine_Overflow=math.tointeger(ty) end
   reagirl.Elements[slot]["w_margin"]=0
   reagirl.Elements[slot]["h_margin"]=0
@@ -12013,7 +12020,7 @@ function reagirl.ToolbarButton_Manage(element_id, selected, hovered, clicked, mo
   local refresh=false
   local oldpressed=element_storage["pressed"]
   local dpi_scale=reagirl.Window_GetCurrentScale()
-  
+  if element_storage["mode"]==4 then w=60*dpi_scale else w=30*dpi_scale end
   -- drop files for accessibility using a file-requester, after typing ctrl+shift+f
   if element_storage["DropZoneFunction"]~=nil and Key==6 and mouse_cap==12 then
     local retval, filenames = reaper.GetUserFileNameForRead("", "Choose file to drop into "..element_storage["Name"], "")
@@ -12052,7 +12059,7 @@ function reagirl.ToolbarButton_Manage(element_id, selected, hovered, clicked, mo
     element_storage["cur_state"]=element_storage["cur_state"]+1
     if element_storage["cur_state"]>element_storage["num_states"] then element_storage["cur_state"]=1 end
     local message=element_storage["state_names"][element_storage["cur_state"]]
-    if gfx.mouse_x>=x and gfx.mouse_x<=x+(30*dpi_scale) and gfx.mouse_y>=y and gfx.mouse_y<=y+(30*dpi_scale) then
+    if gfx.mouse_x>=x and gfx.mouse_x<=x+(w*dpi_scale) and gfx.mouse_y>=y and gfx.mouse_y<=y+(30*dpi_scale) then
       local XX, YY= reaper.GetMousePosition()
       local dropfiles=""
       local draggable=""
@@ -12094,6 +12101,7 @@ function reagirl.ToolbarButton_Draw(element_id, selected, hovered, clicked, mous
   local dpi_scale=reagirl.Window_CurrentScale
   y=y+dpi_scale
   w=30*dpi_scale
+  if element_storage["mode"]==4 then w=60*dpi_scale end
   if reagirl.Elements[element_id]["pressed"]==true then
     local scale=reagirl.Window_CurrentScale-1
     state=1*dpi_scale-1
@@ -12108,8 +12116,70 @@ function reagirl.ToolbarButton_Draw(element_id, selected, hovered, clicked, mous
     --gfx.set(0.274) -- button-area
     gfx.set(colr+add_color, colg+add_color, colb+add_color) -- button-area
     reagirl.RoundRect(x+dpi_scale, y+dpi_scale, w-dpi_scale, h-dpi_scale, (radius-1) * dpi_scale, 1, 1, element_storage["square_topleft"], element_storage["square_bottomleft"], element_storage["square_topright"], element_storage["square_bottomright"])
-
-    gfx.blit(element_storage["toolbaricon"], 1, 0, (element_storage["cur_state"]-1)*30*element_storage["toolbaricon_scale"], 0, 30*element_storage["toolbaricon_scale"], 30*element_storage["toolbaricon_scale"], x+dpi_scale, y+dpi_scale, w, h)
+    if element_storage["mode"]==3 or element_storage["mode"]==4 then
+      gfx.loadimg(element_storage["toolbaricon"], reaper.GetResourcePath().."/UserPlugins/ultraschall_api/misc/reagirl-toolbarbutton.png")
+      gfx.setimgdim(element_storage["toolbaricon"], w, h)
+      local text={}
+      local text_num=1
+      local text_width=0
+      text[text_num]=""
+      for i=1, name:len() do
+        text_width=text_width+gfx.measurestr(name:sub(i,i))
+        if text_width>w*dpi_scale then text_num=text_num+1 if text_num==3 then break end text[text_num]="" text_width=0 end
+        text[text_num]=text[text_num]..name:sub(i,i)
+      end
+      element_storage["testtext"]=text
+      if text_num==1 then
+        local width, height=gfx.measurestr(text[1])
+        local xx=(w-width)/2
+        local yy=(h-height)/2
+        gfx.x=xx+dpi_scale+dpi_scale
+        gfx.y=yy+dpi_scale+dpi_scale
+        gfx.dest=element_storage["toolbaricon"]
+        gfx.set(reagirl.Colors.Toolbar_TextBG_r, reagirl.Colors.Toolbar_TextBG_g, reagirl.Colors.Toolbar_TextBG_b)
+        gfx.drawstr(text[1])
+        gfx.x=xx+dpi_scale
+        gfx.y=yy+dpi_scale
+        gfx.dest=element_storage["toolbaricon"]
+        gfx.set(reagirl.Colors.Toolbar_TextFG_r, reagirl.Colors.Toolbar_TextFG_g, reagirl.Colors.Toolbar_TextFG_b)
+        gfx.drawstr(text[1])
+        gfx.dest=-1
+      elseif text_num>1 then
+        local width, height=gfx.measurestr(text[1])
+        local xx=(w-width)/2
+        local yy=(h-height-height)/2
+        gfx.x=xx+dpi_scale+dpi_scale
+        gfx.y=yy+dpi_scale+dpi_scale
+        gfx.dest=element_storage["toolbaricon"]
+        gfx.set(reagirl.Colors.Toolbar_TextBG_r, reagirl.Colors.Toolbar_TextBG_g, reagirl.Colors.Toolbar_TextBG_b)
+        gfx.drawstr(text[1])
+        gfx.x=xx+dpi_scale
+        gfx.y=yy+dpi_scale
+        gfx.dest=element_storage["toolbaricon"]
+        gfx.set(reagirl.Colors.Toolbar_TextFG_r, reagirl.Colors.Toolbar_TextFG_g, reagirl.Colors.Toolbar_TextFG_b)
+        gfx.drawstr(text[1])
+        local width, height=gfx.measurestr(text[2])
+        local xx=(w-width)/2
+        local yy=(h-height-height)/2+height
+        gfx.x=xx+dpi_scale+dpi_scale
+        gfx.y=yy+dpi_scale+dpi_scale
+        gfx.dest=element_storage["toolbaricon"]
+        gfx.set(reagirl.Colors.Toolbar_TextBG_r, reagirl.Colors.Toolbar_TextBG_g, reagirl.Colors.Toolbar_TextBG_b)
+        gfx.drawstr(text[2])
+        gfx.x=xx+dpi_scale
+        gfx.y=yy+dpi_scale
+        gfx.dest=element_storage["toolbaricon"]
+        gfx.set(reagirl.Colors.Toolbar_TextFG_r, reagirl.Colors.Toolbar_TextFG_g, reagirl.Colors.Toolbar_TextFG_b)
+        gfx.drawstr(text[2])
+        gfx.dest=-1
+      end
+    end
+    
+    if element_storage["mode"]<3 then 
+      gfx.blit(element_storage["toolbaricon"], 1, 0, (element_storage["cur_state"]-1)*w*element_storage["toolbaricon_scale"], 0, w*element_storage["toolbaricon_scale"], 30*element_storage["toolbaricon_scale"], x+dpi_scale, y+dpi_scale, w, h)
+    else
+      gfx.blit(element_storage["toolbaricon"], 1, 0, element_storage["toolbaricon_scale"], 0, w*element_storage["toolbaricon_scale"], 30*element_storage["toolbaricon_scale"], x+dpi_scale, y+dpi_scale, w, h)
+    end
     gfx.set(reagirl.Colors.Toolbar_TextBG_r, reagirl.Colors.Toolbar_TextBG_g, reagirl.Colors.Toolbar_TextBG_b, 1)
     if element_storage["mode"]==2 then
       gfx.x=x+35*dpi_scale+dpi_scale
@@ -12139,7 +12209,70 @@ function reagirl.ToolbarButton_Draw(element_id, selected, hovered, clicked, mous
     gfx.set(colr+add_color, colg+add_color, colb+add_color) -- button-area
     reagirl.RoundRect((x + dpi_scale) * scale, (y) * scale, w-dpi_scale-dpi_scale, h-dpi_scale, (radius-1) * dpi_scale, 1, 1, element_storage["square_topleft"], element_storage["square_bottomleft"], element_storage["square_topright"], element_storage["square_bottomright"])
     
-    gfx.blit(element_storage["toolbaricon"], 1, 0, (element_storage["cur_state"]-1)*30*element_storage["toolbaricon_scale"], 0, 30*element_storage["toolbaricon_scale"], 30*element_storage["toolbaricon_scale"], x, y, w, h)
+    if element_storage["mode"]==3 or element_storage["mode"]==4 then
+      gfx.loadimg(element_storage["toolbaricon"], reaper.GetResourcePath().."/UserPlugins/ultraschall_api/misc/reagirl-toolbarbutton.png")
+      gfx.setimgdim(element_storage["toolbaricon"], w, h)
+      local text={}
+      local text_num=1
+      local text_width=0
+      text[text_num]=""
+      for i=1, name:len() do
+        text_width=text_width+gfx.measurestr(name:sub(i,i))
+        if text_width>w*dpi_scale then text_num=text_num+1 if text_num==3 then break end text[text_num]="" text_width=0 end
+        text[text_num]=text[text_num]..name:sub(i,i)
+      end
+      element_storage["testtext"]=text
+      if text_num==1 then
+        local width, height=gfx.measurestr(text[1])
+        local xx=(w-width)/2
+        local yy=(h-height)/2
+        gfx.x=xx+dpi_scale
+        gfx.y=yy+dpi_scale
+        gfx.dest=element_storage["toolbaricon"]
+        gfx.set(reagirl.Colors.Toolbar_TextBG_r, reagirl.Colors.Toolbar_TextBG_g, reagirl.Colors.Toolbar_TextBG_b)
+        gfx.drawstr(text[1])
+        gfx.x=xx
+        gfx.y=yy
+        gfx.dest=element_storage["toolbaricon"]
+        gfx.set(reagirl.Colors.Toolbar_TextFG_r, reagirl.Colors.Toolbar_TextFG_g, reagirl.Colors.Toolbar_TextFG_b)
+        gfx.drawstr(text[1])
+        gfx.dest=-1
+      elseif text_num>1 then
+        local width, height=gfx.measurestr(text[1])
+        local xx=(w-width)/2
+        local yy=(h-height-height)/2
+        gfx.x=xx+dpi_scale
+        gfx.y=yy+dpi_scale
+        gfx.dest=element_storage["toolbaricon"]
+        gfx.set(reagirl.Colors.Toolbar_TextBG_r, reagirl.Colors.Toolbar_TextBG_g, reagirl.Colors.Toolbar_TextBG_b)
+        gfx.drawstr(text[1])
+        gfx.x=xx
+        gfx.y=yy
+        gfx.dest=element_storage["toolbaricon"]
+        gfx.set(reagirl.Colors.Toolbar_TextFG_r, reagirl.Colors.Toolbar_TextFG_g, reagirl.Colors.Toolbar_TextFG_b)
+        gfx.drawstr(text[1])
+        local width, height=gfx.measurestr(text[2])
+        local xx=(w-width)/2
+        local yy=(h-height-height)/2+height
+        gfx.x=xx+dpi_scale
+        gfx.y=yy+dpi_scale
+        gfx.dest=element_storage["toolbaricon"]
+        gfx.set(reagirl.Colors.Toolbar_TextBG_r, reagirl.Colors.Toolbar_TextBG_g, reagirl.Colors.Toolbar_TextBG_b)
+        gfx.drawstr(text[2])
+        gfx.x=xx
+        gfx.y=yy
+        gfx.dest=element_storage["toolbaricon"]
+        gfx.set(reagirl.Colors.Toolbar_TextFG_r, reagirl.Colors.Toolbar_TextFG_g, reagirl.Colors.Toolbar_TextFG_b)
+        gfx.drawstr(text[2])
+        gfx.dest=-1
+      end
+    end
+    
+    if element_storage["mode"]<3 then
+      gfx.blit(element_storage["toolbaricon"], 1, 0, (element_storage["cur_state"]-1)*30*element_storage["toolbaricon_scale"], 0, 30*element_storage["toolbaricon_scale"], 30*element_storage["toolbaricon_scale"], x, y, w, h)
+    else
+      gfx.blit(element_storage["toolbaricon"], 1, 0, element_storage["toolbaricon_scale"], 0, w*element_storage["toolbaricon_scale"], 30*element_storage["toolbaricon_scale"], x, y, w, h)
+    end
     gfx.set(reagirl.Colors.Toolbar_TextBG_r, reagirl.Colors.Toolbar_TextBG_g, reagirl.Colors.Toolbar_TextBG_b, 1)
     if element_storage["mode"]==2 then
       gfx.x=x+35*dpi_scale+dpi_scale
