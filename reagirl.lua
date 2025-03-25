@@ -36,9 +36,9 @@ TODO:
              If that doesn't work, use your RoundNumber-function from Ultraschall-API.
  - fillable bar: vertical and horizontal, allows you to display a rectangle that gets filled to a certain point, like the "space on disk"-bars on windows of Workbench 1.3.
   - planned ui-elements and features
-    > ProgressBars, Color-ui-element, top menus, Toolbar Buttons, graphical vertical tabs, Listviews, Multiline Inputbox, Radio Buttons, virtual ui-elements(for making other guis accessible), decorative elements to hide ui elements, Burgermenu, global context-menu(maybe)
+    > ProgressBars, top menus, graphical vertical tabs, Listviews, Multiline Inputbox, Radio Buttons, virtual ui-elements(for making other guis accessible), global context-menu(maybe)
     > fillable rectangles(for something like volume-full-indicator like in WB1.3)
-    > color-themes,ui-elements linkable to toggle-states, extstates and ini-file-entries, Gui-Editor, stickyness
+    > color-themes,ui-elements linkable to toggle-states, extstates and ini-file-entries, Gui-Editor
     > reagirl.GetChar(), which returns all typed characters when gfx.getchar had been used
     > Shortcut-support(needs mechanism to override certain shortcuts)
   - Gui_Open - w and h parameters=nil mean, make the size of the window big enough to fit all ui-elements
@@ -3052,8 +3052,6 @@ end
 
 reagirl.DragImageSlot=reagirl.Gui_ReserveImageBuffer()
 reagirl.ListViewSlot=reagirl.Gui_ReserveImageBuffer()
-reagirl.ToolbarButtonTextIconSlot=reagirl.Gui_ReserveImageBuffer()
-gfx.loadimg(reagirl.ToolbarButtonTextIconSlot, reaper.GetResourcePath().."/UserPlugins/ultraschall_api/misc/reagirl-toolbarbutton.png")
 
 function reagirl.Gui_PreventScrollingForOneCycle(keyboard, mousewheel_swipe, scroll_buttons)
 --[[
