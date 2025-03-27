@@ -86,7 +86,27 @@
   tab1.colorrectangle10 = reagirl.ColorRectangle_Add(nil,nil,16,16,255,128,255,"A Color Rectangle", "A color rectangle with a color. Click it to select a different color.", true, nil)
   
   reagirl.Label_AutoBackdrop(tab1.label_header6, tab1.colorrectangle10) -- set backdrop drawn by tab1.label_header5
-
+  
+  -- Toolbar Buttons and Burgermenu at large
+  reagirl.NextLine(10)
+  tab1.label_header7=reagirl.Label_Add(nil, nil, "Burgermenu and Toolbar Buttons", "A burgermenu and some toobar-buttons.", false, nil)
+  reagirl.NextLine()
+  tab1.burgermenu2 = reagirl.Burgermenu_Add(nil, nil, "A Burgermenu", 2, "A demo-burger-menu with some options.", "Setting 1|Setting 2|>Subfolder|Setting 3|Setting 4|<|Setting 5", nil)
+  tab1.toolbar=reagirl.ToolbarButton_Add(71, nil, reaper.GetResourcePath().."/Data/toolbar_icons/toolbar_misc_walk_forward.png",3, 1, {"TOO", "DEL", "LOO"}, 1, "Tudel1", "loo.", contextmenu)
+  reagirl.ToolbarButton_SetRadius(tab1.toolbar, 14)
+  reagirl.ToolbarButton_SetEdgeStyle(tab1.toolbar, true, true, true, true)
+  reagirl.ToolbarButton_SetColor(tab1.toolbar, 128, 0, 0)
+  tab1.toolbar2=reagirl.ToolbarButton_Add(102, nil, reaper.GetResourcePath().."/Data/toolbar_icons/toolbar_path_secondary_disk.png",3, 1, {"One", "Two", "Three"}, 1, "Tudel2", "loo.", run_function)
+  reagirl.ToolbarButton_SetEdgeStyle(tab1.toolbar2, true, true, true, true)
+  tab1.toolbar3=reagirl.ToolbarButton_Add(133, nil, reaper.GetResourcePath().."/Data/toolbar_icons/toolbar_misc_walk_forward.png",3, 1, {"A", "B", "C"}, 3, "TextIcon", "loo.", run_function)
+  reagirl.ToolbarButton_SetEdgeStyle(tab1.toolbar3, true,true,true,true)
+  reagirl.ToolbarButton_SetRadius(tab1.toolbar3, 7)
+  tab1.toolbar4=reagirl.ToolbarButton_Add(164, nil, reaper.GetResourcePath().."/Data/toolbar_icons/toolbar_misc_walk_forward.png",3, 1, {"Uno", "Dos", "Tres"}, 4, "Text Icon", "loo.", run_function)
+  reagirl.ToolbarButton_SetEdgeStyle(tab1.toolbar4, true, false, true, false)
+  reagirl.ToolbarButton_SetRadius(tab1.toolbar4, 14)
+  tab1.toolbar5=reagirl.ToolbarButton_Add(243, nil, reaper.GetResourcePath().."/Data/toolbar_icons/toolbar_misc_walk_forward.png",3, 1, {"TOO", "DEL", "LOO"}, 2, "Text Icon", "loo.", run_function)
+  reagirl.Label_AutoBackdrop(tab1.label_header7, tab1.toolbar5) -- set backdrop drawn by tab1.label_header5
+  
   -- Inputboxes
   reagirl.NextLine(10)
   tab1.label_header2=reagirl.Label_Add(nil, nil, "Inputboxes", "Some demo-inputboxes.", false, nil)
@@ -164,7 +184,6 @@
 
   -- make the background grey
   reagirl.Background_GetSetColor(true, 55, 55, 55)
-
 
   function main()
     -- a function that runs the gui-manage function in the background, so the gui is updated correctly

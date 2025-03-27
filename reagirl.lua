@@ -26,8 +26,7 @@
 
 --[[
 TODO: 
-  - Buttons: add functions so set individual edges to round/square
-  
+  - Toolbarbuttons: text-icons skaliern noch nicht
   - auto-window-width is not correctly calculated in Gui_Open(): when tab with autoscale is present, it's too small
   - Zoom: change reagirl.ReScale to zoom
       - ctrl++ and ctrl+- don't work due a Reaper-bug
@@ -2595,6 +2594,9 @@ reagirl.ColorName[#reagirl.ColorName+1]="Zombie Green"
 
 
 reagirl.Colors={}
+reagirl.Colors.GuiBackgroundColor_r=0
+reagirl.Colors.GuiBackgroundColor_g=0
+reagirl.Colors.GuiBackgroundColor_b=0
 reagirl.Colors.Scrollbar_Background_r=0.39
 reagirl.Colors.Scrollbar_Background_g=0.39
 reagirl.Colors.Scrollbar_Background_b=0.39
@@ -2612,6 +2614,9 @@ reagirl.Colors.Buttons_TextFG_b=0.784
 reagirl.Colors.Buttons_TextBG_r=0.2
 reagirl.Colors.Buttons_TextBG_g=0.2
 reagirl.Colors.Buttons_TextBG_b=0.2
+reagirl.Colors.Buttons_TextFG_disabled_r=0.6
+reagirl.Colors.Buttons_TextFG_disabled_g=0.6
+reagirl.Colors.Buttons_TextFG_disabled_b=0.6
 
 reagirl.Colors.Burgermenu_Area_r=0.274
 reagirl.Colors.Burgermenu_Area_g=0.274
@@ -4115,7 +4120,7 @@ function reagirl.Gui_New()
   reagirl.MaxImage=1
   
   local oldr, oldg, oldb, olda = gfx.r, gfx.g, gfx.b, gfx.a
-  gfx.set(reagirl["WindowBackgroundColorR"], reagirl["WindowBackgroundColorG"], reagirl["WindowBackgroundColorB"])
+  gfx.set(reagirl.Colors["GuiBackgroundColor_r"], reagirl.Colors["GuiBackgroundColor_g"], reagirl.Colors["GuiBackgroundColor_b"])
   gfx.r=oldr
   gfx.g=oldg
   gfx.b=oldb
@@ -6342,7 +6347,7 @@ function reagirl.Gui_Draw(Key, Key_utf, clickstate, specific_clickstate, mouse_c
   
   if reagirl.Gui_ForceRefreshState==true then
     -- clear background and draw bg-color/background image
-    gfx.set(reagirl["WindowBackgroundColorR"],reagirl["WindowBackgroundColorG"],reagirl["WindowBackgroundColorB"])
+    gfx.set(reagirl.Colors["GuiBackgroundColor_r"],reagirl.Colors["GuiBackgroundColor_g"],reagirl.Colors["GuiBackgroundColor_b"])
     gfx.rect(0,0,gfx.w,gfx.h,1)
     reagirl.Background_DrawImage()
 
@@ -11831,13 +11836,13 @@ function reagirl.Button_Draw(element_id, selected, hovered, clicked, mouse_cap, 
       gfx.x=x+(w-sw)/2+1+dpi_scale
       gfx.y=y+(h-sh)/2+1+offset-1
       gfx.y=y+dpi_scale--(h-gfx.texth)/2+offset
-      gfx.set(0.09)
+      gfx.set(reagirl.Colors.Buttons_TextBG_r, reagirl.Colors.Buttons_TextBG_g, reagirl.Colors.Buttons_TextBG_b)
       gfx.drawstr(element_storage["Name"])
       
       gfx.x=x+(w-sw)/2+1
       
       gfx.y=y--+(h-gfx.texth)/2+offset-1
-      gfx.set(0.55)
+      gfx.set(Buttons_TextFG_disabled_r, Buttons_TextFG_disabled_g, Buttons_TextFG_disabled_b)
       gfx.drawstr(element_storage["Name"])
     end
   end
@@ -12122,21 +12127,37 @@ function reagirl.ToolbarButton_Draw(element_id, selected, hovered, clicked, mous
       text[text_num]=""
       for i=1, name:len() do
         text_width=text_width+gfx.measurestr(name:sub(i,i))
-        if text_width>w*dpi_scale then text_num=text_num+1 if text_num==3 then break end text[text_num]="" text_width=0 end
+        if text_width>=w-dpi_scale-dpi_scale-dpi_scale-dpi_scale then text_num=text_num+1 if text_num==3 then break end text[text_num]="" text_width=0 end
         text[text_num]=text[text_num]..name:sub(i,i)
+      end
+      local count=0
+      for i=text[1]:len(), 1, -1 do
+        count=i
+        if text[1]:sub(i,i)~=" " and text[1]:sub(i,i)~="\t" then break end
+      end
+      
+      text[1]=text[1]:sub(1,count)
+      
+      if text[2]~=nil then
+        local count=0
+        for i=text[1]:len(), 1, -1 do
+          count=i
+          if text[2]:sub(i,i)~=" " and text[2]:sub(i,i)~="\t" then break end
+        end
+        text[2]=text[2]:sub(1,count)
       end
       element_storage["testtext"]=text
       if text_num==1 then
         local width, height=gfx.measurestr(text[1])
         local xx=(w-width)/2
         local yy=(h-height)/2
-        gfx.x=xx+dpi_scale+dpi_scale
-        gfx.y=yy+dpi_scale+dpi_scale
+        gfx.x=xx+dpi_scale
+        gfx.y=yy+dpi_scale
         gfx.dest=element_storage["toolbaricon"]
         gfx.set(reagirl.Colors.Toolbar_TextBG_r, reagirl.Colors.Toolbar_TextBG_g, reagirl.Colors.Toolbar_TextBG_b)
         gfx.drawstr(text[1])
-        gfx.x=xx+dpi_scale
-        gfx.y=yy+dpi_scale
+        gfx.x=xx
+        gfx.y=yy
         gfx.dest=element_storage["toolbaricon"]
         gfx.set(reagirl.Colors.Toolbar_TextFG_r, reagirl.Colors.Toolbar_TextFG_g, reagirl.Colors.Toolbar_TextFG_b)
         gfx.drawstr(text[1])
@@ -12145,37 +12166,41 @@ function reagirl.ToolbarButton_Draw(element_id, selected, hovered, clicked, mous
         local width, height=gfx.measurestr(text[1])
         local xx=(w-width)/2
         local yy=(h-height-height)/2
-        gfx.x=xx+dpi_scale+dpi_scale
+        gfx.x=0+dpi_scale+dpi_scale
         gfx.y=yy+dpi_scale+dpi_scale
         gfx.dest=element_storage["toolbaricon"]
+        --gfx.set(1,0,0)
+        --gfx.rect(1,1,w-1,h-1,0)
         gfx.set(reagirl.Colors.Toolbar_TextBG_r, reagirl.Colors.Toolbar_TextBG_g, reagirl.Colors.Toolbar_TextBG_b)
-        gfx.drawstr(text[1])
-        gfx.x=xx+dpi_scale
+        gfx.drawstr(text[1],1,w,h)
+        gfx.x=0+dpi_scale
         gfx.y=yy+dpi_scale
         gfx.dest=element_storage["toolbaricon"]
         gfx.set(reagirl.Colors.Toolbar_TextFG_r, reagirl.Colors.Toolbar_TextFG_g, reagirl.Colors.Toolbar_TextFG_b)
-        gfx.drawstr(text[1])
+        gfx.drawstr(text[1],1,w,h)
         local width, height=gfx.measurestr(text[2])
         local xx=(w-width)/2
-        local yy=(h-height-height)/2+height
-        gfx.x=xx+dpi_scale+dpi_scale
-        gfx.y=yy+dpi_scale+dpi_scale
+        local yy=((h-height)/5)*2
+        
+        gfx.x=0+dpi_scale+dpi_scale+dpi_scale
+        gfx.y=yy+yy+dpi_scale+dpi_scale
         gfx.dest=element_storage["toolbaricon"]
         gfx.set(reagirl.Colors.Toolbar_TextBG_r, reagirl.Colors.Toolbar_TextBG_g, reagirl.Colors.Toolbar_TextBG_b)
-        gfx.drawstr(text[2])
-        gfx.x=xx+dpi_scale
-        gfx.y=yy+dpi_scale
+        
+        gfx.drawstr(text[2],1,w,h)
+        gfx.x=0+dpi_scale+dpi_scale
+        gfx.y=yy+yy+dpi_scale
         gfx.dest=element_storage["toolbaricon"]
         gfx.set(reagirl.Colors.Toolbar_TextFG_r, reagirl.Colors.Toolbar_TextFG_g, reagirl.Colors.Toolbar_TextFG_b)
-        gfx.drawstr(text[2])
+        gfx.drawstr(text[2],1,w,h)
         gfx.dest=-1
       end
     end
     
     if element_storage["mode"]<3 then 
-      gfx.blit(element_storage["toolbaricon"], 1, 0, (element_storage["cur_state"]-1)*w*element_storage["toolbaricon_scale"], 0, w*element_storage["toolbaricon_scale"], 30*element_storage["toolbaricon_scale"], x+dpi_scale, y+dpi_scale, w, h)
+            gfx.blit(element_storage["toolbaricon"], 1, 0, (element_storage["cur_state"]-1)*30*element_storage["toolbaricon_scale"], 0, 30*element_storage["toolbaricon_scale"], 30*element_storage["toolbaricon_scale"], x+dpi_scale+dpi_scale, y+dpi_scale, w, h)
     else
-      gfx.blit(element_storage["toolbaricon"], 1, 0, element_storage["toolbaricon_scale"], 0, w*element_storage["toolbaricon_scale"], 30*element_storage["toolbaricon_scale"], x+dpi_scale, y+dpi_scale, w, h)
+      gfx.blit(element_storage["toolbaricon"], 1, 0, element_storage["toolbaricon_scale"], 0, w*element_storage["toolbaricon_scale"], 30*dpi_scale*element_storage["toolbaricon_scale"], x+dpi_scale+dpi_scale, y+dpi_scale, w, h)
     end
     gfx.set(reagirl.Colors.Toolbar_TextBG_r, reagirl.Colors.Toolbar_TextBG_g, reagirl.Colors.Toolbar_TextBG_b, 1)
     if element_storage["mode"]==2 then
@@ -12215,10 +12240,25 @@ function reagirl.ToolbarButton_Draw(element_id, selected, hovered, clicked, mous
       text[text_num]=""
       for i=1, name:len() do
         text_width=text_width+gfx.measurestr(name:sub(i,i))
-        if text_width>w*dpi_scale then text_num=text_num+1 if text_num==3 then break end text[text_num]="" text_width=0 end
+        if text_width>=w-dpi_scale-dpi_scale-dpi_scale-dpi_scale then text_num=text_num+1 if text_num==3 then break end text[text_num]="" text_width=0 end
         text[text_num]=text[text_num]..name:sub(i,i)
       end
-      element_storage["testtext"]=text
+      local count=0
+      for i=text[1]:len(), 1, -1 do
+        count=i
+        if text[1]:sub(i,i)~=" " and text[1]:sub(i,i)~="\t" then break end
+      end
+      
+      text[1]=text[1]:sub(1,count)
+      
+      if text[2]~=nil then
+        local count=0
+        for i=text[1]:len(), 1, -1 do
+          count=i
+          if text[2]:sub(i,i)~=" " and text[2]:sub(i,i)~="\t" then break end
+        end
+        text[2]=text[2]:sub(1,count)
+      end
       if text_num==1 then
         local width, height=gfx.measurestr(text[1])
         local xx=(w-width)/2
@@ -12238,37 +12278,41 @@ function reagirl.ToolbarButton_Draw(element_id, selected, hovered, clicked, mous
         local width, height=gfx.measurestr(text[1])
         local xx=(w-width)/2
         local yy=(h-height-height)/2
-        gfx.x=xx+dpi_scale
+        gfx.x=0+dpi_scale
         gfx.y=yy+dpi_scale
         gfx.dest=element_storage["toolbaricon"]
+        --gfx.set(1,0,0)
+        --gfx.rect(1,1,w-1,h-1,0)
         gfx.set(reagirl.Colors.Toolbar_TextBG_r, reagirl.Colors.Toolbar_TextBG_g, reagirl.Colors.Toolbar_TextBG_b)
-        gfx.drawstr(text[1])
-        gfx.x=xx
+        gfx.drawstr(text[1],1,w,h)
+        gfx.x=0
         gfx.y=yy
         gfx.dest=element_storage["toolbaricon"]
         gfx.set(reagirl.Colors.Toolbar_TextFG_r, reagirl.Colors.Toolbar_TextFG_g, reagirl.Colors.Toolbar_TextFG_b)
-        gfx.drawstr(text[1])
+        gfx.drawstr(text[1],1,w,h)
         local width, height=gfx.measurestr(text[2])
         local xx=(w-width)/2
-        local yy=(h-height-height)/2+height
-        gfx.x=xx+dpi_scale
-        gfx.y=yy+dpi_scale
+        local yy=((h-height)/5)*2
+        
+        gfx.x=0+dpi_scale
+        gfx.y=yy+yy+dpi_scale
         gfx.dest=element_storage["toolbaricon"]
         gfx.set(reagirl.Colors.Toolbar_TextBG_r, reagirl.Colors.Toolbar_TextBG_g, reagirl.Colors.Toolbar_TextBG_b)
-        gfx.drawstr(text[2])
-        gfx.x=xx
-        gfx.y=yy
+        
+        gfx.drawstr(text[2],1,w,h)
+        gfx.x=0
+        gfx.y=yy+yy
         gfx.dest=element_storage["toolbaricon"]
         gfx.set(reagirl.Colors.Toolbar_TextFG_r, reagirl.Colors.Toolbar_TextFG_g, reagirl.Colors.Toolbar_TextFG_b)
-        gfx.drawstr(text[2])
+        gfx.drawstr(text[2],1,w,h)
         gfx.dest=-1
       end
     end
     
     if element_storage["mode"]<3 then
-      gfx.blit(element_storage["toolbaricon"], 1, 0, (element_storage["cur_state"]-1)*30*element_storage["toolbaricon_scale"], 0, 30*element_storage["toolbaricon_scale"], 30*element_storage["toolbaricon_scale"], x, y, w, h)
+      gfx.blit(element_storage["toolbaricon"], 1, 0, (element_storage["cur_state"]-1)*30*element_storage["toolbaricon_scale"], 0, 30*element_storage["toolbaricon_scale"], 30*element_storage["toolbaricon_scale"], x+dpi_scale, y, w, h)
     else
-      gfx.blit(element_storage["toolbaricon"], 1, 0, element_storage["toolbaricon_scale"], 0, w*element_storage["toolbaricon_scale"], 30*element_storage["toolbaricon_scale"], x, y, w, h)
+      gfx.blit(element_storage["toolbaricon"], 1, 0, element_storage["toolbaricon_scale"], 0, w*element_storage["toolbaricon_scale"], 30*dpi_scale*element_storage["toolbaricon_scale"], x+dpi_scale, y, w, h)
     end
     gfx.set(reagirl.Colors.Toolbar_TextBG_r, reagirl.Colors.Toolbar_TextBG_g, reagirl.Colors.Toolbar_TextBG_b, 1)
     if element_storage["mode"]==2 then
@@ -12640,37 +12684,39 @@ function reagirl.Color_GetSet(color_name, is_set, r, g, b)
     (This is the reason, why a user-theme overrides your colors, as the user might want to choose a different color-layout for better readability for all ReaGirl-guis.)
     
     The following colors can be set:
-    Burgermenu_Area
-    Burgermenu_Stripes
-    Buttons_Area
-    Buttons_TextBG
-    Buttons_TextFG
-    Checkbox_CheckArea
-    Checkbox_CheckArea_disabled
-    Checkbox_CaptionBG
-    Checkbox_CaptionFG
-    Checkbox_CaptionFG_disabled
-    Checkbox_background
-    DropDownMenu_Area
-    DropDownMenu_AreaTextBG
-    DropDownMenu_AreaTextFG
-    DropDownMenu_AreaTextFGdisabled
-    DropDownMenu_CaptionBG
-    DropDownMenu_CaptionFG
-    DropDownMenu_CaptionFGdisabled
-    InputBox_CaptionBG
-    InputBox_TextBGTyped
-    InputBox_TextFGTyped
-    InputBox_TextFGTypeddisabled
-    Inputbox_Area
-    Inputbox_Cursor
-    Inputbox_CaptionFG
-    Inputbox_CaptionFGdisabled
-    Label_TextBG
-    Label_TextFG
-    Label_TextFGclickable
-    Scrollbar_Background
-    Scrollbar_Foreground
+    GuiBackgroundColor - the background-color of the gui
+    Burgermenu_Area - the click-area of the burger-menu
+    Burgermenu_Stripes - the stripes of the burger-menu
+    Buttons_Area - the click-area of the button
+    Buttons_TextBG - the background of the button-text
+    Buttons_TextFG - the foreground of the button-text
+    Buttons_TextFG_disabled - the foreground-color of the button-text when the button is disabled
+    Checkbox_CheckArea - the area that's visible, when the checkbox is checked
+    Checkbox_CheckArea_disabled - the area that's visible, when the checkbox is checked and disabled
+    Checkbox_CaptionBG - the background-color of the caption
+    Checkbox_CaptionFG - the foreground-color of the caption
+    Checkbox_CaptionFG_disabled - the foreground-color of the caption when checkbos is disabled
+    Checkbox_background - the background of the checkbox(behind the checked-symbol
+    DropDownMenu_Area - the click-area of the dropdownmenu
+    DropDownMenu_AreaTextBG - the background of the text in the click-area of the dropdownmenu
+    DropDownMenu_AreaTextFG - the foreground of the text in the click-area of the dropdownmenu
+    DropDownMenu_AreaTextFGdisabled - the foreground of the text in the click-area when dropdownmenu is disabled
+    DropDownMenu_CaptionBG - the background of the caption of the dropdownmenu
+    DropDownMenu_CaptionFG - the foreground of the caption of the dropdownmenu
+    DropDownMenu_CaptionFGdisabled - the foreground of the caption of the dropdownmenu when it's disabled
+    Inputbox_Area - the typing-area of the inputbox
+    Inputbox_Cursor - the cursor of the inputbox
+    InputBox_CaptionBG - the background of the caption of the inputbox
+    Inputbox_CaptionFG - the foreground of the caption of the inputbox
+    Inputbox_CaptionFGdisabled - the foreground of the caption of the inputbox when it's disabled
+    InputBox_TextBGTyped - the background of the typed text of the inputbox
+    InputBox_TextFGTyped - the foreground of the typed text of the inputbox
+    InputBox_TextFGTypeddisabled - the foreground of the typed text of the inputbox when it's disabled
+    Label_TextBG - the background of the label
+    Label_TextFG - the foreground of the label
+    Label_TextFGclickable - the foreground of the clickable label
+    Scrollbar_Background - the background of the scroll-bar
+    Scrollbar_Foreground - the foreground of the scroll-bar
     Slider_Border
     Slider_Center
     Slider_Center_disabled
@@ -17342,6 +17388,8 @@ function reagirl.Background_GetSetColor(is_set, r, g, b)
   <functioncall>integer red, integer green, integer blue = reagirl.Background_GetSetColor(boolean is_set, integer red, integer green, integer blue)</functioncall>
   <description>
     Gets/Sets the color of the background.
+    
+    Note: if the user chose a color-theme for ReaGirl-guis, this color will be overridden by the theme-colors!
   </description>
   <parameters>
     boolean is_set - true, set the new background-color; false, only retrieve the current background-color
@@ -17367,9 +17415,9 @@ function reagirl.Background_GetSetColor(is_set, r, g, b)
 
   if reagirl.Elements==nil then reagirl.Elements={} end
   if is_set==true and r~=nil and g~=nil and b~=nil then
-    reagirl["WindowBackgroundColorR"],reagirl["WindowBackgroundColorG"],reagirl["WindowBackgroundColorB"]=r/255, g/255, b/255
+    reagirl.Color_GetSet("GuiBackgroundColor", true, r, g, b)
   else
-    return math.floor(reagirl["WindowBackgroundColorR"]*255), math.floor(reagirl["WindowBackgroundColorG"]*255), math.floor(reagirl["WindowBackgroundColorB"]*255)
+    return reagirl.Color_GetSet("GuiBackgroundColor", false, r, g, b)
   end
 end
 
