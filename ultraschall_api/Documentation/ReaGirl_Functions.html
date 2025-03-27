@@ -121,6 +121,8 @@ Starts a new line, when autopositioning ui-elements using the _add-functions.<br
 </div><p>
 <div class="ch">
 Gets/Sets the color of the background.<br>
+<br>
+Note: if the user chose a color-theme for ReaGirl-guis, this color will be overridden by the theme-colors!<br>
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
@@ -1133,58 +1135,59 @@ That way you can be sure, that color-blind people or people who need high contra
 (This is the reason, why a user-theme overrides your colors, as the user might want to choose a different color-layout for better readability for all ReaGirl-guis.)<br>
 <br>
 The following colors can be set:<br>
-Burgermenu_Area<br>
-Burgermenu_Stripes<br>
-Buttons_Area<br>
-Buttons_TextBG<br>
-Buttons_TextFG<br>
-Checkbox_CheckArea<br>
-Checkbox_CheckArea_disabled<br>
-Checkbox_CaptionBG<br>
-Checkbox_CaptionFG<br>
-Checkbox_CaptionFG_disabled<br>
-Checkbox_background<br>
-DropDownMenu_Area<br>
-DropDownMenu_AreaTextBG<br>
-DropDownMenu_AreaTextFG<br>
-DropDownMenu_AreaTextFGdisabled<br>
-DropDownMenu_CaptionBG<br>
-DropDownMenu_CaptionFG<br>
-DropDownMenu_CaptionFGdisabled<br>
-InputBox_CaptionBG<br>
-InputBox_TextBGTyped<br>
-InputBox_TextFGTyped<br>
-InputBox_TextFGTypeddisabled<br>
-Inputbox_Area<br>
-Inputbox_Cursor<br>
-Inputbox_CaptionFG<br>
-Inputbox_CaptionFGdisabled<br>
-Label_TextBG<br>
-Label_TextFG<br>
-Label_TextFGclickable<br>
-Scrollbar_Background<br>
-Scrollbar_Foreground<br>
-Slider_Border<br>
-Slider_Center<br>
-Slider_Center_disabled<br>
-Slider_Circle_1<br>
-Slider_Circle_2<br>
-Slider_Circle_center<br>
-Slider_Circle_center_disabled<br>
-Slider_DefaultLine<br>
-Slider_CaptionBG<br>
-Slider_CaptionFG<br>
-Slider_CaptionFG_disabled<br>
-Tabs_Border_Background<br>
-Tabs_Border_Tabs<br>
-Tabs_Inner_Background<br>
-Tabs_Inner_Tabs_Selected<br>
-Tabs_Inner_Tabs_Unselected<br>
-Tabs_CaptionBG<br>
-Tabs_TextFG<br>
-Toolbar_Area<br>
-Toolbar_TextBG<br>
-Toolbar_TextFG<br>
+<br>
+GuiBackgroundColor - the background-color of the gui<br>
+Burgermenu_Area - the click-area of the burger-menu<br>
+Burgermenu_Stripes - the stripes of the burger-menu<br>
+Buttons_Area - the click-area of the button<br>
+Buttons_TextBG - the background of the button-text<br>
+Buttons_TextFG - the foreground of the button-text<br>
+Buttons_TextFG_disabled - the foreground-color of the button-text when the button is disabled<br>
+Checkbox_CheckArea - the area that's visible, when the checkbox is checked<br>
+Checkbox_CheckArea_disabled - the area that's visible, when the checkbox is checked and disabled<br>
+Checkbox_CaptionBG - the dropshadow of the caption<br>
+Checkbox_CaptionFG - the foreground-color of the caption<br>
+Checkbox_CaptionFG_disabled - the foreground-color of the caption when checkbos is disabled<br>
+Checkbox_background - the background of the checkbox(behind the checked-symbol<br>
+DropDownMenu_Area - the click-area of the dropdownmenu<br>
+DropDownMenu_AreaTextBG - the background of the text in the click-area of the dropdownmenu<br>
+DropDownMenu_AreaTextFG - the foreground of the text in the click-area of the dropdownmenu<br>
+DropDownMenu_AreaTextFGdisabled - the foreground of the text in the click-area when dropdownmenu is disabled<br>
+DropDownMenu_CaptionBG - the dropshadow of the caption of the dropdownmenu<br>
+DropDownMenu_CaptionFG - the foreground of the caption of the dropdownmenu<br>
+DropDownMenu_CaptionFGdisabled - the foreground of the caption of the dropdownmenu when it's disabled<br>
+Inputbox_Area - the typing-area of the inputbox<br>
+Inputbox_Cursor - the cursor of the inputbox<br>
+InputBox_CaptionBG - the dropshadow of the caption of the inputbox<br>
+Inputbox_CaptionFG - the foreground of the caption of the inputbox<br>
+Inputbox_CaptionFGdisabled - the foreground of the caption of the inputbox when it's disabled<br>
+InputBox_TextBGTyped - the background of the typed text of the inputbox<br>
+InputBox_TextFGTyped - the foreground of the typed text of the inputbox<br>
+InputBox_TextFGTypeddisabled - the foreground of the typed text of the inputbox when it's disabled<br>
+Label_TextBG - the background of the label<br>
+Label_TextFG - the foreground of the label<br>
+Label_TextFGclickable - the foreground of the clickable label<br>
+Scrollbar_Background - the background of the scroll-bar<br>
+Scrollbar_Foreground - the foreground of the scroll-bar<br>
+Slider_Border - the border of the slider-area<br>
+Slider_Center - the center of the slider-area<br>
+Slider_Center_disabled - the center of the slider-area when slider is disabled<br>
+Slider_Circle_center - the center of the slider-knob<br>
+Slider_Circle_center_disabled - the center of the slider-knob, when slider is disabled<br>
+Slider_DefaultLine - the color of the default-line of the slider-area<br>
+Slider_CaptionBG - the drop-shadow of the slider-caption<br>
+Slider_CaptionFG - the foreground of the slider-caption<br>
+Slider_CaptionFG_disabled - the foreground of the slider-caption when slider is disabled<br>
+Tabs_Inner_Background - the background of the tab-area under the tabs(should be the same as Tabs_Inner_Tabs_Selected)<br>
+Tabs_Inner_Tabs_Selected - the color of the selected tab<br>
+Tabs_Inner_Tabs_Unselected - the color of the unselected tab<br>
+Tabs_CaptionBG - the drop-shadow of the tab-caption-texts<br>
+Tabs_CaptionFG - the foreground of the tab-caption-texts<br>
+Toolbar_Area - the click-area of the toolbar-button<br>
+Toolbar_CaptionBG - the drop-shadow of the caption<br>
+Toolbar_CaptionFG - the foreground of the caption<br>
+Toolbar_TextBG - the drop-shadow of the text-button<br>
+Toolbar_TextFG - the foreground-color of the text-button<br>
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
@@ -5377,12 +5380,16 @@ You can autoposition the toolbar-button by setting x and/or y to nil, which will
 To autoposition into the next line, use reagirl.NextLine()<br>
 <br>
 Toolbarbuttons have the same size as Reaper's own toolbar-buttons: 30x30 pixels(in 1x scaling)<br>
+They also can have up to 32 states.<br>
+<br>
+The individual states are numbered 0-based, means: the first state is state 0, the second one state 1, etc.<br>
 <br>
 You can have max 1000 toolbarbuttons and/or images in your gui.<br>
 <br>
 The run-function gets as parameter:<br>
 - string element_id - the element_id as string of the pressed toolbar-button that uses this run-function<br>
 - integer cur_state - the current state of the toolbar-button, 1 or higher. Will stay 1 if the button allows only 1 state!<br>
+- string cur_state_name - the name of the new state<br>
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
@@ -5418,7 +5425,11 @@ Each entry must be a string!</td></tr>
 </table>
 <table class="ch">
 <tr><td class="pr"><i>integer</i> mode</td></tr>
-<tr><td class="ch2">1, toolbar-icon only; 2, toolbar-icon+caption right; 3, text-toolbar-icon; 4, text-toolbar-icon double width</td></tr>
+<tr><td class="ch2">1, toolbar-icon only<br/>
+2, toolbar-icon+caption right<br/>
+3, text-toolbar-icon<br/>
+4, text-toolbar-icon double width<br/>
+&128==128; places the toolbarbutton directly after the previous ui-element when using autopositioning, so no gaps inbetween(just add 128 to mode)</td></tr>
 </table>
 <table class="ch">
 <tr><td class="pr"><i>string</i> caption</td></tr>

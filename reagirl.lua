@@ -26,7 +26,6 @@
 
 --[[
 TODO: 
-  - Toolbarbuttons: text-icons skaliern noch nicht
   - auto-window-width is not correctly calculated in Gui_Open(): when tab with autoscale is present, it's too small
   - Zoom: change reagirl.ReScale to zoom
       - ctrl++ and ctrl+- don't work due a Reaper-bug
@@ -2667,6 +2666,12 @@ reagirl.Colors.Toolbar_TextFG_b=0.8
 reagirl.Colors.Toolbar_TextBG_r=0.2
 reagirl.Colors.Toolbar_TextBG_g=0.2
 reagirl.Colors.Toolbar_TextBG_b=0.2
+reagirl.Colors.Toolbar_CaptionFG_r=0.8
+reagirl.Colors.Toolbar_CaptionFG_g=0.8
+reagirl.Colors.Toolbar_CaptionFG_b=0.8
+reagirl.Colors.Toolbar_CaptionBG_r=0.2
+reagirl.Colors.Toolbar_CaptionBG_g=0.2
+reagirl.Colors.Toolbar_CaptionBG_b=0.2
 reagirl.Colors.Toolbar_Area_r=0.274
 reagirl.Colors.Toolbar_Area_g=0.274
 reagirl.Colors.Toolbar_Area_b=0.274
@@ -5748,7 +5753,7 @@ function reagirl.Gui_Manage(keep_running)
             local add_info=""
             local desc=reagirl.Elements[i]["Description"]
             if reagirl.Elements[i]["Color_Name"]~=nil then add_info=" "..reagirl.Elements[i]["Color_Name"].." " end
-            if reagirl.Elements[i]["state_names"]~=nil then add_info=reagirl.Elements[i]["state_names"][reagirl.Elements[i]["cur_state"]] desc="" end
+            if reagirl.Elements[i]["state_names"]~=nil then add_info=reagirl.Elements[i]["state_names"][reagirl.Elements[i]["cur_state"]+1] desc="" end
             reaper.TrackCtl_SetToolTip(desc..""..add_info.."\n"..draggable..contextmenu..dropfiles, XX+15, YY+10, true)
           end
          end
@@ -6908,7 +6913,8 @@ function reagirl.UI_Element_GetType(element_id)
   end
 end
 
-function reagirl.UI_Element_GetNextXAndYPosition(x, y, functionname)
+function reagirl.UI_Element_GetNextXAndYPosition(x, y, functionname, placenext)
+  if placenext==nil or placenext==false then placenext=0 else placenext=9 end
   local slot=reagirl.UI_Element_GetNextFreeSlot()
   local slot3=slot
   if reagirl.Next_Y~=nil then slot=reagirl.Next_Y+1 end
@@ -6932,7 +6938,7 @@ function reagirl.UI_Element_GetNextXAndYPosition(x, y, functionname)
       local x2=reagirl.Elements[slot2]["x"]
       local w2=reagirl.Elements[slot2]["w"]
       if x2<0 and x2+w2+reagirl.UI_Element_NextX_Margin>0 then error(functionname..": param #1 - can't anchor ui-element closer to right side of window", 3) end
-      x=x2+w2+reagirl.UI_Element_NextX_Margin
+      x=x2+w2+reagirl.UI_Element_NextX_Margin-placenext
     end
   end
   
@@ -11910,12 +11916,16 @@ function reagirl.ToolbarButton_Add(x, y, toolbaricon, num_states, default_state,
     To autoposition into the next line, use reagirl.NextLine()
     
     Toolbarbuttons have the same size as Reaper's own toolbar-buttons: 30x30 pixels(in 1x scaling)
+    They also can have up to 32 states.
+    
+    The individual states are numbered 0-based, means: the first state is state 0, the second one state 1, etc.
     
     You can have max 1000 toolbarbuttons and/or images in your gui.
     
     The run-function gets as parameter:
     - string element_id - the element_id as string of the pressed toolbar-button that uses this run-function
     - integer cur_state - the current state of the toolbar-button, 1 or higher. Will stay 1 if the button allows only 1 state!
+    - string cur_state_name - the name of the new state
   </description>
   <parameters>
     optional integer x - the x position of the toolbar-button in pixels; negative anchors the toolbar-button to the right window-side; nil, autoposition after the last ui-element(see description)
@@ -11925,7 +11935,11 @@ function reagirl.ToolbarButton_Add(x, y, toolbaricon, num_states, default_state,
     integer default_state - default-state(1 or higher); must be maximum num_states
     table state_names - a table with all state-names. These will be shown in the tooltip/screen reader message when a certain state has been set. 
                       - Each entry must be a string!
-    integer mode - 1, toolbar-icon only; 2, toolbar-icon+caption right; 3, text-toolbar-icon; 4, text-toolbar-icon double width
+    integer mode - 1, toolbar-icon only
+                 - 2, toolbar-icon+caption right
+                 - 3, text-toolbar-icon
+                 - 4, text-toolbar-icon double width
+                 - &128==128; places the toolbarbutton directly after the previous ui-element when using autopositioning, so no gaps inbetween(just add 128 to mode)
     string caption - the caption of the toolbar-button
     string meaningOfUI_Element - the meaningOfUI_Element of the ui-element(for tooltips and blind users). Make it a sentence that ends with . or ?
     optional function run_function - a function that shall be run when the toolbar-button is clicked; will get the toolbar-button-element_id passed over as first parameter; nil, no run-function for this toolbar-button
@@ -11943,6 +11957,7 @@ function reagirl.ToolbarButton_Add(x, y, toolbaricon, num_states, default_state,
   if y~=nil and math.type(y)~="integer" then error("ToolbarButton_Add: param #2 - must be either nil or an integer", 2) end
   if type(toolbaricon)~="string" then error("ToolbarButton_Add: param #3 - must be a string", 2) end
   if math.type(num_states)~="integer" then error("ToolbarButton_Add: param #4 - must be an integer", 2) end
+  if num_states<1 or num_states>32 then error("ToolbarButton_Add: param #4 - must be between 1 and 32", 2) end
   if math.type(default_state)~="integer" then error("ToolbarButton_Add: param #5 - must be an integer", 2) end
   
   if default_state>num_states then error("ToolbarButton_Add: param #5 - must be between 1 and "..num_states, 2) end
@@ -11955,7 +11970,7 @@ function reagirl.ToolbarButton_Add(x, y, toolbaricon, num_states, default_state,
   if meaningOfUI_Element:sub(-1,-1)~="." and meaningOfUI_Element:sub(-1,-1)~="?" then error("ToolbarButton_Add: param #9 - must end on a . like a regular sentence.", 2) end
   if run_function~=nil and type(run_function)~="function" then error("ToolbarButton_Add: param #10 - must be either nil or a function", 2) end
   
-  local x,y,slot=reagirl.UI_Element_GetNextXAndYPosition(x, y, "ToolbarButton_Add")
+  local x,y,slot=reagirl.UI_Element_GetNextXAndYPosition(x, y, "ToolbarButton_Add", mode&128==128)
   --reagirl.UI_Element_NextX_Default=x
   
   local tx,ty=0,0
@@ -12014,6 +12029,17 @@ function reagirl.ToolbarButton_Add(x, y, toolbaricon, num_states, default_state,
   reagirl.Elements[slot]["func_draw"]=reagirl.ToolbarButton_Draw
   reagirl.Elements[slot]["run_function"]=run_function
   reagirl.Elements[slot]["userspace"]={}
+  reagirl.Elements[slot]["linked_to"]=4
+  
+  reagirl.Elements[slot]["linked_to_configvar"]="projrenderstems"
+  reagirl.Elements[slot]["linked_to_command_id"]=41991
+  reagirl.Elements[slot]["linked_to_key"]="Loo"
+  reagirl.Elements[slot]["linked_to_bit"]=2
+  reagirl.Elements[slot]["linked_to_default"]=0
+  reagirl.Elements[slot]["linked_to_persist"]=true
+  reagirl.Elements[slot]["linked_run_action"]=true
+  reagirl.Elements[slot]["linked_to_ini_file"]=reaper.GetResourcePath().."/reaper-extstate.ini"
+  --]]
   return reagirl.Elements[slot]["Guid"]
 end
 
@@ -12028,6 +12054,37 @@ function reagirl.ToolbarButton_Manage(element_id, selected, hovered, clicked, mo
     local retval, filenames = reaper.GetUserFileNameForRead("", "Choose file to drop into "..element_storage["Name"], "")
     reagirl.Window_SetFocus()
     if retval==true then element_storage["DropZoneFunction"](element_storage["Guid"], {filenames}) refresh=true end
+  end
+  
+  if element_storage["linked_to"]~=0 then
+    if element_storage["linked_to"]==1 then
+      -- if checkbox is linked to extstate then
+      local val=reaper.GetExtState(element_storage["linked_to_section"], element_storage["linked_to_key"])
+      if val=="" then val=element_storage["linked_to_default"] end
+      val=tonumber(val)
+      if val~=nil then
+        if val~=element_storage["cur_state"] then element_storage["cur_state"]=val reagirl.Gui_ForceRefresh() linked_refresh=true end
+      end
+    elseif element_storage["linked_to"]==2 then
+      -- if checkbox is linked to extstate then
+      local retval, val = reaper.BR_Win32_GetPrivateProfileString(element_storage["linked_to_section"], element_storage["linked_to_key"], "", element_storage["linked_to_ini_file"])
+      if val=="" then val=element_storage["linked_to_default"] end
+      val=tonumber(val)
+      if val~=nil then
+        if val~=element_storage["cur_state"] then element_storage["cur_state"]=val reagirl.Gui_ForceRefresh() linked_refresh=true end
+      end
+    elseif element_storage["linked_to"]==3 then 
+      local val=reaper.SNM_GetIntConfigVar(element_storage["linked_to_configvar"], -999999999999999)
+      val=(val&element_storage["linked_to_bit"])
+      if val~=element_storage["cur_state"] then element_storage["cur_state"]=val reagirl.Gui_ForceRefresh() linked_refresh=true end
+    elseif element_storage["linked_to"]==4 then
+      local val=reaper.SNM_GetIntConfigVar(element_storage["linked_to_configvar"], -999999999999999)
+      if val~=element_storage["cur_state"] then element_storage["cur_state"]=val reagirl.Gui_ForceRefresh() linked_refresh=true end
+    elseif element_storage["linked_to"]==5 then
+      local val=false
+      local val=reaper.GetToggleCommandStateEx(element_storage["linked_to_section"], element_storage["linked_to_command_id"])
+      if val~=element_storage["cur_state"] then element_storage["cur_state"]=val reagirl.Gui_ForceRefresh() linked_refresh=true end
+    end
   end
   
   if element_storage.hovered~=hovered then
@@ -12059,20 +12116,95 @@ function reagirl.ToolbarButton_Manage(element_id, selected, hovered, clicked, mo
   end
   if oldpressed==true and element_storage["pressed"]==false and (mouse_cap&1==0 and Key~=32) then
     element_storage["cur_state"]=element_storage["cur_state"]+1
-    if element_storage["cur_state"]>element_storage["num_states"] then element_storage["cur_state"]=1 end
+    if element_storage["cur_state"]>=element_storage["num_states"] then element_storage["cur_state"]=0 end
     local message=element_storage["state_names"][element_storage["cur_state"]]
     if gfx.mouse_x>=x and gfx.mouse_x<=x+(w*dpi_scale) and gfx.mouse_y>=y and gfx.mouse_y<=y+(30*dpi_scale) then
-      local XX, YY= reaper.GetMousePosition()
+      local XX, YY=reaper.GetMousePosition()
       local dropfiles=""
       local draggable=""
       local contextmenu=""
       if element_storage["DropZoneFunction_ACC"]~="" then dropfiles="Allows dropping of files. " end
       if element_storage["Draggable"]==true then draggable="Draggable. " end
       if element_storage["ContextMenu_ACC"]~="" then contextmenu="Has context-menu. " end
-      reaper.TrackCtl_SetToolTip(element_storage["state_names"][element_storage["cur_state"]].."\n"..draggable..contextmenu..dropfiles, XX+15, YY+10, true)
-      --print2("")
+      reaper.TrackCtl_SetToolTip(element_storage["state_names"][element_storage["cur_state"]+1].."\n"..draggable..contextmenu..dropfiles, XX+15, YY+10, true)
+      refresh=true
     end
-    if element_storage["run_function"]~=nil then element_storage["run_function"](element_storage["Guid"], element_storage["cur_state"]) message="pressed" end
+    if element_storage["run_function"]~=nil then element_storage["run_function"](element_storage["Guid"], element_storage["cur_state"], element_storage["state_names"][element_storage["cur_state"]+1]) message="pressed" end
+  end
+  
+  if refresh==true and element_storage["linked_to"]~=0 then
+    if element_storage["linked_to"]==1 then
+      reaper.SetExtState(element_storage["linked_to_section"], element_storage["linked_to_key"], element_storage["cur_state"], element_storage["linked_to_persist"])
+    elseif element_storage["linked_to"]==2 then
+      local retval, val = reaper.BR_Win32_WritePrivateProfileString(element_storage["linked_to_section"], element_storage["linked_to_key"], element_storage["cur_state"], element_storage["linked_to_ini_file"])
+    elseif element_storage["linked_to"]==3 then
+      val=reaper.SNM_GetIntConfigVar(element_storage["linked_to_configvar"], -9999999999)
+      if val&element_storage["linked_to_bit"]>0 then val=val-element_storage["linked_to_bit"] end
+      
+      reaper.SNM_SetIntConfigVar(element_storage["linked_to_configvar"], val+element_storage["cur_state"])
+      if element_storage["linked_to_persist"]==true then
+        reaper.BR_Win32_WritePrivateProfileString("REAPER", element_storage["linked_to_configvar"], val+element_storage["cur_state"], reaper.get_ini_file())
+      end
+    elseif element_storage["linked_to"]==4 then
+      reaper.SNM_SetIntConfigVar(element_storage["linked_to_configvar"], element_storage["cur_state"])
+      if element_storage["linked_to_persist"]==true then
+        reaper.BR_Win32_WritePrivateProfileString("REAPER", element_storage["linked_to_configvar"], element_storage["cur_state"], reaper.get_ini_file())
+      end
+    elseif element_storage["linked_to"]==5 then
+      if element_storage["linked_run_action"]==false then
+        if element_storage["cur_state"]==1 then 
+          reaper.SetToggleCommandState(element_storage["linked_to_section"], element_storage["linked_to_command_id"], 1)
+          if reaper.GetToggleCommandStateEx(element_storage["linked_to_section"], element_storage["linked_to_command_id"])==0 then
+            if element_storage["linked_to_section"]==32060 then  
+              reaper.MIDIEditor_LastFocused_OnCommand(element_storage["linked_to_command_id"], false)
+              reagirl.Window_SetFocus()
+            elseif element_storage["linked_to_section"]==32061 then  
+              reaper.MIDIEditor_LastFocused_OnCommand(element_storage["linked_to_command_id"], true)
+              reagirl.Window_SetFocus()
+            elseif element_storage["linked_to_section"]==32063 then
+              reagirl.MediaExplorer_OnCommand(element_storage["linked_to_command_id"])
+              reagirl.Window_SetFocus()
+            elseif element_storage["linked_to_section"]==0 then
+              reaper.Main_OnCommand(element_storage["linked_to_command_id"], 0)
+              reagirl.Window_SetFocus()
+            end
+          end
+          --]]
+        else
+          reaper.SetToggleCommandState(element_storage["linked_to_section"], element_storage["linked_to_command_id"], 0)
+          if reaper.GetToggleCommandStateEx(element_storage["linked_to_section"], element_storage["linked_to_command_id"])==1 then
+            if element_storage["linked_to_section"]==32060 then  
+              reaper.MIDIEditor_LastFocused_OnCommand(element_storage["linked_to_command_id"], false)
+              reagirl.Window_SetFocus()
+            elseif element_storage["linked_to_section"]==32061 then  
+              reaper.MIDIEditor_LastFocused_OnCommand(element_storage["linked_to_command_id"], true)
+              reagirl.Window_SetFocus()
+            elseif element_storage["linked_to_section"]==32063 then
+              reagirl.MediaExplorer_OnCommand(element_storage["linked_to_command_id"])
+              reagirl.Window_SetFocus()
+            elseif element_storage["linked_to_section"]==0 then
+              reaper.Main_OnCommand(element_storage["linked_to_command_id"], 0)
+              reagirl.Window_SetFocus()
+            end
+          end
+        end
+      else
+        if element_storage["linked_to_section"]==32060 then  
+          reaper.MIDIEditor_LastFocused_OnCommand(element_storage["linked_to_command_id"], false)
+          reagirl.Window_SetFocus()
+        elseif element_storage["linked_to_section"]==32061 then  
+          reaper.MIDIEditor_LastFocused_OnCommand(element_storage["linked_to_command_id"], true)
+          reagirl.Window_SetFocus()
+        elseif element_storage["linked_to_section"]==32063 then
+          reagirl.MediaExplorer_OnCommand(element_storage["linked_to_command_id"])
+          reagirl.Window_SetFocus()
+        elseif element_storage["linked_to_section"]==0 then
+          reaper.Main_OnCommand(element_storage["linked_to_command_id"], 0)
+          reagirl.Window_SetFocus()
+        end
+      end
+      reaper.RefreshToolbar2(element_storage["linked_to_section"], element_storage["linked_to_command_id"])
+    end
   end
   
   return message, oldpressed~=element_storage["pressed"]
@@ -12198,19 +12330,19 @@ function reagirl.ToolbarButton_Draw(element_id, selected, hovered, clicked, mous
     end
     
     if element_storage["mode"]<3 then 
-            gfx.blit(element_storage["toolbaricon"], 1, 0, (element_storage["cur_state"]-1)*30*element_storage["toolbaricon_scale"], 0, 30*element_storage["toolbaricon_scale"], 30*element_storage["toolbaricon_scale"], x+dpi_scale+dpi_scale, y+dpi_scale, w, h)
+      gfx.blit(element_storage["toolbaricon"], 1, 0, (element_storage["cur_state"])*30*element_storage["toolbaricon_scale"], 0, 30*element_storage["toolbaricon_scale"], 30*element_storage["toolbaricon_scale"], x+dpi_scale+dpi_scale, y+dpi_scale, w, h)
     else
       gfx.blit(element_storage["toolbaricon"], 1, 0, element_storage["toolbaricon_scale"], 0, w*element_storage["toolbaricon_scale"], 30*dpi_scale*element_storage["toolbaricon_scale"], x+dpi_scale+dpi_scale, y+dpi_scale, w, h)
     end
-    gfx.set(reagirl.Colors.Toolbar_TextBG_r, reagirl.Colors.Toolbar_TextBG_g, reagirl.Colors.Toolbar_TextBG_b, 1)
+    gfx.set(reagirl.Colors.Toolbar_CaptionBG_r, reagirl.Colors.Toolbar_CaptionBG_g, reagirl.Colors.Toolbar_CaptionBG_b, 1)
     if element_storage["mode"]==2 then
       gfx.x=x+35*dpi_scale+dpi_scale
       gfx.y=y+(h-sh)/2+dpi_scale
-      gfx.drawstr(element_storage["state_names"][element_storage["cur_state"]])
-      gfx.set(reagirl.Colors.Toolbar_TextFG_r, reagirl.Colors.Toolbar_TextFG_g, reagirl.Colors.Toolbar_TextFG_b, 1)
+      gfx.drawstr(element_storage["state_names"][element_storage["cur_state"]+1])
+      gfx.set(reagirl.Colors.Toolbar_CaptionFG_r, reagirl.Colors.Toolbar_CaptionFG_g, reagirl.Colors.Toolbar_CaptionFG_b, 1)
       gfx.x=x+35*dpi_scale
       gfx.y=y+(h-sh)/2
-      gfx.drawstr(element_storage["state_names"][element_storage["cur_state"]])
+      gfx.drawstr(element_storage["state_names"][element_storage["cur_state"]+1])
     end
     
     if element_storage["IsDisabled"]==false then
@@ -12277,7 +12409,7 @@ function reagirl.ToolbarButton_Draw(element_id, selected, hovered, clicked, mous
       elseif text_num>1 then
         local width, height=gfx.measurestr(text[1])
         local xx=(w-width)/2
-        local yy=(h-height-height)/2
+        local yy=((h-height-height)/2)+dpi_scale+dpi_scale
         gfx.x=0+dpi_scale
         gfx.y=yy+dpi_scale
         gfx.dest=element_storage["toolbaricon"]
@@ -12295,13 +12427,13 @@ function reagirl.ToolbarButton_Draw(element_id, selected, hovered, clicked, mous
         local yy=((h-height)/5)*2
         
         gfx.x=0+dpi_scale
-        gfx.y=yy+yy+dpi_scale
+        gfx.y=yy+yy+dpi_scale+dpi_scale
         gfx.dest=element_storage["toolbaricon"]
         gfx.set(reagirl.Colors.Toolbar_TextBG_r, reagirl.Colors.Toolbar_TextBG_g, reagirl.Colors.Toolbar_TextBG_b)
         
         gfx.drawstr(text[2],1,w,h)
         gfx.x=0
-        gfx.y=yy+yy
+        gfx.y=yy+yy+dpi_scale
         gfx.dest=element_storage["toolbaricon"]
         gfx.set(reagirl.Colors.Toolbar_TextFG_r, reagirl.Colors.Toolbar_TextFG_g, reagirl.Colors.Toolbar_TextFG_b)
         gfx.drawstr(text[2],1,w,h)
@@ -12310,19 +12442,19 @@ function reagirl.ToolbarButton_Draw(element_id, selected, hovered, clicked, mous
     end
     
     if element_storage["mode"]<3 then
-      gfx.blit(element_storage["toolbaricon"], 1, 0, (element_storage["cur_state"]-1)*30*element_storage["toolbaricon_scale"], 0, 30*element_storage["toolbaricon_scale"], 30*element_storage["toolbaricon_scale"], x+dpi_scale, y, w, h)
+      gfx.blit(element_storage["toolbaricon"], 1, 0, (element_storage["cur_state"])*30*element_storage["toolbaricon_scale"], 0, 30*element_storage["toolbaricon_scale"], 30*element_storage["toolbaricon_scale"], x+dpi_scale, y, w, h)
     else
       gfx.blit(element_storage["toolbaricon"], 1, 0, element_storage["toolbaricon_scale"], 0, w*element_storage["toolbaricon_scale"], 30*dpi_scale*element_storage["toolbaricon_scale"], x+dpi_scale, y, w, h)
     end
-    gfx.set(reagirl.Colors.Toolbar_TextBG_r, reagirl.Colors.Toolbar_TextBG_g, reagirl.Colors.Toolbar_TextBG_b, 1)
+    gfx.set(reagirl.Colors.Toolbar_CaptionBG_r, reagirl.Colors.Toolbar_CaptionBG_g, reagirl.Colors.Toolbar_CaptionBG_b, 1)
     if element_storage["mode"]==2 then
       gfx.x=x+35*dpi_scale+dpi_scale
       gfx.y=y+(h-sh)/2+dpi_scale
-      gfx.drawstr(element_storage["state_names"][element_storage["cur_state"]])
-      gfx.set(reagirl.Colors.Toolbar_TextFG_r, reagirl.Colors.Toolbar_TextFG_g, reagirl.Colors.Toolbar_TextFG_b, 1)
+      gfx.drawstr(element_storage["state_names"][element_storage["cur_state"]+1])
+      gfx.set(reagirl.Colors.Toolbar_CaptionFG_r, reagirl.Colors.Toolbar_CaptionFG_g, reagirl.Colors.Toolbar_CaptionFG_b, 1)
       gfx.x=x+35*dpi_scale
       gfx.y=y+(h-sh)/2
-      gfx.drawstr(element_storage["state_names"][element_storage["cur_state"]])
+      gfx.drawstr(element_storage["state_names"][element_storage["cur_state"]+1])
     end
     
     
@@ -12528,7 +12660,7 @@ function reagirl.ToolbarButton_SetCurrentState(element_id, state)
   if reagirl.IsValidGuid(element_id, true)==nil then error("ToolbarButton_SetCurrentState: param #1 - must be a valid guid", 2) end
   if math.type(state)~="integer" then error("ToolbarButton_SetCurrentState: param #2 - must be an integer", 2) end
   element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
-  if state<1 or state>reagirl.Elements[element_id]["num_states"] then error("ToolbarButton_SetCurrentState: param #2 - must be between 0 and 10", 2) end
+  if state<0 or state>=reagirl.Elements[element_id]["num_states"] then error("ToolbarButton_SetCurrentState: param #2 - must be between 0 and "..(reagirl.Elements[element_id]["num_states"]-1).." for this toolbar-button.", 2) end
   if element_id==-1 then error("ToolbarButton_SetCurrentState: param #1 - no such ui-element", 2) end
   if reagirl.Elements[element_id]["GUI_Element_Type"]~="ToolbarButton" then
     error("ToolbarButton_SetCurrentState: param #1 - ui-element is not a toolbar-button", 2)
@@ -12684,6 +12816,7 @@ function reagirl.Color_GetSet(color_name, is_set, r, g, b)
     (This is the reason, why a user-theme overrides your colors, as the user might want to choose a different color-layout for better readability for all ReaGirl-guis.)
     
     The following colors can be set:
+    
     GuiBackgroundColor - the background-color of the gui
     Burgermenu_Area - the click-area of the burger-menu
     Burgermenu_Stripes - the stripes of the burger-menu
@@ -12693,7 +12826,7 @@ function reagirl.Color_GetSet(color_name, is_set, r, g, b)
     Buttons_TextFG_disabled - the foreground-color of the button-text when the button is disabled
     Checkbox_CheckArea - the area that's visible, when the checkbox is checked
     Checkbox_CheckArea_disabled - the area that's visible, when the checkbox is checked and disabled
-    Checkbox_CaptionBG - the background-color of the caption
+    Checkbox_CaptionBG - the dropshadow of the caption
     Checkbox_CaptionFG - the foreground-color of the caption
     Checkbox_CaptionFG_disabled - the foreground-color of the caption when checkbos is disabled
     Checkbox_background - the background of the checkbox(behind the checked-symbol
@@ -12701,12 +12834,12 @@ function reagirl.Color_GetSet(color_name, is_set, r, g, b)
     DropDownMenu_AreaTextBG - the background of the text in the click-area of the dropdownmenu
     DropDownMenu_AreaTextFG - the foreground of the text in the click-area of the dropdownmenu
     DropDownMenu_AreaTextFGdisabled - the foreground of the text in the click-area when dropdownmenu is disabled
-    DropDownMenu_CaptionBG - the background of the caption of the dropdownmenu
+    DropDownMenu_CaptionBG - the dropshadow of the caption of the dropdownmenu
     DropDownMenu_CaptionFG - the foreground of the caption of the dropdownmenu
     DropDownMenu_CaptionFGdisabled - the foreground of the caption of the dropdownmenu when it's disabled
     Inputbox_Area - the typing-area of the inputbox
     Inputbox_Cursor - the cursor of the inputbox
-    InputBox_CaptionBG - the background of the caption of the inputbox
+    InputBox_CaptionBG - the dropshadow of the caption of the inputbox
     Inputbox_CaptionFG - the foreground of the caption of the inputbox
     Inputbox_CaptionFGdisabled - the foreground of the caption of the inputbox when it's disabled
     InputBox_TextBGTyped - the background of the typed text of the inputbox
@@ -12717,27 +12850,25 @@ function reagirl.Color_GetSet(color_name, is_set, r, g, b)
     Label_TextFGclickable - the foreground of the clickable label
     Scrollbar_Background - the background of the scroll-bar
     Scrollbar_Foreground - the foreground of the scroll-bar
-    Slider_Border
-    Slider_Center
-    Slider_Center_disabled
-    Slider_Circle_1
-    Slider_Circle_2
-    Slider_Circle_center
-    Slider_Circle_center_disabled
-    Slider_DefaultLine
-    Slider_CaptionBG
-    Slider_CaptionFG
-    Slider_CaptionFG_disabled
-    Tabs_Border_Background
-    Tabs_Border_Tabs
-    Tabs_Inner_Background
-    Tabs_Inner_Tabs_Selected
-    Tabs_Inner_Tabs_Unselected
-    Tabs_CaptionBG
-    Tabs_TextFG
-    Toolbar_Area
-    Toolbar_TextBG
-    Toolbar_TextFG
+    Slider_Border - the border of the slider-area
+    Slider_Center - the center of the slider-area
+    Slider_Center_disabled - the center of the slider-area when slider is disabled
+    Slider_Circle_center - the center of the slider-knob
+    Slider_Circle_center_disabled - the center of the slider-knob, when slider is disabled
+    Slider_DefaultLine - the color of the default-line of the slider-area
+    Slider_CaptionBG - the drop-shadow of the slider-caption
+    Slider_CaptionFG - the foreground of the slider-caption
+    Slider_CaptionFG_disabled - the foreground of the slider-caption when slider is disabled
+    Tabs_Inner_Background - the background of the tab-area under the tabs(should be the same as Tabs_Inner_Tabs_Selected)
+    Tabs_Inner_Tabs_Selected - the color of the selected tab
+    Tabs_Inner_Tabs_Unselected - the color of the unselected tab
+    Tabs_CaptionBG - the drop-shadow of the tab-caption-texts
+    Tabs_CaptionFG - the foreground of the tab-caption-texts
+    Toolbar_Area - the click-area of the toolbar-button
+    Toolbar_CaptionBG - the drop-shadow of the caption
+    Toolbar_CaptionFG - the foreground of the caption
+    Toolbar_TextBG - the drop-shadow of the text-button
+    Toolbar_TextFG - the foreground-color of the text-button
   </description>
   <parameters>
     string color_name - the name of the color(see description for more details); case sensitive!
@@ -12776,6 +12907,8 @@ function reagirl.Color_GetSet(color_name, is_set, r, g, b)
     -- will be implemented, when I added theme support
   end
 end
+
+--reagirl.Color_GetSet("Tabs_Inner_Background", true, 1,0,0)
 
 function reagirl.Menu_GetEntryName(menu, entry_nr)
 --[[

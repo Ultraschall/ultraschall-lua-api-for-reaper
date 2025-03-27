@@ -24,14 +24,14 @@
 ################################################################################
 ]] 
 
--- Meo-Ada Mespotine 19th of May 2024 - licenced under MIT-license
+-- Meo-Ada Mespotine 27th of March 2025 - licenced under MIT-license
 -- This demo-dialog shows all ui-elements available. They have no functionality, since I set all run-function-parameters to nil.
 -- Most ui-elements use nil as first and/or second parameter to use auto-positioning, but not all of them.
 -- Means, you can place ui-elements automatically with either x-position or y-position with the other one a fixed coordinate.
 -- So you can combine them.
 
   dofile(reaper.GetResourcePath().."/UserPlugins/reagirl.lua")
-  
+
   -- create new gui
   reagirl.Gui_New()
   tabs=reagirl.Tabs_Add(nil, nil, nil, nil, "Tabs", "Demo-Tabs most elements in first tab only.", {"General Tab", "Advanced Tab", "Extras Tab"}, 1, nil )
@@ -96,15 +96,15 @@
   reagirl.ToolbarButton_SetRadius(tab1.toolbar, 14)
   reagirl.ToolbarButton_SetEdgeStyle(tab1.toolbar, true, true, true, true)
   reagirl.ToolbarButton_SetColor(tab1.toolbar, 128, 0, 0)
-  tab1.toolbar2=reagirl.ToolbarButton_Add(102, nil, reaper.GetResourcePath().."/Data/toolbar_icons/toolbar_path_secondary_disk.png",3, 1, {"One", "Two", "Three"}, 1, "Tudel2", "loo.", run_function)
+  tab1.toolbar2=reagirl.ToolbarButton_Add(nil, nil, reaper.GetResourcePath().."/Data/toolbar_icons/toolbar_path_secondary_disk.png",3, 1, {"One", "Two", "Three"}, 1+128, "Tudel2", "loo.", run_function)
   reagirl.ToolbarButton_SetEdgeStyle(tab1.toolbar2, true, true, true, true)
-  tab1.toolbar3=reagirl.ToolbarButton_Add(133, nil, reaper.GetResourcePath().."/Data/toolbar_icons/toolbar_misc_walk_forward.png",3, 1, {"A", "B", "C"}, 3, "TextIcon", "loo.", run_function)
+  tab1.toolbar3=reagirl.ToolbarButton_Add(nil, nil, reaper.GetResourcePath().."/Data/toolbar_icons/toolbar_misc_walk_forward.png",3, 1, {"A", "B", "C"}, 3+128, "TextIcon", "loo.", run_function)
   reagirl.ToolbarButton_SetEdgeStyle(tab1.toolbar3, true,true,true,true)
   reagirl.ToolbarButton_SetRadius(tab1.toolbar3, 7)
-  tab1.toolbar4=reagirl.ToolbarButton_Add(164, nil, reaper.GetResourcePath().."/Data/toolbar_icons/toolbar_misc_walk_forward.png",3, 1, {"Uno", "Dos", "Tres"}, 4, "Text Icon", "loo.", run_function)
+  tab1.toolbar4=reagirl.ToolbarButton_Add(nil, nil, reaper.GetResourcePath().."/Data/toolbar_icons/toolbar_misc_walk_forward.png",3, 1, {"Uno", "Dos", "Tres"}, 4+128, "Text Icon", "loo.", run_function)
   reagirl.ToolbarButton_SetEdgeStyle(tab1.toolbar4, true, false, true, false)
   reagirl.ToolbarButton_SetRadius(tab1.toolbar4, 14)
-  tab1.toolbar5=reagirl.ToolbarButton_Add(243, nil, reaper.GetResourcePath().."/Data/toolbar_icons/toolbar_misc_walk_forward.png",3, 1, {"TOO", "DEL", "LOO"}, 2, "Text Icon", "loo.", run_function)
+  tab1.toolbar5=reagirl.ToolbarButton_Add(nil, nil, reaper.GetResourcePath().."/Data/toolbar_icons/toolbar_misc_walk_forward.png",2, 1, {"TOO", "DEL", "LOO"}, 2, "Text Icon", "loo.", run_function)
   reagirl.Label_AutoBackdrop(tab1.label_header7, tab1.toolbar5) -- set backdrop drawn by tab1.label_header5
   
   -- Inputboxes
