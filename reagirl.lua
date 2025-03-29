@@ -100,6 +100,7 @@ gfx.ext_retina=1
 reagirl={}
 --reagirl.setcursor=gfx.setcursor
 --gfx = dofile(reaper.GetResourcePath().."/Scripts/ReaTeam Extensions/API/gfx2imgui.lua")
+-- gfx2imgui needs gfx.update() in the defer-loop to do anything
 --gfx.setcursor=reagirl.setcursor
 reagirl.Window_Hovered=false
 reagirl.Gui_Init_Me=true
@@ -5313,6 +5314,7 @@ function reagirl.Gui_Manage(keep_running)
 </US_DocBloc>
 ]]
   -- manages the gui, including tts, mouse and keyboard-management and ui-focused-management
+  --gfx.update()
   reagirl.Defer_StartTime=reaper.time_precise()
   -- initialize shit
   if keep_running==true then reagirl.Gui_Manage_keep_running=true end
@@ -5614,8 +5616,13 @@ function reagirl.Gui_Manage(keep_running)
   if gfx.mouse_cap==0 and Key==9 then 
     local old_selection=reagirl.Elements.FocusedElement
     if reagirl.FocusRectangle_On==false then
+      if reagirl.Elements[reagirl.Elements.FocusedElement]["GUI_Element_Type"]~="Edit" then
+        reagirl.Elements["FocusedElement"]=1
+      else
+        reagirl.Elements.FocusedElement=reagirl.Elements.FocusedElement+1
+        if reagirl.Elements.FocusedElement>#reagirl.Elements then reagirl.Elements.FocusedElement=1 end
+      end
       reagirl.FocusRectangle_Toggle(true)
-      reagirl.Elements["FocusedElement"]=1
     else
       reagirl.Elements["FocusedElement"]=reagirl.UI_Element_GetNext(reagirl.Elements["FocusedElement"],3)
     end
@@ -13356,6 +13363,7 @@ function reagirl.Inputbox_Add(x, y, w, caption, Cap_width, meaningOfUI_Element, 
   reagirl.Elements[slot]["func_draw"]=reagirl.Inputbox_Draw
   reagirl.Elements[slot]["run_function"]=run_function_enter
   reagirl.Elements[slot]["run_function_type"]=run_function_type
+  reagirl.Elements[slot]["w_dropdownarea"]=0 -- width for drop-down-area, where you open a menu to show text suggestions. Clicking outside the right edge is still buggy by choosing a character outside of the visible area. So you need to hit left arrow multiple times, until you reach the visible area again. Probably a bug in reagirl.Inputbox_GetTextOffset()
   reagirl.Elements[slot]["userspace"]={}
   reagirl.Inputbox_Calculate_DrawOffset(true, reagirl.Elements[slot])
   
@@ -13520,8 +13528,9 @@ function reagirl.Inputbox_GetTextOffset(x,y,element_storage)
   local textw=gfx.measurechar(65)
   local x2, w2
   if element_storage["x"]<0 then x2=gfx.w+element_storage["x"]*dpi_scale else x2=element_storage["x"]*dpi_scale end
+  --if element_storage["w"]<0 then w_dropdownarea=gfx.w-x2+element_storage.w-element_storage.w_dropdownarea else w_dropdownarea=element_storage.w-element_storage.w_dropdownarea end
   if element_storage["w"]<0 then w2=gfx.w-x2+element_storage["w"]*dpi_scale else w2=element_storage["w"]*dpi_scale end
-  w2=w2-cap_w
+  w2=w2-cap_w-element_storage.w_dropdownarea
   
   -- if click==outside of left edge of the inputbox
   if x<startoffs then return -1, element_storage.draw_offset, element_storage.draw_offset+math.floor(element_storage.w2/textw) end
@@ -13539,7 +13548,7 @@ function reagirl.Inputbox_GetTextOffset(x,y,element_storage)
     --local textw=gfx.measurestr(element_storage.Text:utf8_sub(i,i))
     
     if x>=startoffs and x<=startoffs+textw then
-      return cursoffs-1, element_storage.draw_offset-1, element_storage.draw_offset+math.floor(element_storage.w2/textw)-1
+      return cursoffs-1, element_storage.draw_offset-1, element_storage.draw_offset+math.floor((element_storage.w2-element_storage.w_dropdownarea)/textw)-1
     end
     cursoffs=cursoffs+1
     startoffs=startoffs+textw
@@ -13915,6 +13924,7 @@ end
 function reagirl.Inputbox_Manage(element_id, selected, hovered, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
   local refresh=false
   local run_function=false
+  --if element_storage["w"]<0 then element_storage.w_dropdownarea=gfx.w-x2+element_storage.w-50 else element_storage.w_dropdownarea=element_storage.w end
   -- drop files for accessibility using a file-requester, after typing ctrl+shift+f
   if element_storage["DropZoneFunction"]~=nil and Key==6 and mouse_cap==12 then
     local retval, filenames = reaper.GetUserFileNameForRead("", "Choose file to drop into "..element_storage["Name"], "")
@@ -14068,7 +14078,7 @@ function reagirl.Inputbox_Manage(element_id, selected, hovered, clicked, mouse_c
       element_storage.h2=h
       refreshme=clicked
       -- mouse management
-      if selected~="not selected" and clicked=="FirstCLK" and mouse_cap==1 then 
+      if selected~="not selected" and clicked=="FirstCLK" and mouse_cap==1 then
         element_storage["hasfocus"]=true
         if reagirl.mouse.down==false then 
           reagirl.Inputbox_OnMouseDown(mouse_cap, element_storage) 
@@ -14438,6 +14448,8 @@ function reagirl.Inputbox_Unlink(element_id, section, key, default, persist)
 end
 
 function reagirl.Inputbox_Calculate_DrawOffset(forward, element_storage)
+  local w_dropdownarea
+  if element_storage["w"]<0 then w_dropdownarea=gfx.w-x2+element_storage.w-element_storage.w_dropdownarea else w_dropdownarea=element_storage.w-element_storage.w_dropdownarea end
   reagirl.SetFont(1, reagirl.Font_Face, reagirl.Font_Size, 0)
   local dpi_scale = reagirl.Window_GetCurrentScale()
   local cap_w, x2, w2
@@ -14449,7 +14461,7 @@ function reagirl.Inputbox_Calculate_DrawOffset(forward, element_storage)
   end
   
   if element_storage["x"]<0 then x2=gfx.w+element_storage["x"]*dpi_scale else x2=element_storage["x"]*dpi_scale end
-  if element_storage["w"]<0 then w2=gfx.w-x2+element_storage["w"]*dpi_scale else w2=element_storage["w"]*dpi_scale end
+  if element_storage["w"]<0 then w2=gfx.w-x2+w_dropdownarea*dpi_scale else w2=w_dropdownarea*dpi_scale end
   local w2=w2-cap_w
   local offset_me=dpi_scale*2
   
