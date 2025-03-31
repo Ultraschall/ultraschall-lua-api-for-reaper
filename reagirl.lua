@@ -14053,12 +14053,14 @@ function reagirl.Inputbox_Manage(element_id, selected, hovered, clicked, mouse_c
   local Cap_width=element_storage.Cap_width
   
   if hovered==true then
-    if gfx.mouse_x>=x+Cap_width then
+    if gfx.mouse_x>=x+Cap_width and gfx.mouse_x<=x+w-element_storage.w_dropdownarea*dpi_scale then
       if selected=="not selected" and gfx.mouse_cap==0 then
         gfx.setcursor(0x7f01)
       elseif selected~="not selected" then
         gfx.setcursor(0x7f01)
       end
+    elseif gfx.mouse_x>=x+w-element_storage.w_dropdownarea*dpi_scale and gfx.mouse_x<=x+w then
+      gfx.setcursor(0x7f89)
     else
       gfx.setcursor(0x7f00)
     end

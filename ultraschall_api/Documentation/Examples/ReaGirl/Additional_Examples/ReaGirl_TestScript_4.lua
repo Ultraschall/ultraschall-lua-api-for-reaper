@@ -113,7 +113,7 @@
   
   reagirl.NextLine()
   tab1.inputbox_name_of_setting = reagirl.Inputbox_Add(nil, nil, 290, "Name:", 90, "Type in here the name of the setting.", "No title", nil, nil)
-  reagirl.Inputbox_SetTextSuggestions(tab1.inputbox_name_of_setting, {})
+  reagirl.Inputbox_SetTextSuggestions(tab1.inputbox_name_of_setting, {"AA","BB","CC","DD"})
   reagirl.NextLine()
   tab1.inputbox_description_of_setting = reagirl.Inputbox_Add(nil, nil, 290, "Description:", 90, "Type in here a description of the setting.", "No DescriptionNo DescriptionNo DescriptionNo DescriptionNo DescriptionNo DescriptionNo DescriptionNo Description", nil, nil)
   
