@@ -2657,6 +2657,16 @@ reagirl.Colors.InputBox_TextBGTyped_b=0.2
 reagirl.Colors.Inputbox_Area_r=0.234
 reagirl.Colors.Inputbox_Area_g=0.234
 reagirl.Colors.Inputbox_Area_b=0.234
+reagirl.Colors.Inputbox_DropdownArea_r=0.274
+reagirl.Colors.Inputbox_DropdownArea_g=0.274
+reagirl.Colors.Inputbox_DropdownArea_b=0.274
+reagirl.Colors.Inputbox_DropdownArea_Circle_r=0.45
+reagirl.Colors.Inputbox_DropdownArea_Circle_g=0.45
+reagirl.Colors.Inputbox_DropdownArea_Circle_b=0.45
+reagirl.Colors.Inputbox_DropdownArea_Circle_disabled_r=0.35
+reagirl.Colors.Inputbox_DropdownArea_Circle_disabled_g=0.35
+reagirl.Colors.Inputbox_DropdownArea_Circle_disabled_b=0.35
+
 reagirl.Colors.Inputbox_Cursor_r=0.9843137254901961
 reagirl.Colors.Inputbox_Cursor_g=0.8156862745098039
 reagirl.Colors.Inputbox_Cursor_b=0
@@ -2699,6 +2709,12 @@ reagirl.Colors.DropDownMenu_AreaTextFGdisabled_b=0.09
 reagirl.Colors.DropDownMenu_AreaTextBG_r=0.2
 reagirl.Colors.DropDownMenu_AreaTextBG_g=0.2
 reagirl.Colors.DropDownMenu_AreaTextBG_b=0.2
+reagirl.Colors.DropDownMenu_Circle_r=0.45
+reagirl.Colors.DropDownMenu_Circle_g=0.45
+reagirl.Colors.DropDownMenu_Circle_b=0.45
+reagirl.Colors.DropDownMenu_Circle_disabled_r=0.35
+reagirl.Colors.DropDownMenu_Circle_disabled_g=0.35
+reagirl.Colors.DropDownMenu_Circle_disabled_b=0.35
 
 reagirl.Colors.Checkbox_CaptionBG_r=0.2
 reagirl.Colors.Checkbox_CaptionBG_g=0.2
@@ -11978,6 +11994,7 @@ function reagirl.ToolbarButton_Add(x, y, toolbaricon, num_states, default_state,
   if run_function~=nil and type(run_function)~="function" then error("ToolbarButton_Add: param #10 - must be either nil or a function", 2) end
   
   local x,y,slot=reagirl.UI_Element_GetNextXAndYPosition(x, y, "ToolbarButton_Add", mode&128==128)
+  if mode&128==128 then mode=mode-128 end
   --reagirl.UI_Element_NextX_Default=x
   
   local tx,ty=0,0
@@ -12844,6 +12861,8 @@ function reagirl.Color_GetSet(color_name, is_set, r, g, b)
     DropDownMenu_CaptionBG - the dropshadow of the caption of the dropdownmenu
     DropDownMenu_CaptionFG - the foreground of the caption of the dropdownmenu
     DropDownMenu_CaptionFGdisabled - the foreground of the caption of the dropdownmenu when it's disabled
+    DropDownMenu_Circle - the circle of the drop-down-area
+    DropDownMenu_Circle_disabled - the circle of the drop-down-area when disabled
     Inputbox_Area - the typing-area of the inputbox
     Inputbox_Cursor - the cursor of the inputbox
     InputBox_CaptionBG - the dropshadow of the caption of the inputbox
@@ -12852,6 +12871,9 @@ function reagirl.Color_GetSet(color_name, is_set, r, g, b)
     InputBox_TextBGTyped - the background of the typed text of the inputbox
     InputBox_TextFGTyped - the foreground of the typed text of the inputbox
     InputBox_TextFGTypeddisabled - the foreground of the typed text of the inputbox when it's disabled
+    Inputbox_DropdownArea - the dropdown-area
+    Inputbox_DropdownArea_Circle - the circle of the drop-down-area
+    Inputbox_DropdownArea_Circle_disabled - the circle of the drop-down-area when disabled
     Label_TextBG - the background of the label
     Label_TextFG - the foreground of the label
     Label_TextFGclickable - the foreground of the clickable label
@@ -13363,13 +13385,93 @@ function reagirl.Inputbox_Add(x, y, w, caption, Cap_width, meaningOfUI_Element, 
   reagirl.Elements[slot]["func_draw"]=reagirl.Inputbox_Draw
   reagirl.Elements[slot]["run_function"]=run_function_enter
   reagirl.Elements[slot]["run_function_type"]=run_function_type
-  reagirl.Elements[slot]["w_dropdownarea"]=0 -- width for drop-down-area, where you open a menu to show text suggestions. Clicking outside the right edge is still buggy by choosing a character outside of the visible area. So you need to hit left arrow multiple times, until you reach the visible area again. Probably a bug in reagirl.Inputbox_GetTextOffset()
+  reagirl.Elements[slot]["w_dropdownarea"]=0 -- 15 width for drop-down-area, where you open a menu to show text suggestions. Clicking outside the right edge is still buggy by choosing a character outside of the visible area. So you need to hit left arrow multiple times, until you reach the visible area again. Probably a bug in reagirl.Inputbox_GetTextOffset()
+  reagirl.Elements[slot]["suggestions"]={}
   reagirl.Elements[slot]["userspace"]={}
   reagirl.Inputbox_Calculate_DrawOffset(true, reagirl.Elements[slot])
   
   return reagirl.Elements[slot]["Guid"]
 end
 
+function reagirl.Inputbox_SetTextSuggestions(element_id, suggestions)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Inputbox_SetTextSuggestions</slug>
+  <requires>
+    ReaGirl=1.3
+    Reaper=7.03
+    Lua=5.4
+  </requires>
+  <functioncall>reagirl.Inputbox_SetTextSuggestions(string element_id, table suggestions)</functioncall>
+  <description>
+    Sets text-suggestions, that can be chosen by the user via a drop-down-menu in the inputbox.
+    
+    Text suggestions are not available for screen reader users, due to API-limitations.
+  </description>
+  <parameters>
+    string element_id - the guid of the inputbox, whose text suggestions you want to set
+    table suggestions - a table with all text suggestions, that the user can choose from
+  </parameters>
+  <chapter_context>
+    Inputbox
+  </chapter_context>
+  <tags>inputbox, set, text suggestions</tags>
+</US_DocBloc>
+--]]
+  if type(element_id)~="string" then error("Inputbox_SetTextSuggestions: param #1 - must be a string", 2) end
+  if reagirl.IsValidGuid(element_id, true)==nil then error("Inputbox_SetTextSuggestions: param #1 - must be a valid guid", 2) end
+  if type(suggestions)~="table" then error("Inputbox_SetTextSuggestions: param #2 - must be a table of strings", 2) end
+  element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
+  if element_id==-1 then error("Inputbox_SetTextSuggestions: param #1 - no such ui-element", 2) end
+  if reagirl.Elements[element_id]["GUI_Element_Type"]~="Edit" then
+    error("Inputbox_SetTextSuggestions: param #1 - ui-element is not an inputbox", 2)
+  else
+    for i=1, #suggestions do
+      suggestions[i]=tostring(suggestions[i])
+    end
+    reagirl.Elements[element_id]["suggestions"]=suggestions
+    reagirl.Elements[element_id]["w_dropdownarea"]=15
+    reagirl.Gui_ForceRefresh(15)
+  end
+end
+
+function reagirl.Inputbox_GetTextSuggestions(element_id)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Inputbox_GetTextSuggestions</slug>
+  <requires>
+    ReaGirl=1.3
+    Reaper=7.03
+    Lua=5.4
+  </requires>
+  <functioncall>table suggestions = reagirl.Inputbox_GetTextSuggestions(string element_id)</functioncall>
+  <description>
+    Gets the currently available text-suggestions of an inputbox, that can be chosen by the user via a drop-down-menu in the inputbox.
+    
+    Text suggestions are not available for screen reader users, due to API-limitations.
+  </description>
+  <parameters>
+    string element_id - the guid of the inputbox, whose text suggestions you want to get
+  </parameters>
+  <retval>
+    table suggestions - a table with all czrrent text suggestions, that the user can choose from
+  </retval>
+  <chapter_context>
+    Inputbox
+  </chapter_context>
+  <tags>inputbox, set, text suggestions</tags>
+</US_DocBloc>
+--]]
+  if type(element_id)~="string" then error("Inputbox_SetTextSuggestions: param #1 - must be a string", 2) end
+  if reagirl.IsValidGuid(element_id, true)==nil then error("Inputbox_SetTextSuggestions: param #1 - must be a valid guid", 2) end
+  element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
+  if element_id==-1 then error("Inputbox_SetTextSuggestions: param #1 - no such ui-element", 2) end
+  if reagirl.Elements[element_id]["GUI_Element_Type"]~="Edit" then
+    error("Inputbox_SetTextSuggestions: param #1 - ui-element is not an inputbox", 2)
+  else
+    return reagirl.Elements[element_id]["suggestions"]
+  end
+end
 
 function reagirl.Inputbox_SetPassword(element_id, password)
 --[[
@@ -13460,15 +13562,25 @@ function reagirl.Inputbox_OnMouseDown(mouse_cap, element_storage)
   
   if element_storage.hasfocus==true then
     if mouse_cap&8==0 then
-      element_storage.cursor_offset=reagirl.Inputbox_GetTextOffset(gfx.mouse_x,gfx.mouse_y, element_storage)
-      
+      local draw_offset, draw_offset_end
+      element_storage.cursor_offset, draw_offset, draw_offset_end=reagirl.Inputbox_GetTextOffset(gfx.mouse_x, gfx.mouse_y, element_storage)
+      --reaper.ShowConsoleMsg(element_storage.cursor_offset.."\n")
       element_storage.cursor_startoffset=element_storage.cursor_offset
       element_storage.clicked1=true
       if element_storage.cursor_offset==-2 then 
-        element_storage.cursor_offset=element_storage.Text:utf8_len() 
-        element_storage.selection_startoffset=element_storage.cursor_offset
-        element_storage.selection_endoffset=element_storage.cursor_offset
-        element_storage.cursor_startoffset=element_storage.cursor_offset
+        --[[
+        if element_storage.w_dropdownarea==0 then
+          element_storage.cursor_offset=element_storage.Text:utf8_len() 
+          element_storage.selection_startoffset=element_storage.cursor_offset
+          element_storage.selection_endoffset=element_storage.cursor_offset
+          element_storage.cursor_startoffset=element_storage.cursor_offset
+        else
+        --]]
+        element_storage.cursor_offset=draw_offset_end
+        element_storage.selection_startoffset=draw_offset_end
+        element_storage.selection_endoffset=draw_offset_end
+        element_storage.cursor_startoffset=draw_offset_end
+        --end
       elseif element_storage.cursor_offset==-1 then
         element_storage.cursor_offset=0
         element_storage.selection_startoffset=0
@@ -13530,7 +13642,7 @@ function reagirl.Inputbox_GetTextOffset(x,y,element_storage)
   if element_storage["x"]<0 then x2=gfx.w+element_storage["x"]*dpi_scale else x2=element_storage["x"]*dpi_scale end
   --if element_storage["w"]<0 then w_dropdownarea=gfx.w-x2+element_storage.w-element_storage.w_dropdownarea else w_dropdownarea=element_storage.w-element_storage.w_dropdownarea end
   if element_storage["w"]<0 then w2=gfx.w-x2+element_storage["w"]*dpi_scale else w2=element_storage["w"]*dpi_scale end
-  w2=w2-cap_w-element_storage.w_dropdownarea
+  w2=w2-cap_w-element_storage.w_dropdownarea*dpi_scale
   
   -- if click==outside of left edge of the inputbox
   if x<startoffs then return -1, element_storage.draw_offset, element_storage.draw_offset+math.floor(element_storage.w2/textw) end
@@ -13548,7 +13660,7 @@ function reagirl.Inputbox_GetTextOffset(x,y,element_storage)
     --local textw=gfx.measurestr(element_storage.Text:utf8_sub(i,i))
     
     if x>=startoffs and x<=startoffs+textw then
-      return cursoffs-1, element_storage.draw_offset-1, element_storage.draw_offset+math.floor((element_storage.w2-element_storage.w_dropdownarea)/textw)-1
+      return cursoffs-1, element_storage.draw_offset-1, element_storage.draw_offset+math.floor((element_storage.w2-element_storage.w_dropdownarea*dpi_scale)/textw)-1
     end
     cursoffs=cursoffs+1
     startoffs=startoffs+textw
@@ -13924,6 +14036,7 @@ end
 function reagirl.Inputbox_Manage(element_id, selected, hovered, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
   local refresh=false
   local run_function=false
+  local dpi_scale=reagirl.Window_GetCurrentScale()
   --if element_storage["w"]<0 then element_storage.w_dropdownarea=gfx.w-x2+element_storage.w-50 else element_storage.w_dropdownarea=element_storage.w end
   -- drop files for accessibility using a file-requester, after typing ctrl+shift+f
   if element_storage["DropZoneFunction"]~=nil and Key==6 and mouse_cap==12 then
@@ -13962,7 +14075,7 @@ function reagirl.Inputbox_Manage(element_id, selected, hovered, clicked, mouse_c
         reagirl.Inputbox_Calculate_DrawOffset(true, element_storage) 
         element_storage["selection_endoffset"]=element_storage["cursor_offset"] 
         element_storage["selection_startoffset"]=element_storage["cursor_offset"] 
-        reagirl.Gui_ForceRefresh() 
+        reagirl.Gui_ForceRefresh(67643867899.2732627) 
         linked_refresh=true
       end
     elseif element_storage["linked_to"]==2 then
@@ -13973,7 +14086,7 @@ function reagirl.Inputbox_Manage(element_id, selected, hovered, clicked, mouse_c
         reagirl.Inputbox_Calculate_DrawOffset(true, element_storage) 
         element_storage["selection_endoffset"]=element_storage["cursor_offset"] 
         element_storage["selection_startoffset"]=element_storage["cursor_offset"] 
-        reagirl.Gui_ForceRefresh() 
+        reagirl.Gui_ForceRefresh(67643867899.27326271) 
         linked_refresh=true
       end
     elseif element_storage["linked_to"]==3 then
@@ -13984,7 +14097,7 @@ function reagirl.Inputbox_Manage(element_id, selected, hovered, clicked, mouse_c
         reagirl.Inputbox_Calculate_DrawOffset(true, element_storage) 
         element_storage["selection_endoffset"]=element_storage["cursor_offset"] 
         element_storage["selection_startoffset"]=element_storage["cursor_offset"] 
-        reagirl.Gui_ForceRefresh() 
+        reagirl.Gui_ForceRefresh(67643867899.273262711) 
         linked_refresh=true
       end
       if element_storage["linked_to_persist"]==true then
@@ -13993,6 +14106,29 @@ function reagirl.Inputbox_Manage(element_id, selected, hovered, clicked, mouse_c
     end
   end
   --]]
+  
+  if element_storage.dropdown_clicked==true then
+    gfx.x=x+Cap_width
+    gfx.y=y+h+dpi_scale
+    local menu=""
+    for i=1, #element_storage.suggestions do
+      menu=menu..element_storage.suggestions[i].."|"
+    end
+    if #element_storage.suggestions==0 then
+      menu="{no suggestions}"
+    end
+    local entry=gfx.showmenu(menu)
+    if entry~=0 and #element_storage.suggestions>0 then 
+      element_storage.Text=element_storage.suggestions[entry]
+      element_storage.selection_startoffset=0
+      element_storage.selection_endoffset=element_storage.Text:len()
+      element_storage.selection_cursoroffset=element_storage.Text:len()
+      element_storage.draw_offset_end=element_storage.selection_cursoroffset
+      reagirl.Inputbox_Calculate_DrawOffset(false, element_storage)
+    end
+    reagirl.Gui_ForceRefresh(4638349.23)
+  end
+  element_storage.dropdown_clicked=nil
   
   if reagirl.osara_outputMessage~=nil and selected~="not selected" then
     reagirl.Gui_PreventEnterForOneCycle()
@@ -14050,7 +14186,7 @@ function reagirl.Inputbox_Manage(element_id, selected, hovered, clicked, mouse_c
     gfx.setfont(1, reagirl.Font_Face, reagirl.Font_Size, 0)
   
     
-    if selected~="not selected" and mouse_cap==1 and (gfx.mouse_x>=x and gfx.mouse_y>=y and gfx.mouse_x<=x+w and gfx.mouse_y<=y+h) then 
+    if selected~="not selected" and mouse_cap==1 and (gfx.mouse_x>=x and gfx.mouse_y>=y and gfx.mouse_x<=x+w-element_storage.w_dropdownarea*dpi_scale and gfx.mouse_y<=y+h) then 
       -- mousewheel scroll the text inside the input-box via hmousewheel(doesn't work properly, yet)
       reagirl.Gui_PreventScrollingForOneCycle(true, true, false)
       if mouse_attributes[6]>0 then 
@@ -14093,6 +14229,11 @@ function reagirl.Inputbox_Manage(element_id, selected, hovered, clicked, mouse_c
         refresh=true
         element_storage["hasfocus"]=true
       end
+    elseif selected~="not selected" and clicked=="FirstCLK" and (gfx.mouse_y>=y and gfx.mouse_x>=x+w-element_storage.w_dropdownarea*dpi_scale and gfx.mouse_x<=x+w and gfx.mouse_y<=y+h) then 
+      element_storage.dropdown_clicked=true
+      --reagirl.Gui_ForceRefresh(4638349.2376701)
+    elseif Key==1685026670 and element_storage.w_dropdownarea~=0 then
+      element_storage.dropdown_clicked=true
     end
     -- keyboard management
     if element_storage.hasfocus==true then
@@ -14186,7 +14327,6 @@ function reagirl.Inputbox_Draw(element_id, selected, hovered, clicked, mouse_cap
   gfx.set(reagirl.Colors.Inputbox_Area_r+add_color, reagirl.Colors.Inputbox_Area_g+add_color, reagirl.Colors.Inputbox_Area_b+add_color)
   reagirl.RoundRect(x+cap_w, y, w-cap_w, h-dpi_scale, dpi_scale-1, 0, 1)
   
-  
   -- draw text
   if element_storage["IsDisabled"]==false then gfx.set(reagirl.Colors.InputBox_TextFGTyped_r, reagirl.Colors.InputBox_TextFGTyped_g, reagirl.Colors.InputBox_TextFGTyped_b) else gfx.set(reagirl.Colors.InputBox_TextFGTypeddisabled_r, reagirl.Colors.InputBox_TextFGTypeddisabled_g, reagirl.Colors.InputBox_TextFGTypeddisabled_b) end
   gfx.x=x+cap_w+dpi_scale+dpi_scale+dpi_scale
@@ -14251,6 +14391,41 @@ function reagirl.Inputbox_Draw(element_id, selected, hovered, clicked, mouse_cap
     if reagirl.Window_State&2==2 and element_storage["blink"]>0 and element_storage["blink"]<(reagirl.Inputbox_BlinkSpeed>>1)+4 then
       --gfx.line(x+cap_w+dpi_scale+dpi_scale+dpi_scale, y+dpi_scale, x+cap_w+dpi_scale+dpi_scale+dpi_scale, y+gfx.texth-dpi_scale)
       gfx.rect(x+cap_w+dpi_scale+dpi_scale+dpi_scale, y+dpi_scale, dpi_scale, gfx.texth-dpi_scale-dpi_scale)
+    end
+  end
+  -- draw dropdownarea
+  if element_storage.w_dropdownarea*dpi_scale>0 then
+    gfx.set(reagirl.Colors.Inputbox_DropdownArea_r+add_color, reagirl.Colors.Inputbox_DropdownArea_g+add_color, reagirl.Colors.Inputbox_DropdownArea_b+add_color)
+    if element_storage.dropdown_clicked==true then
+      -- clicked dropdownarea
+      gfx.set(0.06+add_color)
+      reagirl.RoundRect(x+w-element_storage.w_dropdownarea*dpi_scale, y-dpi_scale, element_storage.w_dropdownarea*dpi_scale, h, 2, 1, 1)
+      gfx.set(0.6+add_color)
+      --reagirl.RoundRect(x+w-element_storage.w_dropdownarea*dpi_scale+dpi_scale, y+dpi_scale, element_storage.w_dropdownarea*dpi_scale, h-dpi_scale, 2, 1, 1)
+      gfx.set(reagirl.Colors.Inputbox_DropdownArea_r+add_color, reagirl.Colors.Inputbox_DropdownArea_g+add_color, reagirl.Colors.Inputbox_DropdownArea_b+add_color)
+      reagirl.RoundRect(x+w-element_storage.w_dropdownarea*dpi_scale+dpi_scale, y, element_storage.w_dropdownarea*dpi_scale-dpi_scale, h-dpi_scale, 2, 1, 1)
+      
+      if element_storage.IsDisabled==true then
+        gfx.set(reagirl.Colors.Inputbox_DropdownArea_Circle_disabled_r, reagirl.Colors.Inputbox_DropdownArea_Circle_disabled_g, reagirl.Colors.Inputbox_DropdownArea_Circle_disabled_b)
+      else
+        gfx.set(reagirl.Colors.Inputbox_DropdownArea_Circle_r, reagirl.Colors.Inputbox_DropdownArea_Circle_g, reagirl.Colors.Inputbox_DropdownArea_Circle_b)
+      end
+      gfx.circle(x+w-7*dpi_scale,y+(h/2),2*dpi_scale, 1, 1)
+    elseif element_storage.dropdown_clicked==nil then
+      -- unclicked dropdownarea
+      gfx.set(0.6+add_color)
+      reagirl.RoundRect(x+w-element_storage.w_dropdownarea*dpi_scale, y, element_storage.w_dropdownarea*dpi_scale, h, 2, 1, 1)
+      gfx.set(0.06+add_color)
+      reagirl.RoundRect(x+w-element_storage.w_dropdownarea*dpi_scale+dpi_scale, y+dpi_scale, element_storage.w_dropdownarea*dpi_scale, h-dpi_scale, 2, 1, 1)
+      gfx.set(reagirl.Colors.Inputbox_DropdownArea_r+add_color, reagirl.Colors.Inputbox_DropdownArea_g+add_color, reagirl.Colors.Inputbox_DropdownArea_b+add_color)
+      reagirl.RoundRect(x+w-element_storage.w_dropdownarea*dpi_scale+dpi_scale, y, element_storage.w_dropdownarea*dpi_scale-dpi_scale, h-dpi_scale, 2, 1, 1)
+  
+      if element_storage.IsDisabled==true then
+        gfx.set(reagirl.Colors.Inputbox_DropdownArea_Circle_disabled_r, reagirl.Colors.Inputbox_DropdownArea_Circle_disabled_g, reagirl.Colors.Inputbox_DropdownArea_Circle_disabled_b)
+      else
+        gfx.set(reagirl.Colors.Inputbox_DropdownArea_Circle_r, reagirl.Colors.Inputbox_DropdownArea_Circle_g, reagirl.Colors.Inputbox_DropdownArea_Circle_b)
+      end
+      gfx.circle(x+w-7*dpi_scale,y+(h/2),2*dpi_scale, 1, 1)
     end
   end
 end
@@ -14448,10 +14623,10 @@ function reagirl.Inputbox_Unlink(element_id, section, key, default, persist)
 end
 
 function reagirl.Inputbox_Calculate_DrawOffset(forward, element_storage)
+  local dpi_scale = reagirl.Window_GetCurrentScale()
   local w_dropdownarea
   if element_storage["w"]<0 then w_dropdownarea=gfx.w-x2+element_storage.w-element_storage.w_dropdownarea else w_dropdownarea=element_storage.w-element_storage.w_dropdownarea end
   reagirl.SetFont(1, reagirl.Font_Face, reagirl.Font_Size, 0)
-  local dpi_scale = reagirl.Window_GetCurrentScale()
   local cap_w, x2, w2
   if element_storage["Cap_width"]==nil then
     cap_w=gfx.measurestr(element_storage["Name"])+dpi_scale*5
@@ -15077,8 +15252,7 @@ function reagirl.DropDownMenu_Draw(element_id, selected, hovered, clicked, mouse
     
     gfx.set(reagirl.Colors.DropDownMenu_Area_r+add_color, reagirl.Colors.DropDownMenu_Area_g+add_color, reagirl.Colors.DropDownMenu_Area_b+add_color) -- button-area
     reagirl.RoundRect(cap_w+x+dpi_scale, y+dpi_scale, w-cap_w-dpi_scale-dpi_scale, h, (radius-1) * dpi_scale, 1, 1)
-    
-    gfx.set(0.45)
+    gfx.set(reagirl.Colors.DropDownMenu_Circle_r, reagirl.Colors.DropDownMenu_Circle_g, reagirl.Colors.DropDownMenu_Circle_b)
     local circ=dpi_scale
     gfx.circle(x+w-h/2, y+dpi_scale+dpi_scale+dpi_scale+dpi_scale+dpi_scale+dpi_scale+dpi_scale+dpi_scale+dpi_scale, 3*dpi_scale, 1, 0)
     gfx.rect(x-dpi_scale-dpi_scale+w-h+2*(dpi_scale-1), y+dpi_scale, dpi_scale, h+dpi_scale, 1)
@@ -15105,9 +15279,9 @@ function reagirl.DropDownMenu_Draw(element_id, selected, hovered, clicked, mouse
     reagirl.RoundRect(cap_w+x+dpi_scale, y, w-cap_w-dpi_scale-dpi_scale, h-dpi_scale, (radius-1) * dpi_scale, 1, 1)
     
     if element_storage["IsDisabled"]==false then
-      gfx.set(0.45)
+      gfx.set(reagirl.Colors.DropDownMenu_Circle_r, reagirl.Colors.DropDownMenu_Circle_g, reagirl.Colors.DropDownMenu_Circle_b)
     else
-      gfx.set(0.35)
+      gfx.set(reagirl.Colors.DropDownMenu_Circle_disabled_r, reagirl.Colors.DropDownMenu_Circle_disabled_g, reagirl.Colors.DropDownMenu_Circle_disabled_b)
     end
     local circ=dpi_scale    
     gfx.circle(x+w-dpi_scale-h/2, y+dpi_scale+dpi_scale+dpi_scale+dpi_scale+dpi_scale+dpi_scale+dpi_scale, 3*dpi_scale, 1, 0)

@@ -19476,6 +19476,8 @@ Deprecated, see TakeFX_GetNamedConfigParm/'fx_ident' (v6.37+). See BR_TrackFX_Ge
 </div><p>
 <div class="ch">
 <p>Adds or queries the position of a named FX in a take. See <a href="#TrackFX_AddByName">TrackFX_AddByName()</a> for information on fxname and instantiate.</p>
+<pre><code>                    This allows also adding .FXChain-files. Just provide the full path+filename to the parameter fxname.
+                    </code></pre>
 <p>FX indices can have 0x2000000 added to them, in which case they will be used to address FX in containers. To address a container, the 1-based subitem is multiplied by one plus the count of the FX chain and added to the 1-based container item index. e.g. to address the third item in the container at the second position of the track FX chain for tr, the index would be 0x2000000 + 3*(TrackFX<em>GetCount(tr)+1) + 2. This can be extended to sub-containers using TrackFX</em>GetNamedConfigParm with container<em>count and similar logic. In REAPER v7.06+, you can use the much more convenient method to navigate hierarchies, see TrackFX</em>GetNamedConfigParm with parent<em>container and container</em>item.X. In REAPER v7.06+, you can use the much more convenient method to navigate hierarchies, see TrackFX<em>GetNamedConfigParm with parent</em>container and container_item.X.</p>
 </div><br>      
 <u>Returnvalues:</u>
@@ -21342,6 +21344,8 @@ Specify a negative value for instantiate to always create a new effect, <br>
 0 to only query the first instance of an effect, or a positive value to add an instance if one is not found.<br>
 <br>
 Returns -1 on failure or the new position in chain on success.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;This allows also adding .FXChain-files. Just provide the full path+filename to the parameter fxname.<br>
 <br>
 FX indices can have 0x2000000 added to them, in which case they will be used to address FX in containers. To address a container, the 1-based subitem is multiplied by one plus the count of the FX chain and added to the 1-based container item index. e.g. to address the third item in the container at the second position of the track FX chain for tr, the index would be 0x2000000 + 3*(TrackFX_GetCount(tr)+1) + 2. This can be extended to sub-containers using TrackFX_GetNamedConfigParm with container_count and similar logic. In REAPER v7.06+, you can use the much more convenient method to navigate hierarchies, see TrackFX_GetNamedConfigParm with parent_container and container_item.X.<br>
 </div><br>      

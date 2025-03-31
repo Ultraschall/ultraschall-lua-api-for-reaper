@@ -96,7 +96,7 @@
   reagirl.ToolbarButton_SetRadius(tab1.toolbar, 14)
   reagirl.ToolbarButton_SetEdgeStyle(tab1.toolbar, true, true, true, true)
   reagirl.ToolbarButton_SetColor(tab1.toolbar, 128, 0, 0)
-  tab1.toolbar2=reagirl.ToolbarButton_Add(nil, nil, reaper.GetResourcePath().."/Data/toolbar_icons/toolbar_path_secondary_disk.png",3, 1, {"One", "Two", "Three"}, 1+128, "Tudel2", "loo.", run_function)
+  tab1.toolbar2=reagirl.ToolbarButton_Add(nil, nil, reaper.GetResourcePath().."/Data/toolbar_icons/toolbar_path_secondary_disk.png", 3, 1, {"One", "Two", "Three"}, 1+128, "Tudel2", "loo.", run_function)
   reagirl.ToolbarButton_SetEdgeStyle(tab1.toolbar2, true, true, true, true)
   tab1.toolbar3=reagirl.ToolbarButton_Add(nil, nil, reaper.GetResourcePath().."/Data/toolbar_icons/toolbar_misc_walk_forward.png",3, 1, {"A", "B", "C"}, 3+128, "TextIcon", "loo.", run_function)
   reagirl.ToolbarButton_SetEdgeStyle(tab1.toolbar3, true,true,true,true)
@@ -113,9 +113,9 @@
   
   reagirl.NextLine()
   tab1.inputbox_name_of_setting = reagirl.Inputbox_Add(nil, nil, 290, "Name:", 90, "Type in here the name of the setting.", "No title", nil, nil)
-  
+  reagirl.Inputbox_SetTextSuggestions(tab1.inputbox_name_of_setting, {})
   reagirl.NextLine()
-  tab1.inputbox_description_of_setting = reagirl.Inputbox_Add(nil, nil, 290, "Description:", 90, "Type in here a description of the setting.", "No Description", nil, nil)
+  tab1.inputbox_description_of_setting = reagirl.Inputbox_Add(nil, nil, 290, "Description:", 90, "Type in here a description of the setting.", "No DescriptionNo DescriptionNo DescriptionNo DescriptionNo DescriptionNo DescriptionNo DescriptionNo Description", nil, nil)
   
   reagirl.NextLine()
   tab1.button_choose_file_id = reagirl.Button_Add(253, nil, 0, 0, "Choose file", "Choose a file.", nil) -- a button
