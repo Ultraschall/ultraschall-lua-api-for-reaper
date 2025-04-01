@@ -12596,8 +12596,12 @@ function reagirl.ToolbarButton_Draw(element_id, selected, hovered, clicked, mous
   
   local offset
   local dpi_scale, state
+  local dpi_scale=reagirl.Window_CurrentScale
   local radius = element_storage["radius"]
-  reagirl.SetFont(1, reagirl.Font_Face, reagirl.Font_Size-3, 0)
+  local font_subtract=0
+  if dpi_scale==2 or dpi_scale==3 then font_subtract=dpi_scale end
+  if dpi_scale>=4 then font_subtract=2 end
+  reagirl.SetFont(1, reagirl.Font_Face, reagirl.Font_Size-3-font_subtract, 0)
   
   local colr, colg, colb = reagirl.Colors.Toolbar_Area_r, reagirl.Colors.Toolbar_Area_g, reagirl.Colors.Toolbar_Area_b
   if element_storage["r"]~=nil then
@@ -12611,8 +12615,7 @@ function reagirl.ToolbarButton_Draw(element_id, selected, hovered, clicked, mous
   end
   
   local sw,sh=gfx.measurestr(element_storage["Name"])
-  
-  local dpi_scale=reagirl.Window_CurrentScale
+
   y=y+dpi_scale
   w=30*dpi_scale
   if element_storage["mode"]==4 then w=60*dpi_scale end
@@ -12676,9 +12679,10 @@ function reagirl.ToolbarButton_Draw(element_id, selected, hovered, clicked, mous
         gfx.drawstr(text[1])
         gfx.dest=-1
       elseif text_num>1 then
+        --[[
         local width, height=gfx.measurestr(text[1])
         local xx=(w-width)/2
-        local yy=((h-height-height)/2)+dpi_scale+dpi_scale
+        local yy=((h-height-height)/2)
         gfx.x=0+dpi_scale
         gfx.y=yy+dpi_scale
         gfx.dest=element_storage["toolbaricon"]
@@ -12706,6 +12710,17 @@ function reagirl.ToolbarButton_Draw(element_id, selected, hovered, clicked, mous
         gfx.dest=element_storage["toolbaricon"]
         gfx.set(reagirl.Colors.Toolbar_TextFG_r, reagirl.Colors.Toolbar_TextFG_g, reagirl.Colors.Toolbar_TextFG_b)
         gfx.drawstr(text[2],1,w,h)
+        --]]
+        gfx.set(reagirl.Colors.Toolbar_TextBG_r, reagirl.Colors.Toolbar_TextBG_g, reagirl.Colors.Toolbar_TextBG_b)
+        gfx.x=x+dpi_scale+dpi_scale
+        gfx.y=y+dpi_scale+dpi_scale+(h-gfx.texth-gfx.texth)/2
+        gfx.drawstr(text[1].."\n"..text[2], 1, x+w+dpi_scale, y+h+dpi_scale)
+        
+        gfx.set(reagirl.Colors.Toolbar_TextFG_r, reagirl.Colors.Toolbar_TextFG_g, reagirl.Colors.Toolbar_TextFG_b)
+        gfx.x=x+dpi_scale
+        gfx.y=y+dpi_scale+(h-gfx.texth-gfx.texth)/2
+        gfx.drawstr(text[1].."\n"..text[2], 1, x+w+dpi_scale, y+h+dpi_scale)
+        
         gfx.dest=-1
       end
     end
@@ -12789,36 +12804,48 @@ function reagirl.ToolbarButton_Draw(element_id, selected, hovered, clicked, mous
         gfx.drawstr(text[1])
         gfx.dest=-1
       elseif text_num>1 then
+        --[[
         local width, height=gfx.measurestr(text[1])
         local xx=(w-width)/2
-        local yy=((h-height-height)/2)+dpi_scale+dpi_scale
-        gfx.x=0+dpi_scale
-        gfx.y=yy+dpi_scale
+        --local yy=((h-height-height)/3)
+        local yy=(h-height)/5
+        gfx.x=x+xx+dpi_scale
+        gfx.y=yy+dpi_scale+dpi_scale
         gfx.dest=element_storage["toolbaricon"]
         --gfx.set(1,0,0)
         --gfx.rect(1,1,w-1,h-1,0)
         gfx.set(reagirl.Colors.Toolbar_TextBG_r, reagirl.Colors.Toolbar_TextBG_g, reagirl.Colors.Toolbar_TextBG_b)
-        gfx.drawstr(text[1],1,w,h)
-        gfx.x=0
-        gfx.y=yy
+        gfx.drawstr(text[1],0,w,y+h)
+        gfx.x=x+xx
+        gfx.y=yy+dpi_scale
         gfx.dest=element_storage["toolbaricon"]
         gfx.set(reagirl.Colors.Toolbar_TextFG_r, reagirl.Colors.Toolbar_TextFG_g, reagirl.Colors.Toolbar_TextFG_b)
-        gfx.drawstr(text[1],1,w,h)
+        gfx.drawstr(text[1],0,w,y+h)
         local width, height=gfx.measurestr(text[2])
         local xx=(w-width)/2
-        local yy=((h-height)/5)*2
-        
-        gfx.x=0+dpi_scale
-        gfx.y=yy+yy+dpi_scale+dpi_scale
+        --local yy=((h-height-height)/3)*3
+        local yy=(h-height)/1.5
+        gfx.x=xx+dpi_scale
+        gfx.y=yy+dpi_scale+dpi_scale
         gfx.dest=element_storage["toolbaricon"]
         gfx.set(reagirl.Colors.Toolbar_TextBG_r, reagirl.Colors.Toolbar_TextBG_g, reagirl.Colors.Toolbar_TextBG_b)
-        
         gfx.drawstr(text[2],1,w,h)
-        gfx.x=0
-        gfx.y=yy+yy+dpi_scale
+        
+        gfx.x=xx
+        gfx.y=yy+dpi_scale
         gfx.dest=element_storage["toolbaricon"]
         gfx.set(reagirl.Colors.Toolbar_TextFG_r, reagirl.Colors.Toolbar_TextFG_g, reagirl.Colors.Toolbar_TextFG_b)
         gfx.drawstr(text[2],1,w,h)
+        --]]
+        gfx.set(reagirl.Colors.Toolbar_TextBG_r, reagirl.Colors.Toolbar_TextBG_g, reagirl.Colors.Toolbar_TextBG_b)
+        gfx.x=x+dpi_scale
+        gfx.y=y+dpi_scale+(h-gfx.texth-gfx.texth)/2
+        gfx.drawstr(text[1].."\n"..text[2], 1, x+w, y+h)
+        
+        gfx.set(reagirl.Colors.Toolbar_TextFG_r, reagirl.Colors.Toolbar_TextFG_g, reagirl.Colors.Toolbar_TextFG_b)
+        gfx.x=x
+        gfx.y=y+(h-gfx.texth-gfx.texth)/2
+        gfx.drawstr(text[1].."\n"..text[2], 1, x+w, y+h)
         gfx.dest=-1
       end
     end
@@ -12826,7 +12853,7 @@ function reagirl.ToolbarButton_Draw(element_id, selected, hovered, clicked, mous
     if element_storage["mode"]<3 then
       gfx.blit(element_storage["toolbaricon"], 1, 0, (element_storage["cur_state"])*30*element_storage["toolbaricon_scale"], 0, 30*element_storage["toolbaricon_scale"], 30*element_storage["toolbaricon_scale"], x+dpi_scale, y, w, h)
     else
-      gfx.blit(element_storage["toolbaricon"], 1, 0, element_storage["toolbaricon_scale"], 0, w*element_storage["toolbaricon_scale"], 30*dpi_scale*element_storage["toolbaricon_scale"], x+dpi_scale, y, w, h)
+      gfx.blit(element_storage["toolbaricon"], 1, 0, element_storage["toolbaricon_scale"]+1, 0, w*element_storage["toolbaricon_scale"], 30*dpi_scale*element_storage["toolbaricon_scale"], x, y, w, h)
     end
     gfx.set(reagirl.Colors.Toolbar_CaptionBG_r, reagirl.Colors.Toolbar_CaptionBG_g, reagirl.Colors.Toolbar_CaptionBG_b, 1)
     if element_storage["mode"]==2 then
