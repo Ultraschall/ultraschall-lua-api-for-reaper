@@ -423,8 +423,8 @@ Has now 1858 functions, with XX new ones
 
   - **Bla**  
   Bla
-		
-	-- Settings: FocusRectangle_BlinkSpeed und InputBox_BlinkSpeed updaten nicht...wenn extern geändert
+
+	-- INputbox - dropdownmenu - must be communicated to screen reader(and maybe to tooltip?)
 		
 #### New features in 5.3  
 	- ReaGirl: Button\_GetEdgeStyle - gets, if the individual edges of a button are rounded or square

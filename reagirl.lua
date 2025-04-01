@@ -13431,6 +13431,7 @@ function reagirl.Inputbox_SetTextSuggestions(element_id, suggestions)
     end
     reagirl.Elements[element_id]["suggestions"]=suggestions
     reagirl.Elements[element_id]["w_dropdownarea"]=15
+    reagirl.Elements[element_id]["AccHint"]="Hit Enter to open up an accessible input dialog to enter text. Hit down-arrowkey to select text-suggestions."
     reagirl.Gui_ForceRefresh(15)
   end
 end
@@ -14054,6 +14055,7 @@ function reagirl.Inputbox_Manage(element_id, selected, hovered, clicked, mouse_c
   
   if hovered==true then
     if gfx.mouse_x>=x+Cap_width and gfx.mouse_x<=x+w-element_storage.w_dropdownarea*dpi_scale then
+      reagirl.Elements["GlobalAccHoverMessage"]=name.." "..element_storage.Text.."."
       if selected=="not selected" and gfx.mouse_cap==0 then
         gfx.setcursor(0x7f01)
       elseif selected~="not selected" then
@@ -14061,6 +14063,7 @@ function reagirl.Inputbox_Manage(element_id, selected, hovered, clicked, mouse_c
       end
     elseif gfx.mouse_x>=x+w-element_storage.w_dropdownarea*dpi_scale and gfx.mouse_x<=x+w then
       gfx.setcursor(0x7f89)
+      reagirl.Elements["GlobalAccHoverMessage"]=name.." "..element_storage.Text..". Text-suggestions-button for this inputbox."
     else
       gfx.setcursor(0x7f00)
     end
