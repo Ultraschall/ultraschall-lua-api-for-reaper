@@ -13656,13 +13656,13 @@ function reagirl.Burgermenu_Draw(element_id, selected, hovered, clicked, mouse_c
     local y_offset=0
     if dpi_scale%2==0 then y_offset=1 end
     if w<30*dpi_scale then
-      gfx.rect((x+5*dpi_scale)*scale, y+(h/4),   w-6*dpi_scale, dpi_scale*2, 1)
-      gfx.rect((x+5*dpi_scale)*scale, y+(h/2),   w-6*dpi_scale, dpi_scale*2, 1)
-      gfx.rect((x+5*dpi_scale)*scale, y+h-(h/4)+y_offset, w-6*dpi_scale, dpi_scale*2, 1)
+      gfx.rect((x+6*dpi_scale)*scale, y+(h/4),   w-7*dpi_scale, dpi_scale*2, 1)
+      gfx.rect((x+6*dpi_scale)*scale, y+(h/2),   w-7*dpi_scale, dpi_scale*2, 1)
+      gfx.rect((x+6*dpi_scale)*scale, y+h-(h/4)+y_offset, w-7*dpi_scale, dpi_scale*2, 1)
     else
-      gfx.rect((x+5*dpi_scale)*scale, y+(h/4)+dpi_scale,   w-6*dpi_scale, dpi_scale*3, 1)
-      gfx.rect((x+5*dpi_scale)*scale, y+(h/2),   w-6*dpi_scale, dpi_scale*3, 1)
-      gfx.rect((x+5*dpi_scale)*scale, y+h-(h/4), w-6*dpi_scale, dpi_scale*3, 1)
+      gfx.rect((x+6*dpi_scale)*scale, y+(h/4)+dpi_scale,   w-7*dpi_scale, dpi_scale*3, 1)
+      gfx.rect((x+6*dpi_scale)*scale, y+(h/2),   w-7*dpi_scale, dpi_scale*3, 1)
+      gfx.rect((x+6*dpi_scale)*scale, y+h-(h/4), w-7*dpi_scale, dpi_scale*3, 1)
     end
 
     reagirl.SetFont(1, reagirl.Font_Face, reagirl.Font_Size, 0)
@@ -13684,13 +13684,13 @@ function reagirl.Burgermenu_Draw(element_id, selected, hovered, clicked, mouse_c
     local y_offset=0
     if dpi_scale%2==0 then y_offset=1 end
     if w<30*dpi_scale then
-      gfx.rect((x+3*dpi_scale)*scale, y+(h/4)-dpi_scale,   w-6*dpi_scale, dpi_scale*2, 1)
-      gfx.rect((x+3*dpi_scale)*scale, y+(h/2)-dpi_scale,   w-6*dpi_scale, dpi_scale*2, 1)
-      gfx.rect((x+3*dpi_scale)*scale, y+h-(h/4)-dpi_scale+y_offset, w-6*dpi_scale, dpi_scale*2, 1)
+      gfx.rect((x+4*dpi_scale)*scale, y+(h/4)-dpi_scale,   w-7*dpi_scale, dpi_scale*2, 1)
+      gfx.rect((x+4*dpi_scale)*scale, y+(h/2)-dpi_scale,   w-7*dpi_scale, dpi_scale*2, 1)
+      gfx.rect((x+4*dpi_scale)*scale, y+h-(h/4)-dpi_scale+y_offset, w-7*dpi_scale, dpi_scale*2, 1)
     else
-      gfx.rect((x+3*dpi_scale)*scale, y+(h/4)-dpi_scale,   w-6*dpi_scale, dpi_scale*3, 1)
-      gfx.rect((x+3*dpi_scale)*scale, y+(h/2)-dpi_scale-dpi_scale,   w-6*dpi_scale, dpi_scale*3, 1)
-      gfx.rect((x+3*dpi_scale)*scale, y+h-(h/4)-dpi_scale-dpi_scale, w-6*dpi_scale, dpi_scale*3, 1)
+      gfx.rect((x+4*dpi_scale)*scale, y+(h/4)-dpi_scale,   w-7*dpi_scale, dpi_scale*3, 1)
+      gfx.rect((x+4*dpi_scale)*scale, y+(h/2)-dpi_scale-dpi_scale,   w-7*dpi_scale, dpi_scale*3, 1)
+      gfx.rect((x+4*dpi_scale)*scale, y+h-(h/4)-dpi_scale-dpi_scale, w-7*dpi_scale, dpi_scale*3, 1)
     end
   end
 end
