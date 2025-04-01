@@ -2639,7 +2639,7 @@ reagirl.Colors.Label_TextBG_b=0.2
 reagirl.Colors.Inputbox_CaptionFG_r=0.8
 reagirl.Colors.Inputbox_CaptionFG_g=0.8
 reagirl.Colors.Inputbox_CaptionFG_b=0.8
-reagirl.Colors.InputBox_CaptionBG_r=0.0
+reagirl.Colors.InputBox_CaptionBG_r=0.2
 reagirl.Colors.InputBox_CaptionBG_g=0.2
 reagirl.Colors.InputBox_CaptionBG_b=0.2
 reagirl.Colors.Inputbox_CaptionFGdisabled_r=0.6
@@ -13655,14 +13655,15 @@ function reagirl.Burgermenu_Draw(element_id, selected, hovered, clicked, mouse_c
     
     local y_offset=0
     if dpi_scale%2==0 then y_offset=1 end
+    local x_offset=dpi_scale-1
     if w<30*dpi_scale then
-      gfx.rect((x+6*dpi_scale)*scale, y+(h/4),   w-7*dpi_scale, dpi_scale*2, 1)
-      gfx.rect((x+6*dpi_scale)*scale, y+(h/2),   w-7*dpi_scale, dpi_scale*2, 1)
-      gfx.rect((x+6*dpi_scale)*scale, y+h-(h/4)+y_offset, w-7*dpi_scale, dpi_scale*2, 1)
+      gfx.rect((x+6*dpi_scale)*scale, y+(h/4),   w-7*dpi_scale-x_offset, dpi_scale*2, 1)
+      gfx.rect((x+6*dpi_scale)*scale, y+(h/2),   w-7*dpi_scale-x_offset, dpi_scale*2, 1)
+      gfx.rect((x+6*dpi_scale)*scale, y+h-(h/4)+y_offset, w-7*dpi_scale-x_offset, dpi_scale*2, 1)
     else
-      gfx.rect((x+6*dpi_scale)*scale, y+(h/4)+dpi_scale,   w-7*dpi_scale, dpi_scale*3, 1)
-      gfx.rect((x+6*dpi_scale)*scale, y+(h/2),   w-7*dpi_scale, dpi_scale*3, 1)
-      gfx.rect((x+6*dpi_scale)*scale, y+h-(h/4), w-7*dpi_scale, dpi_scale*3, 1)
+      gfx.rect((x+6*dpi_scale)*scale, y+(h/4)+dpi_scale,   w-7*dpi_scale-x_offset, dpi_scale*3, 1)
+      gfx.rect((x+6*dpi_scale)*scale, y+(h/2),   w-7*dpi_scale-x_offset, dpi_scale*3, 1)
+      gfx.rect((x+6*dpi_scale)*scale, y+h-(h/4), w-7*dpi_scale-x_offset, dpi_scale*3, 1)
     end
 
     reagirl.SetFont(1, reagirl.Font_Face, reagirl.Font_Size, 0)
@@ -13682,15 +13683,18 @@ function reagirl.Burgermenu_Draw(element_id, selected, hovered, clicked, mouse_c
     gfx.set(reagirl.Colors.Burgermenu_Stripes_r, reagirl.Colors.Burgermenu_Stripes_g, reagirl.Colors.Burgermenu_Stripes_b)
     
     local y_offset=0
+    local x_offset=0
     if dpi_scale%2==0 then y_offset=1 end
+    local x_offset=dpi_scale-1
+    
     if w<30*dpi_scale then
-      gfx.rect((x+4*dpi_scale)*scale, y+(h/4)-dpi_scale,   w-7*dpi_scale, dpi_scale*2, 1)
-      gfx.rect((x+4*dpi_scale)*scale, y+(h/2)-dpi_scale,   w-7*dpi_scale, dpi_scale*2, 1)
-      gfx.rect((x+4*dpi_scale)*scale, y+h-(h/4)-dpi_scale+y_offset, w-7*dpi_scale, dpi_scale*2, 1)
+      gfx.rect((x+4*dpi_scale)*scale, y+(h/4)-dpi_scale,   w-7*dpi_scale-x_offset, dpi_scale*2, 1)
+      gfx.rect((x+4*dpi_scale)*scale, y+(h/2)-dpi_scale,   w-7*dpi_scale-x_offset, dpi_scale*2, 1)
+      gfx.rect((x+4*dpi_scale)*scale, y+h-(h/4)-dpi_scale+y_offset, w-7*dpi_scale-x_offset, dpi_scale*2, 1)
     else
-      gfx.rect((x+4*dpi_scale)*scale, y+(h/4)-dpi_scale,   w-7*dpi_scale, dpi_scale*3, 1)
-      gfx.rect((x+4*dpi_scale)*scale, y+(h/2)-dpi_scale-dpi_scale,   w-7*dpi_scale, dpi_scale*3, 1)
-      gfx.rect((x+4*dpi_scale)*scale, y+h-(h/4)-dpi_scale-dpi_scale, w-7*dpi_scale, dpi_scale*3, 1)
+      gfx.rect((x+4*dpi_scale)*scale, y+(h/4)-dpi_scale,   w-7*dpi_scale-x_offset, dpi_scale*3, 1)
+      gfx.rect((x+4*dpi_scale)*scale, y+(h/2)-dpi_scale-dpi_scale,   w-7*dpi_scale-x_offset, dpi_scale*3, 1)
+      gfx.rect((x+4*dpi_scale)*scale, y+h-(h/4)-dpi_scale-dpi_scale, w-7*dpi_scale-x_offset, dpi_scale*3, 1)
     end
   end
 end
