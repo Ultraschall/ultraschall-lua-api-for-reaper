@@ -5777,6 +5777,7 @@ function reagirl.Gui_Manage(keep_running)
             local desc=reagirl.Elements[i]["Description"]
             if reagirl.Elements[i]["Color_Name"]~=nil then add_info=" "..reagirl.Elements[i]["Color_Name"].." " end
             if reagirl.Elements[i]["state_names"]~=nil then add_info=reagirl.Elements[i]["state_names"][reagirl.Elements[i]["cur_state"]+1] desc="" end
+            if add_info==nil then add_info="" end
             reaper.TrackCtl_SetToolTip(desc..""..add_info.."\n"..draggable..contextmenu..dropfiles, XX+15, YY+10, true)
           end
          end
@@ -12053,8 +12054,9 @@ function reagirl.ToolbarButton_Add(x, y, toolbaricon, num_states, default_state,
   reagirl.Elements[slot]["func_draw"]=reagirl.ToolbarButton_Draw
   reagirl.Elements[slot]["run_function"]=run_function
   reagirl.Elements[slot]["userspace"]={}
-  reagirl.Elements[slot]["linked_to"]=4
   
+  reagirl.Elements[slot]["linked_to"]=0
+  --[[
   reagirl.Elements[slot]["linked_to_configvar"]="projrenderstems"
   reagirl.Elements[slot]["linked_to_command_id"]=41991
   reagirl.Elements[slot]["linked_to_key"]="Loo"
@@ -12100,6 +12102,7 @@ function reagirl.ToolbarButton_Manage(element_id, selected, hovered, clicked, mo
     elseif element_storage["linked_to"]==3 then 
       local val=reaper.SNM_GetIntConfigVar(element_storage["linked_to_configvar"], -999999999999999)
       val=(val&element_storage["linked_to_bit"])
+      if val~=0 then val=1 end
       if val~=element_storage["cur_state"] then element_storage["cur_state"]=val reagirl.Gui_ForceRefresh() linked_refresh=true end
     elseif element_storage["linked_to"]==4 then
       local val=reaper.SNM_GetIntConfigVar(element_storage["linked_to_configvar"], -999999999999999)
@@ -12165,7 +12168,10 @@ function reagirl.ToolbarButton_Manage(element_id, selected, hovered, clicked, mo
       val=reaper.SNM_GetIntConfigVar(element_storage["linked_to_configvar"], -9999999999)
       if val&element_storage["linked_to_bit"]>0 then val=val-element_storage["linked_to_bit"] end
       
-      reaper.SNM_SetIntConfigVar(element_storage["linked_to_configvar"], val+element_storage["cur_state"])
+      local add=0
+      if element_storage["cur_state"]==1 then add=element_storage["linked_to_bit"] end
+      
+      reaper.SNM_SetIntConfigVar(element_storage["linked_to_configvar"], val+add)
       if element_storage["linked_to_persist"]==true then
         reaper.BR_Win32_WritePrivateProfileString("REAPER", element_storage["linked_to_configvar"], val+element_storage["cur_state"], reaper.get_ini_file())
       end
@@ -12232,6 +12238,320 @@ function reagirl.ToolbarButton_Manage(element_id, selected, hovered, clicked, mo
   end
   
   return message, oldpressed~=element_storage["pressed"]
+end
+
+function reagirl.ToolbarButton_LinkToExtstate(element_id, section, key, default, persist)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>ToolbarButton_LinkToExtstate</slug>
+  <requires>
+    ReaGirl=1.3
+    Reaper=7.03
+    Lua=5.4
+  </requires>
+  <functioncall>reagirl.ToolbarButton_LinkToExtstate(string element_id, string section, string key, string default, boolean persist)</functioncall>
+  <description>
+    Links a toolbar-button to an extstate. 
+    
+    All changes to the extstate will be immediately visible for this toolbar-button.
+    Clicking the toolbarbutton also updates the extstate immediately.
+    
+    If the toolbarbutton was already linked to a config-var or ini-file, the linked-state will be replaced by this new one.
+    Use reagirl.ToolbarButton_Unlink() to unlink the toolbarbutton from extstate/ini-file/config var.
+  </description>
+  <parameters>
+    string element_id - the guid of the toolbarbutton, that you want to link to an extstate
+    string section - the section of the linked extstate
+    string key - the key of the linked extstate
+    string default - the default value, if the extstate hasn't been set yet
+    boolean persist - true, the extstate shall be stored persistantly; false, the extstate shall not be stored persistantly
+  </parameters>
+  <chapter_context>
+    Toolbarbutton
+  </chapter_context>
+  <tags>toolbarbutton, link to, extstate</tags>
+</US_DocBloc>
+--]]
+  if type(element_id)~="string" then error("ToolbarButton_LinkToExtstate: param #1 - must be a string", 2) end
+  if reagirl.IsValidGuid(element_id, true)==nil then error("ToolbarButton_LinkToExtstate: param #1 - must be a valid guid", 2) end
+  if type(section)~="string" then error("ToolbarButton_LinkToExtstate: param #2 - must be a string", 2) end
+  if type(key)~="string" then error("ToolbarButton_LinkToExtstate: param #3 - must be a string", 2) end
+  if math.type(default)~="integer" then error("ToolbarButton_LinkToExtstate: param #4 - must be an integer", 2) end
+  if type(persist)~="boolean" then error("ToolbarButton_LinkToExtstate: param #5 - must be a boolean", 2) end
+  element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
+  if element_id==-1 then error("ToolbarButton_LinkToExtstate: param #1 - no such ui-element", 2) end
+  if reagirl.Elements[element_id]["GUI_Element_Type"]~="ToolbarButton" then
+    error("ToolbarButton_LinkToExtstate: param #1 - ui-element is not a toolbarbutton", 2)
+  else
+    reagirl.Elements[element_id]["linked_to"]=1
+    reagirl.Elements[element_id]["linked_to_section"]=section
+    reagirl.Elements[element_id]["linked_to_key"]=key
+    reagirl.Elements[element_id]["linked_to_default"]=default
+    reagirl.Elements[element_id]["linked_to_persist"]=persist
+    reagirl.Gui_ForceRefresh(16.1)
+  end
+end
+
+function reagirl.ToolbarButton_LinkToIniValue(element_id, ini_file, section, key, default)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>ToolbarButton_LinkToIniValue</slug>
+  <requires>
+    ReaGirl=1.3
+    Reaper=7.03
+    SWS=2.10.0.1
+    Lua=5.4
+  </requires>
+  <functioncall>reagirl.ToolbarButton_LinkToIniValue(string element_id, string ini_file, string section, string key, string default, boolean persist)</functioncall>
+  <description>
+    Links a toolbar-button to an ini-value. 
+    
+    All changes to the ini-value will be immediately visible for this toolbar-button.
+    Clicking the toolbar-butotn also updates the inivalue immediately.
+    
+    If the toolbar-button was already linked to extstate or config-variable, the linked-state will be replaced by this new one.
+    Use reagirl.ToolbarButton_Unlink() to unlink the toolbar-button from extstate/ini-file/config var.
+  </description>
+  <parameters>
+    string element_id - the guid of the toolbar-button that you want to link to an ini-value
+    string ini_file - the filename of the ini-file
+    string section - the section of the ini-file
+    string key - the key of the ini-file
+    string default - the default value, if the ini-file hasn't been set yet
+  </parameters>
+  <chapter_context>
+    Toolbarbutton
+  </chapter_context>
+  <tags>toolbarbutton, link to, ini-file</tags>
+</US_DocBloc>
+--]]
+  if type(element_id)~="string" then error("ToolbarButton_LinkToIniValue: param #1 - must be a string", 2) end
+  if reagirl.IsValidGuid(element_id, true)==nil then error("ToolbarButton_LinkToIniValue: param #1 - must be a valid guid", 2) end
+  if type(ini_file)~="string" then error("ToolbarButton_LinkToIniValue: param #2 - must be a string", 2) end
+  if type(section)~="string" then error("ToolbarButton_LinkToIniValue: param #3 - must be a string", 2) end
+  if type(key)~="string" then error("ToolbarButton_LinkToIniValue: param #4 - must be a string", 2) end
+  if math.type(default)~="integer" then error("ToolbarButton_LinkToIniValue: param #5 - must be an integer", 2) end
+  element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
+  if element_id==-1 then error("ToolbarButton_LinkToIniValue: param #1 - no such ui-element", 2) end
+  if reagirl.Elements[element_id]["GUI_Element_Type"]~="ToolbarButton" then
+    error("ToolbarButton_LinkToIniValue: param #1 - ui-element is not a toobar-button", 2)
+  else
+    reagirl.Elements[element_id]["linked_to"]=2
+    reagirl.Elements[element_id]["linked_to_ini_file"]=ini_file
+    reagirl.Elements[element_id]["linked_to_section"]=section
+    reagirl.Elements[element_id]["linked_to_key"]=key
+    reagirl.Elements[element_id]["linked_to_default"]=default
+    reagirl.Gui_ForceRefresh(16.2)
+  end
+end
+
+function reagirl.ToolbarButton_LinkToIntConfigVarBit(element_id, configvar_name, bit, persist)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>ToolbarButton_LinkToIntConfigVarBit</slug>
+  <requires>
+    ReaGirl=1.3
+    Reaper=7.03
+    SWS=2.10.0.1
+    Lua=5.4
+  </requires>
+  <functioncall>reagirl.ToolbarButton_LinkToIntConfigVarBit(string element_id, string configvar_name, integer bit, boolean persist)</functioncall>
+  <description>
+    Links a toolbar-button to a configvar-bit. 
+    
+    All changes to the configvar-bit will be immediately visible for this toolbar-button.
+    Clicking the toolbar-button also updates the configvar-bit immediately.
+    
+    Note: this will only allow bitfield-integer config-vars. All others could cause malfunction of Reaper!
+    
+    Read the Reaper Internals-docs for all available config-variables(run the action ultraschall_Help_Reaper_ConfigVars_Documentation.lua for more details)
+    
+    If the toolbar-button was already linked to extstate or ini-file, the linked-state will be replaced by this new one.
+    Use reagirl.ToolbarButton_Unlink() to unlink the toolbarbutton from extstate/ini-file/config var.
+  </description>
+  <parameters>
+    string element_id - the guid of the toolbar-button that shall toggle a config-var-bit
+    string configvar_name - the config-variable, whose bit you want to toggle
+    integer bit - the bit that shall be toggled; &1, &2, &4, &8, &16, etc
+    boolean persist - true, make this setting persist; false, make this setting only temporary until Reaper restart
+  </parameters>
+  <chapter_context>
+    Toolbarbutton
+  </chapter_context>
+  <tags>toolbarbutton, link to, config variable</tags>
+</US_DocBloc>
+--]]
+  if type(element_id)~="string" then error("ToolbarButton_LinkToIntConfigVarBit: param #1 - must be a string", 2) end
+  if reagirl.IsValidGuid(element_id, true)==nil then error("ToolbarButton_LinkToIntConfigVarBit: param #1 - must be a valid guid", 2) end
+  if type(configvar_name)~="string" then error("ToolbarButton_LinkToIntConfigVarBit: param #2 - must be a string", 2) end
+  if math.type(bit)~="integer" then error("ToolbarButton_LinkToIntConfigVarBit: param #3 - must be an integer", 2) end
+  if type(persist)~="boolean" then error("ToolbarButton_LinkToIntConfigVarBit: param #4 - must be a boolean", 2) end
+  
+  element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
+  if element_id==-1 then error("ToolbarButton_LinkToIntConfigVarBit: param #1 - no such ui-element", 2) end
+  if reagirl.Elements[element_id]["GUI_Element_Type"]~="ToolbarButton" then
+    error("ToolbarButton_LinkToIntConfigVarBit: param #1 - ui-element is not a toolbar-button", 2)
+  else
+    reagirl.Elements[element_id]["linked_to"]=3
+    reagirl.Elements[element_id]["linked_to_configvar"]=configvar_name
+    reagirl.Elements[element_id]["linked_to_bit"]=bit
+    reagirl.Elements[element_id]["linked_to_persist"]=persist
+    reagirl.Elements[element_id]["num_states"]=2
+    reagirl.Gui_ForceRefresh(16.4)
+  end
+end
+
+function reagirl.ToolbarButton_LinkToIntConfigVar(element_id, configvar_name, persist)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>ToolbarButton_LinkToIntConfigVar</slug>
+  <requires>
+    ReaGirl=1.3
+    Reaper=7.03
+    SWS=2.10.0.1
+    Lua=5.4
+  </requires>
+  <functioncall>reagirl.ToolbarButton_LinkToIntConfigVar(string element_id, string configvar_name, boolean persist)</functioncall>
+  <description>
+    Links a toolbar-button to an integer configvar. 
+    
+    All changes to the configvar will be immediately visible for this toolbar-button.
+    Clicking the toolbar-button also updates the configvar-bit immediately.
+    
+    Note: this will only allow integer config-vars. All others could cause malfunction of Reaper!
+    
+    Read the Reaper Internals-docs for all available config-variables(run the action ultraschall_Help_Reaper_ConfigVars_Documentation.lua for more details)
+    
+    If the toolbar-button was already linked to extstate or ini-file, the linked-state will be replaced by this new one.
+    Use reagirl.ToolbarButton_Unlink() to unlink the toolbarbutton from extstate/ini-file/config var.
+  </description>
+  <parameters>
+    string element_id - the guid of the toolbar-button that shall toggle a config-var
+    string configvar_name - the config-variable, whose value you want to use
+    boolean persist - true, make this setting persist; false, make this setting only temporary until Reaper restart
+  </parameters>
+  <chapter_context>
+    Toolbarbutton
+  </chapter_context>
+  <tags>toolbarbutton, link to, config variable</tags>
+</US_DocBloc>
+--]]
+  if type(element_id)~="string" then error("ToolbarButton_LinkToIntConfigVar: param #1 - must be a string", 2) end
+  if reagirl.IsValidGuid(element_id, true)==nil then error("ToolbarButton_LinkToIntConfigVar: param #1 - must be a valid guid", 2) end
+  if type(configvar_name)~="string" then error("ToolbarButton_LinkToIntConfigVar: param #2 - must be a string", 2) end
+  if type(persist)~="boolean" then error("ToolbarButton_LinkToIntConfigVar: param #3 - must be a boolean", 2) end
+  
+  element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
+  if element_id==-1 then error("ToolbarButton_LinkToIntConfigVar: param #1 - no such ui-element", 2) end
+  if reagirl.Elements[element_id]["GUI_Element_Type"]~="ToolbarButton" then
+    error("ToolbarButton_LinkToIntConfigVar: param #1 - ui-element is not a toolbar-button", 2)
+  else
+    reagirl.Elements[element_id]["linked_to"]=4
+    reagirl.Elements[element_id]["linked_to_configvar"]=configvar_name
+    reagirl.Elements[element_id]["linked_to_persist"]=persist
+    reagirl.Gui_ForceRefresh(16)
+  end
+end
+
+function reagirl.ToolbarButton_LinkToToggleState(element_id, section, command_id, run_action)
+-- ToDo in Checkbox_Manage(): SetTogglecommandState for Midi-Inline Editor, needs JS-extension features(see Ultraschall-API for details)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>ToolbarButton_LinkToToggleState</slug>
+  <requires>
+    ReaGirl=1.3
+    Reaper=7.03
+    Lua=5.4
+  </requires>
+  <functioncall>reagirl.ToolbarButton_LinkToToggleState(string element_id, integer section, string command_id, boolean run_command)</functioncall>
+  <description>
+    Links a toolbar-button to a toggle-command-state of an action. 
+    
+    All changes to the toggle-state will be immediately visible for this toolbar-button.
+    Clicking the toolbar-button also updates the toggle-state immediately, which also updates existing toolbar-button-states. 
+    You can set run_command=true, which will run the action everytime the toolbar-button is toggled. 
+    This might be important to use, if the action behind the toggle-state needs to be run to change states in Reaper AND toggle the toggle-state as well.
+    Keep it at run_command=false, if you only want to change the toggle-state of the action without running it.
+    
+    Note: some actions only change toggle-action, when they are run(like "Transport: Toggle repeat"). In these cases, the action will be run as well.
+    This shouldn't affect regular actions.
+    
+    If the toolbar-button was already linked to a config-var or ini-file, the linked-state will be replaced by this new one.
+    Use reagirl.ToolbarButton_Unlink() to unlink the toolbar-button from extstate/ini-file/config var.
+  </description>
+  <parameters>
+    string element_id - the guid of the toolbar-button, that you want to link to an extstate
+    integer section - the section of the command, whose toggle state you want to link
+                    - 0, Main
+                    - 100, Main (alt recording)
+                    - 32060, MIDI Editor
+                    - 32061, MIDI Event List Editor
+                    - 32062, MIDI Inline Editor
+                    - 32063, Media Explorer
+    string command_id - the action command id of the command
+    boolean run_command - true, run the action to change the toggle-state; false, only change toggle-state(see note above!)
+  </parameters>
+  <chapter_context>
+    Toolbarbutton
+  </chapter_context>
+  <tags>toolbarbutton, link to, toggle command state</tags>
+</US_DocBloc>
+--]]
+  if type(element_id)~="string" then error("ToolbarButton_LinkToToggleState: param #1 - must be a string", 2) end
+  if reagirl.IsValidGuid(element_id, true)==nil then error("ToolbarButton_LinkToToggleState: param #1 - must be a valid guid", 2) end
+  if math.type(section)~="integer" then error("ToolbarButton_LinkToToggleState: param #2 - must be an integer", 2) end
+  if type(command_id)~="string" and math.type(command_id)~="integer" then error("ToolbarButton_LinkToToggleState: param #3 - must be a string", 2) end
+  if type(run_action)~="boolean" then error("ToolbarButton_LinkToToggleState: param #4 - must be a boolean", 2) end
+  
+  element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
+  if element_id==-1 then error("ToolbarButton_LinkToToggleState: param #1 - no such ui-element", 2) end
+  if reagirl.Elements[element_id]["GUI_Element_Type"]~="ToolbarButton" then
+    error("ToolbarButton_LinkToToggleState: param #1 - ui-element is not a toolbar-button", 2)
+  else
+    if reaper.GetToggleCommandStateEx(section, reaper.NamedCommandLookup(command_id))==-1 then error("ToolbarButton_LinkToToggleState: param #3 - has no toggle-state", 2) end
+    
+    reagirl.Elements[element_id]["cur_state"]=reaper.GetToggleCommandStateEx(section, reaper.NamedCommandLookup(command_id))
+    reagirl.Elements[element_id]["linked_to"]=5
+    reagirl.Elements[element_id]["linked_to_section"]=section
+    reagirl.Elements[element_id]["linked_to_command_id"]=reaper.NamedCommandLookup(command_id)
+    reagirl.Elements[element_id]["linked_run_action"]=run_action
+    reagirl.Gui_ForceRefresh(16)
+  end
+end
+
+function reagirl.ToolbarButton_Unlink(element_id)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>ToolbarButton_Unlink</slug>
+  <requires>
+    ReaGirl=1.3
+    Reaper=7.03
+    Lua=5.4
+  </requires>
+  <functioncall>reagirl.ToolbarButton_Unlink(string element_id)</functioncall>
+  <description>
+    Unlinks a toolbar-button from extstate/ini-file/configvar. 
+  </description>
+  <parameters>
+    string element_id - the guid of the toolbar-button that you want to unlink from extstates/ini-files/configvars
+  </parameters>
+  <chapter_context>
+    Toolbarbutton
+  </chapter_context>
+  <tags>toolbarbutton, link to, unlink</tags>
+</US_DocBloc>
+--]]
+  if type(element_id)~="string" then error("ToolbarButton_Unlink: param #1 - must be a string", 2) end
+  if reagirl.IsValidGuid(element_id, true)==nil then error("ToolbarButton_Unlink: param #1 - must be a valid guid", 2) end
+  
+  element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
+  if element_id==-1 then error("ToolbarButton_Unlink: param #1 - no such ui-element", 2) end
+  if reagirl.Elements[element_id]["GUI_Element_Type"]~="ToolbarButton" then
+    error("Checkbox_Unlink: param #1 - ui-element is not a toolbar-button", 2)
+  else
+    reagirl.Elements[element_id]["linked_to"]=0
+    reagirl.Gui_ForceRefresh(16.7)
+  end
 end
 
 function reagirl.ToolbarButton_Draw(element_id, selected, hovered, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
