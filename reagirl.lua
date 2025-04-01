@@ -12012,22 +12012,63 @@ function reagirl.ToolbarButton_Add(x, y, toolbaricon, num_states, default_state,
   table.insert(reagirl.Elements, slot, {})
   
   if mode&128==128 then mode=mode-128 end
+  --[[
+    -- load as regular toolbar-button
+    -- unfinished, because:
+    --   toolbarimages can be located in Data/toolbar_images as well as the Colortheme(which is often in a zip, unfortunately)
+    --   so, I need to implement a way to load the theme-images from the theme.zip like this:
+    --
+    -- theme=reaper.BR_GetCurrentTheme()
+    -- if reaper.file_exists(theme)==false then
+      -- local zipper=reaper.JS_Zip_Open(theme.."Zip", "READ", 0)
+      -- local retval, list = reaper.JS_Zip_ListAllEntries(zipper)
+      -- local theme_name=""
+      -- for k in string.gmatch(list.."\0", "(.-)\0") do
+        -- if k:match("%.ReaperTheme")~=nil then
+          -- theme_name=k
+          -- break
+        -- end
+      -- end
+      -- local index = reaper.JS_Zip_Entry_OpenByName(zipper, theme_name)
+      -- local retval, content = reaper.JS_Zip_Entry_ExtractToMemory(zipper)
+      -- reaper.MB((content.."\n"):match("\nui_img=(.-)\n"),index,0)
+      
+      -- reaper.JS_Zip_Close(theme.."Zip", zipper)
+    -- end
+    
+    -- In addition to that: theme images are stored in rows of three: left image is unclicked, right image is clicked, middle image is hovered
+    -- which also means, that some toolbars are stored as theme_image_filename_on.png theme_image_filename_off.png for two state toolbar-buttons.
+    -- so it's quite complex and therefore, I probably will not implement this
+    
+    -- here is unfinished code, that implements text-toolbars from regular toolbar-buttons
   if mode&256==256 then 
     mode=mode-256
     local retval
-    retval, toolbaricon=reaper.BR_Win32_GetPrivateProfileString(toolbar, "icon_"..(toolbarbutton_index-1), "", reaper.GetResourcePath().."/reaper-menu.ini")
+    retval, toolbaricon2=reaper.BR_Win32_GetPrivateProfileString(toolbar, "icon_"..(toolbarbutton_index-1), "", reaper.GetResourcePath().."/reaper-menu.ini")
 
-    if toolbaricon=="" or toolbaricon=="text" then
+    if toolbaricon2=="" or toolbaricon2=="text" then
       mode=3
       toolbaricon=""
-    elseif toolbaricon=="text wide" then
+    elseif toolbaricon2=="text_wide" or toolbaricon2=="text wide" then
       mode=4
       toolbaricon=""
     else
       mode=1
+      toolbaricon=toolbaricon2
     end
-    if reaper.file_exists(toolbaricon)==false then toolbaricon=reaper.GetResourcePath().."/Data/toolbar_icons/"..toolbaricon end
+    if reaper.file_exists(toolbaricon)==false then 
+      local theme=reaper.BR_GetCurrentTheme()
+      local retval, folder=reaper.BR_Win32_GetPrivateProfileString("REAPER", "ui_img", "", theme)
+      reaper.MB(folder,"",0)
+      toolbaricon=reaper.GetResourcePath().."/ColorThemes/"..folder.."/"..toolbaricon2 
+    end
+    reaper.MB(toolbaricon,tostring(reaper.file_exists(toolbaricon)),0)
+    if reaper.file_exists(toolbaricon)==false then toolbaricon=reaper.GetResourcePath().."/Data/toolbar_icons/"..toolbaricon2 end
+    
+    --reaper.MB(reaper.BR_GetCurrentTheme(),"",0)
     retval, caption=reaper.BR_Win32_GetPrivateProfileString(toolbar, "item_"..(toolbarbutton_index-1), "", reaper.GetResourcePath().."/reaper-menu.ini")
+    if caption=="-1" then error("The button you chose is a separator and therefore no button" ,2) end
+    --reaper.MB(caption,"",0)
     action, caption=caption:match("(.-) (.*)")
     num_states=2
     local section=0
@@ -12042,7 +12083,8 @@ function reagirl.ToolbarButton_Add(x, y, toolbaricon, num_states, default_state,
     reagirl.Elements[slot]["linked_run_action"]=true  
     reagirl.Gui_ForceRefresh(953713.293)
   end
-  
+  --]]
+
   reagirl.Elements[slot]["Guid"]=reaper.genGuid("")
   reagirl.Elements[slot]["GUI_Element_Type"]="ToolbarButton"
   reagirl.Elements[slot]["Name"]=caption
@@ -12667,12 +12709,12 @@ function reagirl.ToolbarButton_Draw(element_id, selected, hovered, clicked, mous
         local width, height=gfx.measurestr(text[1])
         local xx=(w-width)/2
         local yy=(h-height)/2
-        gfx.x=xx+dpi_scale
+        gfx.x=xx-dpi_scale
         gfx.y=yy+dpi_scale
         gfx.dest=element_storage["toolbaricon"]
         gfx.set(reagirl.Colors.Toolbar_TextBG_r, reagirl.Colors.Toolbar_TextBG_g, reagirl.Colors.Toolbar_TextBG_b)
         gfx.drawstr(text[1])
-        gfx.x=xx
+        gfx.x=xx-dpi_scale-dpi_scale
         gfx.y=yy
         gfx.dest=element_storage["toolbaricon"]
         gfx.set(reagirl.Colors.Toolbar_TextFG_r, reagirl.Colors.Toolbar_TextFG_g, reagirl.Colors.Toolbar_TextFG_b)
