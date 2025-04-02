@@ -2635,6 +2635,9 @@ reagirl.Colors.Label_TextFGclickable_b=1
 reagirl.Colors.Label_TextBG_r=0.2
 reagirl.Colors.Label_TextBG_g=0.2
 reagirl.Colors.Label_TextBG_b=0.2
+reagirl.Colors.Label_BackDrop_r=0.5
+reagirl.Colors.Label_BackDrop_g=0.5
+reagirl.Colors.Label_BackDrop_b=0.5
 
 reagirl.Colors.Inputbox_CaptionFG_r=0.8
 reagirl.Colors.Inputbox_CaptionFG_g=0.8
@@ -2824,7 +2827,42 @@ if reaper.GetExtState("ReaGirl", "FocusRectangle_BlinkTime")=="" then
 else
   reagirl.FocusRectangle_BlinkTime=tonumber(reaper.GetExtState("ReaGirl", "FocusRectangle_BlinkTime"))
 end
+
+function reagirl.Color_UseThemeColors()
+  -- To Do: findin a proper theme-selection of colors to use in ReaGirl
+  function GetThemeColor(theme_color)
+    local col=reaper.GetThemeColor(theme_color, 0)
+    return reaper.ColorFromNative(col)
+  end
   
+  -- 0.8
+  reagirl.Color_GetSet("InputBox_TextFGTyped", true, GetThemeColor("col_trans_fg"))
+  reagirl.Color_GetSet("Label_BackDrop", true, GetThemeColor("wiring_border"))
+  
+  
+  local color="col_cursor" -- 0.6
+  reagirl.Color_GetSet("Buttons_TextFG", true, GetThemeColor(color))
+  reagirl.Color_GetSet("Inputbox_CaptionFGdisabled", true, GetThemeColor(color))
+  reagirl.Color_GetSet("InputBox_TextFGTypeddisabled", true, GetThemeColor(color))
+  reagirl.Color_GetSet("DropDownMenu_CaptionFGdisabled", true, GetThemeColor(color))
+  reagirl.Color_GetSet("Checkbox_CaptionFG_disabled", true, GetThemeColor(color))
+  reagirl.Color_GetSet("Slider_CaptionFG_disabled", true, GetThemeColor(color))
+  reagirl.Color_GetSet("Slider_Center_disabled", true, GetThemeColor(color))
+  
+  local color="col_tracklistbg" -- 0.274
+  reagirl.Color_GetSet("Buttons_Area", true, GetThemeColor(color))
+  reagirl.Color_GetSet("Burgermenu_Area", true, GetThemeColor(color))
+  reagirl.Color_GetSet("Inputbox_DropdownArea", true, GetThemeColor(color))
+  reagirl.Color_GetSet("Toolbar_Area", true, GetThemeColor(color))
+  reagirl.Color_GetSet("Tabs_Inner_Tabs_Selected", true, GetThemeColor(color))
+  reagirl.Color_GetSet("Tabs_Inner_Background", true, GetThemeColor(color))
+  reagirl.Color_GetSet("Inputbox_Area", true, GetThemeColor(color))
+  
+  
+  reagirl.Gui_ForceRefresh("UseThemeColors")
+end
+
+
 function reagirl.FormatNumber(n, p)
   if n==math.floor(n) then return math.floor(n) end
   n=n+0.0
@@ -13304,6 +13342,7 @@ function reagirl.Color_GetSet(color_name, is_set, r, g, b)
     Label_TextBG - the background of the label
     Label_TextFG - the foreground of the label
     Label_TextFGclickable - the foreground of the clickable label
+    Label_BackDrop - the backdrop of labels
     Scrollbar_Background - the background of the scroll-bar
     Scrollbar_Foreground - the foreground of the scroll-bar
     Slider_Border - the border of the slider-area
@@ -13999,6 +14038,8 @@ function reagirl.Inputbox_OnMouseDown(mouse_cap, element_storage)
       --reaper.ShowConsoleMsg(element_storage.cursor_offset.."\n")
       element_storage.cursor_startoffset=element_storage.cursor_offset
       element_storage.clicked1=true
+      A=element_storage.cursor_offset
+      B=draw_offset_end
       if element_storage.cursor_offset==-2 then 
         --[[
         if element_storage.w_dropdownarea==0 then
@@ -14008,11 +14049,10 @@ function reagirl.Inputbox_OnMouseDown(mouse_cap, element_storage)
           element_storage.cursor_startoffset=element_storage.cursor_offset
         else
         --]]
-        element_storage.cursor_offset=draw_offset_end
-        element_storage.selection_startoffset=draw_offset_end
-        element_storage.selection_endoffset=draw_offset_end
-        element_storage.cursor_startoffset=draw_offset_end
-        --end
+        element_storage.cursor_offset=draw_offset_end-1
+        element_storage.selection_startoffset=draw_offset_end-1
+        element_storage.selection_endoffset=draw_offset_end-1
+        element_storage.cursor_startoffset=draw_offset_end-1
       elseif element_storage.cursor_offset==-1 then
         element_storage.cursor_offset=0
         element_storage.selection_startoffset=0
@@ -14835,11 +14875,11 @@ function reagirl.Inputbox_Draw(element_id, selected, hovered, clicked, mouse_cap
     if element_storage.dropdown_clicked==true then
       -- clicked dropdownarea
       gfx.set(0.06+add_color)
-      reagirl.RoundRect(x+w-element_storage.w_dropdownarea*dpi_scale, y-dpi_scale, element_storage.w_dropdownarea*dpi_scale, h, 2, 1, 1)
+      reagirl.RoundRect(x+w-element_storage.w_dropdownarea*dpi_scale, y-dpi_scale, element_storage.w_dropdownarea*dpi_scale, h, 2, 1, 1, true, true, false, false)
       gfx.set(0.6+add_color)
       --reagirl.RoundRect(x+w-element_storage.w_dropdownarea*dpi_scale+dpi_scale, y+dpi_scale, element_storage.w_dropdownarea*dpi_scale, h-dpi_scale, 2, 1, 1)
       gfx.set(reagirl.Colors.Inputbox_DropdownArea_r+add_color, reagirl.Colors.Inputbox_DropdownArea_g+add_color, reagirl.Colors.Inputbox_DropdownArea_b+add_color)
-      reagirl.RoundRect(x+w-element_storage.w_dropdownarea*dpi_scale+dpi_scale, y, element_storage.w_dropdownarea*dpi_scale-dpi_scale, h-dpi_scale, 2, 1, 1)
+      reagirl.RoundRect(x+w-element_storage.w_dropdownarea*dpi_scale+dpi_scale, y, element_storage.w_dropdownarea*dpi_scale-dpi_scale, h-dpi_scale, 2, 1, 1, true, true, false, false)
       
       if element_storage.IsDisabled==true then
         gfx.set(reagirl.Colors.Inputbox_DropdownArea_Circle_disabled_r, reagirl.Colors.Inputbox_DropdownArea_Circle_disabled_g, reagirl.Colors.Inputbox_DropdownArea_Circle_disabled_b)
@@ -14850,11 +14890,11 @@ function reagirl.Inputbox_Draw(element_id, selected, hovered, clicked, mouse_cap
     elseif element_storage.dropdown_clicked==nil then
       -- unclicked dropdownarea
       gfx.set(0.6+add_color)
-      reagirl.RoundRect(x+w-element_storage.w_dropdownarea*dpi_scale, y, element_storage.w_dropdownarea*dpi_scale, h, 2, 1, 1)
+      reagirl.RoundRect(x+w-element_storage.w_dropdownarea*dpi_scale, y, element_storage.w_dropdownarea*dpi_scale, h, 2, 1, 1, true, true, false, false)
       gfx.set(0.06+add_color)
-      reagirl.RoundRect(x+w-element_storage.w_dropdownarea*dpi_scale+dpi_scale, y+dpi_scale, element_storage.w_dropdownarea*dpi_scale, h-dpi_scale, 2, 1, 1)
+      reagirl.RoundRect(x+w-element_storage.w_dropdownarea*dpi_scale+dpi_scale, y+dpi_scale, element_storage.w_dropdownarea*dpi_scale, h-dpi_scale, 2, 1, 1, true, true, false, false)
       gfx.set(reagirl.Colors.Inputbox_DropdownArea_r+add_color, reagirl.Colors.Inputbox_DropdownArea_g+add_color, reagirl.Colors.Inputbox_DropdownArea_b+add_color)
-      reagirl.RoundRect(x+w-element_storage.w_dropdownarea*dpi_scale+dpi_scale, y, element_storage.w_dropdownarea*dpi_scale-dpi_scale, h-dpi_scale, 2, 1, 1)
+      reagirl.RoundRect(x+w-element_storage.w_dropdownarea*dpi_scale+dpi_scale, y, element_storage.w_dropdownarea*dpi_scale-dpi_scale, h-dpi_scale, 2, 1, 1, true, true, false, false)
   
       if element_storage.IsDisabled==true then
         gfx.set(reagirl.Colors.Inputbox_DropdownArea_Circle_disabled_r, reagirl.Colors.Inputbox_DropdownArea_Circle_disabled_g, reagirl.Colors.Inputbox_DropdownArea_Circle_disabled_b)
@@ -17043,7 +17083,7 @@ function reagirl.Label_Draw(element_id, selected, hovered, clicked, mouse_cap, m
     end
     
     if bg_w~=0 and bg_h~=0 then
-      gfx.set(0.5)
+      gfx.set(reagirl.Colors.Label_BackDrop_r, reagirl.Colors.Label_BackDrop_g, reagirl.Colors.Label_BackDrop_b)
       gfx.rect(x-10*dpi_scale, y+(gfx.texth>>1), 5*dpi_scale, dpi_scale, 1)
       gfx.rect(x-10*dpi_scale, y+(gfx.texth>>1), dpi_scale, bg_h*dpi_scale, 1)
       if bg_h>1 then
