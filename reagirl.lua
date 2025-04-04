@@ -2594,9 +2594,9 @@ reagirl.ColorName[#reagirl.ColorName+1]="Zombie Green"
 
 
 reagirl.Colors={}
-reagirl.Colors.GuiBackgroundColor_r=0
-reagirl.Colors.GuiBackgroundColor_g=0
-reagirl.Colors.GuiBackgroundColor_b=0
+reagirl.Colors.Gui_Background_Color_r=0.2156862745098
+reagirl.Colors.Gui_Background_Color_g=0.2156862745098
+reagirl.Colors.Gui_Background_Color_b=0.2156862745098
 reagirl.Colors.Scrollbar_Background_r=0.39
 reagirl.Colors.Scrollbar_Background_g=0.39
 reagirl.Colors.Scrollbar_Background_b=0.39
@@ -2800,6 +2800,215 @@ reagirl.Colors.ColorRectangle_Boundary_b=0.403921568627451
 reagirl.Colors.ColorRectangle_Boundary2_r=0
 reagirl.Colors.ColorRectangle_Boundary2_g=0
 reagirl.Colors.ColorRectangle_Boundary2_b=0
+
+reagirl.Dark_Colors={}
+reagirl.Dark_Colors.Gui_Background_Color_r=0.2156862745098
+reagirl.Dark_Colors.Gui_Background_Color_g=0.2156862745098
+reagirl.Dark_Colors.Gui_Background_Color_b=0.2156862745098
+reagirl.Dark_Colors.Scrollbar_Background_r=0.39
+reagirl.Dark_Colors.Scrollbar_Background_g=0.39
+reagirl.Dark_Colors.Scrollbar_Background_b=0.39
+
+reagirl.Dark_Colors.Scrollbar_Foreground_r=0.49
+reagirl.Dark_Colors.Scrollbar_Foreground_g=0.49
+reagirl.Dark_Colors.Scrollbar_Foreground_b=0.49
+
+reagirl.Dark_Colors.Buttons_Area_r=0.274
+reagirl.Dark_Colors.Buttons_Area_g=0.274
+reagirl.Dark_Colors.Buttons_Area_b=0.274
+reagirl.Dark_Colors.Buttons_TextFG_r=0.784
+reagirl.Dark_Colors.Buttons_TextFG_g=0.784
+reagirl.Dark_Colors.Buttons_TextFG_b=0.784
+reagirl.Dark_Colors.Buttons_TextBG_r=0.2
+reagirl.Dark_Colors.Buttons_TextBG_g=0.2
+reagirl.Dark_Colors.Buttons_TextBG_b=0.2
+reagirl.Dark_Colors.Buttons_TextFG_disabled_r=0.6
+reagirl.Dark_Colors.Buttons_TextFG_disabled_g=0.6
+reagirl.Dark_Colors.Buttons_TextFG_disabled_b=0.6
+
+reagirl.Dark_Colors.Burgermenu_Area_r=0.274
+reagirl.Dark_Colors.Burgermenu_Area_g=0.274
+reagirl.Dark_Colors.Burgermenu_Area_b=0.274
+reagirl.Dark_Colors.Burgermenu_Stripes_r=0.55
+reagirl.Dark_Colors.Burgermenu_Stripes_g=0.55
+reagirl.Dark_Colors.Burgermenu_Stripes_b=0.55
+
+
+reagirl.Dark_Colors.Label_TextFG_r=0.8
+reagirl.Dark_Colors.Label_TextFG_g=0.8
+reagirl.Dark_Colors.Label_TextFG_b=0.8
+reagirl.Dark_Colors.Label_TextFGclickable_r=0.4
+reagirl.Dark_Colors.Label_TextFGclickable_g=0.65
+reagirl.Dark_Colors.Label_TextFGclickable_b=1
+reagirl.Dark_Colors.Label_TextBG_r=0.2
+reagirl.Dark_Colors.Label_TextBG_g=0.2
+reagirl.Dark_Colors.Label_TextBG_b=0.2
+reagirl.Dark_Colors.Label_BackDrop_r=0.5
+reagirl.Dark_Colors.Label_BackDrop_g=0.5
+reagirl.Dark_Colors.Label_BackDrop_b=0.5
+
+reagirl.Dark_Colors.Inputbox_CaptionFG_r=0.8
+reagirl.Dark_Colors.Inputbox_CaptionFG_g=0.8
+reagirl.Dark_Colors.Inputbox_CaptionFG_b=0.8
+reagirl.Dark_Colors.InputBox_CaptionBG_r=0.2
+reagirl.Dark_Colors.InputBox_CaptionBG_g=0.2
+reagirl.Dark_Colors.InputBox_CaptionBG_b=0.2
+reagirl.Dark_Colors.Inputbox_CaptionFGdisabled_r=0.6
+reagirl.Dark_Colors.Inputbox_CaptionFGdisabled_g=0.6
+reagirl.Dark_Colors.Inputbox_CaptionFGdisabled_b=0.6
+reagirl.Dark_Colors.InputBox_TextFGTyped_r=0.8
+reagirl.Dark_Colors.InputBox_TextFGTyped_g=0.8
+reagirl.Dark_Colors.InputBox_TextFGTyped_b=0.8
+reagirl.Dark_Colors.InputBox_TextFGTypeddisabled_r=0.6
+reagirl.Dark_Colors.InputBox_TextFGTypeddisabled_g=0.6
+reagirl.Dark_Colors.InputBox_TextFGTypeddisabled_b=0.6
+reagirl.Dark_Colors.InputBox_TextBGTyped_r=0.2
+reagirl.Dark_Colors.InputBox_TextBGTyped_g=0.2
+reagirl.Dark_Colors.InputBox_TextBGTyped_b=0.2
+reagirl.Dark_Colors.Inputbox_Area_r=0.234
+reagirl.Dark_Colors.Inputbox_Area_g=0.234
+reagirl.Dark_Colors.Inputbox_Area_b=0.234
+reagirl.Dark_Colors.Inputbox_DropdownArea_r=0.274
+reagirl.Dark_Colors.Inputbox_DropdownArea_g=0.274
+reagirl.Dark_Colors.Inputbox_DropdownArea_b=0.274
+reagirl.Dark_Colors.Inputbox_DropdownArea_Circle_r=0.45
+reagirl.Dark_Colors.Inputbox_DropdownArea_Circle_g=0.45
+reagirl.Dark_Colors.Inputbox_DropdownArea_Circle_b=0.45
+reagirl.Dark_Colors.Inputbox_DropdownArea_Circle_disabled_r=0.35
+reagirl.Dark_Colors.Inputbox_DropdownArea_Circle_disabled_g=0.35
+reagirl.Dark_Colors.Inputbox_DropdownArea_Circle_disabled_b=0.35
+
+reagirl.Dark_Colors.Inputbox_Cursor_r=0.9843137254901961
+reagirl.Dark_Colors.Inputbox_Cursor_g=0.8156862745098039
+reagirl.Dark_Colors.Inputbox_Cursor_b=0
+
+reagirl.Dark_Colors.Toolbar_TextFG_r=0.8
+reagirl.Dark_Colors.Toolbar_TextFG_g=0.8
+reagirl.Dark_Colors.Toolbar_TextFG_b=0.8
+reagirl.Dark_Colors.Toolbar_TextBG_r=0.2
+reagirl.Dark_Colors.Toolbar_TextBG_g=0.2
+reagirl.Dark_Colors.Toolbar_TextBG_b=0.2
+reagirl.Dark_Colors.Toolbar_CaptionFG_r=0.8
+reagirl.Dark_Colors.Toolbar_CaptionFG_g=0.8
+reagirl.Dark_Colors.Toolbar_CaptionFG_b=0.8
+reagirl.Dark_Colors.Toolbar_CaptionBG_r=0.2
+reagirl.Dark_Colors.Toolbar_CaptionBG_g=0.2
+reagirl.Dark_Colors.Toolbar_CaptionBG_b=0.2
+reagirl.Dark_Colors.Toolbar_Area_r=0.274
+reagirl.Dark_Colors.Toolbar_Area_g=0.274
+reagirl.Dark_Colors.Toolbar_Area_b=0.274
+
+reagirl.Dark_Colors.DropDownMenu_CaptionFG_r=0.8
+reagirl.Dark_Colors.DropDownMenu_CaptionFG_g=0.8
+reagirl.Dark_Colors.DropDownMenu_CaptionFG_b=0.8
+reagirl.Dark_Colors.DropDownMenu_CaptionFGdisabled_r=0.6
+reagirl.Dark_Colors.DropDownMenu_CaptionFGdisabled_g=0.6
+reagirl.Dark_Colors.DropDownMenu_CaptionFGdisabled_b=0.6
+reagirl.Dark_Colors.DropDownMenu_CaptionBG_r=0.2
+reagirl.Dark_Colors.DropDownMenu_CaptionBG_g=0.2
+reagirl.Dark_Colors.DropDownMenu_CaptionBG_b=0.2
+reagirl.Dark_Colors.DropDownMenu_Area_r=0.274
+reagirl.Dark_Colors.DropDownMenu_Area_g=0.274
+reagirl.Dark_Colors.DropDownMenu_Area_b=0.274
+
+reagirl.Dark_Colors.DropDownMenu_AreaTextFG_r=0.784
+reagirl.Dark_Colors.DropDownMenu_AreaTextFG_g=0.784
+reagirl.Dark_Colors.DropDownMenu_AreaTextFG_b=0.784
+reagirl.Dark_Colors.DropDownMenu_AreaTextFGdisabled_r=0.09
+reagirl.Dark_Colors.DropDownMenu_AreaTextFGdisabled_g=0.09
+reagirl.Dark_Colors.DropDownMenu_AreaTextFGdisabled_b=0.09
+reagirl.Dark_Colors.DropDownMenu_AreaTextBG_r=0.2
+reagirl.Dark_Colors.DropDownMenu_AreaTextBG_g=0.2
+reagirl.Dark_Colors.DropDownMenu_AreaTextBG_b=0.2
+reagirl.Dark_Colors.DropDownMenu_Circle_r=0.45
+reagirl.Dark_Colors.DropDownMenu_Circle_g=0.45
+reagirl.Dark_Colors.DropDownMenu_Circle_b=0.45
+reagirl.Dark_Colors.DropDownMenu_Circle_disabled_r=0.35
+reagirl.Dark_Colors.DropDownMenu_Circle_disabled_g=0.35
+reagirl.Dark_Colors.DropDownMenu_Circle_disabled_b=0.35
+
+reagirl.Dark_Colors.Checkbox_CaptionBG_r=0.2
+reagirl.Dark_Colors.Checkbox_CaptionBG_g=0.2
+reagirl.Dark_Colors.Checkbox_CaptionBG_b=0.2
+reagirl.Dark_Colors.Checkbox_CaptionFG_r=0.8
+reagirl.Dark_Colors.Checkbox_CaptionFG_g=0.8
+reagirl.Dark_Colors.Checkbox_CaptionFG_b=0.8
+reagirl.Dark_Colors.Checkbox_CaptionFG_disabled_r=0.6
+reagirl.Dark_Colors.Checkbox_CaptionFG_disabled_g=0.6
+reagirl.Dark_Colors.Checkbox_CaptionFG_disabled_b=0.6
+reagirl.Dark_Colors.Checkbox_CheckArea_r=0.9843137254901961
+reagirl.Dark_Colors.Checkbox_CheckArea_g=0.8156862745098039
+reagirl.Dark_Colors.Checkbox_CheckArea_b=0
+reagirl.Dark_Colors.Checkbox_rectangle_r=0.5
+reagirl.Dark_Colors.Checkbox_rectangle_g=0.5
+reagirl.Dark_Colors.Checkbox_rectangle_b=0.5
+reagirl.Dark_Colors.Checkbox_CheckArea_disabled_r=0.5843137254901961
+reagirl.Dark_Colors.Checkbox_CheckArea_disabled_g=0.5843137254901961
+reagirl.Dark_Colors.Checkbox_CheckArea_disabled_b=0
+reagirl.Dark_Colors.Checkbox_background_r=0.234
+reagirl.Dark_Colors.Checkbox_background_g=0.234
+reagirl.Dark_Colors.Checkbox_background_b=0.234
+reagirl.Dark_Colors.Slider_CaptionBG_r=0.2
+reagirl.Dark_Colors.Slider_CaptionBG_g=0.2
+reagirl.Dark_Colors.Slider_CaptionBG_b=0.2
+reagirl.Dark_Colors.Slider_CaptionFG_r=0.8
+reagirl.Dark_Colors.Slider_CaptionFG_g=0.8
+reagirl.Dark_Colors.Slider_CaptionFG_b=0.8
+reagirl.Dark_Colors.Slider_CaptionFG_disabled_r=0.6
+reagirl.Dark_Colors.Slider_CaptionFG_disabled_g=0.6
+reagirl.Dark_Colors.Slider_CaptionFG_disabled_b=0.6
+reagirl.Dark_Colors.Slider_DefaultLine_r=0.584
+reagirl.Dark_Colors.Slider_DefaultLine_g=0.584
+reagirl.Dark_Colors.Slider_DefaultLine_b=0.584
+reagirl.Dark_Colors.Slider_Border_r=0.5
+reagirl.Dark_Colors.Slider_Border_g=0.5
+reagirl.Dark_Colors.Slider_Border_b=0.5
+reagirl.Dark_Colors.Slider_Center_r=0.7
+reagirl.Dark_Colors.Slider_Center_g=0.7
+reagirl.Dark_Colors.Slider_Center_b=0.7
+reagirl.Dark_Colors.Slider_Center_disabled_r=0.6
+reagirl.Dark_Colors.Slider_Center_disabled_g=0.6
+reagirl.Dark_Colors.Slider_Center_disabled_b=0.6
+reagirl.Dark_Colors.Slider_Circle_1_r=0.584
+reagirl.Dark_Colors.Slider_Circle_1_g=0.584
+reagirl.Dark_Colors.Slider_Circle_1_b=0.584
+reagirl.Dark_Colors.Slider_Circle_2_r=0.2725490196078431
+reagirl.Dark_Colors.Slider_Circle_2_g=0.2725490196078431
+reagirl.Dark_Colors.Slider_Circle_2_b=0.2725490196078431
+reagirl.Dark_Colors.Slider_Circle_center_r=0.9843137254901961
+reagirl.Dark_Colors.Slider_Circle_center_g=0.8156862745098039
+reagirl.Dark_Colors.Slider_Circle_center_b=0
+reagirl.Dark_Colors.Slider_Circle_center_disabled_r=0.584
+reagirl.Dark_Colors.Slider_Circle_center_disabled_g=0.584
+reagirl.Dark_Colors.Slider_Circle_center_disabled_b=0.584
+reagirl.Dark_Colors.Tabs_Border_Tabs_r=0.403921568627451
+reagirl.Dark_Colors.Tabs_Border_Tabs_g=0.403921568627451
+reagirl.Dark_Colors.Tabs_Border_Tabs_b=0.403921568627451
+reagirl.Dark_Colors.Tabs_Inner_Tabs_Selected_r=0.253921568627451
+reagirl.Dark_Colors.Tabs_Inner_Tabs_Selected_g=0.253921568627451
+reagirl.Dark_Colors.Tabs_Inner_Tabs_Selected_b=0.253921568627451
+reagirl.Dark_Colors.Tabs_Inner_Tabs_Unselected_r=0.153921568627451
+reagirl.Dark_Colors.Tabs_Inner_Tabs_Unselected_g=0.153921568627451
+reagirl.Dark_Colors.Tabs_Inner_Tabs_Unselected_b=0.153921568627451
+reagirl.Dark_Colors.Tabs_CaptionFG_r=0.8
+reagirl.Dark_Colors.Tabs_CaptionFG_g=0.8
+reagirl.Dark_Colors.Tabs_CaptionFG_b=0.8
+reagirl.Dark_Colors.Tabs_CaptionBG_r=0.2
+reagirl.Dark_Colors.Tabs_CaptionBG_g=0.2
+reagirl.Dark_Colors.Tabs_CaptionBG_b=0.2
+reagirl.Dark_Colors.Tabs_Border_Background_r=0.403921568627451
+reagirl.Dark_Colors.Tabs_Border_Background_g=0.403921568627451
+reagirl.Dark_Colors.Tabs_Border_Background_b=0.403921568627451
+reagirl.Dark_Colors.Tabs_Inner_Background_r=0.253921568627451
+reagirl.Dark_Colors.Tabs_Inner_Background_g=0.253921568627451
+reagirl.Dark_Colors.Tabs_Inner_Background_b=0.253921568627451
+reagirl.Dark_Colors.ColorRectangle_Boundary_r=0.403921568627451
+reagirl.Dark_Colors.ColorRectangle_Boundary_g=0.403921568627451
+reagirl.Dark_Colors.ColorRectangle_Boundary_b=0.403921568627451
+reagirl.Dark_Colors.ColorRectangle_Boundary2_r=0
+reagirl.Dark_Colors.ColorRectangle_Boundary2_g=0
+reagirl.Dark_Colors.ColorRectangle_Boundary2_b=0
+
 -- Cursor-Blinkspeed for inputboxes, live-settable in extstate ReaGirl -> Inputbox_BlinkSpeed
 -- 7 and higher is supported
 if reaper.GetExtState("ReaGirl", "Inputbox_BlinkSpeed")=="" then
@@ -2826,6 +3035,37 @@ if reaper.GetExtState("ReaGirl", "FocusRectangle_BlinkTime")=="" then
   reagirl.FocusRectangle_BlinkTime=nil
 else
   reagirl.FocusRectangle_BlinkTime=tonumber(reaper.GetExtState("ReaGirl", "FocusRectangle_BlinkTime"))
+end
+
+-- add a setting that sets ReaGirl-guis to dark/light-theme
+-- add functinonality to auto-update when the user chose a new theme
+
+function reagirl.Color_SetToLightTheme()
+  for k,v in pairs(reagirl.Colors) do
+    reagirl.Colors[k]=-(reagirl.Dark_Colors[k]-1)
+  end
+  reagirl.Color_GetSet("Gui_Background_Color", true, 200, 200, 200)
+  reagirl.Color_GetSet("Tabs_Inner_Background", true, 200, 200, 200)
+  reagirl.Color_GetSet("Tabs_Inner_Tabs_Selected", true, 200, 200, 200)
+  reagirl.Color_GetSet("Tabs_Inner_Tabs_Unselected", true, 180, 180, 180)
+  
+  reagirl.Color_GetSet("DropDownMenu_Area", true, 180, 180, 180)
+  reagirl.Color_GetSet("DropDownMenu_Circle", true, 100, 100, 100)
+  
+  reagirl.Color_GetSet("Slider_Center", true, 100, 100, 100)
+  reagirl.Color_GetSet("Inputbox_DropdownArea_Circle", true, 100, 100, 100)
+  reagirl.Color_GetSet("Inputbox_DropdownArea", true, 180, 180, 180)
+  reagirl.Color_GetSet("Label_TextFGclickable", true, 32, 145, 235)
+  reagirl.Color_GetSet("Toolbar_Area", true, 180, 180, 180)
+  reagirl.Gui_ForceRefresh("LightTheme")
+end
+
+
+function reagirl.Color_SetToDarkTheme()
+  for k,v in pairs(reagirl.Colors) do
+    reagirl.Colors[k]=reagirl.Dark_Colors[k]
+  end
+  reagirl.Gui_ForceRefresh("DarkTheme")
 end
 
 function reagirl.Color_UseThemeColors()
@@ -4180,7 +4420,7 @@ function reagirl.Gui_New()
   reagirl.MaxImage=1
   
   local oldr, oldg, oldb, olda = gfx.r, gfx.g, gfx.b, gfx.a
-  gfx.set(reagirl.Colors["GuiBackgroundColor_r"], reagirl.Colors["GuiBackgroundColor_g"], reagirl.Colors["GuiBackgroundColor_b"])
+  gfx.set(reagirl.Colors["Gui_Background_Color_r"], reagirl.Colors["Gui_Background_Color_g"], reagirl.Colors["Gui_Background_Color_b"])
   gfx.r=oldr
   gfx.g=oldg
   gfx.b=oldb
@@ -6414,7 +6654,7 @@ function reagirl.Gui_Draw(Key, Key_utf, clickstate, specific_clickstate, mouse_c
   
   if reagirl.Gui_ForceRefreshState==true then
     -- clear background and draw bg-color/background image
-    gfx.set(reagirl.Colors["GuiBackgroundColor_r"],reagirl.Colors["GuiBackgroundColor_g"],reagirl.Colors["GuiBackgroundColor_b"])
+    gfx.set(reagirl.Colors["Gui_Background_Color_r"],reagirl.Colors["Gui_Background_Color_g"],reagirl.Colors["Gui_Background_Color_b"])
     gfx.rect(0,0,gfx.w,gfx.h,1)
     reagirl.Background_DrawImage()
 
@@ -12164,6 +12404,7 @@ function reagirl.ToolbarButton_Add(x, y, toolbaricon, num_states, default_state,
   reagirl.Elements[slot]["w_margin"]=0
   reagirl.Elements[slot]["h_margin"]=0
   reagirl.Elements[slot]["radius"]=2
+  reagirl.Elements[slot]["DropShadow"]=false
   reagirl.Elements[slot]["func_manage"]=reagirl.ToolbarButton_Manage
   reagirl.Elements[slot]["func_draw"]=reagirl.ToolbarButton_Draw
   reagirl.Elements[slot]["run_function"]=run_function
@@ -12408,6 +12649,78 @@ function reagirl.ToolbarButton_LinkToExtstate(element_id, section, key, default,
   end
 end
 
+function reagirl.ToolbarButton_SetDropShadow(element_id, has_drop_shadow)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>ToolbarButton_SetDropShadow</slug>
+  <requires>
+    ReaGirl=1.3
+    Reaper=7.03
+    Lua=5.4
+  </requires>
+  <functioncall>reagirl.ToolbarButton_SetDropShadow(string element_id, boolean has_drop_shadow)</functioncall>
+  <description>
+    Sets, if the image of the toolbar-button shall be drawn with a drop-shadow. This is helpful for images, that might not be correctly visible in either light or dark-theme or if conflicting colors are chosen by the user or the script.
+  </description>
+  <parameters>
+    string element_id - the toolbarbutton-element, whose drop-shadow-state you want to set
+    boolean has_drop_shadow - true, drop-shadow is enabled for this toolbarbutton; false, drop-shadow is not enabled for this toolbarbutton
+  </parameters>
+  <chapter_context>
+    Toolbarbutton
+  </chapter_context>
+  <tags>toolbarbutton, set, dropshadow</tags>
+</US_DocBloc>
+  --]]
+  if type(element_id)~="string" then error("ToolbarButton_SetDropShadow: param #1 - must be a string", 2) end
+  if reagirl.IsValidGuid(element_id, true)==false then error("ToolbarButton_SetDropShadow: param #1 - must be a valid guid", 2) end
+  if type(has_drop_shadow)~="boolean" then error("ToolbarButton_SetDropShadow: #2 - must be a boolean", 2) end
+  
+  element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
+  if element_id==-1 then error("Image_GetDropShadow: param #1 - no such ui-element", 2) end
+  if reagirl.Elements[element_id]["GUI_Element_Type"]~="ToolbarButton" then
+    error("ToolbarButton_SetDropShadow: param #1 - ui-element is not a toolbar-button", 2)
+  end
+  
+  reagirl.Elements[element_id]["DropShadow"]=has_drop_shadow
+end
+
+function reagirl.ToolbarButton_GetDropShadow(element_id, has_drop_shadow)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>ToolbarButton_GetDropShadow</slug>
+  <requires>
+    ReaGirl=1.3
+    Reaper=7.03
+    Lua=5.4
+  </requires>
+  <functioncall>reagirl.ToolbarButton_GetDropShadow(string element_id)</functioncall>
+  <description>
+    Gets, if the image is drawn with a drop-shadow. This is helpful for images, that might not be correctly visible in either light or dark-theme or if conflicting colors are chosen by the user or the script.
+  </description>
+  <parameters>
+    string element_id - the image-element, whose drop-shadow-state you want to get
+  </parameters>
+  <retvals>
+    boolean has_drop_shadow - true, drop-shadow is enabled for this image; false, drop-shadow is not enabled for this image
+  </retvals>
+  <chapter_context>
+    Image
+  </chapter_context>
+  <tags>image, get, dropshadow</tags>
+</US_DocBloc>
+  --]]
+  if type(element_id)~="string" then error("Image_GetDropShadow: param #1 - must be a string", 2) end
+  if reagirl.IsValidGuid(element_id, true)==false then error("Image_GetDropShadow: param #1 - must be a valid guid", 2) end
+  
+  element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
+  if element_id==-1 then error("Image_GetDropShadow: param #1 - no such ui-element", 2) end
+  if reagirl.Elements[element_id]["GUI_Element_Type"]~="ToolbarButton" then
+    error("Image_GetDropShadow: param #1 - ui-element is not a toolbar-button", 2)
+  end
+  return reagirl.Elements[element_id]["DropShadow"]
+end
+
 function reagirl.ToolbarButton_LinkToIniValue(element_id, ini_file, section, key, default)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
@@ -12423,7 +12736,7 @@ function reagirl.ToolbarButton_LinkToIniValue(element_id, ini_file, section, key
     Links a toolbar-button to an ini-value. 
     
     All changes to the ini-value will be immediately visible for this toolbar-button.
-    Clicking the toolbar-butotn also updates the inivalue immediately.
+    Clicking the toolbar-button also updates the inivalue immediately.
     
     If the toolbar-button was already linked to extstate or config-variable, the linked-state will be replaced by this new one.
     Use reagirl.ToolbarButton_Unlink() to unlink the toolbar-button from extstate/ini-file/config var.
@@ -12450,7 +12763,7 @@ function reagirl.ToolbarButton_LinkToIniValue(element_id, ini_file, section, key
   element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
   if element_id==-1 then error("ToolbarButton_LinkToIniValue: param #1 - no such ui-element", 2) end
   if reagirl.Elements[element_id]["GUI_Element_Type"]~="ToolbarButton" then
-    error("ToolbarButton_LinkToIniValue: param #1 - ui-element is not a toobar-button", 2)
+    error("ToolbarButton_LinkToIniValue: param #1 - ui-element is not a toolbar-button", 2)
   else
     reagirl.Elements[element_id]["linked_to"]=2
     reagirl.Elements[element_id]["linked_to_ini_file"]=ini_file
@@ -12646,7 +12959,7 @@ function reagirl.ToolbarButton_Unlink(element_id)
   </requires>
   <functioncall>reagirl.ToolbarButton_Unlink(string element_id)</functioncall>
   <description>
-    Unlinks a toolbar-button from extstate/ini-file/configvar. 
+    Unlinks a toolbar-button from extstate/ini-file/configvar/toggle-state. 
   </description>
   <parameters>
     string element_id - the guid of the toolbar-button that you want to unlink from extstates/ini-files/configvars
@@ -12806,6 +13119,13 @@ function reagirl.ToolbarButton_Draw(element_id, selected, hovered, clicked, mous
     end
     
     if element_storage["mode"]<3 then 
+      if element_storage["DropShadow"]==true then
+        gfx.a=-1
+        gfx.mode=1
+        gfx.blit(element_storage["toolbaricon"], 1, 0, (element_storage["cur_state"])*30*element_storage["toolbaricon_scale"], 0, 30*element_storage["toolbaricon_scale"], 30*element_storage["toolbaricon_scale"], x+dpi_scale+dpi_scale+dpi_scale, y+dpi_scale+dpi_scale, w, h)
+        gfx.a=1
+        gfx.mode=0
+      end
       gfx.blit(element_storage["toolbaricon"], 1, 0, (element_storage["cur_state"])*30*element_storage["toolbaricon_scale"], 0, 30*element_storage["toolbaricon_scale"], 30*element_storage["toolbaricon_scale"], x+dpi_scale+dpi_scale, y+dpi_scale, w, h)
     else
       gfx.blit(element_storage["toolbaricon"], 1, 0, element_storage["toolbaricon_scale"], 0, w*element_storage["toolbaricon_scale"], 30*dpi_scale*element_storage["toolbaricon_scale"], x+dpi_scale+dpi_scale, y+dpi_scale, w, h)
@@ -12931,6 +13251,13 @@ function reagirl.ToolbarButton_Draw(element_id, selected, hovered, clicked, mous
     end
     
     if element_storage["mode"]<3 then
+      if element_storage["DropShadow"]==true then
+        gfx.a=-1
+        gfx.mode=1
+        gfx.blit(element_storage["toolbaricon"], 1, 0, (element_storage["cur_state"])*30*element_storage["toolbaricon_scale"], 0, 30*element_storage["toolbaricon_scale"], 30*element_storage["toolbaricon_scale"], x+dpi_scale+dpi_scale, y+dpi_scale, w, h)
+        gfx.a=1
+        gfx.mode=0
+      end
       gfx.blit(element_storage["toolbaricon"], 1, 0, (element_storage["cur_state"])*30*element_storage["toolbaricon_scale"], 0, 30*element_storage["toolbaricon_scale"], 30*element_storage["toolbaricon_scale"], x+dpi_scale, y, w, h)
     else
       gfx.blit(element_storage["toolbaricon"], 1, 0, element_storage["toolbaricon_scale"]+1, 0, w*element_storage["toolbaricon_scale"], 30*dpi_scale*element_storage["toolbaricon_scale"], x, y, w, h)
@@ -13306,7 +13633,7 @@ function reagirl.Color_GetSet(color_name, is_set, r, g, b)
     
     The following colors can be set:
     
-    GuiBackgroundColor - the background-color of the gui
+    Gui_Background_Color - the background-color of the gui
     Burgermenu_Area - the click-area of the burger-menu
     Burgermenu_Stripes - the stripes of the burger-menu
     Buttons_Area - the click-area of the button
@@ -17462,6 +17789,7 @@ function reagirl.Image_Add(x, y, w, h, image_filename, caption, meaningOfUI_Elem
   reagirl.Elements[slot]["func_draw"]=reagirl.Image_Draw
   reagirl.Elements[slot]["run_function"]=run_function
   reagirl.Elements[slot]["Image_Resize"]=resize
+  reagirl.Elements[slot]["DropShadow"]=false
   local fb=reagirl.Gui_ReserveImageBuffer()
   if fb==nil then error("Image_Add: All available framebuffers used up, so can't add another Image.", 2) end
   reagirl.Elements[slot]["Image_Storage"]=fb
@@ -17777,6 +18105,11 @@ function reagirl.Image_GetAutoUpdate(element_id)
   if reagirl.IsValidGuid(element_id, true)==false then error("Image_GetAutoUpdate: param #1 - must be a valid guid", 2) end
   
   element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
+  if element_id==-1 then error("Image_GetAutoUpdate: param #1 - no such ui-element", 2) end
+  if reagirl.Elements[element_id]["GUI_Element_Type"]~="Image" then
+    error("Image_GetAutoUpdate: param #1 - ui-element is not an image", 2)
+  end
+  
   return reagirl.Elements[element_id]["auto_update"]
 end
 
@@ -17791,7 +18124,7 @@ function reagirl.Image_SetAutoUpdate(element_id, auto_update)
   </requires>
   <functioncall>reagirl.Image_SetAutoUpdate(string element_id, boolean auto_update)</functioncall>
   <description>
-    Sets, auto-update-state for an image.
+    Sets auto-update-state for an image.
     
     Auto-update means, that the image is reloaded automatically when the file is changed. Will only check for the unscaled, original image-file, 
     so if you want to auto-update scaled images, you need to update the unscaled image last.
@@ -17815,7 +18148,84 @@ function reagirl.Image_SetAutoUpdate(element_id, auto_update)
   if type(auto_update)~="boolean" then error("Image_SetAutoUpdate: #2 - must be a boolean", 2) end
   
   element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
+  if element_id==-1 then error("Image_SetAutoUpdate: param #1 - no such ui-element", 2) end
+  if reagirl.Elements[element_id]["GUI_Element_Type"]~="Image" then
+    error("Image_SetAutoUpdate: param #1 - ui-element is not an image", 2)
+  end
+  
   reagirl.Elements[element_id]["auto_update"]=auto_update
+end
+
+function reagirl.Image_SetDropShadow(element_id, has_drop_shadow)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Image_SetDropShadow</slug>
+  <requires>
+    ReaGirl=1.3
+    Reaper=7.03
+    Lua=5.4
+  </requires>
+  <functioncall>reagirl.Image_SetDropShadow(string element_id, boolean has_drop_shadow)</functioncall>
+  <description>
+    Sets, if the image shall be drawn with a drop-shadow. This is helpful for images, that might not be correctly visible in either light or dark-theme or if conflicting colors are chosen by the user or the script.
+  </description>
+  <parameters>
+    string element_id - the image-element, whose drop-shadow-state you want to set
+    boolean has_drop_shadow - true, drop-shadow is enabled for this image; false, drop-shadow is not enabled for this image
+  </parameters>
+  <chapter_context>
+    Image
+  </chapter_context>
+  <tags>image, set, dropshadow</tags>
+</US_DocBloc>
+  --]]
+  if type(element_id)~="string" then error("Image_SetDropShadow: param #1 - must be a string", 2) end
+  if reagirl.IsValidGuid(element_id, true)==false then error("Image_SetDropShadow: param #1 - must be a valid guid", 2) end
+  if type(has_drop_shadow)~="boolean" then error("Image_SetDropShadow: #2 - must be a boolean", 2) end
+  
+  element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
+  if element_id==-1 then error("Image_SetDropShadow: param #1 - no such ui-element", 2) end
+  if reagirl.Elements[element_id]["GUI_Element_Type"]~="Image" then
+    error("Image_SetDropShadow: param #1 - ui-element is not an image", 2)
+  end
+  
+  reagirl.Elements[element_id]["DropShadow"]=has_drop_shadow
+end
+
+function reagirl.Image_GetDropShadow(element_id, has_drop_shadow)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Image_GetDropShadow</slug>
+  <requires>
+    ReaGirl=1.3
+    Reaper=7.03
+    Lua=5.4
+  </requires>
+  <functioncall>boolean has_drop_shadow = reagirl.Image_GetDropShadow(string element_id)</functioncall>
+  <description>
+    Gets, if the image is drawn with a drop-shadow. This is helpful for images, that might not be correctly visible in either light or dark-theme or if conflicting colors are chosen by the user or the script.
+  </description>
+  <parameters>
+    string element_id - the image-element, whose drop-shadow-state you want to get
+  </parameters>
+  <retvals>
+    boolean has_drop_shadow - true, drop-shadow is enabled for this image; false, drop-shadow is not enabled for this image
+  </retvals>
+  <chapter_context>
+    Image
+  </chapter_context>
+  <tags>image, get, dropshadow</tags>
+</US_DocBloc>
+  --]]
+  if type(element_id)~="string" then error("Image_GetDropShadow: param #1 - must be a string", 2) end
+  if reagirl.IsValidGuid(element_id, true)==false then error("Image_GetDropShadow: param #1 - must be a valid guid", 2) end
+  
+  element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
+  if element_id==-1 then error("Image_GetDropShadow: param #1 - no such ui-element", 2) end
+  if reagirl.Elements[element_id]["GUI_Element_Type"]~="Image" then
+    error("Image_GetDropShadow: param #1 - ui-element is not an image", 2)
+  end
+  return reagirl.Elements[element_id]["DropShadow"]
 end
 
 
@@ -17973,8 +18383,26 @@ function reagirl.Image_Draw(element_id, selected, hovered, clicked, mouse_cap, m
     if ratiox<ratioy then ratio=ratiox else ratio=ratioy end
     gfx.x=x+(math.floor((w-(x1*ratio)))/2)
     gfx.y=y+(math.floor((h-(y1*ratio)))/2)
+    if element_storage["DropShadow"]==true then
+      gfx.x=gfx.x+scale
+      gfx.y=gfx.y+scale
+      gfx.mode=1
+      gfx.a=-1
+      gfx.blit(element_storage["Image_Storage"], ratio, 0)
+      gfx.x=gfx.x-scale
+      gfx.y=gfx.y-scale
+      gfx.mode=0
+      gfx.a=1
+    end
     gfx.blit(element_storage["Image_Storage"], ratio, 0)
   else    
+    if element_storage["DropShadow"]==true then
+      gfx.mode=1
+      gfx.a=-1
+      gfx.blit(element_storage["Image_Storage"],1,0,0,0,imgw,imgh,x+scale,y+scale,w,h,0,0)
+    end
+    gfx.mode=0
+    gfx.a=1
     gfx.blit(element_storage["Image_Storage"],1,0,0,0,imgw,imgh,x,y,w,h,0,0)
   end
   -- revert changes
@@ -18210,9 +18638,9 @@ function reagirl.Background_GetSetColor(is_set, r, g, b)
 
   if reagirl.Elements==nil then reagirl.Elements={} end
   if is_set==true and r~=nil and g~=nil and b~=nil then
-    reagirl.Color_GetSet("GuiBackgroundColor", true, r, g, b)
+    reagirl.Color_GetSet("Gui_Background_Color", true, r, g, b)
   else
-    return reagirl.Color_GetSet("GuiBackgroundColor", false, r, g, b)
+    return reagirl.Color_GetSet("Gui_Background_Color", false, r, g, b)
   end
 end
 

@@ -32,6 +32,7 @@
 
   dofile(reaper.GetResourcePath().."/UserPlugins/reagirl.lua")
 
+
   -- create new gui
   reagirl.Gui_New()
   tabs=reagirl.Tabs_Add(nil, nil, nil, nil, "Tabs", "Demo-Tabs most elements in first tab only.", {"General Tab", "Advanced Tab", "Extras Tab"}, 1, nil )
@@ -40,6 +41,15 @@
   reagirl.Tabs_SetUIElementsForTab(tabs, 1, tab1) -- associate ui-elements of table "tab1" with tab 1
   
   -- now let's add all ui-elements of the first tab to table tab1
+
+ function CheckMate(elid, checkstate)
+--   reaper.MB(elid, tostring(checkstate), 0)
+   if checkstate==true then
+     reagirl.Color_SetToLightTheme()
+   else
+     reagirl.Color_SetToDarkTheme()
+   end
+ end
  
   -- Labels
   tab1.label_header=reagirl.Label_Add(nil, nil, "Labels", "Possible labels with ReaGirl.", false, nil)
@@ -93,10 +103,12 @@
   reagirl.NextLine()
   tab1.burgermenu2 = reagirl.Burgermenu_Add(nil, nil, "A Burgermenu", 2, "A demo-burger-menu with some options.", "Setting 1|Setting 2|>Subfolder|Setting 3|Setting 4|<|Setting 5", nil)
   tab1.toolbar=reagirl.ToolbarButton_Add(71, nil, reaper.GetResourcePath().."/Data/toolbar_icons/toolbar_misc_walk_forward.png",3, 1, {"TOO", "DEL", "LOO"}, 1, "Tudel1", "loo.", contextmenu)
+  reagirl.ToolbarButton_SetDropShadow(tab1.toolbar, true)
   reagirl.ToolbarButton_SetRadius(tab1.toolbar, 14)
   reagirl.ToolbarButton_SetEdgeStyle(tab1.toolbar, true, true, true, true)
   reagirl.ToolbarButton_SetColor(tab1.toolbar, 128, 0, 0)
   tab1.toolbar2=reagirl.ToolbarButton_Add(nil, nil, reaper.GetResourcePath().."/Data/toolbar_icons/toolbar_path_secondary_disk.png", 3, 1, {"One", "Two", "Three"}, 1+128, "Tudel2", "loo.", run_function)
+  reagirl.ToolbarButton_SetDropShadow(tab1.toolbar2, true)
   reagirl.ToolbarButton_SetEdgeStyle(tab1.toolbar2, true, true, true, true)
   tab1.toolbar3=reagirl.ToolbarButton_Add(nil, nil, reaper.GetResourcePath().."/Data/toolbar_icons/toolbar_misc_walk_forward.png",3, 1, {"A", "B", "C"}, 3+128, "TextIcon", "loo.", run_function)
   reagirl.ToolbarButton_SetEdgeStyle(tab1.toolbar3, true,true,true,true)
@@ -106,6 +118,7 @@
   reagirl.ToolbarButton_SetRadius(tab1.toolbar4, 14)
   tab1.toolbar5=reagirl.ToolbarButton_Add(nil, nil, reaper.GetResourcePath().."/Data/toolbar_icons/toolbar_misc_walk_forward.png",2, 1, {"TOO", "DEL", "LOO"}, 2, "Text Icon", "loo.", run_function)
   reagirl.Label_AutoBackdrop(tab1.label_header7, tab1.toolbar5) -- set backdrop drawn by tab1.label_header5
+  reagirl.ToolbarButton_SetDropShadow(tab1.toolbar5, true)
   
   -- Inputboxes
   reagirl.NextLine(10)
@@ -137,7 +150,7 @@
   tab1.checkbox_extra_setting = reagirl.Checkbox_Add(nil, nil, "Extra", "A third checkbox?", true, nil)
   reagirl.Checkbox_SetWidth(tab1.checkbox_extra_setting, 85) -- set the position of the next checkbox to a specific position to align it
                                                              -- with the previous line of checkboxes
-  tab1.checkbox_remember = reagirl.Checkbox_Add(nil, nil, "Remember chosen setting", "Shall this setting be used as future default?", true, nil)
+  tab1.checkbox_remember = reagirl.Checkbox_Add(nil, nil, "Remember chosen setting", "Shall this setting be used as future default?", true, CheckMate)
   
   reagirl.Label_AutoBackdrop(tab1.label_header3, tab1.checkbox_remember) -- set backdrop drawn by tab1.label_header3
                                                                          -- let it end underneath tab1.checkbox_remember
@@ -151,8 +164,10 @@
   tab1.image1 = reagirl.Image_Add(nil, nil, 50, 50, reaper.GetResourcePath().."/Data/track_icons/idea.png", "An idea-cloud", "An image of an idea-thought-cloud.", nil)
   tab1.image2 = reagirl.Image_Add(nil, nil, 50, 50, reaper.GetResourcePath().."/Data/track_icons/envelope.png", "An envelope", "An image of an envelope.", nil)
   tab1.image3 = reagirl.Image_Add(nil, nil, 50, 50, reaper.GetResourcePath().."/Data/track_icons/ff.png", "ff notation symbol", "An image of a ff-notation-symbol.", nil)
+  reagirl.Image_SetDropShadow(tab1.image3, true)
   tab1.image4 = reagirl.Image_Add(nil, nil, 50, 50, reaper.GetResourcePath().."/Data/track_icons/folder_up.png", "A folder up", "An image of a folder with an arrow pointing up.", nil)
   tab1.image5 = reagirl.Image_Add(nil, nil, 50, 50, reaper.GetResourcePath().."/Data/track_icons/bass_clef.png", "A bass clef", "An image of a bass clef.", nil)
+  reagirl.Image_SetDropShadow(tab1.image5, true)
   
   reagirl.Label_AutoBackdrop(tab1.label_header4, tab1.image5) -- set backdrop drawn by tab1.label_header4
                                                               -- let it end underneath tab1.image5
@@ -182,8 +197,15 @@
   -- open the new gui
   reagirl.Gui_Open("My Dialog Name", false, "The dialog", "This is a demo dialog with settings for tool xyz.", nil, nil, 0, nil, nil)
 
-  -- make the background grey
+  -- make thennnnnnnnnn background grey
   reagirl.Background_GetSetColor(true, 55, 55, 55)
+  
+  --reagirl.Background_GetSetColor(true, 55, 55, 55)
+  
+  --
+  
+  
+--  if lol==nil then return end
 
   function main()
     -- a function that runs the gui-manage function in the background, so the gui is updated correctly
@@ -194,3 +216,5 @@
   end
 
   main()
+  
+
