@@ -3916,6 +3916,7 @@ function reagirl.Window_Open(...)
 ]]
   --gfx.quit()
   local parms={...}
+  local _
   --reaper.MB(tostring(parms[5]), tostring(parms[6]), 0)
   if type(parms[1])~="string" then error("Window_Open: param #1 - must be a string", 2) end
   if parms[2]~=nil and type(parms[2])~="number" then error("Window_Open: param #2 - must be either nil or an integer", 2) end
@@ -3928,7 +3929,7 @@ function reagirl.Window_Open(...)
   local minimum_scale_for_dpi, maximum_scale_for_dpi = 1,1--ultraschall.GetScaleRangeFromDpi(tonumber(AAA2))
   maximum_scale_for_dpi = math.floor(maximum_scale_for_dpi)
   local A=gfx.getchar(65536)
-  local HWND, retval
+  local HWND, retval, _
   if A&4==0 then
     reagirl.Window_RescaleIfNeeded()
     --reagirl.MoveItAllRight=0
@@ -11549,6 +11550,7 @@ function reagirl.Textbox_Draw(element_id, selected, hovered, clicked, mouse_cap,
   -- BUG: with multiline-texts, when they scroll outside the top of the window, they disappear when the first line is outside of the window
                         --   85 and 117, underline (U), (u)
   local styles={66,73,77,79,83,85,86,89,90}
+  local _
   styles[0]=0
   local dpi_scale=reagirl.Window_GetCurrentScale()
   y=y+dpi_scale
@@ -13120,7 +13122,7 @@ function reagirl.ToolbarButton_Draw(element_id, selected, hovered, clicked, mous
     
     if element_storage["mode"]<3 then 
       if element_storage["DropShadow"]==true then
-        gfx.a=-1
+        gfx.a=-0.5
         gfx.mode=1
         gfx.blit(element_storage["toolbaricon"], 1, 0, (element_storage["cur_state"])*30*element_storage["toolbaricon_scale"], 0, 30*element_storage["toolbaricon_scale"], 30*element_storage["toolbaricon_scale"], x+dpi_scale+dpi_scale+dpi_scale, y+dpi_scale+dpi_scale, w, h)
         gfx.a=1
@@ -13252,7 +13254,7 @@ function reagirl.ToolbarButton_Draw(element_id, selected, hovered, clicked, mous
     
     if element_storage["mode"]<3 then
       if element_storage["DropShadow"]==true then
-        gfx.a=-1
+        gfx.a=-0.5
         gfx.mode=1
         gfx.blit(element_storage["toolbaricon"], 1, 0, (element_storage["cur_state"])*30*element_storage["toolbaricon_scale"], 0, 30*element_storage["toolbaricon_scale"], 30*element_storage["toolbaricon_scale"], x+dpi_scale+dpi_scale, y+dpi_scale, w, h)
         gfx.a=1
@@ -16633,9 +16635,9 @@ function reagirl.Label_SetFontSize(element_id, font_size)
     error("Label_SetFontSize: param #1 - ui-element is not a label", 2)
   else
     reagirl.Elements[element_id]["font_size"]=font_size
-    style1=reagirl.Elements[element_id]["style1"]
-    style2=reagirl.Elements[element_id]["style2"]
-    style3=reagirl.Elements[element_id]["style3"]
+    local style1=reagirl.Elements[element_id]["style1"]
+    local style2=reagirl.Elements[element_id]["style2"]
+    local style3=reagirl.Elements[element_id]["style3"]
     
     local styles={66,73,77,79,83,85,86,89,90}
     styles[0]=0
@@ -16970,6 +16972,7 @@ function reagirl.Label_CalculatePositions(element_storage, x, y, width, height, 
   local count=0
   local linecount=0
   local shown_height=0
+  local offset
   for i=1, element_storage.Name:len() do
     offset=gfx.measurestr((element_storage.Name:sub(i,i)))
     if count+offset>=width or element_storage.Name:sub(i,i)=="\n" then
@@ -17320,6 +17323,8 @@ function reagirl.Label_Draw(element_id, selected, hovered, clicked, mouse_cap, m
   local old_gfx_b=gfx.b
   local old_gfx_a=gfx.a
   local old_mode=gfx.mode
+  local bg_w, bg_h=0, 0
+  local _
   gfx.setimgdim(1001, gfx.w, gfx.h)
   --gfx.dest=1001
   --gfx.set(0)
@@ -17384,7 +17389,7 @@ function reagirl.Label_Draw(element_id, selected, hovered, clicked, mouse_cap, m
       local y2=reagirl.Elements[element_id]["y"]
       local h2=reagirl.Elements[element_id]["h"]
       --reaper.MB(reagirl.Elements[element_id]["Name"],"",0)
-      y3=(y-reagirl.MoveItAllUp)/reagirl.Window_GetCurrentScale()
+      local y3=(y-reagirl.MoveItAllUp)/reagirl.Window_GetCurrentScale()
       
       if y2>=0 then
         bg_h=y2+h2-y3
@@ -18387,7 +18392,7 @@ function reagirl.Image_Draw(element_id, selected, hovered, clicked, mouse_cap, m
       gfx.x=gfx.x+scale
       gfx.y=gfx.y+scale
       gfx.mode=1
-      gfx.a=-1
+      gfx.a=-.5
       gfx.blit(element_storage["Image_Storage"], ratio, 0)
       gfx.x=gfx.x-scale
       gfx.y=gfx.y-scale
@@ -18398,7 +18403,7 @@ function reagirl.Image_Draw(element_id, selected, hovered, clicked, mouse_cap, m
   else    
     if element_storage["DropShadow"]==true then
       gfx.mode=1
-      gfx.a=-1
+      gfx.a=-.5
       gfx.blit(element_storage["Image_Storage"],1,0,0,0,imgw,imgh,x+scale,y+scale,w,h,0,0)
     end
     gfx.mode=0
@@ -21335,7 +21340,7 @@ end
 
 function reagirl.Tabs_Manage(element_id, selected, hovered, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
   local refresh
-  
+  local add_color=0
   if hovered==true then 
     add_color=reagirl.Color_CalculateHighlighter(reagirl.Colors.Checkbox_rectangle_r, reagirl.Colors.Checkbox_rectangle_g, reagirl.Colors.Checkbox_rectangle_b)*2
   end
@@ -21518,7 +21523,7 @@ function reagirl.Tabs_Draw(element_id, selected, hovered, clicked, mouse_cap, mo
   local x_offset=dpi_scale*x_offset_factor
   local tab_height=text_offset_y+text_offset_y
   element_storage["Tabs_Pos"]={}
-  local tx,ty,bg_h,bg_w
+  local tx,ty,bg_h,bg_w, oldx, oldy, _
   local offset
   for i=1, #element_storage["TabNames"] do
     element_storage["Tabs_Pos"][i]={}
@@ -21538,7 +21543,7 @@ function reagirl.Tabs_Draw(element_id, selected, hovered, clicked, mouse_cap, mo
     reagirl.RoundRect(math.tointeger(x+x_offset-text_offset_x), y, math.tointeger(tx+text_offset_x+text_offset_x), math.tointeger(tab_height+ty), 3*dpi_scale, 1, 1, false, true, false, true)
     
     -- inner part of tabs
-    add_color=0
+    local add_color=0
     if i==element_storage["TabHoveredIndex"] then
       if i==element_storage["TabSelected"] then
         add_color=reagirl.Color_CalculateHighlighter(reagirl.Colors.Tabs_Inner_Tabs_Selected_r, reagirl.Colors.Tabs_Inner_Tabs_Selected_g, reagirl.Colors.Tabs_Inner_Tabs_Selected_b) 

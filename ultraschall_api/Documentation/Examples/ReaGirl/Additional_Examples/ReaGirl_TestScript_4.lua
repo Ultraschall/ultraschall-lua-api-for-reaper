@@ -162,10 +162,13 @@
   -- local some images from Reaper
   reagirl.NextLine()
   tab1.image1 = reagirl.Image_Add(nil, nil, 50, 50, reaper.GetResourcePath().."/Data/track_icons/idea.png", "An idea-cloud", "An image of an idea-thought-cloud.", nil)
+  reagirl.Image_SetDropShadow(tab1.image1, true)
   tab1.image2 = reagirl.Image_Add(nil, nil, 50, 50, reaper.GetResourcePath().."/Data/track_icons/envelope.png", "An envelope", "An image of an envelope.", nil)
+  reagirl.Image_SetDropShadow(tab1.image2, true)
   tab1.image3 = reagirl.Image_Add(nil, nil, 50, 50, reaper.GetResourcePath().."/Data/track_icons/ff.png", "ff notation symbol", "An image of a ff-notation-symbol.", nil)
   reagirl.Image_SetDropShadow(tab1.image3, true)
   tab1.image4 = reagirl.Image_Add(nil, nil, 50, 50, reaper.GetResourcePath().."/Data/track_icons/folder_up.png", "A folder up", "An image of a folder with an arrow pointing up.", nil)
+  reagirl.Image_SetDropShadow(tab1.image4, true)
   tab1.image5 = reagirl.Image_Add(nil, nil, 50, 50, reaper.GetResourcePath().."/Data/track_icons/bass_clef.png", "A bass clef", "An image of a bass clef.", nil)
   reagirl.Image_SetDropShadow(tab1.image5, true)
   
