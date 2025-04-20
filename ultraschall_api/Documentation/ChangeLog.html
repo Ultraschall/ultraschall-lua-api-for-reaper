@@ -36,9 +36,8 @@
 <p>Has now 1858 functions, with XX new ones</p>
 <p><strong>new in this release:</strong></p>
 <ul>
-<li><p><strong>Bla</strong><br />
-Bla</p>
-<p>-- INputbox - dropdownmenu - must be communicated to screen reader(and maybe to tooltip?)</p></li>
+<li><strong>Bla</strong><br />
+Bla</li>
 </ul>
 <h4>New features in 5.3</h4>
 <pre><code>- ReaGirl: Button\_GetEdgeStyle - gets, if the individual edges of a button are rounded or square
@@ -63,13 +62,22 @@ Bla</p>
 - ReaGirl: ToolbarButton\_SetDropShadow - sets a drop-shadow drawn behind the button-image
 - ReaGirl: ToolbarButton\_SetEdgeStyle - sets the individual edges of a toolbar-button to either rounded or square
 - ReaGirl: ToolbarButton\_SetRadius - sets the radius of the edges of a toolbar-button
-- ReaGirl: ToolbarButton\_Unlink - unlinks a toolbar-button rom a state</code></pre>
+- ReaGirl: ToolbarButton\_Unlink - unlinks a toolbar-button rom a state
+- Rendering: GetRender\_AutoReturnToDialog - gets the auto-return to this dialog when finished-checkboxstate in the Render to file-dialog
+- Rendering: SetRender\_AutoReturnToDialog - sets the auto-return to this dialog when finished-checkbox in the Render to file-dialog</code></pre>
 <h4>Changes from 5.2 to 5.3</h4>
 <pre><code>- ReaGirl: All UI-elements - except images will now highlight, when the mouse hovers abive them(can be disabled in the settings)
 - ReaGirl: Buttons - caption wasn&#39;t properly drawn when y-margin was&gt;0 -&gt; fixed
 - ReaGirl: DropDownLists - clicking dropdownlists wasn&#39;t shown properly, when focus rectangle was set as show always -&gt; fixed
 - ReaGirl: Sliders - couldn&#39;t show negative unit-values -&gt; fixed
-- ReaGirl: Tooltips - the meaning_ofUIElement is now in the first line, the info Has contextmenu, draggable and Allows dropping of files is now in the second line. Looks more clean that way.</code></pre>
+- ReaGirl: Tooltips - the meaning_ofUIElement is now in the first line, the info Has contextmenu, draggable and Allows dropping of files is now in the second line. Looks more clean that way.
+- Rendering: ApplyRenderTable\_Project - added new attributes ReturnToDialog, SaveOutfile
+- Rendering: CreateNewRenderTable - added new attributes Preserve_Start_Offset, Preserve_Metadata, ReturnToDialog, SaveOutfile
+- Rendering: GetRender\_SaveRenderStats - added combined/per rendered file-options; didn&#39;t return correct values when render to file-dialog was closed -&gt; fixed
+- Rendering: GetRenderTable\_Project - added new attributes Preserve_Start_Offset, Preserve_Metadata, ReturnToDialog, SaveOutfile
+- Rendering: GetRenderTable\_ProjectDefaults - added new attributes ReturnToDialog, SaveOutfile
+- Rendering: IsValidRenderTable - added new attributes Preserve_Start_Offset, Preserve_Metadata, ReturnToDialog, SaveOutfile
+- Rendering: SetRender\_SaveRenderStats - added combined/per rendered file-options</code></pre>
 <hr />
 <h3>5.2 - "Warpaint - Keep it healthy" - 7th of March 2025</h3>
 <p>Has now 1858 functions, with 24 new ones</p>

@@ -37480,7 +37480,7 @@ Get or set the arrange view grid division. 0.25=quarter note, 1.0/3.0=half note 
 <hr>
 <a class="anch" id="GetSetProjectInfo"></a>
 <a href="#GetSetProjectInfo"> ^</a> 
-<img width="3%" src="gfx/reaper7.23.png" alt="requires Reaper version 7.23"><u><b>GetSetProjectInfo</b></u><br>			<p>
+<img width="3%" src="gfx/reaper7.34.png" alt="requires Reaper version 7.34"><u><b>GetSetProjectInfo</b></u><br>			<p>
 <div class="cc">
 <div class="c">C: <code> <i>double</i> <em>GetSetProjectInfo</em>(<i>ReaProject*</i> project, <i>const</i> <i>char*</i> desc, <i>double</i> value, <i>bool</i> is_set)</code></div>
 <div class="e">EEL2: <code> <i>double</i> <em>GetSetProjectInfo</em>(<i>ReaProject</i> project, "desc", value, <i>bool</i> is_set)</code></div>
@@ -37504,6 +37504,10 @@ RENDER_SETTINGS : <br>
 &nbsp;&nbsp;&nbsp;&nbsp;&512=Embed Metadata, if format supports is, <br>
 &nbsp;&nbsp;&nbsp;&nbsp;&1024=Take markers-checkbox(Only with WAV and Source=Selected media items/Selected media items via master); <br>
 &nbsp;&nbsp;&nbsp;&nbsp;&2048=2nd pass render&nbsp;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&8192=Render stems pre-fader<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&16384=Render only channels sent to parent<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&32768=Preserve Metadata<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&65536=Preserve Start offset<br>
 OGG, OPUS and FLAC support embedding of tempoinformation via metadata, settable using GetSetProjectInfo_String.&nbsp;&nbsp;<br>
 RENDER_BOUNDSFLAG : <br>
 &nbsp;&nbsp;0=custom time bounds, <br>

@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API and ReaGirl">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API and ReaGirl package" type="extension">
-      <version name="56117.00" author="Meo-Ada Mespotine">
+      <version name="56118.00" author="Meo-Ada Mespotine">
 	<source file="reagirl.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5.3//reagirl.lua</source>
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5.3//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5.3//ultraschall_api_readme.txt</source>
@@ -734,9 +734,6 @@ new in this release:
 -   Bla
     Bla
 
-    – INputbox - dropdownmenu - must be communicated to screen
-    reader(and maybe to tooltip?)
-
 New features in 5.3
 
     - ReaGirl: Button\_GetEdgeStyle - gets, if the individual edges of a button are rounded or square
@@ -762,6 +759,8 @@ New features in 5.3
     - ReaGirl: ToolbarButton\_SetEdgeStyle - sets the individual edges of a toolbar-button to either rounded or square
     - ReaGirl: ToolbarButton\_SetRadius - sets the radius of the edges of a toolbar-button
     - ReaGirl: ToolbarButton\_Unlink - unlinks a toolbar-button rom a state
+    - Rendering: GetRender\_AutoReturnToDialog - gets the auto-return to this dialog when finished-checkboxstate in the Render to file-dialog
+    - Rendering: SetRender\_AutoReturnToDialog - sets the auto-return to this dialog when finished-checkbox in the Render to file-dialog
 
 Changes from 5.2 to 5.3
 
@@ -770,6 +769,13 @@ Changes from 5.2 to 5.3
     - ReaGirl: DropDownLists - clicking dropdownlists wasn't shown properly, when focus rectangle was set as show always -> fixed
     - ReaGirl: Sliders - couldn't show negative unit-values -> fixed
     - ReaGirl: Tooltips - the meaning_ofUIElement is now in the first line, the info Has contextmenu, draggable and Allows dropping of files is now in the second line. Looks more clean that way.
+    - Rendering: ApplyRenderTable\_Project - added new attributes ReturnToDialog, SaveOutfile
+    - Rendering: CreateNewRenderTable - added new attributes Preserve_Start_Offset, Preserve_Metadata, ReturnToDialog, SaveOutfile
+    - Rendering: GetRender\_SaveRenderStats - added combined/per rendered file-options; didn't return correct values when render to file-dialog was closed -> fixed
+    - Rendering: GetRenderTable\_Project - added new attributes Preserve_Start_Offset, Preserve_Metadata, ReturnToDialog, SaveOutfile
+    - Rendering: GetRenderTable\_ProjectDefaults - added new attributes ReturnToDialog, SaveOutfile
+    - Rendering: IsValidRenderTable - added new attributes Preserve_Start_Offset, Preserve_Metadata, ReturnToDialog, SaveOutfile
+    - Rendering: SetRender\_SaveRenderStats - added combined/per rendered file-options
 ]]>
 </changelog>
       </version>
@@ -801,7 +807,7 @@ Changes from 5.2 to 5.3
         \par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af6\langfe2052\dbch\af8\afs24\lang1081\loch\f0\fs24\lang1031{\rtlch \ltrch\loch
         }
         \par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af6\langfe2052\dbch\af8\afs24\lang1081\loch\f0\fs24\lang1031{\rtlch \ltrch\loch\loch\f4
-        a 1691 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 56117 from 05.04.2025 01:07:48).}
+        a 1693 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 56118 from 20.04.2025 23:33:58).}
         \par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af6\langfe2052\dbch\af8\afs24\lang1081\loch\f0\fs24\lang1031{\rtlch \ltrch\loch
         }
         \par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af6\langfe2052\dbch\af8\afs24\lang1081\loch\f0\fs24\lang1031{\rtlch \ltrch\loch

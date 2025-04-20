@@ -9861,7 +9861,7 @@
         <functioncall prog_lang="lua">number value = reaper.GetSetProjectInfo(ReaProject project, string desc, number value, boolean is_set)</functioncall>
         <functioncall prog_lang="python">Float retval = RPR_GetSetProjectInfo(ReaProject project, String desc, Float value, Boolean is_set)</functioncall>
         <requires>
-            Reaper=7.23
+            Reaper=7.34
         </requires>
         <description>
             Get or set project information.
@@ -9880,6 +9880,10 @@
                 &512=Embed Metadata, if format supports is, 
                 &1024=Take markers-checkbox(Only with WAV and Source=Selected media items/Selected media items via master); 
                 &2048=2nd pass render  
+								&8192=Render stems pre-fader
+								&16384=Render only channels sent to parent
+								&32768=Preserve Metadata
+								&65536=Preserve Start offset
             OGG, OPUS and FLAC support embedding of tempoinformation via metadata, settable using GetSetProjectInfo_String.  
             RENDER_BOUNDSFLAG : 
               0=custom time bounds, 

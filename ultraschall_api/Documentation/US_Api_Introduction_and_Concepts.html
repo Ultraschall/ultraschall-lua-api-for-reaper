@@ -499,7 +499,7 @@ This is mostly because, there are so many.</p>
   RenderTable[&quot;Dither&quot;] - &amp;1, dither master mix; 
                           &amp;2, noise shaping master mix; 
                           &amp;4, dither stems; 
-                          &amp;8, dither noise shaping stems
+                          &amp;8, noise shaping stems
   RenderTable[&quot;EmbedMetaData&quot;] - Embed metadata; true, checked; false, unchecked
   RenderTable[&quot;EmbedStretchMarkers&quot;] - Embed stretch markers/transient guides; true, checked; false, unchecked
   RenderTable[&quot;EmbedTakeMarkers&quot;] - Embed Take markers; true, checked; false, unchecked                        
@@ -549,6 +549,8 @@ This is mostly because, there are so many.</p>
                                           4, Offline Render(Idle)
   RenderTable[&quot;OnlyMonoMedia&quot;] - Tracks with only mono media to mono files-checkbox; true, checked; false, unchecked
   RenderTable[&quot;OnlyChannelsSentToParent&quot;] - true, option is checked; false, option is unchecked
+                                RenderTable[&quot;Preserve_Metadata&quot;] - true, preserve metadata(when selected media items as source); false, don&#39;t preserve metadata
+                                RenderTable[&quot;Preserve_Start_Offset&quot;] - true, preserve start-offset (when selected media items as source); false, don&#39;t preserve start-offset
   RenderTable[&quot;ProjectSampleRateFXProcessing&quot;] - Use project sample rate for mixing and FX/synth processing-checkbox; 
                                                  true, checked; false, unchecked
   RenderTable[&quot;RenderFile&quot;] - the contents of the Directory-inputbox of the Render to File-dialog
@@ -573,8 +575,10 @@ This is mostly because, there are so many.</p>
   RenderTable[&quot;RenderString2&quot;] - the render-cfg-string, that holds all settings of the currently set secondary-render-output-format 
                                  as BASE64 string
   RenderTable[&quot;RenderTable&quot;]=true - signals, this is a valid render-table
+                                RenderTable[&quot;ReturnToDialog&quot;] - true, return to render to file-dialog after rendering; false, don&#39;t return to render to file-dialog after rendering
   RenderTable[&quot;SampleRate&quot;] - the samplerate of the rendered file(s)
   RenderTable[&quot;SaveCopyOfProject&quot;] - the &quot;Save copy of project to outfile.wav.RPP&quot;-checkbox; true, checked; false, unchecked
+                                RenderTable[&quot;SaveRenderStatsFile&quot;] - 0, no render-stats-outfile; 1, Combined; 2, Per rendered file
   RenderTable[&quot;SilentlyIncrementFilename&quot;] - Silently increment filenames to avoid overwriting-checkbox; true, checked; false, unchecked
   RenderTable[&quot;Source&quot;] - 0, Master mix
                           1, Master mix + stems; 
