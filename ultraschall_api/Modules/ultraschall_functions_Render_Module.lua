@@ -5227,7 +5227,7 @@ function ultraschall.GetRenderPreset_RenderTable(Bounds_Name, Options_and_Format
    <source_document>Modules/ultraschall_functions_Render_Module.lua</source_document>
    <tags>render management, get, render preset, names</tags>
  </US_DocBloc>
- ]]
+ ]] 
   if type(Bounds_Name)~="string" then ultraschall.AddErrorMessage("GetRenderPreset_RenderTable", "Bounds_Name", "must be a string", -1) return end
   if type(Options_and_Format_Name)~="string" then ultraschall.AddErrorMessage("GetRenderPreset_RenderTable", "Options_and_Format_Name", "must be a string", -2) return end
   local A=ultraschall.ReadFullFile(reaper.GetResourcePath().."/reaper-render.ini")  
@@ -5240,7 +5240,7 @@ function ultraschall.GetRenderPreset_RenderTable(Bounds_Name, Options_and_Format
   local Presetname2, Bounds_dropdownlist2, Start_position2, Endposition2
   local Source_dropdownlist_and_checkboxes2, Unknown2, Outputfilename_renderpattern2
   local Tail_checkbox2, Quote
-  local B, _temp, path, _temp2
+  local B, _temp, path, _temp2, offset
 
   -- bounds-presets
   for A in string.gmatch(A, "(RENDERPRESET_OUTPUT .-)\n") do
@@ -5449,7 +5449,7 @@ function ultraschall.DeleteRenderPreset_Bounds(Bounds_Name)
  <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
    <slug>DeleteRenderPreset_Bounds</slug>
    <requires>
-     Ultraschall=4.7
+     Ultraschall=5.3
      Reaper=6.02
      Lua=5.3
    </requires>
@@ -5482,10 +5482,13 @@ function ultraschall.DeleteRenderPreset_Bounds(Bounds_Name)
   if type(Bounds_Name)~="string" then ultraschall.AddErrorMessage("DeleteRenderPreset_Bounds", "Bounds_Name", "must be a string", -1) return false end
   local Options_and_Format_Name
   Bounds_Name, Options_and_Format_Name=ultraschall.ResolvePresetName(Bounds_Name, Options_and_Format_Name)
+	if Bounds_Name==nil then ultraschall.AddErrorMessage("DeleteRenderPreset_Bounds", "Bounds_Name", "no such preset", -2) return false end
   local A,B
   local A=ultraschall.ReadFullFile(reaper.GetResourcePath().."/reaper-render.ini")
   if A==nil then A="" end
   if Bounds_Name:match("%s") then Bounds_Name="\""..Bounds_Name.."\"" end
+	Bounds_Name=ultraschall.EscapeMagicCharacters_String(Bounds_Name)
+	--print2(A)
   B=string.gsub(A, "RENDERPRESET_OUTPUT "..Bounds_Name.." (.-)\n", "")
   if A==B then ultraschall.AddErrorMessage("DeleteRenderPreset_Bounds", "Bounds_Name", "no such Bounds-preset", -2) return false end
   A=ultraschall.WriteValueToFile(reaper.GetResourcePath().."/reaper-render.ini", B)
@@ -5500,7 +5503,7 @@ function ultraschall.DeleteRenderPreset_FormatOptions(Options_and_Format_Name)
  <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
    <slug>DeleteRenderPreset_FormatOptions</slug>
    <requires>
-     Ultraschall=4.7
+     Ultraschall=5.3
      Reaper=6.32
      Lua=5.3
    </requires>
@@ -5533,16 +5536,21 @@ function ultraschall.DeleteRenderPreset_FormatOptions(Options_and_Format_Name)
   if type(Options_and_Format_Name)~="string" then ultraschall.AddErrorMessage("DeleteRenderPreset_FormatOptions", "Options_and_Format_Name", "must be a string", -1) return false end
   local Bounds_Name
   Bounds_Name, Options_and_Format_Name=ultraschall.ResolvePresetName(Bounds_Name, Options_and_Format_Name)
+	if Options_and_Format_Name==nil then ultraschall.AddErrorMessage("DeleteRenderPreset_FormatOptions", "Options_and_Format_Name", "no such preset", -2) return false end
   local A,B
   local A=ultraschall.ReadFullFile(reaper.GetResourcePath().."/reaper-render.ini")
   if A==nil then A="" end
-  if Options_and_Format_Name:match("%s") then Options_and_Format_Name="\""..Options_and_Format_Name.."\"" end
+	A=A.."\n"
+  if Options_and_Format_Name:match("%s") then 
+		Options_and_Format_Name="\""..Options_and_Format_Name.."\"" 
+		end
+	Options_and_Format_Name=ultraschall.EscapeMagicCharacters_String(Options_and_Format_Name)
   B=string.gsub(A, "<RENDERPRESET "..Options_and_Format_Name.." (.-\n>)\n", "")
   B=string.gsub(B, "<RENDERPRESET2 "..Options_and_Format_Name.."(.-\n>)\n", "")
   B=string.gsub(B, "RENDERPRESET_EXT "..Options_and_Format_Name.." .-\n", "")
 
   if A==B then ultraschall.AddErrorMessage("DeleteRenderPreset_FormatOptions", "Options_and_Format_Name", "no such Options and Format-preset", -2) return false end
-  A=ultraschall.WriteValueToFile(reaper.GetResourcePath().."/reaper-render.ini", B)
+  A=ultraschall.WriteValueToFile(reaper.GetResourcePath().."/reaper-render.ini", B.."\n")
   if A==-1 then ultraschall.AddErrorMessage("DeleteRenderPreset_FormatOptions", "", "can't access "..reaper.GetResourcePath().."/reaper-render.ini", -3) return false end
   return true
 end
@@ -5731,12 +5739,15 @@ function ultraschall.AddRenderPreset(Bounds_Name, Options_and_Format_Name, Rende
     RenderPattern=RenderTable["RenderPattern"]
   end
 
+	Bounds_Name2, Options_and_Format_Name2=ultraschall.ResolvePresetName(Bounds_Name, Options_and_Format_Name)
+	if Bounds_Name2~=nil then ultraschall.AddErrorMessage("AddRenderPreset", "Bounds_Name", "bounds-preset already exists", -4) return false end
+	if Options_and_Format_Name2~=nil then ultraschall.AddErrorMessage("AddRenderPreset", "Options_and_Format_Name", "renderformat/options-preset already exists", -5) return false end
+  --if Bounds_Name~=nil and ("\n"..A):match("\nRENDERPRESET_OUTPUT "..Bounds_Name)~=nil then ultraschall.AddErrorMessage("AddRenderPreset", "Bounds_Name", "bounds-preset already exists", -4) return false end
+  --if Options_and_Format_Name~=nil and ("\n"..A):match("\n<RENDERPRESET "..Options_and_Format_Name)~=nil then ultraschall.AddErrorMessage("AddRenderPreset", "Options_and_Format_Name", "renderformat/options-preset already exists", -5) return false end
+
   if Bounds_Name~=nil and (Bounds_Name:match("%s")~=nil or Bounds_Name=="") then Bounds_Name="\""..Bounds_Name.."\"" end
   if Options_and_Format_Name~=nil and (Options_and_Format_Name:match("%s")~=nil or Options_and_Format_Name=="") then Options_and_Format_Name="\""..Options_and_Format_Name.."\"" end
   
-  if Bounds_Name~=nil and ("\n"..A):match("\nRENDERPRESET_OUTPUT "..Bounds_Name)~=nil then ultraschall.AddErrorMessage("AddRenderPreset", "Bounds_Name", "bounds-preset already exists", -4) return false end
-  if Options_and_Format_Name~=nil and ("\n"..A):match("\n<RENDERPRESET "..Options_and_Format_Name)~=nil then ultraschall.AddErrorMessage("AddRenderPreset", "Options_and_Format_Name", "renderformat/options-preset already exists", -5) return false end
-
   if RenderPattern:match("%s") and RenderPattern:match("\"")==nil then RenderPattern="\""..RenderPattern.."\"" end
   if Options_and_Format_Name:match("%s") and Options_and_Format_Name:match("\"")==nil then Options_and_Format_Name="\""..Options_and_Format_Name.."\"" end
   if Bounds_Name:match("%s") and Bounds_Name:match("\"")==nil then Bounds_Name="\""..Bounds_Name.."\"" end
@@ -5950,12 +5961,12 @@ function ultraschall.SetRenderPreset(Bounds_Name, Options_and_Format_Name, Rende
   if Bounds_Name~=nil and type(Bounds_Name)~="string" then ultraschall.AddErrorMessage("SetRenderPreset", "Bounds_Name", "must be a string", -2) return false end
   if Options_and_Format_Name~=nil and type(Options_and_Format_Name)~="string" then ultraschall.AddErrorMessage("SetRenderPreset", "Options_and_Format_Name", "must be a string", -3) return false end
   
-  if Bounds_Name:match("%s") then Bounds_Name="\""..Bounds_Name.."\"" end
-  if Options_and_Format_Name:match("%s") then Options_and_Format_Name="\""..Options_and_Format_Name.."\"" end
   local A,B, Source, RenderPattern, ProjectSampleRateFXProcessing, String, Bounds, RenderFormatOptions
   local A=ultraschall.ReadFullFile(reaper.GetResourcePath().."/reaper-render.ini")
   if A==nil then A="" end
   Bounds_Name, Options_and_Format_Name=ultraschall.ResolvePresetName(Bounds_Name, Options_and_Format_Name)
+	if Bounds_Name:match("%s") then Bounds_Name="\""..Bounds_Name.."\"" end
+  if Options_and_Format_Name:match("%s") then Options_and_Format_Name="\""..Options_and_Format_Name.."\"" end
   if Bounds_Name==nil then ultraschall.AddErrorMessage("SetRenderPreset", "Bounds_Name", "no bounds-preset with that name", -4) return false end
   if Options_and_Format_Name==nil then ultraschall.AddErrorMessage("SetRenderPreset", "Options_and_Format_Name", "no renderformat/options-preset with that name", -5) return false end
   
@@ -5983,11 +5994,13 @@ function ultraschall.SetRenderPreset(Bounds_Name, Options_and_Format_Name, Rende
 
  
   -- set Bounds-preset, if given
+	local Bounds_Name2=Bounds_Name
+	Bounds_Name=ultraschall.EscapeMagicCharacters_String(Bounds_Name)
   if Bounds_Name~=nil then 
     Bounds=("\n"..A):match("(\nRENDERPRESET_OUTPUT "..Bounds_Name..".-\n)")
+		
     Bounds = ultraschall.EscapeMagicCharacters_String(Bounds)
-
-    String="\nRENDERPRESET_OUTPUT "..Bounds_Name.." "..RenderTable["Bounds"]..
+    String="\nRENDERPRESET_OUTPUT "..Bounds_Name2.." "..RenderTable["Bounds"]..
            " "..RenderTable["Startposition"]..
            " "..RenderTable["Endposition"]..
            " "..Source..
@@ -5996,14 +6009,18 @@ function ultraschall.SetRenderPreset(Bounds_Name, Options_and_Format_Name, Rende
            " "..RenderTable["TailFlag"]..
            " \""..RenderTable["RenderFile"].."\" "..
            RenderTable["TailMS"].."\n"
-
+		--print2(A, Bounds, String)
+		--print2(Bounds)
     A=string.gsub(A, Bounds, String)
   end
-
+	
+	local Options_and_Format_Name2=Options_and_Format_Name
+	Options_and_Format_Name=ultraschall.EscapeMagicCharacters_String(Options_and_Format_Name)
   -- set Format-options-preset, if given
   if Options_and_Format_Name~=nil then 
       RenderFormatOptions=A:match("<RENDERPRESET "..Options_and_Format_Name..".->")
-      String="<RENDERPRESET "..Options_and_Format_Name..
+			--print2(RenderFormatOptions)
+      String="<RENDERPRESET "..Options_and_Format_Name2..
              " "..RenderTable["SampleRate"]..
              " "..RenderTable["Channels"]..
              " "..RenderTable["OfflineOnlineRendering"]..
@@ -6017,7 +6034,7 @@ function ultraschall.SetRenderPreset(Bounds_Name, Options_and_Format_Name, Rende
     
     if RenderTable["RenderString2"]~="" then
       RenderFormatOptions=A:match("<RENDERPRESET2 "..Options_and_Format_Name..".->")
-      String="<RENDERPRESET2 "..Options_and_Format_Name..
+      String="<RENDERPRESET2 "..Options_and_Format_Name2..
              "\n  "..RenderTable["RenderString2"].."\n>"
       if RenderFormatOptions~=nil then
         RenderFormatOptions = ultraschall.EscapeMagicCharacters_String(RenderFormatOptions)      
@@ -6042,7 +6059,7 @@ function ultraschall.SetRenderPreset(Bounds_Name, Options_and_Format_Name, Rende
       
       local brickwall_target=ultraschall.DB2MKVOL(RenderTable["Brickwall_Limiter_Target"])
       local normalize_target=ultraschall.DB2MKVOL(RenderTable["Normalize_Target"])
-      local String3="\nRENDERPRESET_EXT "..Options_and_Format_Name.." "..normalize_method.." "..normalize_target.. " "..brickwall_target.." "..RenderTable["FadeIn"].." "..RenderTable["FadeOut"].." "..RenderTable["FadeIn_Shape"].." "..RenderTable["FadeOut_Shape"]
+      local String3="\nRENDERPRESET_EXT "..Options_and_Format_Name2.." "..normalize_method.." "..normalize_target.. " "..brickwall_target.." "..RenderTable["FadeIn"].." "..RenderTable["FadeOut"].." "..RenderTable["FadeIn_Shape"].." "..RenderTable["FadeOut_Shape"]
       A=A.."\n"
       local RenderNormalization=A:match("\nRENDERPRESET_EXT "..Options_and_Format_Name..".-\n")
       
