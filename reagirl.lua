@@ -14144,7 +14144,7 @@ function reagirl.Inputbox_Add(x, y, w, caption, Cap_width, meaningOfUI_Element, 
   reagirl.Elements[slot]["cap_w"]=math.tointeger(tx)+10
   reagirl.Elements[slot]["Description"]=meaningOfUI_Element
   reagirl.Elements[slot]["IsDisabled"]=false
-  reagirl.Elements[slot]["AccHint"]="Hit Enter to open up an accessible input dialog to enter text."
+  reagirl.Elements[slot]["AccHint"]="Hit Enter to open up an accessible input dialog to enter text(maximum 1023 characters). Control+C to copy entire text into clipboard. Control+V to replace text with text from clipboard."
   reagirl.Elements[slot]["ContextMenu_ACC"]=""
   reagirl.Elements[slot]["DropZoneFunction_ACC"]=""
   reagirl.Elements[slot]["Cap_width"]=Cap_width
@@ -14230,7 +14230,7 @@ function reagirl.Inputbox_SetTextSuggestions(element_id, suggestions)
     end
     reagirl.Elements[element_id]["suggestions"]=suggestions
     reagirl.Elements[element_id]["w_dropdownarea"]=15
-    reagirl.Elements[element_id]["AccHint"]="Hit Enter to open up an accessible input dialog to enter text. Hit down-arrowkey to select text-suggestions."
+    reagirl.Elements[element_id]["AccHint"]="Hit Enter to open up an accessible input dialog to enter text(maximum 1023 characters). Control+C to copy entire text into clipboard. Control+V to replace text with text from clipboard. Hit down-arrowkey to select text-suggestions."
     reagirl.Gui_ForceRefresh(15)
   end
 end
@@ -14770,7 +14770,11 @@ function reagirl.Inputbox_OnTyping(Key, Key_UTF, mouse_cap, element_storage)
   elseif Key==3 then
     -- Copy
     if reaper.CF_SetClipboard~=nil then
-      reaper.CF_SetClipboard(element_storage.Text:utf8_sub(element_storage.selection_startoffset+1, element_storage.selection_endoffset))
+      if reaper.osara_outputMessage==nil then
+        reaper.CF_SetClipboard(element_storage.Text:utf8_sub(element_storage.selection_startoffset+1, element_storage.selection_endoffset))
+      else
+        reaper.CF_SetClipboard(element_storage.Text)
+      end
     end
   elseif Key==24 then
     -- Cut
@@ -14787,14 +14791,18 @@ function reagirl.Inputbox_OnTyping(Key, Key_UTF, mouse_cap, element_storage)
     -- Paste Cmd+V
     if reaper.CF_GetClipboard~=nil then
       local text=string.gsub(reaper.CF_GetClipboard(), "\n", "")
-      text=string.gsub(text, "\r", "")
-      element_storage.Text=element_storage.Text:utf8_sub(1, element_storage.selection_startoffset)..text..element_storage.Text:utf8_sub(element_storage.selection_endoffset+1, -1)
-      element_storage.cursor_offset=element_storage.cursor_offset+text:utf8_len()
+      if reaper.osara_outputMessage==nil then
+        text=string.gsub(text, "\r", "")
+        element_storage.Text=element_storage.Text:utf8_sub(1, element_storage.selection_startoffset)..text..element_storage.Text:utf8_sub(element_storage.selection_endoffset+1, -1)
+      else
+        element_storage.Text=text
+      end
+      element_storage.cursor_offset=text:len()
       element_storage.selection_startoffset=element_storage.cursor_offset
       element_storage.selection_endoffset=element_storage.cursor_offset
       reagirl.Inputbox_ConsolidateCursorPos(element_storage)
-      entered_text=text
     end
+    entered_text=text
   elseif Key==6579564.0 then
     -- Del Key
     if element_storage.selection_startoffset~=element_storage.selection_endoffset then
@@ -14950,6 +14958,15 @@ function reagirl.Inputbox_Manage(element_id, selected, hovered, clicked, mouse_c
           element_storage["run_function"](element_storage["Guid"], element_storage.Text)
         end
       end
+    elseif selected~="not selected" and Key==3 then
+      reaper.CF_SetClipboard(element_storage.Text)
+    elseif selected~="not selected" and Key==22 then
+      element_storage.Text=reaper.CF_GetClipboard()
+      element_storage.cursor_offset=element_storage.Text:len()
+      element_storage.selection_startoffset=element_storage.cursor_offset
+      element_storage.selection_endoffset=element_storage.cursor_offset
+      reagirl.Inputbox_ConsolidateCursorPos(element_storage)
+      reagirl.Gui_ForceRefresh("Accessibility Paste Text")
     end
   else
     if selected~="not selected" then
@@ -21426,6 +21443,8 @@ function reagirl.Tabs_Manage(element_id, selected, hovered, clicked, mouse_cap, 
     end
   end
   
+  -- Accessibility-shortcuts
+  
   if Key==9 and gfx.mouse_cap==4 then
     -- ctrl+tab work globally !!! UX-convention!!!
     -- cycle through tabs forward
@@ -21455,6 +21474,8 @@ function reagirl.Tabs_Manage(element_id, selected, hovered, clicked, mouse_cap, 
     reagirl.UI_Element_SetFocused(element_storage["Guid"])
     reagirl.MouseJump_Skip=true
   end
+  
+  -- end of accessibility shortcuts
   
   if (selected~="not selected" and Key==1919379572.0) then 
     if element_storage["TabSelected"]+1~=#element_storage["TabNames"]+1 then

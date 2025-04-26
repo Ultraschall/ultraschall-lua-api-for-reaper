@@ -764,9 +764,10 @@ New features in 5.3
 
 Changes from 5.2 to 5.3
 
-    - ReaGirl: All UI-elements - except images will now highlight, when the mouse hovers abive them(can be disabled in the settings)
+    - ReaGirl: All UI-elements - except images will now highlight, when the mouse hovers above them(can be disabled in the settings)
     - ReaGirl: Buttons - caption wasn't properly drawn when y-margin was>0 -> fixed
     - ReaGirl: DropDownLists - clicking dropdownlists wasn't shown properly, when focus rectangle was set as show always -> fixed
+    - ReaGirl: InputBoxes - when screen reader support is active, Ctrl+C copies the entire text to clipboard and Ctrl+V overwrites text with text from clipboard
     - ReaGirl: Sliders - couldn't show negative unit-values -> fixed
     - ReaGirl: Tooltips - the meaning_ofUIElement is now in the first line, the info Has contextmenu, draggable and Allows dropping of files is now in the second line. Looks more clean that way.
     - Rendering: AddRenderPreset - improved error-handling when presets already exist
@@ -811,7 +812,7 @@ Changes from 5.2 to 5.3
         \par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af6\langfe2052\dbch\af8\afs24\lang1081\loch\f0\fs24\lang1031{\rtlch \ltrch\loch
         }
         \par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af6\langfe2052\dbch\af8\afs24\lang1081\loch\f0\fs24\lang1031{\rtlch \ltrch\loch\loch\f4
-        a 1693 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 56119 from 21.04.2025 23:02:27).}
+        a 1693 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 56119 from 26.04.2025 14:17:57).}
         \par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af6\langfe2052\dbch\af8\afs24\lang1081\loch\f0\fs24\lang1031{\rtlch \ltrch\loch
         }
         \par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af6\langfe2052\dbch\af8\afs24\lang1081\loch\f0\fs24\lang1031{\rtlch \ltrch\loch
