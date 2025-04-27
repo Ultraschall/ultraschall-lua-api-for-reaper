@@ -21897,9 +21897,9 @@ function reagirl.Meter_Draw(element_id, selected, hovered, clicked, mouse_cap, m
       if Level>200 then 
         gfx.rect(x, y+i*height, 200, height-scale2, 1) 
       else
-        gfx.rect(x, y+i*height, Level, height-scale2, 1)
+        gfx.rect(x, y+i*height, Level-3, height-scale2, 1)
       end
-      ABBA2=Level
+      
       
       
       if Level2>=-2 then
