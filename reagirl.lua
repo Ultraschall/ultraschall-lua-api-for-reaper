@@ -21846,7 +21846,7 @@ function reagirl.Meter_Manage(element_id, selected, hovered, clicked, mouse_cap,
   
   element_storage["count"]=element_storage["count"]+1
   if element_storage["count"]==30 then element_storage.dbHold[1]=-144 element_storage.count=0 refresh=true end
-  
+  element_storage.dbHold[0]=-144
   local refresh=false
   for i=0, element_storage["channels"]-1 do
     db=reaper.Track_GetPeakInfo(track, i)
@@ -21888,19 +21888,17 @@ function reagirl.Meter_Draw(element_id, selected, hovered, clicked, mouse_cap, m
       local Level=element_storage.db[i]+144
       local Level2=element_storage.db[i]
       ABBA=Level2
-      Log=math.log(Level/60)
+      local Log=math.log(Level/60)
       Level=Level*Log
       Level=w/140*Level
       
       gfx.set(0,1,0)
       i=i-1
       if Level>200 then 
-        gfx.rect(x, y+i*height, 200, height-scale2, 1) 
+        gfx.rect(x, y+i*height, 200*scale, height-scale2, 1) 
       else
-        gfx.rect(x, y+i*height, Level-3, height-scale2, 1)
+        gfx.rect(x, y+i*height, Level-scale-scale-scale, height-scale2, 1)
       end
-      
-      
       
       if Level2>=-2 then
         if Level>w-2 then Level=w-2 end
@@ -21920,12 +21918,18 @@ function reagirl.Meter_Draw(element_id, selected, hovered, clicked, mouse_cap, m
       --gfx.rect(x+element_storage.OldLevelHold, y, 1, h, 1)
     end
   else
-    local scale=scale+scale
-    local x=x+scale
-    local Level=element_storage.dbHold[1]+150
+    local scale3=scale+scale
+    local x=x+scale3
+    local Level=element_storage.dbHold[0]+144
+    local Log=math.log(Level/60)
+    Level=Level*Log
     Level=w/140*Level
     gfx.set(0,1,0)
-    gfx.rect(x, y, Level, h-scale, 1)
+    if Level>200 then 
+      gfx.rect(x, y, 200, h-scale, 1) 
+    else
+      gfx.rect(x, y, Level-scale-scale-scale, h-scale, 1)
+    end
     if Level>=max then
       if Level>w-2 then Level=w-2 end
       --gfx.rect(x,y+i*height,med,height-scale) 
