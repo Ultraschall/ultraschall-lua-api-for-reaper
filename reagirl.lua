@@ -106,7 +106,6 @@ reagirl.Window_Hovered=false
 reagirl.Gui_Init_Me=true
 reagirl.Gui_Sticky_Y_top=0
 reagirl.Gui_Sticky_Y_bottom=0
-
 reagirl.Defer=reaper.defer
 
 
@@ -390,6 +389,7 @@ function reaper.JS_Actions_DoShortcutDialog(...)
 end
 
 reagirl.Elements={}
+reagirl.ElementsRefreshMe={}
 reagirl.NextLine_Overflow=0 -- will be set when a ui-element in a line is higher than usual
 reagirl.EditMode=false
 reagirl.EditMode_Grid=false
@@ -3355,6 +3355,16 @@ function reagirl.Gui_ReserveImageBuffer()
 end
 
 reagirl.DragImageSlot=reagirl.Gui_ReserveImageBuffer()
+reagirl.Refresh_Buffer=reagirl.Gui_ReserveImageBuffer()
+--[[
+gfx.setimgdim(reagirl.Refresh_Buffer, 1000, 1000)
+gfx.dest=reagirl.Refresh_Buffer
+gfx.set(0.5,0.5,0.5)
+gfx.rect(0,0,1000,1000,1)
+gfx.set(1,0,0)
+gfx.rect(0,0,100,100,1)
+gfx.dest=-1
+--]]
 reagirl.ListViewSlot=reagirl.Gui_ReserveImageBuffer()
 
 function reagirl.Gui_PreventScrollingForOneCycle(keyboard, mousewheel_swipe, scroll_buttons)
@@ -3876,6 +3886,7 @@ function reagirl.Window_Reposition(x_or_y)
     end
     if reagirl.MoveItAllRight>0 then reagirl.MoveItAllRight=0 end
   end
+  gfx.setimgdim(reagirl.Refresh_Buffer, gfx.w, gfx.h)
 end
 
 function reagirl.Window_Open(...)
@@ -4046,6 +4057,13 @@ function reagirl.Window_Open(...)
     retval=0.0
   end
   reagirl.Ext_IsAnyReaGirlGuiHovered(true)
+  gfx.setimgdim(reagirl.Refresh_Buffer, gfx.w, gfx.h)
+  local cur_dock, cur_x, cur_y, cur_w, cur_h = gfx.dock(-1, 0, 0, 0, 0)
+  reagirl.Window_Actual_X=cur_x
+  reagirl.Window_Actual_Y=cur_y
+  reagirl.Window_Actual_W=cur_w
+  reagirl.Window_Actual_H=cur_h
+  reagirl.Window_Actual_Dock=cur_dock
   return retval, reagirl.GFX_WindowHWND
 end
 
@@ -4963,7 +4981,7 @@ function reagirl.Gui_Open(name, restore_old_window_state, title, description, w,
   reagirl.FocusRectangle_BlinkStartTime=reaper.time_precise()
   reaper.SetExtState("Reagirl_Window_"..name, "open", "true", false)
   reaper.atexit(reagirl.AtExit)
-
+  
   return reagirl.Window_Open(title, w, h, dock, x, y)
 end
 
@@ -5022,11 +5040,12 @@ function reagirl.Gui_Close()
   reaper.SetExtState("Reagirl_Window_"..reagirl.Window_name, "open", "", false)
   reagirl.GFX_WindowHWND=nil
   reagirl.Ext_IsAnyReaGirlGuiHovered()
-  reagirl.UnRegisterWindow()
+  reagirl.UnRegisterWindow("ACH")
 end
 
 function reagirl.UnRegisterWindow()
   reaper.SetExtState("Reagirl_Window_"..reagirl.Window_name, "stored", "true", true)
+  
   reaper.SetExtState("Reagirl_Window_"..reagirl.Window_name, "x", reagirl.Window_Actual_X, true)
   reaper.SetExtState("Reagirl_Window_"..reagirl.Window_name, "y", reagirl.Window_Actual_Y, true)
   reaper.SetExtState("Reagirl_Window_"..reagirl.Window_name, "w", reagirl.Window_Actual_W, true)
@@ -5045,7 +5064,7 @@ end
 
 function reagirl.AtExit()
   reagirl.Ext_IsAnyReaGirlGuiHovered()
-  reagirl.UnRegisterWindow()
+  reagirl.UnRegisterWindow("PUH")
   reaper.SetExtState("Reagirl_Window_"..reagirl.Window_name, "open", "", false)
   reaper.SetExtState("Reagirl_Window_"..reagirl.Window_name.."-"..reagirl.Gui_ScriptInstance, "stored", "", true)
   reaper.SetExtState("Reagirl_Window_"..reagirl.Window_name.."-"..reagirl.Gui_ScriptInstance, "x", "", false)
@@ -5839,7 +5858,7 @@ function reagirl.Gui_Manage(keep_running)
   -- End of Debug
   
   if Key==-1 then reagirl.IsWindowOpen_attribute_Old=true reagirl.IsWindowOpen_attribute=false end
-  if Key==-1 then reagirl.UnRegisterWindow() reagirl.Ext_IsAnyReaGirlGuiHovered() end
+  if Key==-1 then reagirl.UnRegisterWindow("HUCH") reagirl.Ext_IsAnyReaGirlGuiHovered() end
   
   if reagirl.Gui_PreventCloseViaEscForOneCycle_State~=true then
     if Key==27 then 
@@ -6629,7 +6648,13 @@ function reagirl.Gui_Manage(keep_running)
   reaper.SetExtState("ReaGirl", "ProcessTime_"..reagirl.Gui_ScriptInstance, reaper.time_precise()-reagirl.Defer_StartTime, false)
   
   -- go over to draw the ui-elements
+  local Gui_ForceRefreshState=reagirl.Gui_ForceRefreshState
   reagirl.Gui_Draw(Key, Key_utf, clickstate, specific_clickstate, mouse_cap, click_x, click_y, drag_x, drag_y, mouse_wheel, mouse_hwheel)
+  if Gui_ForceRefreshState~=true then
+    reagirl.Gui_DrawSingular(Key, Key_utf, clickstate, specific_clickstate, mouse_cap, click_x, click_y, drag_x, drag_y, mouse_wheel, mouse_hwheel)
+  else
+    reagirl.ElementsRefreshMe={}
+  end
   if reagirl.Window_SetFocus_Trigger==true then
     reagirl.Window_SetFocus()
     reagirl.Window_SetFocus_Trigger=nil
@@ -6644,6 +6669,50 @@ function reagirl.Gui_Manage(keep_running)
   end
   -- reset screenreader messages
   reagirl.osara_AddedMessage=""
+end
+
+function reagirl.Gui_DrawSingular(Key, Key_utf, clickstate, specific_clickstate, mouse_cap, click_x, click_y, drag_x, drag_y, mouse_wheel, mouse_hwheel)
+  --if lol==nil then return end
+  local scale=reagirl.Window_GetCurrentScale()
+  gfx.x=0
+  gfx.y=0
+  
+  --gfx.drawstr("HURTZ")
+  gfx.blit(reagirl.Refresh_Buffer, 1, 0)
+  --gfx.x=0
+  --gfx.y=0
+  --gfx.drawstr("HURTZ")
+  
+  for a=1, #reagirl.ElementsRefreshMe do
+    local i=reagirl.ElementsRefreshMe[a]
+    local x2, y2, w2, h2
+    if reagirl.Elements[i]["x"]<0 then x2=gfx.w+(reagirl.Elements[i]["x"]*scale) else x2=reagirl.Elements[i]["x"]*scale end
+    if reagirl.Elements[i]["y"]<0 then y2=gfx.h+(reagirl.Elements[i]["y"]*scale) else y2=reagirl.Elements[i]["y"]*scale end
+    
+    if reagirl.Elements[i]["w"]<0 then w2=gfx.w+(-x2+(reagirl.Elements[i]["w"])*scale) else w2=(reagirl.Elements[i]["w"])*scale end
+    if reagirl.Elements[i]["h"]<0 then h2=gfx.h+(-y2+(reagirl.Elements[i]["h"])*scale) else h2=(reagirl.Elements[i]["h"])*scale end
+
+    local selected="not selected"
+    if reagirl.Elements.FocusedElement==i then selected=reagirl.ui_element_selected end
+    local message=reagirl.Elements[i]["func_draw"](i, selected,
+      reagirl.UI_Elements_HoveredElement==i,
+      specific_clickstate,
+      gfx.mouse_cap,
+      {click_x, click_y, drag_x, drag_y, mouse_wheel, mouse_hwheel},
+      reagirl.Elements[i]["Name"],
+      reagirl.Elements[i]["Description"], 
+      math.floor(x2+reagirl.MoveItAllRight),
+      math.floor(y2+reagirl.MoveItAllUp),
+      math.floor(w2),
+      math.floor(h2),
+      Key,
+      Key_utf,
+      reagirl.Elements[i]
+    )
+  end
+  --]]
+  reagirl.ElementsRefreshMe={}
+  
 end
 
 function reagirl.Gui_Draw(Key, Key_utf, clickstate, specific_clickstate, mouse_cap, click_x, click_y, drag_x, drag_y, mouse_wheel, mouse_hwheel)
@@ -6949,6 +7018,11 @@ function reagirl.Gui_Draw(Key, Key_utf, clickstate, specific_clickstate, mouse_c
   reagirl.Scroll_Override_ScrollButtons=nil
   reagirl.DebugRect()
   reagirl.Gui_Init_Me=false
+  gfx.dest=reagirl.Refresh_Buffer
+  gfx.x=0
+  gfx.y=0
+  gfx.blit(-1, 1, 0)
+  gfx.dest=-1
   reaper.SetExtState("ReaGirl", "ProcessTime_"..reagirl.Gui_ScriptInstance, reaper.time_precise()-reagirl.Defer_StartTime, false)
 end
 
@@ -18771,7 +18845,7 @@ function reagirl.Window_ForceMaxSize()
   reagirl.Gui_ForceRefresh(34)
 end
 
-function reagirl.Gui_ForceRefresh(place)
+function reagirl.Gui_ForceRefresh(place, id)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>Gui_ForceRefresh</slug>
@@ -18790,9 +18864,14 @@ function reagirl.Gui_ForceRefresh(place)
   <tags>gui, force, refresh</tags>
 </US_DocBloc>
 --]]
-  reagirl.Gui_ForceRefreshState=true
-  reagirl.Gui_ForceRefresh_place=place
-  reagirl.Gui_ForceRefresh_time=reaper.time_precise()
+  if id==nil then
+    reagirl.Gui_ForceRefreshState=true
+    reagirl.Gui_ForceRefresh_place=place
+    reagirl.Gui_ForceRefresh_time=reaper.time_precise()
+  else
+    reagirl.ElementsRefreshMe[#reagirl.ElementsRefreshMe+1]=id
+  end
+  
 end
 
 function reagirl.Window_GetScrollOffset()
@@ -19062,7 +19141,7 @@ function reagirl.UI_Elements_Boundaries()
     reagirl.BoundaryX_Max=reagirl.BoundaryX_Max+15*scale
   else
     reagirl.Elements[#reagirl.Elements-4].hidden=true
-    reagirl.Elements[#reagirl.Elements-5].hidden=true
+    reagirl.Elements[#reagirl.Elements-5].hidden=true -- bug! mespotine
     reagirl.Elements[#reagirl.Elements].hidden=true
   end
   
@@ -21666,6 +21745,206 @@ function reagirl.Tabs_Draw(element_id, selected, hovered, clicked, mouse_cap, mo
            element_storage["Tabs_Pos"][element_storage["TabSelected"] ]["w"]+offset_tabline-dpi_scale,--+element_storage["Tabs_Pos"][element_storage["TabSelected"] ]["w"], 
            dpi_scale, 1)--]]
 end
+
+function reagirl.Meter_Add(x, y, w, h, mode, caption, meaningOfUI_Element, run_function)
+  --[[
+  <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+    <slug>Meter_Add</slug>
+    <requires>
+      ReaGirl=1.3
+      Reaper=7.03
+      Lua=5.4
+    </requires>
+    <functioncall>string meter_guid = reagirl.Meter_Add(integer x, integer y, integer w, integer h, integer mode, string caption, string meaningOfUI_Element, optional function run_function)</functioncall>
+    <description>
+      Adds a meter to a gui.
+      
+      You can autoposition the meter by setting x and/or y to nil, which will position the new meter after the last ui-element.
+      To autoposition into the next line, use reagirl.NextLine()
+      
+      The run-function will get two parameters:
+      - string element_id - the element_id of the meter
+      - number db_value - the current db_value
+      
+      Note: the run-function will be run in every single defer-cycle! Helpful when linked to hardware inputs or track-level.
+    </description>
+    <parameters>
+      optional integer x - the x position of the meter in pixels; negative anchors the meter to the right window-side; nil, autoposition after the last ui-element(see description)
+      optional integer y - the y position of the meter in pixels; negative anchors the meter to the bottom window-side; nil, autoposition after the last ui-element(see description)
+      integer w - the width of the meter
+      integer h - the height of the meter
+      integer mode - 0, meter goes from left to right; 1, meter goes from bottom to top
+      string caption - the caption of the meter
+      string meaningOfUI_Element - the meaningOfUI_Element of the ui-element(for tooltips and blind users). Make it a sentence that ends with . or ?
+      optional function run_function - a function that shall be run in every defer-cycle; will get passed over the meter-element_id as first and the db-value as second parameter
+    </parameters>
+    <retvals>
+      string meter_guid - a guid that can be used for altering the meter-attributes
+    </retvals>
+    <chapter_context>
+      Meter
+    </chapter_context>
+    <tags>meter, add</tags>
+  </US_DocBloc>
+  --]]
+    -- 15, 55
+    if x~=nil and math.type(x)~="integer" then error("Meter_Add: param #1 - must be either nil or an integer", 2) end
+    if y~=nil and math.type(y)~="integer" then error("Meter_Add: param #2 - must be either nil or an integer", 2) end
+    if math.type(w)~="integer" then error("Meter_Add: param #3 - must be an integer", 2) end
+    if w>0 and w<15 then error("Meter_Add: param #3 - must be either negative or greater than 15", 2) end
+    if math.type(h)~="integer" then error("Meter_Add: param #4 - must be an integer", 2) end
+    if h>0 and h<55 then error("Meter_Add: param #4 - must be either negative or greater than 55", 2) end
+    if math.type(mode)~="integer" then error("Meter_Add: param #5 - must be an integer", 2) end
+    if type(caption)~="string" then error("Meter_Add: param #6 - must be a string", 2) end
+    caption=string.gsub(caption, "[\n\r]", "")
+    if type(meaningOfUI_Element)~="string" then error("Meter_Add: param #7 - must be a string", 2) end
+    if meaningOfUI_Element:sub(-1,-1)~="." and meaningOfUI_Element:sub(-1,-1)~="?" then error("Meter_Add: param #7 - must end on a . like a regular sentence.", 2) end
+    if run_function~=nil and type(run_function)~="function" then error("Meter_Add: param #8 - must be either nil or a function", 2) end
+    
+    local x,y,slot=reagirl.UI_Element_GetNextXAndYPosition(x, y, "Meter_Add")
+    table.insert(reagirl.Elements, slot, {})
+
+    reagirl.Elements[slot]["Guid"]=reaper.genGuid("")
+    reagirl.Elements[slot]["GUI_Element_Type"]="Meter"
+    reagirl.Elements[slot]["Name"]=caption
+    reagirl.Elements[slot]["Text"]=caption
+    reagirl.Elements[slot]["IsDisabled"]=false
+    reagirl.Elements[slot]["sticky_x"]=false
+    reagirl.Elements[slot]["sticky_y"]=false
+    reagirl.Elements[slot]["Description"]=meaningOfUI_Element
+    reagirl.Elements[slot]["AccHint"]=""
+    reagirl.Elements[slot]["ContextMenu_ACC"]=""
+    reagirl.Elements[slot]["DropZoneFunction_ACC"]=""
+    reagirl.Elements[slot]["x"]=x
+    reagirl.Elements[slot]["y"]=y
+    reagirl.Elements[slot]["w"]=w
+    reagirl.Elements[slot]["h"]=h
+    reagirl.Elements[slot]["dbHold"]={-144}
+    reagirl.Elements[slot]["dbHold"][0]=-144
+    reagirl.Elements[slot]["db"]={-144}
+    reagirl.Elements[slot]["count"]=0
+    reagirl.Elements[slot]["func_manage"]=reagirl.Meter_Manage
+    reagirl.Elements[slot]["func_draw"]=reagirl.Meter_Draw
+    reagirl.Elements[slot]["run_function"]=run_function
+    reagirl.Elements[slot]["channels"]=2
+    reagirl.Elements[slot]["userspace"]={}
+    reagirl.Elements[slot]["count"]=0
+    return reagirl.Elements[slot]["Guid"]
+end
+
+function reagirl.Meter_Manage(element_id, selected, hovered, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
+  -- code for resetting the hold-value when clicking
+  -- if clicked then element_storage["dbHold"][0]=-144 end
+  
+  -- linked to management to
+  --- HW Input
+  local db=reaper.GetInputActivityLevel(0)
+  
+  -- Track levels
+  local track=reaper.GetTrack(0,2)
+  element_storage["channels"]=reaper.GetMediaTrackInfo_Value(track, "I_NCHAN")
+  
+  element_storage["count"]=element_storage["count"]+1
+  if element_storage["count"]==30 then element_storage.dbHold[1]=-144 element_storage.count=0 refresh=true end
+  
+  local refresh=false
+  for i=0, element_storage["channels"]-1 do
+    db=reaper.Track_GetPeakInfo(track, i)
+    db=ultraschall.MKVOL2DB(db)
+    if element_storage.db[i+1]~=db then
+      element_storage.db[i+1]=db
+      if element_storage.dbHold[1]<db then element_storage.dbHold[1]=db element_storage.count=0 end
+      if element_storage.dbHold[0]<db then element_storage.dbHold[0]=db element_storage.count=0 end
+      refresh=true
+    end
+  end
+
+  if refresh==true then
+    reagirl.Gui_ForceRefresh("Meter refresh", element_id)
+  end
+end
+
+function reagirl.Meter_Draw(element_id, selected, hovered, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
+  -- missing: element_storage["dbHold"][0] holds the peak hold-value that must be drawn into the levels.
+  --          although I'm not sure, whether I should draw a hold value for all channels individually....
+  local max=w*0.86
+  local med=w*0.75
+  local height=math.floor(h/element_storage["channels"])
+  
+  
+  local scale=reagirl.Window_GetCurrentScale()
+  local scale2=reagirl.Window_GetCurrentScale()
+  if height==1 then scale2=0 end
+  gfx.set(0.38)
+  gfx.rect(x,y,w,h+scale+scale,1)
+  
+  gfx.set(1)
+  gfx.rect(x,y,w,h+scale+scale,0)
+  
+  y=y+scale+scale
+  if height>1 then
+    local x=x+scale+scale
+    for i=1, element_storage["channels"] do
+      local Level=element_storage.db[i]+150
+      Level=w/170*Level
+      gfx.set(0,1,0)
+      i=i-1
+      gfx.rect(x, y+i*height, Level, height-scale2, 1)
+      if Level>=max then
+        if Level>w-2 then Level=w-2 end
+        --gfx.rect(x,y+i*height,med,height-scale) 
+        gfx.set(1,1,0) 
+        gfx.rect(x+med, y+i*height, max-med, height-scale2, 1) 
+        gfx.set(1,0,0) 
+        gfx.rect(x+max, y+i*height, Level-max, height-scale2, 1)
+      elseif Level>=med then 
+        --gfx.rect(x,y+i*height,med,height-scale) 
+        gfx.set(1,1,0) 
+        gfx.rect(x+med, y+i*height, Level-med, height-scale2, 1) 
+      end
+      --]]
+      
+      --gfx.set(0,0,1)
+      --gfx.rect(x+element_storage.OldLevelHold, y, 1, h, 1)
+    end
+  else
+    local scale=scale+scale
+    local x=x+scale
+    local Level=element_storage.dbHold[1]+150
+    Level=w/170*Level
+    gfx.set(0,1,0)
+    gfx.rect(x, y, Level, h-scale, 1)
+    if Level>=max then
+      if Level>w-2 then Level=w-2 end
+      --gfx.rect(x,y+i*height,med,height-scale) 
+      gfx.set(1,1,0) 
+      gfx.rect(x+med, y, max-med, h-scale, 1) 
+      gfx.set(1,0,0) 
+      gfx.rect(x+max, y, Level-max, h-scale, 1)
+    elseif Level>=med then 
+      --gfx.rect(x,y+i*height,med,height-scale) 
+      gfx.set(1,1,0) 
+      gfx.rect(x+med, y, Level-med, h-scale, 1)
+    end
+  end
+  --]]
+  local Level=element_storage.dbHold[1]+0.0
+  local text=tostring(Level):match("(.-%..)").."dB"
+  local xpos=gfx.measurestr(tostring(Level):match("(.-%..)").."dB")+scale+scale
+  local ypos=(h-gfx.texth)/2
+  
+  gfx.x=x+w-xpos+scale
+  gfx.y=y+ypos+scale
+  gfx.set(0)
+  gfx.drawstr(text)
+  gfx.x=x+w-xpos
+  gfx.y=y+ypos
+  gfx.set(1)
+  gfx.drawstr(text)
+  --]]
+  
+end
+
 
 
 function reagirl.Base64_Encoder(source_string, remove_newlines, remove_tabs)
