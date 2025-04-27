@@ -21867,8 +21867,8 @@ end
 function reagirl.Meter_Draw(element_id, selected, hovered, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
   -- missing: element_storage["dbHold"][0] holds the peak hold-value that must be drawn into the levels.
   --          although I'm not sure, whether I should draw a hold value for all channels individually....
-  local max=w*0.86
-  local med=w*0.75
+  local max=w*0.88
+  local med=w*0.50
   local height=math.floor(h/element_storage["channels"])
   
   
@@ -21885,19 +21885,31 @@ function reagirl.Meter_Draw(element_id, selected, hovered, clicked, mouse_cap, m
   if height>1 then
     local x=x+scale+scale
     for i=1, element_storage["channels"] do
-      local Level=element_storage.db[i]+150
-      Level=w/170*Level
+      local Level=element_storage.db[i]+144
+      local Level2=element_storage.db[i]
+      ABBA=Level2
+      Log=math.log(Level/60)
+      Level=Level*Log
+      Level=w/140*Level
+      
       gfx.set(0,1,0)
       i=i-1
-      gfx.rect(x, y+i*height, Level, height-scale2, 1)
-      if Level>=max then
+      if Level>200 then 
+        gfx.rect(x, y+i*height, 200, height-scale2, 1) 
+      else
+        gfx.rect(x, y+i*height, Level, height-scale2, 1)
+      end
+      ABBA2=Level
+      
+      
+      if Level2>=-2 then
         if Level>w-2 then Level=w-2 end
         --gfx.rect(x,y+i*height,med,height-scale) 
         gfx.set(1,1,0) 
         gfx.rect(x+med, y+i*height, max-med, height-scale2, 1) 
         gfx.set(1,0,0) 
         gfx.rect(x+max, y+i*height, Level-max, height-scale2, 1)
-      elseif Level>=med then 
+      elseif Level>=18 then 
         --gfx.rect(x,y+i*height,med,height-scale) 
         gfx.set(1,1,0) 
         gfx.rect(x+med, y+i*height, Level-med, height-scale2, 1) 
@@ -21911,7 +21923,7 @@ function reagirl.Meter_Draw(element_id, selected, hovered, clicked, mouse_cap, m
     local scale=scale+scale
     local x=x+scale
     local Level=element_storage.dbHold[1]+150
-    Level=w/170*Level
+    Level=w/140*Level
     gfx.set(0,1,0)
     gfx.rect(x, y, Level, h-scale, 1)
     if Level>=max then
