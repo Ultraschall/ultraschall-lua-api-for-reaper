@@ -21791,9 +21791,9 @@ function reagirl.Meter_Add(x, y, w, h, mode, caption, meaningOfUI_Element, run_f
     if x~=nil and math.type(x)~="integer" then error("Meter_Add: param #1 - must be either nil or an integer", 2) end
     if y~=nil and math.type(y)~="integer" then error("Meter_Add: param #2 - must be either nil or an integer", 2) end
     if math.type(w)~="integer" then error("Meter_Add: param #3 - must be an integer", 2) end
-    if w>0 and w<15 then error("Meter_Add: param #3 - must be either negative or greater than 15", 2) end
+    if w>0 and w<15 then error("Meter_Add: param #3 - must be either negative or greater than 55", 2) end
     if math.type(h)~="integer" then error("Meter_Add: param #4 - must be an integer", 2) end
-    if h>0 and h<55 then error("Meter_Add: param #4 - must be either negative or greater than 55", 2) end
+    if h>0 and h<15 then error("Meter_Add: param #4 - must be either negative or greater than 15", 2) end
     if math.type(mode)~="integer" then error("Meter_Add: param #5 - must be an integer", 2) end
     if type(caption)~="string" then error("Meter_Add: param #6 - must be a string", 2) end
     caption=string.gsub(caption, "[\n\r]", "")
@@ -21820,7 +21820,7 @@ function reagirl.Meter_Add(x, y, w, h, mode, caption, meaningOfUI_Element, run_f
     reagirl.Elements[slot]["w"]=w
     reagirl.Elements[slot]["h"]=h
     reagirl.Elements[slot]["dbHold"]={-144}
-    reagirl.Elements[slot]["dbHold"][0]=-144
+    reagirl.Elements[slot]["dbClip"]=false
     reagirl.Elements[slot]["db"]={-144}
     reagirl.Elements[slot]["count"]=0
     reagirl.Elements[slot]["func_manage"]=reagirl.Meter_Manage
@@ -21833,28 +21833,39 @@ function reagirl.Meter_Add(x, y, w, h, mode, caption, meaningOfUI_Element, run_f
 end
 
 function reagirl.Meter_Manage(element_id, selected, hovered, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
-  -- code for resetting the hold-value when clicking
-  -- if clicked then element_storage["dbHold"][0]=-144 end
-  
+  -- report clippings to screen reader
+  -- 
   -- linked to management to
   --- HW Input
+  
   local db=reaper.GetInputActivityLevel(0)
   
   -- Track levels
   local track=reaper.GetTrack(0,2)
   element_storage["channels"]=reaper.GetMediaTrackInfo_Value(track, "I_NCHAN")
-  
   element_storage["count"]=element_storage["count"]+1
-  if element_storage["count"]==30 then element_storage.dbHold[1]=-144 element_storage.count=0 refresh=true end
-  element_storage.dbHold[0]=-144
+  if element_storage["count"]==66 or (gfx.mouse_x>=x and gfx.mouse_x<=x+w and gfx.mouse_y>y and gfx.mouse_y<y+h and clicked=="FirstCLK") then
+    for i=-1, element_storage["channels"] do
+      element_storage.dbHold[i]=-144
+    end
+    if element_storage["count"]~=66 then
+      element_storage["dbClip"]=false
+    end
+    element_storage["count"]=0
+    reagirl.Gui_ForceRefresh("Meter_HoldReset", element_id)
+  end
+  
+  --if element_storage["count"]==30 then element_storage.dbHold[1]=-144 element_storage.count=0 refresh=true end
+  element_storage.dbHold[-1]=-144
   local refresh=false
   for i=0, element_storage["channels"]-1 do
     db=reaper.Track_GetPeakInfo(track, i)
     db=ultraschall.MKVOL2DB(db)
     if element_storage.db[i+1]~=db then
       element_storage.db[i+1]=db
-      if element_storage.dbHold[1]<db then element_storage.dbHold[1]=db element_storage.count=0 end
-      if element_storage.dbHold[0]<db then element_storage.dbHold[0]=db element_storage.count=0 end
+      if element_storage.dbHold[i+1]==nil or element_storage.dbHold[i+1]<db then element_storage.dbHold[i+1]=db element_storage["count"]=0 end
+      if element_storage.dbHold[0]==nil or element_storage.dbHold[0]<db then element_storage.dbHold[0]=db element_storage.count=0 element_storage["count"]=0 end
+      if element_storage.dbHold[-1]==nil or element_storage.dbHold[-1]<db then element_storage.dbHold[-1]=db end
       refresh=true
     end
   end
@@ -21868,9 +21879,17 @@ function reagirl.Meter_Draw(element_id, selected, hovered, clicked, mouse_cap, m
   -- missing: element_storage["dbHold"][0] holds the peak hold-value that must be drawn into the levels.
   --          although I'm not sure, whether I should draw a hold value for all channels individually....
   local max=w*0.88
-  local med=w*0.50
+  local med=w*0.6
   local height=math.floor(h/element_storage["channels"])
   
+  
+  reagirl.Colors.Meters_IndicatorLine_r=0.6
+  reagirl.Colors.Meters_IndicatorLine_g=0.6
+  reagirl.Colors.Meters_IndicatorLine_b=0.6
+  
+  reagirl.Colors.Meters_IndicatorUnits_r=0.8
+  reagirl.Colors.Meters_IndicatorUnits_g=0.8
+  reagirl.Colors.Meters_IndicatorUnits_b=0.8
   
   local scale=reagirl.Window_GetCurrentScale()
   local scale2=reagirl.Window_GetCurrentScale()
@@ -21880,83 +21899,253 @@ function reagirl.Meter_Draw(element_id, selected, hovered, clicked, mouse_cap, m
   
   gfx.set(1)
   gfx.rect(x,y,w,h+scale+scale,0)
-  
+
   y=y+scale+scale
+  
+  local ypos=((h-gfx.texth)/2)-1
+  local strw, strh = gfx.measurestr("-54")
+  width=w/156
+  
+  -- show static level-indicators
+  reagirl.SetFont(1, reagirl.Font_Face, reagirl.Font_Size-2, 90)
+    gfx.set(reagirl.Colors.Meters_IndicatorLine_r, reagirl.Colors.Meters_IndicatorLine_g, reagirl.Colors.Meters_IndicatorLine_b)
+    gfx.rect(x+width*142,y,scale+scale, h-scale, 1)
+    gfx.set(reagirl.Colors.Meters_IndicatorUnits_r, reagirl.Colors.Meters_IndicatorUnits_g, reagirl.Colors.Meters_IndicatorUnits_b)
+    gfx.x=x+width*142-gfx.texth
+    gfx.y=y+h-strh-scale-scale
+    gfx.y=gfx.y+scale+scale+scale+scale+scale+scale+scale+scale+scale
+    if w>115 and h>40 then
+      gfx.drawstr("0")
+    end
+    
+  if h>40 and w>55 then
+    if w>200 then
+      gfx.set(reagirl.Colors.Meters_IndicatorLine_r, reagirl.Colors.Meters_IndicatorLine_g, reagirl.Colors.Meters_IndicatorLine_b)
+      gfx.rect(x+width*130,y,scale, h-scale, 1)
+      gfx.set(reagirl.Colors.Meters_IndicatorUnits_r, reagirl.Colors.Meters_IndicatorUnits_g, reagirl.Colors.Meters_IndicatorUnits_b)
+      gfx.x=x+width*130-gfx.texth
+      gfx.y=gfx.y-scale-scale-scale
+      gfx.drawstr("-6")
+    end
+    
+    gfx.y=y+h-strh-scale-scale
+    
+    gfx.set(reagirl.Colors.Meters_IndicatorLine_r, reagirl.Colors.Meters_IndicatorLine_g, reagirl.Colors.Meters_IndicatorLine_b)
+    gfx.rect(x+width*117,y, scale, h-scale, 1)
+    gfx.set(reagirl.Colors.Meters_IndicatorUnits_r, reagirl.Colors.Meters_IndicatorUnits_g, reagirl.Colors.Meters_IndicatorUnits_b)
+    gfx.x=x+width*117-gfx.texth
+    gfx.drawstr("-12")
+    
+    if w>200 then
+      gfx.set(reagirl.Colors.Meters_IndicatorLine_r, reagirl.Colors.Meters_IndicatorLine_g, reagirl.Colors.Meters_IndicatorLine_b)
+      gfx.rect(x+width*105,y,scale, h-scale, 1)
+      gfx.set(reagirl.Colors.Meters_IndicatorUnits_r, reagirl.Colors.Meters_IndicatorUnits_g, reagirl.Colors.Meters_IndicatorUnits_b)
+      gfx.x=x+width*105-gfx.texth
+      gfx.drawstr("-18")
+    end
+    
+    gfx.set(reagirl.Colors.Meters_IndicatorLine_r, reagirl.Colors.Meters_IndicatorLine_g, reagirl.Colors.Meters_IndicatorLine_b)
+    gfx.rect(x+width*94,y,scale, h-scale, 1)
+    gfx.set(reagirl.Colors.Meters_IndicatorUnits_r, reagirl.Colors.Meters_IndicatorUnits_g, reagirl.Colors.Meters_IndicatorUnits_b)
+    gfx.x=x+width*94-gfx.texth
+    gfx.drawstr("-24")
+    
+    if w>200 then
+      gfx.set(reagirl.Colors.Meters_IndicatorLine_r, reagirl.Colors.Meters_IndicatorLine_g, reagirl.Colors.Meters_IndicatorLine_b)
+      gfx.rect(x+width*83,y,scale, h-scale, 1)
+      gfx.set(reagirl.Colors.Meters_IndicatorUnits_r, reagirl.Colors.Meters_IndicatorUnits_g, reagirl.Colors.Meters_IndicatorUnits_b)
+      gfx.x=x+width*83-gfx.texth
+      gfx.drawstr("-30")
+    end
+
+    gfx.set(reagirl.Colors.Meters_IndicatorLine_r, reagirl.Colors.Meters_IndicatorLine_g, reagirl.Colors.Meters_IndicatorLine_b)
+    gfx.rect(x+width*72,y,scale, h-scale, 1)
+    gfx.set(reagirl.Colors.Meters_IndicatorUnits_r, reagirl.Colors.Meters_IndicatorUnits_g, reagirl.Colors.Meters_IndicatorUnits_b)
+    gfx.x=x+width*72-gfx.texth
+    gfx.drawstr("-36")
+    
+    if w>200 then
+      gfx.set(reagirl.Colors.Meters_IndicatorLine_r, reagirl.Colors.Meters_IndicatorLine_g, reagirl.Colors.Meters_IndicatorLine_b)
+      gfx.rect(x+width*61,y,scale, h-scale, 1)
+      gfx.set(reagirl.Colors.Meters_IndicatorUnits_r, reagirl.Colors.Meters_IndicatorUnits_g, reagirl.Colors.Meters_IndicatorUnits_b)
+      gfx.x=x+width*61-gfx.texth
+      gfx.drawstr("-42")
+    end
+    
+    gfx.set(reagirl.Colors.Meters_IndicatorLine_r, reagirl.Colors.Meters_IndicatorLine_g, reagirl.Colors.Meters_IndicatorLine_b)
+    gfx.rect(x+width*51,y,scale, h-scale, 1)
+    gfx.set(reagirl.Colors.Meters_IndicatorUnits_r, reagirl.Colors.Meters_IndicatorUnits_g, reagirl.Colors.Meters_IndicatorUnits_b)
+    gfx.x=x+width*51-gfx.texth
+    gfx.drawstr("-48")
+
+    if w>200 then
+      gfx.set(reagirl.Colors.Meters_IndicatorLine_r, reagirl.Colors.Meters_IndicatorLine_g, reagirl.Colors.Meters_IndicatorLine_b)
+      gfx.rect(x+width*41,y,scale, h-scale, 1)
+      gfx.set(reagirl.Colors.Meters_IndicatorUnits_r, reagirl.Colors.Meters_IndicatorUnits_g, reagirl.Colors.Meters_IndicatorUnits_b)
+      gfx.x=x+width*41-gfx.texth
+      gfx.drawstr("-54")
+    end
+
+    gfx.set(reagirl.Colors.Meters_IndicatorLine_r, reagirl.Colors.Meters_IndicatorLine_g, reagirl.Colors.Meters_IndicatorLine_b)
+    gfx.rect(x+width*32,y,scale, h-scale, 1)
+    gfx.set(reagirl.Colors.Meters_IndicatorUnits_r, reagirl.Colors.Meters_IndicatorUnits_g, reagirl.Colors.Meters_IndicatorUnits_b)
+    gfx.x=x+width*32-gfx.texth
+    gfx.drawstr("-60")
+    
+    if w>200 then
+      gfx.set(reagirl.Colors.Meters_IndicatorLine_r, reagirl.Colors.Meters_IndicatorLine_g, reagirl.Colors.Meters_IndicatorLine_b)
+      gfx.rect(x+width*24,y,scale, h-scale, 1)
+      gfx.set(reagirl.Colors.Meters_IndicatorUnits_r, reagirl.Colors.Meters_IndicatorUnits_g, reagirl.Colors.Meters_IndicatorUnits_b)
+      gfx.x=x+width*24-gfx.texth
+      gfx.drawstr("-66")
+    end
+    
+    gfx.set(reagirl.Colors.Meters_IndicatorLine_r, reagirl.Colors.Meters_IndicatorLine_g, reagirl.Colors.Meters_IndicatorLine_b)
+    gfx.rect(x+width*16,y,scale, h-scale, 1)
+    gfx.set(reagirl.Colors.Meters_IndicatorUnits_r, reagirl.Colors.Meters_IndicatorUnits_g, reagirl.Colors.Meters_IndicatorUnits_b)
+    gfx.x=x+width*16-gfx.texth
+    gfx.drawstr("-72")
+    
+    if w>200 then
+      gfx.set(reagirl.Colors.Meters_IndicatorLine_r, reagirl.Colors.Meters_IndicatorLine_g, reagirl.Colors.Meters_IndicatorLine_b)
+      gfx.rect(x+width*8,y,scale, h-scale, 1)
+      gfx.set(reagirl.Colors.Meters_IndicatorUnits_r, reagirl.Colors.Meters_IndicatorUnits_g, reagirl.Colors.Meters_IndicatorUnits_b)
+      gfx.x=x+width*8-gfx.texth
+      gfx.drawstr("-78")
+    end
+  end
+  reagirl.SetFont(1, reagirl.Font_Face, reagirl.Font_Size, 0)
+  
   if height>1 then
     local x=x+scale+scale
     for i=1, element_storage["channels"] do
+      -- iteratre through all channels
       local Level=element_storage.db[i]+144
       local Level2=element_storage.db[i]
-      ABBA=Level2
       local Log=math.log(Level/60)
       Level=Level*Log
       Level=w/140*Level
       
+      -- meter-columns
       gfx.set(0,1,0)
       i=i-1
-      if Level>200 then 
-        gfx.rect(x, y+i*height, 200*scale, height-scale2, 1) 
-      else
+      -- green
+      if Level2<-2 then
         gfx.rect(x, y+i*height, Level-scale-scale-scale, height-scale2, 1)
+      else
+        gfx.rect(x, y+i*height, med, height-scale2, 1)
       end
       
-      if Level2>=-2 then
+      if Level2>0 then
+        -- red(plus yellow)
         if Level>w-2 then Level=w-2 end
-        --gfx.rect(x,y+i*height,med,height-scale) 
         gfx.set(1,1,0) 
         gfx.rect(x+med, y+i*height, max-med, height-scale2, 1) 
         gfx.set(1,0,0) 
         gfx.rect(x+max, y+i*height, Level-max, height-scale2, 1)
+        element_storage["dbClip"]=true
       elseif Level>=18 then 
-        --gfx.rect(x,y+i*height,med,height-scale) 
+        -- yellow
         gfx.set(1,1,0) 
         gfx.rect(x+med, y+i*height, Level-med, height-scale2, 1) 
       end
-      --]]
       
-      --gfx.set(0,0,1)
-      --gfx.rect(x+element_storage.OldLevelHold, y, 1, h, 1)
+      Level=element_storage.dbHold[i+1]+144
+      local Log=math.log(Level/60)
+      Level=Level*Log
+      Level=w/140*Level
+      
+      -- peak-hold-indicator
+      local offset=12
+      if element_storage.dbHold[i+1]>0 then
+        gfx.set(1,0,0)
+      elseif element_storage.dbHold[i+1]>-23 then
+        gfx.set(1,1,0)
+      else
+        gfx.set(0,1,0)
+      end
+      if element_storage.dbHold[i+1]<-80 then 
+        gfx.rect(x, y+i*height, scale+scale, height-scale2, 1)
+      elseif element_storage.dbHold[i+1]<6 then
+        gfx.rect(Level+offset, y+i*height, scale+scale, height-scale2, 1)
+      else
+        gfx.rect(x+w-scale-scale-scale-scale-scale, y+i*height, scale+scale, height-scale2, 1)
+      end
     end
   else
+    -- when size is too small, so only one column is shown for all channels
+    -- get db-value
     local scale3=scale+scale
     local x=x+scale3
-    local Level=element_storage.dbHold[0]+144
+    local Level=element_storage.dbHold[-1]+144
+    local Level2=element_storage.dbHold[-1]
+    
+    -- meter-columns
     local Log=math.log(Level/60)
     Level=Level*Log
     Level=w/140*Level
+    -- green
     gfx.set(0,1,0)
-    if Level>200 then 
-      gfx.rect(x, y, 200, h-scale, 1) 
-    else
+    if Level2<0 then
       gfx.rect(x, y, Level-scale-scale-scale, h-scale, 1)
+    else
+      gfx.rect(x, y, med, h-scale, 1)
     end
-    if Level>=max then
+    if Level2>0 then
+      -- red(and yellow)
       if Level>w-2 then Level=w-2 end
-      --gfx.rect(x,y+i*height,med,height-scale) 
       gfx.set(1,1,0) 
       gfx.rect(x+med, y, max-med, h-scale, 1) 
       gfx.set(1,0,0) 
       gfx.rect(x+max, y, Level-max, h-scale, 1)
+      element_storage["dbClip"]=true
     elseif Level>=med then 
-      --gfx.rect(x,y+i*height,med,height-scale) 
+      -- yellow
       gfx.set(1,1,0) 
       gfx.rect(x+med, y, Level-med, h-scale, 1)
     end
+    
+    -- peak-hold-indicator
+    Level=element_storage.dbHold[0]+144
+    local Log=math.log(Level/60)
+    Level=Level*Log
+    Level=w/140*Level
+    local offset=12
+    if element_storage.dbHold[0]>0 then
+      gfx.set(1,0,0)
+    elseif element_storage.dbHold[0]>-23 then
+      gfx.set(1,1,0)
+    else
+      gfx.set(0,1,0)
+    end
+    
+    if element_storage.dbHold[0]<-80 then 
+      gfx.rect(x, y, scale+scale, h-scale, 1)
+    elseif element_storage.dbHold[0]<6 then
+      gfx.rect(Level+offset, y, scale+scale, h-scale, 1)
+    else
+      gfx.rect(x+w-scale-scale-scale-scale-scale, y, scale+scale, h-scale-scale, 1)
+    end
+    --]]
   end
-  --]]
-  local Level=element_storage.dbHold[1]+0.0
+
+  local Level=element_storage.dbHold[0]+0.0
+  local plus=""
+  if Level>0 then plus="+" end
   local text=tostring(Level):match("(.-%..)").."dB"
-  local xpos=gfx.measurestr(tostring(Level):match("(.-%..)").."dB")+scale+scale
-  local ypos=(h-gfx.texth)/2
-  
+  local xpos=gfx.measurestr(plus..tostring(Level):match("(.-%..)").."dB")+scale+scale
   gfx.x=x+w-xpos+scale
   gfx.y=y+ypos+scale
   gfx.set(0)
-  gfx.drawstr(text)
+  gfx.drawstr(plus..text)
   gfx.x=x+w-xpos
   gfx.y=y+ypos
-  gfx.set(1)
-  gfx.drawstr(text)
+  if element_storage["dbClip"]==true then
+    gfx.set(1,0,0)
+  else
+    gfx.set(1)
+  end
+  gfx.drawstr(plus..text)
   --]]
   
 end
