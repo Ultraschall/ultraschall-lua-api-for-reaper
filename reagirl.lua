@@ -21844,7 +21844,7 @@ function reagirl.Meter_Manage(element_id, selected, hovered, clicked, mouse_cap,
   local track=reaper.GetTrack(0,2)
   element_storage["channels"]=reaper.GetMediaTrackInfo_Value(track, "I_NCHAN")
   element_storage["count"]=element_storage["count"]+1
-  if element_storage["count"]==66 or (gfx.mouse_x>=x and gfx.mouse_x<=x+w and gfx.mouse_y>y and gfx.mouse_y<y+h and clicked=="FirstCLK") then
+  if element_storage["count"]==66 or (Key==32 and selected~="not selected") or (gfx.mouse_x>=x and gfx.mouse_x<=x+w and gfx.mouse_y>y and gfx.mouse_y<y+h and clicked=="FirstCLK") then
     for i=-1, element_storage["channels"] do
       element_storage.dbHold[i]=-144
     end
