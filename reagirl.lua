@@ -21834,9 +21834,10 @@ end
 
 function reagirl.Meter_Manage(element_id, selected, hovered, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
   -- report clippings to screen reader
-  -- 
+  -- vertical orientation of the meters
   -- linked to management to
-  --- HW Input
+  --- HW Input 
+  --- Tracks
   
   local db=reaper.GetInputActivityLevel(0)
   

@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API and ReaGirl">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API and ReaGirl package" type="extension">
-      <version name="56121.00" author="Meo-Ada Mespotine">
+      <version name="56123.00" author="Meo-Ada Mespotine">
 	<source file="reagirl.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5.3//reagirl.lua</source>
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5.3//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5.3//ultraschall_api_readme.txt</source>
@@ -709,21 +709,7 @@
 	<source main="true" file="/ultraschall_developertool_findConfigVarsToggledByActions.lua" type="script">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5.3//ultraschall_api/Scripts//Tools/DeveloperScripts//ultraschall_developertool_findConfigVarsToggledByActions.lua</source>
 	<source main="true" file="/ultraschall_developertool_gfx_deltablit_displayer.lua" type="script">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5.3//ultraschall_api/Scripts//Tools/DeveloperScripts//ultraschall_developertool_gfx_deltablit_displayer.lua</source>
 	<source main="true" file="/ultraschall_developertool_increment_mouse_modifier_and_store_name_of_mm_action_into_extstate.lua" type="script">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5.3//ultraschall_api/Scripts//Tools/DeveloperScripts//ultraschall_developertool_increment_mouse_modifier_and_store_name_of_mm_action_into_extstate.lua</source>
-<changelog><![CDATA[Issues: ReaGirl: Retina bläst ReaGirl-Gui auf doppelte Größe(also 2x
-wird 4x, etc) -> fixen Focus Rectangle sollte erst erscheinen, wenn man
-in der Gui Tab benutzt, sonst ausgeblendet(wird auch bei Klick in Feld
-ohne Gui-Element wieder ausgeblendet) - optional immer einblendbar
-machen (drin, aber teste es nochmal genauer aus) Docs: eine Doku, wie
-man eine Gui so schreibt, dass man einfach mal schnell ui-elemente
-hinzufügen kann, ohne alles per Hand neu verschieben zu müssen und ohne
-Autoposition zu nutzen. Prinzipiell: h=100 Checkbox_Add(10,h) h=h+10
-Checkbox_Add(10,h) h=h+10 Image_Add(10,h,100,100) h=h+100
-Checkbox_Add(10,h) So in Etwa. Slider: Clickarea des Slider-Knobs ist
-verschoben nach rechts, bitte nochmal nachjustieren(see
-ReaGirl-Settings) ColorRectangle: Tooltip muss den Farbwert
-kommunizieren(für Farbenblinde), entweder Farbname oder Farbwerte
-
-Ultraschall Framework - Changelog
+<changelog><![CDATA[Ultraschall Framework - Changelog
 
 5.3 - " - " - 15th of May 2025
 
@@ -736,52 +722,99 @@ new in this release:
 
 New features in 5.3
 
-    - ReaGirl: Button\_GetEdgeStyle - gets, if the individual edges of a button are rounded or square
-    - ReaGirl: Button\_SetEdgeStyle - sets, if the individual edges of a button are rounded or square
-    - ReaGirl: Color\_GetSet - gets/sets the global colors of a specific ui-element
-    - ReaGirl: Image\_GetDropShadow - gets a drop-shadow-state, drawn behind the image
-    - ReaGirl: Image\_SetDropShadow - sets a drop-shadow drawn behind the image
-    - ReaGirl: Inputbox\_GetTextSuggestions - gets the currently available text suggestions that the user can choose from a dropdownmenu in the inputbox
-    - ReaGirl: Inputbox\_SetTextSuggestions - sets text suggestions that the user can choose from a dropdownmenu in the inputbox
-    - ReaGirl: ToolbarButton\_Add - adds a toolbar-button to a ReaGirl-gui
-    - ReaGirl: ToolbarButton\_GetColor - gets the background-color of a toolbar-button
-    - ReaGirl: ToolbarButton\_GetCurrentState - gets the current state of the toolbar-button
-    - ReaGirl: ToolbarButton\_GetDropShadow - gets a drop-shadow-state, drawn behind the button-image
-    - ReaGirl: ToolbarButton\_GetEdgeStyle - gets, if the individual edges of a toolbar-button are rounded or square
-    - ReaGirl: ToolbarButton\_GetRadius - gets the radius of the edges of a toolbar-button
-    - ReaGirl: ToolbarButton\_LinkToIntConfigVar - links a toolbar-button to an integer config-variable
-    - ReaGirl: ToolbarButton\_LinkToIntConfigVarBit - links a toolbar-button to an integer config-variable bit
-    - ReaGirl: ToolbarButton\_LinkToExtstate - links a toolbar-button to an extstate
-    - ReaGirl: ToolbarButton\_LinkToIniValue - links a toolbar-button to an ini-value
-    - ReaGirl: ToolbarButton\_LinkToToggleState - links a toolbar-button to a toggle-state
-    - ReaGirl: ToolbarButton\_SetColor - sets the background-color of a toolbar-button
-    - ReaGirl: ToolbarButton\_SetCurrentState - sets the current state of the toolbar-button
-    - ReaGirl: ToolbarButton\_SetDropShadow - sets a drop-shadow drawn behind the button-image
-    - ReaGirl: ToolbarButton\_SetEdgeStyle - sets the individual edges of a toolbar-button to either rounded or square
-    - ReaGirl: ToolbarButton\_SetRadius - sets the radius of the edges of a toolbar-button
-    - ReaGirl: ToolbarButton\_Unlink - unlinks a toolbar-button rom a state
-    - Rendering: GetRender\_AutoReturnToDialog - gets the auto-return to this dialog when finished-checkboxstate in the Render to file-dialog
-    - Rendering: SetRender\_AutoReturnToDialog - sets the auto-return to this dialog when finished-checkbox in the Render to file-dialog
+-   ReaGirl: Button_GetEdgeStyle - gets, if the individual edges of a
+    button are rounded or square
+-   ReaGirl: Button_SetEdgeStyle - sets, if the individual edges of a
+    button are rounded or square
+-   ReaGirl: Color_GetSet - gets/sets the global colors of a specific
+    ui-element
+-   ReaGirl: Image_GetDropShadow - gets a drop-shadow-state, drawn
+    behind the image
+-   ReaGirl: Image_SetDropShadow - sets a drop-shadow drawn behind the
+    image
+-   ReaGirl: Inputbox_GetTextSuggestions - gets the currently available
+    text suggestions that the user can choose from a dropdownmenu in the
+    inputbox
+-   ReaGirl: Inputbox_SetTextSuggestions - sets text suggestions that
+    the user can choose from a dropdownmenu in the inputbox
+-   ReaGirl: ToolbarButton_Add - adds a toolbar-button to a ReaGirl-gui
+-   ReaGirl: ToolbarButton_GetColor - gets the background-color of a
+    toolbar-button
+-   ReaGirl: ToolbarButton_GetCurrentState - gets the current state of
+    the toolbar-button
+-   ReaGirl: ToolbarButton_GetDropShadow - gets a drop-shadow-state,
+    drawn behind the button-image
+-   ReaGirl: ToolbarButton_GetEdgeStyle - gets, if the individual edges
+    of a toolbar-button are rounded or square
+-   ReaGirl: ToolbarButton_GetRadius - gets the radius of the edges of a
+    toolbar-button
+-   ReaGirl: ToolbarButton_LinkToIntConfigVar - links a toolbar-button
+    to an integer config-variable
+-   ReaGirl: ToolbarButton_LinkToIntConfigVarBit - links a
+    toolbar-button to an integer config-variable bit
+-   ReaGirl: ToolbarButton_LinkToExtstate - links a toolbar-button to an
+    extstate
+-   ReaGirl: ToolbarButton_LinkToIniValue - links a toolbar-button to an
+    ini-value
+-   ReaGirl: ToolbarButton_LinkToToggleState - links a toolbar-button to
+    a toggle-state
+-   ReaGirl: ToolbarButton_SetColor - sets the background-color of a
+    toolbar-button
+-   ReaGirl: ToolbarButton_SetCurrentState - sets the current state of
+    the toolbar-button
+-   ReaGirl: ToolbarButton_SetDropShadow - sets a drop-shadow drawn
+    behind the button-image
+-   ReaGirl: ToolbarButton_SetEdgeStyle - sets the individual edges of a
+    toolbar-button to either rounded or square
+-   ReaGirl: ToolbarButton_SetRadius - sets the radius of the edges of a
+    toolbar-button
+-   ReaGirl: ToolbarButton_Unlink - unlinks a toolbar-button rom a state
+-   Rendering: GetRender_AutoReturnToDialog - gets the auto-return to
+    this dialog when finished-checkboxstate in the Render to file-dialog
+-   Rendering: SetRender_AutoReturnToDialog - sets the auto-return to
+    this dialog when finished-checkbox in the Render to file-dialog
 
 Changes from 5.2 to 5.3
 
-    - ReaGirl: All UI-elements - except images will now highlight, when the mouse hovers above them(can be disabled in the settings)
-    - ReaGirl: Buttons - caption wasn't properly drawn when y-margin was>0 -> fixed
-    - ReaGirl: DropDownLists - clicking dropdownlists wasn't shown properly, when focus rectangle was set as show always -> fixed
-    - ReaGirl: InputBoxes - when screen reader support is active, Ctrl+C copies the entire text to clipboard and Ctrl+V overwrites text with text from clipboard
-    - ReaGirl: Sliders - couldn't show negative unit-values -> fixed
-    - ReaGirl: Tooltips - the meaning_ofUIElement is now in the first line, the info Has contextmenu, draggable and Allows dropping of files is now in the second line. Looks more clean that way.
-    - Rendering: AddRenderPreset - improved error-handling when presets already exist
-    - Rendering: SetRenderPreset - didn't accept all preset-names, should be fixed now - thanks to MountWest
-    - Rendering: ApplyRenderTable\_Project - added new attributes ReturnToDialog, SaveOutfile
-    - Rendering: CreateNewRenderTable - added new attributes Preserve_Start_Offset, Preserve_Metadata, ReturnToDialog, SaveOutfile
-    - Rendering: GetRender\_SaveRenderStats - added combined/per rendered file-options; didn't return correct values when render to file-dialog was closed -> fixed
-    - Rendering: GetRenderTable\_Project - added new attributes Preserve_Start_Offset, Preserve_Metadata, ReturnToDialog, SaveOutfile
-    - Rendering: GetRenderTable\_ProjectDefaults - added new attributes ReturnToDialog, SaveOutfile
-    - Rendering: DeleteRenderPreset\_Bounds - didn't accept all preset-names, should be fixed now - thanks to MountWest
-    - Rendering: DeleteRenderPreset\_FormatOptions - didn't accept all preset-names, should be fixed now - thanks to MountWest
-    - Rendering: IsValidRenderTable - added new attributes Preserve_Start_Offset, Preserve_Metadata, ReturnToDialog, SaveOutfile
-    - Rendering: SetRender\_SaveRenderStats - added combined/per rendered file-options
+-   ReaGirl: All UI-elements - except images will now highlight, when
+    the mouse hovers above them(can be disabled in the settings)
+-   ReaGirl: Buttons - caption wasn’t properly drawn when y-margin was>0
+    -> fixed
+-   ReaGirl: DropDownLists - clicking dropdownlists wasn’t shown
+    properly, when focus rectangle was set as show always -> fixed
+-   ReaGirl: InputBoxes - when screen reader support is active, Ctrl+C
+    copies the entire text to clipboard and Ctrl+V overwrites text with
+    text from clipboard
+-   ReaGirl: Sliders - couldn’t show negative unit-values -> fixed
+-   ReaGirl: Tooltips - the meaning_ofUIElement is now in the first
+    line, the info Has contextmenu, draggable and Allows dropping of
+    files is now in the second line. Looks more clean that way.
+-   Rendering: AddRenderPreset - improved error-handling when presets
+    already exist
+-   Rendering: SetRenderPreset - didn’t accept all preset-names, should
+    be fixed now - thanks to MountWest
+-   Rendering: ApplyRenderTable_Project - added new attributes
+    ReturnToDialog, SaveOutfile
+-   Rendering: CreateNewRenderTable - added new attributes
+    Preserve_Start_Offset, Preserve_Metadata, ReturnToDialog,
+    SaveOutfile
+-   Rendering: GetRender_SaveRenderStats - added combined/per rendered
+    file-options; didn’t return correct values when render to
+    file-dialog was closed -> fixed
+-   Rendering: GetRenderTable_Project - added new attributes
+    Preserve_Start_Offset, Preserve_Metadata, ReturnToDialog,
+    SaveOutfile
+-   Rendering: GetRenderTable_ProjectDefaults - added new attributes
+    ReturnToDialog, SaveOutfile
+-   Rendering: DeleteRenderPreset_Bounds - didn’t accept all
+    preset-names, should be fixed now - thanks to MountWest
+-   Rendering: DeleteRenderPreset_FormatOptions - didn’t accept all
+    preset-names, should be fixed now - thanks to MountWest
+-   Rendering: IsValidRenderTable - added new attributes
+    Preserve_Start_Offset, Preserve_Metadata, ReturnToDialog,
+    SaveOutfile
+-   Rendering: SetRender_SaveRenderStats - added combined/per rendered
+    file-options
 ]]>
 </changelog>
       </version>
@@ -813,7 +846,7 @@ Changes from 5.2 to 5.3
         \par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af6\langfe2052\dbch\af8\afs24\lang1081\loch\f0\fs24\lang1031{\rtlch \ltrch\loch
         }
         \par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af6\langfe2052\dbch\af8\afs24\lang1081\loch\f0\fs24\lang1031{\rtlch \ltrch\loch\loch\f4
-        a 1693 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 56121 from 30.04.2025 16:58:28).}
+        a 1693 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 56123 from 30.04.2025 17:08:00).}
         \par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af6\langfe2052\dbch\af8\afs24\lang1081\loch\f0\fs24\lang1031{\rtlch \ltrch\loch
         }
         \par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af6\langfe2052\dbch\af8\afs24\lang1081\loch\f0\fs24\lang1031{\rtlch \ltrch\loch
