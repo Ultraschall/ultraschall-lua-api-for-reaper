@@ -415,7 +415,7 @@ Check why that is...probably because of Label_SetLabelText somehow resetting the
 
 ## Ultraschall Framework - Changelog
 
-### 5.3 - " - " - 7th of March 2025
+### 5.3 - " - " - 15th of May 2025
 
 Has now 1858 functions, with XX new ones
 
@@ -427,6 +427,7 @@ Has now 1858 functions, with XX new ones
 #### New features in 5.3  
 	- ReaGirl: Button\_GetEdgeStyle - gets, if the individual edges of a button are rounded or square
 	- ReaGirl: Button\_SetEdgeStyle - sets, if the individual edges of a button are rounded or square
+	- ReaGirl: Color\_GetSet - gets/sets the global colors of a specific ui-element
 	- ReaGirl: Image\_GetDropShadow - gets a drop-shadow-state, drawn behind the image
 	- ReaGirl: Image\_SetDropShadow - sets a drop-shadow drawn behind the image
 	- ReaGirl: Inputbox\_GetTextSuggestions - gets the currently available text suggestions that the user can choose from a dropdownmenu in the inputbox

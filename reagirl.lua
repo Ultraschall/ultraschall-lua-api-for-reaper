@@ -9159,7 +9159,7 @@ function reagirl.Color_EnumerateNames(index)
     string color_name - the name of the color
   </retvals>
   <chapter_context>
-    Misc
+    Colors and Themes
   </chapter_context>
   <tags>misc, color, enumerate, name</tags>
 </US_DocBloc>
@@ -9337,7 +9337,7 @@ function reagirl.Color_GetName(r,g,b)
     string color_name - the name of the color
   </retvals>
   <chapter_context>
-    Misc
+    Colors and Themes
   </chapter_context>
   <tags>misc, color, get, by color, name</tags>
 </US_DocBloc>
@@ -9511,7 +9511,7 @@ function reagirl.Color_GetColorValuesByName(name)
     integer blue - the blue-value of the color
   </retvals>
   <chapter_context>
-    Misc
+    Colors and Themes
   </chapter_context>
   <tags>misc, color, get, by name, color values</tags>
 </US_DocBloc>
@@ -21902,33 +21902,35 @@ function reagirl.Meter_Draw(element_id, selected, hovered, clicked, mouse_cap, m
 
   y=y+scale+scale
   
-  local ypos=((h-gfx.texth)/2)-1
   local strw, strh = gfx.measurestr("-54")
+  local strw0, strh0 = gfx.measurestr("-6")
+  local strw1, strh1 = gfx.measurestr("0")
+  local ypos=((h-strh)/2)
   width=w/156
   
   -- show static level-indicators
   reagirl.SetFont(1, reagirl.Font_Face, reagirl.Font_Size-2, 90)
-    gfx.set(reagirl.Colors.Meters_IndicatorLine_r, reagirl.Colors.Meters_IndicatorLine_g, reagirl.Colors.Meters_IndicatorLine_b)
-    gfx.rect(x+width*142,y,scale+scale, h-scale, 1)
-    gfx.set(reagirl.Colors.Meters_IndicatorUnits_r, reagirl.Colors.Meters_IndicatorUnits_g, reagirl.Colors.Meters_IndicatorUnits_b)
-    gfx.x=x+width*142-gfx.texth
-    gfx.y=y+h-strh-scale-scale
-    gfx.y=gfx.y+scale+scale+scale+scale+scale+scale+scale+scale+scale
-    if w>115 and h>40 then
-      gfx.drawstr("0")
-    end
+  gfx.set(reagirl.Colors.Meters_IndicatorLine_r, reagirl.Colors.Meters_IndicatorLine_g, reagirl.Colors.Meters_IndicatorLine_b)
+  gfx.rect(x+width*142,y,scale+scale, h-scale, 1)
+  gfx.set(reagirl.Colors.Meters_IndicatorUnits_r, reagirl.Colors.Meters_IndicatorUnits_g, reagirl.Colors.Meters_IndicatorUnits_b)
+  gfx.x=x+width*142-gfx.texth
+  gfx.y=y+h-strw1-scale-scale
+  --gfx.y=gfx.y+scale+scale+scale+scale+scale+scale+scale+scale+scale
+  if w>115*scale and h>40*scale then
+    gfx.drawstr("0")
+  end
     
-  if h>40 and w>55 then
-    if w>200 then
+  if h>40*scale and w>55*scale then
+    if w>200*scale then
       gfx.set(reagirl.Colors.Meters_IndicatorLine_r, reagirl.Colors.Meters_IndicatorLine_g, reagirl.Colors.Meters_IndicatorLine_b)
       gfx.rect(x+width*130,y,scale, h-scale, 1)
       gfx.set(reagirl.Colors.Meters_IndicatorUnits_r, reagirl.Colors.Meters_IndicatorUnits_g, reagirl.Colors.Meters_IndicatorUnits_b)
       gfx.x=x+width*130-gfx.texth
-      gfx.y=gfx.y-scale-scale-scale
+      gfx.y=y+h-strw0-scale-scale
       gfx.drawstr("-6")
     end
     
-    gfx.y=y+h-strh-scale-scale
+    gfx.y=y+h-strw-scale-scale
     
     gfx.set(reagirl.Colors.Meters_IndicatorLine_r, reagirl.Colors.Meters_IndicatorLine_g, reagirl.Colors.Meters_IndicatorLine_b)
     gfx.rect(x+width*117,y, scale, h-scale, 1)
@@ -21936,7 +21938,7 @@ function reagirl.Meter_Draw(element_id, selected, hovered, clicked, mouse_cap, m
     gfx.x=x+width*117-gfx.texth
     gfx.drawstr("-12")
     
-    if w>200 then
+    if w>200*scale then
       gfx.set(reagirl.Colors.Meters_IndicatorLine_r, reagirl.Colors.Meters_IndicatorLine_g, reagirl.Colors.Meters_IndicatorLine_b)
       gfx.rect(x+width*105,y,scale, h-scale, 1)
       gfx.set(reagirl.Colors.Meters_IndicatorUnits_r, reagirl.Colors.Meters_IndicatorUnits_g, reagirl.Colors.Meters_IndicatorUnits_b)
@@ -21950,7 +21952,7 @@ function reagirl.Meter_Draw(element_id, selected, hovered, clicked, mouse_cap, m
     gfx.x=x+width*94-gfx.texth
     gfx.drawstr("-24")
     
-    if w>200 then
+    if w>200*scale then
       gfx.set(reagirl.Colors.Meters_IndicatorLine_r, reagirl.Colors.Meters_IndicatorLine_g, reagirl.Colors.Meters_IndicatorLine_b)
       gfx.rect(x+width*83,y,scale, h-scale, 1)
       gfx.set(reagirl.Colors.Meters_IndicatorUnits_r, reagirl.Colors.Meters_IndicatorUnits_g, reagirl.Colors.Meters_IndicatorUnits_b)
@@ -21964,7 +21966,7 @@ function reagirl.Meter_Draw(element_id, selected, hovered, clicked, mouse_cap, m
     gfx.x=x+width*72-gfx.texth
     gfx.drawstr("-36")
     
-    if w>200 then
+    if w>200*scale then
       gfx.set(reagirl.Colors.Meters_IndicatorLine_r, reagirl.Colors.Meters_IndicatorLine_g, reagirl.Colors.Meters_IndicatorLine_b)
       gfx.rect(x+width*61,y,scale, h-scale, 1)
       gfx.set(reagirl.Colors.Meters_IndicatorUnits_r, reagirl.Colors.Meters_IndicatorUnits_g, reagirl.Colors.Meters_IndicatorUnits_b)
@@ -21978,7 +21980,7 @@ function reagirl.Meter_Draw(element_id, selected, hovered, clicked, mouse_cap, m
     gfx.x=x+width*51-gfx.texth
     gfx.drawstr("-48")
 
-    if w>200 then
+    if w>200*scale then
       gfx.set(reagirl.Colors.Meters_IndicatorLine_r, reagirl.Colors.Meters_IndicatorLine_g, reagirl.Colors.Meters_IndicatorLine_b)
       gfx.rect(x+width*41,y,scale, h-scale, 1)
       gfx.set(reagirl.Colors.Meters_IndicatorUnits_r, reagirl.Colors.Meters_IndicatorUnits_g, reagirl.Colors.Meters_IndicatorUnits_b)
@@ -21992,7 +21994,7 @@ function reagirl.Meter_Draw(element_id, selected, hovered, clicked, mouse_cap, m
     gfx.x=x+width*32-gfx.texth
     gfx.drawstr("-60")
     
-    if w>200 then
+    if w>200*scale then
       gfx.set(reagirl.Colors.Meters_IndicatorLine_r, reagirl.Colors.Meters_IndicatorLine_g, reagirl.Colors.Meters_IndicatorLine_b)
       gfx.rect(x+width*24,y,scale, h-scale, 1)
       gfx.set(reagirl.Colors.Meters_IndicatorUnits_r, reagirl.Colors.Meters_IndicatorUnits_g, reagirl.Colors.Meters_IndicatorUnits_b)
@@ -22006,7 +22008,7 @@ function reagirl.Meter_Draw(element_id, selected, hovered, clicked, mouse_cap, m
     gfx.x=x+width*16-gfx.texth
     gfx.drawstr("-72")
     
-    if w>200 then
+    if w>200*scale then
       gfx.set(reagirl.Colors.Meters_IndicatorLine_r, reagirl.Colors.Meters_IndicatorLine_g, reagirl.Colors.Meters_IndicatorLine_b)
       gfx.rect(x+width*8,y,scale, h-scale, 1)
       gfx.set(reagirl.Colors.Meters_IndicatorUnits_r, reagirl.Colors.Meters_IndicatorUnits_g, reagirl.Colors.Meters_IndicatorUnits_b)
@@ -22016,7 +22018,7 @@ function reagirl.Meter_Draw(element_id, selected, hovered, clicked, mouse_cap, m
   end
   reagirl.SetFont(1, reagirl.Font_Face, reagirl.Font_Size, 0)
   
-  if height>1 then
+  if height>1*scale then
     local x=x+scale+scale
     for i=1, element_storage["channels"] do
       -- iteratre through all channels
@@ -22134,6 +22136,7 @@ function reagirl.Meter_Draw(element_id, selected, hovered, clicked, mouse_cap, m
   if Level>0 then plus="+" end
   local text=tostring(Level):match("(.-%..)").."dB"
   local xpos=gfx.measurestr(plus..tostring(Level):match("(.-%..)").."dB")+scale+scale
+  local ypos=((h-gfx.texth)/2)-1
   gfx.x=x+w-xpos+scale
   gfx.y=y+ypos+scale
   gfx.set(0)
