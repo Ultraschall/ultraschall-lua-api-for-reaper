@@ -21892,11 +21892,24 @@ function reagirl.Meter_Draw(element_id, selected, hovered, clicked, mouse_cap, m
   reagirl.Colors.Meters_IndicatorUnits_r=0.8
   reagirl.Colors.Meters_IndicatorUnits_g=0.8
   reagirl.Colors.Meters_IndicatorUnits_b=0.8
+  
+  reagirl.Colors.Meters_Area_r=0.38
+  reagirl.Colors.Meters_Area_g=0.38
+  reagirl.Colors.Meters_Area_b=0.38
+  
+  reagirl.Colors.Meters_Text_r=0.784
+  reagirl.Colors.Meters_Text_g=0.784
+  reagirl.Colors.Meters_Text_b=0.784
+  
+  reagirl.Colors.Meters_TextBG_r=0.2
+  reagirl.Colors.Meters_TextBG_g=0.2
+  reagirl.Colors.Meters_TextBG_b=0.2
+  
   local scale=reagirl.Window_GetCurrentScale()
   local scale2=reagirl.Window_GetCurrentScale()
   gfx.set(1)
   gfx.rect(x,y,w+scale,h+scale,1)
-  gfx.set(0.38)
+  gfx.set(reagirl.Colors.Meters_Area_r, reagirl.Colors.Meters_Area_g, reagirl.Colors.Meters_Area_b)
   gfx.rect(x+scale, y+scale, w-scale, h-scale,1)
   
   if element_storage["mode"]==1 then
@@ -21934,7 +21947,7 @@ function reagirl.Meter_Draw(element_id, selected, hovered, clicked, mouse_cap, m
       gfx.drawstr(plus..text)
     end
   elseif element_storage["mode"]==2 then
-    local max=w*0.88
+    local max=w*0.91
     local med=w*0.6
     local height=math.floor((h-scale-scale)/element_storage["channels"])
     if height==1 then scale2=0 end
@@ -21947,12 +21960,12 @@ function reagirl.Meter_Draw(element_id, selected, hovered, clicked, mouse_cap, m
     local width=w/156
     
     -- show static level-indicators
-    reagirl.SetFont(1, reagirl.Font_Face, reagirl.Font_Size-2, 90)
+    reagirl.SetFont(1, reagirl.Font_Face, reagirl.Font_Size-3, 90)
     gfx.set(reagirl.Colors.Meters_IndicatorLine_r, reagirl.Colors.Meters_IndicatorLine_g, reagirl.Colors.Meters_IndicatorLine_b)
     gfx.rect(x+width*142,y,scale+scale, h-scale-scale-scale, 1)
     gfx.set(reagirl.Colors.Meters_IndicatorUnits_r, reagirl.Colors.Meters_IndicatorUnits_g, reagirl.Colors.Meters_IndicatorUnits_b)
     gfx.x=x+width*142-gfx.texth
-    gfx.y=y+h-strw1-scale-scale-scale
+    gfx.y=y+h-strw1-scale-scale-scale-scale
     --gfx.y=gfx.y+scale+scale+scale+scale+scale+scale+scale+scale+scale
     if w>115*scale and h>30*scale then
       gfx.drawstr("0")
@@ -21967,7 +21980,7 @@ function reagirl.Meter_Draw(element_id, selected, hovered, clicked, mouse_cap, m
         gfx.drawstr("-6")
       end
       
-      gfx.y=y+h-strw-scale-scale
+      gfx.y=y+h-strw-scale
       
       gfx.set(reagirl.Colors.Meters_IndicatorLine_r, reagirl.Colors.Meters_IndicatorLine_g, reagirl.Colors.Meters_IndicatorLine_b)
       gfx.rect(x+width*117,y, scale, h-scale-scale-scale, 1)
@@ -22069,10 +22082,10 @@ function reagirl.Meter_Draw(element_id, selected, hovered, clicked, mouse_cap, m
         gfx.set(0, 1, 0, peak_opacity)
         i=i-1
         -- green
-        if Level2<-2 then
+        if Level2<0 then
           gfx.rect(x, y+i*height, Level-scale-scale-scale, height-scale2, 1)
         else
-          gfx.rect(x, y+i*height, med, height-scale2, 1)
+          gfx.rect(x, y+i*height, max, height-scale2, 1)
         end
         
         if Level2>0 then
@@ -22125,10 +22138,10 @@ function reagirl.Meter_Draw(element_id, selected, hovered, clicked, mouse_cap, m
       Level=w/140*Level
       -- green
       gfx.set(0,1,0,peak_opacity)
-      if Level2<0 then
+      if Level2<0.000001 then
         gfx.rect(x, y, Level-scale-scale-scale, h-scale-scale, 1)
       else
-        gfx.rect(x, y, med, h-scale-scale, 1)
+        gfx.rect(x, y, max, h-scale-scale, 1)
       end
       if Level2>0 then
         -- red(and yellow)
@@ -22141,7 +22154,7 @@ function reagirl.Meter_Draw(element_id, selected, hovered, clicked, mouse_cap, m
       elseif Level>=med then 
         -- yellow
         gfx.set(1,1,0,peak_opacity)
-        gfx.rect(x+med, y, Level-med, h-scale, 1)
+        gfx.rect(x+med, y, Level-med, h-scale-scale, 1)
       end
       
       -- peak-hold-indicator
