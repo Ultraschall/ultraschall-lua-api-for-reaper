@@ -60,7 +60,7 @@ function Label(A,B,C)
 end
 
 function dropdownmenu(element_id, selection)
-  
+
 end
 
 function BlinkSpeed(element_id, val)
@@ -101,12 +101,12 @@ function SetUpNewGui()
   reagirl.Gui_New()
   
   if tabnumber==nil then tabnumber=1 end
-  Tabs=reagirl.Tabs_Add(10, 10, 332, 497, "Settings", "Some ReaGirl Settings.", {"General", "Accessibility", "Development"}, tabnumber, nil)
+  Tabs=reagirl.Tabs_Add(10, 10, 332, 517, "Settings", "Some ReaGirl Settings.", {"General", "Accessibility", "Development"}, tabnumber, nil)
   
   tab1={}
   --[[ Blinking Focus Rectangle ]]
   tab1.Label_General=reagirl.Label_Add(nil, nil, "General", "General settings.", false, nil)
-  reagirl.Label_SetBackdrop(tab1.Label_General, 300, 55) -- set a backdrop around the next few labels
+  reagirl.Label_SetBackdrop(tab1.Label_General, 300, 77) -- set a backdrop around the next few labels
   reagirl.NextLine()
   
   tab1.checkbox_tooltips_id = reagirl.Checkbox_Add(nil, nil, "Show tooltips when hovering above ui-element", "When checked, ReaGirl will show tooltips when hovering above ui-elements.", true, checkbox)
@@ -114,6 +114,9 @@ function SetUpNewGui()
   reagirl.NextLine()
   tab1.scroll_via_keyboard_id = reagirl.Checkbox_Add(nil, nil, "Scroll via keyboard", "When checked, ReaGirl allows scrolling via keyboard with the cursor keys, PgUp/PgDn, Home and End-key.", true, checkbox)
   reagirl.Checkbox_LinkToExtstate(tab1.scroll_via_keyboard_id, "ReaGirl", "scroll_via_keyboard", "false", "", true, true)
+  reagirl.NextLine()
+  tab1.window_drag=reagirl.DropDownMenu_Add(nil, nil, 290, "Window dragging:", 110, "Choose, whether clicking in empty areas of the window allows dragging of the window(means, clicking where no ui-element is located).", {"let script decide", "always allow dragging", "never allow dragging"}, 1, dropdownmenu)
+  reagirl.DropDownMenu_LinkToExtstate(tab1.window_drag, "ReaGirl", "DragWindow", 1, true)
   
   reagirl.NextLine(10)
   tab1.Label_FocusRectangle=reagirl.Label_Add(nil, nil, "Focus Rectangle", "Settings for the focus rectangle.", false, nil)
@@ -123,11 +126,11 @@ function SetUpNewGui()
   tab1.checkbox_blink_always_on = reagirl.Checkbox_Add(nil, nil, "Always show focus rectangle", "When checked, ReaGirl will show focus rectangle always, when unchecked, it will only show, when you tab through the gui with the tab-key.", false, checkbox)
   reagirl.Checkbox_LinkToExtstate(tab1.checkbox_blink_always_on, "ReaGirl", "FocusRectangle_AlwaysOn", "false", "", true, true)
   reagirl.NextLine()
-  tab1.slider_blink_every = reagirl.Slider_Add(nil, nil, 300, "Blink every", 100, "Set the speed of the blinking of the focus rectangle.", "seconds", 0.4, 3, 0.1, 1, 1, BlinkSpeed1)
+  tab1.slider_blink_every = reagirl.Slider_Add(nil, nil, 300, "Blink every", 110,  "Set the speed of the blinking of the focus rectangle.", "seconds", 0.4, 3, 0.1, 1, 1, BlinkSpeed1)
   reagirl.Slider_LinkToExtstate(tab1.slider_blink_every, "ReaGirl", "FocusRectangle_BlinkSpeed", 33, true, 33)
   
   reagirl.NextLine(-4)
-  tab1.slider_blink_for = reagirl.Slider_Add(nil, nil, 300, "Blink for", 100, "Set the duration of the blinking of the focus rectangle.", "seconds", 0, 10, 1, 0, 0, BlinkTime1)
+  tab1.slider_blink_for = reagirl.Slider_Add(nil, nil, 300, "Blink for", 110,  "Set the duration of the blinking of the focus rectangle.", "seconds", 0, 10, 1, 0, 0, BlinkTime1)
   reagirl.Slider_LinkToExtstate(tab1.slider_blink_for, "ReaGirl", "FocusRectangle_BlinkTime", 0, true, 1)
   
   -- [[ Blinking Inputbox-Cursor ]]
@@ -136,11 +139,11 @@ function SetUpNewGui()
   reagirl.Label_SetBackdrop(tab1.Label_InputBox, 300, 60) -- set a backdrop around the next few labels
   reagirl.NextLine()
   
-  tab1.slider_blink_every_cursor=reagirl.Slider_Add(nil, nil, 300, "Blink every", 100, "Set the speed of the blinking of the cursor.", "seconds", 0.4, 5, 0.1, 1, 1, CursorBlinkSpeed)
+  tab1.slider_blink_every_cursor=reagirl.Slider_Add(nil, nil, 300, "Blink every", 110,  "Set the speed of the blinking of the cursor.", "seconds", 0.4, 5, 0.1, 1, 1, CursorBlinkSpeed)
   reagirl.Slider_LinkToExtstate(tab1.slider_blink_every_cursor, "ReaGirl", "Inputbox_BlinkSpeed", 33, true, 33)
   
   reagirl.NextLine()
-  tab1.input_id = reagirl.Inputbox_Add(nil, nil, 290, "Test input:", 100, "Input text to check cursor blinking speed.", testtext, nil, nil)
+  tab1.input_id = reagirl.Inputbox_Add(nil, nil, 290, "Test input:", 110,  "Input text to check cursor blinking speed.", testtext, nil, nil)
   reagirl.Inputbox_SetEmptyText(tab1.input_id, "Test blink-speed here...")
 
   --[[ Highlighting ]]
@@ -149,7 +152,7 @@ function SetUpNewGui()
   reagirl.Label_SetBackdrop(tab1.Label_Highlighting, 300, 40) -- set a backdrop around the next few labels
   reagirl.NextLine()
   
-  tab1.highlighting = reagirl.Slider_Add(nil, nil, 285, "Highlight intensity", 100, "Set the highlighting intensity when hovering above ui-elements; 0, no highlighting.", "", 0, 3, 0.25, 0.75, 0.75, Highlighting)
+  tab1.highlighting = reagirl.Slider_Add(nil, nil, 285, "Highlight intensity", 110,  "Set the highlighting intensity when hovering above ui-elements; 0, no highlighting.", "", 0, 3, 0.25, 0.75, 0.75, Highlighting)
   reagirl.Slider_LinkToExtstate(tab1.highlighting, "ReaGirl", "Highlight_Intensity", 0.075, true, 0.1)
   reagirl.NextLine(15)
   
@@ -160,7 +163,7 @@ function SetUpNewGui()
   reagirl.NextLine()
   scaling_override=tonumber(reaper.GetExtState("ReaGirl", "scaling_override", value, true))
   if scaling_override==nil then scaling_override2=0 else scaling_override2=scaling_override end
-  tab1.slider_scale = reagirl.Slider_Add(nil, nil, 295, "Scale Override", 100, "Set the default scaling-factor for all ReaGirl-Gui-windows; 0, scaling depends automatically on the scaling-factor in the prefs or the presence of Retina/HiDPI.", "", 0, 8, 1, 0, 0, ScaleOverride)
+  tab1.slider_scale = reagirl.Slider_Add(nil, nil, 295, "Scale Override", 110,  "Set the default scaling-factor for all ReaGirl-Gui-windows; 0, scaling depends automatically on the scaling-factor in the prefs or the presence of Retina/HiDPI.", "", 0, 8, 1, 0, 0, ScaleOverride)
   reagirl.NextLine(15)
   
   -- [[ Blinking Drag-Destinations ]]
@@ -179,7 +182,7 @@ function SetUpNewGui()
   reagirl.Checkbox_LinkToExtstate(tab1.checkbox_highlight_drag_destinations, "ReaGirl", "highlight_drag_destinations", "false", "", true, true)
   reagirl.NextLine()
   
-  tab1.slider_blink_every_draggable=reagirl.Slider_Add(nil, nil, 300, "Blink every", 100, "Set the speed of the blinking of the drag-destinations; 0=no blinking.", "seconds", 0, 5, 0.1, 0, 0, DragBlinkSpeed)
+  tab1.slider_blink_every_draggable=reagirl.Slider_Add(nil, nil, 300, "Blink every", 110,  "Set the speed of the blinking of the drag-destinations; 0=no blinking.", "seconds", 0, 5, 0.1, 0, 0, DragBlinkSpeed)
   reagirl.Slider_LinkToExtstate(tab1.slider_blink_every_draggable, "ReaGirl", "highlight_drag_destination_blink", 0, true, 33)
   reagirl.NextLine(5)
   tab1.image_source=reagirl.Image_Add(50,nil,50,50,reaper.GetResourcePath().."/Data/track_icons/double_bass.png", "The source-image, an image of a double bass.", "Drag this double bass to the microphone.", Image)
@@ -232,7 +235,7 @@ function SetUpNewGui()
   reagirl.Tabs_SetUIElementsForTab(Tabs, 3, tab3)
   
   --button_apply_and_close_id = reagirl.Button_Add(180, 537, 0, 0, "Apply and Close", "Apply the chosen settings and close window.", button_apply_and_close)
-  button_cancel_id = reagirl.Button_Add(293, 537, 0, 0, "Close", "Close dialog.", button_cancel)
+  button_cancel_id = reagirl.Button_Add(293, 557, 0, 0, "Close", "Close dialog.", button_cancel)
   reagirl.NextLine()
   tab4={}
   reagirl.AutoPosition_SetNextUIElementRelativeTo(Tabs)
@@ -244,7 +247,7 @@ reagirl.Gui_AtEnter(button_apply_and_close)
 SetUpNewGui()
 color=40
 reagirl.Background_GetSetColor(true,color,color,color)
-reagirl.Gui_Open("ReaGirl_Settings", true, "ReaGirl Settings (v."..reagirl.GetVersion()..")", "various settings for ReaGirl-Accessible Guis.", 352, 565, nil, nil, nil)
+reagirl.Gui_Open("ReaGirl_Settings", true, "ReaGirl Settings (v."..reagirl.GetVersion()..")", "various settings for ReaGirl-Accessible Guis.", 352, 580, nil, nil, nil)
   
 --reagirl.Window_ForceSize_Minimum(355, 470) -- set the minimum size of the window
 --reagirl.Window_ForceSize_Maximum(355, 470) -- set the maximum size of the window

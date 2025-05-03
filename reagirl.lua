@@ -4097,6 +4097,86 @@ function reagirl.Window_GetHWND()
   return reagirl.GFX_WindowHWND
 end
 
+function reagirl.Window_DragOnEmptyArea(toggle)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Window_DragOnEmptyArea</slug>
+  <requires>
+    ReaGirl=1.3
+    Reaper=7.03
+    JS=0.964
+    Lua=5.4
+  </requires>
+  <functioncall>reagirl.Window_DragOnEmptyArea(boolean toggle)</functioncall>
+  <description>
+    Sets, if it's possible to drag around the window by clicking in empty areay, means inbetween ui-elements.
+    
+    Helpful, when you have set the window to borderless.
+    
+    Note: this can be overridden by the user in the ReaGirl-settings.
+  </description>
+  <parameters>
+    boolean toggle - true, dragging the window is possible; false, dragging is only possible on the title-bar
+  </parameters>
+  <chapter_context>
+    Window
+  </chapter_context>
+  <target_document>ReaGirl_Docs</target_document>
+  <source_document>reagirl_GuiEngine.lua</source_document>
+  <tags>window, set, drag on empty areas</tags>
+  <linked_to desc="see also:">
+      ReaGirl:Window_SetStyle
+             for setting a style of the window
+  </linked_to>
+</US_DocBloc>
+]]
+  if type(toggle)~="boolean" then error("Window_DragOnEmptyArea: param #1 - must be a boolean", 2) end
+  reagirl.DragWindow=toggle
+end
+
+function reagirl.Window_SetStyle(style)
+  --[[
+  <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+    <slug>Window_SetStyle</slug>
+    <requires>
+      ReaGirl=1.3
+      Reaper=7.03
+      JS=0.964
+      Lua=5.4
+    </requires>
+    <functioncall>reagirl.Window_SetStyle(integer style)</functioncall>
+    <description>
+      Sets the style of the window.
+      
+      Note: The styles may appear different on different os!
+      
+      Note: when doing a borderless window, use reagirl.Window_DragOnEmptyArea(true) to make the window draggable by clicking into an empty area, means, inbetween ui-elements!
+    </description>
+    <parameters>
+      integer style - the style of the window
+                    - 1, Popup borderless window
+                    - 2, Maximize(only on Windows OS!)
+                    - 3, Caption
+                    - 4, sizebox
+                    - 5, sysmenu
+    </parameters>
+    <chapter_context>
+      Window
+    </chapter_context>
+    <target_document>ReaGirl_Docs</target_document>
+    <source_document>reagirl_GuiEngine.lua</source_document>
+    <linked_to desc="see also:">
+        ReaGirl:Window_DragOnEmptyArea
+                For setting, if the window can be dragged by clicking inbetween ui-elements
+    </linked_to>
+    <tags>window, set, style</tags>
+  </US_DocBloc>
+  ]]--
+  if math.type(style)~="integer" then error("Window_SetStyle: param #1 - must be an integer", 2) end
+  if style<1 or style>5 then error("Window_SetStyle: param #1 - must be between 1 and 5", 2) end
+  local styles={"POPUP", "MAXIMIZE", "CAPTION", "SIZEBOX", "SYSMENU"}
+  return reaper.JS_Window_SetStyle(reagirl.GFX_WindowHWND, styles[style])
+end
 
 function reagirl.Window_SetFocus(accmessage)
 --[[
@@ -4701,7 +4781,7 @@ function reagirl.Window_GetCurrentScale()
     integer current_system_scaling_factor - the scaling factor that would be used, if auto-scaling would be on
   </retvals>
   <chapter_context>
-    Misc
+    Window
   </chapter_context>
   <target_document>ReaGirl_Docs</target_document>
   <source_document>reagirl_GuiEngine.lua</source_document>
@@ -4751,11 +4831,11 @@ function reagirl.Window_SetCurrentScale(newscale)
                               - 1-8, scaling factor between 1 and 8
   </retvals>
   <chapter_context>
-    Misc
+    Window
   </chapter_context>
   <target_document>ReaGirl_Docs</target_document>
   <source_document>reagirl_GuiEngine.lua</source_document>
-  <tags>window, get, current scale</tags>
+  <tags>window, set, current scale</tags>
 </US_DocBloc>
 ]]
   if newscale~=nil and math.type(newscale)~="integer" then error("Window_SetCurrentScale: param #1 - must be either nil or an integer", 2) end
@@ -6662,6 +6742,23 @@ function reagirl.Gui_Manage(keep_running)
   if reagirl.UI_Elements_HoveredElement==-1 and gfx.mouse_cap==0 then
     gfx.setcursor(0x7f00)
   end
+  
+  -- click on an area, where no ui-element is to drag the window around
+  if reaper.GetExtState("ReaGirl", "DragWindow")~="3" and (reagirl.DragWindow==true or reaper.GetExtState("ReaGirl", "DragWindow")=="2") then
+    if specific_clickstate=="FirstCLK" and reagirl.UI_Elements_HoveredElement==-1 then
+      reagirl.Mouse_drag_x=gfx.mouse_x
+      reagirl.Mouse_drag_y=gfx.mouse_y
+    elseif reagirl.Mouse_drag_x~=nil and reagirl.Mouse_drag_y~=nil and specific_clickstate=="DRAG" then
+      local difx=gfx.mouse_x-reagirl.Mouse_drag_x
+      local dify=gfx.mouse_y-reagirl.Mouse_drag_y
+      local dock, window_x, window_y, window_w, window_h = gfx.dock(-1,0,0,0,0)
+      gfx.init("", window_w, window_h, dock, window_x+difx, window_y+dify)
+    elseif specific_clickstate~="DRAG" and reagirl.UI_Elements_HoveredElement~=-1 then
+      reagirl.Mouse_drag_x=nil
+      reagirl.Mouse_drag_y=nil
+    end
+  end
+  
   if reagirl.Gui_Manage_keep_running==true and reagirl.Gui_IsOpen()==true then
     reaper.defer(reagirl.Gui_Manage)
   else
@@ -6712,7 +6809,6 @@ function reagirl.Gui_DrawSingular(Key, Key_utf, clickstate, specific_clickstate,
   end
   --]]
   reagirl.ElementsRefreshMe={}
-  
 end
 
 function reagirl.Gui_Draw(Key, Key_utf, clickstate, specific_clickstate, mouse_cap, click_x, click_y, drag_x, drag_y, mouse_wheel, mouse_hwheel)
@@ -22226,7 +22322,7 @@ function reagirl.Meter_Draw(element_id, selected, hovered, clicked, mouse_cap, m
   elseif element_storage["mode"]==3 then
     -- vertical meter
     local max=h*0.9
-    local med=h*0.4
+    local med=h*0.67
     local height=math.floor((h-scale-scale)/element_storage["channels"])
     if height==1 then scale2=0 end
     y=y+scale+scale
@@ -22431,17 +22527,16 @@ function reagirl.Meter_Draw(element_id, selected, hovered, clicked, mouse_cap, m
       local Log=math.log(Level/60)
       Level=(Level*Log)
       Level=h/144*Level
-      ABBA22=Level2
       -- green
       gfx.set(0,1,0,peak_opacity)
       
-      if Level2<=0 then
+      if Level2<=-18 then
         if Level>0 then
           reagirl.Rect(x, y+h, w-scale-scale-scale, -Level, 1)
         else
         end
       else
-        reagirl.Rect(x, y+h, w-scale-scale, -max, 1)
+        reagirl.Rect(x, y+h, w-scale-scale, -med, 1)
       end
       if Level2<=0 then
         --gfx.rect(x, y+h, w-scale-scale-scale, -Level, 1)

@@ -425,6 +425,7 @@ Has now 1858 functions, with XX new ones
   - ReaGirl: Image\_SetDropShadow - sets a drop-shadow drawn behind the image
   - ReaGirl: Inputbox\_GetTextSuggestions - gets the currently available text suggestions that the user can choose from a dropdownmenu in the inputbox
   - ReaGirl: Inputbox\_SetTextSuggestions - sets text suggestions that the user can choose from a dropdownmenu in the inputbox
+  - ReaGirl: Settings - new option for setting, if clicking into an empty area allows dragging of the window
   - ReaGirl: ToolbarButton\_Add - adds a toolbar-button to a ReaGirl-gui
   - ReaGirl: ToolbarButton\_GetColor - gets the background-color of a toolbar-button
   - ReaGirl: ToolbarButton\_GetCurrentState - gets the current state of the toolbar-button
@@ -442,6 +443,8 @@ Has now 1858 functions, with XX new ones
   - ReaGirl: ToolbarButton\_SetEdgeStyle - sets the individual edges of a toolbar-button to either rounded or square
   - ReaGirl: ToolbarButton\_SetRadius - sets the radius of the edges of a toolbar-button
   - ReaGirl: ToolbarButton\_Unlink - unlinks a toolbar-button rom a state
+  - ReaGirl: Window\_DragOnEmptyArea - sets, if clicking in an empty area allows dragging of the window
+  - ReaGirl: Window\_SetStyle - sets the style of the window, like borderless window, etc
   - Rendering: GetRender\_AutoReturnToDialog - gets the auto-return to this dialog when finished-checkboxstate in the Render to file-dialog
   - Rendering: SetRender\_AutoReturnToDialog - sets the auto-return to this dialog when finished-checkbox in the Render to file-dialog
 
