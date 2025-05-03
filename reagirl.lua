@@ -2666,9 +2666,9 @@ reagirl.Colors.Inputbox_DropdownArea_b=0.274
 reagirl.Colors.Inputbox_DropdownArea_Circle_r=0.45
 reagirl.Colors.Inputbox_DropdownArea_Circle_g=0.45
 reagirl.Colors.Inputbox_DropdownArea_Circle_b=0.45
-reagirl.Colors.Inputbox_DropdownArea_Circle_disabled_r=0.35
-reagirl.Colors.Inputbox_DropdownArea_Circle_disabled_g=0.35
-reagirl.Colors.Inputbox_DropdownArea_Circle_disabled_b=0.35
+reagirl.Colors.Inputbox_DropdownArea_Circle_disabled_r=0.33
+reagirl.Colors.Inputbox_DropdownArea_Circle_disabled_g=0.33
+reagirl.Colors.Inputbox_DropdownArea_Circle_disabled_b=0.33
 
 reagirl.Colors.Inputbox_Cursor_r=0.9843137254901961
 reagirl.Colors.Inputbox_Cursor_g=0.8156862745098039
@@ -15098,7 +15098,7 @@ function reagirl.Inputbox_Manage(element_id, selected, hovered, clicked, mouse_c
       menu=menu..element_storage.suggestions[i].."|"
     end
     if #element_storage.suggestions==0 then
-      menu="{no suggestions}"
+      menu="#no suggestions"
     end
     local entry=gfx.showmenu(menu)
     if entry~=0 and #element_storage.suggestions>0 then 
@@ -15109,13 +15109,14 @@ function reagirl.Inputbox_Manage(element_id, selected, hovered, clicked, mouse_c
       element_storage.draw_offset_end=element_storage.selection_cursoroffset
       reagirl.Inputbox_Calculate_DrawOffset(false, element_storage)
     end
+    --element_storage.dropdown_clicked=nil
     reagirl.Gui_ForceRefresh(4638349.23)
   end
   element_storage.dropdown_clicked=nil
   
   if reagirl.osara_outputMessage~=nil and selected~="not selected" then
     reagirl.Gui_PreventEnterForOneCycle()
-    if selected~="not selected" and (Key==13 or (mouse_cap&1==1 and gfx.mouse_x>=x and gfx.mouse_x<=x+w and gfx.mouse_y>=y and gfx.mouse_y<=y+h)) then      
+    if selected~="not selected" and (Key==13 or (mouse_cap&1==1 and gfx.mouse_x>=x and gfx.mouse_x<=x+w-element_storage.w_dropdownarea*dpi_scale and gfx.mouse_y>=y and gfx.mouse_y<=y+h)) then      
       local retval, text = reaper.GetUserInputs("Enter or edit the text", 1, name..","..element_storage["password"]..",extrawidth=150", element_storage.Text)
       reagirl.Window_SetFocus_Trigger=true
       --element_storage.draw_offset=1
@@ -15128,6 +15129,8 @@ function reagirl.Inputbox_Manage(element_id, selected, hovered, clicked, mouse_c
           element_storage["run_function"](element_storage["Guid"], element_storage.Text)
         end
       end
+    elseif selected~="not selected" and (Key==1685026670 or (clicked=="FirstCLK" and gfx.mouse_x>=x+w-element_storage.w_dropdownarea*dpi_scale and gfx.mouse_x<=x+w and gfx.mouse_y>=y and gfx.mouse_y<=y+h)) then      
+      element_storage.dropdown_clicked=true
     elseif selected~="not selected" and Key==3 then
       reaper.CF_SetClipboard(element_storage.Text)
     elseif selected~="not selected" and Key==22 then
@@ -15397,7 +15400,7 @@ function reagirl.Inputbox_Draw(element_id, selected, hovered, clicked, mouse_cap
       gfx.set(reagirl.Colors.Inputbox_DropdownArea_r+add_color, reagirl.Colors.Inputbox_DropdownArea_g+add_color, reagirl.Colors.Inputbox_DropdownArea_b+add_color)
       reagirl.RoundRect(x+w-element_storage.w_dropdownarea*dpi_scale+dpi_scale, y, element_storage.w_dropdownarea*dpi_scale-dpi_scale, h-dpi_scale, 2, 1, 1, true, true, false, false)
       
-      if element_storage.IsDisabled==true then
+      if element_storage.IsDisabled==true or #element_storage.suggestions==0 then
         gfx.set(reagirl.Colors.Inputbox_DropdownArea_Circle_disabled_r, reagirl.Colors.Inputbox_DropdownArea_Circle_disabled_g, reagirl.Colors.Inputbox_DropdownArea_Circle_disabled_b)
       else
         gfx.set(reagirl.Colors.Inputbox_DropdownArea_Circle_r, reagirl.Colors.Inputbox_DropdownArea_Circle_g, reagirl.Colors.Inputbox_DropdownArea_Circle_b)
@@ -15412,7 +15415,7 @@ function reagirl.Inputbox_Draw(element_id, selected, hovered, clicked, mouse_cap
       gfx.set(reagirl.Colors.Inputbox_DropdownArea_r+add_color, reagirl.Colors.Inputbox_DropdownArea_g+add_color, reagirl.Colors.Inputbox_DropdownArea_b+add_color)
       reagirl.RoundRect(x+w-element_storage.w_dropdownarea*dpi_scale+dpi_scale, y, element_storage.w_dropdownarea*dpi_scale-dpi_scale, h-dpi_scale, 2, 1, 1, true, true, false, false)
   
-      if element_storage.IsDisabled==true then
+      if element_storage.IsDisabled==true or #element_storage.suggestions==0 then
         gfx.set(reagirl.Colors.Inputbox_DropdownArea_Circle_disabled_r, reagirl.Colors.Inputbox_DropdownArea_Circle_disabled_g, reagirl.Colors.Inputbox_DropdownArea_Circle_disabled_b)
       else
         gfx.set(reagirl.Colors.Inputbox_DropdownArea_Circle_r, reagirl.Colors.Inputbox_DropdownArea_Circle_g, reagirl.Colors.Inputbox_DropdownArea_Circle_b)

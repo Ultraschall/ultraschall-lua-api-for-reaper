@@ -127,6 +127,8 @@
   reagirl.NextLine()
   tab1.inputbox_name_of_setting = reagirl.Inputbox_Add(nil, nil, 290, "Name:", 90, "Type in here the name of the setting.", "No title", nil, nil)
   reagirl.Inputbox_SetTextSuggestions(tab1.inputbox_name_of_setting, {"AA","BB","CC","DD"})
+  
+  
   reagirl.NextLine()
   tab1.inputbox_description_of_setting = reagirl.Inputbox_Add(nil, nil, 290, "Description:", 90, "Type in here a description of the setting.", "No DescriptionNo DescriptionNo DescriptionNo DescriptionNo DescriptionNo DescriptionNo DescriptionNo Description", nil, nil)
   
@@ -199,17 +201,7 @@
 
   -- open the new gui
   reagirl.Gui_Open("My Dialog Name", false, "The dialog", "This is a demo dialog with settings for tool xyz.", nil, nil, 0, nil, nil)
-
-  -- make thennnnnnnnnn background grey
-  reagirl.Background_GetSetColor(true, 55, 55, 55)
   
-  --reagirl.Background_GetSetColor(true, 55, 55, 55)
-  
-  --
-  
-  
---  if lol==nil then return end
-
   function main()
     -- a function that runs the gui-manage function in the background, so the gui is updated correctly
     reagirl.Gui_Manage()
