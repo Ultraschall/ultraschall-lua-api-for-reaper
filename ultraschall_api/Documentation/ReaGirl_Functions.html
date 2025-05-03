@@ -5526,7 +5526,7 @@ You can have max 1000 toolbarbuttons and/or images in your gui.<br>
 <br>
 The run-function gets as parameter:<br>
 - string element_id - the element_id as string of the pressed toolbar-button that uses this run-function<br>
-- integer cur_state - the current state of the toolbar-button, 1 or higher. Will stay 1 if the button allows only 1 state!<br>
+- integer cur_state - the current state of the toolbar-button, 0 or higher. Will stay 0 if the button allows only 1 state!<br>
 - string cur_state_name - the name of the new state<br>
 </div><br>      
 <u>Returnvalues:</u>
@@ -5567,7 +5567,9 @@ Each entry must be a string!</td></tr>
 2, toolbar-icon+caption right<br/>
 3, text-toolbar-icon<br/>
 4, text-toolbar-icon double width<br/>
-&128==128; places the toolbarbutton directly after the previous ui-element when using autopositioning, so no gaps inbetween(just add 128 to mode)</td></tr>
+5, Reaper's toolbar behavior, means, the toolbar-image will be seen as: left side, state 0; right side, state 1 and the middle part is used for when the mouse hovers above the toolbar button<br/>
+&128==128; places the toolbarbutton directly after the previous ui-element when using autopositioning, so no gaps inbetween(just add 128 to mode)<br/>
+&256==256; supresses drawing of the actual button, will only draw the image itself(good for when you want to draw the entire button including borders in the toolbar image)</td></tr>
 </table>
 <table class="ch">
 <tr><td class="pr"><i>string</i> caption</td></tr>

@@ -116,9 +116,12 @@
   tab1.toolbar4=reagirl.ToolbarButton_Add(nil, nil, reaper.GetResourcePath().."/Data/toolbar_icons/toolbar_misc_walk_forward.png",3, 1, {"Uno", "Dos", "Tres"}, 4+128, "Text Icon", "loo.", run_function)
   reagirl.ToolbarButton_SetEdgeStyle(tab1.toolbar4, true, false, true, false)
   reagirl.ToolbarButton_SetRadius(tab1.toolbar4, 14)
-  tab1.toolbar5=reagirl.ToolbarButton_Add(nil, nil, reaper.GetResourcePath().."/Data/toolbar_icons/toolbar_misc_walk_forward.png",2, 1, {"TOO", "DEL", "LOO"}, 2, "Text Icon", "loo.", run_function)
-  reagirl.Label_AutoBackdrop(tab1.label_header7, tab1.toolbar5) -- set backdrop drawn by tab1.label_header5
+  tab1.toolbar5=reagirl.ToolbarButton_Add(nil, nil, reaper.GetResourcePath().."/Data/toolbar_icons/toolbar_misc_brush_broom_clean.png", 2, 0, {"TOO", "DEL", "LOO"}, 5+256, "Simple Icon", "loo.", run_function)
   reagirl.ToolbarButton_SetDropShadow(tab1.toolbar5, true)
+  tab1.toolbar6=reagirl.ToolbarButton_Add(nil, nil, reaper.GetResourcePath().."/Data/toolbar_icons/toolbar_eighth_quaver_grid.png", 3, 0, {"TOO", "DEL", "LOO"}, 2+256, "Borderless", "loo.", run_function)
+  reagirl.ToolbarButton_SetDropShadow(tab1.toolbar6, true)
+  
+  reagirl.Label_AutoBackdrop(tab1.label_header7, tab1.toolbar6) -- set backdrop drawn by tab1.label_header5
   
   -- Inputboxes
   reagirl.NextLine(10)

@@ -111,10 +111,10 @@ Blind people can navigate through your gui via keyboard and get feedback to thei
 <a href="https://www.reaper.fm">Reaper 7.03 and higher</a>, <a href="https://www.sws-extension.org">SWS 2.10.0.1 and higher</a> and <a href="https://github.com/juliansader/ReaExtensions/tree/master/js_ReaScriptAPI/">Julian Sader's plugin 1.215 and higher.</a><br />
 You can download them at <a href="http://www.reaper.fm">reaper.fm</a> and <a href="http://www.sws-extension.org">sws-extension.org</a> respectively.<br />
 Julian Sader's plugin can be installed using ReaPack or gotten from <a href="https://github.com/juliansader/ReaExtensions/tree/master/js_ReaScriptAPI/">his own github-site</a></p>
-<p>The screen reader compatbility needs at least Windows 10 or Mac OS.</p>
-<p>To install the Ultraschall-API with ReaGirl, just follow the following steps:</p>
+<p>The screen reader compatbility needs at least Windows 10 or Mac OS. It's not available on Linux because Linux isn't that accessible for screen reader users to begin with.</p>
+<p>To install Ultraschall-API with ReaGirl, just follow the following steps:</p>
 <p><strong>Installation via ReaPack</strong>:</p>
-<p>The easiest way is to install the Ultraschall-API and ReaGirl using ReaPack. ReaPack is a package-manager for extensions and helper-stuff for Reaper, which allows you to easily install and update content done by the Reaper community.<br />
+<p>The easiest way is to install Ultraschall-API and ReaGirl using ReaPack. ReaPack is a package-manager for extensions and helper-stuff for Reaper, which allows you to easily install and update content done by the Reaper community.<br />
 Many Scripts, Themes, JSFX-FX, etc are available through that.</p>
 <ol>
 <li><p>Install ReaPack. Get it from <a href="https://reapack.com/">https://reapack.com/</a>. There's also a real good <a href="https://reapack.com/user-guide">User guide</a> for it available, that explains, how to do it.<br />
@@ -147,7 +147,7 @@ For more information on ReaPack and it's usage, refer <a href="https://reapack.c
 <p><strong>Manual Installation</strong>:</p>
 <p>If you can't or don't want to install ReaPack, you can also install it manually.</p>
 <ol>
-<li>Just download the zip-file of the current version from <a href="https://github.com/Ultraschall/ultraschall-lua-api-for-reaper/raw/master/ultraschall_api5.zip">ultraschall_api5.zip</a>.<br />
+<li>Just download the zip-file of the current version from <a href="https://github.com/Ultraschall/ultraschall-lua-api-for-reaper/raw/master/ultraschall_api5.3.zip">ultraschall_api5.3.zip</a>.<br />
 </li>
 <li>Extract it to the UserPlugins-folder in the Resources-folder of Reaper. You can find the correct Resources-path in the Reaper-menu "Options -&gt; Show REAPER resource path in explorer/finder...".<br />
 The folder UserPlugins should contain the folder ultraschall_api and the files ultraschall_api_readme.txt, ultraschall_api.lua and reagirl.lua after this step.<br />
@@ -186,7 +186,7 @@ The folder UserPlugins should contain the folder ultraschall_api and the files u
 </ul>
 <p><strong>General user settings:</strong></p>
 <ul>
-<li><strong>ReaGirl_Gui_Settings_Hovered_UI_Element_Enable_Report.lua</strong> - enables, hovering above a ui-element will get read the name of it to screen readers<br />
+<li><strong>ReaGirl_Gui_Settings_Hovered_UI_Element_Enable_Report.lua</strong> - enables, if hovering above a ui-element will get read the name of it to screen readers<br />
 </li>
 <li><strong>ReaGirl_Gui_Settings_Hovered_UI_Element_Disable_Report.lua</strong> - disables, that hovered ui-elements get read to screen readers<br />
 </li>
@@ -206,9 +206,9 @@ The folder UserPlugins should contain the folder ultraschall_api and the files u
 </li>
 <li><strong>ReaGirl_Gui_Settings_Tooltips_Disable.lua</strong>- don't show tooltips<br />
 </li>
-<li>__ReaGirl_Gui_Settings_Scroll_Via_Keyboard_Enable.lua - enables scrolling of ReaGirl-guis via keyboard</li>
-<li>__ReaGirl_Gui_Settings_Scroll_Via_Keyboard_Disable.lua - disables scrolling of ReaGirl-guis via keyboard</li>
-<li>__ReaGirl_Gui_Settings_Reset_Settings_Window_Pos_And_Size.lua - resets settings window's position and size</li>
+<li><strong>ReaGirl_Gui_Settings_Scroll_Via_Keyboard_Enable.lua</strong> - enables scrolling of ReaGirl-guis via keyboard</li>
+<li><strong>ReaGirl_Gui_Settings_Scroll_Via_Keyboard_Disable.lua</strong> - disables scrolling of ReaGirl-guis via keyboard</li>
+<li><strong>ReaGirl_Gui_Settings_Reset_Settings_Window_Pos_And_Size.lua</strong> - resets settings window's position and size</li>
 </ul>
 <p><strong>Developer settings:</strong></p>
 <ul>
@@ -222,7 +222,7 @@ The folder UserPlugins should contain the folder ultraschall_api and the files u
 </li>
 <li><strong>ReaGirl_Gui_Settings_EditMode_Disable.lua</strong> - disable experimental edit-mode</li>
 </ul>
-<p>You'll probably not need many of them, especially when developing new guis with ReaGirl and if you are not a screen reader-user, but it's probably good to know that these exists, if you need to provide support for users of your ReaGirl-gui-script.</p>
+<p>You'll probably won't need many of them, especially when developing new guis with ReaGirl and if you are not a screen reader-user, but it's probably good to know that these exists, if you need to provide support for users of your ReaGirl-gui-script.</p>
 </div><br>
 </div>
 <div class="ch">
