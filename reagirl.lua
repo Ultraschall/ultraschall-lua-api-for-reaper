@@ -21839,7 +21839,7 @@ function reagirl.Meter_Add(x, y, w, h, mode, caption, meaningOfUI_Element, run_f
       optional integer y - the y position of the meter in pixels; negative anchors the meter to the bottom window-side; nil, autoposition after the last ui-element(see description)
       integer w - the width of the meter
       integer h - the height of the meter
-      integer mode - 0, meter goes from left to right; 1, meter goes from bottom to top
+      integer mode - 1, meter is color-changing rectangle; 2, meter goes from left to right; 3, meter goes from bottom to top
       string caption - the caption of the meter
       string meaningOfUI_Element - the meaningOfUI_Element of the ui-element(for tooltips and blind users). Make it a sentence that ends with . or ?
       optional function run_function - a function that shall be run in every defer-cycle; will get passed over the meter-element_id as first and the db-value as second parameter
@@ -21888,7 +21888,7 @@ function reagirl.Meter_Add(x, y, w, h, mode, caption, meaningOfUI_Element, run_f
     reagirl.Elements[slot]["dbHold"]={-144}
     reagirl.Elements[slot]["dbClip"]=false
     reagirl.Elements[slot]["db"]={-144}
-    reagirl.Elements[slot]["db_val"]=-144
+    reagirl.Elements[slot]["db_val"]={-144}
     reagirl.Elements[slot]["count"]=0
     reagirl.Elements[slot]["func_manage"]=reagirl.Meter_Manage
     reagirl.Elements[slot]["func_draw"]=reagirl.Meter_Draw
@@ -21897,7 +21897,7 @@ function reagirl.Meter_Add(x, y, w, h, mode, caption, meaningOfUI_Element, run_f
     reagirl.Elements[slot]["hwinput"]=1
     reagirl.Elements[slot]["track"]=2
     reagirl.Elements[slot]["project"]=nil
-    reagirl.Elements[slot]["source"]=2
+    reagirl.Elements[slot]["source"]=0
     reagirl.Elements[slot]["userspace"]={}
     reagirl.Elements[slot]["mode"]=3
     reagirl.Elements[slot]["show_peak_value"]=true
@@ -21933,17 +21933,26 @@ function reagirl.Meter_Manage(element_id, selected, hovered, clicked, mouse_cap,
     element_storage["count"]=0
     refresh=true
   end
+  
   if element_storage["source"]==0 then
-    local db=element_storage["db_val"]
-    if db>0 then report_clip=true end
-    if element_storage[1]~=db then
-      refresh=true
+    -- manual db-values
+    for i=1, element_storage["channels"] do
+      local db=element_storage["db_val"][i]
+      if db>0 then report_clip=true end
+      if element_storage[i]~=db then
+        refresh=true
+      end
+      element_storage.db[i]=db
+      element_storage["count"]=element_storage["count"]+1
+      if element_storage.db[i]~=db then
+        element_storage.db[i]=db
+        refresh=true
+      end
+
+      if element_storage.dbHold[i]==nil or element_storage.dbHold[i]<db then element_storage.dbHold[i]=db element_storage["count"]=0 end
+      if element_storage.dbHold[0]==nil or element_storage.dbHold[0]<db then element_storage.dbHold[0]=db element_storage.count=0 element_storage["count"]=0 end
+      if element_storage.dbHold[-1]==nil or element_storage.dbHold[-1]<db then element_storage.dbHold[-1]=db end
     end
-    element_storage.db[1]=db
-    element_storage["count"]=element_storage["count"]+1
-    if element_storage.dbHold[1]==nil or element_storage.dbHold[1]<db then element_storage.dbHold[1]=db end
-    if element_storage.dbHold[0]==nil or element_storage.dbHold[0]<db then element_storage.dbHold[0]=db end
-    if element_storage.dbHold[-1]==nil or element_storage.dbHold[-1]<db then element_storage.dbHold[-1]=db end
   elseif element_storage["source"]==1 then
     -- HW input levels
     local db=reaper.GetInputActivityLevel(element_storage["hwinput"])
@@ -22506,29 +22515,23 @@ function reagirl.Meter_Draw(element_id, selected, hovered, clicked, mouse_cap, m
           end
         if Level2>=10 then
           gfx.set(1,1,0,peak_opacity)
-          --gfx.rect(x+med, y+i*height, max-med, height-scale2, 1) 
           reagirl.Rect(x+i*width, y+h-med-scale, width-scale-scale, -max+med, 1) 
           gfx.set(1,0,0,peak_opacity)
-          --gfx.rect(x+max, y+i*height, Level-max, height-scale2, 1)
           reagirl.Rect(x+i*width, y, width-scale-scale, h-max-scale, 1)
           element_storage["dbClip"]=true
         elseif Level2>0 then
           -- red(plus yellow)
           gfx.set(1,1,0,peak_opacity)
-          --gfx.rect(x+med, y+i*height, max-med, height-scale2, 1) 
           reagirl.Rect(x+i*width, y+h-med-scale, width-scale-scale, -max+med, 1) 
           gfx.set(1,0,0,peak_opacity)
-          --gfx.rect(x+max, y+i*height, Level-max, height-scale2, 1)
           reagirl.Rect(x+i*width, y+h-max, width-scale-scale, -Level+max, 1, true)---Level+max, 1)
-          
           element_storage["dbClip"]=true
         elseif Level2>=-18 then 
           -- yellow
           gfx.set(1,1,0,peak_opacity)
-          --gfx.rect(x+med, y+i*height, Level-med, height-scale2, 1) 
           reagirl.Rect(x+i*width, y+h-med, width-scale-scale, -Level+med-scale-scale, 1)
         end
-        --]]
+
         Level=element_storage.dbHold[i+1]+144
         local Log=math.log(Level/60)
         Level=Level*Log
@@ -22544,14 +22547,11 @@ function reagirl.Meter_Draw(element_id, selected, hovered, clicked, mouse_cap, m
             gfx.set(0,1,0,peak_opacity)
           end
           if element_storage.dbHold[i+1]<-80 then 
-            --  gfx.rect(x, y+i*height, scale+scale, height-scale2, 1)
             reagirl.Rect(x+i*width, y+h-scale-scale-scale, width, scale, 1)
           elseif element_storage.dbHold[i+1]<6 then
-            --gfx.rect(Level+offset, y+i*height, scale+scale, height-scale2, 1)
-            reagirl.Rect(x+i*width, y+h-Level, width-scale-scale, scale, 1)
+            reagirl.Rect(x+i*width, y+h-Level+scale+scale, width-scale-scale-scale, scale, 1)
           else
-            --gfx.rect(x+w-scale-scale-scale-scale-scale, y+i*height, scale+scale, height-scale2, 1)
-            reagirl.Rect(x+i*width, y, width, scale, 1)
+            reagirl.Rect(x+i*width, y, width-scale-scale-scale, scale, 1)
           end
         end
       end
@@ -22585,7 +22585,8 @@ function reagirl.Meter_Draw(element_id, selected, hovered, clicked, mouse_cap, m
         gfx.set(1,1,0,peak_opacity)
         reagirl.Rect(x, y+h-med-scale, w-scale-scale, -max+med, 1) 
         gfx.set(1,0,0,peak_opacity)
-        reagirl.Rect(x, y, w-scale-scale, h-max-scale, 1, true)
+        --reagirl.Rect(x, y+h-max, w-scale-scale, h-max-scale, 1, true)
+        reagirl.Rect(x, y, w-scale-scale, h-max-scale, 1)
         element_storage["dbClip"]=true
       elseif Level2>0 then
         -- red(and yellow)
@@ -22615,11 +22616,11 @@ function reagirl.Meter_Draw(element_id, selected, hovered, clicked, mouse_cap, m
         end
 
         if element_storage.dbHold[0]<-80 then 
-          reagirl.Rect(x, y+h-scale-scale-scale, w, scale, 1)
+          reagirl.Rect(x, y+h-scale-scale-scale, w-scale-scale, scale, 1)
         elseif element_storage.dbHold[0]<6 then
-          reagirl.Rect(x, y+h-Level, w-scale, scale, 1)
+          reagirl.Rect(x, y+h-Level+scale+scale, w-scale-scale, scale, 1)
         else
-          reagirl.Rect(x, y, w, scale, 1)
+          reagirl.Rect(x, y, w-scale-scale, scale, 1)
         end
       end
     end
@@ -22646,6 +22647,91 @@ function reagirl.Meter_Draw(element_id, selected, hovered, clicked, mouse_cap, m
   end
 end
 
+function reagirl.Meter_GetPeak(element_id)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Button_GetRadius</slug>
+  <requires>
+    ReaGirl=1.0
+    Reaper=7.03
+    Lua=5.4
+  </requires>
+  <functioncall>integer radius = reagirl.Button_GetRadius(string element_id)</functioncall>
+  <description>
+    Gets a button's radius.
+  </description>
+  <parameters>
+    string element_id - the guid of the button, whose radius you want to get
+  </parameters>
+  <retvals>
+    integer radius - the radius of the button; between 0 and 10
+  </retvals>
+  <chapter_context>
+    Button
+  </chapter_context>
+  <tags>button, get, radius</tags>
+</US_DocBloc>
+--]]
+  if type(element_id)~="string" then error("Button_GetRadius: param #1 - must be a string", 2) end
+  if reagirl.IsValidGuid(element_id, true)==nil then error("Button_GetRadius: param #1 - must be a valid guid", 2) end
+  element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
+  if element_id==-1 then error("Button_GetRadius: param #1 - no such ui-element", 2) end
+  if reagirl.Elements[element_id]["GUI_Element_Type"]~="Button" then
+    error("Button_GetRadius: param #1 - ui-element is not a button", 2)
+  else
+    return reagirl.Elements[element_id]["radius"]
+  end
+end
+
+function reagirl.Meter_SetPeak(element_id, ...)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Meter_SetPeak</slug>
+  <requires>
+    ReaGirl=1.3
+    Reaper=7.03
+    Lua=5.4
+  </requires>
+  <functioncall>boolean retval = reagirl.Meter_SetPeak(string element_id, number peak1, number peak2, ...)</functioncall>
+  <description>
+    Sets the peak-values that shall be displayed in the meter.
+    
+    You can set more than one peak-value for multichannel display.
+  </description>
+  <parameters>
+    string element_id - the guid of the button, whose radius you want to set
+    number peak1 - channel 1 in dB, -144 to +12
+    number peak2 - channel 2 in dB, -144 to +12
+    ... ...
+  </parameters>
+  <retvals>
+    boolean retval - true, setting was succesful; false, setting was unsuccessful
+  </retvals>
+  <chapter_context>
+    Meter
+  </chapter_context>
+  <tags>meter, set, peak</tags>
+</US_DocBloc>
+--]]
+  local peaks={...}
+
+  if type(element_id)~="string" then error("Meter_SetPeak: param #1 - must be a string", 2) end
+  if reagirl.IsValidGuid(element_id, true)==nil then error("Meter_SetPeak: param #1 - must be a valid guid", 2) end
+  for i=1, #peaks do
+    if type(peaks[i])~="number" then error("Meter_SetPeak: param #"..(i+2).." - must be a number", 2) end
+  end
+  
+  element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
+  if element_id==-1 then error("Meter_SetPeak: param #1 - no such ui-element", 2) end
+  if reagirl.Elements[element_id]["GUI_Element_Type"]~="Meter" then
+    return false
+  else
+    reagirl.Elements[element_id]["db_val"]=peaks
+    reagirl.Elements[element_id]["channels"]=#peaks
+    reagirl.Gui_ForceRefresh(19)
+  end
+  return true
+end
 
 
 function reagirl.Base64_Encoder(source_string, remove_newlines, remove_tabs)
