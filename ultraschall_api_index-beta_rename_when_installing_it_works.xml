@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API and ReaGirl">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API and ReaGirl package" type="extension">
-      <version name="56131.00" author="Meo-Ada Mespotine">
+      <version name="56132.00" author="Meo-Ada Mespotine">
 	<source file="reagirl.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5.3//reagirl.lua</source>
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5.3//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5.3//ultraschall_api_readme.txt</source>
@@ -737,6 +737,10 @@ New features in 5.3
     inputbox
 -   ReaGirl: Inputbox_SetTextSuggestions - sets text suggestions that
     the user can choose from a dropdownmenu in the inputbox
+-   ReaGirl: Meter_Add - adds a level-meter to the gui
+-   ReaGirl: Meter_GetPeaks - gets the currently drawn peak-value for
+    all channels
+-   ReaGirl: Meter_SetPeaks - sets the peaks to be drawn to a meter
 -   ReaGirl: Settings - new option for setting, if clicking into an
     empty area allows dragging of the window
 -   ReaGirl: ToolbarButton_Add - adds a toolbar-button to a ReaGirl-gui
@@ -852,7 +856,7 @@ Changes from 5.2 to 5.3
         \par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af6\langfe2052\dbch\af8\afs24\lang1081\loch\f0\fs24\lang1031{\rtlch \ltrch\loch
         }
         \par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af6\langfe2052\dbch\af8\afs24\lang1081\loch\f0\fs24\lang1031{\rtlch \ltrch\loch\loch\f4
-        a 1693 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 56131 from 04.05.2025 20:04:40).}
+        a 1693 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 56132 from 04.05.2025 20:17:15).}
         \par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af6\langfe2052\dbch\af8\afs24\lang1081\loch\f0\fs24\lang1031{\rtlch \ltrch\loch
         }
         \par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af6\langfe2052\dbch\af8\afs24\lang1081\loch\f0\fs24\lang1031{\rtlch \ltrch\loch

@@ -22650,36 +22650,42 @@ end
 function reagirl.Meter_GetPeak(element_id)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>Button_GetRadius</slug>
+  <slug>Meter_GetPeak</slug>
   <requires>
-    ReaGirl=1.0
+    ReaGirl=1.3
     Reaper=7.03
     Lua=5.4
   </requires>
-  <functioncall>integer radius = reagirl.Button_GetRadius(string element_id)</functioncall>
+  <functioncall>table peaks = reagirl.Meter_GetPeak(string element_id)</functioncall>
   <description>
-    Gets a button's radius.
+    Gets a meter's currently drawn peaks.
+    
+    Note: when you just set them, the set peaks can only be got in the next defer-cycle.
   </description>
   <parameters>
-    string element_id - the guid of the button, whose radius you want to get
+    string element_id - the guid of the meter, whose peaks you want to get
   </parameters>
   <retvals>
-    integer radius - the radius of the button; between 0 and 10
+    table peaks - all currently drawn peaks
   </retvals>
   <chapter_context>
-    Button
+    Meter
   </chapter_context>
-  <tags>button, get, radius</tags>
+  <tags>meter, get, peaks</tags>
 </US_DocBloc>
 --]]
-  if type(element_id)~="string" then error("Button_GetRadius: param #1 - must be a string", 2) end
-  if reagirl.IsValidGuid(element_id, true)==nil then error("Button_GetRadius: param #1 - must be a valid guid", 2) end
+  if type(element_id)~="string" then error("Meter_GetPeak: param #1 - must be a string", 2) end
+  if reagirl.IsValidGuid(element_id, true)==nil then error("Meter_GetPeak: param #1 - must be a valid guid", 2) end
   element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
-  if element_id==-1 then error("Button_GetRadius: param #1 - no such ui-element", 2) end
-  if reagirl.Elements[element_id]["GUI_Element_Type"]~="Button" then
-    error("Button_GetRadius: param #1 - ui-element is not a button", 2)
+  if element_id==-1 then error("Meter_GetPeak: param #1 - no such ui-element", 2) end
+  if reagirl.Elements[element_id]["GUI_Element_Type"]~="Meter" then
+    error("Meter_GetPeak: param #1 - ui-element is not a meter", 2)
   else
-    return reagirl.Elements[element_id]["radius"]
+    local peaks={}
+    for i=1, #reagirl.Elements[element_id]["db"] do
+      peaks[i]=reagirl.Elements[element_id]["db"][i]
+    end
+    return peaks
   end
 end
 
@@ -22699,7 +22705,7 @@ function reagirl.Meter_SetPeak(element_id, ...)
     You can set more than one peak-value for multichannel display.
   </description>
   <parameters>
-    string element_id - the guid of the button, whose radius you want to set
+    string element_id - the guid of the meter, whose peaks you want to set
     number peak1 - channel 1 in dB, -144 to +12
     number peak2 - channel 2 in dB, -144 to +12
     ... ...
