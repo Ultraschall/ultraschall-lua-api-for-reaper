@@ -6636,10 +6636,9 @@ function reagirl.Gui_Manage(keep_running)
               draggable=" Draggable. " 
             end
           end
-          if reagirl.osara_outputMessage~=nil then
+          if reagirl.osara_outputMessage~=nil and (reagirl.osara_init_message.." "..init_message.." "..message.." "..helptext..draggable..acc_message..contextmenu..dropfiles..reagirl.osara_AddedMessage):len()>3 then
             --reaper.MB("","",0)
             reagirl.osara_outputMessage(reagirl.osara_init_message.." "..init_message.." "..message.." "..helptext..draggable..acc_message..contextmenu..dropfiles..reagirl.osara_AddedMessage)
-            
             reagirl.ScreenReader_SendMessage_ActualMessage=""
             if reagirl.Screenreader_Override_Message~="" then
               reagirl.osara_outputMessage(reagirl.Screenreader_Override_Message)
@@ -21879,7 +21878,7 @@ function reagirl.Meter_Add(x, y, w, h, mode, caption, meaningOfUI_Element, run_f
     reagirl.Elements[slot]["sticky_x"]=false
     reagirl.Elements[slot]["sticky_y"]=false
     reagirl.Elements[slot]["Description"]=meaningOfUI_Element
-    reagirl.Elements[slot]["AccHint"]=""
+    reagirl.Elements[slot]["AccHint"]="A level-meter. Space to reset hold-values. Ctrl+R to get current meter value."
     reagirl.Elements[slot]["ContextMenu_ACC"]=""
     reagirl.Elements[slot]["DropZoneFunction_ACC"]=""
     reagirl.Elements[slot]["x"]=x
@@ -21889,11 +21888,16 @@ function reagirl.Meter_Add(x, y, w, h, mode, caption, meaningOfUI_Element, run_f
     reagirl.Elements[slot]["dbHold"]={-144}
     reagirl.Elements[slot]["dbClip"]=false
     reagirl.Elements[slot]["db"]={-144}
+    reagirl.Elements[slot]["db_val"]=-144
     reagirl.Elements[slot]["count"]=0
     reagirl.Elements[slot]["func_manage"]=reagirl.Meter_Manage
     reagirl.Elements[slot]["func_draw"]=reagirl.Meter_Draw
     reagirl.Elements[slot]["run_function"]=run_function
     reagirl.Elements[slot]["channels"]=1
+    reagirl.Elements[slot]["hwinput"]=1
+    reagirl.Elements[slot]["track"]=2
+    reagirl.Elements[slot]["project"]=nil
+    reagirl.Elements[slot]["source"]=2
     reagirl.Elements[slot]["userspace"]={}
     reagirl.Elements[slot]["mode"]=3
     reagirl.Elements[slot]["show_peak_value"]=true
@@ -21911,20 +21915,13 @@ function reagirl.Meter_Manage(element_id, selected, hovered, clicked, mouse_cap,
   --- Tracks
   -- add to ReaGirl-settings: reaper.GetExtState("ReaGirl", "Peak_Opacity"), which defines, if the db-value-indicator-lines are visible or not
   
-  -- HW input levels
   
-  local db=reaper.GetInputActivityLevel(0)
+  
+  local refresh=false
+  local report_clip=nil
   element_storage.dbHold[-1]=-144
-  if element_storage.db[1]~=db then
-    --reagirl.Gui_ForceRefresh("Meter_HoldReset HWINput", element_id)
-  end
-  --element_storage.db[1]=db
-  --element_storage["count"]=element_storage["count"]+1
-  --if element_storage.dbHold[1]==nil or element_storage.dbHold[1]<db then element_storage.dbHold[1]=db end
-  --if element_storage.dbHold[0]==nil or element_storage.dbHold[0]<db then element_storage.dbHold[0]=db end
-  --if element_storage.dbHold[-1]==nil or element_storage.dbHold[-1]<db then element_storage.dbHold[-1]=db end
-  --]]
-  -- Track levels
+
+  -- reset hold-level
   element_storage["count"]=element_storage["count"]+1
   if element_storage["count"]==66 or (Key==32 and selected~="not selected") or (gfx.mouse_x>=x and gfx.mouse_x<=x+w and gfx.mouse_y>y and gfx.mouse_y<y+h and clicked=="FirstCLK") then
     for i=-1, element_storage["channels"] do
@@ -21934,29 +21931,83 @@ function reagirl.Meter_Manage(element_id, selected, hovered, clicked, mouse_cap,
       element_storage["dbClip"]=false
     end
     element_storage["count"]=0
-    reagirl.Gui_ForceRefresh("Meter_HoldReset", element_id)
+    refresh=true
   end
-
-  
-  --if element_storage["count"]==30 then element_storage.dbHold[1]=-144 element_storage.count=0 refresh=true end
-  
-  local track=reaper.GetTrack(0,2)
-  element_storage["channels"]=reaper.GetMediaTrackInfo_Value(track, "I_NCHAN")
-  local refresh=false
-  for i=0, element_storage["channels"]-1 do
-    db=reaper.Track_GetPeakInfo(track, i)
-    db=ultraschall.MKVOL2DB(db)
-    if element_storage.db[i+1]~=db then
-      element_storage.db[i+1]=db
-      if element_storage.dbHold[i+1]==nil or element_storage.dbHold[i+1]<db then element_storage.dbHold[i+1]=db element_storage["count"]=0 end
-      if element_storage.dbHold[0]==nil or element_storage.dbHold[0]<db then element_storage.dbHold[0]=db element_storage.count=0 element_storage["count"]=0 end
-      if element_storage.dbHold[-1]==nil or element_storage.dbHold[-1]<db then element_storage.dbHold[-1]=db end
+  if element_storage["source"]==0 then
+    local db=element_storage["db_val"]
+    if db>0 then report_clip=true end
+    if element_storage[1]~=db then
       refresh=true
     end
+    element_storage.db[1]=db
+    element_storage["count"]=element_storage["count"]+1
+    if element_storage.dbHold[1]==nil or element_storage.dbHold[1]<db then element_storage.dbHold[1]=db end
+    if element_storage.dbHold[0]==nil or element_storage.dbHold[0]<db then element_storage.dbHold[0]=db end
+    if element_storage.dbHold[-1]==nil or element_storage.dbHold[-1]<db then element_storage.dbHold[-1]=db end
+  elseif element_storage["source"]==1 then
+    -- HW input levels
+    local db=reaper.GetInputActivityLevel(element_storage["hwinput"])
+    if db>0 then report_clip="Hardware input "..element_storage["hwinput"] end
+    element_storage.dbHold[-1]=-144
+    if element_storage.db[1]~=db then
+      refresh=true
+    end
+    element_storage.db[1]=db
+    element_storage["count"]=element_storage["count"]+1
+    if element_storage.dbHold[1]==nil or element_storage.dbHold[1]<db then element_storage.dbHold[1]=db end
+    if element_storage.dbHold[0]==nil or element_storage.dbHold[0]<db then element_storage.dbHold[0]=db end
+    if element_storage.dbHold[-1]==nil or element_storage.dbHold[-1]<db then element_storage.dbHold[-1]=db end
+  elseif element_storage["source"]==2 then
+    -- Track levels
+    local track=reaper.GetTrack(element_storage["project"], element_storage["track"])
+    element_storage["channels"]=reaper.GetMediaTrackInfo_Value(track, "I_NCHAN")
+    for i=0, element_storage["channels"]-1 do
+      db=reaper.Track_GetPeakInfo(track, i)
+      db=ultraschall.MKVOL2DB(db)
+      if db>0 then 
+        local name=""
+        if element_storage["project"]~=nil then
+          name=" in projecttab "..reaper.GetProjectName(element_storage["project"])
+        end
+        report_clip="track "..element_storage["track"]..name
+      end
+
+      if element_storage.db[i+1]~=db then
+        element_storage.db[i+1]=db
+        if element_storage.dbHold[i+1]==nil or element_storage.dbHold[i+1]<db then element_storage.dbHold[i+1]=db element_storage["count"]=0 end
+        if element_storage.dbHold[0]==nil or element_storage.dbHold[0]<db then element_storage.dbHold[0]=db element_storage.count=0 element_storage["count"]=0 end
+      end
+      if element_storage.dbHold[-1]==nil or element_storage.dbHold[-1]<db then element_storage.dbHold[-1]=db end
+    end
+    
+    refresh=true
+    reagirl.Gui_ForceRefresh()
   end
---]]
+  
+  
+  
+  if element_storage["count2"]==33*10 then
+    element_storage["report_clip"]=nil
+    element_storage["count2"]=0
+  elseif element_storage["count2"]==nil then
+    element_storage["count2"]=0
+  end
+  element_storage["count2"]=element_storage["count2"]+1
+  
+  if Key==18 then
+    local db=tostring(element_storage["dbHold"][-1]):match("(.-%..)")
+    --reagirl.ScreenReader_SendMessage("Current value: "..db.." dB.")
+  end
+  
+  -- report clippings to screen reader
+  if report_clip~=nil and element_storage["report_clip"]~=report_clip then
+    local db=tostring(element_storage["dbHold"][-1]):match("(.-%..)")
+    --reagirl.ScreenReader_SendMessage("Clip in "..report_clip.." at "..db.."dB.")
+    element_storage["report_clip"]=report_clip
+  end
+  
   if refresh==true then
-    reagirl.Gui_ForceRefresh("Meter refresh")--, element_id)
+    reagirl.Gui_ForceRefresh("Meter refresh", element_id)
   end
 end
 
@@ -22325,7 +22376,6 @@ function reagirl.Meter_Draw(element_id, selected, hovered, clicked, mouse_cap, m
         end
         
         gfx.y=y+h-strw-scale
-        
         gfx.set(reagirl.Colors.Meters_IndicatorLine_r, reagirl.Colors.Meters_IndicatorLine_g, reagirl.Colors.Meters_IndicatorLine_b)
         gfx.rect(x+scale,y+height*40, w-scale-scale, scale, 1)
         gfx.set(reagirl.Colors.Meters_IndicatorUnits_r, reagirl.Colors.Meters_IndicatorUnits_g, reagirl.Colors.Meters_IndicatorUnits_b)
@@ -22486,7 +22536,6 @@ function reagirl.Meter_Draw(element_id, selected, hovered, clicked, mouse_cap, m
         
         -- peak-hold-indicator
         if element_storage["show_peak_hold"]==true then
-          local offset=12
           if element_storage.dbHold[i+1]>0 then
             gfx.set(1,0,0,peak_opacity)
           elseif element_storage.dbHold[i+1]>-23 then
@@ -22499,7 +22548,7 @@ function reagirl.Meter_Draw(element_id, selected, hovered, clicked, mouse_cap, m
             reagirl.Rect(x+i*width, y+h-scale-scale-scale, width, scale, 1)
           elseif element_storage.dbHold[i+1]<6 then
             --gfx.rect(Level+offset, y+i*height, scale+scale, height-scale2, 1)
-            reagirl.Rect(offset+i*width, y+h-Level, width-scale, scale, 1)
+            reagirl.Rect(x+i*width, y+h-Level, width-scale-scale, scale, 1)
           else
             --gfx.rect(x+w-scale-scale-scale-scale-scale, y+i*height, scale+scale, height-scale2, 1)
             reagirl.Rect(x+i*width, y, width, scale, 1)
@@ -22557,7 +22606,6 @@ function reagirl.Meter_Draw(element_id, selected, hovered, clicked, mouse_cap, m
         local Log=math.log(Level/60)
         Level=Level*Log
         Level=h/140*Level
-        local offset=12
         if element_storage.dbHold[0]>0 then
           gfx.set(1,0,0,peak_opacity)
         elseif element_storage.dbHold[0]>-23 then
@@ -22569,7 +22617,7 @@ function reagirl.Meter_Draw(element_id, selected, hovered, clicked, mouse_cap, m
         if element_storage.dbHold[0]<-80 then 
           reagirl.Rect(x, y+h-scale-scale-scale, w, scale, 1)
         elseif element_storage.dbHold[0]<6 then
-          reagirl.Rect(offset, y+h-Level, w-scale, scale, 1)
+          reagirl.Rect(x, y+h-Level, w-scale, scale, 1)
         else
           reagirl.Rect(x, y, w, scale, 1)
         end
