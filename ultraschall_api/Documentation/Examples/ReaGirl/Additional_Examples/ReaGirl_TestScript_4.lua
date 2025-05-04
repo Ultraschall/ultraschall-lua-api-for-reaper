@@ -103,7 +103,7 @@
   reagirl.NextLine()
   tab1.burgermenu2 = reagirl.Burgermenu_Add(nil, nil, "A Burgermenu", 2, "A demo-burger-menu with some options.", "Setting 1|Setting 2|>Subfolder|Setting 3|Setting 4|<|Setting 5", nil)
   tab1.toolbar=reagirl.ToolbarButton_Add(71, nil, reaper.GetResourcePath().."/Data/toolbar_icons/toolbar_misc_walk_forward.png",3, 1, {"TOO", "DEL", "LOO"}, 1, "Tudel1", "loo.", contextmenu)
-  reagirl.ToolbarButton_SetDropShadow(tab1.toolbar, true)
+  --reagirl.ToolbarButton_SetDropShadow(tab1.toolbar, true)
   reagirl.ToolbarButton_SetRadius(tab1.toolbar, 14)
   reagirl.ToolbarButton_SetEdgeStyle(tab1.toolbar, true, true, true, true)
   reagirl.ToolbarButton_SetColor(tab1.toolbar, 128, 0, 0)

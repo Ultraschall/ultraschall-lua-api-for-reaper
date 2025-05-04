@@ -13280,13 +13280,13 @@ function reagirl.ToolbarButton_Draw(element_id, selected, hovered, clicked, mous
       if element_storage["DropShadow"]==true then
         gfx.a=-0.5
         gfx.mode=1
-        gfx.blit(element_storage["toolbaricon"], 1, 0, (cur_state)*30*element_storage["toolbaricon_scale"], 0, 30*element_storage["toolbaricon_scale"], 30*element_storage["toolbaricon_scale"], x+dpi_scale+dpi_scale+dpi_scale, y+dpi_scale+dpi_scale, w, h)
+        gfx.blit(element_storage["toolbaricon"], 1, 0, (cur_state)*30*element_storage["toolbaricon_scale"], 0, 30*element_storage["toolbaricon_scale"], 30*element_storage["toolbaricon_scale"], x+dpi_scale+dpi_scale, y+dpi_scale+dpi_scale, w, h)
         gfx.a=1
         gfx.mode=0
       end
-      gfx.blit(element_storage["toolbaricon"], 1, 0, (cur_state)*30*element_storage["toolbaricon_scale"], 0, 30*element_storage["toolbaricon_scale"], 30*element_storage["toolbaricon_scale"], x+dpi_scale+dpi_scale, y+dpi_scale, w, h)
+      gfx.blit(element_storage["toolbaricon"], 1, 0, (cur_state)*30*element_storage["toolbaricon_scale"], 0, 30*element_storage["toolbaricon_scale"], 30*element_storage["toolbaricon_scale"], x+dpi_scale, y+dpi_scale, w, h)
     else
-      gfx.blit(element_storage["toolbaricon"], 1, 0, element_storage["toolbaricon_scale"], 0, w*element_storage["toolbaricon_scale"], 30*dpi_scale*element_storage["toolbaricon_scale"], x+dpi_scale+dpi_scale, y+dpi_scale, w, h)
+      gfx.blit(element_storage["toolbaricon"], 1, 0, element_storage["toolbaricon_scale"], 0, w*element_storage["toolbaricon_scale"], 30*dpi_scale*element_storage["toolbaricon_scale"], x+dpi_scale, y+dpi_scale, w, h)
     end
     gfx.set(reagirl.Colors.Toolbar_CaptionBG_r, reagirl.Colors.Toolbar_CaptionBG_g, reagirl.Colors.Toolbar_CaptionBG_b, 1)
     if element_storage["mode"]==2 then
@@ -13377,14 +13377,16 @@ function reagirl.ToolbarButton_Draw(element_id, selected, hovered, clicked, mous
     end
     
     if element_storage["mode"]<3 or element_storage["mode"]==5 then
+      local offset=dpi_scale
       if element_storage["DropShadow"]==true then
         gfx.a=-0.5
         gfx.mode=1
-        gfx.blit(element_storage["toolbaricon"], 1, 0, (cur_state)*30*element_storage["toolbaricon_scale"], 0, 30*element_storage["toolbaricon_scale"], 30*element_storage["toolbaricon_scale"], x+dpi_scale+dpi_scale, y+dpi_scale, w, h)
+        gfx.blit(element_storage["toolbaricon"], 1, 0, (cur_state)*30*element_storage["toolbaricon_scale"], 0, 30*element_storage["toolbaricon_scale"], 30*element_storage["toolbaricon_scale"], x+dpi_scale, y+dpi_scale, w, h)
         gfx.a=1
         gfx.mode=0
+        offset=0
       end
-      gfx.blit(element_storage["toolbaricon"], 1, 0, (cur_state)*30*element_storage["toolbaricon_scale"], 0, 30*element_storage["toolbaricon_scale"], 30*element_storage["toolbaricon_scale"], x+dpi_scale, y, w, h)
+      gfx.blit(element_storage["toolbaricon"], 1, 0, (cur_state)*30*element_storage["toolbaricon_scale"], 0, 30*element_storage["toolbaricon_scale"], 30*element_storage["toolbaricon_scale"], x+offset, y, w, h)
     else
       gfx.blit(element_storage["toolbaricon"], 1, 0, element_storage["toolbaricon_scale"]+1, 0, w*element_storage["toolbaricon_scale"], 30*dpi_scale*element_storage["toolbaricon_scale"], x, y, w, h)
     end
@@ -22438,9 +22440,6 @@ function reagirl.Meter_Draw(element_id, selected, hovered, clicked, mouse_cap, m
             --gfx.rect(x, y+i*height, max, height-scale2, 1)
             reagirl.Rect(x+i*width, y+h-scale-scale, width-scale-scale, -med+scale, 1)
           end
-  ABBA2=max
-  ABBA3=Level
-  ABBA4=-Level+max
         if Level2>=10 then
           gfx.set(1,1,0,peak_opacity)
           --gfx.rect(x+med, y+i*height, max-med, height-scale2, 1) 
