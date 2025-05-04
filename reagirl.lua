@@ -21896,7 +21896,7 @@ function reagirl.Meter_Add(x, y, w, h, mode, caption, meaningOfUI_Element, run_f
     reagirl.Elements[slot]["channels"]=1
     reagirl.Elements[slot]["userspace"]={}
     reagirl.Elements[slot]["mode"]=3
-    reagirl.Elements[slot]["show_peak_value"]=false
+    reagirl.Elements[slot]["show_peak_value"]=true
     reagirl.Elements[slot]["show_peak_indicators"]=true
     reagirl.Elements[slot]["show_peak_hold"]=true
     
@@ -22010,7 +22010,7 @@ function reagirl.Meter_Draw(element_id, selected, hovered, clicked, mouse_cap, m
     if element_storage["show_peak_value"]==true then
       local Level=element_storage.dbHold[0]+0.0
       local plus=""
-      if Level>0 then plus="+" end
+      if Level>=0 then plus="+" end
       local text=tostring(Level):match("(.-%..)").."dB"
       local xpos=gfx.measurestr(plus..tostring(Level):match("(.-%..)").."dB")
       local xpos=x+(w-xpos)/2
@@ -22273,7 +22273,7 @@ function reagirl.Meter_Draw(element_id, selected, hovered, clicked, mouse_cap, m
     if element_storage["show_peak_value"]==true then
       local Level=element_storage.dbHold[0]+0.0
       local plus=""
-      if Level>0 then plus="+" end
+      if Level>=0 then plus="+" end
       local text=tostring(Level):match("(.-%..)").."dB"
       local xpos=gfx.measurestr(plus..tostring(Level):match("(.-%..)").."dB")+scale+scale
       local ypos=((h-gfx.texth)/2)-1
@@ -22293,6 +22293,7 @@ function reagirl.Meter_Draw(element_id, selected, hovered, clicked, mouse_cap, m
   elseif element_storage["mode"]==3 then
     -- vertical meter
     local width=math.floor((w-scale-scale)/element_storage["channels"])
+    local height=(h-scale-scale)/154
     if height==1 then scale2=0 end
     y=y+scale+scale
     
@@ -22306,113 +22307,114 @@ function reagirl.Meter_Draw(element_id, selected, hovered, clicked, mouse_cap, m
     if element_storage["show_peak_indicators"]==true then
       --reagirl.SetFont(1, reagirl.Font_Face, reagirl.Font_Size-3, 90)
       gfx.set(reagirl.Colors.Meters_IndicatorLine_r, reagirl.Colors.Meters_IndicatorLine_g, reagirl.Colors.Meters_IndicatorLine_b)
-      gfx.rect(x+scale,y+height*12,w-scale-scale, scale+scale, 1)
+      gfx.rect(x+scale,y+height*15,w-scale-scale, scale+scale, 1)
       gfx.set(reagirl.Colors.Meters_IndicatorUnits_r, reagirl.Colors.Meters_IndicatorUnits_g, reagirl.Colors.Meters_IndicatorUnits_b)
-      gfx.x=x+w-gfx.measurestr("0")-scale-scale
-      gfx.y=y+height*12
-      if w>115*scale and h>30*scale then
+      gfx.x=x+scale+scale+scale+scale
+      gfx.y=y+height*15
+      if h>30*scale and h>115*scale then
         gfx.drawstr("0")
       end
       if h>115*scale and w>30*scale then
-        --if h>248*scale then
+        if h>248*scale then
           gfx.set(reagirl.Colors.Meters_IndicatorLine_r, reagirl.Colors.Meters_IndicatorLine_g, reagirl.Colors.Meters_IndicatorLine_b)
-          gfx.rect(x+scale,y+height*26, w-scale-scale, scale, 1)
+          gfx.rect(x+scale,y+height*28, w-scale-scale, scale, 1)
           gfx.set(reagirl.Colors.Meters_IndicatorUnits_r, reagirl.Colors.Meters_IndicatorUnits_g, reagirl.Colors.Meters_IndicatorUnits_b)
-          gfx.x=x+w-gfx.measurestr("-6")-scale-scale
-          gfx.y=y+height*26
+          gfx.x=x
+          gfx.y=y+height*27
           gfx.drawstr("-6")
-        --end
+        end
         
         gfx.y=y+h-strw-scale
         
         gfx.set(reagirl.Colors.Meters_IndicatorLine_r, reagirl.Colors.Meters_IndicatorLine_g, reagirl.Colors.Meters_IndicatorLine_b)
-        gfx.rect(x+scale,y+height*39, w-scale-scale, scale, 1)
+        gfx.rect(x+scale,y+height*40, w-scale-scale, scale, 1)
         gfx.set(reagirl.Colors.Meters_IndicatorUnits_r, reagirl.Colors.Meters_IndicatorUnits_g, reagirl.Colors.Meters_IndicatorUnits_b)
-        gfx.x=x+w-gfx.measurestr("-12")-scale-scale
-        gfx.y=y+height*39
+        gfx.x=x
+        gfx.y=y+height*40
         gfx.drawstr("-12")
         
-        --if w>248*scale then
+        if h>248*scale then
           gfx.set(reagirl.Colors.Meters_IndicatorLine_r, reagirl.Colors.Meters_IndicatorLine_g, reagirl.Colors.Meters_IndicatorLine_b)
-          gfx.rect(x+scale,y+height*51, w-scale-scale, scale, 1)
+          gfx.rect(x+scale,y+height*52, w-scale-scale, scale, 1)
           gfx.set(reagirl.Colors.Meters_IndicatorUnits_r, reagirl.Colors.Meters_IndicatorUnits_g, reagirl.Colors.Meters_IndicatorUnits_b)
-          gfx.x=x+w-gfx.measurestr("-18")-scale-scale
-          gfx.y=y+height*51
+          gfx.x=x
+          gfx.y=y+height*52
           gfx.drawstr("-18")
-        --end
+        end
         
         gfx.set(reagirl.Colors.Meters_IndicatorLine_r, reagirl.Colors.Meters_IndicatorLine_g, reagirl.Colors.Meters_IndicatorLine_b)
-        gfx.rect(x+scale,y+height*63, w-scale-scale, scale, 1)
+        gfx.rect(x+scale,y+height*64, w-scale-scale, scale, 1)
         gfx.set(reagirl.Colors.Meters_IndicatorUnits_r, reagirl.Colors.Meters_IndicatorUnits_g, reagirl.Colors.Meters_IndicatorUnits_b)
-        gfx.x=x+w-gfx.measurestr("-24")-scale-scale
-        gfx.y=y+height*63
+        gfx.x=x
+        gfx.y=y+height*64
         gfx.drawstr("-24")
         
-        --if w>248*scale then
+        if h>248*scale then
           gfx.set(reagirl.Colors.Meters_IndicatorLine_r, reagirl.Colors.Meters_IndicatorLine_g, reagirl.Colors.Meters_IndicatorLine_b)
-          gfx.rect(x+scale,y+height*74, w-scale-scale, scale, 1)
+          gfx.rect(x+scale,y+height*75, w-scale-scale, scale, 1)
           gfx.set(reagirl.Colors.Meters_IndicatorUnits_r, reagirl.Colors.Meters_IndicatorUnits_g, reagirl.Colors.Meters_IndicatorUnits_b)
-          gfx.x=x+w-gfx.measurestr("-30")-scale-scale
-          gfx.y=y+height*74
+          gfx.x=x
+          gfx.y=y+height*75
           gfx.drawstr("-30")
-        --end
+        end
     
         gfx.set(reagirl.Colors.Meters_IndicatorLine_r, reagirl.Colors.Meters_IndicatorLine_g, reagirl.Colors.Meters_IndicatorLine_b)
-        gfx.rect(x+scale,y+height*85, w-scale-scale, scale, 1)
+        gfx.rect(x+scale,y+height*86, w-scale-scale, scale, 1)
         gfx.set(reagirl.Colors.Meters_IndicatorUnits_r, reagirl.Colors.Meters_IndicatorUnits_g, reagirl.Colors.Meters_IndicatorUnits_b)
-        gfx.x=x+w-gfx.measurestr("-36")-scale-scale
-        gfx.y=y+height*85
+        gfx.x=x
+        gfx.y=y+height*86
         gfx.drawstr("-36")
         
-        --if w>248*scale then
+        if h>248*scale then
           gfx.set(reagirl.Colors.Meters_IndicatorLine_r, reagirl.Colors.Meters_IndicatorLine_g, reagirl.Colors.Meters_IndicatorLine_b)
-          gfx.rect(x+scale,y+height*96, w-scale-scale, scale, 1)
+          gfx.rect(x+scale,y+height*97, w-scale-scale, scale, 1)
           gfx.set(reagirl.Colors.Meters_IndicatorUnits_r, reagirl.Colors.Meters_IndicatorUnits_g, reagirl.Colors.Meters_IndicatorUnits_b)
-          gfx.x=x+w-gfx.measurestr("-42")-scale-scale
-          gfx.y=y+height*96
+          gfx.x=x
+          gfx.y=y+height*97
           gfx.drawstr("-42")
-        --end
+        end
         
         gfx.set(reagirl.Colors.Meters_IndicatorLine_r, reagirl.Colors.Meters_IndicatorLine_g, reagirl.Colors.Meters_IndicatorLine_b)
-        gfx.rect(x+scale,y+height*106, w-scale-scale, scale, 1)
+        gfx.rect(x+scale,y+height*107, w-scale-scale, scale, 1)
         gfx.set(reagirl.Colors.Meters_IndicatorUnits_r, reagirl.Colors.Meters_IndicatorUnits_g, reagirl.Colors.Meters_IndicatorUnits_b)
-        gfx.x=x+w-gfx.measurestr("-48")-scale-scale
-        gfx.y=y+height*106
+        gfx.x=x
+        gfx.y=y+height*107
         gfx.drawstr("-48")
     
-        --if w>248*scale then
+        if h>248*scale then
           gfx.set(reagirl.Colors.Meters_IndicatorLine_r, reagirl.Colors.Meters_IndicatorLine_g, reagirl.Colors.Meters_IndicatorLine_b)
-          gfx.rect(x+scale,y+height*115, w-scale-scale, scale, 1)
+          gfx.rect(x+scale,y+height*116, w-scale-scale, scale, 1)
           gfx.set(reagirl.Colors.Meters_IndicatorUnits_r, reagirl.Colors.Meters_IndicatorUnits_g, reagirl.Colors.Meters_IndicatorUnits_b)
-          gfx.x=x+w-gfx.measurestr("-54")-scale-scale
-          gfx.y=y+height*115
+          gfx.x=x
+          gfx.y=y+height*116
           gfx.drawstr("-54")
-        --end
+        end
     
         gfx.set(reagirl.Colors.Meters_IndicatorLine_r, reagirl.Colors.Meters_IndicatorLine_g, reagirl.Colors.Meters_IndicatorLine_b)
         gfx.rect(x+scale,y+height*125, w-scale-scale, scale, 1)
         gfx.set(reagirl.Colors.Meters_IndicatorUnits_r, reagirl.Colors.Meters_IndicatorUnits_g, reagirl.Colors.Meters_IndicatorUnits_b)
-        gfx.x=x+w-gfx.measurestr("-60")-scale-scale
+        gfx.x=x
         gfx.y=y+height*125
         gfx.drawstr("-60")
         
-        --if w>248*scale then
+        if h>248*scale then
           gfx.set(reagirl.Colors.Meters_IndicatorLine_r, reagirl.Colors.Meters_IndicatorLine_g, reagirl.Colors.Meters_IndicatorLine_b)
-          gfx.rect(x+scale,y+height*134, w-scale-scale, scale, 1)
+          gfx.rect(x+scale,y+height*133, w-scale-scale, scale, 1)
           gfx.set(reagirl.Colors.Meters_IndicatorUnits_r, reagirl.Colors.Meters_IndicatorUnits_g, reagirl.Colors.Meters_IndicatorUnits_b)
-          gfx.x=x+w-gfx.measurestr("-66")-scale-scale
-          gfx.y=y+height*134
+          gfx.x=x
+          gfx.y=y+height*133
           gfx.drawstr("-66")
-        --end
+        end
         
+        --[[
         gfx.set(reagirl.Colors.Meters_IndicatorLine_r, reagirl.Colors.Meters_IndicatorLine_g, reagirl.Colors.Meters_IndicatorLine_b)
         gfx.rect(x+scale,y+height*142, w-scale-scale, scale, 1)
         gfx.set(reagirl.Colors.Meters_IndicatorUnits_r, reagirl.Colors.Meters_IndicatorUnits_g, reagirl.Colors.Meters_IndicatorUnits_b)
-        gfx.x=x+w-gfx.measurestr("-72")-scale-scale
+        gfx.x=x
         gfx.y=y+height*142
         gfx.drawstr("-72")
         
-        --[[if w>248*scale then
+        --[[if h>248*scale then
           gfx.set(reagirl.Colors.Meters_IndicatorLine_r, reagirl.Colors.Meters_IndicatorLine_g, reagirl.Colors.Meters_IndicatorLine_b)
           gfx.rect(x+width*8,y,scale, h-scale, 1)
           gfx.set(reagirl.Colors.Meters_IndicatorUnits_r, reagirl.Colors.Meters_IndicatorUnits_g, reagirl.Colors.Meters_IndicatorUnits_b)
@@ -22563,7 +22565,7 @@ function reagirl.Meter_Draw(element_id, selected, hovered, clicked, mouse_cap, m
         else
           gfx.set(0,1,0,peak_opacity)
         end
-      
+
         if element_storage.dbHold[0]<-80 then 
           reagirl.Rect(x, y+h-scale-scale-scale, w, scale, 1)
         elseif element_storage.dbHold[0]<6 then
@@ -22576,7 +22578,7 @@ function reagirl.Meter_Draw(element_id, selected, hovered, clicked, mouse_cap, m
     if element_storage["show_peak_value"]==true then
       local Level=element_storage.dbHold[0]+0.0
       local plus=""
-      if Level>0 then plus="+" end
+      if Level>=0 then plus="+" end
       local text=tostring(Level):match("(.-%..)").."dB"
       local xpos=gfx.measurestr(plus..tostring(Level):match("(.-%..)").."dB")+scale+scale
       local ypos=((h-gfx.texth)/2)-1
