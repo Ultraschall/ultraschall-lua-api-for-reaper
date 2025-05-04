@@ -21893,7 +21893,7 @@ function reagirl.Meter_Add(x, y, w, h, mode, caption, meaningOfUI_Element, run_f
     reagirl.Elements[slot]["func_manage"]=reagirl.Meter_Manage
     reagirl.Elements[slot]["func_draw"]=reagirl.Meter_Draw
     reagirl.Elements[slot]["run_function"]=run_function
-    reagirl.Elements[slot]["channels"]=2
+    reagirl.Elements[slot]["channels"]=1
     reagirl.Elements[slot]["userspace"]={}
     reagirl.Elements[slot]["mode"]=3
     reagirl.Elements[slot]["show_peak_value"]=false
@@ -21911,11 +21911,20 @@ function reagirl.Meter_Manage(element_id, selected, hovered, clicked, mouse_cap,
   --- Tracks
   -- add to ReaGirl-settings: reaper.GetExtState("ReaGirl", "Peak_Opacity"), which defines, if the db-value-indicator-lines are visible or not
   
-  local db=reaper.GetInputActivityLevel(0)
+  -- HW input levels
   
+  local db=reaper.GetInputActivityLevel(0)
+  element_storage.dbHold[-1]=-144
+  if element_storage.db[1]~=db then
+    --reagirl.Gui_ForceRefresh("Meter_HoldReset HWINput", element_id)
+  end
+  --element_storage.db[1]=db
+  --element_storage["count"]=element_storage["count"]+1
+  --if element_storage.dbHold[1]==nil or element_storage.dbHold[1]<db then element_storage.dbHold[1]=db end
+  --if element_storage.dbHold[0]==nil or element_storage.dbHold[0]<db then element_storage.dbHold[0]=db end
+  --if element_storage.dbHold[-1]==nil or element_storage.dbHold[-1]<db then element_storage.dbHold[-1]=db end
+  --]]
   -- Track levels
-  local track=reaper.GetTrack(0,2)
-  element_storage["channels"]=reaper.GetMediaTrackInfo_Value(track, "I_NCHAN")
   element_storage["count"]=element_storage["count"]+1
   if element_storage["count"]==66 or (Key==32 and selected~="not selected") or (gfx.mouse_x>=x and gfx.mouse_x<=x+w and gfx.mouse_y>y and gfx.mouse_y<y+h and clicked=="FirstCLK") then
     for i=-1, element_storage["channels"] do
@@ -21927,9 +21936,12 @@ function reagirl.Meter_Manage(element_id, selected, hovered, clicked, mouse_cap,
     element_storage["count"]=0
     reagirl.Gui_ForceRefresh("Meter_HoldReset", element_id)
   end
+
   
   --if element_storage["count"]==30 then element_storage.dbHold[1]=-144 element_storage.count=0 refresh=true end
-  element_storage.dbHold[-1]=-144
+  
+  local track=reaper.GetTrack(0,2)
+  element_storage["channels"]=reaper.GetMediaTrackInfo_Value(track, "I_NCHAN")
   local refresh=false
   for i=0, element_storage["channels"]-1 do
     db=reaper.Track_GetPeakInfo(track, i)
@@ -21942,7 +21954,7 @@ function reagirl.Meter_Manage(element_id, selected, hovered, clicked, mouse_cap,
       refresh=true
     end
   end
-
+--]]
   if refresh==true then
     reagirl.Gui_ForceRefresh("Meter refresh")--, element_id)
   end
@@ -22415,7 +22427,7 @@ function reagirl.Meter_Draw(element_id, selected, hovered, clicked, mouse_cap, m
     local max=math.floor(h*0.9)
     local med=math.floor(h*0.67)
     
-    if width>1*scale then
+    if width>2*scale then
       -- if all channels fit into height, show each channel individually
       local x=x+scale+scale
       for i=1, element_storage["channels"] do
@@ -22468,7 +22480,7 @@ function reagirl.Meter_Draw(element_id, selected, hovered, clicked, mouse_cap, m
         Level=element_storage.dbHold[i+1]+144
         local Log=math.log(Level/60)
         Level=Level*Log
-        Level=w/140*Level
+        Level=h/140*Level
         
         -- peak-hold-indicator
         if element_storage["show_peak_hold"]==true then
@@ -22481,11 +22493,14 @@ function reagirl.Meter_Draw(element_id, selected, hovered, clicked, mouse_cap, m
             gfx.set(0,1,0,peak_opacity)
           end
           if element_storage.dbHold[i+1]<-80 then 
-            gfx.rect(x, y+i*height, scale+scale, height-scale2, 1)
+            --  gfx.rect(x, y+i*height, scale+scale, height-scale2, 1)
+            reagirl.Rect(x+i*width, y+h-scale-scale-scale, width, scale, 1)
           elseif element_storage.dbHold[i+1]<6 then
-            gfx.rect(Level+offset, y+i*height, scale+scale, height-scale2, 1)
+            --gfx.rect(Level+offset, y+i*height, scale+scale, height-scale2, 1)
+            reagirl.Rect(offset+i*width, y+h-Level, width-scale, scale, 1)
           else
-            gfx.rect(x+w-scale-scale-scale-scale-scale, y+i*height, scale+scale, height-scale2, 1)
+            --gfx.rect(x+w-scale-scale-scale-scale-scale, y+i*height, scale+scale, height-scale2, 1)
+            reagirl.Rect(x+i*width, y, width, scale, 1)
           end
         end
       end
@@ -22539,7 +22554,7 @@ function reagirl.Meter_Draw(element_id, selected, hovered, clicked, mouse_cap, m
         Level=element_storage.dbHold[0]+144
         local Log=math.log(Level/60)
         Level=Level*Log
-        Level=w/140*Level
+        Level=h/140*Level
         local offset=12
         if element_storage.dbHold[0]>0 then
           gfx.set(1,0,0,peak_opacity)
@@ -22550,14 +22565,13 @@ function reagirl.Meter_Draw(element_id, selected, hovered, clicked, mouse_cap, m
         end
       
         if element_storage.dbHold[0]<-80 then 
-          gfx.rect(x, y, scale+scale, h-scale, 1)
+          reagirl.Rect(x, y+h-scale-scale-scale, w, scale, 1)
         elseif element_storage.dbHold[0]<6 then
-          gfx.rect(Level+offset, y, scale+scale, h-scale, 1)
+          reagirl.Rect(offset, y+h-Level, w-scale, scale, 1)
         else
-          gfx.rect(x+w-scale-scale-scale-scale-scale, y, scale+scale, h-scale-scale, 1)
+          reagirl.Rect(x, y, w, scale, 1)
         end
       end
-      --]]
     end
     if element_storage["show_peak_value"]==true then
       local Level=element_storage.dbHold[0]+0.0
