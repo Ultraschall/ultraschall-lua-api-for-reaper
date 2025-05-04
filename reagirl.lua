@@ -21800,7 +21800,7 @@ function reagirl.Tabs_Draw(element_id, selected, hovered, clicked, mouse_cap, mo
 end
 
 function reagirl.Rect(x,y,w,h,filled)
-  gfx.rect(x, y, w, h, filled)
+  --gfx.rect(x, y, w, h, filled)
   if w<0 and h<0 then
     return gfx.rect(x+w, y+h, -w, -h, filled)
   elseif w<0 then 
@@ -22278,9 +22278,7 @@ function reagirl.Meter_Draw(element_id, selected, hovered, clicked, mouse_cap, m
     end
   elseif element_storage["mode"]==3 then
     -- vertical meter
-    local max=h*0.9
-    local med=h*0.67
-    local height=math.floor((h-scale-scale)/element_storage["channels"])
+    local width=math.floor((w-scale-scale)/element_storage["channels"])
     if height==1 then scale2=0 end
     y=y+scale+scale
     
@@ -22288,8 +22286,7 @@ function reagirl.Meter_Draw(element_id, selected, hovered, clicked, mouse_cap, m
     local strw0, strh0 = gfx.measurestr("-6")
     local strw1, strh1 = gfx.measurestr("0")
     local ypos=((h-strh)/2)
-    local width=w/156
-    local height=h/156
+    
     
     -- show static level-indicators
     if element_storage["show_peak_indicators"]==true then
@@ -22412,8 +22409,11 @@ function reagirl.Meter_Draw(element_id, selected, hovered, clicked, mouse_cap, m
       end
       reagirl.SetFont(1, reagirl.Font_Face, reagirl.Font_Size, 0)
     end
+
+    local max=math.floor(h*0.9)
+    local med=math.floor(h*0.67)
     
-    if height>1*scale then
+    if width>1*scale then
       -- if all channels fit into height, show each channel individually
       local x=x+scale+scale
       for i=1, element_storage["channels"] do
@@ -22422,32 +22422,50 @@ function reagirl.Meter_Draw(element_id, selected, hovered, clicked, mouse_cap, m
         local Level2=element_storage.db[i]
         local Log=math.log(Level/60)
         Level=Level*Log
-        Level=w/140*Level
+        Level=h/144*Level
         
         -- meter-columns
         gfx.set(0, 1, 0, peak_opacity)
         i=i-1
         -- green
-        if Level2<0 then
-          gfx.rect(x, y+i*height, Level-scale-scale-scale, height-scale2, 1)
-        else
-          gfx.rect(x, y+i*height, max, height-scale2, 1)
-        end
-        
-        if Level2>0 then
-          -- red(plus yellow)
-          if Level>w-2 then Level=w-2 end
+          if Level2<=-18 then
+            --gfx.rect(x, y+i*height, Level-scale-scale-scale, height-scale2, 1)
+            if Level>0 then
+              reagirl.Rect(x+i*width, y+h, width-scale-scale, -Level, 1)
+            else
+            end
+          else
+            --gfx.rect(x, y+i*height, max, height-scale2, 1)
+            reagirl.Rect(x+i*width, y+h-scale-scale, width-scale-scale, -med+scale, 1)
+          end
+  ABBA2=max
+  ABBA3=Level
+  ABBA4=-Level+max
+        if Level2>=10 then
           gfx.set(1,1,0,peak_opacity)
-          gfx.rect(x+med, y+i*height, max-med, height-scale2, 1) 
+          --gfx.rect(x+med, y+i*height, max-med, height-scale2, 1) 
+          reagirl.Rect(x+i*width, y+h-med-scale, width-scale-scale, -max+med, 1) 
           gfx.set(1,0,0,peak_opacity)
-          gfx.rect(x+max, y+i*height, Level-max, height-scale2, 1)
+          --gfx.rect(x+max, y+i*height, Level-max, height-scale2, 1)
+          reagirl.Rect(x+i*width, y, width-scale-scale, h-max-scale, 1)
           element_storage["dbClip"]=true
-        elseif Level>=18 then 
+        elseif Level2>0 then
+          -- red(plus yellow)
+          gfx.set(1,1,0,peak_opacity)
+          --gfx.rect(x+med, y+i*height, max-med, height-scale2, 1) 
+          reagirl.Rect(x+i*width, y+h-med-scale, width-scale-scale, -max+med, 1) 
+          gfx.set(1,0,0,peak_opacity)
+          --gfx.rect(x+max, y+i*height, Level-max, height-scale2, 1)
+          reagirl.Rect(x+i*width, y+h-max, width-scale-scale, -Level+max, 1, true)---Level+max, 1)
+          
+          element_storage["dbClip"]=true
+        elseif Level2>=-18 then 
           -- yellow
           gfx.set(1,1,0,peak_opacity)
-          gfx.rect(x+med, y+i*height, Level-med, height-scale2, 1) 
+          --gfx.rect(x+med, y+i*height, Level-med, height-scale2, 1) 
+          reagirl.Rect(x+i*width, y+h-med, width-scale-scale, -Level+med-scale-scale, 1)
         end
-        
+        --]]
         Level=element_storage.dbHold[i+1]+144
         local Log=math.log(Level/60)
         Level=Level*Log
@@ -22475,6 +22493,7 @@ function reagirl.Meter_Draw(element_id, selected, hovered, clicked, mouse_cap, m
     else
       -- when size is too small, so only one column is shown for all channels
       -- get db-value
+      --local height=h/156
       local scale3=scale+scale
       local x=x+scale3
       local Level=element_storage.dbHold[-1]+144
@@ -22482,7 +22501,7 @@ function reagirl.Meter_Draw(element_id, selected, hovered, clicked, mouse_cap, m
       
       -- meter-columns
       local Log=math.log(Level/60)
-      Level=(Level*Log)
+      Level=Level*Log
       Level=h/144*Level
       -- green
       gfx.set(0,1,0,peak_opacity)
@@ -22493,26 +22512,27 @@ function reagirl.Meter_Draw(element_id, selected, hovered, clicked, mouse_cap, m
         else
         end
       else
-        reagirl.Rect(x, y+h, w-scale-scale, -med, 1)
+        reagirl.Rect(x, y+h-scale-scale, w-scale-scale, -med+scale, 1)
       end
-      if Level2<=0 then
-        --gfx.rect(x, y+h, w-scale-scale-scale, -Level, 1)
-      else
-        --gfx.rect(x, y+h, w-scale-scale, -max, 1)
-      end
-      --[[
-      if Level2>0 then
+
+      if Level2>=10 then
         -- red(and yellow)
-        if Level>w-2 then Level=w-2 end
         gfx.set(1,1,0,peak_opacity)
-        gfx.rect(x+med, y, max-med, h-scale, 1) 
+        reagirl.Rect(x, y+h-med-scale, w-scale-scale, -max+med, 1) 
         gfx.set(1,0,0,peak_opacity)
-        gfx.rect(x+max, y, Level-max, h-scale, 1)
+        reagirl.Rect(x, y, w-scale-scale, h-max-scale, 1, true)
         element_storage["dbClip"]=true
-      elseif Level>=med then 
+      elseif Level2>0 then
+        -- red(and yellow)
+        gfx.set(1,1,0,peak_opacity)
+        reagirl.Rect(x, y+h-med-scale, w-scale-scale, -max+med, 1) 
+        gfx.set(1,0,0,peak_opacity)
+        reagirl.Rect(x, y+h-max, w-scale-scale, -Level+max, 1, true)
+        element_storage["dbClip"]=true
+      elseif Level2>-18 then 
         -- yellow
         gfx.set(1,1,0,peak_opacity)
-        gfx.rect(x+med, y, Level-med, h-scale-scale, 1)
+        reagirl.Rect(x, y+h-med, w-scale-scale, -Level+med-scale-scale, 1)
       end
       --]]
       -- peak-hold-indicator
