@@ -21851,6 +21851,14 @@ function reagirl.Meter_Add(x, y, w, h, mode, caption, meaningOfUI_Element, run_f
       Meter
     </chapter_context>
     <tags>meter, add</tags>
+    <linked_to desc="see also:">
+        ReaGirl:Meter_SetPeak
+               sets the peak-values that shall be displayed
+        ReaGirl:Meter_LinkToTrack
+               links this meter to a track and displays its levels
+        ReaGirl:Meter_LinkToHWInput
+               links this meter to a hardware input and displays its levels
+    </linked_to>
   </US_DocBloc>
   --]]
     -- 15, 55
@@ -21899,7 +21907,7 @@ function reagirl.Meter_Add(x, y, w, h, mode, caption, meaningOfUI_Element, run_f
     reagirl.Elements[slot]["project"]=nil
     reagirl.Elements[slot]["source"]=0
     reagirl.Elements[slot]["userspace"]={}
-    reagirl.Elements[slot]["mode"]=3
+    reagirl.Elements[slot]["mode"]=mode
     reagirl.Elements[slot]["show_peak_value"]=true
     reagirl.Elements[slot]["show_peak_indicators"]=true
     reagirl.Elements[slot]["show_peak_hold"]=true
@@ -21915,12 +21923,22 @@ function reagirl.Meter_Manage(element_id, selected, hovered, clicked, mouse_cap,
   --- Tracks
   -- add to ReaGirl-settings: reaper.GetExtState("ReaGirl", "Peak_Opacity"), which defines, if the db-value-indicator-lines are visible or not
   
-  
-  
   local refresh=false
   local report_clip=nil
   element_storage.dbHold[-1]=-144
 
+
+  if element_storage["source"]==2 and ((element_storage["project"]~=nil and reaper.ValidatePtr(element_storage["project"], "ReaProject*")==false)) then
+    element_storage["source"]=0
+    element_storage["channels"]=1
+    element_storage["db"][1]=-144
+  end
+  
+  if element_storage["track"]~=-1 and reaper.GetTrack(element_storage["project"], element_storage["track"])==nil then
+    element_storage["source"]=0
+    element_storage["channels"]=1
+    element_storage["db"][1]=-144
+  end
   -- reset hold-level
   element_storage["count"]=element_storage["count"]+1
   if element_storage["count"]==66 or (Key==32 and selected~="not selected") or (gfx.mouse_x>=x and gfx.mouse_x<=x+w and gfx.mouse_y>y and gfx.mouse_y<y+h and clicked=="FirstCLK") then
@@ -21968,7 +21986,12 @@ function reagirl.Meter_Manage(element_id, selected, hovered, clicked, mouse_cap,
     if element_storage.dbHold[-1]==nil or element_storage.dbHold[-1]<db then element_storage.dbHold[-1]=db end
   elseif element_storage["source"]==2 then
     -- Track levels
-    local track=reaper.GetTrack(element_storage["project"], element_storage["track"])
+    local track
+    if element_storage["track"]==-1 then
+      track=reaper.GetMasterTrack(element_storage["project"])
+    else
+      track=reaper.GetTrack(element_storage["project"], element_storage["track"])
+    end
     element_storage["channels"]=reaper.GetMediaTrackInfo_Value(track, "I_NCHAN")
     for i=0, element_storage["channels"]-1 do
       db=reaper.Track_GetPeakInfo(track, i)
@@ -22005,13 +22028,13 @@ function reagirl.Meter_Manage(element_id, selected, hovered, clicked, mouse_cap,
   
   if Key==18 then
     local db=tostring(element_storage["dbHold"][-1]):match("(.-%..)")
-    --reagirl.ScreenReader_SendMessage("Current value: "..db.." dB.")
+    reagirl.ScreenReader_SendMessage("Current value: "..db.." dB.")
   end
   
   -- report clippings to screen reader
   if report_clip~=nil and element_storage["report_clip"]~=report_clip then
     local db=tostring(element_storage["dbHold"][-1]):match("(.-%..)")
-    --reagirl.ScreenReader_SendMessage("Clip in "..report_clip.." at "..db.."dB.")
+    reagirl.ScreenReader_SendMessage("Clip in "..report_clip.." at "..db.."dB.")
     element_storage["report_clip"]=report_clip
   end
   
@@ -22689,6 +22712,42 @@ function reagirl.Meter_GetPeak(element_id)
   end
 end
 
+function reagirl.Meter_GetLink(element_id)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Meter_GetPeak</slug>
+  <requires>
+    ReaGirl=1.3
+    Reaper=7.03
+    Lua=5.4
+  </requires>
+  <functioncall>integer linked = reagirl.Meter_GetPeak(string element_id)</functioncall>
+  <description>
+    Gets, to which a meter is currently linked.
+  </description>
+  <parameters>
+    string element_id - the guid of the meter, whose peaks you want to get
+  </parameters>
+  <retvals>
+    integer linked - 0, unlinked; 1, linked to hardware input; 2, linked to track
+  </retvals>
+  <chapter_context>
+    Meter
+  </chapter_context>
+  <tags>meter, get, link</tags>
+</US_DocBloc>
+--]]
+  if type(element_id)~="string" then error("Meter_GetPeak: param #1 - must be a string", 2) end
+  if reagirl.IsValidGuid(element_id, true)==nil then error("Meter_GetPeak: param #1 - must be a valid guid", 2) end
+  element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
+  if element_id==-1 then error("Meter_GetPeak: param #1 - no such ui-element", 2) end
+  if reagirl.Elements[element_id]["GUI_Element_Type"]~="Meter" then
+    error("Meter_GetPeak: param #1 - ui-element is not a meter", 2)
+  else
+    return reagirl.Elements[element_id]["source"]
+  end
+end
+
 function reagirl.Meter_SetPeak(element_id, ...)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
@@ -22738,6 +22797,122 @@ function reagirl.Meter_SetPeak(element_id, ...)
   end
   return true
 end
+
+function reagirl.Meter_LinkToTrack(element_id, tracknumber)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Meter_LinkToTrack</slug>
+  <requires>
+    ReaGirl=1.3
+    Reaper=7.03
+    Lua=5.4
+  </requires>
+  <functioncall>reagirl.Meter_LinkToTrack(string element_id, integer tracknumber)</functioncall>
+  <description>
+    Links a meter to a certain track. This will automatically draw multiple channels, if the track is multichannel.
+    
+    If the track is removed, it will automatically unlink from the track.
+    
+    Use reagirl.Meter_GetLink() to get, if the meter is still linked to a track.
+  </description>
+  <parameters>
+    string element_id - the guid of the meter, that you want to link to a track
+    integer tracknumber - 0, main track; 1 and higher, track 1 and higher
+  </parameters>
+  <chapter_context>
+    Meter
+  </chapter_context>
+  <tags>meter, link, track</tags>
+</US_DocBloc>
+--]]
+  if type(element_id)~="string" then error("Meter_LinkToTrack: param #1 - must be a string", 2) end
+  if reagirl.IsValidGuid(element_id, true)==nil then error("Meter_LinkToTrack: param #1 - must be a valid guid", 2) end
+  element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
+  if element_id==-1 then error("Meter_LinkToTrack: param #1 - no such ui-element", 2) end
+  if math.type(tracknumber)~="integer" then error("Meter_LinkToTrack: param #2 - must be an integer", 2) end
+  if reagirl.Elements[element_id]["GUI_Element_Type"]~="Meter" then
+    error("Meter_LinkToTrack: param #1 - ui-element is not a meter", 2)
+  else
+    if proj==0 then proj=nil end
+    reagirl.Elements[element_id]["source"]=2
+    reagirl.Elements[element_id]["project"]=proj
+    reagirl.Elements[element_id]["track"]=tracknumber-1
+  end
+end
+
+function reagirl.Meter_LinkToHWInput(element_id, hwinput_index)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Meter_LinkToHWInput</slug>
+  <requires>
+    ReaGirl=1.3
+    Reaper=7.03
+    Lua=5.4
+  </requires>
+  <functioncall>reagirl.Meter_LinkToHWInput(string element_id, integer hwinput_index)</functioncall>
+  <description>
+    Links a meter to a certain harware input-level.
+  </description>
+  <parameters>
+    string element_id - the guid of the meter, that you want to link to a hardware input
+    integer hwinput_index - 1 and higher for the hardware-input
+  </parameters>
+  <chapter_context>
+    Meter
+  </chapter_context>
+  <tags>meter, link, hardware input</tags>
+</US_DocBloc>
+--]]
+  if type(element_id)~="string" then error("Meter_LinkToHWInput: param #1 - must be a string", 2) end
+  if reagirl.IsValidGuid(element_id, true)==nil then error("Meter_LinkToHWInput: param #1 - must be a valid guid", 2) end
+  element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
+  if element_id==-1 then error("Meter_LinkToHWInput: param #1 - no such ui-element", 2) end
+  if math.type(hwinput_index)~="integer" then error("Meter_LinkToHWInput: param #2 - must be an integer", 2) end
+  if reagirl.Elements[element_id]["GUI_Element_Type"]~="Meter" then
+    error("Meter_LinkToHWInput: param #1 - ui-element is not a meter", 2)
+  else
+    if proj==0 then proj=nil end
+    reagirl.Elements[element_id]["source"]=1
+    reagirl.Elements[element_id]["hwinput"]=hwinput_index-1
+  end
+end
+
+function reagirl.Meter_Unlink(element_id)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Meter_Unlink</slug>
+  <requires>
+    ReaGirl=1.3
+    Reaper=7.03
+    Lua=5.4
+  </requires>
+  <functioncall>reagirl.Meter_Unlink(string element_id)</functioncall>
+  <description>
+    Unlinks a metre from hardware input or track.
+  </description>
+  <parameters>
+    string element_id - the guid of the meter, that you want to link to a hardware input
+    integer hwinput_index - 1 and higher for the hardware-input
+  </parameters>
+  <chapter_context>
+    Meter
+  </chapter_context>
+  <tags>meter, link, unlink</tags>
+</US_DocBloc>
+--]]
+  if type(element_id)~="string" then error("Meter_Unlink: param #1 - must be a string", 2) end
+  if reagirl.IsValidGuid(element_id, true)==nil then error("Meter_Unlink: param #1 - must be a valid guid", 2) end
+  element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
+  if element_id==-1 then error("Meter_Unlink: param #1 - no such ui-element", 2) end
+  if reagirl.Elements[element_id]["GUI_Element_Type"]~="Meter" then
+    error("Meter_Unlink: param #1 - ui-element is not a meter", 2)
+  else
+    reagirl.Elements[element_id]["source"]=0
+    reagirl.Elements[element_id]["channels"]=1
+    reagirl.Elements[element_id]["db"][1]=-144
+  end
+end
+
 
 
 function reagirl.Base64_Encoder(source_string, remove_newlines, remove_tabs)
