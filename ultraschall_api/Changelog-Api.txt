@@ -426,11 +426,15 @@ Has now 1858 functions, with XX new ones
   - ReaGirl: Inputbox\_GetTextSuggestions - gets the currently available text suggestions that the user can choose from a dropdownmenu in the inputbox
   - ReaGirl: Inputbox\_SetTextSuggestions - sets text suggestions that the user can choose from a dropdownmenu in the inputbox
   - ReaGirl: Meter\_Add - adds a level-meter to the gui
-  - ReaGirl: Meter\_GetPeaks - gets the currently drawn peak-value for all channels
+  - ReaGirl: Meter\_GetMode - gets the current drawing mode of a meter
+  - ReaGirl: Meter\_GetOptions - gets the current drawing options
+  - ReaGirl: Meter\_GetPeaks - gets the currently drawn peak-value for all channels  
   - ReaGirl: Meter\_LinkToTrack - links a meter to a certain track, so its levels are displayed
   - ReaGirl: Meter\_LinkToHWInput- links a meter to a certain hardware input, so its levels are displayed
-  - ReaGirl: Meter\_Unlink - unlinks a meter from hardware inputs/tracks
+  - ReaGirl: Meter\_SetMode - sets the drawing mode of a meter
+  - ReaGirl: Meter\_SetOptions - sets the drawing options
   - ReaGirl: Meter\_SetPeaks - sets the peaks to be drawn to a meter
+  - ReaGirl: Meter\_Unlink - unlinks a meter from hardware inputs/tracks
   - ReaGirl: Settings - new option for setting, if clicking into an empty area allows dragging of the window
   - ReaGirl: ToolbarButton\_Add - adds a toolbar-button to a ReaGirl-gui
   - ReaGirl: ToolbarButton\_GetColor - gets the background-color of a toolbar-button

@@ -5609,6 +5609,61 @@ function reagirl.Ext_Window_GetProcessTime(reagirl_instance_guid)
   if number=="" then return -1 else return tonumber(number) end
 end
 
+
+-- missing: 
+--  color-rectangle click and set color
+--  click images
+--  set text in labels
+--  set text in inputboxes
+--  set state in toolbar button
+--  trigger runfunction in dropdownmenus and sliders
+--  set new caption
+--  click in meters
+-- developer mode that shows gui-name and caption+ui_element-id on the top of the gui when hovering above ui-elements
+function reagirl.Ext_SendEvent_WindowTitle(gui_name, ui_element_caption, event, value)
+  local text=reaper.GetExtState("ReaGirl", "ExternalEvents:"..gui_name)
+  Events={"leftClick", "ext_setCheckTrue", "ext_setCheckFalse", "ext_setDropDownMenu_", "ext_setSlider_"}
+  if event~=4 and event~=5 then value="" end
+  text=text.."\n"..Events[event]..value..":"..ui_element_caption
+  reaper.SetExtState("ReaGirl", "ExternalEvents:"..gui_name, text, false)
+end
+
+function reagirl.Ext_ExecuteExternalEvents()
+  -- missing: check, if ui-element is a checkbox, slider, dropdownmenu
+  --local text=reaper.GetExtState("ReaGirl", "ExternalEvents:"..reagirl.Window_name)
+  local text=reaper.GetExtState("ReaGirl", "ExternalEvents:"..reagirl.Window_Title)
+  if text=="" then return end
+  reaper.SetExtState("ReaGirl", "ExternalEvents:"..reagirl.Window_Title, "", false)
+  for k in string.gmatch(text.."\n", "(.-)\n") do
+    local event, ui_element = k:match("(.-):(.*)")
+    for i=1, #reagirl.Elements do
+      if reagirl.Elements[i]["Name"]==ui_element then
+        if event=="leftClick" then
+          reagirl.Elements[i].external_leftclick=true
+        elseif event=="ext_setCheckTrue" then
+          reagirl.Elements[i].checked=true
+          reagirl.Gui_ForceRefresh("ext_setCheckTrue")
+        elseif event=="ext_setCheckFalse" then
+          reagirl.Elements[i].checked=false
+          reagirl.Gui_ForceRefresh("ext_setCheckFalse")
+        elseif event:sub(1,20)=="ext_setDropDownMenu_" then
+          local number=tonumber(event:sub(21, -1))
+          if reagirl.Elements[i]["MenuCount"]~=nil and number>0 and number<=reagirl.Elements[i]["MenuCount"] then
+            reagirl.Elements[i]["menuSelectedItem"]=number
+            reagirl.Gui_ForceRefresh("ext_setDropDownMenu")
+          end
+        elseif event:sub(1,14)=="ext_setSlider_" then
+          local number=tonumber(event:sub(15, -1))
+          if reagirl.Elements[i]["GUI_Element_Type"]=="Slider" and number>=reagirl.Elements[i]["Start"] and number<=reagirl.Elements[i]["Stop"] then
+            reagirl.Elements[i]["CurValue"]=number
+            reagirl.Gui_ForceRefresh("ext_setSlider")
+          end
+        end
+      end
+    end
+  end
+end
+
 function reagirl.Ext_IsAnyReaGirlGuiHovered(register)
   --[[
   <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
@@ -5676,8 +5731,8 @@ function reagirl.Ext_IsAnyReaGirlGuiHovered(register)
   end
   reagirl.Window_Hovered=hovered
   if states:match("true")~=nil then return true else return false end
-  
 end
+
 
 function reagirl.Gui_Manage(keep_running)
 --[[
@@ -5848,7 +5903,7 @@ function reagirl.Gui_Manage(keep_running)
   end
   
   reagirl.Ext_IsAnyReaGirlGuiHovered()
-  
+  reagirl.Ext_ExecuteExternalEvents() -- listen for external click-events and set them in the ui-element
   if reaper.time_precise()<reagirl.FocusRectangle_BlinkStartTime+reagirl.FocusRectangle_BlinkTime then
     if reagirl.FocusRectangle_BlinkSpeed>1 then
       reagirl.FocusRectangle_Blink=reagirl.FocusRectangle_Blink+1
@@ -8286,6 +8341,8 @@ function reagirl.Checkbox_Manage(element_id, selected, hovered, clicked, mouse_c
   end
   element_storage.hovered=hovered
   
+  if element_storage.external_leftclick==true then Key=32 selected="CLICKME" end
+  
   if selected~="not selected" and (((clicked=="FirstCLK" or clicked=="DBLCLK" )and mouse_cap&1==1) or Key==32) then 
     if (gfx.mouse_x>=x 
       and gfx.mouse_x<=x+w 
@@ -8303,6 +8360,7 @@ function reagirl.Checkbox_Manage(element_id, selected, hovered, clicked, mouse_c
       end
     end
   end
+  element_storage.external_leftclick=false
   if refresh==true then reagirl.Gui_ForceRefresh(14) end
   local unchecked="checked"
   if element_storage["checked"]==false then unchecked="unchecked" end
@@ -12218,7 +12276,8 @@ function reagirl.Button_Manage(element_id, selected, hovered, clicked, mouse_cap
     element_storage["pressed"]=true
     message=""
     reagirl.Gui_ForceRefresh(20)
-  elseif selected~="not selected" and mouse_cap&1~=0 and gfx.mouse_x>x and gfx.mouse_y>y and gfx.mouse_x<x+w and gfx.mouse_y<y+h then
+  elseif selected~="not selected" and (element_storage.external_leftclick==true or (mouse_cap&1~=0 and gfx.mouse_x>x and gfx.mouse_y>y and gfx.mouse_x<x+w and gfx.mouse_y<y+h)) then
+    element_storage.external_leftclick=false
     local oldstate=element_storage["pressed"]
     element_storage["pressed"]=true
     if oldstate~=element_storage["pressed"] then
@@ -12609,6 +12668,8 @@ function reagirl.ToolbarButton_Manage(element_id, selected, hovered, clicked, mo
   local dpi_scale=reagirl.Window_GetCurrentScale()
   if element_storage["mode"]==4 then w=60*dpi_scale else w=30*dpi_scale end
   -- drop files for accessibility using a file-requester, after typing ctrl+shift+f
+  if element_storage.external_leftclick==true then Key=32 selected="ClickBait" end
+  element_storage.external_leftclick=false
   if element_storage["DropZoneFunction"]~=nil and Key==6 and mouse_cap==12 then
     local retval, filenames = reaper.GetUserFileNameForRead("", "Choose file to drop into "..element_storage["Name"], "")
     reagirl.Window_SetFocus()
@@ -14092,6 +14153,9 @@ function reagirl.Burgermenu_Manage(element_id, selected, hovered, clicked, mouse
   end
   element_storage.hovered=hovered
   
+  if element_storage.external_leftclick==true then Key=13 selected="ClickBait" end
+  element_storage.external_leftclick=false
+  
   if selected~="not selected" and (Key==32 or Key==13) and element_storage["pressed"]~=true then 
     element_storage["pressed"]=true
     message=""
@@ -14139,24 +14203,25 @@ function reagirl.Burgermenu_Draw(element_id, selected, hovered, clicked, mouse_c
     if offset==0 then offset=1 end
     
     gfx.set(0.06) -- background 2
-    reagirl.RoundRect(x, y, w+dpi_scale+dpi_scale, h, (radius) * dpi_scale, 1, 1)
+    --reagirl.RoundRect(x, y, w+dpi_scale, h, (radius) * dpi_scale, 1, 1)
+    reagirl.RoundRect((x)*scale, (y)*scale, w, h, radius * dpi_scale, 1, 1)
     
     gfx.set(reagirl.Colors.Buttons_Area_r+add_color, reagirl.Colors.Buttons_Area_g+add_color, reagirl.Colors.Buttons_Area_b+add_color) -- button-area
-    reagirl.RoundRect(x+dpi_scale, y+dpi_scale, w+dpi_scale, h, (radius-1) * dpi_scale, 1, 1)
+    --reagirl.RoundRect(x, y+dpi_scale, w, h, (radius-1) * dpi_scale, 1, 1)
+    reagirl.RoundRect((x + dpi_scale), (y)+dpi_scale, w-dpi_scale, h-dpi_scale, (radius-1) * dpi_scale, 1, 1)
     
     gfx.set(reagirl.Colors.Burgermenu_Stripes_r, reagirl.Colors.Burgermenu_Stripes_g, reagirl.Colors.Burgermenu_Stripes_b)
-    
     local y_offset=0
     if dpi_scale%2==0 then y_offset=1 end
     local x_offset=dpi_scale-1
     if w<30*dpi_scale then
-      gfx.rect((x+6*dpi_scale)*scale, y+(h/4),   w-7*dpi_scale-x_offset, dpi_scale*2, 1)
-      gfx.rect((x+6*dpi_scale)*scale, y+(h/2),   w-7*dpi_scale-x_offset, dpi_scale*2, 1)
-      gfx.rect((x+6*dpi_scale)*scale, y+h-(h/4)+y_offset, w-7*dpi_scale-x_offset, dpi_scale*2, 1)
+      gfx.rect((x+5*dpi_scale)*scale, y+(h/4),   w-7*dpi_scale-x_offset, dpi_scale*2, 1)
+      gfx.rect((x+5*dpi_scale)*scale, y+(h/2),   w-7*dpi_scale-x_offset, dpi_scale*2, 1)
+      gfx.rect((x+5*dpi_scale)*scale, y+h-(h/4)+y_offset, w-7*dpi_scale-x_offset, dpi_scale*2, 1)
     else
-      gfx.rect((x+6*dpi_scale)*scale, y+(h/4)+dpi_scale,   w-7*dpi_scale-x_offset, dpi_scale*3, 1)
-      gfx.rect((x+6*dpi_scale)*scale, y+(h/2),   w-7*dpi_scale-x_offset, dpi_scale*3, 1)
-      gfx.rect((x+6*dpi_scale)*scale, y+h-(h/4), w-7*dpi_scale-x_offset, dpi_scale*3, 1)
+      gfx.rect((x+5*dpi_scale)*scale, y+(h/4)+dpi_scale,   w-7*dpi_scale-x_offset, dpi_scale*3, 1)
+      gfx.rect((x+5*dpi_scale)*scale, y+(h/2),   w-7*dpi_scale-x_offset, dpi_scale*3, 1)
+      gfx.rect((x+5*dpi_scale)*scale, y+h-(h/4), w-7*dpi_scale-x_offset, dpi_scale*3, 1)
     end
 
     reagirl.SetFont(1, reagirl.Font_Face, reagirl.Font_Size, 0)
@@ -15981,7 +16046,6 @@ function reagirl.DropDownMenu_Add(x, y, w, caption, Cap_width, meaningOfUI_Eleme
   reagirl.Elements[slot]["sticky_y"]=false
   reagirl.Elements[slot]["menuSelectedItem"]=menuSelectedItem
   reagirl.Elements[slot]["MenuEntries"]=menuItems
-  reagirl.Elements[slot]["MenuCount"]=1
   reagirl.Elements[slot]["MenuCount"]=#menuItems
   reagirl.Elements[slot]["func_manage"]=reagirl.DropDownMenu_Manage
   reagirl.Elements[slot]["func_draw"]=reagirl.DropDownMenu_Draw
@@ -16083,6 +16147,8 @@ function reagirl.DropDownMenu_Manage(element_id, selected, hovered, clicked, mou
       refresh=true
       element_storage["pressed"]=false
   end
+  
+  if element_storage.external_leftclick==true then Key=13 selected="ClickBait" end
 
   if selected~="not selected" then
     if Key==32 or Key==13 then 
@@ -16123,6 +16189,8 @@ function reagirl.DropDownMenu_Manage(element_id, selected, hovered, clicked, mou
       element_storage["pressed"]=false
     end
   end
+  
+  element_storage.external_leftclick=false
   
   if linked_refresh==true and gfx.getchar(65536)&2==2 and element_storage["init"]==true then
     reagirl.Screenreader_Override_Message=element_storage["Name"].." was updated to "..element_storage["MenuEntries"][element_storage["menuSelectedItem"]]..". "
@@ -17425,7 +17493,8 @@ function reagirl.Label_Manage(element_id, selected, hovered, clicked, mouse_cap,
   if element_storage["clickstate2"]==true and gfx.mouse_cap&1==0 and gfx.mouse_x>=x and gfx.mouse_x<=x+w and gfx.mouse_y>=y and gfx.mouse_y<=y+h then
     if element_storage["run_function"]~=nil then reagirl.Elements[element_id]["run_function"](element_storage["Guid"]) end
   end
-  
+  if element_storage.external_leftclick==true then Key=13 selected="ClickBait" end
+  element_storage.external_leftclick=false
   if element_storage["clickable"]==true and (Key==13 or gfx.mouse_cap&1==1) 
     and selected~="not selected" and gfx.mouse_x>=x and gfx.mouse_x<=x+w and gfx.mouse_y>=y and gfx.mouse_y<=y+h then
     element_storage["clickstate2"]=true
@@ -22090,6 +22159,7 @@ function reagirl.Meter_Draw(element_id, selected, hovered, clicked, mouse_cap, m
     end
     gfx.rect(x+scale+scale,y+scale+scale,w-scale-scale-scale, h-scale-scale-scale,1)
     
+    local Level=element_storage.dbHold[-1]
     if element_storage["show_peak_value"]==true then
       local Level=element_storage.dbHold[0]+0.0
       local plus=""
@@ -22110,6 +22180,17 @@ function reagirl.Meter_Draw(element_id, selected, hovered, clicked, mouse_cap, m
         gfx.set(reagirl.Colors.Meters_Text_r, reagirl.Colors.Meters_Text_g, reagirl.Colors.Meters_Text_b)
       end
       gfx.drawstr(plus..text)
+    end
+    if element_storage["dbClip"]==true then
+      if element_storage["count3"]==nil then
+        element_storage["count3"]=0
+      end
+      element_storage["count3"]=element_storage["count3"]+1
+    end
+    
+    if element_storage["count3"]==30 then
+      element_storage["dbClip"]=false
+      element_storage["count3"]=nil
     end
   elseif element_storage["mode"]==2 then
     -- horizontal meters
@@ -22748,26 +22829,63 @@ function reagirl.Meter_GetLink(element_id)
   end
 end
 
-function reagirl.Meter_SetPeak(element_id, ...)
+function reagirl.Meter_GetMode(element_id)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>Meter_SetPeak</slug>
+  <slug>Meter_GetMode</slug>
   <requires>
     ReaGirl=1.3
     Reaper=7.03
     Lua=5.4
   </requires>
-  <functioncall>boolean retval = reagirl.Meter_SetPeak(string element_id, number peak1, number peak2, ...)</functioncall>
+  <functioncall>integer mode = reagirl.Meter_GetMode(string element_id)</functioncall>
   <description>
-    Sets the peak-values that shall be displayed in the meter.
-    
-    You can set more than one peak-value for multichannel display.
+    Gets a meter's currently draw-mode.
   </description>
   <parameters>
-    string element_id - the guid of the meter, whose peaks you want to set
-    number peak1 - channel 1 in dB, -144 to +12
-    number peak2 - channel 2 in dB, -144 to +12
-    ... ...
+    string element_id - the guid of the meter, whose draw-mode you want to get
+  </parameters>
+  <retvals>
+    integer mode - the draw mode
+                 - 1, meter is a color-changing rectangle
+                 - 2, meter goes from left to right
+                 - 3, meter goes from bottom to top
+  </retvals>
+  <chapter_context>
+    Meter
+  </chapter_context>
+  <tags>meter, get, mode</tags>
+</US_DocBloc>
+--]]
+  if type(element_id)~="string" then error("Meter_GetMode: param #1 - must be a string", 2) end
+  if reagirl.IsValidGuid(element_id, true)==nil then error("Meter_GetMode: param #1 - must be a valid guid", 2) end
+  element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
+  if element_id==-1 then error("Meter_GetMode: param #1 - no such ui-element", 2) end
+  if reagirl.Elements[element_id]["GUI_Element_Type"]~="Meter" then
+    error("Meter_GetMode: param #1 - ui-element is not a meter", 2)
+  else
+    return reagirl.Elements[element_id]["mode"][i]
+  end
+end
+
+function reagirl.Meter_SetOptions(element_id, show_peak_value, show_peak_hold, show_peak_indicators)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Meter_SetOptions</slug>
+  <requires>
+    ReaGirl=1.3
+    Reaper=7.03
+    Lua=5.4
+  </requires>
+  <functioncall>boolean retval = reagirl.Meter_SetOptions(string element_id, optional boolean show_peak_value, optional boolean show_peak_hold, optional boolean show_peak_indicators)</functioncall>
+  <description>
+    Sets the various draw-options of the meter.
+  </description>
+  <parameters>
+    string element_id - the guid of the meter, whose draw-options you want to set
+    optional boolean show_peak_value - true, show the peak-value in the meter; false, don't show
+    optional boolean show_peak_hold - true, show the peak hold-line in the meter; false, don't show
+    optional boolean show_peak_indicators - true, show the peak-indicator-lines; false, don't show
   </parameters>
   <retvals>
     boolean retval - true, setting was succesful; false, setting was unsuccessful
@@ -22775,24 +22893,108 @@ function reagirl.Meter_SetPeak(element_id, ...)
   <chapter_context>
     Meter
   </chapter_context>
-  <tags>meter, set, peak</tags>
+  <tags>meter, set, draw options</tags>
 </US_DocBloc>
 --]]
-  local peaks={...}
-
-  if type(element_id)~="string" then error("Meter_SetPeak: param #1 - must be a string", 2) end
-  if reagirl.IsValidGuid(element_id, true)==nil then error("Meter_SetPeak: param #1 - must be a valid guid", 2) end
-  for i=1, #peaks do
-    if type(peaks[i])~="number" then error("Meter_SetPeak: param #"..(i+2).." - must be a number", 2) end
-  end
+  if type(element_id)~="string" then error("Meter_SetOptions: param #1 - must be a string", 2) end
+  if reagirl.IsValidGuid(element_id, true)==nil then error("Meter_SetOptions: param #1 - must be a valid guid", 2) end
+  if show_peak_value~=nil and type(show_peak_value)~="boolean" then error("Meter_SetOptions: param #2 - must be either nil or a boolean", 2) end
+  if show_peak_hold~=nil and type(show_peak_hold)~="boolean" then error("Meter_SetOptions: param #2 - must be either nil or a boolean", 2) end
+  if show_peak_indicators~=nil and type(show_peak_indicators)~="boolean" then error("Meter_SetOptions: param #2 - must be either nil or a boolean", 2) end
   
   element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
-  if element_id==-1 then error("Meter_SetPeak: param #1 - no such ui-element", 2) end
+  if element_id==-1 then error("Meter_SetMode: param #1 - no such ui-element", 2) end
   if reagirl.Elements[element_id]["GUI_Element_Type"]~="Meter" then
     return false
   else
-    reagirl.Elements[element_id]["db_val"]=peaks
-    reagirl.Elements[element_id]["channels"]=#peaks
+    if show_peak_value~=nil then reagirl.Elements[element_id]["show_peak_value"]=show_peak_value end
+    if show_peak_hold~=nil then reagirl.Elements[element_id]["show_peak_hold"]=show_peak_hold end
+    if show_peak_indicators~=nil then reagirl.Elements[element_id]["show_peak_indicators"]=show_peak_indicators end
+    
+    reagirl.Gui_ForceRefresh(19)
+  end
+  return true
+end
+
+function reagirl.Meter_GetOptions(element_id)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Meter_GetOptions</slug>
+  <requires>
+    ReaGirl=1.3
+    Reaper=7.03
+    Lua=5.4
+  </requires>
+  <functioncall>boolean show_peak_value, boolean show_peak_hold, boolean show_peak_indicators = reagirl.Meter_GetOptions(string element_id)</functioncall>
+  <description>
+    Gets a meter's currently draw-options.
+  </description>
+  <parameters>
+    string element_id - the guid of the meter, whose draw-options you want to get
+  </parameters>
+  <retvals>
+    boolean show_peak_value - true, show the peak-value in the meter; false, don't show
+    boolean show_peak_hold - true, show the peak hold-line in the meter; false, don't show
+    boolean show_peak_indicators - true, show the peak-indicator-lines; false, don't show
+  </retvals>
+  <chapter_context>
+    Meter
+  </chapter_context>
+  <tags>meter, get, draw options</tags>
+</US_DocBloc>
+--]]
+  if type(element_id)~="string" then error("Meter_GetOptions: param #1 - must be a string", 2) end
+  if reagirl.IsValidGuid(element_id, true)==nil then error("Meter_GetOptions: param #1 - must be a valid guid", 2) end
+  element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
+  if element_id==-1 then error("Meter_GetOptions: param #1 - no such ui-element", 2) end
+  if reagirl.Elements[element_id]["GUI_Element_Type"]~="Meter" then
+    error("Meter_GetOptions: param #1 - ui-element is not a meter", 2)
+  else
+    return reagirl.Elements[element_id]["show_peak_value"], reagirl.Elements[element_id]["show_peak_hold"], reagirl.Elements[element_id]["show_peak_indicators"] 
+  end
+end
+
+function reagirl.Meter_SetMode(element_id, mode)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Meter_SetMode</slug>
+  <requires>
+    ReaGirl=1.3
+    Reaper=7.03
+    Lua=5.4
+  </requires>
+  <functioncall>boolean retval = reagirl.Meter_SetMode(string element_id, integer mode)</functioncall>
+  <description>
+    Sets the draw-mode of the meter.
+  </description>
+  <parameters>
+    string element_id - the guid of the meter, whose draw-mode you want to set
+    integer mode - the draw mode
+                 - 1, meter is a color-changing rectangle
+                 - 2, meter goes from left to right
+                 - 3, meter goes from bottom to top
+  </parameters>
+  <retvals>
+    boolean retval - true, setting was succesful; false, setting was unsuccessful
+  </retvals>
+  <chapter_context>
+    Meter
+  </chapter_context>
+  <tags>meter, set, mode</tags>
+</US_DocBloc>
+--]]
+  if type(element_id)~="string" then error("Meter_SetMode: param #1 - must be a string", 2) end
+  if reagirl.IsValidGuid(element_id, true)==nil then error("Meter_SetMode: param #1 - must be a valid guid", 2) end
+  if math.type(mode)~="integer" then error("Meter_SetMode: param #2 - must be an integer", 2) end
+  if mode<1 or mode>3 then error("Meter_SetMode: param #2 - must be between 1 and 3", 2) end
+  
+  
+  element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
+  if element_id==-1 then error("Meter_SetMode: param #1 - no such ui-element", 2) end
+  if reagirl.Elements[element_id]["GUI_Element_Type"]~="Meter" then
+    return false
+  else
+    reagirl.Elements[element_id]["mode"]=mode
     reagirl.Gui_ForceRefresh(19)
   end
   return true

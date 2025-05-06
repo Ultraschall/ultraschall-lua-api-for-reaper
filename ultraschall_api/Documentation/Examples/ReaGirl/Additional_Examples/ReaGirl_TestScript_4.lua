@@ -42,13 +42,8 @@
   
   -- now let's add all ui-elements of the first tab to table tab1
 
- function CheckMate(elid, checkstate)
---   reaper.MB(elid, tostring(checkstate), 0)
-   if checkstate==true then
-     reagirl.Color_SetToLightTheme()
-   else
-     reagirl.Color_SetToDarkTheme()
-   end
+ function clickable_label()
+  reaper.MB("Label clicked", "Click", 0)
  end
  
   -- Labels
@@ -56,7 +51,7 @@
  
   reagirl.NextLine()
   tab1.label_regular=reagirl.Label_Add(nil, nil, "Example label", "A regular label.", false, nil)
-  tab1.label_clickable=reagirl.Label_Add(nil, nil, "Clickable label", "A clickable label.", true, nil)
+  tab1.label_clickable=reagirl.Label_Add(nil, nil, "Clickable label", "A clickable label.", true, clickable_label)
   
   tab1.label_styled=reagirl.Label_Add(nil, nil, "Styled label", "A styled label.", false, nil)
   reagirl.Label_SetStyle(tab1.label_styled, 7, 2, 0) -- set to inverted and italic
@@ -101,7 +96,7 @@
   reagirl.NextLine(10)
   tab1.label_header7=reagirl.Label_Add(nil, nil, "Burgermenu and Toolbar Buttons", "A burgermenu and some toobar-buttons.", false, nil)
   reagirl.NextLine()
-  tab1.burgermenu2 = reagirl.Burgermenu_Add(nil, nil, "A Burgermenu", 2, "A demo-burger-menu with some options.", "Setting 1|Setting 2|>Subfolder|Setting 3|Setting 4|<|Setting 5", nil)
+  tab1.burgermenu2 = reagirl.Burgermenu_Add(nil, nil, "Another Burgermenu", 2, "A demo-burger-menu with some options.", "Setting 1|Setting 2|>Subfolder|Setting 3|Setting 4|<|Setting 5", nil)
   tab1.toolbar=reagirl.ToolbarButton_Add(71, nil, reaper.GetResourcePath().."/Data/toolbar_icons/toolbar_misc_walk_forward.png",3, 1, {"TOO", "DEL", "LOO"}, 1, "Tudel1", "loo.", contextmenu)
   --reagirl.ToolbarButton_SetDropShadow(tab1.toolbar, true)
   reagirl.ToolbarButton_SetRadius(tab1.toolbar, 14)
