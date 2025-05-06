@@ -32,7 +32,6 @@
 
   dofile(reaper.GetResourcePath().."/UserPlugins/reagirl.lua")
 
-
   -- create new gui
   reagirl.Gui_New()
   tabs=reagirl.Tabs_Add(nil, nil, nil, nil, "Tabs", "Demo-Tabs most elements in first tab only.", {"General Tab", "Advanced Tab", "Extras Tab"}, 1, nil )
@@ -79,7 +78,7 @@
   
   reagirl.NextLine()
   tab1.burgermenu = reagirl.Burgermenu_Add(nil, nil, "A Burgermenu", 1, "A demo-burger-menu with some options.", "Setting 1|Setting 2|>Subfolder|Setting 3|Setting 4|<|Setting 5", nil)
-  tab1.colorrectangle1 = reagirl.ColorRectangle_Add(nil,nil,16,16,255,0,0,"A Color Rectangle", "A color rectangle with a color. Click it to select a different color.", true, nil)
+  tab1.colorrectangle1 = reagirl.ColorRectangle_Add(nil,nil,16,16,255,0,0,"A Color Rectangle22", "A color rectangle with a color. Click it to select a different color.", true, nil)
   tab1.colorrectangle2 = reagirl.ColorRectangle_Add(nil,nil,16,16,0,255,0,"A Color Rectangle", "A color rectangle with a color. Click it to select a different color.", true, nil)
   tab1.colorrectangle3 = reagirl.ColorRectangle_Add(nil,nil,16,16,0,0,255,"A Color Rectangle", "A color rectangle with a color. Click it to select a different color.", true, nil)
   tab1.colorrectangle4 = reagirl.ColorRectangle_Add(nil,nil,16,16,0,0,0,"A Color Rectangle", "A color rectangle with a color. Click it to select a different color.", true, nil)
@@ -97,23 +96,23 @@
   tab1.label_header7=reagirl.Label_Add(nil, nil, "Burgermenu and Toolbar Buttons", "A burgermenu and some toobar-buttons.", false, nil)
   reagirl.NextLine()
   tab1.burgermenu2 = reagirl.Burgermenu_Add(nil, nil, "Another Burgermenu", 2, "A demo-burger-menu with some options.", "Setting 1|Setting 2|>Subfolder|Setting 3|Setting 4|<|Setting 5", nil)
-  tab1.toolbar=reagirl.ToolbarButton_Add(71, nil, reaper.GetResourcePath().."/Data/toolbar_icons/toolbar_misc_walk_forward.png",3, 1, {"TOO", "DEL", "LOO"}, 1, "Tudel1", "loo.", contextmenu)
-  --reagirl.ToolbarButton_SetDropShadow(tab1.toolbar, true)
+  tab1.toolbar=reagirl.ToolbarButton_Add(71, nil, reaper.GetResourcePath().."/Data/toolbar_icons/toolbar_misc_walk_forward.png",3, 2, {"TOO", "DEL", "LOO"}, 1, "Tudel1", "loo.", contextmenu)
+
   reagirl.ToolbarButton_SetRadius(tab1.toolbar, 14)
   reagirl.ToolbarButton_SetEdgeStyle(tab1.toolbar, true, true, true, true)
   reagirl.ToolbarButton_SetColor(tab1.toolbar, 128, 0, 0)
-  tab1.toolbar2=reagirl.ToolbarButton_Add(nil, nil, reaper.GetResourcePath().."/Data/toolbar_icons/toolbar_path_secondary_disk.png", 3, 1, {"One", "Two", "Three"}, 1+128, "Tudel2", "loo.", run_function)
+  tab1.toolbar2=reagirl.ToolbarButton_Add(nil, nil, reaper.GetResourcePath().."/Data/toolbar_icons/toolbar_path_secondary_disk.png", 3, 2, {"One", "Two", "Three"}, 1+128, "Tudel2", "loo.", run_function)
   reagirl.ToolbarButton_SetDropShadow(tab1.toolbar2, true)
   reagirl.ToolbarButton_SetEdgeStyle(tab1.toolbar2, true, true, true, true)
-  tab1.toolbar3=reagirl.ToolbarButton_Add(nil, nil, reaper.GetResourcePath().."/Data/toolbar_icons/toolbar_misc_walk_forward.png",3, 1, {"A", "B", "C"}, 3+128, "TextIcon", "loo.", run_function)
+  tab1.toolbar3=reagirl.ToolbarButton_Add(nil, nil, reaper.GetResourcePath().."/Data/toolbar_icons/toolbar_misc_walk_forward.png",3, 2, {"A", "B", "C"}, 3+128, "TextIcon", "loo.", run_function)
   reagirl.ToolbarButton_SetEdgeStyle(tab1.toolbar3, true,true,true,true)
   reagirl.ToolbarButton_SetRadius(tab1.toolbar3, 7)
-  tab1.toolbar4=reagirl.ToolbarButton_Add(nil, nil, reaper.GetResourcePath().."/Data/toolbar_icons/toolbar_misc_walk_forward.png",3, 1, {"Uno", "Dos", "Tres"}, 4+128, "Text Icon", "loo.", run_function)
+  tab1.toolbar4=reagirl.ToolbarButton_Add(nil, nil, reaper.GetResourcePath().."/Data/toolbar_icons/toolbar_misc_walk_forward.png",3, 2, {"Uno", "Dos", "Tres"}, 4+128, "Text Icon", "loo.", run_function)
   reagirl.ToolbarButton_SetEdgeStyle(tab1.toolbar4, true, false, true, false)
   reagirl.ToolbarButton_SetRadius(tab1.toolbar4, 14)
-  tab1.toolbar5=reagirl.ToolbarButton_Add(nil, nil, reaper.GetResourcePath().."/Data/toolbar_icons/toolbar_misc_brush_broom_clean.png", 2, 0, {"TOO", "DEL", "LOO"}, 5+256, "Simple Icon", "loo.", run_function)
+  tab1.toolbar5=reagirl.ToolbarButton_Add(nil, nil, reaper.GetResourcePath().."/Data/toolbar_icons/toolbar_misc_brush_broom_clean.png", 2, 1, {"TOO", "DEL", "LOO"}, 5+256, "Simple Icon", "loo.", run_function)
   reagirl.ToolbarButton_SetDropShadow(tab1.toolbar5, true)
-  tab1.toolbar6=reagirl.ToolbarButton_Add(nil, nil, reaper.GetResourcePath().."/Data/toolbar_icons/toolbar_eighth_quaver_grid.png", 3, 0, {"TOO", "DEL", "LOO"}, 2+256, "Borderless", "loo.", run_function)
+  tab1.toolbar6=reagirl.ToolbarButton_Add(nil, nil, reaper.GetResourcePath().."/Data/toolbar_icons/toolbar_eighth_quaver_grid.png", 3, 1, {"TOO", "DEL", "LOO"}, 2+256, "Borderless", "loo.", run_function)
   reagirl.ToolbarButton_SetDropShadow(tab1.toolbar6, true)
   
   reagirl.Label_AutoBackdrop(tab1.label_header7, tab1.toolbar6) -- set backdrop drawn by tab1.label_header5
@@ -185,7 +184,7 @@
   
   reagirl.NextLine()
   tab1.options=reagirl.DropDownMenu_Add(nil, nil, 290, "Options:", 100, "Choose one of the options that set your settings.", {"Menu1", "Menu2", "Menu3"}, 1, nil)
-  
+
   reagirl.NextLine()
   tab1.more_options=reagirl.DropDownMenu_Add(nil, nil, 290, "More Options:", 100, "Choose additional settings in the options.", {"Option1", "Option2", "Option3"}, 2, nil)
   

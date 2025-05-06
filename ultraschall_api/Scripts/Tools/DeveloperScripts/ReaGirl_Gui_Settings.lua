@@ -222,15 +222,20 @@ function SetUpNewGui()
   reagirl.AutoPosition_SetNextUIElementRelativeTo(Tabs)
   reagirl.NextLine()
   tab3.Label_Development=reagirl.Label_Add(nil, nil, "Development", "Settings for developers.", false, nil)
-  reagirl.Label_SetBackdrop(tab3.Label_Development, 300, 65) -- set a backdrop around the next few labels
+  reagirl.Label_SetBackdrop(tab3.Label_Development, 300, 125) -- set a backdrop around the next few labels
   
   reagirl.NextLine()
   tab3.checkbox_osara_debug_id = reagirl.Checkbox_Add(nil, nil, "Show screen reader messages in console", "Checking this will show the screen reader messages in the console for debugging purposes.", false, checkbox)
   reagirl.Checkbox_LinkToExtstate(tab3.checkbox_osara_debug_id, "ReaGirl", "osara_debug", "", "true", false, true)  
   
+  reagirl.NextLine()
+  tab3.checkbox_show_ui_elements_debug_id = reagirl.Checkbox_Add(nil, nil, "Show gui-name and ui-element-name in console", "Checking this will show the gui-name and focused ui-element-name in the console.\n\nUse Tab/Shift+Tab to switch through them.\n\nThese names can be used with reagirl.Ext_SendEvent() to send clickevents to a certain ui-element.", false, checkbox)
+  reagirl.Checkbox_LinkToExtstate(tab3.checkbox_show_ui_elements_debug_id, "ReaGirl", "show_gui_and_ui_names", "", "true", false, true)  
+
   reagirl.NextLine(5)
   tab3.error_message_target=reagirl.DropDownMenu_Add(nil, nil, 290, "Show errors in:", 100, "Decide, whether ReaGirl-error-messages shall be shown only in IDE, in a dedicated MessageBox or in the ReaScript console window.", {"IDE", "Messagebox", "ReaScript console window"}, 1, dropdownmenu)
   reagirl.DropDownMenu_LinkToExtstate(tab3.error_message_target, "ReaGirl", "Error_Message_Destination", 1, true)
+  
   
   reagirl.Tabs_SetUIElementsForTab(Tabs, 3, tab3)
   

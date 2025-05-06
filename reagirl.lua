@@ -5611,27 +5611,90 @@ end
 
 
 -- missing: 
---  color-rectangle click and set color
---  click images
---  set text in labels
---  set text in inputboxes
 --  set state in toolbar button
---  trigger runfunction in dropdownmenus and sliders
---  set new caption
---  click in meters
+--  set new caption(??)
 -- developer mode that shows gui-name and caption+ui_element-id on the top of the gui when hovering above ui-elements
-function reagirl.Ext_SendEvent_WindowTitle(gui_name, ui_element_caption, event, value)
+
+function reagirl.Ext_SendEvent(gui_name, ui_element_caption, event, send_string, value, value2, value3)
+  --[[
+  <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+    <slug>Ext_SendEvent</slug>
+    <requires>
+      ReaGirl=1.3
+      Reaper=7.03
+      Lua=5.4
+    </requires>
+    <functioncall>reagirl.Ext_SendEvent(string reagirl_instance_guid, string name_of_ui_element, integer event, string text, integer value, integer value2, integer value3)</functioncall>
+    <description>
+      Sends a message to a ui-element in a ReaGirl-gui.
+      
+      To get the values needed for your target gui, go into ReaGirl-settings into the development-tab.
+      Choose the option to show gui/ui-element-name in the ReaScript console.
+      
+      Then open the gui in question. Use Tab/Shift+Tab to select the ui-element you want to have. The ReaScript-console-window will show the name of the gui-window and the name of the currently focused ReaGirl-ui-element.
+      These you can use with this function by copying the names from within the quotes.
+      
+      Note: events can also be sent to hidden ui-elements!
+    </description>
+    <parameters>
+      string reagirl_instance_guid - the guid of a ReaGirl-window-instance
+      string name_of_ui_element - the name of the ui-element(usually the caption)
+      integer event - the event to send:
+                    - 1, send a left click to the ui-element
+                    - 2, set checkbox to true
+                    - 3, set checkbox to false
+                    - 4, set dropdownmenu-item(use parameter value to pass the index of the dropdownmenu-item)
+                    - 5, set slider-value(use parameter value to pass the value of the slider)
+                    - 6, scroll to ui-element
+                    - 7, scroll to ui-element and set keyboard focus to it
+                    - 8, set label text/text of inputboxes
+                    - 9, set color of a color-rectangle(use value for r, value2 for g, value3 for b-value; 0-255 each)
+      string text - the text to pass to a ui-element; use "" if not needed
+      integer value - the value to pass to a ui-element; use 0 if not needed
+      integer value2 - the second value to pass to a ui-element; use 0 if not needed
+      integer value3 - the third value to pass to a ui-element; use 0 if not needed
+    </parameters>
+    <chapter_context>
+      Ext
+    </chapter_context>
+    <target_document>ReaGirl_Docs</target_document>
+    <source_document>reagirl_GuiEngine.lua</source_document>
+    <tags>ext, send, messages</tags>
+  </US_DocBloc>
+  ]]
+  if type(gui_name)~="string" then error("Ext_SendEvent: param #1 - must be a string", 2) end
+  if type(ui_element_caption)~="string" then error("Ext_SendEvent: param #2 - must be a string", 2) end
+  if math.type(event)~="integer" then error("Ext_SendEvent: param #3 - must be an integer", 2) end
+  if type(send_string)~="string" then error("Ext_SendEvent: param #4 - must be a string", 2) end
+  if type(value)~="number" then error("Ext_SendEvent: param #5 - must be an integer", 2) end
+  if type(value2)~="number" then error("Ext_SendEvent: param #6 - must be an integer", 2) end
+  if type(value3)~="number" then error("Ext_SendEvent: param #7 - must be an integer", 2) end
+  
   local text=reaper.GetExtState("ReaGirl", "ExternalEvents:"..gui_name)
-  Events={"leftClick", "ext_setCheckTrue", "ext_setCheckFalse", "ext_setDropDownMenu_", "ext_setSlider_"}
-  if event~=4 and event~=5 then value="" end
-  text=text.."\n"..Events[event]..value..":"..ui_element_caption
+  Events={"leftClick", "ext_setCheckTrue", "ext_setCheckFalse", "ext_setDropDownMenu_", "ext_setSlider_", 
+          "scroll_to", "focus_and_scroll_to", "set_label_", "set_color_"}
+  if event~=4 and event~=5 and event~=9 then value="" end
+  if event~=9 then value2="" value3="" end
+  if event~=8 then send_string="" else send_string=reagirl.Base64_Encoder(tostring(send_string)) end
+  if event==9 then 
+    if math.type(value)~="integer" then error("Ext_SendEvent: param #5 - when mode==9, this must be an integer between 0 and 255", 2) end
+    if math.type(value2)~="integer" then error("Ext_SendEvent: param #6 - when mode==9, this must be an integer between 0 and 255", 2) end
+    if math.type(value3)~="integer" then error("Ext_SendEvent: param #7 - when mode==9, this must be an integer between 0 and 255", 2) end
+    
+    if value<0 or value>255 then error("Ext_SendEvent: param #5 - when mode==9, this must be an integer between 0 and 255", 2) end
+    if value2<0 or value2>255 then error("Ext_SendEvent: param #6 - when mode==9, this must be an integer between 0 and 255", 2) end
+    if value3<0 or value3>255 then error("Ext_SendEvent: param #7 - when mode==9, this must be an integer between 0 and 255", 2) end
+    value=value.."_"
+    value2=value2.."_"
+  end
+  text=text.."\n"..Events[event]..value..value2..value3..send_string..":"..ui_element_caption
   reaper.SetExtState("ReaGirl", "ExternalEvents:"..gui_name, text, false)
 end
 
 function reagirl.Ext_ExecuteExternalEvents()
   -- missing: check, if ui-element is a checkbox, slider, dropdownmenu
-  --local text=reaper.GetExtState("ReaGirl", "ExternalEvents:"..reagirl.Window_name)
-  local text=reaper.GetExtState("ReaGirl", "ExternalEvents:"..reagirl.Window_Title)
+  local text=reaper.GetExtState("ReaGirl", "ExternalEvents:"..reagirl.Window_name)
+  --local text=reaper.GetExtState("ReaGirl", "ExternalEvents:"..reagirl.Window_Title)
   if text=="" then return end
   reaper.SetExtState("ReaGirl", "ExternalEvents:"..reagirl.Window_Title, "", false)
   for k in string.gmatch(text.."\n", "(.-)\n") do
@@ -5649,15 +5712,39 @@ function reagirl.Ext_ExecuteExternalEvents()
         elseif event:sub(1,20)=="ext_setDropDownMenu_" then
           local number=tonumber(event:sub(21, -1))
           if reagirl.Elements[i]["MenuCount"]~=nil and number>0 and number<=reagirl.Elements[i]["MenuCount"] then
-            reagirl.Elements[i]["menuSelectedItem"]=number
+            reagirl.DropDownMenu_SetSelectedMenuItem(reagirl.Elements[i]["Guid"], number)
+            reagirl.Elements[i].run_function_exec=true
             reagirl.Gui_ForceRefresh("ext_setDropDownMenu")
           end
         elseif event:sub(1,14)=="ext_setSlider_" then
           local number=tonumber(event:sub(15, -1))
           if reagirl.Elements[i]["GUI_Element_Type"]=="Slider" and number>=reagirl.Elements[i]["Start"] and number<=reagirl.Elements[i]["Stop"] then
-            reagirl.Elements[i]["CurValue"]=number
+            reagirl.Slider_SetValue(reagirl.Elements[i]["Guid"], number)
+            reagirl.Elements[i].run_function_exec=true
             reagirl.Gui_ForceRefresh("ext_setSlider")
           end
+        elseif event=="scroll_to" then
+          reagirl.UI_Element_ScrollToUIElement(reagirl.Elements[i]["Guid"], 0, 0, true, true)
+          reagirl.Gui_ForceRefresh("ext_scrollto")
+        elseif event=="focus_and_scroll_to" then
+          reagirl.UI_Element_ScrollToUIElement(reagirl.Elements[i]["Guid"], 0, 0, true, true)
+          reagirl.UI_Element_SetFocused(reagirl.Elements[i]["Guid"])
+          reagirl.FocusRectangle_Toggle(true)
+          reagirl.Gui_ForceRefresh("ext_focus_and_scroll_to")
+        elseif event:sub(1, 10)=="set_label_" then
+          local send_text=reagirl.Base64_Decoder(event:sub(11,-1))
+          if reagirl.Elements[i]["GUI_Element_Type"]=="Label" then
+            reagirl.Label_SetLabelText(reagirl.Elements[i]["Guid"], send_text)
+          elseif reagirl.Elements[i]["GUI_Element_Type"]=="Edit" then
+            reagirl.Inputbox_SetText(reagirl.Elements[i]["Guid"], string.gsub(send_text, "\n", ""))
+          end
+          reagirl.Gui_ForceRefresh("ext_set_label")
+        elseif event:sub(1,10)=="set_color_" then
+          local r,g,b=event:sub(11,-1):match("(.-)_(.-)_(.*)")
+          r=tonumber(r)
+          g=tonumber(g)
+          b=tonumber(b)
+          reagirl.ColorRectangle_SetColor(reagirl.Elements[i]["Guid"], r, g, b)
         end
       end
     end
@@ -5766,6 +5853,7 @@ function reagirl.Gui_Manage(keep_running)
   --gfx.update()
   reagirl.Defer_StartTime=reaper.time_precise()
   -- initialize shit
+  if keep_running~=nil and type(keep_running)~="boolean" then error("Gui_Manage: param #1 - must be either nil or a boolean", 2) end
   if keep_running==true then reagirl.Gui_Manage_keep_running=true end
   local message
   if reagirl.Gui_IsOpen()==false then return end
@@ -6522,6 +6610,13 @@ function reagirl.Gui_Manage(keep_running)
         reagirl.UI_Elements_HoveredElement=i
         skip_hover_acc_message=true
     end
+    if reaper.GetExtState("ReaGirl", "show_gui_and_ui_names")=="true" and reagirl.Debug_ShowInConsoleUI_Element~=reagirl.Elements.FocusedElement then
+      local gui_id=""
+      if reagirl.Elements[reagirl.Elements.FocusedElement].ID~=nil then gui_id="\""..reagirl.Elements[reagirl.Elements.FocusedElement].Name.."\"" end
+      reaper.ShowConsoleMsg("Gui-Name:\""..reagirl.Window_name.."\"\nGui-Element-Name:\""..reagirl.Elements[reagirl.Elements.FocusedElement].Name.."\"\nGui-Element_ID:"..gui_id.."\n\n")
+      
+    end
+    reagirl.Debug_ShowInConsoleUI_Element=reagirl.Elements.FocusedElement
   end
   
   --[[
@@ -6881,7 +6976,7 @@ function reagirl.Gui_Draw(Key, Key_utf, clickstate, specific_clickstate, mouse_c
     -- draw Tabs
     if reagirl.Tabs_Count~=nil then
       local i=reagirl.Tabs_Count
-      local minimum_visible_x, maximum_visible_x, minimum_visible_y, maximum_visible_y, minimum_all_x, maximum_all_x, maximum_all_y, maximum_all_y = reagirl.Gui_GetBoundaries()
+      local minimum_visible_x, maximum_visible_x, minimum_visible_y, maximum_visible_y, minimum_all_x, maximum_all_x, minimum_all_y, maximum_all_y = reagirl.Gui_GetBoundaries()
       local w_add=reagirl.Elements[i]["bg_w"]
       if w_add==nil then w_add=maximum_visible_x end
       local h_add=reagirl.Elements[i]["bg_h"]
@@ -8342,7 +8437,7 @@ function reagirl.Checkbox_Manage(element_id, selected, hovered, clicked, mouse_c
   element_storage.hovered=hovered
   
   if element_storage.external_leftclick==true then Key=32 selected="CLICKME" end
-  
+  element_storage.external_leftclick=false
   if selected~="not selected" and (((clicked=="FirstCLK" or clicked=="DBLCLK" )and mouse_cap&1==1) or Key==32) then 
     if (gfx.mouse_x>=x 
       and gfx.mouse_x<=x+w 
@@ -10189,6 +10284,10 @@ function reagirl.ColorRectangle_Manage(element_id, selected, hovered, clicked, m
 -- !!TODO!! - send color to screenreader(vielleicht konkretere Farben?)
 --          - get/set disabled
   local refresh=false
+  
+  if element_storage.external_leftclick==true then Key=32 selected="ClickBait" end
+  element_storage.external_leftclick=false
+  
   if selected~="not selected" and ((mouse_cap==1 and clicked=="FirstCLK" and gfx.mouse_x>=x and gfx.mouse_x<=x+w and gfx.mouse_y>=y and gfx.mouse_y<=y+h) or Key==32) then
     if element_storage["color_selector_when_clicked"]==true then
       local retval, color2=reaper.GR_SelectColor(nil, reaper.ColorToNative(element_storage["r_full"], element_storage["g_full"], element_storage["b_full"]))
@@ -12465,7 +12564,7 @@ function reagirl.ToolbarButton_Add(x, y, toolbaricon, num_states, default_state,
     optional integer y - the y position of the toolbar-button in pixels; negative anchors the toolbar-button to the bottom window-side; nil, autoposition after the last ui-element(see description)
     string toolbaricon - filename+path to the toolbar-icon-image; will be ignored for text-toolbar-icons
     integer num_states - number of states when clicked; 1, 1-state; 2, 2-states; 3, 3-states, etc
-    integer default_state - default-state(1 or higher); must be maximum num_states
+    integer default_state - default-state(1 or higher); can't be higher than maximum states!
     table state_names - a table with all state-names. These will be shown in the tooltip/screen reader message when a certain state has been set. 
                       - Each entry must be a string!
     integer mode - 1, toolbar-icon only
@@ -12621,7 +12720,7 @@ function reagirl.ToolbarButton_Add(x, y, toolbaricon, num_states, default_state,
     reagirl.Elements[slot]["mode"]=mode
   end
   reagirl.Elements[slot]["num_states"]=num_states
-  reagirl.Elements[slot]["cur_state"]=default_state
+  reagirl.Elements[slot]["cur_state"]=default_state-1
   reagirl.Elements[slot]["state_names"]=state_names
   reagirl.Elements[slot]["toolbaricon_filename"]=toolbaricon
   if mode==2 then
@@ -12920,6 +13019,50 @@ function reagirl.ToolbarButton_SetDropShadow(element_id, has_drop_shadow)
   end
   
   reagirl.Elements[element_id]["DropShadow"]=has_drop_shadow
+end
+
+function reagirl.ToolbarButton_SetState(element_id, state)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>ToolbarButton_SetState</slug>
+  <requires>
+    ReaGirl=1.3
+    Reaper=7.03
+    Lua=5.4
+  </requires>
+  <functioncall>boolean retval = reagirl.ToolbarButton_SetState(string element_id, integer state)</functioncall>
+  <description>
+    Sets the current state of the toolbar-button
+  </description>
+  <parameters>
+    string element_id - the toolbarbutton-element, whose drop-shadow-state you want to set
+    integer state - 0 and higher, the state to set
+  </parameters>
+  <retvals>
+    boolean retval - true, setting the state was successful; false, setting the state was not successful(i.e. state does not exist)
+  </retvals>
+  <chapter_context>
+    Toolbarbutton
+  </chapter_context>
+  <tags>toolbarbutton, set, state</tags>
+</US_DocBloc>
+  --]]
+  if type(element_id)~="string" then error("ToolbarButton_SetState: param #1 - must be a string", 2) end
+  if reagirl.IsValidGuid(element_id, true)==false then error("ToolbarButton_SetState: param #1 - must be a valid guid", 2) end
+  if math.type(state)~="integer" then error("ToolbarButton_SetState: #2 - must be an integer", 2) end
+  
+  element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
+  if element_id==-1 then error("Image_GetDropShadow: param #1 - no such ui-element", 2) end
+  if reagirl.Elements[element_id]["GUI_Element_Type"]~="ToolbarButton" then
+    error("ToolbarButton_SetDropShadow: param #1 - ui-element is not a toolbar-button", 2)
+  end
+  if state<0 or state>reagirl.Elements[element_id]["num_states"] then 
+    return false
+  else
+    reagirl.Elements[element_id]["cur_state"]=state-1
+    reagirl.Gui_ForceRefresh("toolbar: set state")
+    return true
+  end
 end
 
 function reagirl.ToolbarButton_GetDropShadow(element_id, has_drop_shadow)
@@ -13305,7 +13448,6 @@ function reagirl.ToolbarButton_Draw(element_id, selected, hovered, clicked, mous
         end
         text[2]=text[2]:sub(1,count)
       end
-      element_storage["testtext"]=text
       if text_num==1 then
         local width, height=gfx.measurestr(text[1])
         local xx=(w-width)/2
@@ -16118,7 +16260,7 @@ function reagirl.DropDownMenu_Manage(element_id, selected, hovered, clicked, mou
       
       if element_storage["menuSelectedItem"]<1 then element_storage["menuSelectedItem"]=1 end
       if element_storage["menuSelectedItem"]>element_storage["MenuCount"] then element_storage["menuSelectedItem"]=element_storage["MenuCount"] end
-      if refresh==true and element_storage["run_function"]~=nil then reagirl.Elements[element_id]["run_function"](element_storage["Guid"], element_storage["menuSelectedItem"], element_storage["MenuEntries"][element_storage["menuSelectedItem"]]) reagirl.Gui_ForceRefresh(26) end
+      if (refresh==true) and element_storage["run_function"]~=nil then reagirl.Elements[element_id]["run_function"](element_storage["Guid"], element_storage["menuSelectedItem"], element_storage["MenuEntries"][element_storage["menuSelectedItem"]]) reagirl.Gui_ForceRefresh(26) end
     end
   end
   local Entries=""
@@ -16197,7 +16339,7 @@ function reagirl.DropDownMenu_Manage(element_id, selected, hovered, clicked, mou
   end
   element_storage["init"]=true
   
-  if refresh==true then 
+  if refresh==true or element_storage.run_function_exec==true then 
     reagirl.Gui_ForceRefresh(28)
     if element_storage["run_function"]~=nil then 
       reagirl.Elements[element_id]["run_function"](element_storage["Guid"], element_storage["menuSelectedItem"], element_storage["MenuEntries"][element_storage["menuSelectedItem"]])
@@ -16211,6 +16353,7 @@ function reagirl.DropDownMenu_Manage(element_id, selected, hovered, clicked, mou
       end
     end
   end
+  element_storage.run_function_exec=false
   element_storage["AccHoverMessage"]=element_storage["Name"].." "..element_storage["MenuEntries"][element_storage["menuSelectedItem"]]
   return element_storage["MenuEntries"][element_storage["menuSelectedItem"]]..". "..collapsed, refresh
 end
@@ -16541,6 +16684,86 @@ function reagirl.DropDownMenu_GetDimensions(element_id)
     error("DropDownMenu_GetDimensions: param #1 - ui-element is not a drop down menu", 2)
   else
     return reagirl.Elements[element_id]["w"]
+  end
+end
+
+function reagirl.DropDownMenu_SetSelectedMenuItem(element_id, selected_menu_item)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>DropDownMenu_SetSelectedMenuItem</slug>
+  <requires>
+    ReaGirl=1.3
+    Reaper=7.03
+    Lua=5.4
+  </requires>
+  <functioncall>boolean retval = reagirl.DropDownMenu_SetSelectedMenuItem(string element_id, integer selected_menu_item)</functioncall>
+  <description>
+    Sets the selected menu-item.
+  </description>
+  <parameters>
+    string element_id - the guid of the drop down menu, whose width-state you want to set
+    integer selected_menu_item - 1 to maximum number of items
+  </parameters>
+  <retvals>
+    boolean retval - true, menu item could be selected; false, menu item could not be selected(i.e. it does not exist)
+  </retvals>
+  <chapter_context>
+    DropDown Menu
+  </chapter_context>
+  <tags>dropdown menu, set, selected menu item</tags>
+</US_DocBloc>
+--]]
+  if type(element_id)~="string" then error("DropDownMenu_SetSelectedMenuItem: param #1 - must be a string", 2) end
+  if reagirl.IsValidGuid(element_id, true)==nil then error("DropDownMenu_SetSelectedMenuItem: param #1 - must be a valid guid", 2) end
+  if math.type(selected_menu_item)~="integer" then error("DropDownMenu_SetSelectedMenuItem: param #2 - must be either nil or an integer", 2) end
+  element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
+  if element_id==-1 then error("DropDownMenu_SetSelectedMenuItem: param #1 - no such ui-element", 2) end
+  if reagirl.Elements[element_id]["GUI_Element_Type"]~="ComboBox" then
+    error("DropDownMenu_SetSelectedMenuItem: param #1 - ui-element is not a drop down menu", 2)
+  else
+    if selected_menu_item>0 and selected_menu_item<=reagirl.Elements[element_id]["MenuCount"] then
+      reagirl.Elements[element_id]["menuSelectedItem"]=selected_menu_item
+      reagirl.Gui_ForceRefresh(18.41)
+      return true
+    else
+      return false
+    end
+  end
+end
+
+function reagirl.DropDownMenu_GetSelectedMenuItem(element_id)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>DropDownMenu_GetSelectedMenuItem</slug>
+  <requires>
+    ReaGirl=1.3
+    Reaper=7.03
+    Lua=5.4
+  </requires>
+  <functioncall>integer selected_menu_item = reagirl.DropDownMenu_GetSelectedMenuItem(string element_id)</functioncall>
+  <description>
+    Gets the selected menu item of a drop down menu.
+  </description>
+  <parameters>
+    string element_id - the guid of the drop down menu, whose selected menu item you want to get
+  </parameters>
+  <retvals>
+    integer selected_menu_item - the selected menu-item, 1 to maximum number of existing items
+  </retvals>
+  <chapter_context>
+    DropDown Menu
+  </chapter_context>
+  <tags>dropdown menu, get, selected menu item</tags>
+</US_DocBloc>
+--]]
+  if type(element_id)~="string" then error("DropDownMenu_GetSelectedMenuItem: param #1 - must be a string", 2) end
+  if reagirl.IsValidGuid(element_id, true)==nil then error("DropDownMenu_GetSelectedMenuItem: param #1 - must be a valid guid", 2) end
+  element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
+  if element_id==-1 then error("DropDownMenu_GetSelectedMenuItem: param #1 - no such ui-element", 2) end
+  if reagirl.Elements[element_id]["GUI_Element_Type"]~="ComboBox" then
+    error("DropDownMenu_GetSelectedMenuItem: param #1 - ui-element is not a drop down menu", 2)
+  else
+    return reagirl.Elements[element_id]["menuSelectedItem"]
   end
 end
 
@@ -18505,6 +18728,10 @@ function reagirl.Image_Manage(element_id, selected, hovered, clicked, mouse_cap,
   else
     message=""
   end
+  
+  if element_storage.external_leftclick==true then Key=32 selected="ClickBait" end
+  element_storage.external_leftclick=false
+  
   if selected~="not selected" and 
     (Key==32 or Key==13) or (mouse_cap==1 and 
     gfx.mouse_x>=x and gfx.mouse_x<=x+w and gfx.mouse_y>=y and gfx.mouse_y<=y+h) 
@@ -18519,6 +18746,7 @@ function reagirl.Image_Manage(element_id, selected, hovered, clicked, mouse_cap,
         gfx.setcursor(0x7f89)
       end
   end
+  
   if element_storage["Draggable"]==true and element_storage.DraggableDestinations~=nil then
     if selected~="not selected" and gfx.mouse_cap==12 and Key==1885828464.0 then
       if element_storage.Draggable_DestAccessibility==nil then 
@@ -19293,7 +19521,7 @@ function reagirl.Gui_GetBoundaries()
     Reaper=7.03
     Lua=5.4
   </requires>
-  <functioncall>integer minimum_visible_x, integer maximum_visible_x, integer minimum_visible_y, integer maximum_visible_y, integer minimum_all_x, integer maximum_all_x, integer maximum_all_y, integer maximum_all_y = reagirl.Gui_GetBoundaries()</functioncall>
+  <functioncall>integer minimum_visible_x, integer maximum_visible_x, integer minimum_visible_y, integer maximum_visible_y, integer minimum_all_x, integer maximum_all_x, integer minimum_all_y, integer maximum_all_y = reagirl.Gui_GetBoundaries()</functioncall>
   <description>
     Returns the current boundaries of the ui-elements. Means, from 0 to the the farthest ui-element-width/height at right/bottom edge of the gui-window.
     These boundaries are where the scrolling happens. If the boundaries are smaller/equal window size, all ui-elements are visible in the window and therefore no scrolling happens.
@@ -19652,12 +19880,13 @@ function reagirl.UI_Element_GetNextFreeSlot()
   return #reagirl.Elements-5
 end
 
-function reagirl.UI_Element_ScrollToUIElement(element_id, x_offset, y_offset)
+function reagirl.UI_Element_ScrollToUIElement(element_id, x_offset, y_offset, top_x, top_y)
   if x_offset==nil then x_offset=10 end
   if y_offset==nil then y_offset=10 end
   local i=reagirl.UI_Element_GetIDFromGuid(element_id)
   local x2,y2,w2,h2
   local scale=reagirl.Window_GetCurrentScale()
+  local minimum_visible_x, maximum_visible_x, minimum_visible_y, maximum_visible_y, minimum_all_x, maximum_all_x, minimum_all_y, maximum_all_y = reagirl.Gui_GetBoundaries()
   
   if reagirl.Elements[i]["x"]<0 then x2=gfx.w+reagirl.Elements[i]["x"]*scale else x2=reagirl.Elements[i]["x"]*scale end
   if reagirl.Elements[i]["y"]<0 then y2=gfx.h+reagirl.Elements[i]["y"]*scale else y2=reagirl.Elements[i]["y"]*scale end
@@ -19670,19 +19899,28 @@ function reagirl.UI_Element_ScrollToUIElement(element_id, x_offset, y_offset)
   end
   
   if reagirl.Elements[i]["sticky_x"]==false then
-    if x2+reagirl.MoveItAllRight<0 then
-      reagirl.MoveItAllRight=-x2+x_offset
-    elseif x2+cap_w+reagirl.MoveItAllRight>gfx.w-15*scale and x2+w2+reagirl.MoveItAllRight>gfx.w-15*scale then
-      reagirl.MoveItAllRight=gfx.w-30*scale-w2-x2
+    if top_x~=true then
+      if x2+reagirl.MoveItAllRight<0 then
+        reagirl.MoveItAllRight=-x2+x_offset
+      elseif x2+cap_w+reagirl.MoveItAllRight>gfx.w-15*scale and x2+w2+reagirl.MoveItAllRight>gfx.w-15*scale then
+        reagirl.MoveItAllRight=gfx.w-30*scale-w2-x2
+      end
+    else
+      reagirl.MoveItAllRight=-x2+reagirl.Window_CurrentScale+reagirl.Window_CurrentScale
+      reagirl.Window_Reposition(true)
     end
   end
   
   if reagirl.Elements[i]["sticky_y"]==false then
-    if y2-reagirl.Gui_Sticky_Y_top*scale+reagirl.MoveItAllUp<0 then
-      reagirl.MoveItAllUp=-y2+y_offset+reagirl.Gui_Sticky_Y_top*scale
-    elseif y2+reagirl.Gui_Sticky_Y_bottom*scale+reagirl.MoveItAllUp>gfx.h-15*scale and y2+reagirl.Gui_Sticky_Y_bottom*scale+h2+reagirl.MoveItAllUp>gfx.h-(15)*scale then
-      
-      reagirl.MoveItAllUp=gfx.h-15*scale-h2-y2-reagirl.Gui_Sticky_Y_bottom*scale
+    if top_y~=true then
+      if y2-reagirl.Gui_Sticky_Y_top*scale+reagirl.MoveItAllUp<0 then
+        reagirl.MoveItAllUp=-y2+y_offset+reagirl.Gui_Sticky_Y_top*scale
+      elseif y2+reagirl.Gui_Sticky_Y_bottom*scale+reagirl.MoveItAllUp>gfx.h-15*scale and y2+reagirl.Gui_Sticky_Y_bottom*scale+h2+reagirl.MoveItAllUp>gfx.h-(15)*scale then
+        reagirl.MoveItAllUp=gfx.h-15*scale-h2-y2-reagirl.Gui_Sticky_Y_bottom*scale
+      end
+    else
+      reagirl.MoveItAllUp=-y2+reagirl.Window_CurrentScale+reagirl.Window_CurrentScale+reagirl.Window_CurrentScale+reagirl.Window_CurrentScale
+      reagirl.Window_Reposition(true)
     end
   end
   --[[
@@ -20163,7 +20401,7 @@ function reagirl.Slider_Manage(element_id, selected, hovered, clicked, mouse_cap
   if element_storage["CurValue"]<element_storage["Start"] then element_storage["CurValue"]=element_storage["Start"] skip_func=true end
   if element_storage["CurValue"]>element_storage["Stop"] then element_storage["CurValue"]=element_storage["Stop"] skip_func=true end
   
-  if refresh==true then 
+  if refresh==true or element_storage.run_function_exec==true then 
     reagirl.Gui_ForceRefresh(53) 
     if element_storage["run_function"]~=nil and skip_func~=true then 
       element_storage["run_function"](element_storage["Guid"], element_storage["CurValue"]) 
@@ -20181,7 +20419,7 @@ function reagirl.Slider_Manage(element_id, selected, hovered, clicked, mouse_cap
       end
     end
   end
-  
+  element_storage.run_function_exec=false
   if linked_refresh==true and gfx.getchar(65536)&2==2 and element_storage["init"]==true then
     reagirl.Screenreader_Override_Message=element_storage["Name"].." was updated to "..element_storage["CurValue"]..""..element_storage["Unit"]..". "
   end
@@ -21996,6 +22234,7 @@ function reagirl.Meter_Manage(element_id, selected, hovered, clicked, mouse_cap,
   local report_clip=nil
   element_storage.dbHold[-1]=-144
 
+  
 
   if element_storage["source"]==2 and ((element_storage["project"]~=nil and reaper.ValidatePtr(element_storage["project"], "ReaProject*")==false)) then
     element_storage["source"]=0
@@ -22008,9 +22247,13 @@ function reagirl.Meter_Manage(element_id, selected, hovered, clicked, mouse_cap,
     element_storage["channels"]=1
     element_storage["db"][1]=-144
   end
+  
+  if element_storage.external_leftclick==true then element_storage["count"]=65 end
+  element_storage.external_leftclick=false
+  
   -- reset hold-level
   element_storage["count"]=element_storage["count"]+1
-  if element_storage["count"]==66 or (Key==32 and selected~="not selected") or (gfx.mouse_x>=x and gfx.mouse_x<=x+w and gfx.mouse_y>y and gfx.mouse_y<y+h and clicked=="FirstCLK") then
+  if element_storage["count"]>=66 or (Key==32 and selected~="not selected") or (gfx.mouse_x>=x and gfx.mouse_x<=x+w and gfx.mouse_y>y and gfx.mouse_y<y+h and clicked=="FirstCLK") then
     for i=-1, element_storage["channels"] do
       element_storage.dbHold[i]=-144
     end
@@ -22063,7 +22306,7 @@ function reagirl.Meter_Manage(element_id, selected, hovered, clicked, mouse_cap,
     end
     element_storage["channels"]=reaper.GetMediaTrackInfo_Value(track, "I_NCHAN")
     for i=0, element_storage["channels"]-1 do
-      db=reaper.Track_GetPeakInfo(track, i)
+      local db=reaper.Track_GetPeakInfo(track, i)
       db=ultraschall.MKVOL2DB(db)
       if db>0 then 
         local name=""

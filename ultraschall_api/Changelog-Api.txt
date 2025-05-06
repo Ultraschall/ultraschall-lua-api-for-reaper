@@ -410,7 +410,7 @@ Docs: eine Doku, wie man eine Gui so schreibt, dass man einfach mal schnell ui-e
 
 ### 5.3 - " - " - 15th of May 2025
 
-Has now 1858 functions, with XX new ones
+Has now 1901 functions, with 43 new ones
 
 **new in this release:**  
 
@@ -421,6 +421,9 @@ Has now 1858 functions, with XX new ones
   - ReaGirl: Button\_GetEdgeStyle - gets, if the individual edges of a button are rounded or square
   - ReaGirl: Button\_SetEdgeStyle - sets, if the individual edges of a button are rounded or square
   - ReaGirl: Color\_GetSet - gets/sets the global colors of a specific ui-element
+  - ReaGirl: DropDownMenu\_GetSelectedMenuItem - gets the selected menu-item
+  - ReaGirl: DropDownMenu\_SetSelectedMenuItem - sets the selected menu-item
+  - ReaGirl: Ext\_SendEvent - send various events to ui-elements in a ReaGirl-gui
   - ReaGirl: Image\_GetDropShadow - gets a drop-shadow-state, drawn behind the image
   - ReaGirl: Image\_SetDropShadow - sets a drop-shadow drawn behind the image
   - ReaGirl: Inputbox\_GetTextSuggestions - gets the currently available text suggestions that the user can choose from a dropdownmenu in the inputbox
@@ -442,6 +445,7 @@ Has now 1858 functions, with XX new ones
   - ReaGirl: ToolbarButton\_GetDropShadow - gets a drop-shadow-state, drawn behind the button-image
   - ReaGirl: ToolbarButton\_GetEdgeStyle - gets, if the individual edges of a toolbar-button are rounded or square
   - ReaGirl: ToolbarButton\_GetRadius - gets the radius of the edges of a toolbar-button
+  - ReaGirl: ToolbarButton\_GetState - gets the current state of a toolbar button
   - ReaGirl: ToolbarButton\_LinkToIntConfigVar - links a toolbar-button to an integer config-variable
   - ReaGirl: ToolbarButton\_LinkToIntConfigVarBit - links a toolbar-button to an integer config-variable bit
   - ReaGirl: ToolbarButton\_LinkToExtstate - links a toolbar-button to an extstate
@@ -452,6 +456,7 @@ Has now 1858 functions, with XX new ones
   - ReaGirl: ToolbarButton\_SetDropShadow - sets a drop-shadow drawn behind the button-image
   - ReaGirl: ToolbarButton\_SetEdgeStyle - sets the individual edges of a toolbar-button to either rounded or square
   - ReaGirl: ToolbarButton\_SetRadius - sets the radius of the edges of a toolbar-button
+  - ReaGirl: ToolbarButton\_SetState - sets the current state of a toolbar button
   - ReaGirl: ToolbarButton\_Unlink - unlinks a toolbar-button rom a state
   - ReaGirl: Window\_DragOnEmptyArea - sets, if clicking into an empty area allows dragging of the window
   - ReaGirl: Window\_SetStyle - sets the style of the window, like borderless window, etc
