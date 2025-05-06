@@ -6286,7 +6286,8 @@ function reagirl.Gui_Manage(keep_running)
       if gfx.mouse_x>=x2+MoveItAllRight and
          gfx.mouse_x<=x2+MoveItAllRight+w2 and
          gfx.mouse_y>=y2+MoveItAllUp and
-         gfx.mouse_y<=y2+MoveItAllUp+h2 then
+         gfx.mouse_y<=y2+MoveItAllUp+h2 and
+         gfx.getchar(65536)&8==8 then
         if reagirl.Elements[i]["hidden"]==nil then
           reagirl.UI_Elements_HoveredElement=i
         end
@@ -6626,7 +6627,7 @@ function reagirl.Gui_Manage(keep_running)
     end
     if reaper.GetExtState("ReaGirl", "show_gui_and_ui_names")=="true" and reagirl.Debug_ShowInConsoleUI_Element~=reagirl.Elements.FocusedElement then
       local gui_id=""
-      if reagirl.Elements[reagirl.Elements.FocusedElement].ID~=nil then gui_id="\""..reagirl.Elements[reagirl.Elements.FocusedElement].Name.."\"" end
+      if reagirl.Elements[reagirl.Elements.FocusedElement].ID~=nil then gui_id="\""..reagirl.Elements[reagirl.Elements.FocusedElement].ID.."\"" end
       reaper.ShowConsoleMsg("Gui-Name:\""..reagirl.Window_name.."\"\nGui-Element-Name:\""..reagirl.Elements[reagirl.Elements.FocusedElement].Name.."\"\nGui-Element_ID:"..gui_id.."\n\n")
       
     end
@@ -8284,16 +8285,16 @@ function reagirl.UI_Element_GetGuidFromID(id)
   end
 end
 
-function reagirl.Checkbox_Add(x, y, caption, meaningOfUI_Element, default, run_function)
+function reagirl.Checkbox_Add(x, y, caption, meaningOfUI_Element, default, run_function, unique_identifier)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>Checkbox_Add</slug>
   <requires>
-    ReaGirl=1.0
+    ReaGirl=1.3
     Reaper=7.03
     Lua=5.4
   </requires>
-  <functioncall>string checkbox_guid = reagirl.Checkbox_Add(integer x, integer y, string caption, string meaningOfUI_Element, optional function run_function)</functioncall>
+  <functioncall>string checkbox_guid = reagirl.Checkbox_Add(integer x, integer y, string caption, string meaningOfUI_Element, optional function run_function, optional string unique_identifier)</functioncall>
   <description>
     Adds a checkbox to a gui.
     
@@ -8313,6 +8314,7 @@ function reagirl.Checkbox_Add(x, y, caption, meaningOfUI_Element, default, run_f
     string meaningOfUI_Element - the meaningOfUI_Element of the ui-element(for tooltips and blind users). Make it a sentence that ends with . or ?
     boolean default - true, set the checkbox checked; false, set the checkbox unchecked
     optional function run_function - a function that shall be run when the checkbox is clicked; will get passed over the checkbox-element_id as first and the new checkstate as second parameter
+    optional unique_identifier - a unique identifier for this ui-element; make this unique among all ui-elements in this gui, as this can be used for scripters to externally control your ReaGirl-gui
   </parameters>
   <retvals>
     string checkbox_guid - a guid that can be used for altering the checkbox-attributes
@@ -8331,7 +8333,7 @@ function reagirl.Checkbox_Add(x, y, caption, meaningOfUI_Element, default, run_f
   if meaningOfUI_Element:sub(-1,-1)~="." and meaningOfUI_Element:sub(-1,-1)~="?" then error("Checkbox_Add: param #4 - must end on a . like a regular sentence.", 2) end
   if type(default)~="boolean" then error("Checkbox_Add: param #5 - must be a boolean", 2) end
   if run_function~=nil and type(run_function)~="function" then error("Checkbox_Add: param #6 - must be either nil or a function", 2) end
-  
+  if unique_identifier~=nil and type(unique_identifier)~="string" then error("Checkbox_Add: param #7 - must be either nil or a string", 2) end
   local x,y,slot=reagirl.UI_Element_GetNextXAndYPosition(x, y, "Checkbox_Add")
   --reagirl.UI_Element_NextX_Default=x
   
@@ -8339,7 +8341,7 @@ function reagirl.Checkbox_Add(x, y, caption, meaningOfUI_Element, default, run_f
   reagirl.SetFont(1, reagirl.Font_Face, reagirl.Font_Size, 0, 1)
   local tx,ty=gfx.measurestr(caption)
   reagirl.SetFont(1, reagirl.Font_Face, reagirl.Font_Size, 0)
-  
+  reagirl.Elements[slot]["ID"]=unique_identifier
   reagirl.Elements[slot]["Guid"]=reaper.genGuid("")
   reagirl.Elements[slot]["GUI_Element_Type"]="Checkbox"
   reagirl.Elements[slot]["Name"]=caption
@@ -10171,16 +10173,16 @@ function reagirl.DecorRectangle_SetRadius(element_id, radius)
   end
 end
 
-function reagirl.ColorRectangle_Add(x, y, w, h, r, g, b, caption, meaningOfUI_Element, color_selector_when_clicked, run_function)
+function reagirl.ColorRectangle_Add(x, y, w, h, r, g, b, caption, meaningOfUI_Element, color_selector_when_clicked, run_function, unique_identifier)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>ColorRectangle_Add</slug>
   <requires>
-    ReaGirl=1.2
+    ReaGirl=1.3
     Reaper=7.03
     Lua=5.4
   </requires>
-  <functioncall>string color_rectangle_guid = reagirl.ColorRectangle_Add(optional integer x, optional integer y, integer w, integer h, integer r, integer g, integer b, string caption, string meaningOfUI_Element, boolean color_selector_when_clicked, optional function run_function)</functioncall>
+  <functioncall>string color_rectangle_guid = reagirl.ColorRectangle_Add(optional integer x, optional integer y, integer w, integer h, integer r, integer g, integer b, string caption, string meaningOfUI_Element, boolean color_selector_when_clicked, optional function run_function, optional string unique_identifier)</functioncall>
   <description>
     Adds a color-rectangle to a gui.
     
@@ -10216,6 +10218,7 @@ function reagirl.ColorRectangle_Add(x, y, w, h, r, g, b, caption, meaningOfUI_El
     boolean color_selector_when_clicked - true, clicking the color rectangle will open up a color-selection dialog. The run_function will be run right after the user closd the color-selector-dialog.
                                         - false, clicking will not open a color-selector.
     optional function run_function - a function that shall be run when the color-rectangle is clicked; will get the color-rectangle-element_id passed over as first parameter and r,g,b as second, third and fourth parameter; nil, no run-function for this color-rectangle
+    optional string unique_identifier - a unique identifier for this ui-element; make this unique among all ui-elements in this gui, as this can be used for scripters to externally control your ReaGirl-gui
   </parameters>
   <retvals>
     string color_rectangle_guid - a guid that can be used for altering the color-rectangle-attributes
@@ -10240,7 +10243,7 @@ function reagirl.ColorRectangle_Add(x, y, w, h, r, g, b, caption, meaningOfUI_El
   if meaningOfUI_Element:sub(-1,-1)~="." and meaningOfUI_Element:sub(-1,-1)~="?" then error("ColorRectangle_Add: param #9 - must end on a . like a regular sentence.", 2) end
   if type(color_selector_when_clicked)~="boolean" then error("ColorRectangle_Add: param #10 - must be a boolean", 2) end
   if run_function~=nil and type(run_function)~="function" then error("ColorRectangle_Add: param #11 - must be either nil or a function(ignored when #10 is set to true)", 2) end
-  
+  if unique_identifier~=nil and type(unique_identifier)~="string" then error("ColorRectangle_Add: param #12 - must be either nil or a string", 2) end
   local x,y,slot=reagirl.UI_Element_GetNextXAndYPosition(x, y, "ColorRectangle_Add")
   --reagirl.UI_Element_NextX_Default=x
   
@@ -10258,6 +10261,7 @@ function reagirl.ColorRectangle_Add(x, y, w, h, r, g, b, caption, meaningOfUI_El
   if color_name~="" then color_name=color_name.." " end
   
   table.insert(reagirl.Elements, slot, {})
+  reagirl.Elements[slot]["ID"]=unique_identifier
   reagirl.Elements[slot]["Guid"]=reaper.genGuid("")
   reagirl.Elements[slot]["GUI_Element_Type"]="Color Rectangle"
   reagirl.Elements[slot]["Name"]=caption
@@ -10606,7 +10610,7 @@ function reagirl.ColorRectangle_SetColor(element_id, r, g, b)
   return true
 end
 
-function reagirl.ListView_Add(x, y, w, h, caption, meaningOfUI_Element, enable_selection, entries, default, run_function)
+function reagirl.ListView_Add(x, y, w, h, caption, meaningOfUI_Element, enable_selection, entries, default, run_function, unique_identifier)
 -- unreleased
 --[[
 <US_ DocBloc version="1.0" spok_lang="en" prog_lang="*">
@@ -10616,7 +10620,7 @@ function reagirl.ListView_Add(x, y, w, h, caption, meaningOfUI_Element, enable_s
     Reaper=7.03
     Lua=5.4
   </requires>
-  <functioncall>string listview_guid = reagirl.ListView_Add(optional integer x, optional integer y, string caption, string meaningOfUI_Element, boolean enable_selection, table entries, integer default, optional function run_function)</functioncall>
+  <functioncall>string listview_guid = reagirl.ListView_Add(optional integer x, optional integer y, string caption, string meaningOfUI_Element, boolean enable_selection, table entries, integer default, optional function run_function, optional string unique_identifier)</functioncall>
   <description>
     Adds a listview to the gui.
     Will only have one column, so no table is possible.
@@ -10638,6 +10642,7 @@ function reagirl.ListView_Add(x, y, w, h, caption, meaningOfUI_Element, enable_s
     table entries - the entries shown in the listview
     integer default - the index of the entry, that shall be set to selected by default
     optional function run_function - a function that shall be run when entries in the listview are clicked/selected via keyboard; see description for more details
+    optional unique_identifier - a unique identifier for this ui-element; make this unique among all ui-elements in this gui, as this can be used for scripters to externally control your ReaGirl-gui
   </parameters>
   <retvals>
     string listview_guid - a guid that can be used for altering the listview-attributes
@@ -10660,7 +10665,7 @@ function reagirl.ListView_Add(x, y, w, h, caption, meaningOfUI_Element, enable_s
   if type(entries)~="table" then error("ListView_Add: param #8 - must be a table", 2) end
   if math.type(default)~="integer" then error("ListView_Add: param #9 - must be a boolean", 2) end
   if run_function~=nil and type(run_function)~="function" then error("ListView_Add: param #10 - must be either nil or a function(ignored when #10 is set to true)", 2) end
-  
+  if unique_identifier~=nil and type(unique_identifier)~="string" then error("ListView_Add: param #11 - must be either nil or a string", 2) end
   local x,y,slot=reagirl.UI_Element_GetNextXAndYPosition(x, y, "ListView_Add")
   --reagirl.UI_Element_NextX_Default=x
   
@@ -11454,7 +11459,7 @@ function reagirl.ListView_Draw(element_id, selected, hovered, clicked, mouse_cap
   end
 end
 
-function reagirl.Textbox_Add(x, y, label, meaningOfUI_Element, run_function)
+function reagirl.Textbox_Add(x, y, label, meaningOfUI_Element, run_function, unique_identifier)
 -- TODO TODO TODO TODO TODO: 
 --      the run-functions management
 --      dragging management maybe
@@ -11468,7 +11473,7 @@ function reagirl.Textbox_Add(x, y, label, meaningOfUI_Element, run_function)
     Reaper=7.03
     Lua=5.4
   </requires>
-  <functioncall>string textbox_id = reagirl.Textbox_Add(optional integer x, optional integer y, string label, string meaningOfUI_Element, optional function run_function)</functioncall>
+  <functioncall>string textbox_id = reagirl.Textbox_Add(optional integer x, optional integer y, string label, string meaningOfUI_Element, optional function run_function, optional string unique_identifier)</functioncall>
   <description>
     Adds a textox to the gui.
     
@@ -11488,6 +11493,7 @@ function reagirl.Textbox_Add(x, y, label, meaningOfUI_Element, run_function)
     string caption - the text of the textbox
     string meaningOfUI_Element - the meaningOfUI_Element of the ui-element(for tooltips and blind users). Make it a sentence that ends with . or ?
     optional function run_function - a function that gets run when clicking a link-text(clickable=true)
+    optional unique_identifier - a unique identifier for this ui-element; make this unique among all ui-elements in this gui, as this can be used for scripters to externally control your ReaGirl-gui
   </parameters>
   <retvals>
     string textbox_id - a guid that can be used for altering the textbox-attributes
@@ -11505,7 +11511,8 @@ function reagirl.Textbox_Add(x, y, label, meaningOfUI_Element, run_function)
   if meaningOfUI_Element:sub(-1,-1)~="." and meaningOfUI_Element:sub(-1,-1)~="?" then error("Textbox_Add: param #4 - must end on a . like a regular sentence.", 2) end
   if run_function==nil then run_function=reagirl.Dummy end
   if type(run_function)~="function" then error("Textbox_Add: param #6 - must be either nil or a function", 2) end
-  
+  if unique_identifier~=nil and type(unique_identifier)~="string" then error("Textbox_Add: param #7 - must be either nil or a string", 2) end
+    
   local x,y,slot=reagirl.UI_Element_GetNextXAndYPosition(x, y, "Label_Add")
   --reagirl.UI_Element_NextX_Default=x
   
@@ -11517,6 +11524,7 @@ function reagirl.Textbox_Add(x, y, label, meaningOfUI_Element, run_function)
   reagirl.SetFont(1, reagirl.Font_Face, reagirl.Font_Size, 0, 1)
   local w,h=gfx.measurestr(label)
   reagirl.SetFont(1, reagirl.Font_Face, reagirl.Font_Size, 0)
+  reagirl.Elements[slot]["ID"]=unique_identifier
   reagirl.Elements[slot]["Guid"]=reaper.genGuid("")
   reagirl.Elements[slot]["GUI_Element_Type"]="Textbox"
   reagirl.Elements[slot]["Name"]=label
@@ -12043,16 +12051,16 @@ function reagirl.Textbox_Draw(element_id, selected, hovered, clicked, mouse_cap,
 end
 
 
-function reagirl.Button_Add(x, y, w_margin, h_margin, caption, meaningOfUI_Element, run_function)
+function reagirl.Button_Add(x, y, w_margin, h_margin, caption, meaningOfUI_Element, run_function, unique_identifier)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>Button_Add</slug>
   <requires>
-    ReaGirl=1.0
+    ReaGirl=1.3
     Reaper=7.03
     Lua=5.4
   </requires>
-  <functioncall>string button_guid = reagirl.Button_Add(optional integer x, optional integer y, integer w_margin, integer h_margin, string caption, string meaningOfUI_Element, optional function run_function)</functioncall>
+  <functioncall>string button_guid = reagirl.Button_Add(optional integer x, optional integer y, integer w_margin, integer h_margin, string caption, string meaningOfUI_Element, optional function run_function, optional string unique_identifier)</functioncall>
   <description>
     Adds a button to a gui.
     
@@ -12070,6 +12078,7 @@ function reagirl.Button_Add(x, y, w_margin, h_margin, caption, meaningOfUI_Eleme
     string caption - the caption of the button
     string meaningOfUI_Element - the meaningOfUI_Element of the ui-element(for tooltips and blind users). Make it a sentence that ends with . or ?
     optional function run_function - a function that shall be run when the button is clicked; will get the button-element_id passed over as first parameter; nil, no run-function for this button
+    optional unique_identifier - a unique identifier for this ui-element; make this unique among all ui-elements in this gui, as this can be used for scripters to externally control your ReaGirl-gui
   </parameters>
   <retvals>
     string button_guid - a guid that can be used for altering the button-attributes
@@ -12089,7 +12098,7 @@ function reagirl.Button_Add(x, y, w_margin, h_margin, caption, meaningOfUI_Eleme
   if type(meaningOfUI_Element)~="string" then error("Button_Add: param #6 - must be a string", 2) end
   if meaningOfUI_Element:sub(-1,-1)~="." and meaningOfUI_Element:sub(-1,-1)~="?" then error("Button_Add: param #6 - must end on a . like a regular sentence.", 2) end
   if run_function~=nil and type(run_function)~="function" then error("Button_Add: param #7 - must be either nil or a function", 2) end
-  
+  if unique_identifier~=nil and type(unique_identifier)~="string" then error("Button_Add: param #8 - must be either nil or a string", 2) end
   local x,y,slot=reagirl.UI_Element_GetNextXAndYPosition(x, y, "Button_Add")
   --reagirl.UI_Element_NextX_Default=x
   
@@ -12098,6 +12107,7 @@ function reagirl.Button_Add(x, y, w_margin, h_margin, caption, meaningOfUI_Eleme
   reagirl.SetFont(1, reagirl.Font_Face, reagirl.Font_Size, 0)
   
   table.insert(reagirl.Elements, slot, {})
+  reagirl.Elements[slot]["ID"]=unique_identifier
   reagirl.Elements[slot]["Guid"]=reaper.genGuid("")
   reagirl.Elements[slot]["GUI_Element_Type"]="Button"
   reagirl.Elements[slot]["Name"]=caption
@@ -12544,7 +12554,7 @@ function reagirl.Color_CalculateHighlighter(r, g, b)
   if color>0.8 then return -val else return val end
 end
 
-function reagirl.ToolbarButton_Add(x, y, toolbaricon, num_states, default_state, state_names, mode, caption, meaningOfUI_Element, run_function, toolbar, toolbarbutton_index)
+function reagirl.ToolbarButton_Add(x, y, toolbaricon, num_states, default_state, state_names, mode, caption, meaningOfUI_Element, run_function, unique_identifier, toolbar, toolbarbutton_index)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>ToolbarButton_Add</slug>
@@ -12554,7 +12564,7 @@ function reagirl.ToolbarButton_Add(x, y, toolbaricon, num_states, default_state,
     SWS=2.10.0.1
     Lua=5.4
   </requires>
-  <functioncall>string toolbarbutton_guid = reagirl.ToolbarButton_Add(optional integer x, optional integer y, string toolbaricon, integer num_states, integer default_state, table state_names, integer mode, string caption, string meaningOfUI_Element, optional function run_function)</functioncall>
+  <functioncall>string toolbarbutton_guid = reagirl.ToolbarButton_Add(optional integer x, optional integer y, string toolbaricon, integer num_states, integer default_state, table state_names, integer mode, string caption, string meaningOfUI_Element, optional function run_function, optional string unique_identifier)</functioncall>
   <description>
     Adds a toolbar-button to a gui.
     
@@ -12591,6 +12601,7 @@ function reagirl.ToolbarButton_Add(x, y, toolbaricon, num_states, default_state,
     string caption - the caption of the toolbar-button
     string meaningOfUI_Element - the meaningOfUI_Element of the ui-element(for tooltips and blind users). Make it a sentence that ends with . or ?
     optional function run_function - a function that shall be run when the toolbar-button is clicked; will get the toolbar-button-element_id passed over as first parameter; nil, no run-function for this toolbar-button
+    optional unique_identifier - a unique identifier for this ui-element; make this unique among all ui-elements in this gui, as this can be used for scripters to externally control your ReaGirl-gui
   </parameters>
   <retvals>
     string toolbarbutton_guid - a guid that can be used for altering the toolbar-button-attributes
@@ -12617,6 +12628,7 @@ function reagirl.ToolbarButton_Add(x, y, toolbaricon, num_states, default_state,
   if type(meaningOfUI_Element)~="string" then error("ToolbarButton_Add: param #9 - must be a string", 2) end
   if meaningOfUI_Element:sub(-1,-1)~="." and meaningOfUI_Element:sub(-1,-1)~="?" then error("ToolbarButton_Add: param #9 - must end on a . like a regular sentence.", 2) end
   if run_function~=nil and type(run_function)~="function" then error("ToolbarButton_Add: param #10 - must be either nil or a function", 2) end
+  if unique_identifier~=nil and type(unique_identifier)~="string" then error("ToolbarButton_Add: param #11 - must be either nil or a string", 2) end  
   
   local x,y,slot=reagirl.UI_Element_GetNextXAndYPosition(x, y, "ToolbarButton_Add", mode&128==128)
   
@@ -12710,7 +12722,7 @@ function reagirl.ToolbarButton_Add(x, y, toolbaricon, num_states, default_state,
     reagirl.Gui_ForceRefresh(953713.293)
   end
   --]]
-
+  reagirl.Elements[slot]["ID"]=unique_identifier
   reagirl.Elements[slot]["Guid"]=reaper.genGuid("")
   reagirl.Elements[slot]["GUI_Element_Type"]="ToolbarButton"
   reagirl.Elements[slot]["Name"]=caption
@@ -14122,7 +14134,7 @@ function reagirl.Menu_GetEntryName(menu, entry_nr)
   end
 end
 
-function reagirl.Burgermenu_Add(x, y, caption, mode, meaningOfUI_Element, menu, run_function)
+function reagirl.Burgermenu_Add(x, y, caption, mode, meaningOfUI_Element, menu, run_function, unique_identifier)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>Burgermenu_Add</slug>
@@ -14131,7 +14143,7 @@ function reagirl.Burgermenu_Add(x, y, caption, mode, meaningOfUI_Element, menu, 
     Reaper=7.03
     Lua=5.4
   </requires>
-  <functioncall>string burgermenu_guid = reagirl.Burgermenu_Add(optional integer x, optional integer y, string caption, integer mode, string meaningOfUI_Element, string menu, optional function run_function)</functioncall>
+  <functioncall>string burgermenu_guid = reagirl.Burgermenu_Add(optional integer x, optional integer y, string caption, integer mode, string meaningOfUI_Element, string menu, optional function run_function, optional string unique_identifier)</functioncall>
   <description>
     Adds a burgermenu to a gui.
     
@@ -14152,6 +14164,7 @@ function reagirl.Burgermenu_Add(x, y, caption, mode, meaningOfUI_Element, menu, 
     string meaningOfUI_Element - the meaningOfUI_Element of the ui-element(for tooltips and blind users). Make it a sentence that ends with . or ?
     string menu - the menu that shall be shown when clicking the button; refer to gfx.showmenu() on how to set this parameter
     optional function run_function - a function that shall be run when the burgermenu is clicked; will get the burgermenu-element_id passed over as first parameter; nil, no run-function for this burgermenu
+    optional unique_identifier - a unique identifier for this ui-element; make this unique among all ui-elements in this gui, as this can be used for scripters to externally control your ReaGirl-gui
   </parameters>
   <retvals>
     string burgermenu_guid - a guid that can be used for altering the button-attributes
@@ -14171,7 +14184,7 @@ function reagirl.Burgermenu_Add(x, y, caption, mode, meaningOfUI_Element, menu, 
   if meaningOfUI_Element:sub(-1,-1)~="." and meaningOfUI_Element:sub(-1,-1)~="?" then error("Burgermenu_Add: param #5 - must end on a . like a regular sentence.", 2) end
   if type(menu)~="string" then error("Burgermenu_Add: param #6 - must be a string", 2) end
   if run_function~=nil and type(run_function)~="function" then error("Burgermenu_Add: param #7 - must be either nil or a function", 2) end
-  
+  if unique_identifier~=nil and type(unique_identifier)~="string" then error("Burgermenu_Add: param #8 - must be either nil or a string", 2) end  
   local x,y,slot=reagirl.UI_Element_GetNextXAndYPosition(x, y, "Burgermenu_Add")
   --reagirl.UI_Element_NextX_Default=x
   
@@ -14181,6 +14194,7 @@ function reagirl.Burgermenu_Add(x, y, caption, mode, meaningOfUI_Element, menu, 
   reagirl.SetFont(1, reagirl.Font_Face, reagirl.Font_Size, 0)
   
   table.insert(reagirl.Elements, slot, {})
+  reagirl.Elements[slot]["ID"]=unique_identifier
   reagirl.Elements[slot]["Guid"]=reaper.genGuid("")
   reagirl.Elements[slot]["GUI_Element_Type"]="Burgermenu"
   reagirl.Elements[slot]["Name"]=caption
@@ -14421,16 +14435,16 @@ function reagirl.Burgermenu_Draw(element_id, selected, hovered, clicked, mouse_c
 end
 
 
-function reagirl.Inputbox_Add(x, y, w, caption, Cap_width, meaningOfUI_Element, Default, run_function_enter, run_function_type)
+function reagirl.Inputbox_Add(x, y, w, caption, Cap_width, meaningOfUI_Element, Default, run_function_enter, run_function_type, unique_identifier)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>Inputbox_Add</slug>
   <requires>
-    ReaGirl=1.0
+    ReaGirl=1.3
     Reaper=7.03
     Lua=5.4
   </requires>
-  <functioncall>string inputbox_guid = reagirl.Inputbox_Add(optional integer x, optional integer y, integer w, string caption, optional integer cap_width, string meaningOfUI_Element, optional string Default, optional function run_function_enter, function run_function_type)</functioncall>
+  <functioncall>string inputbox_guid = reagirl.Inputbox_Add(optional integer x, optional integer y, integer w, string caption, optional integer cap_width, string meaningOfUI_Element, optional string Default, optional function run_function_enter, function run_function_type, optional string unique_identifier)</functioncall>
   <description>
     Adds an inputbox to a gui.
     
@@ -14460,6 +14474,7 @@ function reagirl.Inputbox_Add(x, y, w, caption, Cap_width, meaningOfUI_Element, 
     optional string Default - the "typed text" that the inputbox shall contain
     optional function run_function_enter - a function that is run when the user hits enter in the inputbox(always used, even for screen reader users)
     function run_function_type - a function that is run when the user types into the inputbox(only used if no screen reader is used)
+    optional unique_identifier - a unique identifier for this ui-element; make this unique among all ui-elements in this gui, as this can be used for scripters to externally control your ReaGirl-gui
   </parameters>
   <retvals>
     string inputbox_guid - a guid that can be used for altering the inputbox-attributes
@@ -14482,6 +14497,7 @@ function reagirl.Inputbox_Add(x, y, w, caption, Cap_width, meaningOfUI_Element, 
   if run_function_enter~=nil and type(run_function_enter)~="function" then error("Inputbox_Add: param #8 - must be either nil or a function", 2) end
   if run_function_type~=nil and type(run_function_type)~="function" then error("Inputbox_Add: param #9 - must be either nil or a function", 2) end
   if run_function_type~=nil and run_function_enter==nil then error("Inputbox_Add: param #8 - must be set when using one for type, or blind people might not be able to use the gui properly", -2) end
+  if unique_identifier~=nil and type(unique_identifier)~="string" then error("Inputbox_Add: param #9 - must be either nil or a string", 2) end  
   
   local x,y,slot=reagirl.UI_Element_GetNextXAndYPosition(x, y, "Inputbox_Add")
   --reagirl.UI_Element_NextX_Default=x
@@ -14491,6 +14507,7 @@ function reagirl.Inputbox_Add(x, y, w, caption, Cap_width, meaningOfUI_Element, 
   reagirl.SetFont(1, reagirl.Font_Face, reagirl.Font_Size, 0)
   
   table.insert(reagirl.Elements, slot, {})
+  reagirl.Elements[slot]["ID"]=unique_identifier
   reagirl.Elements[slot]["Guid"]=reaper.genGuid("")
   reagirl.Elements[slot]["GUI_Element_Type"]="Edit"
   reagirl.Elements[slot]["Name"]=caption
@@ -16119,12 +16136,12 @@ end
 
 
 
-function reagirl.DropDownMenu_Add(x, y, w, caption, Cap_width, meaningOfUI_Element, menuItems, menuSelectedItem, run_function)
+function reagirl.DropDownMenu_Add(x, y, w, caption, Cap_width, meaningOfUI_Element, menuItems, menuSelectedItem, run_function, unique_identifier)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>DropDownMenu_Add</slug>
   <requires>
-    ReaGirl=1.0
+    ReaGirl=1.3
     Reaper=7.03
     Lua=5.4
   </requires>
@@ -16150,6 +16167,7 @@ function reagirl.DropDownMenu_Add(x, y, w, caption, Cap_width, meaningOfUI_Eleme
     table menuItems - a table, where every entry is a menu-item
     integer menuSelectedItem - the index of the pre-selected menu-item
     optional function run_function - a function that shall be run when the menu is clicked/a new entry is selected; will get the dropdown-menu-element_id passed over as first parameter and the selected menu_item as second parameter
+    optional unique_identifier - a unique identifier for this ui-element; make this unique among all ui-elements in this gui, as this can be used for scripters to externally control your ReaGirl-gui
   </parameters>
   <retvals>
     string dropdown-menu_guid - a guid that can be used for altering the dropdown-menu-attributes
@@ -16176,7 +16194,7 @@ function reagirl.DropDownMenu_Add(x, y, w, caption, Cap_width, meaningOfUI_Eleme
   if math.type(menuSelectedItem)~="integer" then error("DropDownMenu_Add: param #8 - must be an integer", 2) end
   if menuSelectedItem>#menuItems or menuSelectedItem<1 then error("DropDownMenu_Add: param #9 - no such menu-item", 2) end
   if run_function~=nil and type(run_function)~="function" then error("DropDownMenu_Add: param #10 - must be either nil or a function", 2) end
-  
+  if unique_identifier~=nil and type(unique_identifier)~="string" then error("DropDownMenu_Add: param #11 - must be either nil or a string", 2) end
   local x,y,slot=reagirl.UI_Element_GetNextXAndYPosition(x, y, "DropDownMenu_Add")
   --reagirl.UI_Element_NextX_Default=x
   
@@ -16186,6 +16204,7 @@ function reagirl.DropDownMenu_Add(x, y, w, caption, Cap_width, meaningOfUI_Eleme
   reagirl.SetFont(1, reagirl.Font_Face, reagirl.Font_Size, 0)
   
   table.insert(reagirl.Elements, slot, {})
+  reagirl.Elements[slot]["ID"]=unique_identifier
   reagirl.Elements[slot]["Guid"]=reaper.genGuid("")
   reagirl.Elements[slot]["GUI_Element_Type"]="ComboBox"
   reagirl.Elements[slot]["Name"]=caption
@@ -17324,16 +17343,16 @@ function reagirl.Label_GetStyle(element_id)
 end
 
   
-function reagirl.Label_Add(x, y, label, meaningOfUI_Element, clickable, run_function)
+function reagirl.Label_Add(x, y, label, meaningOfUI_Element, clickable, run_function, unique_identifier)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>Label_Add</slug>
   <requires>
-    ReaGirl=1.0
+    ReaGirl=1.3
     Reaper=7.03
     Lua=5.4
   </requires>
-  <functioncall>string label_id = reagirl.Label_Add(optional integer x, optional integer y, string label, string meaningOfUI_Element, boolean clickable, optional function run_function)</functioncall>
+  <functioncall>string label_id = reagirl.Label_Add(optional integer x, optional integer y, string label, string meaningOfUI_Element, boolean clickable, optional function run_function, optional string unique_identifier)</functioncall>
   <description>
     Adds a label to the gui.
     
@@ -17353,6 +17372,7 @@ function reagirl.Label_Add(x, y, label, meaningOfUI_Element, clickable, run_func
     string meaningOfUI_Element - the meaningOfUI_Element of the ui-element(for tooltips and blind users). Make it a sentence that ends with . or ?
     boolean clickable - true, the text is a clickable link-text; false or nil, the label-text is normal text
     optional function run_function - a function that gets run when clicking the link-text(clickable=true)
+    optional unique_identifier - a unique identifier for this ui-element; make this unique among all ui-elements in this gui, as this can be used for scripters to externally control your ReaGirl-gui
   </parameters>
   <retvals>
     string label_id - a guid that can be used for altering the label-attributes
@@ -17371,7 +17391,7 @@ function reagirl.Label_Add(x, y, label, meaningOfUI_Element, clickable, run_func
   if type(clickable)~="boolean" then error("Label_Add: param #5 - must be a boolean", 2) end
   if run_function==nil then run_function=reagirl.Dummy end
   if type(run_function)~="function" then error("Label_Add: param #6 - must be either nil or a function", 2) end
-  
+  if unique_identifier~=nil and type(unique_identifier)~="string" then error("Label_Add: param #7 - must be either nil or a string", 2) end
   local x,y,slot=reagirl.UI_Element_GetNextXAndYPosition(x, y, "Label_Add")
   --reagirl.UI_Element_NextX_Default=x
   
@@ -17383,6 +17403,7 @@ function reagirl.Label_Add(x, y, label, meaningOfUI_Element, clickable, run_func
   reagirl.SetFont(1, reagirl.Font_Face, reagirl.Font_Size, 0, 1)
   local w,h=gfx.measurestr(label)
   reagirl.SetFont(1, reagirl.Font_Face, reagirl.Font_Size, 0)
+  reagirl.Elements[slot]["ID"]=unique_identifier
   reagirl.Elements[slot]["Guid"]=reaper.genGuid("")
   reagirl.Elements[slot]["GUI_Element_Type"]=clickable_text.."Label"
   reagirl.Elements[slot]["Name"]=label
@@ -18152,16 +18173,16 @@ function reagirl.Label_SetDraggable(element_id, draggable, destination_element_i
   end
 end
 
-function reagirl.Image_Add(x, y, w, h, image_filename, caption, meaningOfUI_Element, run_function)
+function reagirl.Image_Add(x, y, w, h, image_filename, caption, meaningOfUI_Element, run_function, unique_identifier)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>Image_Add</slug>
   <requires>
-    ReaGirl=1.0
+    ReaGirl=1.3
     Reaper=7.03
     Lua=5.4
   </requires>
-  <functioncall>string image_guid = reagirl.Image_Add(integer x, integer y, integer w, integer h, string image_filename, string caption, string meaning of UI_Element, optional function run_function)</functioncall>
+  <functioncall>string image_guid = reagirl.Image_Add(integer x, integer y, integer w, integer h, string image_filename, string caption, string meaning of UI_Element, optional function run_function, optional string unique_identifier)</functioncall>
   <description>
     Adds an image to the gui. This image can run a function when clicked on it. 
     
@@ -18206,6 +18227,7 @@ function reagirl.Image_Add(x, y, w, h, image_filename, caption, meaningOfUI_Elem
     string caption - a descriptive name for the image
     string meaningOfUI_Element - the meaningOfUI_Element of the ui-element(for tooltips and blind users). Make it a sentence that ends with . or ?
     optional function run_function - a function that is run when the image is clicked; will get the image-element-id as first parameter and the image-filename passed as second parameter
+    optional unique_identifier - a unique identifier for this ui-element; make this unique among all ui-elements in this gui, as this can be used for scripters to externally control your ReaGirl-gui
   </parameters>
   <retvals>
     string image_guid - a guid that can be used for altering the image-attributes
@@ -18226,11 +18248,12 @@ function reagirl.Image_Add(x, y, w, h, image_filename, caption, meaningOfUI_Elem
   if meaningOfUI_Element:sub(-1,-1)~="." and meaningOfUI_Element:sub(-1,-1)~="?" then error("Image_Add: param #7 - must end on a . like a regular sentence.", 2) end
   if run_function==nil then run_function=reagirl.Dummy end
   if run_function~=nil and type(run_function)~="function" then error("Image_Add: param #8 - must be either nil or a function", 2) end
-  
+  if unique_identifier~=nil and type(unique_identifier)~="string" then error("Image_Add: param #9 - must be either nil or a string", 2) end  
   local x,y,slot=reagirl.UI_Element_GetNextXAndYPosition(x, y, "Image_Add")
   --reagirl.UI_Element_NextX_Default=x
   
   table.insert(reagirl.Elements, slot, {})
+  reagirl.Elements[slot]["ID"]=unique_identifier
   reagirl.Elements[slot]["Guid"]=reaper.genGuid("")
   reagirl.Elements[slot]["GUI_Element_Type"]="Image"
   reagirl.Elements[slot]["Description"]=meaningOfUI_Element
@@ -20122,16 +20145,16 @@ function reagirl.AutoPosition_SetNextUIElementRelativeTo(element_id)
 end
 
 -- mespotine
-function reagirl.Slider_Add(x, y, w, caption, Cap_width, meaningOfUI_Element, unit, start, stop, step, init_value, default, run_function)
+function reagirl.Slider_Add(x, y, w, caption, Cap_width, meaningOfUI_Element, unit, start, stop, step, init_value, default, run_function, unique_identifier)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>Slider_Add</slug>
   <requires>
-    ReaGirl=1.0
+    ReaGirl=1.3
     Reaper=7.03
     Lua=5.4
   </requires>
-  <functioncall>string slider_guid = reagirl.Slider_Add(optional integer x, optional integer y, integer width, string caption, optional integer cap_width, string meaningOfUI_Element, optional string unit, number start_val, number end_val, number step, number init_value, number default, optional function run_function)</functioncall>
+  <functioncall>string slider_guid = reagirl.Slider_Add(optional integer x, optional integer y, integer width, string caption, optional integer cap_width, string meaningOfUI_Element, optional string unit, number start_val, number end_val, number step, number init_value, number default, optional function run_function, optional string unique_identifier)</functioncall>
   <description>
     Adds a slider to a gui.
     
@@ -20161,6 +20184,7 @@ function reagirl.Slider_Add(x, y, w, caption, Cap_width, meaningOfUI_Element, un
     number init_value - the initial value of the slider
     number default - the default value of the slider
     optional function run_function - a function that shall be run when the slider is dragged; will get passed over the slider-element_id as first and the new slider-value as second parameter
+    optional unique_identifier - a unique identifier for this ui-element; make this unique among all ui-elements in this gui, as this can be used for scripters to externally control your ReaGirl-gui
   </parameters>
   <retvals>
     string slider_guid - a guid that can be used for altering the slider-attributes
@@ -20191,7 +20215,7 @@ function reagirl.Slider_Add(x, y, w, caption, Cap_width, meaningOfUI_Element, un
   if type(default)~="number" then error("Slider_Add: param #12 - must be a number", 2) end
   if step>stop-start then error("Slider_Add: param #10 - must be smaller than start minus stop", 2) end
   if run_function~=nil and type(run_function)~="function" then error("Slider_Add: param #13 - must be either nil or a function", 2) end
-  
+  if unique_identifier~=nil and type(unique_identifier)~="string" then error("Slider_Add: param #14 - must be either nil or a string", 2) end  
   local x,y,slot=reagirl.UI_Element_GetNextXAndYPosition(x, y, "Slider_Add")
   --reagirl.UI_Element_NextX_Default=x
   
@@ -20206,6 +20230,7 @@ function reagirl.Slider_Add(x, y, w, caption, Cap_width, meaningOfUI_Element, un
   
   local slot=reagirl.UI_Element_GetNextFreeSlot()
   table.insert(reagirl.Elements, slot, {})
+  reagirl.Elements[slot]["ID"]=unique_identifier
   reagirl.Elements[slot]["Guid"]=reaper.genGuid("")
   reagirl.Elements[slot]["GUI_Element_Type"]="Slider"
   reagirl.Elements[slot]["Name"]=caption
@@ -21547,16 +21572,16 @@ function reagirl.NextLine_GetMargin()
   return reagirl.UI_Element_NextX_Margin, reagirl.UI_Element_NextY_Margin
 end
 
-function reagirl.Tabs_Add(x, y, w_backdrop, h_backdrop, caption, meaningOfUI_Element, tab_names, selected_tab, run_function)
+function reagirl.Tabs_Add(x, y, w_backdrop, h_backdrop, caption, meaningOfUI_Element, tab_names, selected_tab, run_function, unique_identifier)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>Tabs_Add</slug>
   <requires>
-    ReaGirl=1.0
+    ReaGirl=1.3
     Reaper=7.03
     Lua=5.4
   </requires>
-  <functioncall>string tabs_guid = reagirl.Tabs_Add(optional integer x, optional integer y, integer w, integer w_backdrop, integer h_backdrop, string caption, string meaningOfUI_Element, table tab_names, integer selected_tab, optional function run_function)</functioncall>
+  <functioncall>string tabs_guid = reagirl.Tabs_Add(optional integer x, optional integer y, integer w, integer w_backdrop, integer h_backdrop, string caption, string meaningOfUI_Element, table tab_names, integer selected_tab, optional function run_function, optional string unique_identifier)</functioncall>
   <description>
     Adds a tab to a gui.
     
@@ -21587,6 +21612,7 @@ function reagirl.Tabs_Add(x, y, w_backdrop, h_backdrop, caption, meaningOfUI_Ele
                                    - will get passed over the tab-element_id as first and 
                                    - the new selected tab as second parameter as well as 
                                    - the selected tab-name as third parameter
+    optional unique_identifier - a unique identifier for this ui-element; make this unique among all ui-elements in this gui, as this can be used for scripters to externally control your ReaGirl-gui
   </parameters>
   <retvals>
     string tabs_guid - a guid that can be used for altering the tab-attributes
@@ -21615,6 +21641,7 @@ function reagirl.Tabs_Add(x, y, w_backdrop, h_backdrop, caption, meaningOfUI_Ele
   end
   if math.type(selected_tab)~="integer" then error("Tabs_Add: param #8 - must be an integer", 2) end
   if run_function~=nil and type(run_function)~="function" then error("Tabs_Add: param #9 - must be either nil or a function", 2) end
+  if unique_identifier~=nil and type(unique_identifier)~="string" then error("Tabs_Add: param #10 - must be either nil or a string", 2) end
   
   local add=false
   if x==nil then 
@@ -21642,6 +21669,7 @@ function reagirl.Tabs_Add(x, y, w_backdrop, h_backdrop, caption, meaningOfUI_Ele
   
   local slot=reagirl.UI_Element_GetNextFreeSlot()
   table.insert(reagirl.Elements, slot, {})
+  reagirl.Elements[slot]["ID"]=unique_identifier
   reagirl.Elements[slot]["Guid"]=reaper.genGuid("")
   reagirl.Elements[slot]["GUI_Element_Type"]="Tabs"
   reagirl.Elements[slot]["Name"]=caption
@@ -22140,7 +22168,7 @@ function reagirl.Rect(x,y,w,h,filled)
   return gfx.rect(x, y, w, h, filled)
 end
 
-function reagirl.Meter_Add(x, y, w, h, mode, caption, meaningOfUI_Element, run_function)
+function reagirl.Meter_Add(x, y, w, h, mode, caption, meaningOfUI_Element, run_function, unique_identifier)
   --[[
   <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
     <slug>Meter_Add</slug>
@@ -22149,7 +22177,7 @@ function reagirl.Meter_Add(x, y, w, h, mode, caption, meaningOfUI_Element, run_f
       Reaper=7.03
       Lua=5.4
     </requires>
-    <functioncall>string meter_guid = reagirl.Meter_Add(integer x, integer y, integer w, integer h, integer mode, string caption, string meaningOfUI_Element, optional function run_function)</functioncall>
+    <functioncall>string meter_guid = reagirl.Meter_Add(integer x, integer y, integer w, integer h, integer mode, string caption, string meaningOfUI_Element, optional function run_function, optional string unique_identifier)</functioncall>
     <description>
       Adds a meter to a gui.
       
@@ -22171,6 +22199,7 @@ function reagirl.Meter_Add(x, y, w, h, mode, caption, meaningOfUI_Element, run_f
       string caption - the caption of the meter
       string meaningOfUI_Element - the meaningOfUI_Element of the ui-element(for tooltips and blind users). Make it a sentence that ends with . or ?
       optional function run_function - a function that shall be run in every defer-cycle; will get passed over the meter-element_id as first and the db-value as second parameter
+      optional unique_identifier - a unique identifier for this ui-element; make this unique among all ui-elements in this gui, as this can be used for scripters to externally control your ReaGirl-gui
     </parameters>
     <retvals>
       string meter_guid - a guid that can be used for altering the meter-attributes
@@ -22202,10 +22231,11 @@ function reagirl.Meter_Add(x, y, w, h, mode, caption, meaningOfUI_Element, run_f
     if type(meaningOfUI_Element)~="string" then error("Meter_Add: param #7 - must be a string", 2) end
     if meaningOfUI_Element:sub(-1,-1)~="." and meaningOfUI_Element:sub(-1,-1)~="?" then error("Meter_Add: param #7 - must end on a . like a regular sentence.", 2) end
     if run_function~=nil and type(run_function)~="function" then error("Meter_Add: param #8 - must be either nil or a function", 2) end
-    
+    if unique_identifier~=nil and type(unique_identifier)~="string" then error("Meter_Add: param #9 - must be either nil or a string", 2) end
+      
     local x,y,slot=reagirl.UI_Element_GetNextXAndYPosition(x, y, "Meter_Add")
     table.insert(reagirl.Elements, slot, {})
-
+    reagirl.Elements[slot]["ID"]=unique_identifier
     reagirl.Elements[slot]["Guid"]=reaper.genGuid("")
     reagirl.Elements[slot]["GUI_Element_Type"]="Meter"
     reagirl.Elements[slot]["Name"]=caption

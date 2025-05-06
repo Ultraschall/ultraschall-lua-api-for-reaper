@@ -109,7 +109,7 @@ function SetUpNewGui()
   reagirl.Label_SetBackdrop(tab1.Label_General, 300, 77) -- set a backdrop around the next few labels
   reagirl.NextLine()
   
-  tab1.checkbox_tooltips_id = reagirl.Checkbox_Add(nil, nil, "Show tooltips when hovering above ui-element", "When checked, ReaGirl will show tooltips when hovering above ui-elements.", true, checkbox)
+  tab1.checkbox_tooltips_id = reagirl.Checkbox_Add(nil, nil, "Show tooltips when hovering above ui-element", "When checked, ReaGirl will show tooltips when hovering above ui-elements.", true, checkbox, "TEstme")
   reagirl.Checkbox_LinkToExtstate(tab1.checkbox_tooltips_id, "ReaGirl", "show_tooltips", "false", "", true, true) 
   reagirl.NextLine()
   tab1.scroll_via_keyboard_id = reagirl.Checkbox_Add(nil, nil, "Scroll via keyboard", "When checked, ReaGirl allows scrolling via keyboard with the cursor keys, PgUp/PgDn, Home and End-key.", true, checkbox)

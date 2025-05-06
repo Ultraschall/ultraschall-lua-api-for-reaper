@@ -34,7 +34,7 @@
 
   -- create new gui
   reagirl.Gui_New()
-  tabs=reagirl.Tabs_Add(nil, nil, nil, nil, "Tabs", "Demo-Tabs most elements in first tab only.", {"General Tab", "Advanced Tab", "Extras Tab"}, 1, nil )
+  tabs=reagirl.Tabs_Add(nil, nil, nil, nil, "Tabs", "Demo-Tabs most elements in first tab only.", {"General Tab", "Advanced Tab", "Extras Tab"}, 1, nil)
   
   tab1={} -- the table for all ui-elements of tab 1
   reagirl.Tabs_SetUIElementsForTab(tabs, 1, tab1) -- associate ui-elements of table "tab1" with tab 1
@@ -78,7 +78,7 @@
   
   reagirl.NextLine()
   tab1.burgermenu = reagirl.Burgermenu_Add(nil, nil, "A Burgermenu", 1, "A demo-burger-menu with some options.", "Setting 1|Setting 2|>Subfolder|Setting 3|Setting 4|<|Setting 5", nil)
-  tab1.colorrectangle1 = reagirl.ColorRectangle_Add(nil,nil,16,16,255,0,0,"A Color Rectangle22", "A color rectangle with a color. Click it to select a different color.", true, nil)
+  tab1.colorrectangle1 = reagirl.ColorRectangle_Add(nil,nil,16,16,255,0,0,"A Color Rectangle", "A color rectangle with a color. Click it to select a different color.", true, nil)
   tab1.colorrectangle2 = reagirl.ColorRectangle_Add(nil,nil,16,16,0,255,0,"A Color Rectangle", "A color rectangle with a color. Click it to select a different color.", true, nil)
   tab1.colorrectangle3 = reagirl.ColorRectangle_Add(nil,nil,16,16,0,0,255,"A Color Rectangle", "A color rectangle with a color. Click it to select a different color.", true, nil)
   tab1.colorrectangle4 = reagirl.ColorRectangle_Add(nil,nil,16,16,0,0,0,"A Color Rectangle", "A color rectangle with a color. Click it to select a different color.", true, nil)

@@ -165,7 +165,7 @@ Note: if the user chose a color-theme for ReaGirl-guis, this color will be overr
 <img width="3%" src="gfx/reaper7.03.png" alt="requires Reaper version 7.03">
 <img width="3%" src="gfx/reagirl1.3.png" alt="requires ReaGirl version 1.3"><u><b>Burgermenu_Add</b></u><br>			<p>
 <div class="cc">
-<div class="l">Lua: <code> <i>string</i> burgermenu_guid = <em>reagirl.Burgermenu_Add</em>(<i>optional</i> <i>integer</i> x, <i>optional</i> <i>integer</i> y, <i>string</i> caption, <i>integer</i> mode, <i>string</i> meaningOfUI_Element, <i>string</i> menu, <i>optional</i> <i>function</i> run_function)</code></div>
+<div class="l">Lua: <code> <i>string</i> burgermenu_guid = <em>reagirl.Burgermenu_Add</em>(<i>optional</i> <i>integer</i> x, <i>optional</i> <i>integer</i> y, <i>string</i> caption, <i>integer</i> mode, <i>string</i> meaningOfUI_Element, <i>string</i> menu, <i>optional</i> <i>function</i> run_function, <i>optional</i> <i>string</i> unique_identifier)</code></div>
 </div><p>
 <div class="ch">
 Adds a burgermenu to a gui.<br>
@@ -213,6 +213,10 @@ The run-function gets as parameter:<br>
 <table class="ch">
 <tr><td class="pr"><i>optional</i> <i>function</i> run_function</td></tr>
 <tr><td class="ch2">a function that shall be run when the burgermenu is clicked; will get the burgermenu-element_id passed over as first parameter; nil, no run-function for this burgermenu</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>optional</i> unique_identifier</td></tr>
+<tr><td class="ch2">a unique identifier for this ui-element; make this unique among all ui-elements in this gui, as this can be used for scripters to externally control your ReaGirl-gui</td></tr>
 </table>
 <br>
 </div>
@@ -275,9 +279,9 @@ Sets the menu of a burgermenu<br>
 <a class="anch" id="Button_Add"></a>
 <a href="#Button_Add"> ^</a> 
 <img width="3%" src="gfx/reaper7.03.png" alt="requires Reaper version 7.03">
-<img width="3%" src="gfx/reagirl1.0.png" alt="requires ReaGirl version 1.0"><u><b>Button_Add</b></u><br>			<p>
+<img width="3%" src="gfx/reagirl1.3.png" alt="requires ReaGirl version 1.3"><u><b>Button_Add</b></u><br>			<p>
 <div class="cc">
-<div class="l">Lua: <code> <i>string</i> button_guid = <em>reagirl.Button_Add</em>(<i>optional</i> <i>integer</i> x, <i>optional</i> <i>integer</i> y, <i>integer</i> w_margin, <i>integer</i> h_margin, <i>string</i> caption, <i>string</i> meaningOfUI_Element, <i>optional</i> <i>function</i> run_function)</code></div>
+<div class="l">Lua: <code> <i>string</i> button_guid = <em>reagirl.Button_Add</em>(<i>optional</i> <i>integer</i> x, <i>optional</i> <i>integer</i> y, <i>integer</i> w_margin, <i>integer</i> h_margin, <i>string</i> caption, <i>string</i> meaningOfUI_Element, <i>optional</i> <i>function</i> run_function, <i>optional</i> <i>string</i> unique_identifier)</code></div>
 </div><p>
 <div class="ch">
 Adds a button to a gui.<br>
@@ -322,6 +326,10 @@ The run-function gets as parameter:<br>
 <table class="ch">
 <tr><td class="pr"><i>optional</i> <i>function</i> run_function</td></tr>
 <tr><td class="ch2">a function that shall be run when the button is clicked; will get the button-element_id passed over as first parameter; nil, no run-function for this button</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>optional</i> unique_identifier</td></tr>
+<tr><td class="ch2">a unique identifier for this ui-element; make this unique among all ui-elements in this gui, as this can be used for scripters to externally control your ReaGirl-gui</td></tr>
 </table>
 <br>
 </div>
@@ -502,9 +510,9 @@ Sets the radius of a button.<br>
 <a class="anch" id="Checkbox_Add"></a>
 <a href="#Checkbox_Add"> ^</a> 
 <img width="3%" src="gfx/reaper7.03.png" alt="requires Reaper version 7.03">
-<img width="3%" src="gfx/reagirl1.0.png" alt="requires ReaGirl version 1.0"><u><b>Checkbox_Add</b></u><br>			<p>
+<img width="3%" src="gfx/reagirl1.3.png" alt="requires ReaGirl version 1.3"><u><b>Checkbox_Add</b></u><br>			<p>
 <div class="cc">
-<div class="l">Lua: <code> <i>string</i> checkbox_guid = <em>reagirl.Checkbox_Add</em>(<i>integer</i> x, <i>integer</i> y, <i>string</i> caption, <i>string</i> meaningOfUI_Element, <i>optional</i> <i>function</i> run_function)</code></div>
+<div class="l">Lua: <code> <i>string</i> checkbox_guid = <em>reagirl.Checkbox_Add</em>(<i>integer</i> x, <i>integer</i> y, <i>string</i> caption, <i>string</i> meaningOfUI_Element, <i>optional</i> <i>function</i> run_function, <i>optional</i> <i>string</i> unique_identifier)</code></div>
 </div><p>
 <div class="ch">
 Adds a checkbox to a gui.<br>
@@ -548,6 +556,10 @@ Note: to align multiple lines of checkboxes under each other, check out Checkbox
 <table class="ch">
 <tr><td class="pr"><i>optional</i> <i>function</i> run_function</td></tr>
 <tr><td class="ch2">a function that shall be run when the checkbox is clicked; will get passed over the checkbox-element_id as first and the new checkstate as second parameter</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>optional</i> unique_identifier</td></tr>
+<tr><td class="ch2">a unique identifier for this ui-element; make this unique among all ui-elements in this gui, as this can be used for scripters to externally control your ReaGirl-gui</td></tr>
 </table>
 <br>
 </div>
@@ -854,9 +866,9 @@ Unlinks a checkbox from extstate/ini-file/configvar. <br>
 <a class="anch" id="ColorRectangle_Add"></a>
 <a href="#ColorRectangle_Add"> ^</a> 
 <img width="3%" src="gfx/reaper7.03.png" alt="requires Reaper version 7.03">
-<img width="3%" src="gfx/reagirl1.2.png" alt="requires ReaGirl version 1.2"><u><b>ColorRectangle_Add</b></u><br>			<p>
+<img width="3%" src="gfx/reagirl1.3.png" alt="requires ReaGirl version 1.3"><u><b>ColorRectangle_Add</b></u><br>			<p>
 <div class="cc">
-<div class="l">Lua: <code> <i>string</i> color_rectangle_guid = <em>reagirl.ColorRectangle_Add</em>(<i>optional</i> <i>integer</i> x, <i>optional</i> <i>integer</i> y, <i>integer</i> w, <i>integer</i> h, <i>integer</i> r, <i>integer</i> g, <i>integer</i> b, <i>string</i> caption, <i>string</i> meaningOfUI_Element, <i>boolean</i> color_selector_when_clicked, <i>optional</i> <i>function</i> run_function)</code></div>
+<div class="l">Lua: <code> <i>string</i> color_rectangle_guid = <em>reagirl.ColorRectangle_Add</em>(<i>optional</i> <i>integer</i> x, <i>optional</i> <i>integer</i> y, <i>integer</i> w, <i>integer</i> h, <i>integer</i> r, <i>integer</i> g, <i>integer</i> b, <i>string</i> caption, <i>string</i> meaningOfUI_Element, <i>boolean</i> color_selector_when_clicked, <i>optional</i> <i>function</i> run_function, <i>optional</i> <i>string</i> unique_identifier)</code></div>
 </div><p>
 <div class="ch">
 Adds a color-rectangle to a gui.<br>
@@ -931,6 +943,10 @@ false, clicking will not open a color-selector.</td></tr>
 <table class="ch">
 <tr><td class="pr"><i>optional</i> <i>function</i> run_function</td></tr>
 <tr><td class="ch2">a function that shall be run when the color-rectangle is clicked; will get the color-rectangle-element_id passed over as first parameter and r,g,b as second, third and fourth parameter; nil, no run-function for this color-rectangle</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>optional</i> <i>string</i> unique_identifier</td></tr>
+<tr><td class="ch2">a unique identifier for this ui-element; make this unique among all ui-elements in this gui, as this can be used for scripters to externally control your ReaGirl-gui</td></tr>
 </table>
 <br>
 </div>
@@ -2001,7 +2017,7 @@ Sets the radius of the edges of a decorative rectangle.<br>
 <a class="anch" id="DropDownMenu_Add"></a>
 <a href="#DropDownMenu_Add"> ^</a> 
 <img width="3%" src="gfx/reaper7.03.png" alt="requires Reaper version 7.03">
-<img width="3%" src="gfx/reagirl1.0.png" alt="requires ReaGirl version 1.0"><u><b>DropDownMenu_Add</b></u><br>			<p>
+<img width="3%" src="gfx/reagirl1.3.png" alt="requires ReaGirl version 1.3"><u><b>DropDownMenu_Add</b></u><br>			<p>
 <div class="cc">
 <div class="l">Lua: <code> <i>string</i> dropdown-menu_guid = <em>reagirl.DropDownMenu_Add</em>(<i>optional</i> <i>integer</i> x, <i>optional</i> <i>integer</i> y, <i>integer</i> w, <i>string</i> caption, <i>optional</i> <i>integer</i> Cap_width, <i>string</i> meaningOfUI_Element, <i>table</i> menuItems, <i>integer</i> menuSelectedItem, <i>optional</i> <i>function</i> run_function)</code></div>
 </div><p>
@@ -2058,6 +2074,10 @@ The run-function gets as parameters:<br>
 <table class="ch">
 <tr><td class="pr"><i>optional</i> <i>function</i> run_function</td></tr>
 <tr><td class="ch2">a function that shall be run when the menu is clicked/a new entry is selected; will get the dropdown-menu-element_id passed over as first parameter and the selected menu_item as second parameter</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>optional</i> unique_identifier</td></tr>
+<tr><td class="ch2">a unique identifier for this ui-element; make this unique among all ui-elements in this gui, as this can be used for scripters to externally control your ReaGirl-gui</td></tr>
 </table>
 <br>
 </div>
@@ -3062,9 +3082,9 @@ Prevents the scrolling of the gui via keyboard/mousewheel/swiping for this defer
 <a class="anch" id="Image_Add"></a>
 <a href="#Image_Add"> ^</a> 
 <img width="3%" src="gfx/reaper7.03.png" alt="requires Reaper version 7.03">
-<img width="3%" src="gfx/reagirl1.0.png" alt="requires ReaGirl version 1.0"><u><b>Image_Add</b></u><br>			<p>
+<img width="3%" src="gfx/reagirl1.3.png" alt="requires ReaGirl version 1.3"><u><b>Image_Add</b></u><br>			<p>
 <div class="cc">
-<div class="l">Lua: <code> <i>string</i> image_guid = <em>reagirl.Image_Add</em>(<i>integer</i> x, <i>integer</i> y, <i>integer</i> w, <i>integer</i> h, <i>string</i> image_filename, <i>string</i> caption, <i>string</i> meaning of UI_Element, <i>optional</i> <i>function</i> run_function)</code></div>
+<div class="l">Lua: <code> <i>string</i> image_guid = <em>reagirl.Image_Add</em>(<i>integer</i> x, <i>integer</i> y, <i>integer</i> w, <i>integer</i> h, <i>string</i> image_filename, <i>string</i> caption, <i>string</i> meaning of UI_Element, <i>optional</i> <i>function</i> run_function, <i>optional</i> <i>string</i> unique_identifier)</code></div>
 </div><p>
 <div class="ch">
 Adds an image to the gui. This image can run a function when clicked on it. <br>
@@ -3139,6 +3159,10 @@ If you want to force the image to be displayed with correct aspect ratio, see Im
 <table class="ch">
 <tr><td class="pr"><i>optional</i> <i>function</i> run_function</td></tr>
 <tr><td class="ch2">a function that is run when the image is clicked; will get the image-element-id as first parameter and the image-filename passed as second parameter</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>optional</i> unique_identifier</td></tr>
+<tr><td class="ch2">a unique identifier for this ui-element; make this unique among all ui-elements in this gui, as this can be used for scripters to externally control your ReaGirl-gui</td></tr>
 </table>
 <br>
 </div>
@@ -3542,9 +3566,9 @@ Gets, if the image is drawn with a drop-shadow. This is helpful for images, that
 <a class="anch" id="Inputbox_Add"></a>
 <a href="#Inputbox_Add"> ^</a> 
 <img width="3%" src="gfx/reaper7.03.png" alt="requires Reaper version 7.03">
-<img width="3%" src="gfx/reagirl1.0.png" alt="requires ReaGirl version 1.0"><u><b>Inputbox_Add</b></u><br>			<p>
+<img width="3%" src="gfx/reagirl1.3.png" alt="requires ReaGirl version 1.3"><u><b>Inputbox_Add</b></u><br>			<p>
 <div class="cc">
-<div class="l">Lua: <code> <i>string</i> inputbox_guid = <em>reagirl.Inputbox_Add</em>(<i>optional</i> <i>integer</i> x, <i>optional</i> <i>integer</i> y, <i>integer</i> w, <i>string</i> caption, <i>optional</i> <i>integer</i> cap_width, <i>string</i> meaningOfUI_Element, <i>optional</i> <i>string</i> Default, <i>optional</i> <i>function</i> run_function_enter, <i>function</i> run_function_type)</code></div>
+<div class="l">Lua: <code> <i>string</i> inputbox_guid = <em>reagirl.Inputbox_Add</em>(<i>optional</i> <i>integer</i> x, <i>optional</i> <i>integer</i> y, <i>integer</i> w, <i>string</i> caption, <i>optional</i> <i>integer</i> cap_width, <i>string</i> meaningOfUI_Element, <i>optional</i> <i>string</i> Default, <i>optional</i> <i>function</i> run_function_enter, <i>function</i> run_function_type, <i>optional</i> <i>string</i> unique_identifier)</code></div>
 </div><p>
 <div class="ch">
 Adds an inputbox to a gui.<br>
@@ -3607,6 +3631,10 @@ The run-functions get as parameters:<br>
 <table class="ch">
 <tr><td class="pr"><i>function</i> run_function_type</td></tr>
 <tr><td class="ch2">a function that is run when the user types into the inputbox(only used if no screen reader is used)</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>optional</i> unique_identifier</td></tr>
+<tr><td class="ch2">a unique identifier for this ui-element; make this unique among all ui-elements in this gui, as this can be used for scripters to externally control your ReaGirl-gui</td></tr>
 </table>
 <br>
 </div>
@@ -4023,9 +4051,9 @@ Unlinks an inputbox from extstate/ini-file/configvar. <br>
 <a class="anch" id="Label_Add"></a>
 <a href="#Label_Add"> ^</a> 
 <img width="3%" src="gfx/reaper7.03.png" alt="requires Reaper version 7.03">
-<img width="3%" src="gfx/reagirl1.0.png" alt="requires ReaGirl version 1.0"><u><b>Label_Add</b></u><br>			<p>
+<img width="3%" src="gfx/reagirl1.3.png" alt="requires ReaGirl version 1.3"><u><b>Label_Add</b></u><br>			<p>
 <div class="cc">
-<div class="l">Lua: <code> <i>string</i> label_id = <em>reagirl.Label_Add</em>(<i>optional</i> <i>integer</i> x, <i>optional</i> <i>integer</i> y, <i>string</i> label, <i>string</i> meaningOfUI_Element, <i>boolean</i> clickable, <i>optional</i> <i>function</i> run_function)</code></div>
+<div class="l">Lua: <code> <i>string</i> label_id = <em>reagirl.Label_Add</em>(<i>optional</i> <i>integer</i> x, <i>optional</i> <i>integer</i> y, <i>string</i> label, <i>string</i> meaningOfUI_Element, <i>boolean</i> clickable, <i>optional</i> <i>function</i> run_function, <i>optional</i> <i>string</i> unique_identifier)</code></div>
 </div><p>
 <div class="ch">
 Adds a label to the gui.<br>
@@ -4069,6 +4097,10 @@ The run-function will get as parameters:<br>
 <table class="ch">
 <tr><td class="pr"><i>optional</i> <i>function</i> run_function</td></tr>
 <tr><td class="ch2">a function that gets run when clicking the link-text(clickable=true)</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>optional</i> unique_identifier</td></tr>
+<tr><td class="ch2">a unique identifier for this ui-element; make this unique among all ui-elements in this gui, as this can be used for scripters to externally control your ReaGirl-gui</td></tr>
 </table>
 <br>
 </div>
@@ -4467,7 +4499,7 @@ You can combine different styles with each other in style1 through style3.<br>
 <img width="3%" src="gfx/reaper7.03.png" alt="requires Reaper version 7.03">
 <img width="3%" src="gfx/reagirl1.3.png" alt="requires ReaGirl version 1.3"><u><b>Meter_Add</b></u><br>			<p>
 <div class="cc">
-<div class="l">Lua: <code> <i>string</i> meter_guid = <em>reagirl.Meter_Add</em>(<i>integer</i> x, <i>integer</i> y, <i>integer</i> w, <i>integer</i> h, <i>integer</i> mode, <i>string</i> caption, <i>string</i> meaningOfUI_Element, <i>optional</i> <i>function</i> run_function)</code></div>
+<div class="l">Lua: <code> <i>string</i> meter_guid = <em>reagirl.Meter_Add</em>(<i>integer</i> x, <i>integer</i> y, <i>integer</i> w, <i>integer</i> h, <i>integer</i> mode, <i>string</i> caption, <i>string</i> meaningOfUI_Element, <i>optional</i> <i>function</i> run_function, <i>optional</i> <i>string</i> unique_identifier)</code></div>
 </div><p>
 <div class="ch">
 Adds a meter to a gui.<br>
@@ -4519,6 +4551,10 @@ Note: the run-function will be run in every single defer-cycle! Helpful when lin
 <table class="ch">
 <tr><td class="pr"><i>optional</i> <i>function</i> run_function</td></tr>
 <tr><td class="ch2">a function that shall be run in every defer-cycle; will get passed over the meter-element_id as first and the db-value as second parameter</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>optional</i> unique_identifier</td></tr>
+<tr><td class="ch2">a unique identifier for this ui-element; make this unique among all ui-elements in this gui, as this can be used for scripters to externally control your ReaGirl-gui</td></tr>
 </table>
 <br>
 <u>see also:</u><br><table class="ch">
@@ -5147,9 +5183,9 @@ The following settings are valid:<br>
 <a class="anch" id="Slider_Add"></a>
 <a href="#Slider_Add"> ^</a> 
 <img width="3%" src="gfx/reaper7.03.png" alt="requires Reaper version 7.03">
-<img width="3%" src="gfx/reagirl1.0.png" alt="requires ReaGirl version 1.0"><u><b>Slider_Add</b></u><br>			<p>
+<img width="3%" src="gfx/reagirl1.3.png" alt="requires ReaGirl version 1.3"><u><b>Slider_Add</b></u><br>			<p>
 <div class="cc">
-<div class="l">Lua: <code> <i>string</i> slider_guid = <em>reagirl.Slider_Add</em>(<i>optional</i> <i>integer</i> x, <i>optional</i> <i>integer</i> y, <i>integer</i> width, <i>string</i> caption, <i>optional</i> <i>integer</i> cap_width, <i>string</i> meaningOfUI_Element, <i>optional</i> <i>string</i> unit, <i>number</i> start_val, <i>number</i> end_val, <i>number</i> step, <i>number</i> init_value, <i>number</i> default, <i>optional</i> <i>function</i> run_function)</code></div>
+<div class="l">Lua: <code> <i>string</i> slider_guid = <em>reagirl.Slider_Add</em>(<i>optional</i> <i>integer</i> x, <i>optional</i> <i>integer</i> y, <i>integer</i> width, <i>string</i> caption, <i>optional</i> <i>integer</i> cap_width, <i>string</i> meaningOfUI_Element, <i>optional</i> <i>string</i> unit, <i>number</i> start_val, <i>number</i> end_val, <i>number</i> step, <i>number</i> init_value, <i>number</i> default, <i>optional</i> <i>function</i> run_function, <i>optional</i> <i>string</i> unique_identifier)</code></div>
 </div><p>
 <div class="ch">
 Adds a slider to a gui.<br>
@@ -5224,6 +5260,10 @@ The run-function will get as parameters:<br>
 <table class="ch">
 <tr><td class="pr"><i>optional</i> <i>function</i> run_function</td></tr>
 <tr><td class="ch2">a function that shall be run when the slider is dragged; will get passed over the slider-element_id as first and the new slider-value as second parameter</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>optional</i> unique_identifier</td></tr>
+<tr><td class="ch2">a unique identifier for this ui-element; make this unique among all ui-elements in this gui, as this can be used for scripters to externally control your ReaGirl-gui</td></tr>
 </table>
 <br>
 </div>
@@ -5734,9 +5774,9 @@ Unlinks a slider from extstate/ini-file/configvar. <br>
 <a class="anch" id="Tabs_Add"></a>
 <a href="#Tabs_Add"> ^</a> 
 <img width="3%" src="gfx/reaper7.03.png" alt="requires Reaper version 7.03">
-<img width="3%" src="gfx/reagirl1.0.png" alt="requires ReaGirl version 1.0"><u><b>Tabs_Add</b></u><br>			<p>
+<img width="3%" src="gfx/reagirl1.3.png" alt="requires ReaGirl version 1.3"><u><b>Tabs_Add</b></u><br>			<p>
 <div class="cc">
-<div class="l">Lua: <code> <i>string</i> tabs_guid = <em>reagirl.Tabs_Add</em>(<i>optional</i> <i>integer</i> x, <i>optional</i> <i>integer</i> y, <i>integer</i> w, <i>integer</i> w_backdrop, <i>integer</i> h_backdrop, <i>string</i> caption, <i>string</i> meaningOfUI_Element, <i>table</i> tab_names, <i>integer</i> selected_tab, <i>optional</i> <i>function</i> run_function)</code></div>
+<div class="l">Lua: <code> <i>string</i> tabs_guid = <em>reagirl.Tabs_Add</em>(<i>optional</i> <i>integer</i> x, <i>optional</i> <i>integer</i> y, <i>integer</i> w, <i>integer</i> w_backdrop, <i>integer</i> h_backdrop, <i>string</i> caption, <i>string</i> meaningOfUI_Element, <i>table</i> tab_names, <i>integer</i> selected_tab, <i>optional</i> <i>function</i> run_function, <i>optional</i> <i>string</i> unique_identifier)</code></div>
 </div><p>
 <div class="ch">
 Adds a tab to a gui.<br>
@@ -5800,6 +5840,10 @@ The run-function will get as parameters:<br>
 will get passed over the tab-element_id as first and <br/>
 the new selected tab as second parameter as well as <br/>
 the selected tab-name as third parameter</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>optional</i> unique_identifier</td></tr>
+<tr><td class="ch2">a unique identifier for this ui-element; make this unique among all ui-elements in this gui, as this can be used for scripters to externally control your ReaGirl-gui</td></tr>
 </table>
 <br>
 </div>
@@ -5886,7 +5930,7 @@ The element_ids in the table element_ids_table consists of all ui-elements that 
 <img width="3%" src="gfx/sws2.10.0.1.png" alt="requires SWS version 2.10.0.1">
 <img width="3%" src="gfx/reagirl1.3.png" alt="requires ReaGirl version 1.3"><u><b>ToolbarButton_Add</b></u><br>			<p>
 <div class="cc">
-<div class="l">Lua: <code> <i>string</i> toolbarbutton_guid = <em>reagirl.ToolbarButton_Add</em>(<i>optional</i> <i>integer</i> x, <i>optional</i> <i>integer</i> y, <i>string</i> toolbaricon, <i>integer</i> num_states, <i>integer</i> default_state, <i>table</i> state_names, <i>integer</i> mode, <i>string</i> caption, <i>string</i> meaningOfUI_Element, <i>optional</i> <i>function</i> run_function)</code></div>
+<div class="l">Lua: <code> <i>string</i> toolbarbutton_guid = <em>reagirl.ToolbarButton_Add</em>(<i>optional</i> <i>integer</i> x, <i>optional</i> <i>integer</i> y, <i>string</i> toolbaricon, <i>integer</i> num_states, <i>integer</i> default_state, <i>table</i> state_names, <i>integer</i> mode, <i>string</i> caption, <i>string</i> meaningOfUI_Element, <i>optional</i> <i>function</i> run_function, <i>optional</i> <i>string</i> unique_identifier)</code></div>
 </div><p>
 <div class="ch">
 Adds a toolbar-button to a gui.<br>
@@ -5959,6 +6003,10 @@ Each entry must be a string!</td></tr>
 <table class="ch">
 <tr><td class="pr"><i>optional</i> <i>function</i> run_function</td></tr>
 <tr><td class="ch2">a function that shall be run when the toolbar-button is clicked; will get the toolbar-button-element_id passed over as first parameter; nil, no run-function for this toolbar-button</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>optional</i> unique_identifier</td></tr>
+<tr><td class="ch2">a unique identifier for this ui-element; make this unique among all ui-elements in this gui, as this can be used for scripters to externally control your ReaGirl-gui</td></tr>
 </table>
 <br>
 </div>
