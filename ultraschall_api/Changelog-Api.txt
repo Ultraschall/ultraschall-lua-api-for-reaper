@@ -410,7 +410,7 @@ Docs: eine Doku, wie man eine Gui so schreibt, dass man einfach mal schnell ui-e
 
 ### 5.3 - " - " - 15th of May 2025
 
-Has now 1901 functions, with 43 new ones
+Has now 1902 functions, with 44 new ones
 
 **new in this release:**  
 
@@ -424,6 +424,7 @@ Has now 1901 functions, with 43 new ones
   - ReaGirl: DropDownMenu\_GetSelectedMenuItem - gets the selected menu-item
   - ReaGirl: DropDownMenu\_SetSelectedMenuItem - sets the selected menu-item
   - ReaGirl: Ext\_SendEvent - send various events to ui-elements in a ReaGirl-gui
+  - ReaGirl: Ext\_SendEventByID - send various events to ui-elements in a ReaGirl-gui by ID
   - ReaGirl: Image\_GetDropShadow - gets a drop-shadow-state, drawn behind the image
   - ReaGirl: Image\_SetDropShadow - sets a drop-shadow drawn behind the image
   - ReaGirl: Inputbox\_GetTextSuggestions - gets the currently available text suggestions that the user can choose from a dropdownmenu in the inputbox

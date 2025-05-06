@@ -50,7 +50,7 @@
  
   reagirl.NextLine()
   tab1.label_regular=reagirl.Label_Add(nil, nil, "Example label", "A regular label.", false, nil)
-  tab1.label_clickable=reagirl.Label_Add(nil, nil, "Clickable label", "A clickable label.", true, clickable_label)
+  tab1.label_clickable=reagirl.Label_Add(nil, nil, "Clickable label", "A clickable label.", true, clickable_label, "JIMBO")
   
   tab1.label_styled=reagirl.Label_Add(nil, nil, "Styled label", "A styled label.", false, nil)
   reagirl.Label_SetStyle(tab1.label_styled, 7, 2, 0) -- set to inverted and italic

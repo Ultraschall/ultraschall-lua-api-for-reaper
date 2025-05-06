@@ -5636,9 +5636,11 @@ function reagirl.Ext_SendEvent(gui_name, ui_element_caption, event, send_string,
       
       Note: events can also be sent to hidden ui-elements!
       
-      Also note: if multiple ui-elements have the same name, the will all be set with the same value(if they are the correct ui-element-type).
+      Also note: if multiple ui-elements have the same name, they will all be set with the same value(if they are the correct ui-element-type).
       
       The run-functions of ui-elements that received events will be run as well.
+      
+      The sent event will be executed in the next defer-cycle. If you send the same event multiple times to a ui-element within one defer-cycle, it will only be executed once.
     </description>
     <parameters>
       string reagirl_instance_guid - the guid of a ReaGirl-window-instance
@@ -5703,62 +5705,216 @@ end
 function reagirl.Ext_ExecuteExternalEvents()
   -- missing: check, if ui-element is a checkbox, slider, dropdownmenu
   local text=reaper.GetExtState("ReaGirl", "ExternalEvents:"..reagirl.Window_name)
-  ABBA=text
   --local text=reaper.GetExtState("ReaGirl", "ExternalEvents:"..reagirl.Window_Title)
   if text=="" then return end
   reaper.SetExtState("ReaGirl", "ExternalEvents:"..reagirl.Window_name, "", false)
   for k in string.gmatch(text.."\n", "(.-)\n") do
     local event, ui_element = k:match("(.-):(.*)")
-    for i=1, #reagirl.Elements do
-      if reagirl.Elements[i]["Name"]==ui_element then
-        if event=="leftClick" then
-          reagirl.Elements[i].external_leftclick=true
-        elseif event=="ext_setCheckTrue" then
-          reagirl.Elements[i].checked=true
-          reagirl.Gui_ForceRefresh("ext_setCheckTrue")
-        elseif event=="ext_setCheckFalse" then
-          reagirl.Elements[i].checked=false
-          reagirl.Gui_ForceRefresh("ext_setCheckFalse")
-        elseif event:sub(1,20)=="ext_setDropDownMenu_" then
-          local number=tonumber(event:sub(21, -1))
-          if reagirl.Elements[i]["MenuCount"]~=nil and number>0 and number<=reagirl.Elements[i]["MenuCount"] then
-            reagirl.DropDownMenu_SetSelectedMenuItem(reagirl.Elements[i]["Guid"], number)
-            reagirl.Elements[i].run_function_exec=true
-            reagirl.Gui_ForceRefresh("ext_setDropDownMenu")
+    if event~=nil then
+      for i=1, #reagirl.Elements do
+        if reagirl.Elements[i]["Name"]==ui_element then
+          if event=="leftClick" then
+            reagirl.Elements[i].external_leftclick=true
+          elseif event=="ext_setCheckTrue" then
+            reagirl.Elements[i].checked=true
+            reagirl.Gui_ForceRefresh("ext_setCheckTrue")
+          elseif event=="ext_setCheckFalse" then
+            reagirl.Elements[i].checked=false
+            reagirl.Gui_ForceRefresh("ext_setCheckFalse")
+          elseif event:sub(1,20)=="ext_setDropDownMenu_" then
+            local number=tonumber(event:sub(21, -1))
+            if reagirl.Elements[i]["MenuCount"]~=nil and number>0 and number<=reagirl.Elements[i]["MenuCount"] then
+              reagirl.DropDownMenu_SetSelectedMenuItem(reagirl.Elements[i]["Guid"], number)
+              reagirl.Elements[i].run_function_exec=true
+              reagirl.Gui_ForceRefresh("ext_setDropDownMenu")
+            end
+          elseif event:sub(1,14)=="ext_setSlider_" then
+            local number=tonumber(event:sub(15, -1))
+            if reagirl.Elements[i]["GUI_Element_Type"]=="Slider" and number>=reagirl.Elements[i]["Start"] and number<=reagirl.Elements[i]["Stop"] then
+              reagirl.Slider_SetValue(reagirl.Elements[i]["Guid"], number)
+              reagirl.Elements[i].run_function_exec=true
+              reagirl.Gui_ForceRefresh("ext_setSlider")
+            end
+          elseif event=="scroll_to" then
+            reagirl.UI_Element_ScrollToUIElement(reagirl.Elements[i]["Guid"], 0, 0, true, true)
+            reagirl.Gui_ForceRefresh("ext_scrollto")
+          elseif event=="focus_and_scroll_to" then
+            reagirl.UI_Element_ScrollToUIElement(reagirl.Elements[i]["Guid"], 0, 0, true, true)
+            reagirl.UI_Element_SetFocused(reagirl.Elements[i]["Guid"])
+            reagirl.FocusRectangle_Toggle(true)
+            reagirl.Gui_ForceRefresh("ext_focus_and_scroll_to")
+          elseif event:sub(1, 10)=="set_label_" then
+            local send_text=reagirl.Base64_Decoder(event:sub(11,-1))
+            if reagirl.Elements[i]["GUI_Element_Type"]=="Label" then
+              reagirl.Label_SetLabelText(reagirl.Elements[i]["Guid"], send_text)
+            elseif reagirl.Elements[i]["GUI_Element_Type"]=="Edit" then
+              reagirl.Inputbox_SetText(reagirl.Elements[i]["Guid"], string.gsub(send_text, "\n", ""))
+            end
+            reagirl.Gui_ForceRefresh("ext_set_label")
+          elseif event:sub(1,10)=="set_color_" then
+            local r,g,b=event:sub(11,-1):match("(.-)_(.-)_(.*)")
+            r=tonumber(r)
+            g=tonumber(g)
+            b=tonumber(b)
+            reagirl.ColorRectangle_SetColor(reagirl.Elements[i]["Guid"], r, g, b)
+          elseif reagirl.Elements[i]["GUI_Element_Type"]=="ToolbarButton" and event:sub(1,12)=="set_toolbar_" then
+            local number=tonumber(event:sub(13,-1))
+            local retval = reagirl.ToolbarButton_SetState(reagirl.Elements[i]["Guid"], number)
+            if retval==true then reagirl.Elements[i].run_function_exec=true end
           end
-        elseif event:sub(1,14)=="ext_setSlider_" then
-          local number=tonumber(event:sub(15, -1))
-          if reagirl.Elements[i]["GUI_Element_Type"]=="Slider" and number>=reagirl.Elements[i]["Start"] and number<=reagirl.Elements[i]["Stop"] then
-            reagirl.Slider_SetValue(reagirl.Elements[i]["Guid"], number)
-            reagirl.Elements[i].run_function_exec=true
-            reagirl.Gui_ForceRefresh("ext_setSlider")
+        end
+      end
+    end
+  end
+end
+
+function reagirl.Ext_SendEventByID(gui_name, ui_element_caption, event, send_string, value, value2, value3)
+  --[[
+  <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+    <slug>Ext_SendEventByID</slug>
+    <requires>
+      ReaGirl=1.3
+      Reaper=7.03
+      Lua=5.4
+    </requires>
+    <functioncall>reagirl.Ext_SendEventByID(string reagirl_instance_guid, string id_of_ui_element, integer event, string text, integer value, integer value2, integer value3)</functioncall>
+    <description>
+      Sends a message to a ui-element in a ReaGirl-gui.
+      
+      To get the values needed for your target gui, go into ReaGirl-settings into the development-tab.
+      Choose the option to show gui/ui-element-name in the ReaScript console.
+      
+      Then open the gui in question. Use Tab/Shift+Tab to select the ui-element you want to have. The ReaScript-console-window will show the name of the gui-window and the name of the currently focused ReaGirl-ui-element as well as its ID(if given).
+      These you can use with this function by copying the gui-name and the ui-element-id from within the quotes.
+      
+      Note: events can also be sent to hidden ui-elements!
+      
+      Also note: if multiple ui-elements have the same id, they will all be set with the same value(if they are the correct ui-element-type).
+      
+      The run-functions of ui-elements that received events will be run as well.
+      
+      The sent event will be executed in the next defer-cycle. If you send the same event multiple times to a ui-element within one defer-cycle, it will only be executed once.
+    </description>
+    <parameters>
+      string reagirl_instance_guid - the guid of a ReaGirl-window-instance
+      string id_of_ui_element - the name of the ui-element
+      integer event - the event to send:
+                    - 1, send a left click to the ui-element
+                    - 2, set checkbox to true
+                    - 3, set checkbox to false
+                    - 4, set dropdownmenu-item(use parameter value to pass the index of the dropdownmenu-item)
+                    - 5, set slider-value(use parameter value to pass the value of the slider)
+                    - 6, scroll to ui-element
+                    - 7, scroll to ui-element and set keyboard focus to it
+                    - 8, set label text/text of inputboxes
+                    - 9, set color of a color-rectangle(use value for r, value2 for g, value3 for b-value; 0-255 each)
+                    - 10, set the state of a toolbar-button
+      string text - the text to pass to a ui-element; use "" if not needed
+      integer value - the value to pass to a ui-element; use 0 if not needed
+      integer value2 - the second value to pass to a ui-element; use 0 if not needed
+      integer value3 - the third value to pass to a ui-element; use 0 if not needed
+    </parameters>
+    <chapter_context>
+      Ext
+    </chapter_context>
+    <target_document>ReaGirl_Docs</target_document>
+    <source_document>reagirl_GuiEngine.lua</source_document>
+    <tags>ext, send, messages</tags>
+  </US_DocBloc>
+  ]]
+  if type(gui_name)~="string" then error("Ext_SendEventByID: param #1 - must be a string", 2) end
+  if type(ui_element_caption)~="string" then error("Ext_SendEventByID: param #2 - must be a string", 2) end
+  if math.type(event)~="integer" then error("Ext_SendEventByID: param #3 - must be an integer", 2) end
+  if type(send_string)~="string" then error("Ext_SendEventByID: param #4 - must be a string", 2) end
+  if type(value)~="number" then error("Ext_SendEventByID: param #5 - must be an integer", 2) end
+  if type(value2)~="number" then error("Ext_SendEventByID: param #6 - must be an integer", 2) end
+  if type(value3)~="number" then error("Ext_SendEventByID: param #7 - must be an integer", 2) end
+  
+  local text=reaper.GetExtState("ReaGirl", "ExternalEvents:"..gui_name)
+  Events={"leftClick", "ext_setCheckTrue", "ext_setCheckFalse", "ext_setDropDownMenu_", "ext_setSlider_", 
+          "scroll_to", "focus_and_scroll_to", "set_label_", "set_color_", "set_toolbar_"}
+  if event~=4 and event~=5 and event~=9 and event~=10 then value="" end
+  if event~=9 then value2="" value3="" end
+  if event~=8 then send_string="" else send_string=reagirl.Base64_Encoder(tostring(send_string)) end
+  if event==4 or event==10 then
+    if math.type(value)~="integer" then error("Ext_SendEventByID: param #5 - with this event, value must be an integer 1 or higher", 2) end
+    if value<1 then error("Ext_SendEventByID: param #5 - with this event, value must be an integer 1 or higher", 2) end
+  end
+  if event==9 then 
+    if math.type(value)~="integer" then error("Ext_SendEventByID: param #5 - when event==9, this must be an integer between 0 and 255", 2) end
+    if math.type(value2)~="integer" then error("Ext_SendEventByID: param #6 - when event==9, this must be an integer between 0 and 255", 2) end
+    if math.type(value3)~="integer" then error("Ext_SendEventByID: param #7 - when event==9, this must be an integer between 0 and 255", 2) end
+    
+    if value<0 or value>255 then error("Ext_SendEventByID: param #5 - when event==9, this must be an integer between 0 and 255", 2) end
+    if value2<0 or value2>255 then error("Ext_SendEventByID: param #6 - when event==9, this must be an integer between 0 and 255", 2) end
+    if value3<0 or value3>255 then error("Ext_SendEventByID: param #7 - when event==9, this must be an integer between 0 and 255", 2) end
+    value=value.."_"
+    value2=value2.."_"
+  end
+  text=text.."\n"..Events[event]..value..value2..value3..send_string..":"..ui_element_caption
+  reaper.SetExtState("ReaGirl", "ExternalEventsID:"..gui_name, text, false)
+end
+
+function reagirl.Ext_ExecuteExternalEvents_ByID()
+  -- missing: check, if ui-element is a checkbox, slider, dropdownmenu
+  local text=reaper.GetExtState("ReaGirl", "ExternalEventsID:"..reagirl.Window_name)
+  --local text=reaper.GetExtState("ReaGirl", "ExternalEvents:"..reagirl.Window_Title)
+  if text=="" then return end
+  reaper.SetExtState("ReaGirl", "ExternalEventsID:"..reagirl.Window_name, "", false)
+  for k in string.gmatch(text.."\n", "(.-)\n") do
+    local event, ui_element = k:match("(.-):(.*)")
+    if event~=nil then
+      for i=1, #reagirl.Elements do
+        if reagirl.Elements[i]["ID"]==ui_element then
+          if event=="leftClick" then
+            reagirl.Elements[i].external_leftclick=true
+          elseif event=="ext_setCheckTrue" then
+            reagirl.Elements[i].checked=true
+            reagirl.Gui_ForceRefresh("ext_setCheckTrue")
+          elseif event=="ext_setCheckFalse" then
+            reagirl.Elements[i].checked=false
+            reagirl.Gui_ForceRefresh("ext_setCheckFalse")
+          elseif event:sub(1,20)=="ext_setDropDownMenu_" then
+            local number=tonumber(event:sub(21, -1))
+            if reagirl.Elements[i]["MenuCount"]~=nil and number>0 and number<=reagirl.Elements[i]["MenuCount"] then
+              reagirl.DropDownMenu_SetSelectedMenuItem(reagirl.Elements[i]["Guid"], number)
+              reagirl.Elements[i].run_function_exec=true
+              reagirl.Gui_ForceRefresh("ext_setDropDownMenu")
+            end
+          elseif event:sub(1,14)=="ext_setSlider_" then
+            local number=tonumber(event:sub(15, -1))
+            if reagirl.Elements[i]["GUI_Element_Type"]=="Slider" and number>=reagirl.Elements[i]["Start"] and number<=reagirl.Elements[i]["Stop"] then
+              reagirl.Slider_SetValue(reagirl.Elements[i]["Guid"], number)
+              reagirl.Elements[i].run_function_exec=true
+              reagirl.Gui_ForceRefresh("ext_setSlider")
+            end
+          elseif event=="scroll_to" then
+            reagirl.UI_Element_ScrollToUIElement(reagirl.Elements[i]["Guid"], 0, 0, true, true)
+            reagirl.Gui_ForceRefresh("ext_scrollto")
+          elseif event=="focus_and_scroll_to" then
+            reagirl.UI_Element_ScrollToUIElement(reagirl.Elements[i]["Guid"], 0, 0, true, true)
+            reagirl.UI_Element_SetFocused(reagirl.Elements[i]["Guid"])
+            reagirl.FocusRectangle_Toggle(true)
+            reagirl.Gui_ForceRefresh("ext_focus_and_scroll_to")
+          elseif event:sub(1, 10)=="set_label_" then
+            local send_text=reagirl.Base64_Decoder(event:sub(11,-1))
+            if reagirl.Elements[i]["GUI_Element_Type"]=="Label" then
+              reagirl.Label_SetLabelText(reagirl.Elements[i]["Guid"], send_text)
+            elseif reagirl.Elements[i]["GUI_Element_Type"]=="Edit" then
+              reagirl.Inputbox_SetText(reagirl.Elements[i]["Guid"], string.gsub(send_text, "\n", ""))
+            end
+            reagirl.Gui_ForceRefresh("ext_set_label")
+          elseif event:sub(1,10)=="set_color_" then
+            local r,g,b=event:sub(11,-1):match("(.-)_(.-)_(.*)")
+            r=tonumber(r)
+            g=tonumber(g)
+            b=tonumber(b)
+            reagirl.ColorRectangle_SetColor(reagirl.Elements[i]["Guid"], r, g, b)
+          elseif reagirl.Elements[i]["GUI_Element_Type"]=="ToolbarButton" and event:sub(1,12)=="set_toolbar_" then
+            local number=tonumber(event:sub(13,-1))
+            local retval = reagirl.ToolbarButton_SetState(reagirl.Elements[i]["Guid"], number)
+            if retval==true then reagirl.Elements[i].run_function_exec=true end
           end
-        elseif event=="scroll_to" then
-          reagirl.UI_Element_ScrollToUIElement(reagirl.Elements[i]["Guid"], 0, 0, true, true)
-          reagirl.Gui_ForceRefresh("ext_scrollto")
-        elseif event=="focus_and_scroll_to" then
-          reagirl.UI_Element_ScrollToUIElement(reagirl.Elements[i]["Guid"], 0, 0, true, true)
-          reagirl.UI_Element_SetFocused(reagirl.Elements[i]["Guid"])
-          reagirl.FocusRectangle_Toggle(true)
-          reagirl.Gui_ForceRefresh("ext_focus_and_scroll_to")
-        elseif event:sub(1, 10)=="set_label_" then
-          local send_text=reagirl.Base64_Decoder(event:sub(11,-1))
-          if reagirl.Elements[i]["GUI_Element_Type"]=="Label" then
-            reagirl.Label_SetLabelText(reagirl.Elements[i]["Guid"], send_text)
-          elseif reagirl.Elements[i]["GUI_Element_Type"]=="Edit" then
-            reagirl.Inputbox_SetText(reagirl.Elements[i]["Guid"], string.gsub(send_text, "\n", ""))
-          end
-          reagirl.Gui_ForceRefresh("ext_set_label")
-        elseif event:sub(1,10)=="set_color_" then
-          local r,g,b=event:sub(11,-1):match("(.-)_(.-)_(.*)")
-          r=tonumber(r)
-          g=tonumber(g)
-          b=tonumber(b)
-          reagirl.ColorRectangle_SetColor(reagirl.Elements[i]["Guid"], r, g, b)
-        elseif reagirl.Elements[i]["GUI_Element_Type"]=="ToolbarButton" and event:sub(1,12)=="set_toolbar_" then
-          local number=tonumber(event:sub(13,-1))
-          local retval = reagirl.ToolbarButton_SetState(reagirl.Elements[i]["Guid"], number)
-          if retval==true then reagirl.Elements[i].run_function_exec=true end
         end
       end
     end
@@ -6006,6 +6162,7 @@ function reagirl.Gui_Manage(keep_running)
   
   reagirl.Ext_IsAnyReaGirlGuiHovered()
   reagirl.Ext_ExecuteExternalEvents() -- listen for external click-events and set them in the ui-element
+  reagirl.Ext_ExecuteExternalEvents_ByID() -- listen for external click events and set them in the ui-element by its id
   if reaper.time_precise()<reagirl.FocusRectangle_BlinkStartTime+reagirl.FocusRectangle_BlinkTime then
     if reagirl.FocusRectangle_BlinkSpeed>1 then
       reagirl.FocusRectangle_Blink=reagirl.FocusRectangle_Blink+1
