@@ -2403,6 +2403,10 @@ Then open the gui in question. Use Tab/Shift+Tab to select the ui-element you wa
 These you can use with this function by copying the names from within the quotes.<br>
 <br>
 Note: events can also be sent to hidden ui-elements!<br>
+<br>
+Also note: if multiple ui-elements have the same name, the will all be set with the same value(if they are the correct ui-element-type).<br>
+<br>
+The run-functions of ui-elements that received events will be run as well.<br>
 </div><br>          <u>Parameters:</u>
 <table class="ch">
 <tr><td class="pr"><i>string</i> reagirl_instance_guid</td></tr>
@@ -2423,7 +2427,8 @@ Note: events can also be sent to hidden ui-elements!<br>
 6, scroll to ui-element<br/>
 7, scroll to ui-element and set keyboard focus to it<br/>
 8, set label text/text of inputboxes<br/>
-9, set color of a color-rectangle(use value for r, value2 for g, value3 for b-value; 0-255 each)</td></tr>
+9, set color of a color-rectangle(use value for r, value2 for g, value3 for b-value; 0-255 each)<br/>
+10, set the state of a toolbar-button</td></tr>
 </table>
 <table class="ch">
 <tr><td class="pr"><i>string</i> text</td></tr>

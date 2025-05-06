@@ -5635,6 +5635,10 @@ function reagirl.Ext_SendEvent(gui_name, ui_element_caption, event, send_string,
       These you can use with this function by copying the names from within the quotes.
       
       Note: events can also be sent to hidden ui-elements!
+      
+      Also note: if multiple ui-elements have the same name, the will all be set with the same value(if they are the correct ui-element-type).
+      
+      The run-functions of ui-elements that received events will be run as well.
     </description>
     <parameters>
       string reagirl_instance_guid - the guid of a ReaGirl-window-instance
@@ -5649,6 +5653,7 @@ function reagirl.Ext_SendEvent(gui_name, ui_element_caption, event, send_string,
                     - 7, scroll to ui-element and set keyboard focus to it
                     - 8, set label text/text of inputboxes
                     - 9, set color of a color-rectangle(use value for r, value2 for g, value3 for b-value; 0-255 each)
+                    - 10, set the state of a toolbar-button
       string text - the text to pass to a ui-element; use "" if not needed
       integer value - the value to pass to a ui-element; use 0 if not needed
       integer value2 - the second value to pass to a ui-element; use 0 if not needed
@@ -5672,18 +5677,22 @@ function reagirl.Ext_SendEvent(gui_name, ui_element_caption, event, send_string,
   
   local text=reaper.GetExtState("ReaGirl", "ExternalEvents:"..gui_name)
   Events={"leftClick", "ext_setCheckTrue", "ext_setCheckFalse", "ext_setDropDownMenu_", "ext_setSlider_", 
-          "scroll_to", "focus_and_scroll_to", "set_label_", "set_color_"}
-  if event~=4 and event~=5 and event~=9 then value="" end
+          "scroll_to", "focus_and_scroll_to", "set_label_", "set_color_", "set_toolbar_"}
+  if event~=4 and event~=5 and event~=9 and event~=10 then value="" end
   if event~=9 then value2="" value3="" end
   if event~=8 then send_string="" else send_string=reagirl.Base64_Encoder(tostring(send_string)) end
+  if event==4 or event==10 then
+    if math.type(value)~="integer" then error("Ext_SendEvent: param #5 - with this event, value must be an integer 1 or higher", 2) end
+    if value<1 then error("Ext_SendEvent: param #5 - with this event, value must be an integer 1 or higher", 2) end
+  end
   if event==9 then 
-    if math.type(value)~="integer" then error("Ext_SendEvent: param #5 - when mode==9, this must be an integer between 0 and 255", 2) end
-    if math.type(value2)~="integer" then error("Ext_SendEvent: param #6 - when mode==9, this must be an integer between 0 and 255", 2) end
-    if math.type(value3)~="integer" then error("Ext_SendEvent: param #7 - when mode==9, this must be an integer between 0 and 255", 2) end
+    if math.type(value)~="integer" then error("Ext_SendEvent: param #5 - when event==9, this must be an integer between 0 and 255", 2) end
+    if math.type(value2)~="integer" then error("Ext_SendEvent: param #6 - when event==9, this must be an integer between 0 and 255", 2) end
+    if math.type(value3)~="integer" then error("Ext_SendEvent: param #7 - when event==9, this must be an integer between 0 and 255", 2) end
     
-    if value<0 or value>255 then error("Ext_SendEvent: param #5 - when mode==9, this must be an integer between 0 and 255", 2) end
-    if value2<0 or value2>255 then error("Ext_SendEvent: param #6 - when mode==9, this must be an integer between 0 and 255", 2) end
-    if value3<0 or value3>255 then error("Ext_SendEvent: param #7 - when mode==9, this must be an integer between 0 and 255", 2) end
+    if value<0 or value>255 then error("Ext_SendEvent: param #5 - when event==9, this must be an integer between 0 and 255", 2) end
+    if value2<0 or value2>255 then error("Ext_SendEvent: param #6 - when event==9, this must be an integer between 0 and 255", 2) end
+    if value3<0 or value3>255 then error("Ext_SendEvent: param #7 - when event==9, this must be an integer between 0 and 255", 2) end
     value=value.."_"
     value2=value2.."_"
   end
@@ -5694,9 +5703,10 @@ end
 function reagirl.Ext_ExecuteExternalEvents()
   -- missing: check, if ui-element is a checkbox, slider, dropdownmenu
   local text=reaper.GetExtState("ReaGirl", "ExternalEvents:"..reagirl.Window_name)
+  ABBA=text
   --local text=reaper.GetExtState("ReaGirl", "ExternalEvents:"..reagirl.Window_Title)
   if text=="" then return end
-  reaper.SetExtState("ReaGirl", "ExternalEvents:"..reagirl.Window_Title, "", false)
+  reaper.SetExtState("ReaGirl", "ExternalEvents:"..reagirl.Window_name, "", false)
   for k in string.gmatch(text.."\n", "(.-)\n") do
     local event, ui_element = k:match("(.-):(.*)")
     for i=1, #reagirl.Elements do
@@ -5745,6 +5755,10 @@ function reagirl.Ext_ExecuteExternalEvents()
           g=tonumber(g)
           b=tonumber(b)
           reagirl.ColorRectangle_SetColor(reagirl.Elements[i]["Guid"], r, g, b)
+        elseif reagirl.Elements[i]["GUI_Element_Type"]=="ToolbarButton" and event:sub(1,12)=="set_toolbar_" then
+          local number=tonumber(event:sub(13,-1))
+          local retval = reagirl.ToolbarButton_SetState(reagirl.Elements[i]["Guid"], number)
+          if retval==true then reagirl.Elements[i].run_function_exec=true end
         end
       end
     end
@@ -12761,7 +12775,7 @@ function reagirl.ToolbarButton_Add(x, y, toolbaricon, num_states, default_state,
 end
 
 function reagirl.ToolbarButton_Manage(element_id, selected, hovered, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
-  local message=" "
+  local message=" " 
   local refresh=false
   local oldpressed=element_storage["pressed"]
   local dpi_scale=reagirl.Window_GetCurrentScale()
@@ -12834,8 +12848,14 @@ function reagirl.ToolbarButton_Manage(element_id, selected, hovered, clicked, mo
       reagirl.Gui_ForceRefresh(22)
     end
   end
+  
+  local run_func=false
+  if element_storage.run_function_exec==true then run_func=true end
+  element_storage.run_function_exec=false
+  
   if oldpressed==true and element_storage["pressed"]==false and (mouse_cap&1==0 and Key~=32) then
     element_storage["cur_state"]=element_storage["cur_state"]+1
+    run_func=true
     if element_storage["cur_state"]>=element_storage["num_states"] then element_storage["cur_state"]=0 end
     local message=element_storage["state_names"][element_storage["cur_state"]]
     if gfx.mouse_x>=x and gfx.mouse_x<=x+(w*dpi_scale) and gfx.mouse_y>=y and gfx.mouse_y<=y+(30*dpi_scale) then
@@ -12849,8 +12869,9 @@ function reagirl.ToolbarButton_Manage(element_id, selected, hovered, clicked, mo
       reaper.TrackCtl_SetToolTip(element_storage["state_names"][element_storage["cur_state"]+1].."\n"..draggable..contextmenu..dropfiles, XX+15, YY+10, true)
       refresh=true
     end
-    if element_storage["run_function"]~=nil then element_storage["run_function"](element_storage["Guid"], element_storage["cur_state"], element_storage["state_names"][element_storage["cur_state"]+1]) message="pressed" end
   end
+  
+  if run_func==true and element_storage["run_function"]~=nil then element_storage["run_function"](element_storage["Guid"], element_storage["cur_state"], element_storage["state_names"][element_storage["cur_state"]+1]) message="pressed" end
   
   if refresh==true and element_storage["linked_to"]~=0 then
     if element_storage["linked_to"]==1 then
