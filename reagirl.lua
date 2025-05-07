@@ -7072,6 +7072,7 @@ function reagirl.Gui_Manage(keep_running)
     reagirl.Window_SetFocus()
     reagirl.Window_SetFocus_Trigger=nil
   end
+
   if reagirl.UI_Elements_HoveredElement==-1 and gfx.mouse_cap==0 then
     gfx.setcursor(0x7f00)
   end
@@ -8579,7 +8580,9 @@ function reagirl.Checkbox_Manage(element_id, selected, hovered, clicked, mouse_c
           reagirl.Gui_ForceRefresh()
         end
       end
+      
       if val==element_storage["linked_to_true"] then val=true else val=false end
+      
       if val~=element_storage["checked"] then element_storage["checked"]=val reagirl.Gui_ForceRefresh() linked_refresh=true end
     elseif element_storage["linked_to"]==2 then
       -- if checkbox is linked to extstate then
@@ -17804,6 +17807,8 @@ function reagirl.Label_Manage(element_id, selected, hovered, clicked, mouse_cap,
       gfx.setcursor(0x7f89)
     elseif element_storage["DraggableDestinations"]~=nil then
       gfx.setcursor(0x7f89)
+    else
+      gfx.setcursor(0x7f00)
     end
   end
   

@@ -228,7 +228,7 @@ function SetUpNewGui()
   reagirl.AutoPosition_SetNextUIElementRelativeTo(Tabs)
   reagirl.NextLine()
   tab3.Label_Development=reagirl.Label_Add(nil, nil, "Development", "Settings for developers.", false, nil)
-  reagirl.Label_SetBackdrop(tab3.Label_Development, 300, 125) -- set a backdrop around the next few labels
+  reagirl.Label_SetBackdrop(tab3.Label_Development, 300, 85) -- set a backdrop around the next few labels
   
   reagirl.NextLine()
   tab3.checkbox_osara_debug_id = reagirl.Checkbox_Add(nil, nil, "Show screen reader messages in console", "Checking this will show the screen reader messages in the console for debugging purposes.", false, checkbox)

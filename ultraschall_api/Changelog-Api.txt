@@ -410,6 +410,9 @@ Issue:
        reagirl.Screenreader_Override_Message=element_storage["Name"].." was updated to "..text
      Dunno why it doesn't work reliably, but you can clearly see it not working correctly in the settings.
      It's sometimes "updated", though nothing updated it, and therefore useless messages are sent to screen reader. Sometimes, the update doesn't send a message at all...
+     I noticed it with checkboxes, though others may have the same issue...
+  - If linked, does updating the checkstate/curvalue from a ReaGirl-function also update the linked value?
+ 
 </TODO>
 
 ## Ultraschall Framework - Changelog
