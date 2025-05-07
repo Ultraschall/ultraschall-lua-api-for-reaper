@@ -209,13 +209,19 @@ function SetUpNewGui()
   reagirl.NextLine()
   tab2.checkbox_osara_hover_mouse_id = reagirl.Checkbox_Add(nil, nil, "Report hovered ui-elements", "When checked, ReaGirl will report ui-elements the mouse is hovering above to the screen reader. Uncheck to prevent that.", true, checkbox)
   reagirl.Checkbox_LinkToExtstate(tab2.checkbox_osara_hover_mouse_id, "ReaGirl", "osara_hover_mouse", "false", "", true, true)  
-
+  
   reagirl.NextLine()
   osara_enable_accmessage = reaper.GetExtState("ReaGirl", "osara_enable_accmessage")
   if osara_enable_accmessage=="" or osara_enable_accmessage=="true" then osara_enable_accmessage=true else osara_enable_accmessage=false end
   tab2.checkbox_osara_enable_acc_help = reagirl.Checkbox_Add(nil, nil, "Enable screen reader help-messages", "When checked, a short description on how to use a tabbed ui-element will be send to the screen reader as well. Uncheck to turn off the help-messages.", true, checkbox)
   reagirl.Checkbox_LinkToExtstate(tab2.checkbox_osara_enable_acc_help, "ReaGirl", "osara_enable_accmessage", "false", "", true, true)  
+  reagirl.NextLine(15)
   
+  tab2.Label_Osara_Meters=reagirl.Label_Add(nil, nil, "Meters", "Settings that influence level-meters.", false, nil)
+  reagirl.Label_SetBackdrop(tab2.Label_Osara_Meters, 300, 40) -- set a backdrop around the next few labels
+  reagirl.NextLine()
+  tab2.meter_clip_report=reagirl.DropDownMenu_Add(nil, nil, 290, "Report clippings:", 100, "Report clippings of meters to the screen reader.", {"when gui has focus", "also when gui has no focus", "never"}, 1, dropdownmenu)
+  reagirl.DropDownMenu_LinkToExtstate(tab2.meter_clip_report, "ReaGirl", "osara_report_meter_clippings", 1, true)
   reagirl.Tabs_SetUIElementsForTab(Tabs, 2, tab2)
   
   tab3={}

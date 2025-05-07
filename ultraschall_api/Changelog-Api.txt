@@ -404,22 +404,24 @@ Docs: eine Doku, wie man eine Gui so schreibt, dass man einfach mal schnell ui-e
     Checkbox_Add(10,h)
   So in Etwa.
 
+Issue:
+ - when linked ui-elements get updated from the outside, sending the message it was updated to screen reader doesn't work
+     I commented the screen reader-lines out...
+       reagirl.Screenreader_Override_Message=element_storage["Name"].." was updated to "..text
+     Dunno why it doesn't work reliably, but you can clearly see it not working correctly in the settings.
+     It's sometimes "updated", though nothing updated it, and therefore useless messages are sent to screen reader. Sometimes, the update doesn't send a message at all...
 </TODO>
 
 ## Ultraschall Framework - Changelog
 
 ### 5.3 - " - " - 15th of May 2025
 
-Has now 1902 functions, with 44 new ones
+Has now 1904 functions, with 46 new ones
 
 **new in this release:**  
 
   - **Bla**  
   Bla
-    
-    !!!TODO!!!: 
-      meter: drawing mode 0: when clipping, the value should stay red until clicked(it currently returns to old color after some seconds)
-      meter: option on the settings to always get the clippings reported; or when the gui is focused; or never          
     
 #### New features in 5.3  
   - ReaGirl: Button\_GetEdgeStyle - gets, if the individual edges of a button are rounded or square
@@ -436,12 +438,14 @@ Has now 1902 functions, with 44 new ones
   - ReaGirl: Meter\_Add - adds a level-meter to the gui
   - ReaGirl: Meter\_GetMode - gets the current drawing mode of a meter
   - ReaGirl: Meter\_GetOptions - gets the current drawing options
-  - ReaGirl: Meter\_GetPeaks - gets the currently drawn peak-value for all channels  
+  - ReaGirl: Meter\_GetPeaks - gets the currently drawn peak-value for all channels
+  - ReaGirl: Meter\_GetScreenreaderOptions - gets various options for meters with screen reader
   - ReaGirl: Meter\_LinkToTrack - links a meter to a certain track, so its levels are displayed
   - ReaGirl: Meter\_LinkToHWInput- links a meter to a certain hardware input, so its levels are displayed
   - ReaGirl: Meter\_SetMode - sets the drawing mode of a meter
   - ReaGirl: Meter\_SetOptions - sets the drawing options
   - ReaGirl: Meter\_SetPeaks - sets the peaks to be drawn to a meter
+  - ReaGirl: Meter\_SetScreenreaderOptions - sets various options for meters with screen reader
   - ReaGirl: Meter\_Unlink - unlinks a meter from hardware inputs/tracks
   - ReaGirl: Settings - new option for setting, if clicking into an empty area allows dragging of the window
   - ReaGirl: ToolbarButton\_Add - adds a toolbar-button to a ReaGirl-gui
@@ -474,6 +478,10 @@ Has now 1902 functions, with 44 new ones
   - ReaGirl: DropDownLists - clicking dropdownlists wasn't shown properly, when focus rectangle was set as show always -> fixed
   - ReaGirl: InputBoxes - when screen reader support is active, Ctrl+C copies the entire text to clipboard and Ctrl+V overwrites text with text from clipboard
   - ReaGirl: Sliders - couldn't show negative unit-values -> fixed
+  - ReaGirl: Slider\_LinkToDoubleConfigVar - added new parameter factor
+  - ReaGirl: Slider\_LinkToExtstate - added new parameter factor
+  - ReaGirl: Slider\_LinkToIniValue - added new parameter factor
+  - ReaGirl: Slider\_LinkToIntConfigVa - added new parameter factor
   - ReaGirl: Tooltips - the meaning_ofUIElement is now in the first line, the info Has contextmenu, draggable and Allows dropping of files is now in the second line. Looks more clean that way.
   - Rendering: AddRenderPreset - improved error-handling when presets already exist
   - Rendering: SetRenderPreset - didn't accept all preset-names, should be fixed now - thanks to MountWest

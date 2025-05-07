@@ -4128,6 +4128,9 @@ function reagirl.Window_DragOnEmptyArea(toggle)
       ReaGirl:Window_SetStyle
              for setting a style of the window
   </linked_to>
+  <changelog>
+    ReaGirl 1.3 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 ]]
   if type(toggle)~="boolean" then error("Window_DragOnEmptyArea: param #1 - must be a boolean", 2) end
@@ -4170,6 +4173,9 @@ function reagirl.Window_SetStyle(style)
                 For setting, if the window can be dragged by clicking inbetween ui-elements
     </linked_to>
     <tags>window, set, style</tags>
+    <changelog>
+      ReaGirl 1.3 - added to ReaGirl
+    </changelog>
   </US_DocBloc>
   ]]--
   if math.type(style)~="integer" then error("Window_SetStyle: param #1 - must be an integer", 2) end
@@ -5667,6 +5673,9 @@ function reagirl.Ext_SendEvent(gui_name, ui_element_caption, event, send_string,
     <target_document>ReaGirl_Docs</target_document>
     <source_document>reagirl_GuiEngine.lua</source_document>
     <tags>ext, send, messages</tags>
+    <changelog>
+      ReaGirl 1.3 - added to ReaGirl
+    </changelog>
   </US_DocBloc>
   ]]
   if type(gui_name)~="string" then error("Ext_SendEvent: param #1 - must be a string", 2) end
@@ -5820,6 +5829,9 @@ function reagirl.Ext_SendEventByID(gui_name, ui_element_caption, event, send_str
     <target_document>ReaGirl_Docs</target_document>
     <source_document>reagirl_GuiEngine.lua</source_document>
     <tags>ext, send, messages</tags>
+    <changelog>
+      ReaGirl 1.3 - added to ReaGirl
+    </changelog>
   </US_DocBloc>
   ]]
   if type(gui_name)~="string" then error("Ext_SendEventByID: param #1 - must be a string", 2) end
@@ -8480,6 +8492,10 @@ function reagirl.Checkbox_Add(x, y, caption, meaningOfUI_Element, default, run_f
     Checkbox
   </chapter_context>
   <tags>checkbox, add</tags>
+  <changelog>
+    ReaGirl 1.3 - added new parameter unique_id for a unique identifier
+    ReaGirl 1.0 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 --]]
   if x~=nil and math.type(x)~="integer" then error("Checkbox_Add: param #1 - must be either nil or an integer", 2) end
@@ -8724,7 +8740,7 @@ function reagirl.Checkbox_Manage(element_id, selected, hovered, clicked, mouse_c
     else
       text="not checked."
     end
-    reagirl.Screenreader_Override_Message=element_storage["Name"].." was updated to "..text
+    --reagirl.Screenreader_Override_Message=element_storage["Name"].." was updated to "..text
   end
   
   element_storage["init"]=true
@@ -10384,6 +10400,10 @@ function reagirl.ColorRectangle_Add(x, y, w, h, r, g, b, caption, meaningOfUI_El
     Color Rectangle
   </chapter_context>
   <tags>color rectangle, add</tags>
+  <changelog>
+    ReaGirl 1.3 - added new parameter unique_id for a unique identifier
+    ReaGirl 1.2 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 --]]
   if x~=nil and math.type(x)~="integer" then error("ColorRectangle_Add: param #1 - must be either nil or an integer", 2) end
@@ -12244,6 +12264,10 @@ function reagirl.Button_Add(x, y, w_margin, h_margin, caption, meaningOfUI_Eleme
     Button
   </chapter_context>
   <tags>button, add</tags>
+  <changelog>
+    ReaGirl 1.3 - added new parameter unique_id for a unique identifier
+    ReaGirl 1.0 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 --]]
   if x~=nil and math.type(x)~="integer" then error("Button_Add: param #1 - must be either nil or an integer", 2) end
@@ -12471,6 +12495,9 @@ function reagirl.Button_SetEdgeStyle(element_id, top_left, top_right, bottom_lef
     Button
   </chapter_context>
   <tags>button, set, edge, style</tags>
+  <changelog>
+    ReaGirl 1.3 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 --]]
   if type(element_id)~="string" then error("Button_SetEdgeStyle: param #1 - must be a string", 2) end
@@ -12518,6 +12545,9 @@ function reagirl.Button_GetEdgeStyle(element_id)
     Button
   </chapter_context>
   <tags>button, get, edge, style</tags>
+  <changelog>
+    ReaGirl 1.3 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 --]]
   if type(element_id)~="string" then error("Button_GetEdgeStyle: param #1 - must be a string", 2) end
@@ -12767,6 +12797,9 @@ function reagirl.ToolbarButton_Add(x, y, toolbaricon, num_states, default_state,
     Toolbarbutton
   </chapter_context>
   <tags>toolbarbutton, add</tags>
+  <changelog>
+    ReaGirl 1.3 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 --]]
   if x~=nil and math.type(x)~="integer" then error("ToolbarButton_Add: param #1 - must be either nil or an integer", 2) end
@@ -13153,6 +13186,9 @@ function reagirl.ToolbarButton_LinkToExtstate(element_id, section, key, default,
     Toolbarbutton
   </chapter_context>
   <tags>toolbarbutton, link to, extstate</tags>
+  <changelog>
+    ReaGirl 1.3 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 --]]
   if type(element_id)~="string" then error("ToolbarButton_LinkToExtstate: param #1 - must be a string", 2) end
@@ -13196,6 +13232,9 @@ function reagirl.ToolbarButton_SetDropShadow(element_id, has_drop_shadow)
     Toolbarbutton
   </chapter_context>
   <tags>toolbarbutton, set, dropshadow</tags>
+  <changelog>
+    ReaGirl 1.3 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
   --]]
   if type(element_id)~="string" then error("ToolbarButton_SetDropShadow: param #1 - must be a string", 2) end
@@ -13235,6 +13274,9 @@ function reagirl.ToolbarButton_SetState(element_id, state)
     Toolbarbutton
   </chapter_context>
   <tags>toolbarbutton, set, state</tags>
+  <changelog>
+    ReaGirl 1.3 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
   --]]
   if type(element_id)~="string" then error("ToolbarButton_SetState: param #1 - must be a string", 2) end
@@ -13278,6 +13320,9 @@ function reagirl.ToolbarButton_GetDropShadow(element_id, has_drop_shadow)
     Image
   </chapter_context>
   <tags>image, get, dropshadow</tags>
+  <changelog>
+    ReaGirl 1.3 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
   --]]
   if type(element_id)~="string" then error("Image_GetDropShadow: param #1 - must be a string", 2) end
@@ -13322,6 +13367,9 @@ function reagirl.ToolbarButton_LinkToIniValue(element_id, ini_file, section, key
     Toolbarbutton
   </chapter_context>
   <tags>toolbarbutton, link to, ini-file</tags>
+  <changelog>
+    ReaGirl 1.3 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 --]]
   if type(element_id)~="string" then error("ToolbarButton_LinkToIniValue: param #1 - must be a string", 2) end
@@ -13378,6 +13426,9 @@ function reagirl.ToolbarButton_LinkToIntConfigVarBit(element_id, configvar_name,
     Toolbarbutton
   </chapter_context>
   <tags>toolbarbutton, link to, config variable</tags>
+  <changelog>
+    ReaGirl 1.3 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 --]]
   if type(element_id)~="string" then error("ToolbarButton_LinkToIntConfigVarBit: param #1 - must be a string", 2) end
@@ -13433,6 +13484,9 @@ function reagirl.ToolbarButton_LinkToIntConfigVar(element_id, configvar_name, pe
     Toolbarbutton
   </chapter_context>
   <tags>toolbarbutton, link to, config variable</tags>
+  <changelog>
+    ReaGirl 1.3 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 --]]
   if type(element_id)~="string" then error("ToolbarButton_LinkToIntConfigVar: param #1 - must be a string", 2) end
@@ -13494,6 +13548,9 @@ function reagirl.ToolbarButton_LinkToToggleState(element_id, section, command_id
     Toolbarbutton
   </chapter_context>
   <tags>toolbarbutton, link to, toggle command state</tags>
+  <changelog>
+    ReaGirl 1.3 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 --]]
   if type(element_id)~="string" then error("ToolbarButton_LinkToToggleState: param #1 - must be a string", 2) end
@@ -13538,6 +13595,9 @@ function reagirl.ToolbarButton_Unlink(element_id)
     Toolbarbutton
   </chapter_context>
   <tags>toolbarbutton, link to, unlink</tags>
+  <changelog>
+    ReaGirl 1.3 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 --]]
   if type(element_id)~="string" then error("ToolbarButton_Unlink: param #1 - must be a string", 2) end
@@ -13826,6 +13886,9 @@ function reagirl.ToolbarButton_SetColor(element_id, r, g, b)
     Toolbarbutton
   </chapter_context>
   <tags>toolbarbutton, set, color</tags>
+  <changelog>
+    ReaGirl 1.3 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 --]]
   if type(element_id)~="string" then error("ToolbarButton_SetColor: param #1 - must be a string", 2) end
@@ -13877,6 +13940,9 @@ function reagirl.ToolbarButton_GetColor(element_id)
     Toolbarbutton
   </chapter_context>
   <tags>toolbarbutton, get, color</tags>
+  <changelog>
+    ReaGirl 1.3 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 --]]
   if type(element_id)~="string" then error("ToolbarButton_GetColor: param #1 - must be a string", 2) end
@@ -13916,6 +13982,9 @@ function reagirl.ToolbarButton_SetRadius(element_id, radius)
     Toolbarbutton
   </chapter_context>
   <tags>toolbarbutton, set, radius</tags>
+  <changelog>
+    ReaGirl 1.3 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 --]]
   if type(element_id)~="string" then error("ToolbarButton_SetRadius: param #1 - must be a string", 2) end
@@ -13956,6 +14025,9 @@ function reagirl.ToolbarButton_GetRadius(element_id)
     Toolbarbutton
   </chapter_context>
   <tags>toolbarbutton, get, radius</tags>
+  <changelog>
+    ReaGirl 1.3 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 --]]
   if type(element_id)~="string" then error("ToolbarButton_GetRadius: param #1 - must be a string", 2) end
@@ -13990,6 +14062,9 @@ function reagirl.ToolbarButton_SetCurrentState(element_id, state)
     Toolbarbutton
   </chapter_context>
   <tags>toolbarbutton, set, state</tags>
+  <changelog>
+    ReaGirl 1.3 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 --]]
   if type(element_id)~="string" then error("ToolbarButton_SetCurrentState: param #1 - must be a string", 2) end
@@ -14032,6 +14107,9 @@ function reagirl.ToolbarButton_GetCurrentState(element_id)
     Toolbarbutton
   </chapter_context>
   <tags>toolbarbutton, get, state</tags>
+  <changelog>
+    ReaGirl 1.3 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 --]]
   if type(element_id)~="string" then error("ToolbarButton_GetRadius: param #1 - must be a string", 2) end
@@ -14069,6 +14147,9 @@ function reagirl.ToolbarButton_SetEdgeStyle(element_id, top_left, top_right, bot
     Toolbarbutton
   </chapter_context>
   <tags>toolbarbutton, set, edge, style</tags>
+  <changelog>
+    ReaGirl 1.3 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 --]]
   if type(element_id)~="string" then error("ToolbarButton_SetEdgeStyle: param #1 - must be a string", 2) end
@@ -14116,6 +14197,9 @@ function reagirl.ToolbarButton_GetEdgeStyle(element_id)
     Toolbarbutton
   </chapter_context>
   <tags>toolbarbutton, get, edge, style</tags>
+  <changelog>
+    ReaGirl 1.3 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 --]]
   if type(element_id)~="string" then error("ToolbarButton_GetEdgeStyle: param #1 - must be a string", 2) end
@@ -14228,6 +14312,9 @@ function reagirl.Color_GetSet(color_name, is_set, r, g, b)
     Colors and Themes
   </chapter_context>
   <tags>colors and themes, get, set, color</tags>
+  <changelog>
+    ReaGirl 1.3 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 --]]
   if type(color_name)~="string" then error("Color_GetSet: param #1 - must be a string", 2) end
@@ -14330,6 +14417,10 @@ function reagirl.Burgermenu_Add(x, y, caption, mode, meaningOfUI_Element, menu, 
     Burgermenu
   </chapter_context>
   <tags>burgermenu, add</tags>
+  <changelog>
+    ReaGirl 1.3 - added new parameter unique_id for a unique identifier
+    ReaGirl 1.2 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 --]]
   if x~=nil and math.type(x)~="integer" then error("Burgermenu_Add: param #1 - must be either nil or an integer", 2) end
@@ -14640,6 +14731,10 @@ function reagirl.Inputbox_Add(x, y, w, caption, Cap_width, meaningOfUI_Element, 
     Inputbox
   </chapter_context>
   <tags>inputbox, add</tags>
+  <changelog>
+    ReaGirl 1.3 - added new parameter unique_id for a unique identifier
+    ReaGirl 1.0 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 --]]
   if x~=nil and math.type(x)~="integer" then error("Inputbox_Add: param #1 - must be either nil or an integer", 2) end
@@ -14742,6 +14837,9 @@ function reagirl.Inputbox_SetTextSuggestions(element_id, suggestions)
     Inputbox
   </chapter_context>
   <tags>inputbox, set, text suggestions</tags>
+  <changelog>
+    ReaGirl 1.3 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 --]]
   if type(element_id)~="string" then error("Inputbox_SetTextSuggestions: param #1 - must be a string", 2) end
@@ -14787,6 +14885,9 @@ function reagirl.Inputbox_GetTextSuggestions(element_id)
     Inputbox
   </chapter_context>
   <tags>inputbox, set, text suggestions</tags>
+  <changelog>
+    ReaGirl 1.3 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 --]]
   if type(element_id)~="string" then error("Inputbox_SetTextSuggestions: param #1 - must be a string", 2) end
@@ -15631,7 +15732,7 @@ function reagirl.Inputbox_Manage(element_id, selected, hovered, clicked, mouse_c
   end
   
   if linked_refresh==true and gfx.getchar(65536)&2==2 then --and element_storage["init"]==true then
-    reagirl.Screenreader_Override_Message=element_storage["Name"].." was updated to "..element_storage["Text"]
+    --reagirl.Screenreader_Override_Message=element_storage["Name"].." was updated to "..element_storage["Text"]
   end
   
   element_storage["init"]=true
@@ -16333,6 +16434,10 @@ function reagirl.DropDownMenu_Add(x, y, w, caption, Cap_width, meaningOfUI_Eleme
     DropDown Menu
   </chapter_context>
   <tags>dropdown menu, add</tags>
+  <changelog>
+    ReaGirl 1.3 - added new parameter unique_id for a unique identifier
+    ReaGirl 1.0 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 --]]
   if x~=nil and math.type(x)~="integer" then error("DropDownMenu_Add: param #1 - must be either nil or an integer", 2) end
@@ -16532,7 +16637,7 @@ function reagirl.DropDownMenu_Manage(element_id, selected, hovered, clicked, mou
   element_storage.external_leftclick=false
   
   if linked_refresh==true and gfx.getchar(65536)&2==2 and element_storage["init"]==true then
-    reagirl.Screenreader_Override_Message=element_storage["Name"].." was updated to "..element_storage["MenuEntries"][element_storage["menuSelectedItem"]]..". "
+    --reagirl.Screenreader_Override_Message=element_storage["Name"].." was updated to "..element_storage["MenuEntries"][element_storage["menuSelectedItem"]]..". "
   end
   element_storage["init"]=true
   
@@ -16908,6 +17013,9 @@ function reagirl.DropDownMenu_SetSelectedMenuItem(element_id, selected_menu_item
     DropDown Menu
   </chapter_context>
   <tags>dropdown menu, set, selected menu item</tags>
+  <changelog>
+    ReaGirl 1.3 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 --]]
   if type(element_id)~="string" then error("DropDownMenu_SetSelectedMenuItem: param #1 - must be a string", 2) end
@@ -16951,6 +17059,9 @@ function reagirl.DropDownMenu_GetSelectedMenuItem(element_id)
     DropDown Menu
   </chapter_context>
   <tags>dropdown menu, get, selected menu item</tags>
+  <changelog>
+    ReaGirl 1.3 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 --]]
   if type(element_id)~="string" then error("DropDownMenu_GetSelectedMenuItem: param #1 - must be a string", 2) end
@@ -17538,6 +17649,10 @@ function reagirl.Label_Add(x, y, label, meaningOfUI_Element, clickable, run_func
     Label
   </chapter_context>
   <tags>label, add</tags>
+  <changelog>
+    ReaGirl 1.3 - added new parameter unique_id for a unique identifier
+    ReaGirl 1.0 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 --]]
   if x~=nil and math.type(x)~="integer" then error("Label_Add: param #1 - must be either nil or an integer", 2) end
@@ -18393,6 +18508,10 @@ function reagirl.Image_Add(x, y, w, h, image_filename, caption, meaningOfUI_Elem
     Image
   </chapter_context>
   <tags>image, add</tags>
+  <changelog>
+    ReaGirl 1.3 - added new parameter unique_id for a unique identifier
+    ReaGirl 1.0 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 --]]
   if x~=nil and math.type(x)~="integer" then error("Image_Add: param #1 - must be either nil or an integer", 2) end
@@ -18820,8 +18939,11 @@ function reagirl.Image_SetDropShadow(element_id, has_drop_shadow)
     Image
   </chapter_context>
   <tags>image, set, dropshadow</tags>
+  <changelog>
+    ReaGirl 1.3 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
-  --]]
+--]]
   if type(element_id)~="string" then error("Image_SetDropShadow: param #1 - must be a string", 2) end
   if reagirl.IsValidGuid(element_id, true)==false then error("Image_SetDropShadow: param #1 - must be a valid guid", 2) end
   if type(has_drop_shadow)~="boolean" then error("Image_SetDropShadow: #2 - must be a boolean", 2) end
@@ -18858,8 +18980,11 @@ function reagirl.Image_GetDropShadow(element_id, has_drop_shadow)
     Image
   </chapter_context>
   <tags>image, get, dropshadow</tags>
+  <changelog>
+    ReaGirl 1.3 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
-  --]]
+--]]
   if type(element_id)~="string" then error("Image_GetDropShadow: param #1 - must be a string", 2) end
   if reagirl.IsValidGuid(element_id, true)==false then error("Image_GetDropShadow: param #1 - must be a valid guid", 2) end
   
@@ -20350,6 +20475,10 @@ function reagirl.Slider_Add(x, y, w, caption, Cap_width, meaningOfUI_Element, un
     Slider
   </chapter_context>
   <tags>slider, add</tags>
+  <changelog>
+    ReaGirl 1.3 - added new parameter unique_id for a unique identifier
+    ReaGirl 1.0 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 --]]
 
@@ -20624,7 +20753,7 @@ function reagirl.Slider_Manage(element_id, selected, hovered, clicked, mouse_cap
   end
   element_storage.run_function_exec=false
   if linked_refresh==true and gfx.getchar(65536)&2==2 and element_storage["init"]==true then
-    reagirl.Screenreader_Override_Message=element_storage["Name"].." was updated to "..element_storage["CurValue"]..""..element_storage["Unit"]..". "
+    --reagirl.Screenreader_Override_Message=element_storage["Name"].." was updated to "..element_storage["CurValue"]..""..element_storage["Unit"]..". "
   end
   element_storage["init"]=true
   
@@ -20722,8 +20851,6 @@ end
 
 function reagirl.Settings_Global_GetSet(setting, is_set, value)
 --[[
---]]
---[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>Settings_Global_GetSet</slug>
   <requires>
@@ -20751,6 +20878,7 @@ function reagirl.Settings_Global_GetSet(setting, is_set, value)
       Osara_Hover_Mouse - 0, don't report hovered ui-elements to screen reader; 1, report hovered ui-elements to screen reader(default)
       Osara_Move_Mouse - 0, don't move mouse when tabbing; 1, move mouse when tabbing to tabbed ui-element(default)
       Osara_Enable_AccessibilityMessages - 0, only report caption+state to screen reader; 1, also report help-messages for ui-element to screen reader(default)
+      Osara_Report_Meter_Clippings - 1, report clippings to screen reader when gui has focus; 2, report clippings also when gui has no focus; 3, never report clippings
       Osara_Debug - 0, don't show screen reader messages in ReaScript console(default); 1, show screen reader messages in ReaScript console
       Debug_Message_Destination - the destination of error-messages; 1, IDE; 2, a messagebox; 3, ReaScript console window
   </description>
@@ -20763,9 +20891,9 @@ function reagirl.Settings_Global_GetSet(setting, is_set, value)
     number value - the new value set for a setting(when is_set=true)
   </parameters>
   <chapter_context>
-    Slider
+    Misc
   </chapter_context>
-  <tags>slider, link to, extstate</tags>
+  <tags>misc, get, set, options</tags>
   <changelog>
     ReaGirl 1.3 - added to ReaGirl
   </changelog>
@@ -20818,6 +20946,9 @@ function reagirl.Settings_Global_GetSet(setting, is_set, value)
     elseif setting=="Osara_Enable_AccessibilityMessages" then
       val=reaper.GetExtState("ReaGirl", "osara_enable_accmessage")
       if val=="" or val=="true" then val=1 else val=0 end
+    elseif setting=="Osara_Report_Meter_Clippings" then
+      val=reaper.GetExtState("ReaGirl", "osara_report_meter_clippings")
+      if val=="" then val=1 else val=tonumber(val) end
     elseif setting=="Debug_Message_Destination" then
       val=reaper.GetExtState("ReaGirl", "Error_Message_Destination")
       if val=="" then val=1 else val=tonumber(val) end
@@ -20893,6 +21024,12 @@ function reagirl.Settings_Global_GetSet(setting, is_set, value)
       if val=="" or val=="true" then val=1 else val=0 end
       if value==1 then value="" else value="false" end
       reaper.SetExtState("ReaGirl", "osara_enable_accmessage", value, true)
+    elseif setting=="Osara_Report_Meter_Clippings" then
+      if value<1 then value=1 end
+      if value>3 then value=3 end
+      val=value
+      if value==1 then value="" end
+      reaper.SetExtState("ReaGirl", "osara_report_meter_clippings", value, true)
     elseif setting=="Debug_Message_Destination" then
       if value<1 then value=1 end
       if value>3 then value=3 end
@@ -20900,10 +21037,11 @@ function reagirl.Settings_Global_GetSet(setting, is_set, value)
       if value==1 then value="" end
       reaper.SetExtState("ReaGirl", "Error_Message_Destination", value, true)
     end
+
     return val
   end
 end
---A1,B1,C1=reagirl.Settings_Global_GetSet("Debug_Message_Destination", true, 20)
+--A1,B1,C1=reagirl.Settings_Global_GetSet("Osara_Report_Meter_Clippings", false, 1)
 
 function reagirl.Slider_LinkToExtstate(element_id, section, key, default, persist, factor)
 --[[
@@ -20938,6 +21076,7 @@ function reagirl.Slider_LinkToExtstate(element_id, section, key, default, persis
   <tags>slider, link to, extstate</tags>
   <changelog>
     ReaGirl 1.3 - new parameter "factor" added
+    ReaGirl 1.1 - added to ReaGirl
   </changelog>
 </US_DocBloc>
 --]]
@@ -20998,6 +21137,7 @@ function reagirl.Slider_LinkToIniValue(element_id, ini_file, section, key, defau
   <tags>slider, link to, ini-file</tags>
   <changelog>
     ReaGirl 1.3 - new parameter "factor" added
+    ReaGirl 1.1 - added to ReaGirl
   </changelog>
 </US_DocBloc>
 --]]
@@ -21063,6 +21203,7 @@ function reagirl.Slider_LinkToDoubleConfigVar(element_id, configvar_name, persis
   <tags>slider, link to, double, config variable</tags>
   <changelog>
     ReaGirl 1.3 - new parameter "factor" added
+    ReaGirl 1.1 - added to ReaGirl
   </changelog>
 </US_DocBloc>
 --]]
@@ -21123,6 +21264,7 @@ function reagirl.Slider_LinkToIntConfigVar(element_id, configvar_name, persist, 
   <tags>slider, link to, int, config variable</tags>
   <changelog>
     ReaGirl 1.3 - new parameter "factor" added
+    ReaGirl 1.1 - added to ReaGirl
   </changelog>
 </US_DocBloc>
 --]]
@@ -21166,6 +21308,9 @@ function reagirl.Slider_Unlink(element_id, section, key, default, persist)
     Slider
   </chapter_context>
   <tags>slider, unlink</tags>
+  <changelog>
+    ReaGirl 1.1 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 --]]
   if type(element_id)~="string" then error("Slider_Unlink: param #1 - must be a string", 2) end
@@ -21778,6 +21923,10 @@ function reagirl.Tabs_Add(x, y, w_backdrop, h_backdrop, caption, meaningOfUI_Ele
     Tabs
   </chapter_context>
   <tags>tabs, add</tags>
+  <changelog>
+    ReaGirl 1.3 - added new parameter unique_id for a unique identifier
+    ReaGirl 1.0 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 --]]
 
@@ -22373,6 +22522,9 @@ function reagirl.Meter_Add(x, y, w, h, mode, caption, meaningOfUI_Element, run_f
         ReaGirl:Meter_LinkToHWInput
                links this meter to a hardware input and displays its levels
     </linked_to>
+    <changelog>
+      ReaGirl 1.3 - added to ReaGirl
+    </changelog>
   </US_DocBloc>
   --]]
     -- 15, 55
@@ -22442,8 +22594,6 @@ function reagirl.Meter_Manage(element_id, selected, hovered, clicked, mouse_cap,
   local report_clip=nil
   element_storage.dbHold[-1]=-144
 
-  
-
   if element_storage["source"]==2 and ((element_storage["project"]~=nil and reaper.ValidatePtr(element_storage["project"], "ReaProject*")==false)) then
     element_storage["source"]=0
     element_storage["channels"]=1
@@ -22495,7 +22645,7 @@ function reagirl.Meter_Manage(element_id, selected, hovered, clicked, mouse_cap,
   elseif element_storage["source"]==1 then
     -- HW input levels
     local db=reaper.GetInputActivityLevel(element_storage["hwinput"])
-    if db>0 then report_clip="Hardware input "..element_storage["hwinput"] end
+    if db>0 then report_clip="hardware input "..element_storage["hwinput"] end
     element_storage.dbHold[-1]=-144
     if element_storage.db[1]~=db then
       refresh=true
@@ -22519,10 +22669,12 @@ function reagirl.Meter_Manage(element_id, selected, hovered, clicked, mouse_cap,
       db=ultraschall.MKVOL2DB(db)
       if db>0 then 
         local name=""
+        local track=element_storage["track"]+1
+        if track==0 then track="main track " end
         if element_storage["project"]~=nil then
           name=" in projecttab "..reaper.GetProjectName(element_storage["project"])
         end
-        report_clip="track "..element_storage["track"]..name
+        report_clip="track "..track..name
       end
 
       if element_storage.db[i+1]~=db then
@@ -22539,7 +22691,7 @@ function reagirl.Meter_Manage(element_id, selected, hovered, clicked, mouse_cap,
   
   
   
-  if element_storage["count2"]==33*10 then
+  if element_storage["count2"]==33*5 then
     element_storage["report_clip"]=nil
     element_storage["count2"]=0
   elseif element_storage["count2"]==nil then
@@ -22547,6 +22699,7 @@ function reagirl.Meter_Manage(element_id, selected, hovered, clicked, mouse_cap,
   end
   element_storage["count2"]=element_storage["count2"]+1
   
+  -- ctrl+r reports the current db-value to screen reader
   if Key==18 then
     local db=tostring(element_storage["dbHold"][-1]):match("(.-%..)")
     reagirl.ScreenReader_SendMessage("Current value: "..db.." dB.")
@@ -22554,8 +22707,16 @@ function reagirl.Meter_Manage(element_id, selected, hovered, clicked, mouse_cap,
   
   -- report clippings to screen reader
   if report_clip~=nil and element_storage["report_clip"]~=report_clip then
+    local osara_state=reaper.GetExtState("ReaGirl", "osara_report_meter_clippings")
+    if element_storage["osara_report_meter_clippings"]~=nil then osara_state=element_storage["osara_report_meter_clippings"] end
     local db=tostring(element_storage["dbHold"][-1]):match("(.-%..)")
-    reagirl.ScreenReader_SendMessage("Clip in "..report_clip.." at "..db.."dB.")
+    local report=false
+    if (gfx.getchar(65536)&2==2 and (osara_state=="" or osara_state=="1")) or osara_state=="2" then
+      report=true
+    end
+    if report==true then
+      reagirl.ScreenReader_SendMessage("Clip in "..report_clip.." at "..db.."dB.")
+    end
     element_storage["report_clip"]=report_clip
   end
   
@@ -23229,6 +23390,9 @@ function reagirl.Meter_GetPeak(element_id)
     Meter
   </chapter_context>
   <tags>meter, get, peaks</tags>
+  <changelog>
+    ReaGirl 1.3 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 --]]
   if type(element_id)~="string" then error("Meter_GetPeak: param #1 - must be a string", 2) end
@@ -23269,6 +23433,9 @@ function reagirl.Meter_GetLink(element_id)
     Meter
   </chapter_context>
   <tags>meter, get, link</tags>
+  <changelog>
+    ReaGirl 1.3 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 --]]
   if type(element_id)~="string" then error("Meter_GetPeak: param #1 - must be a string", 2) end
@@ -23308,6 +23475,9 @@ function reagirl.Meter_GetMode(element_id)
     Meter
   </chapter_context>
   <tags>meter, get, mode</tags>
+  <changelog>
+    ReaGirl 1.3 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 --]]
   if type(element_id)~="string" then error("Meter_GetMode: param #1 - must be a string", 2) end
@@ -23347,6 +23517,9 @@ function reagirl.Meter_SetOptions(element_id, show_peak_value, show_peak_hold, s
     Meter
   </chapter_context>
   <tags>meter, set, draw options</tags>
+  <changelog>
+    ReaGirl 1.3 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 --]]
   if type(element_id)~="string" then error("Meter_SetOptions: param #1 - must be a string", 2) end
@@ -23394,6 +23567,9 @@ function reagirl.Meter_GetOptions(element_id)
     Meter
   </chapter_context>
   <tags>meter, get, draw options</tags>
+  <changelog>
+    ReaGirl 1.3 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 --]]
   if type(element_id)~="string" then error("Meter_GetOptions: param #1 - must be a string", 2) end
@@ -23434,6 +23610,9 @@ function reagirl.Meter_SetMode(element_id, mode)
     Meter
   </chapter_context>
   <tags>meter, set, mode</tags>
+  <changelog>
+    ReaGirl 1.3 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 --]]
   if type(element_id)~="string" then error("Meter_SetMode: param #1 - must be a string", 2) end
@@ -23478,6 +23657,9 @@ function reagirl.Meter_LinkToTrack(element_id, tracknumber)
     Meter
   </chapter_context>
   <tags>meter, link, track</tags>
+  <changelog>
+    ReaGirl 1.3 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 --]]
   if type(element_id)~="string" then error("Meter_LinkToTrack: param #1 - must be a string", 2) end
@@ -23516,6 +23698,9 @@ function reagirl.Meter_LinkToHWInput(element_id, hwinput_index)
     Meter
   </chapter_context>
   <tags>meter, link, hardware input</tags>
+  <changelog>
+    ReaGirl 1.3 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 --]]
   if type(element_id)~="string" then error("Meter_LinkToHWInput: param #1 - must be a string", 2) end
@@ -23553,6 +23738,9 @@ function reagirl.Meter_Unlink(element_id)
     Meter
   </chapter_context>
   <tags>meter, link, unlink</tags>
+  <changelog>
+    ReaGirl 1.3 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 --]]
   if type(element_id)~="string" then error("Meter_Unlink: param #1 - must be a string", 2) end
@@ -23565,6 +23753,117 @@ function reagirl.Meter_Unlink(element_id)
     reagirl.Elements[element_id]["source"]=0
     reagirl.Elements[element_id]["channels"]=1
     reagirl.Elements[element_id]["db"][1]=-144
+  end
+end
+
+function reagirl.Meter_SetScreenreaderOptions(element_id, report_clippings)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Meter_SetScreenreaderOptions</slug>
+  <requires>
+    ReaGirl=1.3
+    Reaper=7.03
+    Lua=5.4
+  </requires>
+  <functioncall>reagirl.Meter_SetScreenreaderOptions(string element_id, integer report_clippings)</functioncall>
+  <description>
+    Sets options for usage of a meter with screen reader.
+    
+    This will override the preferences in the ReaGirl-settings, so be careful when using them. 
+    You should be fine when doing a script for yourself, but when you do a script that shall be shared with others, communicate openly, that you override the preferences.
+    Otherwise people may have unexpected experiences and report this as bug.
+    
+    Use reagirl.Settings_Global_GetSet() to get/set the various current screen reader options.
+  </description>
+  <parameters>
+    string element_id - the guid of the meter, whose screen reader options you want to set
+    integer report_clippings - 0, use global preferences
+                             - 1, when gui has focus
+                             - 2, also when gui has no focus
+                             - 3, never
+  </parameters>
+  <chapter_context>
+    Meter
+  </chapter_context>
+  <tags>meter, set, options, screen reader</tags>
+  <linked_to desc="see also:">
+      ReaGirl:Settings_Global_GetSet
+             sets various global preferences, including screen reader preferences
+      ReaGirl:Meter_GetScreenreaderOptions
+             gets the current screen reader options for this meter
+  </linked_to>
+  <changelog>
+    ReaGirl 1.3 - added to ReaGirl
+  </changelog>
+</US_DocBloc>
+--]]
+  if type(element_id)~="string" then error("Meter_SetScreenreaderOptions: param #1 - must be a string", 2) end
+  if reagirl.IsValidGuid(element_id, true)==nil then error("Meter_SetScreenreaderOptions: param #1 - must be a valid guid", 2) end
+  element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
+  if element_id==-1 then error("Meter_SetScreenreaderOptions: param #1 - no such ui-element", 2) end
+  if math.type(report_clippings)~="integer" then error("Meter_SetScreenreaderOptions: param #2 - must be an integer", 2) end
+  if report_clippings<0 or report_clippings>3 then error("Meter_SetScreenreaderOptions: param #2 - must be between 1 and 3", 2) end
+  if reagirl.Elements[element_id]["GUI_Element_Type"]~="Meter" then
+    error("Meter_SetScreenreaderOptions: param #1 - ui-element is not a meter", 2)
+  else
+    if report_clippings==0 then 
+      reagirl.Elements[element_id]["osara_report_meter_clippings"]=nil
+    else
+      reagirl.Elements[element_id]["osara_report_meter_clippings"]=tostring(report_clippings)
+    end
+  end
+end
+
+function reagirl.Meter_GetScreenreaderOptions(element_id, report_clippings)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Meter_GetScreenreaderOptions</slug>
+  <requires>
+    ReaGirl=1.3
+    Reaper=7.03
+    Lua=5.4
+  </requires>
+  <functioncall>integer report_clippings = reagirl.Meter_GetScreenreaderOptions(string element_id)</functioncall>
+  <description>
+    Gets options for usage of a meter with screen reader.
+    
+    These override the preferences in the ReaGirl-settings, so be careful when using them. 
+    You should be fine when doing a script for yourself, but when you do a script that shall be shared with others, communicate openly, that you override the preferences.
+    Otherwise people may have unexpected experiences and report this as bug.
+    
+    Use reagirl.Settings_Global_GetSet() to get/set the various current screen reader options.
+  </description>
+  <parameters>
+    string element_id - the guid of the meter, whose screen reader options you want to set
+    integer report_clippings - 0, global preferences are used
+                             - 1, when gui has focus
+                             - 2, also when gui has no focus
+                             - 3, never
+  </parameters>
+  <chapter_context>
+    Meter
+  </chapter_context>
+  <tags>meter, set, options, screen reader</tags>
+  <linked_to desc="see also:">
+      ReaGirl:Settings_Global_GetSet
+             sets various global preferences, including screen reader preferences
+      ReaGirl:Meter_SetScreenreaderOptions
+             sets the current screen reader options for this meter
+  </linked_to>
+  <changelog>
+    ReaGirl 1.3 - added to ReaGirl
+  </changelog>
+</US_DocBloc>
+--]]
+  if type(element_id)~="string" then error("Meter_GetScreenreaderOptions: param #1 - must be a string", 2) end
+  if reagirl.IsValidGuid(element_id, true)==nil then error("Meter_GetScreenreaderOptions: param #1 - must be a valid guid", 2) end
+  element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
+  if element_id==-1 then error("Meter_GetScreenreaderOptions: param #1 - no such ui-element", 2) end
+  if math.type(report_clippings)~="integer" then error("Meter_GetScreenreaderOptions: param #2 - must be an integer", 2) end
+  if reagirl.Elements[element_id]["GUI_Element_Type"]~="Meter" then
+    error("Meter_GetScreenreaderOptions: param #1 - ui-element is not a meter", 2)
+  else
+    if reagirl.Elements[element_id]["osara_report_meter_clippings"]==nil then return 0 else return tonumber(reagirl.Elements[element_id]["osara_report_meter_clippings"]) end
   end
 end
 
@@ -23817,3 +24116,6 @@ function reagirl.Base64_Decoder(source_string)
 end
 reagirl.Gui_New()
 --- End of ReaGirl-functions
+
+
+
