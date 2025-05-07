@@ -417,6 +417,10 @@ Has now 1902 functions, with 44 new ones
   - **Bla**  
   Bla
     
+    !!!TODO!!!: 
+      meter: drawing mode 0: when clipping, the value should stay red until clicked(it currently returns to old color after some seconds)
+      meter: option on the settings to always get the clippings reported; or when the gui is focused; or never          
+    
 #### New features in 5.3  
   - ReaGirl: Button\_GetEdgeStyle - gets, if the individual edges of a button are rounded or square
   - ReaGirl: Button\_SetEdgeStyle - sets, if the individual edges of a button are rounded or square

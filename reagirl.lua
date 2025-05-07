@@ -22467,6 +22467,7 @@ function reagirl.Meter_Manage(element_id, selected, hovered, clicked, mouse_cap,
     end
     if element_storage["count"]~=66 then
       element_storage["dbClip"]=false
+      element_storage["dbClip2"]=false
     end
     element_storage["count"]=0
     refresh=true
@@ -22602,6 +22603,7 @@ function reagirl.Meter_Draw(element_id, selected, hovered, clicked, mouse_cap, m
     if element_storage["dbClip"]==true or Level>0 then
       gfx.set(1,0,0)
       element_storage["dbClip"]=true
+      element_storage["dbClip2"]=true
     else
       local Level2=(Level+144)/255
       local yellow=0.1
@@ -22625,8 +22627,8 @@ function reagirl.Meter_Draw(element_id, selected, hovered, clicked, mouse_cap, m
       gfx.drawstr(plus..text)
       gfx.x=xpos
       gfx.y=y+ypos
-      if element_storage["dbClip"]==true then
-        gfx.set(1,0,0)
+      if element_storage["dbClip2"]==true then
+        gfx.set(1,0.5,0)
       else
         gfx.set(reagirl.Colors.Meters_Text_r, reagirl.Colors.Meters_Text_g, reagirl.Colors.Meters_Text_b)
       end
