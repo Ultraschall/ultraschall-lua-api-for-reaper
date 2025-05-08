@@ -8640,7 +8640,6 @@ function reagirl.Checkbox_Manage(element_id, selected, hovered, clicked, mouse_c
   end
   
   if linked_refresh==true then 
-    ABBA=reaper.time_precise()
     reagirl.ScreenReader_SendMessage(element_storage["Name"].." - toggle state changed to "..tostring(element_storage["checked"])) 
     if reaper.GetExtState("ReaGirl", "osara_debug")=="true" then
       reaper.ShowConsoleMsg(element_storage["Name"].." - toggle state changed to "..tostring(element_storage["checked"]).."\n")
@@ -16582,6 +16581,13 @@ function reagirl.DropDownMenu_Manage(element_id, selected, hovered, clicked, mou
     if element_storage["menuSelectedItem"]<1 then element_storage["menuSelectedItem"]=1 refresh=true  end
   end
   
+  if linked_refresh==true then 
+    reagirl.ScreenReader_SendMessage(element_storage["Name"].." - drop down menu changed to "..element_storage["MenuEntries"][element_storage.menuSelectedItem])
+    if reaper.GetExtState("ReaGirl", "osara_debug")=="true" then
+      reaper.ShowConsoleMsg(element_storage["Name"].." - drop down menu changed to "..element_storage["MenuEntries"][element_storage.menuSelectedItem].."\n")
+    end
+  end
+  
   if hovered==true and gfx.mouse_x>=x+cap_w and gfx.mouse_x<=x+w and gfx.mouse_y>=y and gfx.mouse_y<=y+h then
     gfx.setcursor(0x7f89)
   elseif hovered==true and gfx.mouse_x>=x and gfx.mouse_x<=x+cap_w and gfx.mouse_y>=y and gfx.mouse_y<=y+h then
@@ -20666,6 +20672,13 @@ function reagirl.Slider_Manage(element_id, selected, hovered, clicked, mouse_cap
     end
   end
 
+  if linked_refresh==true then 
+    reagirl.ScreenReader_SendMessage(element_storage["Name"].." - slider changed to "..tostring(element_storage["CurValue"])) 
+    if reaper.GetExtState("ReaGirl", "osara_debug")=="true" then
+      reaper.ShowConsoleMsg(element_storage["Name"].." - slider changed to "..tostring(element_storage["CurValue"]).."\n")
+    end
+  end
+  
   local offset_unit=element_storage["unit_w"]
   element_storage["slider_w"]=math.tointeger(w-element_storage["cap_w"]-element_storage["unit_w"]-10)
   local rect_w, step_current, step_size

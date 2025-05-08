@@ -270,6 +270,8 @@ function main()
   reagirl.Gui_Manage()
   if reagirl.Key[1]==43 then reagirl.ReScale=reagirl.ReScale+1 end -- +
   if reagirl.Key[1]==45 then reagirl.ReScale=reagirl.ReScale-1 end -- -
+  if reagirl.Key[1]==65 then reaper.SetExtState("ReaGirl", "Error_Message_Destination", "1", true) end
+  if reagirl.Key[1]==66 then reaper.SetExtState("ReaGirl", "Error_Message_Destination", "2", true) end
   if B==true then
     reagirl.Elements.FocusedElement=i
     reagirl.Gui_ForceRefresh()
