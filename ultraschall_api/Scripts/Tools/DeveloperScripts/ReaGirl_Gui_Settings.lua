@@ -270,8 +270,6 @@ function main()
   reagirl.Gui_Manage()
   if reagirl.Key[1]==43 then reagirl.ReScale=reagirl.ReScale+1 end -- +
   if reagirl.Key[1]==45 then reagirl.ReScale=reagirl.ReScale-1 end -- -
-  if reagirl.Key[1]==65 then reagirl.Checkbox_SetCheckState(tab1.checkbox_tooltips_id, true) end
-  if reagirl.Key[1]==66 then reagirl.Checkbox_SetCheckState(tab1.checkbox_tooltips_id, false) end
   if B==true then
     reagirl.Elements.FocusedElement=i
     reagirl.Gui_ForceRefresh()

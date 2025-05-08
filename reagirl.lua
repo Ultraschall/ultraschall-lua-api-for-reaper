@@ -8639,7 +8639,13 @@ function reagirl.Checkbox_Manage(element_id, selected, hovered, clicked, mouse_c
     end
   end
   
-  if linked_refresh==true then ABBA=reaper.time_precise() reagirl.ScreenReader_SendMessage(element_storage["Name"].." - toggle state changed to "..tostring(element_storage["checked"])) end
+  if linked_refresh==true then 
+    ABBA=reaper.time_precise()
+    reagirl.ScreenReader_SendMessage(element_storage["Name"].." - toggle state changed to "..tostring(element_storage["checked"])) 
+    if reaper.GetExtState("ReaGirl", "osara_debug")=="true" then
+      reaper.ShowConsoleMsg(element_storage["Name"].." - toggle state changed to "..tostring(element_storage["checked"]).."\n")
+    end
+  end
   
   if element_storage.hovered~=hovered then
     reagirl.Gui_ForceRefresh(111222.23244)

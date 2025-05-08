@@ -139,8 +139,6 @@
 
   reagirl.NextLine() -- first line of checkboxes
   tab1.checkbox_mysetting = reagirl.Checkbox_Add(nil, nil, "My setting", "The first checkbox.", true, nil)
-  --reagirl.Checkbox_LinkToExtstate(tab1.checkbox_mysetting, "A", "B", "", "B", true, false)
-  reagirl.Checkbox_LinkToIniValue(tab1.checkbox_mysetting, reaper.GetResourcePath().."/reaper-extstate.ini", "A", "B", "", "B", true)
   reagirl.Checkbox_SetWidth(tab1.checkbox_mysetting, 85) -- set the position of the next checkbox to a specific position to align it
                                                          -- with the next line of checkboxes
   tab1.checkbox_another_setting = reagirl.Checkbox_Add(nil, nil, "Another setting", "The second checkbox.", true, nil)
@@ -180,7 +178,7 @@
   tab1.label_header5=reagirl.Label_Add(nil, nil, "Sliders and DropDownMenus", "Some sliders and drop down menus.", false, nil)
   
   reagirl.NextLine()
-  tab1.slider_blink_every = reagirl.Slider_Add(nil, nil, 290, "Length in", 100, "Set the length in seconds.", "seconds", 1, 30, 0.1, 10, 1, nil)
+  tab1.slider_test = reagirl.Slider_Add(nil, nil, 290, "Length in", 100, "Set the length in seconds.", "seconds", 1, 30, 0.1, 10, 1, nil)
   
   reagirl.NextLine()
   tab1.options=reagirl.DropDownMenu_Add(nil, nil, 290, "Options:", 100, "Choose one of the options that set your settings.", {"Menu1", "Menu2", "Menu3"}, 1, nil)
@@ -202,9 +200,6 @@
   function main()
     -- a function that runs the gui-manage function in the background, so the gui is updated correctly
     reagirl.Gui_Manage()
-    
-    if reagirl.Key[1]==65 then reaper.SetExtState("A", "B", "A", true) end
-    if reagirl.Key[1]==66 then reaper.SetExtState("A", "B", "B", true) end
 
     -- if the gui-window hasn't been closed, keep the script alive.
     if reagirl.Gui_IsOpen()==true then reaper.defer(main) end
