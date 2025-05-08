@@ -265,10 +265,15 @@ else
   reagirl.FocusRectangle_On=true
 end
 
+function reagirl.MKVOL2DB(mkvol_value)
+  if mkvol_value < 0.00000002980232 then return -144 end
+  mkvol_value = math.log(mkvol_value)*8.68588963806
+  return mkvol_value
+end
+
 function toboolean(value)
   -- converts a value to boolean, or returns nil, if not convertible
   if type(value)=="boolean" then return value end
-  if value==nil then ultraschall.AddErrorMessage("toboolean","value", "must contain either true or false, nothing else. Spaces and tabs are allowed.", -1) return end
   local value=value:lower()
   local truth=value:match("^\t*%s*()true\t*%s*$")
   local falseness=value:match("^\t*%s*()false\t*%s*$")
@@ -6055,7 +6060,7 @@ function reagirl.Gui_Manage(keep_running)
   if keep_running==true then reagirl.Gui_Manage_keep_running=true end
   local message
   if reagirl.Gui_IsOpen()==false then return end
-  if reagirl.NewUI~=false then reagirl.NewUI=false if reagirl.Elements.FocusedElement==nil then reagirl.Elements.FocusedElement=reagirl.UI_Element_GetNext(0,1) end end
+  if reagirl.NewUI~=false then reagirl.NewUI=false if reagirl.Elements.FocusedElement==nil then reagirl.Elements.FocusedElement=0 end end
   if #reagirl.Elements==0 then error("Gui_Manage: no ui-element available", -2) end
   
   if #reagirl.Elements<reagirl.Elements.FocusedElement then reagirl.Elements.FocusedElement=1 end
@@ -6221,7 +6226,7 @@ function reagirl.Gui_Manage(keep_running)
   local init_message=""
   local helptext=""
   if reagirl.osara_init_message==false then
-    if reagirl.Elements["FocusedElement"]~=-1 then
+    if reagirl.Elements["FocusedElement"]~=0 then
       if reagirl.Elements[1]~=nil then
         reagirl.osara_init_message=reagirl.Window_Title .."-dialog, ".. reagirl.Window_Description .." ".. reagirl.Elements[reagirl.Elements["FocusedElement"]]["Name"].." ".. reagirl.Elements[reagirl.Elements["FocusedElement"]]["GUI_Element_Type"]..". "
         local acc_message=""
@@ -6260,7 +6265,7 @@ function reagirl.Gui_Manage(keep_running)
     if gfx.mouse_wheel~=0 then reagirl.UI_Element_ScrollY(gfx.mouse_wheel/50) end
   end
   reagirl.Scroll_Override_MouseWheel=nil
-  if reagirl.Elements["FocusedElement"]~=-1 and reagirl.Elements[reagirl.Elements["FocusedElement"]].GUI_Element_Type~="Edit" and reagirl.Elements[reagirl.Elements["FocusedElement"]].GUI_Element_Type~="Edit Multiline" then
+  if reagirl.Elements["FocusedElement"]~=0 and reagirl.Elements[reagirl.Elements["FocusedElement"]].GUI_Element_Type~="Edit" and reagirl.Elements[reagirl.Elements["FocusedElement"]].GUI_Element_Type~="Edit Multiline" then
   -- scroll via keys
     if reagirl.Scroll_Override~=true and reaper.GetExtState("ReaGirl", "scroll_via_keyboard")~="false" then
       if gfx.mouse_cap&8==0 and Key==30064 then reagirl.UI_Element_ScrollY(2) end -- up
@@ -6317,11 +6322,6 @@ function reagirl.Gui_Manage(keep_running)
       reagirl.osara_outputMessage(reagirl.Window_Title.. "-dialog, ".. reagirl.Window_Description.." ".. reagirl.Elements[reagirl.Elements["FocusedElement"]]["Name"].." ".. reagirl.Elements[reagirl.Elements["FocusedElement"]]["GUI_Element_Type"]..". ")
     end
   end 
-
-  if reagirl.FocusRectangle_AlwaysOn==false and (gfx.mouse_cap&1==1) then
-    reagirl.FocusRectangle_Toggle(false)
-    reagirl.Gui_ForceRefresh(9989.9)
-  end
   
   -- if mouse has been moved, reset wait-counter for displaying tooltip
   if reagirl.OldMouseX==gfx.mouse_x and reagirl.OldMouseY==gfx.mouse_y then
@@ -6366,7 +6366,7 @@ function reagirl.Gui_Manage(keep_running)
     reagirl.FocusRectangle_BlinkStartTime=reaper.time_precise()
     reagirl.FocusRectangle_BlinkStop=nil
     
-    if reagirl.Elements["FocusedElement"]~=-1 then
+    if reagirl.Elements["FocusedElement"]~=0 then
       if reagirl.Elements["FocusedElement"]>#reagirl.Elements then reagirl.Elements["FocusedElement"]=1 end 
       init_message=reagirl.Elements[reagirl.Elements["FocusedElement"]]["Name"].." "..reagirl.Elements[reagirl.Elements["FocusedElement"]]["GUI_Element_Type"]..". "
       local acc_message=""
@@ -6404,7 +6404,7 @@ function reagirl.Gui_Manage(keep_running)
     reagirl.FocusRectangle_BlinkStartTime=reaper.time_precise()
     reagirl.FocusRectangle_BlinkStop=nil
     
-    if reagirl.Elements["FocusedElement"]~=-1 then
+    if reagirl.Elements["FocusedElement"]~=0 then
       if reagirl.Elements["FocusedElement"]<1 then reagirl.Elements["FocusedElement"]=#reagirl.Elements end
       init_message=reagirl.Elements[reagirl.Elements["FocusedElement"]]["Name"].." "..
       reagirl.Elements[reagirl.Elements["FocusedElement"]]["GUI_Element_Type"]..". "
@@ -7073,6 +7073,12 @@ function reagirl.Gui_Manage(keep_running)
   end
   reagirl.ScreenReader_SendMessage_ActualMessage=""
   
+  if reagirl.FocusRectangle_AlwaysOn==false and (gfx.mouse_cap&1==1) and reagirl.UI_Elements_HoveredElement==-1 then
+    reagirl.FocusRectangle_Toggle(false)
+    reagirl.Elements.FocusedElement=0
+    reagirl.Gui_ForceRefresh(9989.9)
+  end
+  
   -- calculate and store processing time
   reaper.SetExtState("ReaGirl", "ProcessTime_"..reagirl.Gui_ScriptInstance, reaper.time_precise()-reagirl.Defer_StartTime, false)
   
@@ -7141,22 +7147,24 @@ function reagirl.Gui_DrawSingular(Key, Key_utf, clickstate, specific_clickstate,
 
     local selected="not selected"
     if reagirl.Elements.FocusedElement==i then selected=reagirl.ui_element_selected end
-    local message=reagirl.Elements[i]["func_draw"](i, selected,
-      reagirl.UI_Elements_HoveredElement==i,
-      specific_clickstate,
-      gfx.mouse_cap,
-      {click_x, click_y, drag_x, drag_y, mouse_wheel, mouse_hwheel},
-      reagirl.Elements[i]["Name"],
-      reagirl.Elements[i]["Description"], 
-      math.floor(x2+reagirl.MoveItAllRight),
-      math.floor(y2+reagirl.MoveItAllUp),
-      math.floor(w2),
-      math.floor(h2),
-      Key,
-      Key_utf,
-      reagirl.Elements[i]
-    )
-  end
+    if reagirl.Elements[i]["hidden"]~=true then
+      local message=reagirl.Elements[i]["func_draw"](i, selected,
+        reagirl.UI_Elements_HoveredElement==i,
+        specific_clickstate,
+        gfx.mouse_cap,
+        {click_x, click_y, drag_x, drag_y, mouse_wheel, mouse_hwheel},
+        reagirl.Elements[i]["Name"],
+        reagirl.Elements[i]["Description"], 
+        math.floor(x2+reagirl.MoveItAllRight),
+        math.floor(y2+reagirl.MoveItAllUp),
+        math.floor(w2),
+        math.floor(h2),
+        Key,
+        Key_utf,
+        reagirl.Elements[i]
+      )
+      end
+    end
   --]]
   reagirl.ElementsRefreshMe={}
 end
@@ -7271,7 +7279,7 @@ function reagirl.Gui_Draw(Key, Key_utf, clickstate, specific_clickstate, mouse_c
             )
           end
         end -- draw_only_necessary-elements
-        if reagirl.Elements["FocusedElement"]~=-1 and reagirl.Elements["FocusedElement"]==i then
+        if reagirl.Elements["FocusedElement"]~=0 and reagirl.Elements["FocusedElement"]==i then
           --if reagirl.Elements[i]["GUI_Element_Type"]=="ComboBox" then --  if w2<20 then w2=20 end end
           local r,g,b,a=gfx.r,gfx.g,gfx.b,gfx.a
           local dest=gfx.dest
@@ -12989,9 +12997,9 @@ function reagirl.ToolbarButton_Add(x, y, toolbaricon, num_states, default_state,
   reagirl.Elements[slot]["run_function"]=run_function
   reagirl.Elements[slot]["userspace"]={}
   
-  if reagirl.Elements[slot]["linked_to"]~=nil then
-    reagirl.Elements[slot]["linked_to"]=0
-  end
+
+  reagirl.Elements[slot]["linked_to"]=0
+
   --[[
   reagirl.Elements[slot]["linked_to_configvar"]="projrenderstems"
   reagirl.Elements[slot]["linked_to_command_id"]=41991
@@ -13054,7 +13062,6 @@ function reagirl.ToolbarButton_Manage(element_id, selected, hovered, clicked, mo
   end
   
   if linked_refresh==true then 
-    
     reagirl.ScreenReader_SendMessage(element_storage["Name"].." - toolbarbutton set to "..element_storage["state_names"][element_storage["cur_state"]+1])
     if reaper.GetExtState("ReaGirl", "osara_debug")=="true" then
       reaper.ShowConsoleMsg(element_storage["Name"].." - toolbarbutton set to "..element_storage["state_names"][element_storage["cur_state"]+1].."\n")
@@ -13074,7 +13081,7 @@ function reagirl.ToolbarButton_Manage(element_id, selected, hovered, clicked, mo
     element_storage["pressed"]=true
     message=""
     reagirl.Gui_ForceRefresh(20)
-  elseif selected~="not selected" and mouse_cap&1~=0 and gfx.mouse_x>x and gfx.mouse_y>y and gfx.mouse_x<x+w and gfx.mouse_y<y+h then
+  elseif selected~="not selected" and mouse_cap&1==1 and gfx.mouse_x>x and gfx.mouse_y>y and gfx.mouse_x<x+w and gfx.mouse_y<y+h then
     local oldstate=element_storage["pressed"]
     element_storage["pressed"]=true
     if oldstate~=element_storage["pressed"] then
@@ -16765,14 +16772,14 @@ function reagirl.DropDownMenu_Draw(element_id, selected, hovered, clicked, mouse
     state=1*dpi_scale-1
     if offset==0 then offset=1 end
     gfx.set(0.06) -- background 2
-    reagirl.RoundRect(cap_w+x, y, w-cap_w, h+dpi_scale, (radius) * dpi_scale, 1, 1)
+    reagirl.RoundRect(cap_w+x, y, w-cap_w+dpi_scale, h+dpi_scale, (radius) * dpi_scale, 1, 1)
     
     gfx.set(reagirl.Colors.DropDownMenu_Area_r+add_color, reagirl.Colors.DropDownMenu_Area_g+add_color, reagirl.Colors.DropDownMenu_Area_b+add_color) -- button-area
-    reagirl.RoundRect(cap_w+x+dpi_scale, y+dpi_scale, w-cap_w-dpi_scale-dpi_scale, h, (radius-1) * dpi_scale, 1, 1)
+    reagirl.RoundRect(cap_w+x+dpi_scale, y+dpi_scale, w-cap_w-dpi_scale, h, (radius-1) * dpi_scale, 1, 1)
     gfx.set(reagirl.Colors.DropDownMenu_Circle_r, reagirl.Colors.DropDownMenu_Circle_g, reagirl.Colors.DropDownMenu_Circle_b)
     local circ=dpi_scale
-    gfx.circle(x+w-h/2, y+dpi_scale+dpi_scale+dpi_scale+dpi_scale+dpi_scale+dpi_scale+dpi_scale+dpi_scale+dpi_scale, 3*dpi_scale, 1, 0)
-    gfx.rect(x-dpi_scale-dpi_scale+w-h+2*(dpi_scale-1), y+dpi_scale, dpi_scale, h+dpi_scale, 1)
+    gfx.circle(x+w+dpi_scale-h/2, y+dpi_scale+dpi_scale+dpi_scale+dpi_scale+dpi_scale+dpi_scale+dpi_scale+dpi_scale+dpi_scale, 3*dpi_scale, 1, 0)
+    gfx.rect(x-dpi_scale+w-h+2*(dpi_scale-1), y+dpi_scale, dpi_scale, h+dpi_scale, 1)
     
     gfx.x=x+(4*dpi_scale)+cap_w+dpi_scale+dpi_scale
     gfx.y=y+dpi_scale+dpi_scale--+(h-gfx.texth)/2+dpi_scale
@@ -16787,13 +16794,13 @@ function reagirl.DropDownMenu_Draw(element_id, selected, hovered, clicked, mouse
   else
     state=0
     gfx.set(0.06) -- background 1
-    reagirl.RoundRect(cap_w+x, y, w-cap_w, h, (radius) * dpi_scale, 1, 1)
+    reagirl.RoundRect(cap_w+x, y, w+dpi_scale-cap_w, h, (radius) * dpi_scale, 1, 1)
     
     gfx.set(0.45) -- background 2
-    reagirl.RoundRect(cap_w+x, y-dpi_scale, w-cap_w-dpi_scale, h, (radius) * dpi_scale, 1, 1)
+    reagirl.RoundRect(cap_w+x, y-dpi_scale, w-cap_w, h, (radius) * dpi_scale, 1, 1)
     
     gfx.set(reagirl.Colors.DropDownMenu_Area_r+add_color, reagirl.Colors.DropDownMenu_Area_g+add_color, reagirl.Colors.DropDownMenu_Area_b+add_color) -- button-area
-    reagirl.RoundRect(cap_w+x+dpi_scale, y, w-cap_w-dpi_scale-dpi_scale, h-dpi_scale, (radius-1) * dpi_scale, 1, 1)
+    reagirl.RoundRect(cap_w+x+dpi_scale, y, w-cap_w-dpi_scale, h-dpi_scale, (radius-1) * dpi_scale, 1, 1)
     
     if element_storage["IsDisabled"]==false then
       gfx.set(reagirl.Colors.DropDownMenu_Circle_r, reagirl.Colors.DropDownMenu_Circle_g, reagirl.Colors.DropDownMenu_Circle_b)
@@ -16801,8 +16808,8 @@ function reagirl.DropDownMenu_Draw(element_id, selected, hovered, clicked, mouse
       gfx.set(reagirl.Colors.DropDownMenu_Circle_disabled_r, reagirl.Colors.DropDownMenu_Circle_disabled_g, reagirl.Colors.DropDownMenu_Circle_disabled_b)
     end
     local circ=dpi_scale    
-    gfx.circle(x+w-dpi_scale-h/2, y+dpi_scale+dpi_scale+dpi_scale+dpi_scale+dpi_scale+dpi_scale+dpi_scale, 3*dpi_scale, 1, 0)
-    gfx.rect(x-dpi_scale-dpi_scale-dpi_scale+w-h+2*(dpi_scale-1), y, dpi_scale, h-dpi_scale, 1)
+    gfx.circle(x+w-h/2, y+dpi_scale+dpi_scale+dpi_scale+dpi_scale+dpi_scale+dpi_scale+dpi_scale, 3*dpi_scale, 1, 0)
+    gfx.rect(x-dpi_scale-dpi_scale+w-h+2*(dpi_scale-1), y, dpi_scale, h-dpi_scale, 1)
     
     local offset=0
     if element_storage["IsDisabled"]==false then
@@ -22601,13 +22608,14 @@ function reagirl.Meter_Add(x, y, w, h, mode, caption, meaningOfUI_Element, run_f
     if math.type(h)~="integer" then error("Meter_Add: param #4 - must be an integer", 2) end
     if h>0 and h<15 then error("Meter_Add: param #4 - must be either negative or greater than 15", 2) end
     if math.type(mode)~="integer" then error("Meter_Add: param #5 - must be an integer", 2) end
+    if mode<1 or mode>3 then error("Meter_Add: param #5 - must be between 1 and 3", 2) end
     if type(caption)~="string" then error("Meter_Add: param #6 - must be a string", 2) end
     caption=string.gsub(caption, "[\n\r]", "")
     if type(meaningOfUI_Element)~="string" then error("Meter_Add: param #7 - must be a string", 2) end
     if meaningOfUI_Element:sub(-1,-1)~="." and meaningOfUI_Element:sub(-1,-1)~="?" then error("Meter_Add: param #7 - must end on a . like a regular sentence.", 2) end
     if run_function~=nil and type(run_function)~="function" then error("Meter_Add: param #8 - must be either nil or a function", 2) end
     if unique_identifier~=nil and type(unique_identifier)~="string" then error("Meter_Add: param #9 - must be either nil or a string", 2) end
-      
+    
     local x,y,slot=reagirl.UI_Element_GetNextXAndYPosition(x, y, "Meter_Add")
     table.insert(reagirl.Elements, slot, {})
     reagirl.Elements[slot]["ID"]=unique_identifier
@@ -22666,7 +22674,7 @@ function reagirl.Meter_Manage(element_id, selected, hovered, clicked, mouse_cap,
     element_storage["db"][1]=-144
   end
   
-  if element_storage["track"]~=-1 and reaper.GetTrack(element_storage["project"], element_storage["track"])==nil then
+  if element_storage["source"]==2 and element_storage["track"]~=-1 and reaper.GetTrack(element_storage["project"], element_storage["track"])==nil then
     element_storage["source"]=0
     element_storage["channels"]=1
     element_storage["db"][1]=-144
@@ -22732,7 +22740,7 @@ function reagirl.Meter_Manage(element_id, selected, hovered, clicked, mouse_cap,
     element_storage["channels"]=reaper.GetMediaTrackInfo_Value(track, "I_NCHAN")
     for i=0, element_storage["channels"]-1 do
       local db=reaper.Track_GetPeakInfo(track, i)
-      db=ultraschall.MKVOL2DB(db)
+      db=reagirl.MKVOL2DB(db)
       if db>0 then 
         local name=""
         local track=element_storage["track"]+1
@@ -22752,7 +22760,7 @@ function reagirl.Meter_Manage(element_id, selected, hovered, clicked, mouse_cap,
     end
     
     refresh=true
-    reagirl.Gui_ForceRefresh()
+    --reagirl.Gui_ForceRefresh()
   end
   
   
@@ -22795,6 +22803,7 @@ function reagirl.Meter_Draw(element_id, selected, hovered, clicked, mouse_cap, m
   -- missing: element_storage["dbHold"][0] holds the peak hold-value that must be drawn into the levels.
   --          although I'm not sure, whether I should draw a hold value for all channels individually....
   
+  if w<=0 or h<=0 then return end
   local peak_opacity=tonumber(reaper.GetExtState("ReaGirl", "Peak_Opacity"))
   if peak_opacity==nil then peak_opacity=0.6 end
   reagirl.Colors.Meters_IndicatorLine_r=0.6
@@ -23039,7 +23048,7 @@ function reagirl.Meter_Draw(element_id, selected, hovered, clicked, mouse_cap, m
         
         -- peak-hold-indicator
         if element_storage["show_peak_hold"]==true then
-          local offset=12
+          local offset=0
           if element_storage.dbHold[i+1]>0 then
             gfx.set(1,0,0,peak_opacity)
           elseif element_storage.dbHold[i+1]>-23 then
@@ -23050,7 +23059,7 @@ function reagirl.Meter_Draw(element_id, selected, hovered, clicked, mouse_cap, m
           if element_storage.dbHold[i+1]<-80 then 
             gfx.rect(x, y+i*height, scale+scale, height-scale2, 1)
           elseif element_storage.dbHold[i+1]<6 then
-            gfx.rect(Level+offset, y+i*height, scale+scale, height-scale2, 1)
+            gfx.rect(x+Level+offset, y+i*height, scale+scale, height-scale2, 1)
           else
             gfx.rect(x+w-scale-scale-scale-scale-scale, y+i*height, scale+scale, height-scale2, 1)
           end
