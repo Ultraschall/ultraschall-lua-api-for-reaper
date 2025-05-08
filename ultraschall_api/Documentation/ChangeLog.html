@@ -92,9 +92,10 @@ Bla</li>
 <ul>
 <li>ReaGirl: All UI-elements - except images will now highlight, when the mouse hovers above them(can be disabled in the settings)</li>
 <li>ReaGirl: Buttons - caption wasn't properly drawn when y-margin was&gt;0 -&gt; fixed</li>
-<li>ReaGirl: DropDownLists - clicking dropdownlists wasn't shown properly, when focus rectangle was set as show always -&gt; fixed</li>
-<li>ReaGirl: InputBoxes - when screen reader support is active, Ctrl+C copies the entire text to clipboard and Ctrl+V overwrites text with text from clipboard</li>
-<li>ReaGirl: Sliders - couldn't show negative unit-values -&gt; fixed</li>
+<li>ReaGirl: Checkboxes - linked states weren't updated, when setting checkstate via Checkbox_SetCheckState(); when linked-state was update from externally, it was reported constantly to screen reader -&gt; fixed</li>
+<li>ReaGirl: DropDownMenus - clicking dropdownlists wasn't shown properly, when focus rectangle was set as show always; linked states weren't updated, when setting via DropDownMenu_SetSelectedMenuItem() -&gt; fixed</li>
+<li>ReaGirl: InputBoxes - when screen reader support is active, Ctrl+C copies the entire text to clipboard and Ctrl+V overwrites text with text from clipboard; linked states weren't updated when setting new text via Inputbox_SetText() -&gt; fixed</li>
+<li>ReaGirl: Sliders - couldn't show negative unit-values; linked states weren't updated, when setting value using Slider_SetValue() -&gt; fixed</li>
 <li>ReaGirl: Slider_LinkToDoubleConfigVar - added new parameter factor</li>
 <li>ReaGirl: Slider_LinkToExtstate - added new parameter factor</li>
 <li>ReaGirl: Slider_LinkToIniValue - added new parameter factor</li>

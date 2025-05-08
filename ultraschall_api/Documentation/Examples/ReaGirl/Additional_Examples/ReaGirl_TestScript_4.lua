@@ -97,7 +97,6 @@
   reagirl.NextLine()
   tab1.burgermenu2 = reagirl.Burgermenu_Add(nil, nil, "Another Burgermenu", 2, "A demo-burger-menu with some options.", "Setting 1|Setting 2|>Subfolder|Setting 3|Setting 4|<|Setting 5", nil)
   tab1.toolbar=reagirl.ToolbarButton_Add(71, nil, reaper.GetResourcePath().."/Data/toolbar_icons/toolbar_misc_walk_forward.png",3, 2, {"TOO", "DEL", "LOO"}, 1, "Tudel1", "loo.", contextmenu)
-
   reagirl.ToolbarButton_SetRadius(tab1.toolbar, 14)
   reagirl.ToolbarButton_SetEdgeStyle(tab1.toolbar, true, true, true, true)
   reagirl.ToolbarButton_SetColor(tab1.toolbar, 128, 0, 0)
@@ -125,7 +124,6 @@
   tab1.inputbox_name_of_setting = reagirl.Inputbox_Add(nil, nil, 290, "Name:", 90, "Type in here the name of the setting.", "No title", nil, nil)
   reagirl.Inputbox_SetTextSuggestions(tab1.inputbox_name_of_setting, {"AA","BB","CC","DD"})
   
-  
   reagirl.NextLine()
   tab1.inputbox_description_of_setting = reagirl.Inputbox_Add(nil, nil, 290, "Description:", 90, "Type in here a description of the setting.", "No DescriptionNo DescriptionNo DescriptionNo DescriptionNo DescriptionNo DescriptionNo DescriptionNo Description", nil, nil)
   
@@ -141,6 +139,8 @@
 
   reagirl.NextLine() -- first line of checkboxes
   tab1.checkbox_mysetting = reagirl.Checkbox_Add(nil, nil, "My setting", "The first checkbox.", true, nil)
+  --reagirl.Checkbox_LinkToExtstate(tab1.checkbox_mysetting, "A", "B", "", "B", true, false)
+  reagirl.Checkbox_LinkToIniValue(tab1.checkbox_mysetting, reaper.GetResourcePath().."/reaper-extstate.ini", "A", "B", "", "B", true)
   reagirl.Checkbox_SetWidth(tab1.checkbox_mysetting, 85) -- set the position of the next checkbox to a specific position to align it
                                                          -- with the next line of checkboxes
   tab1.checkbox_another_setting = reagirl.Checkbox_Add(nil, nil, "Another setting", "The second checkbox.", true, nil)
@@ -202,6 +202,9 @@
   function main()
     -- a function that runs the gui-manage function in the background, so the gui is updated correctly
     reagirl.Gui_Manage()
+    
+    if reagirl.Key[1]==65 then reaper.SetExtState("A", "B", "A", true) end
+    if reagirl.Key[1]==66 then reaper.SetExtState("A", "B", "B", true) end
 
     -- if the gui-window hasn't been closed, keep the script alive.
     if reagirl.Gui_IsOpen()==true then reaper.defer(main) end

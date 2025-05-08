@@ -265,6 +265,22 @@ else
   reagirl.FocusRectangle_On=true
 end
 
+function toboolean(value)
+  -- converts a value to boolean, or returns nil, if not convertible
+  if type(value)=="boolean" then return value end
+  if value==nil then ultraschall.AddErrorMessage("toboolean","value", "must contain either true or false, nothing else. Spaces and tabs are allowed.", -1) return end
+  local value=value:lower()
+  local truth=value:match("^\t*%s*()true\t*%s*$")
+  local falseness=value:match("^\t*%s*()false\t*%s*$")
+  
+  if tonumber(truth)==nil and tonumber(falseness)~=nil then
+    return false
+  elseif tonumber(truth)~=nil and tonumber(falseness)==nil then
+    return true
+  end
+end
+
+
 function reagirl.FocusRectangle_Toggle(toggle)
   if reagirl.FocusRectangle_AlwaysOn==true then reagirl.FocusRectangle_On=true end
   if reagirl.FocusRectangle_AlwaysOn==false and toggle==true then 
@@ -8558,10 +8574,11 @@ function reagirl.Checkbox_Manage(element_id, selected, hovered, clicked, mouse_c
     gfx.setcursor(0x7f89)
   end
   
-  if element_storage["linked_to"]~=0 then
+  if element_storage["linked_to"]~=0 and element_storage["linked_update"]~=true then
     if element_storage["linked_to"]==1 then
       -- if checkbox is linked to extstate then
       local val=reaper.GetExtState(element_storage["linked_to_section"], element_storage["linked_to_key"])
+      if val==element_storage["linked_to_true"] then val=true elseif val==element_storage["linked_to_false"] then val=false end
       if val=="" then 
         -- if extstate==unset
         if element_storage["linked_to_default"]==true then
@@ -8581,12 +8598,13 @@ function reagirl.Checkbox_Manage(element_id, selected, hovered, clicked, mouse_c
         end
       end
       
-      if val==element_storage["linked_to_true"] then val=true else val=false end
-      
+      --if val==element_storage["linked_to_true"] then val=true else val=false end
       if val~=element_storage["checked"] then element_storage["checked"]=val reagirl.Gui_ForceRefresh() linked_refresh=true end
     elseif element_storage["linked_to"]==2 then
       -- if checkbox is linked to extstate then
       local retval, val = reaper.BR_Win32_GetPrivateProfileString(element_storage["linked_to_section"], element_storage["linked_to_key"], "", element_storage["linked_to_ini_file"])
+      if val==element_storage["linked_to_true"] then val=true elseif val==element_storage["linked_to_false"] then val=false end
+      
       if val=="" then 
         -- if extstate==unset
         if element_storage["linked_to_default"]==true then
@@ -8607,7 +8625,7 @@ function reagirl.Checkbox_Manage(element_id, selected, hovered, clicked, mouse_c
           reagirl.Gui_ForceRefresh()
         end
       end
-      if val==element_storage["linked_to_true"] then val=true else val=false end
+      --if val==element_storage["linked_to_true"] then val=true else val=false end
       if val~=element_storage["checked"] then element_storage["checked"]=val reagirl.Gui_ForceRefresh() linked_refresh=true end
     elseif element_storage["linked_to"]==3 then 
       local val=reaper.SNM_GetIntConfigVar(element_storage["linked_to_configvar"], -999999999999999)
@@ -8621,7 +8639,7 @@ function reagirl.Checkbox_Manage(element_id, selected, hovered, clicked, mouse_c
     end
   end
   
-  --if linked_refresh==true then reagirl.ScreenReader_SendMessage(element_storage["Name"].." - toggle state changed to "..tostring(element_storage["checked"])) end
+  if linked_refresh==true then ABBA=reaper.time_precise() reagirl.ScreenReader_SendMessage(element_storage["Name"].." - toggle state changed to "..tostring(element_storage["checked"])) end
   
   if element_storage.hovered~=hovered then
     reagirl.Gui_ForceRefresh(111222.23244)
@@ -8653,7 +8671,7 @@ function reagirl.Checkbox_Manage(element_id, selected, hovered, clicked, mouse_c
   if element_storage["checked"]==false then unchecked="unchecked" end
   element_storage["AccHoverMessage"]=element_storage["Name"].." "..unchecked
   
-  if refresh==true and element_storage["linked_to"]~=0 then
+  if element_storage["linked_update"]==true or (refresh==true and element_storage["linked_to"]~=0) then
     if element_storage["linked_to"]==1 then
       local val=reaper.GetExtState(element_storage["linked_to_section"], element_storage["linked_to_key"])
       if element_storage["checked"]==true then 
@@ -8736,6 +8754,8 @@ function reagirl.Checkbox_Manage(element_id, selected, hovered, clicked, mouse_c
       reaper.RefreshToolbar2(element_storage["linked_to_section"], element_storage["linked_to_command_id"])
     end
   end
+  element_storage["linked_update"]=false
+  
   local text=""
   if linked_refresh==true and gfx.getchar(65536)&2==2 and element_storage["init"]==true then
     if reagirl.Elements[element_id]["checked"]==true then
@@ -9163,6 +9183,7 @@ function reagirl.Checkbox_SetCheckState(element_id, check_state)
     error("Checkbox_SetCheckState: param #1 - ui-element is not a checkbox", 2)
   else
     reagirl.Elements[element_id]["checked"]=check_state
+    reagirl.Elements[element_id]["linked_update"]=true
     reagirl.Gui_ForceRefresh(16)
   end
 end
@@ -12994,7 +13015,7 @@ function reagirl.ToolbarButton_Manage(element_id, selected, hovered, clicked, mo
     if retval==true then element_storage["DropZoneFunction"](element_storage["Guid"], {filenames}) refresh=true end
   end
   
-  if element_storage["linked_to"]~=0 then
+  if element_storage["linked_to"]~=0 and element_storage["linked_update"]~=true then
     if element_storage["linked_to"]==1 then
       -- if checkbox is linked to extstate then
       local val=reaper.GetExtState(element_storage["linked_to_section"], element_storage["linked_to_key"])
@@ -13078,7 +13099,7 @@ function reagirl.ToolbarButton_Manage(element_id, selected, hovered, clicked, mo
   
   if run_func==true and element_storage["run_function"]~=nil then element_storage["run_function"](element_storage["Guid"], element_storage["cur_state"], element_storage["state_names"][element_storage["cur_state"]+1]) message="pressed" end
   
-  if refresh==true and element_storage["linked_to"]~=0 then
+  if element_storage["linked_update"]==true or (refresh==true and element_storage["linked_to"]~=0) then
     if element_storage["linked_to"]==1 then
       reaper.SetExtState(element_storage["linked_to_section"], element_storage["linked_to_key"], element_storage["cur_state"], element_storage["linked_to_persist"])
     elseif element_storage["linked_to"]==2 then
@@ -13155,6 +13176,8 @@ function reagirl.ToolbarButton_Manage(element_id, selected, hovered, clicked, mo
       reaper.RefreshToolbar2(element_storage["linked_to_section"], element_storage["linked_to_command_id"])
     end
   end
+  
+  element_storage["linked_update"]=false
   
   return message, oldpressed~=element_storage["pressed"]
 end
@@ -13295,6 +13318,7 @@ function reagirl.ToolbarButton_SetState(element_id, state)
     return false
   else
     reagirl.Elements[element_id]["cur_state"]=state-1
+    reagirl.Elements[element_id]["linked_update"]=true
     reagirl.Gui_ForceRefresh("toolbar: set state")
     return true
   end
@@ -13320,9 +13344,9 @@ function reagirl.ToolbarButton_GetDropShadow(element_id, has_drop_shadow)
     boolean has_drop_shadow - true, drop-shadow is enabled for this image; false, drop-shadow is not enabled for this image
   </retvals>
   <chapter_context>
-    Image
+    Toolbarbutton
   </chapter_context>
-  <tags>image, get, dropshadow</tags>
+  <tags>toolbarbutton, get, dropshadow</tags>
   <changelog>
     ReaGirl 1.3 - added to ReaGirl
   </changelog>
@@ -15510,7 +15534,7 @@ function reagirl.Inputbox_Manage(element_id, selected, hovered, clicked, mouse_c
   local entered_character=""
   local blink_refresh=false
   local linked_refresh=false
-  if element_storage["linked_to"]~=0 then
+  if element_storage["linked_to"]~=0 and element_storage["linked_update"]~=true then
     if element_storage["linked_to"]==1 then
       local val=reaper.GetExtState(element_storage["linked_to_section"], element_storage["linked_to_key"])
       if val=="" then val=element_storage["linked_to_default"] refresh=true end
@@ -15722,7 +15746,7 @@ function reagirl.Inputbox_Manage(element_id, selected, hovered, clicked, mouse_c
   element_storage.w2_old=w
   element_storage["AccHoverMessage"]=element_storage["Name"].." "..element_storage["Text"]
   
-  if refresh==true then
+  if refresh==true or element_storage["linked_update"]==true then
     if element_storage["linked_to"]~=0 then
       if element_storage["linked_to"]==1 then
         reaper.SetExtState(element_storage["linked_to_section"], element_storage["linked_to_key"], element_storage["Text"], element_storage["linked_to_persist"])
@@ -15733,6 +15757,8 @@ function reagirl.Inputbox_Manage(element_id, selected, hovered, clicked, mouse_c
       end
     end
   end
+  
+  element_storage["linked_update"]=false
   
   if linked_refresh==true and gfx.getchar(65536)&2==2 then --and element_storage["init"]==true then
     --reagirl.Screenreader_Override_Message=element_storage["Name"].." was updated to "..element_storage["Text"]
@@ -16240,6 +16266,7 @@ function reagirl.Inputbox_SetText(element_id, new_text)
     
     reagirl.Elements[element_id]["selection_endoffset"]=reagirl.Elements[element_id]["cursor_offset"]
     reagirl.Elements[element_id]["selection_startoffset"]=reagirl.Elements[element_id]["cursor_offset"]
+    reagirl.Elements[element_id]["linked_update"]=true
     reagirl.Gui_ForceRefresh(25)
   end
 end
@@ -16525,7 +16552,7 @@ function reagirl.DropDownMenu_Manage(element_id, selected, hovered, clicked, mou
   end
   element_storage.hovered=hovered
   
-  if element_storage["linked_to"]~=0 then
+  if element_storage["linked_to"]~=0 and element_storage["linked_update"]~=true then
     if element_storage["linked_to"]==1 then
       local val=reaper.GetExtState(element_storage["linked_to_section"], element_storage["linked_to_key"])
       val=tonumber(val)
@@ -16649,7 +16676,9 @@ function reagirl.DropDownMenu_Manage(element_id, selected, hovered, clicked, mou
     if element_storage["run_function"]~=nil then 
       reagirl.Elements[element_id]["run_function"](element_storage["Guid"], element_storage["menuSelectedItem"], element_storage["MenuEntries"][element_storage["menuSelectedItem"]])
     end
-    
+  end
+  
+  if refresh==true or element_storage["linked_update"]==true then
     if element_storage["linked_to"]~=0 then
       if element_storage["linked_to"]==1 then
         reaper.SetExtState(element_storage["linked_to_section"], element_storage["linked_to_key"], element_storage["menuSelectedItem"], element_storage["linked_to_persist"])
@@ -16658,6 +16687,7 @@ function reagirl.DropDownMenu_Manage(element_id, selected, hovered, clicked, mou
       end
     end
   end
+  element_storage["linked_update"]=false
   element_storage.run_function_exec=false
   element_storage["AccHoverMessage"]=element_storage["Name"].." "..element_storage["MenuEntries"][element_storage["menuSelectedItem"]]
   return element_storage["MenuEntries"][element_storage["menuSelectedItem"]]..". "..collapsed, refresh
@@ -17031,6 +17061,7 @@ function reagirl.DropDownMenu_SetSelectedMenuItem(element_id, selected_menu_item
   else
     if selected_menu_item>0 and selected_menu_item<=reagirl.Elements[element_id]["MenuCount"] then
       reagirl.Elements[element_id]["menuSelectedItem"]=selected_menu_item
+      reagirl.Elements[element_id]["linked_update"]=true
       reagirl.Gui_ForceRefresh(18.41)
       return true
     else
@@ -20600,7 +20631,7 @@ function reagirl.Slider_Manage(element_id, selected, hovered, clicked, mouse_cap
   end
   element_storage.hovered=hovered
   
-  if element_storage["linked_to"]~=0 then
+  if element_storage["linked_to"]~=0 and element_storage["linked_update"]~=true then
     if element_storage["linked_to"]==1 then
       local val=tonumber(reaper.GetExtState(element_storage["linked_to_section"], element_storage["linked_to_key"]))
       if val==nil then val=element_storage["linked_to_default"] refresh=true end
@@ -20743,20 +20774,21 @@ function reagirl.Slider_Manage(element_id, selected, hovered, clicked, mouse_cap
     if element_storage["run_function"]~=nil and skip_func~=true then 
       element_storage["run_function"](element_storage["Guid"], element_storage["CurValue"]) 
     end
-    
-    if element_storage["linked_to"]~=0 then
-      if element_storage["linked_to"]==1 then
-        reaper.SetExtState(element_storage["linked_to_section"], element_storage["linked_to_key"], element_storage["CurValue"]*element_storage["link_factor"], element_storage["linked_to_persist"])
-      elseif element_storage["linked_to"]==2 then
-        local retval, val = reaper.BR_Win32_WritePrivateProfileString(element_storage["linked_to_section"], element_storage["linked_to_key"], element_storage["CurValue"]*element_storage["link_factor"], element_storage["linked_to_ini_file"])
-      elseif element_storage["linked_to"]==3 then
-        reaper.SNM_SetDoubleConfigVar(element_storage["linked_to_configvar"], element_storage["CurValue"]*element_storage["link_factor"])
-      elseif element_storage["linked_to"]==4 then
-        reaper.SNM_SetIntConfigVar(element_storage["linked_to_configvar"], math.floor(element_storage["CurValue"])*element_storage["link_factor"])
-      end
+  end
+  
+  if (refresh==true and element_storage["linked_to"]~=0) or element_storage["linked_update"]==true then
+    if element_storage["linked_to"]==1 then
+      reaper.SetExtState(element_storage["linked_to_section"], element_storage["linked_to_key"], element_storage["CurValue"]*element_storage["link_factor"], element_storage["linked_to_persist"])
+    elseif element_storage["linked_to"]==2 then
+      local retval, val = reaper.BR_Win32_WritePrivateProfileString(element_storage["linked_to_section"], element_storage["linked_to_key"], element_storage["CurValue"]*element_storage["link_factor"], element_storage["linked_to_ini_file"])
+    elseif element_storage["linked_to"]==3 then
+      reaper.SNM_SetDoubleConfigVar(element_storage["linked_to_configvar"], element_storage["CurValue"]*element_storage["link_factor"])
+    elseif element_storage["linked_to"]==4 then
+      reaper.SNM_SetIntConfigVar(element_storage["linked_to_configvar"], math.floor(element_storage["CurValue"])*element_storage["link_factor"])
     end
   end
   element_storage.run_function_exec=false
+  element_storage["linked_update"]=false
   if linked_refresh==true and gfx.getchar(65536)&2==2 and element_storage["init"]==true then
     --reagirl.Screenreader_Override_Message=element_storage["Name"].." was updated to "..element_storage["CurValue"]..""..element_storage["Unit"]..". "
   end
@@ -21441,6 +21473,7 @@ function reagirl.Slider_SetValue(element_id, value)
       error("Slider_SetValue: param #2 - value must be within start and stop of the slider", 2)
     end
     reagirl.Elements[element_id]["CurValue"]=value
+    reagirl.Elements[element_id]["linked_update"]=true
     reagirl.Gui_ForceRefresh(54)
   end
 end

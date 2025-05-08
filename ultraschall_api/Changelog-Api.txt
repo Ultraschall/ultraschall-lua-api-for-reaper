@@ -405,13 +405,8 @@ Docs: eine Doku, wie man eine Gui so schreibt, dass man einfach mal schnell ui-e
   So in Etwa.
 
 Issue:
- - when linked ui-elements get updated from the outside, sending the message it was updated to screen reader doesn't work
-     I commented the screen reader-lines out...
-       reagirl.Screenreader_Override_Message=element_storage["Name"].." was updated to "..text
-     Dunno why it doesn't work reliably, but you can clearly see it not working correctly in the settings.
-     It's sometimes "updated", though nothing updated it, and therefore useless messages are sent to screen reader. Sometimes, the update doesn't send a message at all...
-     I noticed it with checkboxes, though others may have the same issue...
-  - If linked, does updating the checkstate/curvalue from a ReaGirl-function also update the linked value?
+  - when initializing the gui/clicking into an empty area, the first or the last selected ui-element is still focused with keyboard control. Means, scroll via keyboard isn't working then.
+    -- seems to be, that FocusedElement=-1 doesn't work properly....
  
 </TODO>
 
@@ -478,9 +473,10 @@ Has now 1904 functions, with 46 new ones
 #### Changes from 5.2 to 5.3  
   - ReaGirl: All UI-elements - except images will now highlight, when the mouse hovers above them(can be disabled in the settings)
   - ReaGirl: Buttons - caption wasn't properly drawn when y-margin was>0 -> fixed
-  - ReaGirl: DropDownLists - clicking dropdownlists wasn't shown properly, when focus rectangle was set as show always -> fixed
-  - ReaGirl: InputBoxes - when screen reader support is active, Ctrl+C copies the entire text to clipboard and Ctrl+V overwrites text with text from clipboard
-  - ReaGirl: Sliders - couldn't show negative unit-values -> fixed
+  - ReaGirl: Checkboxes - linked states weren't updated, when setting checkstate via Checkbox\_SetCheckState(); when linked-state was update from externally, it was reported constantly to screen reader -> fixed
+  - ReaGirl: DropDownMenus - clicking dropdownlists wasn't shown properly, when focus rectangle was set as show always; linked states weren't updated, when setting via DropDownMenu\_SetSelectedMenuItem() -> fixed
+  - ReaGirl: InputBoxes - when screen reader support is active, Ctrl+C copies the entire text to clipboard and Ctrl+V overwrites text with text from clipboard; linked states weren't updated when setting new text via Inputbox_SetText() -> fixed
+  - ReaGirl: Sliders - couldn't show negative unit-values; linked states weren't updated, when setting value using Slider\_SetValue() -> fixed
   - ReaGirl: Slider\_LinkToDoubleConfigVar - added new parameter factor
   - ReaGirl: Slider\_LinkToExtstate - added new parameter factor
   - ReaGirl: Slider\_LinkToIniValue - added new parameter factor
