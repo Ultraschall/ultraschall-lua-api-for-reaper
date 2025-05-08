@@ -13020,6 +13020,7 @@ function reagirl.ToolbarButton_Manage(element_id, selected, hovered, clicked, mo
     if retval==true then element_storage["DropZoneFunction"](element_storage["Guid"], {filenames}) refresh=true end
   end
   
+  local linked_refresh=false
   if element_storage["linked_to"]~=0 and element_storage["linked_update"]~=true then
     if element_storage["linked_to"]==1 then
       -- if checkbox is linked to extstate then
@@ -13049,6 +13050,14 @@ function reagirl.ToolbarButton_Manage(element_id, selected, hovered, clicked, mo
       local val=false
       local val=reaper.GetToggleCommandStateEx(element_storage["linked_to_section"], element_storage["linked_to_command_id"])
       if val~=element_storage["cur_state"] then element_storage["cur_state"]=val reagirl.Gui_ForceRefresh() linked_refresh=true end
+    end
+  end
+  
+  if linked_refresh==true then 
+    
+    reagirl.ScreenReader_SendMessage(element_storage["Name"].." - toolbarbutton set to "..element_storage["state_names"][element_storage["cur_state"]+1])
+    if reaper.GetExtState("ReaGirl", "osara_debug")=="true" then
+      reaper.ShowConsoleMsg(element_storage["Name"].." - toolbarbutton set to "..element_storage["state_names"][element_storage["cur_state"]+1].."\n")
     end
   end
   
