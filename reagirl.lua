@@ -6226,7 +6226,7 @@ function reagirl.Gui_Manage(keep_running)
   local init_message=""
   local helptext=""
   if reagirl.osara_init_message==false then
-    if reagirl.Elements["FocusedElement"]~=0 then
+    if reagirl.Elements["FocusedElement"]>0 then
       if reagirl.Elements[1]~=nil then
         reagirl.osara_init_message=reagirl.Window_Title .."-dialog, ".. reagirl.Window_Description .." ".. reagirl.Elements[reagirl.Elements["FocusedElement"]]["Name"].." ".. reagirl.Elements[reagirl.Elements["FocusedElement"]]["GUI_Element_Type"]..". "
         local acc_message=""
@@ -6265,7 +6265,7 @@ function reagirl.Gui_Manage(keep_running)
     if gfx.mouse_wheel~=0 then reagirl.UI_Element_ScrollY(gfx.mouse_wheel/50) end
   end
   reagirl.Scroll_Override_MouseWheel=nil
-  if reagirl.Elements["FocusedElement"]~=0 and reagirl.Elements[reagirl.Elements["FocusedElement"]].GUI_Element_Type~="Edit" and reagirl.Elements[reagirl.Elements["FocusedElement"]].GUI_Element_Type~="Edit Multiline" then
+  if reagirl.Elements["FocusedElement"]>0 and reagirl.Elements[reagirl.Elements["FocusedElement"]].GUI_Element_Type~="Edit" and reagirl.Elements[reagirl.Elements["FocusedElement"]].GUI_Element_Type~="Edit Multiline" then
   -- scroll via keys
     if reagirl.Scroll_Override~=true and reaper.GetExtState("ReaGirl", "scroll_via_keyboard")~="false" then
       if gfx.mouse_cap&8==0 and Key==30064 then reagirl.UI_Element_ScrollY(2) end -- up
@@ -6366,7 +6366,7 @@ function reagirl.Gui_Manage(keep_running)
     reagirl.FocusRectangle_BlinkStartTime=reaper.time_precise()
     reagirl.FocusRectangle_BlinkStop=nil
     
-    if reagirl.Elements["FocusedElement"]~=0 then
+    if reagirl.Elements["FocusedElement"]>0 then
       if reagirl.Elements["FocusedElement"]>#reagirl.Elements then reagirl.Elements["FocusedElement"]=1 end 
       init_message=reagirl.Elements[reagirl.Elements["FocusedElement"]]["Name"].." "..reagirl.Elements[reagirl.Elements["FocusedElement"]]["GUI_Element_Type"]..". "
       local acc_message=""
@@ -6404,7 +6404,7 @@ function reagirl.Gui_Manage(keep_running)
     reagirl.FocusRectangle_BlinkStartTime=reaper.time_precise()
     reagirl.FocusRectangle_BlinkStop=nil
     
-    if reagirl.Elements["FocusedElement"]~=0 then
+    if reagirl.Elements["FocusedElement"]>0 then
       if reagirl.Elements["FocusedElement"]<1 then reagirl.Elements["FocusedElement"]=#reagirl.Elements end
       init_message=reagirl.Elements[reagirl.Elements["FocusedElement"]]["Name"].." "..
       reagirl.Elements[reagirl.Elements["FocusedElement"]]["GUI_Element_Type"]..". "
@@ -7279,7 +7279,7 @@ function reagirl.Gui_Draw(Key, Key_utf, clickstate, specific_clickstate, mouse_c
             )
           end
         end -- draw_only_necessary-elements
-        if reagirl.Elements["FocusedElement"]~=0 and reagirl.Elements["FocusedElement"]==i then
+        if reagirl.Elements["FocusedElement"]>0 and reagirl.Elements["FocusedElement"]==i then
           --if reagirl.Elements[i]["GUI_Element_Type"]=="ComboBox" then --  if w2<20 then w2=20 end end
           local r,g,b,a=gfx.r,gfx.g,gfx.b,gfx.a
           local dest=gfx.dest
@@ -12806,6 +12806,30 @@ function reagirl.ToolbarButton_Add(x, y, toolbaricon, num_states, default_state,
     - string element_id - the element_id as string of the pressed toolbar-button that uses this run-function
     - integer cur_state - the current state of the toolbar-button, 0 or higher. Will stay 0 if the button allows only 1 state!
     - string cur_state_name - the name of the new state
+    
+    Note for the toolbarimages:
+    
+    For toolbar-button-images, you create a toolbar-image, which is 30 pixels in height and 30*number of states. So if you have 5 states, you create an image with 
+    30+150 pixels. In the images, you put the number of states as individual images. So for our 5-state image, the first 30 pixels are for the image of state 1, the second 30 pixels
+    are for the image of state 2, the third 30 pixels for the image of state 3, etc.
+    Important: if you set mode=5, the image will behave as Reaper's own toolbar-buttons. With that, the image is 30*90 pixels with the first 30 pixels being the image for button is turned off, 
+    the second 30 pixels for the mouse is hovering above the button and the third 30 pixels for when the button is turned on.
+    
+    For scaling, you create upscaled images for 1x(30 x num_states*30 pixels), 2x(60 x num_states*60 pixels, 3x(90 x num_states*60 pixels), etc.
+    The filenames are either in the same folder like the unscaled image, like:
+    
+    toolbaricon-image.png
+    toolbaricon-image-2x.png
+    toolbaricon-image-3x.png
+    etc
+    
+    Or you place them in subfolders, where the scaling is written in 100 steps(Reaper's behavior):
+    
+    toolbar-image.png
+    200/toolbar-image.png
+    300/toolbar-image.png
+    400/toolbar-image.png
+    etc
   </description>
   <parameters>
     optional integer x - the x position of the toolbar-button in pixels; negative anchors the toolbar-button to the right window-side; nil, autoposition after the last ui-element(see description)
@@ -13747,17 +13771,18 @@ function reagirl.ToolbarButton_Draw(element_id, selected, hovered, clicked, mous
         text[2]=text[2]:sub(1,count)
       end
       if text_num==1 then
+        gfx.dest=-1
         local width, height=gfx.measurestr(text[1])
         local xx=(w-width)/2
         local yy=(h-height)/2
-        gfx.x=xx-dpi_scale
-        gfx.y=yy+dpi_scale
-        gfx.dest=element_storage["toolbaricon"]
+        gfx.x=x+xx-dpi_scale+dpi_scale+dpi_scale
+        gfx.y=y+yy+dpi_scale+dpi_scale+dpi_scale
+        --gfx.dest=element_storage["toolbaricon"]
         gfx.set(reagirl.Colors.Toolbar_TextBG_r, reagirl.Colors.Toolbar_TextBG_g, reagirl.Colors.Toolbar_TextBG_b)
         gfx.drawstr(text[1])
-        gfx.x=xx-dpi_scale-dpi_scale
-        gfx.y=yy
-        gfx.dest=element_storage["toolbaricon"]
+        gfx.x=x+xx+dpi_scale+dpi_scale
+        gfx.y=y+yy+dpi_scale+dpi_scale
+        --gfx.dest=element_storage["toolbaricon"]
         gfx.set(reagirl.Colors.Toolbar_TextFG_r, reagirl.Colors.Toolbar_TextFG_g, reagirl.Colors.Toolbar_TextFG_b)
         gfx.drawstr(text[1])
         gfx.dest=-1
@@ -13848,28 +13873,33 @@ function reagirl.ToolbarButton_Draw(element_id, selected, hovered, clicked, mous
         text[2]=text[2]:sub(1,count)
       end
       if text_num==1 then
+        --gfx.dest=element_storage["toolbaricon"]
         local width, height=gfx.measurestr(text[1])
+        --local w,h=gfx.setimgdim(element_storage["toolbaricon"], w, h)
+        --local w,h=gfx.getimgdim(element_storage["toolbaricon"])
+        --print2(w,0,0)
+        gfx.dest=-1
         local xx=(w-width)/2
         local yy=(h-height)/2
-        gfx.x=xx+dpi_scale
-        gfx.y=yy+dpi_scale
-        gfx.dest=element_storage["toolbaricon"]
+        gfx.x=x+xx+dpi_scale+dpi_scale
+        gfx.y=y+yy+dpi_scale
+        --gfx.dest=element_storage["toolbaricon"]
         gfx.set(reagirl.Colors.Toolbar_TextBG_r, reagirl.Colors.Toolbar_TextBG_g, reagirl.Colors.Toolbar_TextBG_b)
         gfx.drawstr(text[1])
-        gfx.x=xx
-        gfx.y=yy
-        gfx.dest=element_storage["toolbaricon"]
+        gfx.x=x+xx+dpi_scale
+        gfx.y=y+yy
+        --gfx.dest=element_storage["toolbaricon"]
         gfx.set(reagirl.Colors.Toolbar_TextFG_r, reagirl.Colors.Toolbar_TextFG_g, reagirl.Colors.Toolbar_TextFG_b)
         gfx.drawstr(text[1])
         gfx.dest=-1
       elseif text_num>1 then
         gfx.set(reagirl.Colors.Toolbar_TextBG_r, reagirl.Colors.Toolbar_TextBG_g, reagirl.Colors.Toolbar_TextBG_b)
-        gfx.x=x+dpi_scale
+        gfx.x=x+dpi_scale+dpi_scale
         gfx.y=y+dpi_scale+(h-gfx.texth-gfx.texth)/2
         gfx.drawstr(text[1].."\n"..text[2], 1, x+w, y+h)
         
         gfx.set(reagirl.Colors.Toolbar_TextFG_r, reagirl.Colors.Toolbar_TextFG_g, reagirl.Colors.Toolbar_TextFG_b)
-        gfx.x=x
+        gfx.x=x+dpi_scale+dpi_scale
         gfx.y=y+(h-gfx.texth-gfx.texth)/2
         gfx.drawstr(text[1].."\n"..text[2], 1, x+w, y+h)
         gfx.dest=-1
@@ -14038,7 +14068,7 @@ function reagirl.ToolbarButton_SetRadius(element_id, radius)
   if type(element_id)~="string" then error("ToolbarButton_SetRadius: param #1 - must be a string", 2) end
   if reagirl.IsValidGuid(element_id, true)==nil then error("ToolbarButton_SetRadius: param #1 - must be a valid guid", 2) end
   if math.type(radius)~="integer" then error("ToolbarButton_SetRadius: param #2 - must be an integer", 2) end
-  if radius<0 or radius>14 then error("ToolbarButton_SetRadius: param #2 - must be between 0 and 10", 2) end
+  if radius<0 or radius>14 then error("ToolbarButton_SetRadius: param #2 - must be between 0 and 14", 2) end
 
   element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
   if element_id==-1 then error("ToolbarButton_SetRadius: param #1 - no such ui-element", 2) end
@@ -14089,56 +14119,17 @@ function reagirl.ToolbarButton_GetRadius(element_id)
   end
 end
 
-function reagirl.ToolbarButton_SetCurrentState(element_id, state)
---[[
-<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>ToolbarButton_SetCurrentState</slug>
-  <requires>
-    ReaGirl=1.3
-    Reaper=7.03
-    Lua=5.4
-  </requires>
-  <functioncall>reagirl.ToolbarButton_SetCurrentState(string element_id, integer state)</functioncall>
-  <description>
-    Sets the current state of a toolbar-button.
-  </description>
-  <parameters>
-    string element_id - the guid of the toolbar-button, whose state you want to set
-    integer state - the new state of the toolbar-button
-  </parameters>
-  <chapter_context>
-    Toolbarbutton
-  </chapter_context>
-  <tags>toolbarbutton, set, state</tags>
-  <changelog>
-    ReaGirl 1.3 - added to ReaGirl
-  </changelog>
-</US_DocBloc>
---]]
-  if type(element_id)~="string" then error("ToolbarButton_SetCurrentState: param #1 - must be a string", 2) end
-  if reagirl.IsValidGuid(element_id, true)==nil then error("ToolbarButton_SetCurrentState: param #1 - must be a valid guid", 2) end
-  if math.type(state)~="integer" then error("ToolbarButton_SetCurrentState: param #2 - must be an integer", 2) end
-  element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
-  if state<0 or state>=reagirl.Elements[element_id]["num_states"] then error("ToolbarButton_SetCurrentState: param #2 - must be between 0 and "..(reagirl.Elements[element_id]["num_states"]-1).." for this toolbar-button.", 2) end
-  if element_id==-1 then error("ToolbarButton_SetCurrentState: param #1 - no such ui-element", 2) end
-  if reagirl.Elements[element_id]["GUI_Element_Type"]~="ToolbarButton" then
-    error("ToolbarButton_SetCurrentState: param #1 - ui-element is not a toolbar-button", 2)
-  else
-    reagirl.Elements[element_id]["cur_state"]=state
-    reagirl.Gui_ForceRefresh(18.0985)
-  end
-end
 
-function reagirl.ToolbarButton_GetCurrentState(element_id)
+function reagirl.ToolbarButton_GetState(element_id)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>ToolbarButton_GetCurrentState</slug>
+  <slug>ToolbarButton_GetState</slug>
   <requires>
     ReaGirl=1.3
     Reaper=7.03
     Lua=5.4
   </requires>
-  <functioncall>integer state = reagirl.ToolbarButton_GetCurrentState(string element_id)</functioncall>
+  <functioncall>integer state = reagirl.ToolbarButton_GetState(string element_id)</functioncall>
   <description>
     Gets a toolbar-button's current state.
     
@@ -14160,12 +14151,12 @@ function reagirl.ToolbarButton_GetCurrentState(element_id)
   </changelog>
 </US_DocBloc>
 --]]
-  if type(element_id)~="string" then error("ToolbarButton_GetRadius: param #1 - must be a string", 2) end
-  if reagirl.IsValidGuid(element_id, true)==nil then error("ToolbarButton_GetRadius: param #1 - must be a valid guid", 2) end
+  if type(element_id)~="string" then error("ToolbarButton_GetState: param #1 - must be a string", 2) end
+  if reagirl.IsValidGuid(element_id, true)==nil then error("ToolbarButton_GetState: param #1 - must be a valid guid", 2) end
   element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
-  if element_id==-1 then error("ToolbarButton_GetRadius: param #1 - no such ui-element", 2) end
+  if element_id==-1 then error("ToolbarButton_GetState: param #1 - no such ui-element", 2) end
   if reagirl.Elements[element_id]["GUI_Element_Type"]~="ToolbarButton" then
-    error("ToolbarButton_GetRadius: param #1 - ui-element is not a toolbarbutton", 2)
+    error("ToolbarButton_GetState: param #1 - ui-element is not a toolbarbutton", 2)
   else
     return reagirl.Elements[element_id]["cur_state"], reagirl.Elements[element_id]["num_states"]
   end
@@ -23485,16 +23476,66 @@ function reagirl.Meter_GetPeak(element_id)
   end
 end
 
-function reagirl.Meter_GetLink(element_id)
+function reagirl.Meter_SetPeak(element_id, ...)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>Meter_GetPeak</slug>
+  <slug>Meter_SetPeak</slug>
   <requires>
     ReaGirl=1.3
     Reaper=7.03
     Lua=5.4
   </requires>
-  <functioncall>integer linked = reagirl.Meter_GetPeak(string element_id)</functioncall>
+  <functioncall>boolean retval = reagirl.Meter_SetPeak(string element_id, number peak1, number peak2, ...)</functioncall>
+  <description>
+    Sets the peak-values that shall be displayed in the meter.
+    
+    You can set more than one peak-value for multichannel display.
+  </description>
+  <parameters>
+    string element_id - the guid of the button, whose radius you want to set
+    number peak1 - channel 1 in dB, -144 to +12
+    number peak2 - channel 2 in dB, -144 to +12
+    ... ...
+  </parameters>
+  <retvals>
+    boolean retval - true, setting was succesful; false, setting was unsuccessful
+  </retvals>
+  <chapter_context>
+    Meter
+  </chapter_context>
+  <tags>meter, set, peak</tags>
+</US_DocBloc>
+--]]
+  local peaks={...}
+
+  if type(element_id)~="string" then error("Meter_SetPeak: param #1 - must be a string", 2) end
+  if reagirl.IsValidGuid(element_id, true)==nil then error("Meter_SetPeak: param #1 - must be a valid guid", 2) end
+  for i=1, #peaks do
+    if type(peaks[i])~="number" then error("Meter_SetPeak: param #"..(i+2).." - must be a number", 2) end
+  end
+  
+  element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
+  if element_id==-1 then error("Meter_SetPeak: param #1 - no such ui-element", 2) end
+  if reagirl.Elements[element_id]["GUI_Element_Type"]~="Meter" then
+    return false
+  else
+    reagirl.Elements[element_id]["db_val"]=peaks
+    reagirl.Elements[element_id]["channels"]=#peaks
+    reagirl.Gui_ForceRefresh(19)
+  end
+  return true
+end
+
+function reagirl.Meter_GetLink(element_id)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Meter_GetLink</slug>
+  <requires>
+    ReaGirl=1.3
+    Reaper=7.03
+    Lua=5.4
+  </requires>
+  <functioncall>integer linked = reagirl.Meter_GetLink(string element_id)</functioncall>
   <description>
     Gets, to which a meter is currently linked.
   </description>
@@ -23513,14 +23554,14 @@ function reagirl.Meter_GetLink(element_id)
   </changelog>
 </US_DocBloc>
 --]]
-  if type(element_id)~="string" then error("Meter_GetPeak: param #1 - must be a string", 2) end
-  if reagirl.IsValidGuid(element_id, true)==nil then error("Meter_GetPeak: param #1 - must be a valid guid", 2) end
+  if type(element_id)~="string" then error("Meter_GetLink: param #1 - must be a string", 2) end
+  if reagirl.IsValidGuid(element_id, true)==nil then error("Meter_GetLink: param #1 - must be a valid guid", 2) end
   element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
-  if element_id==-1 then error("Meter_GetPeak: param #1 - no such ui-element", 2) end
+  if element_id==-1 then error("Meter_GetLink: param #1 - no such ui-element", 2) end
   if reagirl.Elements[element_id]["GUI_Element_Type"]~="Meter" then
-    error("Meter_GetPeak: param #1 - ui-element is not a meter", 2)
+    error("Meter_GetLink: param #1 - ui-element is not a meter", 2)
   else
-    return reagirl.Elements[element_id]["source"]
+    return reagirl.Elements[element_id]["linked_to"]
   end
 end
 

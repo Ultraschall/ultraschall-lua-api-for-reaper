@@ -4651,7 +4651,7 @@
 					For this, we use a feature of ReaGirl, called DecorRectangles. 
 					
 					These are decorative rectangles that are just drawn but can't be selected or clicked. If we put them behind the input-boxes, the captions will become readable.   
-					reagirl.DecorRectangle_Add() has 8 parameters. First, x, y, width and height and then the radius of the edges of the rectangle. The last three parameters are the color-r, g, b-values.    
+					reagirl.DecorRectangle\_Add() has 8 parameters. First, x, y, width and height and then the radius of the edges of the rectangle. The last three parameters are the color-r, g, b-values.    
 					We can also set the individual edges of the decorative rectangle to square or rounded with the additional function reagirl.DecorRectangle\_SetEdgeStyle(). That way, we can have the bottom edges of the top and the top edges of the bottom rectangle rounded, which looks much nicer.    
 					
 					With this, we can add these decorative rectangles behind the inputboxes to make the captions readable.   
@@ -4749,7 +4749,7 @@
         <title>The Gui Elements</title>  
         <description markup_type="markdown" markup_version="1.0.1" indent="default">  
             ReaGirl features a set of ui-elements that you can add to your gui and add functionality to them,  
-            as of now buttons, labels, checkboxes, inputboxes, images, sliders, dropdownmenus and tabs.  
+            as of now buttons, labels, checkboxes, inputboxes, images, sliders, dropdownmenus, tabs, color rectangles, burgermenus, toolbar buttons and level-meters.  
               
             You can also add to each ui-element a context-menu. You can also add a file-drop-zone, which allows you to drop files onto a certain ui-element.  
             For both, context-menus and drop zones, you can add run-functions that will be run when a context-menu is opened or files have been dropped.  
@@ -4778,14 +4778,15 @@
             They can be pressed to start an action, like opening a dialog, running actions from the action list, closing a window, etc.  
             What they do is defined by what you write into the run-function.  
               
-            To add a button to your gui, you use reagirl.Button\_Add(). It has seven parameters.  
+            To add a button to your gui, you use reagirl.Button\_Add(). It has eight parameters.  
               
             - The first and the second are the position of the button in pixels. You can set them to nil to auto-position it.  
             - The third and fourth are margins around the caption. So if the button is too small for you, make these >0 to make the button bigger.  
             - The fifth parameter is the caption, which is the text of the button.  
             - The sixth parameter is meaningOfUI\_Element, which is a short explanation on what the button is doing and why. This is needed by blind users so they know, what the button is for.  
             - The seventh parameter is a run-function. This function will be run, when the button is clicked. It gets as parameter the element\_id of the button that was clicked.  
-              
+            - The eighth parameter is a unique identifier, used to adress this specific ui-element. With that, it's possible to control the ui-element from the outside of a script, like clicking it.
+            
             With this, you can add a button to your gui, but there's more that you can do with a button.  
               
             - reagirl.Button\_SetDisabled() - sets a button to disability-state, so you can prevent the button from being clickable  
@@ -4814,7 +4815,7 @@
               
             They are usually used when the user has the option to turn something on or off.  
               
-            To add a checkbox, you use reagirl.Checkbox\_Add(). It has six parameters.  
+            To add a checkbox, you use reagirl.Checkbox\_Add(). It has seven parameters.  
               
             - The first and second parameter are the position in pixels. Set them to nil to auto-position the checkbox.  
             - The third parameter is the text of the caption.  
@@ -4823,6 +4824,7 @@
             - The sixth parameter is the run-function which is run everytime the user toggles the checkstate of the checkbox.   
               It gets as parameters the element\_id of the toggled checkbox as first and the new checkstate as second parameter.  
               You can set the run-function to nil if you don't want a run-function to be run.  
+            - The seventh parameter is a unique identifier, used to adress this specific ui-element. With that, it's possible to control the ui-element from the outside of a script, like clicking it.
                 
             There's more that you can do with checkboxes:  
               
@@ -4832,11 +4834,11 @@
             - reagirl.Checkbox\_GetCheckState - gets the current checkstate of the checkbox  
             - reagirl.Checkbox\_SetWidth - sets width of a checkbox, which helps you with autopositioning  
 			
-			- reagirl.Checkbox\_LinkToConfigVar - links the checkbox to a certain config-variable-bitfield  
-			- reagirl.Checkbox\_LinkToExtstate - links the checkbox to an extstate  
-			- reagirl.Checkbox\_LinkToIniValue - links the checkbox to an ini-value
-			- reagirl.Checkbox\_LinkToToggleState - links the checkbox to the toggle-state of an action  
-			- reagirl.Checkbox\_Unlink - removes the link between the checkbox and a certain state  
+            - reagirl.Checkbox\_LinkToConfigVar - links the checkbox to a certain config-variable-bitfield  
+            - reagirl.Checkbox\_LinkToExtstate - links the checkbox to an extstate  
+            - reagirl.Checkbox\_LinkToIniValue - links the checkbox to an ini-value
+            - reagirl.Checkbox\_LinkToToggleState - links the checkbox to the toggle-state of an action  
+            - reagirl.Checkbox\_Unlink - removes the link between the checkbox and a certain state  
 			
             Check the [first tutorial "A basic gui"](#Tutorial_001_A_Basic_Gui) to see examples of guis with checkboxes.  
         </description>  
@@ -4860,9 +4862,9 @@
             You can also make a label clickable, so it behaves like a link on a webpage.  
             Labels can have newlines.  
               
-            There are also functions to set a label draggable.  
+            There are also functions to set a label to draggable.  
               
-            You add labels to your gui with reagirl.Label\_Add(), which has six parameters.  
+            You add labels to your gui with reagirl.Label\_Add(), which has seven parameters.  
               
             - The first and second parameters are the position of the label in pixels. To autoposition the label, pass nil into these parameters.  
             - The third parameter is the label-text. It can include newlines.  
@@ -4871,6 +4873,7 @@
             - The fifth parameter sets, if the label is clickable(true) or not(false).  
             - The sixth parameter is a run-function, that is run when a clickable label is clicked and/or a label is dragged onto another ui-element.  
               You can keep the run-function nil if you don't need a run-function to be run.  
+            - The seventh parameter is a unique identifier, used to adress this specific ui-element. With that, it's possible to control the ui-element from the outside of a script, like clicking it.
               
             There's more that you can do with labels:  
               
@@ -4930,7 +4933,7 @@
               
             Images can be made draggable.    
               
-            You can add images using Image\_Add, which has eight parameters.    
+            You can add images using Image\_Add, which has nine parameters.  
               
               - Parameter 1 and 2 are the position of the image in pixels. Set them to nil to autoposition the image.  
               - Parameter 3 and 4 are the width and height of the image in pixels.  
@@ -4939,6 +4942,7 @@
               - Parameter 7 is the meaningOfUI\_Element, which describes to the blind users what the image is for and why.  
               - Parameter 8 is the run-function of the image that is run when the user clicks the image.  
                 Set it to nil, if you don't need it.  
+              - Parameter 9 is a unique identifier, used to adress this specific ui-element. With that, it's possible to control the ui-element from the outside of a script, like clicking it
                   
             You can do more things with images:  
               
@@ -4973,7 +4977,7 @@
             Inputboxes are fields, into which you can type text. They consist of a caption and a square next to it, into which you enter the text.  
             Unlike other ui-elements, inputboxes allow for two run-functions: one for when the user typed a character into the inputbox and one for when the user hits enter.  
               
-            You can add inputboxes with InputBox\_Add, which has 9 parameters.  
+            You can add inputboxes with InputBox\_Add, which has 10 parameters.  
               
             - Parameter 1 and 2 are the position of the inputbox in pixels. Set them to nil to autoposition them.  
             - Parameter 3 is the width of the inputbox in pixels. This includes the length of the caption so make it  
@@ -4988,7 +4992,8 @@
               This run-function gets the inputbox-element\_id as first and the entered text as second parameter.  
             - Parameter 9 is the run-function for when the user entered a character into the inputfield.  
               This run-function gets the inputbox-element\_id as first, the entered text as second and the last entered character(or pasted text) as third parameter.  
-                
+            - Parameter 10 is a unique identifier, used to adress this specific ui-element. With that, it's possible to control the ui-element from the outside of a script, like clicking it 
+               
             You can do more with inputboxes.  
               
             - reagirl.Inputbox\_GetPassword - gets if the inputbox shall be used for entering passwords. Means, all characters will be shown as *  
@@ -5026,7 +5031,7 @@
             They are a caption and a box right next to it which can be clicked to select the option.  
             You can cycle through the options with the arrow-keys, home/end-key and mouse-wheel.
               
-            You can add a drop down menu to the gui using DropDownMenu\_Add, which has 9 parameters.  
+            You can add a drop down menu to the gui using DropDownMenu\_Add, which has 10 parameters.  
               
             - Parameters 1 and 2 are the x and y coordinate in pixels of the drop down menu. Set them to nil to autoposition the drop down menu.  
             - Parameter 3 is the width of the drop down menu in pixels. This includes the caption so make it long enough.  
@@ -5039,6 +5044,7 @@
             - Parameter 8 is the selected menu item when the gui is started  
             - Parameter 9 is the run-function that is run everytime the user changes the menu-selection  
               The run-function gets the element\_id of the selected drop down menu as first, the selected menu-entry-number as second and the selected menu-entry-name as third parameter.  
+            - Parameter 10 is a unique identifier, used to adress this specific ui-element. With that, it's possible to control the ui-element from the outside of a script, like clicking it
                 
             You can do more things with drop down menus:  
               
@@ -5075,7 +5081,7 @@
             You can also give a stepsize. So if you want the user to just choose integers, give a step-size of 1.  
             The slider can be altered using mousewheel, arrow keys, PgUp and PgDn as well as home/end-key
               
-            You can add sliders with reagirl.Slider\_Add() which has 13 parameters.  
+            You can add sliders with reagirl.Slider\_Add() which has 14 parameters.  
               
             - Parameters 1 and 2 are the x and y coordinate in pixels of the slider. Set them to nil to autoposition the slider.  
             - Parameter 3 is the width of the slider in pixels. This includes the caption so make it long enough.  
@@ -5095,6 +5101,8 @@
             - Parameter 13 is the run-function, which is run everytime the user moves the circle of the slider.  
               You can set this to nil, if you don't need one.  
               The run-function gets the element\_id of the moved slider as first and the current value of the slider as second parameter.  
+            - Parameter 14 is a unique identifier, used to adress this specific ui-element. With that, it's possible to control the ui-element from the outside of a script, like clicking it 
+               
                 
             You can do more things with sliders:  
               
@@ -5141,7 +5149,7 @@
               
             Only one tab-ui-element per gui is allowed!  
               
-            You add tabs to your gui using reagirl.Tabs\_Add(), which has nine parameters.  
+            You add tabs to your gui using reagirl.Tabs\_Add(), which has ten parameters.  
               
             - Parameters 1 and 2 are x and y-position of the tabs in pixels. You can set these to nil to autoposition the tabs.  
             - Parameters 3 and 4 are the width and height of the grey background of the tabs, that gives a backdrop to ui-elements.  
@@ -5154,6 +5162,7 @@
             - Parameter 9 is a run-function that is called everytime the user switched tabs  
               You can set this to nil, if you don't want to use a run-function when tabs are switched.  
               The run-function will get the element\_id of the tab as first, the selected tab as second and the selected tabname as third parameter.  
+            - Parameter 10 is a unique identifier, used to adress this specific ui-element. With that, it's possible to control the ui-element from the outside of a script, like clicking it
               
             There are more things you can do with tabs:  
               
@@ -5186,16 +5195,19 @@
 						To make it easier for blind users to get a picture of the used color, use one that has a name for it. You can use reagirl.Color_EnumerateNames(), reagirl.Color_GetName() 
 						and reagirl.Color_GetColorValuesByName() for this. All standard HTML-color-names are supported.
               
-            You add Color-Rectangles to your gui using reagirl.ColorRectangle\_Add(), which has 11 parameters.  
+            You add Color-Rectangles to your gui using reagirl.ColorRectangle\_Add(), which has 12 parameters.  
               
-            - Parameters 1 and 2 are x and y-position of the color rectangle in pixels. You can set these to nil to autoposition the tabs.  
+            - Parameters 1 and 2 are x and y-position of the color rectangle in pixels. You can set these to nil to autoposition the color rectangle.  
             - Parameters 3 and 4 are the width and height of the color rectangle.
             - Parameter 5 through 7 are the r,g,b-values of the color of the rectangle(values ranging from 1-255)
             - Parameter 8 is the caption of the color-rectangle, which is communicated to screen readers.
 						- Parameter 9 is meaningOfUI\_Element, which is a description for the color-rectangle, communicated to screen reader users. Explain what the rectangle is for and why.  
             - Parameter 10 signals, if clicking the color-rectangle opens up a color-selector-dialog(true) or not(false)
 						- Parameter 11 is the run-function, that is run everytime the user clicks the color-rectangle. If a color-selector-dialog is opened, the run-function will be run after the user closed the color-selector.
-              
+            - Parameter 12 is a unique identifier, used to adress this specific ui-element. With that, it's possible to control the ui-element from the outside of a script, like clicking it
+            
+            If you need a color-rectangle, that is not treated as a clickable ui-element, use reagirl.DecorRectangle\_Add().
+            
             There are more things you can do with color-rectangles:  
             
 						- reagirl.ColorRectangle\_GetEdgeStyle - gets if the individual edges of the color-rectangle are square or rounded			
@@ -5223,13 +5235,15 @@
         <description markup_type="markdown" markup_version="1.0.1" indent="default">  
             A burger-menu is a ui-element very common on websites, being a button with three horizontal lines on it. It opens a menu when clicking on it, so the user can select additional options.
 						
-						You add Burger-menus to your gui using reagirl.Burgermenu\_Add(), which has 6 parameters.  
+						You add Burger-menus to your gui using reagirl.Burgermenu\_Add(), which has 8 parameters.  
               
-            - Parameters 1 and 2 are x and y-position of the burger-menu in pixels. You can set these to nil to autoposition the tabs.  
+            - Parameters 1 and 2 are x and y-position of the burger-menu in pixels. You can set these to nil to autoposition the burger-menus.  
             - Parameter 3 is a caption read to accessibility-users
-            - Parameter 4 is a description of the burger-menu, communicated to accessibility-users by screen reader as well as a tooltip
-            - Parameter 5 is the menu shown, when the user clicks the burger-menu. It is formatted the way as gfx.showmenu() accepts it.
-						- Parameter 6 is the run-function, that is run everytime the user selects a menu-entry
+            - Parameter 4 is mode, which let's you choose between different options for the burger menu, like 15x15 size or 30x30 size
+            - Parameter 5 is a description of the burger-menu, communicated to accessibility-users by screen reader as well as a tooltip
+            - Parameter 6 is the menu shown, when the user clicks the burger-menu. It is formatted the way as gfx.showmenu() accepts it.
+						- Parameter 7 is the run-function, that is run everytime the user selects a menu-entry
+            - Parameter 8 is a unique identifier, used to adress this specific ui-element. With that, it's possible to control the ui-element from the outside of a script, like clicking it
               
             There are more things you can do with burgermenus:  
 						- reagirl.Burgermenu\_GetMenu - gets the currently set menu of the burger-menu
@@ -5241,6 +5255,137 @@
           The Gui Elements
         </chapter_context>
         <previous_chapter>The_Gui_Elements_009_ColorRectangle</previous_chapter>  
+        <next_chapter>The_Gui_Elements_011_ToolbarButtons</next_chapter>  
+        <tags>burger menu</tags>  
+    </US_DocBloc>  
+    
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">  
+        <slug>The_Gui_Elements_011_ToolbarButtons</slug>  
+        <title>Toolbarbuttons</title>  
+        <description markup_type="markdown" markup_version="1.0.1" indent="default">  
+            A toolbar button is a button, that can be clicked to. It shows either a text(as text icons) or an image. They can show different states(up to 32).
+            It's possible to show them with a button-image or as a text-toolbar-button.
+            Toolbarbuttons are basically the same as what you expect from the buttons in Reaper's toolbars, but with more options.
+						
+            For toolbar-button-images, you create a toolbar-image, which is 30 pixels in height and 30*number of states. So if you have 5 states, you create an image with 
+            30+150 pixels. In the images, you put the number of states as individual images. So for our 5-state image, the first 30 pixels are for the image of state 1, the second 30 pixels
+            are for the image of state 2, the third 30 pixels for the image of state 3, etc.
+            Important: if you set mode=5, the image will behave as Reaper's own toolbar-buttons. With that, the image is 30*90 pixels with the first 30 pixels being the image for button is turned off, 
+            the second 30 pixels for the mouse is hovering above the button and the third 30 pixels for when the button is turned on.
+            
+            For scaling, you create upscaled images for 1x(30 x num_states*30 pixels), 2x(60 x num_states*60 pixels, 3x(90 x num_states*60 pixels), etc.
+            The filenames are either in the same folder like the unscaled image, like:
+            
+            toolbaricon-image.png
+            toolbaricon-image-2x.png
+            toolbaricon-image-3x.png
+            etc
+            
+            Or you place them in subfolders, where the scaling is written in 100 steps(Reaper's behavior):
+            
+            toolbar-image.png
+            200/toolbar-image.png
+            300/toolbar-image.png
+            400/toolbar-image.png
+            etc
+            
+						You add toolbar-buttons to your gui using reagirl.ToolbarButton\_Add(), which has 11 parameters.  
+              
+            - Parameters 1 and 2 are x and y-position of the toolbar-butotn in pixels. You can set these to nil to autoposition the tabs.  
+            - Parameter 3 is the toolbar-icon-filename with path. Set it to "" when doing text-icons.
+            - Parameter 4 is the number of states the button allows. You can have up to 32 states.
+            - Parameter 5 is the default state. Pick a number and it will show the state in the button.
+            - Parameter 6 is a table with all state-names. Each state-name will be shown in the tooltip, when the user clicks the button.
+            So if the button is clicked and turns into state 2, the second state-name will be shown.
+            Pass it over like: {"state 1", "the second state", "and a third state too"}
+            - Parameter 7 is the drawing-mode. You can choose between different states, like 
+            1, toolbar-icon only
+            2, toolbar-icon+caption right
+            3, text-toolbar-icon
+            4, text-toolbar-icon double width
+            5, Reaper's toolbar behavior, means, the toolbar-image will be seen as: left side, state 0; right side, state 1 and the middle part is used for when the mouse hovers above the toolbar button
+            There are also flags like 
+            &128, which places the button directly after the previous ui-element(good for grouped buttons that belong together) and 
+            &256, which draws the button borderless, where only the button-image will be shown, not the borders around it(good for when you want to create your own button-edges in the image)
+            Just add the flag-value to the mode-parameter, like 3+256 for a text-icon without borders or 1+128 for a toolbar-icon-button, that is placed directly after the previous ui-element.            
+            - Parameter 8 is a caption read to accessibility-users
+            - Parameter 9 is a description of the toolbar-button, communicated to accessibility-users by screen reader as well as a tooltip
+            - Parameter 10 is the run-function, that is run everytime the user clicks the button
+            - Parameter 11 is unique identifier, used to adress this specific ui-element. With that, it's possible to control the ui-element from the outside of a script, like clicking it
+              
+            There are more things you can do with burgermenus:  
+						- reagirl.ToolbarButton\_GetColor()	- gets the color of the toolbar-button
+            - reagirl.ToolbarButton\_SetColor() - sets the color of the toolbar-button
+            
+            - reagirl.ToolbarButton\_GetState() - gets the state of the toolbar-button
+            - reagirl.ToolbarButton\_SetState() - gets the state of the toolbar-button
+            
+            - reagirl.ToolbarButton\_GetDropShadow() - gets, if the toolbar-icon is drawn with a drop-shadow 
+            - reagirl.ToolbarButton\_SetDropShadow() - sets the toolbar-icon to be drawn with a drop-shadow(good for borderless toolbars, where the image would drown otherwise)
+            
+            - reagirl.ToolbarButton\_GetEdgeStyle() - get, if the individual edges of the toolbar-button are square or rounded
+            - reagirl.ToolbarButton\_SetEdgeStyle() - set, if the individual edges of the toolbar-button are square or rounded
+            
+            - reagirl.ToolbarButton\_GetRadius() - get the roundness of the edges of the toolbar-button
+            - reagirl.ToolbarButton\_SetRadius() - set the roundness of the edges of the toolbar-button
+            
+            - reagirl.ToolbarButton\_LinkToExtstate() - link the toolbar-button to an extstate, so everytime the extstate is updated, the toolbar is as well, vice versa
+            - reagirl.ToolbarButton\_LinkToIniValue() - link the toolbar-button to an ini-value, so everytime the ini-value is updated, the toolbar is as well, vice versa
+            - reagirl.ToolbarButton\_LinkToIntConfigVar() - link the toolbar-button to a configuration variable, so everytime the config-var is updated, the toolbar is as well, vice versa
+            - reagirl.ToolbarButton\_LinkToIntConfigVarBit() - link the toolbar-button to a configuration-variable's bit-value, so everytime the bit-value is updated, the toolbar is as well, vice versa
+            - reagirl.ToolbarButton\_LinkToToggleState() - link the toolbar-button to an action's togglestate, so everytime the toggle-state is updated, the toolbar is as well, vice versa
+            - reagirl.ToolbarButton\_Unlink() - unlink the toolbar-button from any states
+        </description>  
+        <target_document>ReaGirl_Introduction_and_Concepts.html</target_document>  
+        <source_document>ReaGirl_Introduction_and_Concepts.USDocML</source_document>  
+        <chapter_context>
+          The Gui Elements
+        </chapter_context>
+        <previous_chapter>The_Gui_Elements_010_BurgerMenu</previous_chapter>  
+        <next_chapter>The_Gui_Elements_012_LevelMeters</next_chapter>  
+        <tags>toolbar button</tags>  
+    </US_DocBloc>  
+    
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">  
+        <slug>The_Gui_Elements_012_LevelMeters</slug>  
+        <title>Level Meters</title>  
+        <description markup_type="markdown" markup_version="1.0.1" indent="default">  
+            Level-meters are meters, that show you the level of a track or a hardware input. They show the level with green(everything is fine), yellow(headroom) or red(clipping) as well as a level-value.
+            You can click into them to reset the the level-value, for instance, when clippings have occured.
+						
+						You add Meters to your gui using reagirl.Meter\_Add(), which has 9 parameters.  
+              
+            - Parameters 1 and 2 are x and y-position of the meter in pixels. You can set these to nil to autoposition the meters.  
+            - Parameters 3 and 4 are width and height of the meters
+            - Parameter 5 is the mode, which is either 1, the meter is a rectangle showing the level using the color of the rectangle, 2, a horizontal meter, 3, a vertical meter
+            - Parameter 6 is the name of the meter, that will be communicated to screen reader users
+            - Parameter 7 is a description of the meter, communicated to accessibility-users by screen reader as well as a tooltip        
+						- Parameter 8 is the run-function, which is currently unused(suggest me, in which case you want the run-function to be triggered)
+            - Parameter 9 is a unique identifier, used to adress this specific ui-element. With that, it's possible to control the ui-element from the outside of a script, like clicking it
+              
+            There are more things you can do with meters:  
+						- reagirl.Meter\_GetMode() - gets the current drawing-mode of a meter
+            - reagirl.Meter\_SetMode() - sets the drawing mode of a meter
+            
+            - reagirl.Meter\_GetPeak() - gets the currently measured peaks of a meter
+            - reagirl.Meter\_SetPeak() - sets new peak-values for a meter
+            
+            - reagirl.Meter\_GetLink() - gets, to which the meter is currently linked to
+            - reagirl.Meter\_LinkToHWInput() - links a meter to a hardware input
+            - reagirl.Meter\_LinkToTrack() - links a meter to a track, including the options for the main track 
+            - reagirl.Meter\_Unlink() - unlinks the meter
+            
+            - reagirl.Meter\_GetOptions() - gets the various options for a meter
+            - reagirl.Meter\_SetOptions() - sets various options of a meter 
+            - reagirl.Meter\_GetScreenreaderOptions() - gets various screen reader options for a meter
+            - reagirl.Meter\_SetScreenreaderOptions() - sets various screen reader options for a meter
+        </description>  
+        <target_document>ReaGirl_Introduction_and_Concepts.html</target_document>  
+        <source_document>ReaGirl_Introduction_and_Concepts.USDocML</source_document>  
+        <chapter_context>
+          The Gui Elements
+        </chapter_context>
+        <previous_chapter>The_Gui_Elements_011_ToolbarButtons</previous_chapter>  
         <next_chapter>The_Gui_Elements_Concepts001_Context_Menus</next_chapter>  
         <tags>burger menu</tags>  
     </US_DocBloc>  

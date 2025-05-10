@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API and ReaGirl">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API and ReaGirl package" type="extension">
-      <version name="56148.00" author="Meo-Ada Mespotine">
+      <version name="56150.00" author="Meo-Ada Mespotine">
 	<source file="reagirl.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5.3//reagirl.lua</source>
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5.3//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5.3//ultraschall_api_readme.txt</source>
@@ -725,7 +725,7 @@
 
 5.3 - " - " - 15th of May 2025
 
-Has now 1904 functions, with 46 new ones
+Has now 1903 functions, with 45 new ones
 
 new in this release:
 
@@ -758,6 +758,8 @@ New features in 5.3
 -   ReaGirl: Inputbox_SetTextSuggestions - sets text suggestions that
     the user can choose from a dropdownmenu in the inputbox
 -   ReaGirl: Meter_Add - adds a level-meter to the gui
+-   ReaGirl: Meter_GetLink - gets, to which the meter is currently
+    linked to
 -   ReaGirl: Meter_GetMode - gets the current drawing mode of a meter
 -   ReaGirl: Meter_GetOptions - gets the current drawing options
 -   ReaGirl: Meter_GetPeaks - gets the currently drawn peak-value for
@@ -779,16 +781,14 @@ New features in 5.3
 -   ReaGirl: ToolbarButton_Add - adds a toolbar-button to a ReaGirl-gui
 -   ReaGirl: ToolbarButton_GetColor - gets the background-color of a
     toolbar-button
--   ReaGirl: ToolbarButton_GetCurrentState - gets the current state of
-    the toolbar-button
+-   ReaGirl: ToolbarButton_GetState - gets the current state of the
+    toolbar-button
 -   ReaGirl: ToolbarButton_GetDropShadow - gets a drop-shadow-state,
     drawn behind the button-image
 -   ReaGirl: ToolbarButton_GetEdgeStyle - gets, if the individual edges
     of a toolbar-button are rounded or square
 -   ReaGirl: ToolbarButton_GetRadius - gets the radius of the edges of a
     toolbar-button
--   ReaGirl: ToolbarButton_GetState - gets the current state of a
-    toolbar button
 -   ReaGirl: ToolbarButton_LinkToIntConfigVar - links a toolbar-button
     to an integer config-variable
 -   ReaGirl: ToolbarButton_LinkToIntConfigVarBit - links a
@@ -801,8 +801,6 @@ New features in 5.3
     a toggle-state
 -   ReaGirl: ToolbarButton_SetColor - sets the background-color of a
     toolbar-button
--   ReaGirl: ToolbarButton_SetCurrentState - sets the current state of
-    the toolbar-button
 -   ReaGirl: ToolbarButton_SetDropShadow - sets a drop-shadow drawn
     behind the button-image
 -   ReaGirl: ToolbarButton_SetEdgeStyle - sets the individual edges of a
@@ -907,7 +905,7 @@ Changes from 5.2 to 5.3
         \par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af6\langfe2052\dbch\af8\afs24\lang1081\loch\f0\fs24\lang1031{\rtlch \ltrch\loch
         }
         \par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af6\langfe2052\dbch\af8\afs24\lang1081\loch\f0\fs24\lang1031{\rtlch \ltrch\loch\loch\f4
-        a 1693 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 56148 from 10.05.2025 02:07:21).}
+        a 1693 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 56150 from 10.05.2025 17:02:02).}
         \par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af6\langfe2052\dbch\af8\afs24\lang1081\loch\f0\fs24\lang1031{\rtlch \ltrch\loch
         }
         \par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af6\langfe2052\dbch\af8\afs24\lang1081\loch\f0\fs24\lang1031{\rtlch \ltrch\loch
