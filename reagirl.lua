@@ -23950,7 +23950,7 @@ function reagirl.Base64_Encoder(source_string, remove_newlines, remove_tabs)
   <slug>Base64_Encoder</slug>
   <requires>
     ReaGirl=1.0
-    Reaper=7.03.0
+    Reaper=7.03
     Lua=5.4
   </requires>
   <functioncall>string encoded_string = reagirl.Base64_Encoder(string source_string, optional integer remove_newlines, optional integer remove_tabs)</functioncall>

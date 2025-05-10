@@ -9861,7 +9861,7 @@
         <functioncall prog_lang="lua">number value = reaper.GetSetProjectInfo(ReaProject project, string desc, number value, boolean is_set)</functioncall>
         <functioncall prog_lang="python">Float retval = RPR_GetSetProjectInfo(ReaProject project, String desc, Float value, Boolean is_set)</functioncall>
         <requires>
-            Reaper=7.34
+            Reaper=7.37
         </requires>
         <description>
             Get or set project information.
@@ -9884,6 +9884,7 @@
 								&16384=Render only channels sent to parent
 								&32768=Preserve Metadata
 								&65536=Preserve Start offset
+                &&524288=Parallel render-checkbox
             OGG, OPUS and FLAC support embedding of tempoinformation via metadata, settable using GetSetProjectInfo_String.  
             RENDER_BOUNDSFLAG : 
               0=custom time bounds, 
@@ -9913,9 +9914,10 @@
               &1=dither, 
               &2=noise shaping, 
               &4=dither stems, 
-              &8=noise shaping on stems  
+              &8=noise shaping on stems                
             RENDER_NORMALIZE: 
-              &1=enable, (&14==0)=LUFS-I, (&14==2)=RMS, (&14==4)=peak, (&14==6)=true peak, (&14==8)=LUFS-M max, (&14==10)=LUFS-S max, 
+              &;1=enable, (&;14==0)=LUFS-I, (&;14==2)=RMS, (&;14==4)=peak, (&;14==6)=true peak, (&;14==8)=LUFS-M max, (&;14==10)=LUFS-S max,
+              &16=Adjust mono files by an additional-checkbox(see &524288)
               &64=enable brickwall limit, 
               &128=brickwall limit true peak, 
               &256=only normalize files that are too loud, 
@@ -9923,16 +9925,24 @@
               &1024=apply fade-out
               &2048==0 and &256==256 - only normalize files that are too loud
               &2048==2048 and &256==0 - only normalize files that are too quiet
-              &4128=32 = normalize stems to common gain based on master, 
-       &4128=4096 = normalize to loudest file
-       &4128=4128 = normalize as if one long file
-       &8192=adjust mono media additional -3dB
-            RENDER_NORMALIZE_TARGET: render normalization target as amplitude, so 0.5 means -6.02dB, 0.25 means -12.04dB, etc  
-            RENDER_BRICKWALL: render brickwall limit as amplitude, so 0.5 means -6.02dB, 0.25 means -12.04dB, etc
+              &4128=32 = normalize stems as if files play together (common gain), 
+              &4128=4096 = normalize to loudest file
+              &4128=4128 = normalize as if files play together
+              &524288=0 - adjust mono media additional -3dB; =524288 - adjust mono media additional +3dB              
+              &(1<<<16)=pad start with silence, 
+              &(2<<16)=pad end with silence, 
+              &(4<<16)=disable all render postprocessing, 
+              &(32<<16)=limit as if files play together
+            RENDER_NORMALIZE_TARGET: render normalization target as amplitude, so 0.5 means -6.02dB, 0.25 means -12.04dB, etc; requires RENDER_NORMALIZE &1
+            RENDER_BRICKWALL: render brickwall limit as amplitude, so 0.5 means -6.02dB, 0.25 means -12.04dB, etc; requires RENDER_NORMALIZE &64
             RENDER_FADEIN: render fade-in (0.001 means 1 ms, requires RENDER_NORMALIZE&512)
             RENDER_FADEOUT: render fade-out (0.001 means 1 ms, requires RENDER_NORMALIZE&1024)
             RENDER_FADEINSHAPE: render fade-in shape
             RENDER_FADEOUTSHAPE: render fade-out shape
+            RENDER_PADSTART: pad render start with silence (0.001 means 1ms, requires RENDER_NORMALIZE&amp;(1&lt;&lt;16))
+            RENDER_PADEND: pad render end with silence (0.001 means 1ms, requires RENDER_NORMALIZE&amp;(2&lt;&lt;16))
+            RENDER_TRIMSTART: trim start threshold peak; use ultraschall.MKVOL2DB() and ultraschall.DB2MKVOL() to convert it from/to dB
+            RENDER_TRIMEND: trim end threshold peak; use ultraschall.MKVOL2DB() and ultraschall.DB2MKVOL() to convert it from/to dB
             PROJECT_SRATE : samplerate (ignored unless PROJECT_SRATE_USE set)  
             PROJECT_SRATE_USE : set to 1 if project samplerate is used  
         </description>
@@ -9940,7 +9950,7 @@
             number value - the new/current value set with this attribute
         </retvals>
         <parameters>
-            ReaProject project -the project, whos project settings you want to get/set; 0, for the current project
+            ReaProject project -the project, whose project settings you want to get/set; 0, for the current project
             string desc - the attribute you want to get/set, like RENDER_CHANNELS, PROJECT_SRATE, RENDER_SETTINGS, etc
             number value - if is_set==true, this is the new value to set; if is_set==false, set this to 0
             boolean is_set - true, set a new value; false, get the current value
@@ -9957,7 +9967,8 @@
         </chapter_context>
         <tags></tags>
         <changelog>
-       Reaper 7.23 - RENDER_NORMALIZE allows now for normalize to loudest file, normalize as if one long file and adjust mono media additional
+            Reaper 7.37 - TRIMSTART, TRIMEND, RENDER_PADSTART, RENDER_PADEND and additional flags for enabling pad-start/padend in RENDER_NORMALIZE added as new attributes
+            Reaper 7.23 - RENDER_NORMALIZE allows now for normalize to loudest file, normalize as if one long file and adjust mono media additional
             Reaper 7.08 - RENDER_NORMALIZE allows now for normalize files that are too quiet
             Reaper 6.64 - FadeIn/FadeOut now supported in RENDER_NORMALIZE, RENDER_FADEIN, RENDER_FADEINSHAPE, RENDER_FADEOUT, RENDER_FADEOUTSHAPE
             Reaper 6.62 - RENDER_BOUNDSFLAG and RENDER_TAILFLAG support now markers as well
@@ -9973,7 +9984,7 @@
         <functioncall prog_lang="lua">boolean retval, string valuestrNeedBig = reaper.GetSetProjectInfo_String(ReaProject project, string desc, string valuestrNeedBig, boolean is_set)</functioncall>
         <functioncall prog_lang="python">(Boolean retval, ReaProject project, String desc, String valuestrNeedBig, Boolean is_set) = RPR_GetSetProjectInfo_String(project, desc, valuestrNeedBig, is_set)</functioncall>
         <requires>
-            Reaper=7.00
+            Reaper=7.36
         </requires>
         <description>
             Get or set project information.  
@@ -9989,6 +10000,7 @@
             RECORD_PATH_SECONDARY: secondary recording directory  
             RECORD_FORMAT : base64-encoded sink configuration (see project files, etc). Callers can also pass a simple 4-byte string (non-base64-encoded), e.g. "evaw" or "l3pm", to use default settings for that sink type.
             APPLYFX_FORMAT : base64-encoded sink configuration (see project files, etc). Used only if RECFMT_OPENCOPY is set to 1. Callers can also pass a simple 4-byte string (non-base64-encoded), e.g. "evaw" or "l3pm", to use default settings for that sink type.
+            RECTAG : project recording tag wildcard ($rectag). Can be used in Preferences/Audio/Recording to auto-name recorded files.
             RENDER_FILE: render directory  
             RENDER_PATTERN: render file name (may contain wildcards)  
             RENDER_METADATA : get or set the metadata saved with the project (not metadata embedded in project media). Example, ID3 album name metadata: valuestr="ID3:TALB" to get, valuestr="ID3:TALB|my album name" to set. Call with valuestr="" and is_set=false to get a semicolon-separated list of defined project metadata identifiers.  
@@ -10063,6 +10075,7 @@
         </chapter_context>
         <tags></tags>
         <changelog>
+            Reaper 7.36 - "RECTAG" added as new attribute
             Reaper 7.00 - "raw" added as new render-output format
             Reaper 6.76 - "OPENCOPY_CFGIDX", "RECORD_FORMAT" and "APPLYFX_FORMAT" - added as new attributes
             Reaper 6.71 - "MARKER_INDEX_FROM_GUID:{GUID}" - added, which allows getting marker-index by marker-guid
@@ -14003,6 +14016,49 @@
     </US_DocBloc>
 
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>MediaExplorerGetLastPlayedFileInfo</slug>
+        <title>MediaExplorerGetLastPlayedFileInfo</title>
+        <functioncall prog_lang="cpp">bool MediaExplorerGetLastPlayedFileInfo(char* filenameOut, int filenameOut_sz, int* filemodeOut, double* selstartOut, double* selendOut, double* pitchshiftOut, double* voladjOut, double* rateadjOut, double* sourcebpmOut, char* extrainfoOut, int extrainfoOut_sz)</functioncall>
+        <functioncall prog_lang="eel">bool MediaExplorerGetLastPlayedFileInfo(#filename, int &filemode, &selstart, &selend, &pitchshift, &voladj, &rateadj, &sourcebpm, #extrainfo)</functioncall>
+        <functioncall prog_lang="lua">boolean retval, string filename, integer filemode, number selstart, number selend, number pitchshift, number voladj, number rateadj, number sourcebpm, string extrainfo = reaper.MediaExplorerGetLastPlayedFileInfo()</functioncall>
+        <functioncall prog_lang="python">(Boolean retval, String filenameOut, Int filenameOut_sz, Int filemodeOut, Float selstartOut, Float selendOut, Float pitchshiftOut, Float voladjOut, Float rateadjOut, Float sourcebpmOut, String extrainfoOut, Int extrainfoOut_sz) = RPR_MediaExplorerGetLastPlayedFileInfo(filenameOut, filenameOut_sz, filemodeOut, selstartOut, selendOut, pitchshiftOut, voladjOut, rateadjOut, sourcebpmOut, extrainfoOut, extrainfoOut_sz)</functioncall>
+        <requires>
+            Reaper=7.35
+        </requires>
+        <description prog_lang="*">
+            Get information about the most recently previewed Media Explorer file. 
+            
+            filename: last played file name. 
+            filemode: &1:insert on new track, &2:insert into sampler, &8:tempo sync 1x, &16:tempo sync 0.5x, &32:tempo sync 2x, &64:do not preserve pitch when changing playrate, &128:loop selection exists, &256:time selection exists, &512:apply pitch/rate adjustment on insert, &1024:apply volume adjustment on insert, &2048:apply normalization on insert, &8192:reverse preview. 
+            selstart/selend: time selection in [0.0, 1.0]. 
+            pitchshift/voladj/rateadj: current pitch/volume/playrate preview adjustments. 
+            srcbpm: source media tempo. 
+            extrainfo: currently unused.
+        </description>
+        <retvals>
+            boolean retval - true, there was a last played file; false, there wasn't a last played file
+            string filename - the filename+path of the file played
+            integer filemode - the filemode, see description for details
+            number selstart - the start of the selection in the MediaExplorer
+            number selend - the end of the selection in the MediaExplorer
+            number pitchshift - the pitch, see description for details
+            number voladj - the volume, see description for details
+            number rateadj - the playrate, see description for detaild
+            number sourcebpm - the source media tempo
+            string extrainfo - unused
+        </retvals>
+        <target_document>Reaper_Api_Documentation</target_document>
+        <source_document>Reaper_Api_Documentation.USDocML</source_document>
+        <chapter_context>
+            MediaExplorer
+        </chapter_context>
+        <tags>media explorer, get, last file, information</tags>
+        <changelog>
+          Reaper 7.35 - added to api
+        </changelog>
+    </US_DocBloc>
+
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
         <slug>MediaItemDescendsFromTrack</slug>
         <title>MediaItemDescendsFromTrack</title>
         <functioncall prog_lang="cpp">int MediaItemDescendsFromTrack(MediaItem* item, MediaTrack* track)</functioncall>
@@ -15623,7 +15679,7 @@
         <functioncall prog_lang="lua">integer retval = reaper.MIDIEditor_GetSetting_int(HWND midieditor, string setting_desc)</functioncall>
         <functioncall prog_lang="python">Int retval = RPR_MIDIEditor_GetSetting_int(HWND midieditor, String setting_desc)</functioncall>
         <requires>
-            Reaper=6.41
+            Reaper=7.36
         </requires>
         <description>
             Get settings from a MIDI editor. setting_desc can be:
@@ -15641,6 +15697,7 @@
                             0x206=sysex, 
                             0x207=off velocity, 
                             0x208=notation events, 
+                            0x209=aftertouch,
                             0x210=media item lane
                 default_note_vel: returns 0-127
                 default_note_chan: returns 0-15
@@ -15673,6 +15730,7 @@
         </chapter_context>
         <tags></tags>
         <changelog>
+          Reaper 7.36 - added 0x209=aftertouch for the attribute last_clicked_cc_lane
         </changelog>
     </US_DocBloc>
 
@@ -16387,8 +16445,7 @@
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>Reaper_Api_Documentation.USDocML</source_document>
         <chapter_context>
-            User Interface
-            Misc
+            MediaExplorer
         </chapter_context>
         <tags>userinterface, media explorer, open, filename, audio, play</tags>
         <changelog>
@@ -19115,7 +19172,9 @@
             Reaper=6.71
         </requires>
         <description>
-            Differs from SetProjectMarker4 in that markrgnidx is 0 for the first marker/region, 1 for the next, etc, rather than representing the displayed marker/region ID number (see [SetProjectMarker3](#SetProjectMarker3)). Function will fail if attempting to set a duplicate ID number for a region (duplicate ID numbers for markers are OK).
+            Differs from SetProjectMarker4 in that markrgnidx is 0 for the first marker/region, 1 for the next, etc, rather than representing the displayed marker/region ID number (see [SetProjectMarker3](#SetProjectMarker3)). 
+            IDnumber less than 0 to ignore.
+            Function will fail if attempting to set a duplicate ID number for a region (duplicate ID numbers for markers are OK).
             
             flags&1 to clear name
             flags&2, markers will not be re-sorted, and after making updates, you MUST call SetProjectMarkerByIndex2 with markrgnidx=-1 and flags&2 to force re-sort/UI updates.
@@ -19603,6 +19662,8 @@
              * col_routingact : Routing matrix input activity highlight
              * col_vudoint : Theme has interlaced VU meters 
              * col_vuclip : VU meter clip indicator 
+             * col_vudbscale : VU meters dB scales (not record armed)
+             * col_vudbscale2 : VU meters dB scales (record armed)
              * col_vutop : VU meter top 
              * col_vumid : VU meter middle 
              * col_vubot : VU meter bottom 
@@ -19847,8 +19908,9 @@
         </chapter_context>
         <tags></tags>
         <changelog>
-      Reaper 7.19 - new theme-colors: mouseitem_color, mouseitem_mode
-      Reaper 7.17 - new theme-colors: take_marker_sel, region_lane_text
+            Reaper 7.37 - new theme-colors: col_vudbscale and col_vudbscale2
+            Reaper 7.19 - new theme-colors: mouseitem_color, mouseitem_mode
+            Reaper 7.17 - new theme-colors: take_marker_sel, region_lane_text
             Reaper 7.16 - new theme-colors: region_edge, region_edge_sel, marker_edge, marker_edge_sel; removed: marker_lane_text
             Reaper 7.00 - new theme-colors: selitem_dot, track_lane_tabcol, track_lanesolo_tabcol, track_lanesolo_text, track_lane_gutter, track_lane_gutter_drawmode, linkedlane_fill, linkedlane_fillmode, linkedlane_outline, linkedlane_outlinemode, linkedlane_unsynced, linkedlane_unsynced_mode, vu_gr_bgcol, vu_gr_fgcol
             Reaper 6.74 - new theme-colors: col_routingact, wiring_activity
