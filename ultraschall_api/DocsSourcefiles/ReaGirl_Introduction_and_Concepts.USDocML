@@ -1088,7 +1088,13 @@
   
             When you try to resize the window now, it will remain within the chosen constraints, not bigger and not smaller, only inbetweens.    
             And so we're done. Our first basic gui with a lot of ui-elements and features applied.    
-            Toy around with it to get a deeper grip on how the basic concepts work.    
+            
+            A sidenote: when you read the functions-reference, you'll notice that the add-functions also have an optional parameter "unique_identifier". This is a unique name for your 
+            ui-element. Set this to a name that you only use once in your gui.
+            This can be used by users to control your gui-script from the outside with additional functions(more about it in a later tutorial) and will be a major part for when 
+            I add localization-features for ReaGirl-scripts. So give every ui-element such a unique identifier-name, this will allow cool things in the future.
+            
+            Alright, our first gui. We can be proud of it. Fiddle and toy around with it to get a deeper grip on how the basic concepts work.    
   
             And when you are ready, you can move on to tutorial #2, which shows you, how to add tabs to this gui.    
         </description>  
@@ -4740,6 +4746,744 @@
           Tutorials
         </chapter_context>
         <previous_chapter>Tutorial_011_Linking_UI_Elements_To_States</previous_chapter>  
+        <next_chapter>Tutorial_013_Meters</next_chapter>  
+        <tags></tags>  
+    </US_DocBloc>  
+    
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">  
+        <slug>Tutorial_013_Meters</slug>  
+        <title>Tutorial 013: Meters for tracks and hardware inputs</title>  
+        <description markup_type="markdown" markup_version="1.0.1" indent="default">  
+          In ReaGirl, you can add level-meters. These are meters, as you are used from the mixer or the track control panel, that show the levels.
+          You can show meters for tracks(including the main-track) and hardware inputs. When you have set a track to multichannel, the meters will reflect this immediately.
+          
+          So how to add meters to your script? Well, I will show you.
+          We will write a script with tabs, where the first tab shows multiple meters, one vertical one for the main track and five horizontal ones for track 1 to 5.
+          The second tab will show meters for the first five hardware inputs. So as soon as we have the script ready, you can monitor them as you wish.
+          
+          Let's start with the first part of the script, the tabs.
+
+                -- 0. enable ReaGirl for the script
+                dofile(reaper.GetResourcePath().."/UserPlugins/reagirl.lua")
+                -- check for required version; alter the version-number if necessary
+                if reagirl.GetVersion()<1.3 then reaper.MB("Needs ReaGirl v"..(1.3).." to run", "Too old version", 2) return false end
+
+                -- 1. add the run-functions for the ui-elements
+
+                -- 2. start a new gui
+                reagirl.Gui_New()
+
+                -- 3. add the ui-elements and set their attributes
+                tabs=reagirl.Tabs_Add(nil, nil, nil, -20, "Tabs", "Some meters.", {"Track-meters", "Hardware Inputs"}, 1, nil)
+                track_meters={} -- the table for all track-meters in tab 1
+                hardware_meters={} -- the table for all hardware-input-meters in tab 2
+                reagirl.Tabs_SetUIElementsForTab(tabs, 1, track_meters) -- associate ui-elements of table "tab1" with tab 1
+                reagirl.Tabs_SetUIElementsForTab(tabs, 2, hardware_meters) -- associate ui-elements of table "tab1" with tab 1
+
+                -- 4. open the gui
+                reagirl.Gui_Open("My Dialog Name", false, "Dialog Title", "A short explanation of my dialog.", nil, 360, nil, nil, nil)
+
+                -- 5. a main-function that runs the gui-management-function
+                function main()
+                reagirl.Gui_Manage()
+
+                if reagirl.Gui_IsOpen()==true then reaper.defer(main) end
+                end
+                main()
+          
+          ![Two empty tabs, with the first that will be for track-meters and the second for hardware input-meters.](gfx/Tutorial13_01.png "Two empty tabs, with the first that will be for track-meters and the second for hardware input-meters.")  						          
+          
+          Ok, let's populate the first tab with a meter for the main track. We add the meter with reagirl.Meter\_Add(). In an earlier tutorial, you learnt about linking of ui-elements.
+          With meters, it is possible to link a meter to either a track or a hardware input. In this case, we will link this newly added meter to track 0, which is the main-track.
+          Look at reagirl.Meter\_Add() which adds the meter and reagirl.Meter\_LinkToTrack() which links the meter to the main track. In that, the first parameter is the element\_id of the 
+          meter, that you want to link and the second the track, with 0 for the main track and 1 and higher for track 1 and higher.
+          So let's add a first meter and to make things nicer, let's add a label, which signals that it's the main track.
+          
+                -- 0. enable ReaGirl for the script
+                dofile(reaper.GetResourcePath().."/UserPlugins/reagirl.lua")
+                -- check for required version; alter the version-number if necessary
+                if reagirl.GetVersion()<1.3 then reaper.MB("Needs ReaGirl v"..(1.3).." to run", "Too old version", 2) return false end
+
+                -- 1. add the run-functions for the ui-elements
+
+                -- 2. start a new gui
+                reagirl.Gui_New()
+
+                -- 3. add the ui-elements and set their attributes
+                tabs=reagirl.Tabs_Add(nil, nil, nil, -20, "Tabs", "Some meters.", {"Track-meters", "Hardware Inputs"}, 1, nil)
+                track_meters={} -- the table for all track-meters in tab 1
+                hardware_meters={} -- the table for all hardware-input-meters in tab 2
+                reagirl.Tabs_SetUIElementsForTab(tabs, 1, track_meters) -- associate ui-elements of table "tab1" with tab 1
+                reagirl.Tabs_SetUIElementsForTab(tabs, 2, hardware_meters) -- associate ui-elements of table "tab1" with tab 1
+
+                -- UI-elements in tab 1
+                -- the meter for the main track
+                track_meters.main_track_label = reagirl.Label_Add(20, 50, "Main track", "The main track.", false)
+                
+                track_meters.main_track_meter = reagirl.Meter_Add(20, 70, 60, -50, 3, "Main track", "The levels of the main track.")
+                reagirl.Meter_LinkToTrack(track_meters.main_track_meter, 1)
+
+                -- 4. open the gui
+                reagirl.Gui_Open("My Dialog Name", false, "Dialog Title", "A short explanation of my dialog.", nil, 360, nil, nil, nil)
+
+                -- 5. a main-function that runs the gui-management-function
+                function main()
+                reagirl.Gui_Manage()
+
+                if reagirl.Gui_IsOpen()==true then reaper.defer(main) end
+                end
+                main()
+          
+            ![The first tab, with one vertical meter for the main track. It shows the amplitude of the main track, which will change, while the fader of the main-track is adjusted.](gfx/Tutorial13_02.gif "The first tab, with one vertical meter for the main track. It shows the amplitude of the main track, which will change, while the fader of the main-track is adjusted.")  						          
+            
+            If you playback now a project, you will notice, that the main track is linked to the meter of the gui. Adjust the volume-fader of the main track to see the changes
+            reflected in the meter of the gui as well.
+            Nice. Now, let's add additional meters for track 1-5. We will do it the same like we did with the main-track: reagirl.Meter\_Add() for adding them, reagirl.Meter\_LinkToTrack() for linking them to track 1-5.
+            The linked track is 1 for the first, 2 for the second, etc.
+            Let's see, how it looks now.
+            
+                -- 0. enable ReaGirl for the script
+                dofile(reaper.GetResourcePath().."/UserPlugins/reagirl.lua")
+                -- check for required version; alter the version-number if necessary
+                if reagirl.GetVersion()<1.3 then reaper.MB("Needs ReaGirl v"..(1.3).." to run", "Too old version", 2) return false end
+
+                -- 1. add the run-functions for the ui-elements
+
+                -- 2. start a new gui
+                reagirl.Gui_New()
+
+                -- 3. add the ui-elements and set their attributes
+                tabs=reagirl.Tabs_Add(nil, nil, nil, -20, "Tabs", "Some meters.", {"Track-meters", "Hardware Inputs"}, 1, nil)
+                track_meters={} -- the table for all track-meters in tab 1
+                hardware_meters={} -- the table for all hardware-input-meters in tab 2
+                reagirl.Tabs_SetUIElementsForTab(tabs, 1, track_meters) -- associate ui-elements of table "tab1" with tab 1
+                reagirl.Tabs_SetUIElementsForTab(tabs, 2, hardware_meters) -- associate ui-elements of table "tab1" with tab 1
+
+                -- UI-elements in tab 1
+                -- the meter for the main track
+                track_meters.main_track_label = reagirl.Label_Add(20, 50, "Main track", "The main track.", false)
+                track_meters.main_track_meter = reagirl.Meter_Add(20, 70, 60, -50, 3, "Main track", "The levels of the main track.")
+                reagirl.Meter_LinkToTrack(track_meters.main_track_meter, 0)
+
+                -- the meters for tracks 1-5
+                track_meters.track_label = reagirl.Label_Add(90, 50, "Track 1-5", "Tracks 1-5.", false)
+
+                track_meters.track_1_meter = reagirl.Meter_Add(90, 70,  -30, 40, 2, "Track 1", "The levels of the track 1.")
+                reagirl.Meter_LinkToTrack(track_meters.track_1_meter, 1)
+
+                track_meters.track_2_meter = reagirl.Meter_Add(90, 120, -30, 40, 2, "Track 2", "The levels of the track 2.")
+                reagirl.Meter_LinkToTrack(track_meters.track_2_meter, 2)
+
+                track_meters.track_3_meter = reagirl.Meter_Add(90, 170, -30, 40, 2, "Track 3", "The levels of the track 3.")
+                reagirl.Meter_LinkToTrack(track_meters.track_3_meter, 3)
+
+                track_meters.track_4_meter = reagirl.Meter_Add(90, 220, -30, 40, 2, "Track 4", "The levels of the track 4.")
+                reagirl.Meter_LinkToTrack(track_meters.track_4_meter, 4)
+
+                track_meters.track_5_meter = reagirl.Meter_Add(90, 270, -30, 40, 2, "Track 5", "The levels of the track 5.")
+                reagirl.Meter_LinkToTrack(track_meters.track_5_meter, 5)
+
+                -- 4. open the gui
+                reagirl.Gui_Open("My Dialog Name", false, "Dialog Title", "A short explanation of my dialog.", nil, 360, nil, nil, nil)
+
+                -- 5. a main-function that runs the gui-management-function
+                function main()
+                reagirl.Gui_Manage()
+
+                if reagirl.Gui_IsOpen()==true then reaper.defer(main) end
+                end
+                main()
+          
+          ![The first tab, with one vertical meter for the main track in the first column and five horizontal meters for track 1 through 5 in the second column. Adjusting the faders also affects the corresponding tracks.](gfx/Tutorial13_03.gif "The first tab, with one vertical meter for the main track in the first column and five horizontal meters for track 1 through 5 in the second column. Adjusting the faders also affects the corresponding tracks.")  
+          
+          Nice, looking good. We have now meters for the main track and track 1 through 5. When we playback the project and adjust the faders of the tracks, the meters will show theses changes as well.
+          
+          Ok, we added meters for tracks but how about adding some for the hardware inputs as well into the second tab?
+          It's basically the same as before, but for linking the meters to a hardware input, we use reagirl.Meter\_LinkToHWInput(). Everything else is the same: first parameter is the element\_id of the meter and the second is the hardware input with 1 for the first, 2 for the second, etc.
+          So let's add a meter for the first hardware input to the second tab, shall we?
+          
+                -- 0. enable ReaGirl for the script
+                dofile(reaper.GetResourcePath().."/UserPlugins/reagirl.lua")
+                -- check for required version; alter the version-number if necessary
+                if reagirl.GetVersion()<1.3 then reaper.MB("Needs ReaGirl v"..(1.3).." to run", "Too old version", 2) return false end
+
+                -- 1. add the run-functions for the ui-elements
+
+                -- 2. start a new gui
+                reagirl.Gui_New()
+
+                -- 3. add the ui-elements and set their attributes
+                tabs=reagirl.Tabs_Add(nil, nil, nil, -20, "Tabs", "Some meters.", {"Track-meters", "Hardware Inputs"}, 1, nil)
+                track_meters={} -- the table for all track-meters in tab 1
+                hardware_meters={} -- the table for all hardware-input-meters in tab 2
+                reagirl.Tabs_SetUIElementsForTab(tabs, 1, track_meters) -- associate ui-elements of table "tab1" with tab 1
+                reagirl.Tabs_SetUIElementsForTab(tabs, 2, hardware_meters) -- associate ui-elements of table "tab1" with tab 1
+
+                -- UI-elements in tab 1
+                -- the meter for the main track
+                track_meters.main_track_label = reagirl.Label_Add(20, 50, "Main track", "The main track.", false)
+                track_meters.main_track_meter = reagirl.Meter_Add(20, 70, 60, -50, 3, "Main track", "The levels of the main track.")
+                reagirl.Meter_LinkToTrack(track_meters.main_track_meter, 0)
+
+                -- the meters for tracks 1-3
+                track_meters.track_label = reagirl.Label_Add(90, 50, "Track 1-5", "Tracks 1-5.", false)
+
+                track_meters.track_1_meter = reagirl.Meter_Add(90, 70,  -30, 40, 2, "Track 1", "The levels of the track 1.")
+                reagirl.Meter_LinkToTrack(track_meters.track_1_meter, 1)
+
+                track_meters.track_2_meter = reagirl.Meter_Add(90, 120, -30, 40, 2, "Track 2", "The levels of the track 2.")
+                reagirl.Meter_LinkToTrack(track_meters.track_2_meter, 2)
+
+                track_meters.track_3_meter = reagirl.Meter_Add(90, 170, -30, 40, 2, "Track 3", "The levels of the track 3.")
+                reagirl.Meter_LinkToTrack(track_meters.track_3_meter, 3)
+
+                track_meters.track_4_meter = reagirl.Meter_Add(90, 220, -30, 40, 2, "Track 4", "The levels of the track 4.")
+                reagirl.Meter_LinkToTrack(track_meters.track_4_meter, 4)
+
+                track_meters.track_5_meter = reagirl.Meter_Add(90, 270, -30, 40, 2, "Track 5", "The levels of the track 5.")
+                reagirl.Meter_LinkToTrack(track_meters.track_5_meter, 5)
+
+                -- UI-elements in tab 2
+                -- a label
+                hardware_meters.hardware_inputs = reagirl.Label_Add(20, 50, "Hardware input 1", "Hardware inputs 1.", false)
+
+                -- the meters for hardware input 1
+                hardware_meters.track_1_meter = reagirl.Meter_Add(20, 70,  -30, 40, 2, "Hardware input 1", "The levels of hardware input 1.")
+                reagirl.Meter_LinkToHWInput(hardware_meters.track_1_meter, 1)
+
+                -- 4. open the gui
+                reagirl.Gui_Open("My Dialog Name", false, "Dialog Title", "A short explanation of my dialog.", nil, 360, nil, nil, nil)
+
+                -- 5. a main-function that runs the gui-management-function
+                function main()
+                reagirl.Gui_Manage()
+
+                if reagirl.Gui_IsOpen()==true then reaper.defer(main) end
+                end
+                main()
+                
+          ![The second tab showing one horizontal meter for hardware input 1. It's column is showing input-signal of the hardware input.](gfx/Tutorial13_04.gif "The second tab showing one horizontal meter for hardware input 1. It's column is showing input-signal of the hardware input.")  
+          
+          Now we have a meter for hardware input 1. When we send in a signal into hardware input 1, the meter is showing the signal. Nice.
+          So, for a nice finishing touch, let's add two more meters for hardware input 2 and 3. The drill is the same as with hardware input 1, we just use 2 and 3 respectively.
+          
+                -- 0. enable ReaGirl for the script
+                dofile(reaper.GetResourcePath().."/UserPlugins/reagirl.lua")
+                -- check for required version; alter the version-number if necessary
+                if reagirl.GetVersion()<1.3 then reaper.MB("Needs ReaGirl v"..(1.3).." to run", "Too old version", 2) return false end
+
+                -- 1. add the run-functions for the ui-elements
+
+                -- 2. start a new gui
+                reagirl.Gui_New()
+
+                -- 3. add the ui-elements and set their attributes
+                tabs=reagirl.Tabs_Add(nil, nil, nil, -20, "Tabs", "Some meters.", {"Track-meters", "Hardware Inputs"}, 1, nil)
+                track_meters={} -- the table for all track-meters in tab 1
+                hardware_meters={} -- the table for all hardware-input-meters in tab 2
+                reagirl.Tabs_SetUIElementsForTab(tabs, 1, track_meters) -- associate ui-elements of table "tab1" with tab 1
+                reagirl.Tabs_SetUIElementsForTab(tabs, 2, hardware_meters) -- associate ui-elements of table "tab1" with tab 1
+
+                -- UI-elements in tab 1
+                -- the meter for the main track
+                track_meters.main_track_label = reagirl.Label_Add(20, 50, "Main track", "The main track.", false)
+                track_meters.main_track_meter = reagirl.Meter_Add(20, 70, 60, -50, 3, "Main track", "The levels of the main track.")
+                reagirl.Meter_LinkToTrack(track_meters.main_track_meter, 0)
+
+                -- the meters for tracks 1-5
+                track_meters.track_label = reagirl.Label_Add(90, 50, "Track 1-5", "Tracks 1-5.", false)
+
+                track_meters.track_1_meter = reagirl.Meter_Add(90, 70,  -30, 40, 2, "Track 1", "The levels of the track 1.")
+                reagirl.Meter_LinkToTrack(track_meters.track_1_meter, 1)
+
+                track_meters.track_2_meter = reagirl.Meter_Add(90, 120, -30, 40, 2, "Track 2", "The levels of the track 2.")
+                reagirl.Meter_LinkToTrack(track_meters.track_2_meter, 2)
+
+                track_meters.track_3_meter = reagirl.Meter_Add(90, 170, -30, 40, 2, "Track 3", "The levels of the track 3.")
+                reagirl.Meter_LinkToTrack(track_meters.track_3_meter, 3)
+
+                track_meters.track_4_meter = reagirl.Meter_Add(90, 220, -30, 40, 2, "Track 4", "The levels of the track 4.")
+                reagirl.Meter_LinkToTrack(track_meters.track_4_meter, 4)
+
+                track_meters.track_5_meter = reagirl.Meter_Add(90, 270, -30, 40, 2, "Track 5", "The levels of the track 5.")
+                reagirl.Meter_LinkToTrack(track_meters.track_5_meter, 5)
+
+                -- UI-elements in tab 2
+                -- a label
+                hardware_meters.hardware_inputs = reagirl.Label_Add(20, 50, "Hardware inputs 1-3", "Hardware inputs 1-3.", false)
+
+                -- the meters for hardware inputs 1-3
+                hardware_meters.track_1_meter = reagirl.Meter_Add(20, 70,  -30, 40, 2, "Hardware input 1", "The levels of hardware input 1.")
+                reagirl.Meter_LinkToHWInput(hardware_meters.track_1_meter, 1)
+
+                hardware_meters.track_2_meter = reagirl.Meter_Add(20, 120, -30, 40, 2, "Hardware input 2", "The levels of hardware input 2.")
+                reagirl.Meter_LinkToHWInput(hardware_meters.track_2_meter, 2)
+
+                hardware_meters.track_3_meter = reagirl.Meter_Add(20, 170, -30, 40, 2, "Hardware input 3", "The levels of hardware input 3.")
+                reagirl.Meter_LinkToHWInput(hardware_meters.track_3_meter, 3)
+
+                -- 4. open the gui
+                reagirl.Gui_Open("My Dialog Name", false, "Dialog Title", "A short explanation of my dialog.", nil, 360, nil, nil, nil)
+
+                -- 5. a main-function that runs the gui-management-function
+                function main()
+                reagirl.Gui_Manage()
+
+                if reagirl.Gui_IsOpen()==true then reaper.defer(main) end
+                end
+                main()
+
+          ![The second tab showing three horizontal meters for hardware input 1 to 3. It's columns are showing input-signal of the hardware inputs.](gfx/Tutorial13_05.gif "The second tab showing three horizontal meters for hardware input 1 to 3. It's columns are showing input-signal of the hardware inputs.")  
+          
+          Nice, now we are done.
+          
+          Meters can be customized using various methode. Especially the mode-parameter of reagirl.Meter\_Add() gives you three different meters. Other options you can get and set with various functions. See [Level Meters](#The_Gui_Elements_012_LevelMeters) for more details.
+        </description>  
+        <target_document>ReaGirl_Introduction_and_Concepts.html</target_document>  
+        <source_document>ReaGirl_Introduction_and_Concepts.USDocML</source_document>  
+        <chapter_context>
+          Tutorials
+        </chapter_context>
+        <previous_chapter>Tutorial_012_Sticky_UI_Elements</previous_chapter>  
+        <next_chapter>Tutorial_014_ToolbarButtons</next_chapter>  
+        <tags></tags>  
+    </US_DocBloc>  
+      
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">  
+        <slug>Tutorial_014_ToolbarButtons</slug>  
+        <title>Tutorial 014: doing toolbars with Toolbarbuttons</title>  
+        <description markup_type="markdown" markup_version="1.0.1" indent="default">  
+            You are probably used to Reaper's own toolbars but they have some limitations. For instance, buttons only have two states, which can be difficult for and other limitations like limited accessibility.
+            So what about being able to code toolbar-buttons that behave exactly like you want them to behave?
+            Behold: ReaGirl comes to a rescue.
+            ReaGirl's toolbar buttons can have up to 32 different states or behave like Reaper's own toolbar-buttons.
+            
+            You add toolbarbuttons, like all other ReaGirl-ui-elements with its add-function, called reagirl.ToolbarButton\_Add(). You can control various things, especially with the mode-parameter, which allows to set different variations of toolbar buttons.
+            In this tutorial, I will show you two different toolbar-button-modes and how to customize with the mode parameter. I will also use toolbar-button-images that Reaper deploys with its installation, but you can use toolbar-button-images from anywhere.
+            
+            Let's start with a simple gui with one single button added with reagirl.ToolbarButton\_Add(). It gets it's run-function, that show a message box, when the button is clicked.
+            
+                -- 0. enable ReaGirl for the script
+                dofile(reaper.GetResourcePath().."/UserPlugins/reagirl.lua")
+                -- check for required version; alter the version-number if necessary
+                if reagirl.GetVersion()<1.3 then reaper.MB("Needs ReaGirl v"..(1.3).." to run", "Too old version", 2) return false end
+
+                -- 1. add the run-functions for the ui-elements
+                function run_function(element_id, A, B, C)
+                  local name = reagirl.UI_Element_GetSetCaption(element_id, false, "")
+                  reaper.MB(B, name, 0)
+                end
+
+                -- 2. start a new gui
+                reagirl.Gui_New()
+
+                toolbarbutton_guid = reagirl.ToolbarButton_Add(nil, nil, reaper.GetResourcePath().."/Data/toolbar_icons/toolbar_audio_waveform.png", 2, 1,{"One", "Two"}, 5, "First Toolbar Button", "A first example toolbar button.", run_function, "Toolbarbutton #1")
+
+                -- 4. open the gui
+                reagirl.Gui_Open("My Dialog Name", false, "Dialog Title", "A short explanation of my dialog.", nil, nil, nil, nil, nil)
+
+                -- 5. a main-function that runs the gui-management-function
+                function main()
+                  reagirl.Gui_Manage()
+                  
+                  if reagirl.Gui_IsOpen()==true then reaper.defer(main) end
+                end
+                main()
+
+            ![A simple window with one toolbar button.](gfx/Tutorial14_01.png "A simple window with one toolbar button.")  
+    
+            This shows a simple gui with one toolbar-button. When you click it, a message box appears. The add-function works that the first two parameters are x and y position(but it's nil here, as we use autopositioning in this tutorial).
+            The third parameter is the toolbar-image that shall be shown in the toolbar-button.
+            A toolbar-image is an image split into several different parts, usually three.
+            You can see it in the next image:
+            
+            ![A toolbar-button image with three images being 90x30 pixels in total. The first 30 pixels width are for the first image, the second 30 pixels for the second image and the third 30 pixels for the third one.](gfx/Tutorial14_01_1.png "A toolbar-button image with three images being 90x30 pixels in total. The first 30 pixels width are for the first image, the second 30 pixels for the second image and the third 30 pixels for the third one.")  
+            
+            As you can see in the image, it has multiple images.
+            Toolbar-Buttons in ReaGirl basically have two different ways of treating them. The first one(parameter mode=1 or 2) is a toolbar-button with multiple states. In that case, each image represents an image for a state. So the first image is for when the toolbar button has state 1, the second for when the toolbar button has state 2 and the 32nd for when the toolbar button has state 32, etc.
+            The second one is like Reaper's own toolbar-buttons(mode=5), where the first images is for when the button is not clicked/in off state, the second image for when the mouse is hovering above the button and the third image for when the button is clicked/in on state.
+            The third one(mode=3 or 4) is text-buttons, where the toolbar-image is not used at all.
+                  
+            So the mode of the toolbar-button decide how the toolbar-image is treated. In this tutorial, we will do toolbar-buttons that act like Reaper's own toolbar-buttons(mode=5), which is probably the standard case for most of y'all.
+            So the first image is button is off, the third image is button is on, the second image is for when the mouse is hovering above an off-button.
+            
+            Feel free to experiment with the other modes too to get a feeling for if they do what you need.
+            
+            Ok, we have one button, but a toolbar has more than just one button, so let's add a few additional toolbar-buttons, shall we?
+          
+                -- 0. enable ReaGirl for the script
+                dofile(reaper.GetResourcePath().."/UserPlugins/reagirl.lua")
+                -- check for required version; alter the version-number if necessary
+                if reagirl.GetVersion()<1.3 then reaper.MB("Needs ReaGirl v"..(1.3).." to run", "Too old version", 2) return false end
+
+                -- 1. add the run-functions for the ui-elements
+                function run_function(element_id, A, B, C)
+                  local name = reagirl.UI_Element_GetSetCaption(element_id, false, "")
+                  reaper.MB(B, name, 0)
+                end
+
+                -- 2. start a new gui
+                reagirl.Gui_New()
+
+                toolbarbutton_guid = reagirl.ToolbarButton_Add(nil, nil, reaper.GetResourcePath().."/Data/toolbar_icons/toolbar_audio_waveform.png", 2, 1,{"One", "Two"}, 5, "First Toolbar Button", "A first example toolbar button.", run_function, "Toolbarbutton #1")
+                toolbarbutton2_guid = reagirl.ToolbarButton_Add(nil, nil, reaper.GetResourcePath().."/Data/toolbar_icons/toolbar_color_item.png", 2, 1,{"Uno", "Dos"}, 5, "Second Toolbar Button", "A second example toolbar button.", run_function, "Toolbarbutton #2")
+                toolbarbutton3_guid = reagirl.ToolbarButton_Add(nil, nil, reaper.GetResourcePath().."/Data/toolbar_icons/toolbar_delete.png", 2, 1,{"Eins", "Zwei"}, 5, "Third Toolbar Button", "A third example toolbar button.", run_function, "Toolbarbutton #3")
+                toolbarbutton4_guid = reagirl.ToolbarButton_Add(nil, nil, reaper.GetResourcePath().."/Data/toolbar_icons/toolbar_glue.png", 2, 1,{"Primo", "Segundo"}, 5, "Fourth Toolbar Button", "A fourth example toolbar button.", run_function, "Toolbarbutton #4")
+                toolbarbutton5_guid = reagirl.ToolbarButton_Add(nil, nil, reaper.GetResourcePath().."/Data/toolbar_icons/toolbar_item_properties.png", 3, 1,{"Un", "Deux", "Trois"}, 2, "Fifth Toolbar Button", "A fifth example toolbar button.", run_function, "Toolbarbutton #5")
+                toolbarbutton6_guid = reagirl.ToolbarButton_Add(nil, nil, reaper.GetResourcePath().."/Data/toolbar_icons/toolbar_item_properties.png", 4, 1,{"A", "B", "C", "D"}, 3, "Sixth", "A fifth example toolbar button.", run_function, "Toolbarbutton #5")
+
+                -- 4. open the gui
+                reagirl.Gui_Open("My Dialog Name", false, "Dialog Title", "A short explanation of my dialog.", nil, nil, nil, nil, nil)
+
+                -- 5. a main-function that runs the gui-management-function
+                function main()
+                  reagirl.Gui_Manage()
+                  
+                  if reagirl.Gui_IsOpen()==true then reaper.defer(main) end
+                end
+                main()
+
+            ![A simple window with six toolbar buttons. Four regular buttons, one with the state next to it having three states and one text-toolbar-button.](gfx/Tutorial14_02.png "A simple window with six toolbar buttons. Four regular buttons, one with the state next to it having three states and one text-toolbar-button.")  
+            
+            Nice, this looks better. We have now six buttons, four regular Reaper-style toolbar-buttons(mode=5), one three-state-button that has its states next to it(mode=2) and a sixth button as a text-toolbar-button(mode=3).
+            All of them are clickable and show a highlighting, when hovering above them.
+            This is quite good but not good enough, yet. For instance, all buttons have spaces between them. This not only wastes precious screen estate, it is also hard to read.
+            So let's group the first three and the fourth and fifth button together, so we have two groups and one single button. For this, we add 128 to the mode-parameter to every button that we want to be right after the former one.
+            So to group the first three buttons together, we will need to add 128 to the mode parameter of the second and third toolbar button. Same for the fifth one.
+            
+            Let's do it and see, how it looks.
+          
+                -- 0. enable ReaGirl for the script
+                dofile(reaper.GetResourcePath().."/UserPlugins/reagirl.lua")
+                -- check for required version; alter the version-number if necessary
+                if reagirl.GetVersion()<1.3 then reaper.MB("Needs ReaGirl v"..(1.3).." to run", "Too old version", 2) return false end
+
+                -- 1. add the run-functions for the ui-elements
+                function run_function(element_id, A, B, C)
+                  local name = reagirl.UI_Element_GetSetCaption(element_id, false, "")
+                  reaper.MB(B, name, 0)
+                end
+
+                -- 2. start a new gui
+                reagirl.Gui_New()
+
+                toolbarbutton_guid = reagirl.ToolbarButton_Add(nil, nil, reaper.GetResourcePath().."/Data/toolbar_icons/toolbar_audio_waveform.png", 2, 1,{"One", "Two"}, 5, "First Toolbar Button", "A first example toolbar button.", run_function, "Toolbarbutton #1")
+                toolbarbutton2_guid = reagirl.ToolbarButton_Add(nil, nil, reaper.GetResourcePath().."/Data/toolbar_icons/toolbar_color_item.png", 2, 1,{"Uno", "Dos"}, 5+128, "Second Toolbar Button", "A second example toolbar button.", run_function, "Toolbarbutton #2")
+                toolbarbutton3_guid = reagirl.ToolbarButton_Add(nil, nil, reaper.GetResourcePath().."/Data/toolbar_icons/toolbar_delete.png", 2, 1,{"Eins", "Zwei"}, 5+128, "Third Toolbar Button", "A third example toolbar button.", run_function, "Toolbarbutton #3")
+                toolbarbutton4_guid = reagirl.ToolbarButton_Add(nil, nil, reaper.GetResourcePath().."/Data/toolbar_icons/toolbar_glue.png", 2, 1,{"Primo", "Segundo"}, 5, "Fourth Toolbar Button", "A fourth example toolbar button.", run_function, "Toolbarbutton #4")
+                toolbarbutton5_guid = reagirl.ToolbarButton_Add(nil, nil, reaper.GetResourcePath().."/Data/toolbar_icons/toolbar_item_properties.png", 3, 1,{"Un", "Deux", "Trois"}, 2+128, "Fifth Toolbar Button", "A fifth example toolbar button.", run_function, "Toolbarbutton #5")
+                toolbarbutton6_guid = reagirl.ToolbarButton_Add(nil, nil, reaper.GetResourcePath().."/Data/toolbar_icons/toolbar_item_properties.png", 4, 1,{"A", "B", "C", "D"}, 3, "Sixth", "A fifth example toolbar button.", run_function, "Toolbarbutton #5")
+
+                -- 4. open the gui
+                reagirl.Gui_Open("My Dialog Name", false, "Dialog Title", "A short explanation of my dialog.", nil, nil, nil, nil, nil)
+
+                -- 5. a main-function that runs the gui-management-function
+                function main()
+                  reagirl.Gui_Manage()
+                  
+                  if reagirl.Gui_IsOpen()==true then reaper.defer(main) end
+                end
+                main()
+
+            ![The same six buttons, but this time, the first three buttons are grouped together as well as the fourth and the fifth button. The sixth button is on its own.](gfx/Tutorial14_03.png "The same six buttons, but this time, the first three buttons are grouped together as well as the fourth and the fifth button. The sixth button is on its own.")  
+            
+            Ah, this is better and easier to read, as you can see, which button belongs to which.
+            We could be finished now but let's go one step further. You see, all buttons have rounded edges. But what if we have the rounded edges only on the sides, where a gap is between buttons and not inbweteen them.
+            Means: we make the inner sides of a unit of toolbar-buttons square and the outer side round. For this we use reagirl.ToolbarButton_SetEdgeStyle(), which allows us to set the individual edges of a toolbar-button to round or square.
+            That way, they look more as a unit. So let's do it.
+          
+                -- 0. enable ReaGirl for the script
+                dofile(reaper.GetResourcePath().."/UserPlugins/reagirl.lua")
+                -- check for required version; alter the version-number if necessary
+                if reagirl.GetVersion()<1.3 then reaper.MB("Needs ReaGirl v"..(1.3).." to run", "Too old version", 2) return false end
+
+                -- 1. add the run-functions for the ui-elements
+                function run_function(element_id, A, B, C)
+                  local name = reagirl.UI_Element_GetSetCaption(element_id, false, "")
+                  reaper.MB(B, name, 0)
+                end
+
+                -- 2. start a new gui
+                reagirl.Gui_New()
+
+                toolbarbutton_guid = reagirl.ToolbarButton_Add(nil, nil, reaper.GetResourcePath().."/Data/toolbar_icons/toolbar_audio_waveform.png", 2, 1,{"One", "Two"}, 5, "First Toolbar Button", "A first example toolbar button.", run_function, "Toolbarbutton #1")
+                reagirl.ToolbarButton_SetEdgeStyle(toolbarbutton_guid, false, true, false, true)
+                toolbarbutton2_guid = reagirl.ToolbarButton_Add(nil, nil, reaper.GetResourcePath().."/Data/toolbar_icons/toolbar_color_item.png", 2, 1,{"Uno", "Dos"}, 5+128, "Second Toolbar Button", "A second example toolbar button.", run_function, "Toolbarbutton #2")
+                reagirl.ToolbarButton_SetEdgeStyle(toolbarbutton2_guid, true, true, true, true)
+                toolbarbutton3_guid = reagirl.ToolbarButton_Add(nil, nil, reaper.GetResourcePath().."/Data/toolbar_icons/toolbar_delete.png", 2, 1,{"Eins", "Zwei"}, 5+128, "Third Toolbar Button", "A third example toolbar button.", run_function, "Toolbarbutton #3")
+                reagirl.ToolbarButton_SetEdgeStyle(toolbarbutton3_guid, true, false, true, false)
+
+                toolbarbutton4_guid = reagirl.ToolbarButton_Add(nil, nil, reaper.GetResourcePath().."/Data/toolbar_icons/toolbar_glue.png", 2, 1,{"Primo", "Segundo"}, 5, "Fourth Toolbar Button", "A fourth example toolbar button.", run_function, "Toolbarbutton #4")
+                toolbarbutton5_guid = reagirl.ToolbarButton_Add(nil, nil, reaper.GetResourcePath().."/Data/toolbar_icons/toolbar_item_properties.png", 3, 1,{"Un", "Deux", "Trois"}, 2+128, "Fifth Toolbar Button", "A fifth example toolbar button.", run_function, "Toolbarbutton #5")
+
+                toolbarbutton6_guid = reagirl.ToolbarButton_Add(nil, nil, reaper.GetResourcePath().."/Data/toolbar_icons/toolbar_item_properties.png", 4, 1,{"A", "B", "C", "D"}, 3, "Sixth", "A fifth example toolbar button.", run_function, "Toolbarbutton #5")
+
+                -- 4. open the gui
+                reagirl.Gui_Open("My Dialog Name", false, "Dialog Title", "A short explanation of my dialog.", nil, nil, nil, nil, nil)
+
+                -- 5. a main-function that runs the gui-management-function
+                function main()
+                  reagirl.Gui_Manage()
+                  
+                  if reagirl.Gui_IsOpen()==true then reaper.defer(main) end
+                end
+                main()
+
+            ![The inner parts of the first button group has now square edges and the outer parts have rounded edges. This makes them look more like a unit.](gfx/Tutorial14_04.png "The inner parts of the first button group has now square edges and the outer parts have rounded edges. This makes them look more like a unit.")  
+            
+            Ahh, now it looks really pleasing and is even better to read.           
+            Let's give the second button-group the same treatmen, that the inner part is squared and the outer edges are round.
+          
+                -- 0. enable ReaGirl for the script
+                dofile(reaper.GetResourcePath().."/UserPlugins/reagirl.lua")
+                -- check for required version; alter the version-number if necessary
+                if reagirl.GetVersion()<1.3 then reaper.MB("Needs ReaGirl v"..(1.3).." to run", "Too old version", 2) return false end
+
+                -- 1. add the run-functions for the ui-elements
+                function run_function(element_id, A, B, C)
+                  local name = reagirl.UI_Element_GetSetCaption(element_id, false, "")
+                  reaper.MB(B, name, 0)
+                end
+
+                -- 2. start a new gui
+                reagirl.Gui_New()
+
+                toolbarbutton_guid = reagirl.ToolbarButton_Add(nil, nil, reaper.GetResourcePath().."/Data/toolbar_icons/toolbar_audio_waveform.png", 2, 1,{"One", "Two"}, 5, "First Toolbar Button", "A first example toolbar button.", run_function, "Toolbarbutton #1")
+                reagirl.ToolbarButton_SetEdgeStyle(toolbarbutton_guid, false, true, false, true)
+                toolbarbutton2_guid = reagirl.ToolbarButton_Add(nil, nil, reaper.GetResourcePath().."/Data/toolbar_icons/toolbar_color_item.png", 2, 1,{"Uno", "Dos"}, 5+128, "Second Toolbar Button", "A second example toolbar button.", run_function, "Toolbarbutton #2")
+                reagirl.ToolbarButton_SetEdgeStyle(toolbarbutton2_guid, true, true, true, true)
+                toolbarbutton3_guid = reagirl.ToolbarButton_Add(nil, nil, reaper.GetResourcePath().."/Data/toolbar_icons/toolbar_delete.png", 2, 1,{"Eins", "Zwei"}, 5+128, "Third Toolbar Button", "A third example toolbar button.", run_function, "Toolbarbutton #3")
+                reagirl.ToolbarButton_SetEdgeStyle(toolbarbutton3_guid, true, false, true, false)
+
+                toolbarbutton4_guid = reagirl.ToolbarButton_Add(nil, nil, reaper.GetResourcePath().."/Data/toolbar_icons/toolbar_glue.png", 2, 1,{"Primo", "Segundo"}, 5, "Fourth Toolbar Button", "A fourth example toolbar button.", run_function, "Toolbarbutton #4")
+                reagirl.ToolbarButton_SetEdgeStyle(toolbarbutton4_guid, false, true, false, true)
+                toolbarbutton5_guid = reagirl.ToolbarButton_Add(nil, nil, reaper.GetResourcePath().."/Data/toolbar_icons/toolbar_item_properties.png", 3, 1,{"Un", "Deux", "Trois"}, 2+128, "Fifth Toolbar Button", "A fifth example toolbar button.", run_function, "Toolbarbutton #5")
+                reagirl.ToolbarButton_SetEdgeStyle(toolbarbutton5_guid, true, false, true, false)
+
+                toolbarbutton6_guid = reagirl.ToolbarButton_Add(nil, nil, reaper.GetResourcePath().."/Data/toolbar_icons/toolbar_item_properties.png", 4, 1,{"A", "B", "C", "D"}, 3, "Sixth", "A fifth example toolbar button.", run_function, "Toolbarbutton #5")
+
+                -- 4. open the gui
+                reagirl.Gui_Open("My Dialog Name", false, "Dialog Title", "A short explanation of my dialog.", nil, nil, nil, nil, nil)
+
+                -- 5. a main-function that runs the gui-management-function
+                function main()
+                  reagirl.Gui_Manage()
+                  
+                  if reagirl.Gui_IsOpen()==true then reaper.defer(main) end
+                end
+                main()
+
+            ![The inner parts of the second button group has now square edges and the outer parts have rounded edges. This makes them look more like a unit.](gfx/Tutorial14_05.png "The inner parts of the second button group has now square edges and the outer parts have rounded edges. This makes them look more like a unit.")  
+
+            Ok, this is coming along nicely. But what about the ugly titlebar? This is something, we should get rid of. This we can do with the function reagirl.Window\_SetBorderless(), which makes the gui-window borderless.
+            But if we do this, how can the user drag around the window? Well, we can make it, that clicking into an empty area of the gui-window allows dragging it around. For this, we need the function reagirl.Window\_DragOnEmptyArea().
+            
+            Let's do it and see, how it looks:
+              
+                -- 0. enable ReaGirl for the script
+                dofile(reaper.GetResourcePath().."/UserPlugins/reagirl.lua")
+                -- check for required version; alter the version-number if necessary
+                if reagirl.GetVersion()<1.3 then reaper.MB("Needs ReaGirl v"..(1.3).." to run", "Too old version", 2) return false end
+
+                -- 1. add the run-functions for the ui-elements
+                function run_function(element_id, A, B, C)
+                  local name = reagirl.UI_Element_GetSetCaption(element_id, false, "")
+                  reaper.MB(B, name, 0)
+                end
+
+                -- 2. start a new gui
+                reagirl.Gui_New()
+
+                toolbarbutton_guid = reagirl.ToolbarButton_Add(nil, nil, reaper.GetResourcePath().."/Data/toolbar_icons/toolbar_audio_waveform.png", 2, 1,{"One", "Two"}, 5, "First Toolbar Button", "A first example toolbar button.", run_function, "Toolbarbutton #1")
+                reagirl.ToolbarButton_SetEdgeStyle(toolbarbutton_guid, false, true, false, true)
+                toolbarbutton2_guid = reagirl.ToolbarButton_Add(nil, nil, reaper.GetResourcePath().."/Data/toolbar_icons/toolbar_color_item.png", 2, 1,{"Uno", "Dos"}, 5+128, "Second Toolbar Button", "A second example toolbar button.", run_function, "Toolbarbutton #2")
+                reagirl.ToolbarButton_SetEdgeStyle(toolbarbutton2_guid, true, true, true, true)
+                toolbarbutton3_guid = reagirl.ToolbarButton_Add(nil, nil, reaper.GetResourcePath().."/Data/toolbar_icons/toolbar_delete.png", 2, 1,{"Eins", "Zwei"}, 5+128, "Third Toolbar Button", "A third example toolbar button.", run_function, "Toolbarbutton #3")
+                reagirl.ToolbarButton_SetEdgeStyle(toolbarbutton3_guid, true, false, true, false)
+
+                toolbarbutton4_guid = reagirl.ToolbarButton_Add(nil, nil, reaper.GetResourcePath().."/Data/toolbar_icons/toolbar_glue.png", 2, 1,{"Primo", "Segundo"}, 5, "Fourth Toolbar Button", "A fourth example toolbar button.", run_function, "Toolbarbutton #4")
+                reagirl.ToolbarButton_SetEdgeStyle(toolbarbutton4_guid, false, true, false, true)
+                toolbarbutton5_guid = reagirl.ToolbarButton_Add(nil, nil, reaper.GetResourcePath().."/Data/toolbar_icons/toolbar_item_properties.png", 3, 1,{"Un", "Deux", "Trois"}, 2+128, "Fifth Toolbar Button", "A fifth example toolbar button.", run_function, "Toolbarbutton #5")
+                reagirl.ToolbarButton_SetEdgeStyle(toolbarbutton5_guid, true, false, true, false)
+
+                toolbarbutton6_guid = reagirl.ToolbarButton_Add(nil, nil, reaper.GetResourcePath().."/Data/toolbar_icons/toolbar_item_properties.png", 4, 1,{"A", "B", "C", "D"}, 3, "Sixth", "A fifth example toolbar button.", run_function, "Toolbarbutton #5")
+
+                -- 4. open the gui
+                reagirl.Gui_Open("My Dialog Name", false, "Dialog Title", "A short explanation of my dialog.", nil, nil, nil, nil, nil)
+                reagirl.Window_SetBorderless() -- make the window borderless
+                reagirl.Window_DragOnEmptyArea(true) -- make window draggable when clicking into an empty area
+
+                -- 5. a main-function that runs the gui-management-function
+                function main()
+                  reagirl.Gui_Manage()
+                  
+                  if reagirl.Gui_IsOpen()==true then reaper.defer(main) end
+                end
+                main()
+
+            ![The gui-window is now borderless and can be dragged around by clicking into an empty are of the gui-window.](gfx/Tutorial14_06.gif "The gui-window is now borderless and can be dragged around by clicking into an empty are of the gui-window.")  
+            
+            Nice, now we have a compact and good looking toolbar with our own buttons.
+            You can do more with toolbars, so see [Level Meters](#The_Gui_Elements_012_LevelMeters) and the various ToolbarButton\_ functions for more details.
+                
+            A final note: toolbar-images can be scaled too, so different scale-factors make the buttons look good.
+            For this you create upscaled images for 1x(30*num\_states x 30 pixels), 2x(60*num\_states x 60 pixels, 3x(90*num\_states x 60 pixels), etc.
+            The filenames are either in the same folder like the unscaled image, like:
+
+            toolbaricon-image.png
+            toolbaricon-image-2x.png
+            toolbaricon-image-3x.png
+            etc
+
+            Or you place them in subfolders, where the scaling is written in 100 steps(Reaper's behavior):
+
+            toolbar-image.png
+            200/toolbar-image.png
+            300/toolbar-image.png
+            400/toolbar-image.png
+            etc
+            
+        </description>  
+        <target_document>ReaGirl_Introduction_and_Concepts.html</target_document>  
+        <source_document>ReaGirl_Introduction_and_Concepts.USDocML</source_document>  
+        <chapter_context>
+          Tutorials
+        </chapter_context>
+        <previous_chapter>Tutorial_013_Meters</previous_chapter>  
+        <next_chapter>Tutorial_015_ExternalControlOfGuis</next_chapter>  
+        <tags></tags>  
+    </US_DocBloc>  
+    
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">  
+        <slug>Tutorial_015_ExternalControlOfGuis</slug>  
+        <title>Tutorial 015: External control of ReaGirl-guis</title>  
+        <description markup_type="markdown" markup_version="1.0.1" indent="default">  
+          It's real cool to code your own guis, but: what if there's an already existing gui, which has numerous options that you want to set but there's no action or anything for it?
+          Well, for ReaGirl-guis, there's a solution to control guis from the outside. And in this tutorial, I will show you, how to do it.
+          I will show you, how to open the ReaGirl-settings, set various settings and close it again. And this with just a handful of code-lines.
+          Let's begin.
+          
+          To be able to control ui-elements from the outside, you need several bits of information from the gui-script in question. But if you fear, that you have to dig through its code, I can assure you, you don't need to, as ReaGirl has features to retrieve the information you need.
+          
+          Ok, the information you need is basically two: the name of the gui and the id of the ui-element, that you want to influence.
+          To retrieve it, go into the ReaGirl-settings in the development-tab and hit the checkbox for "Show gui-name and ui-element-name in console".
+          If you use the tab-key or shift+tab-key, you can tab through the ui-elements, where the focused one will be enclosed in a rectangle. 
+          A window opens, the ReaScript-console-window, which displays the name of the gui and various information about the focused ui-element. This looks like this:
+          
+                Gui-Name:"ReaGirl_Settings"
+                Gui-Element-Name:"Show screen reader messages in console"
+                Gui-Element_ID:"Show Screen Reader Messages In Console Checkbox"
+                Gui-Element-Type:Checkbox
+          
+          After Gui-Name in "", it's the name of the gui, in this case the ReaGirl\_Settings. After Gui-Element\_ID in "", there's an id for the focused-ui-element.
+          Now hit Tab until the ui-element is focused, that you want to influence.
+          In this tutorial, we want to toggle the checkbox for "Show tooltips when hovering above ui-element" and the "Blink every"-slider in the "Draggable UI-Elements"-section in the General tab.
+          So switch to the first tab and use the tab-key to focus these two ui-elements.
+          
+          You'll notice, that the ui-element for show tooltips has the id of "Tooltip checkbox" and the blink-every-slider has the id of "Drag Blink Every Slider". With these and the name of the gui "ReaGirl_Settings", we can start to write our script.
+          
+          Let's begin with a script, that clicks the show tooltips-checkbox. In this, we need to use the function reagirl.Ext\_SendEventByID() to send the click-event to the checkbox.
+          reagirl.Ext\_SendEventByID() has as first parameter the gui-name, as second parameter the id of the show-tooltips-checkbox and as third parameter the event to send.
+          In our case, we use 1 for left click. The other parameters we can ignore for now. The code looks like this.
+         
+                -- enable ReaGirl for the script
+                dofile(reaper.GetResourcePath().."/UserPlugins/reagirl.lua")
+
+                -- set ui-elements
+                reagirl.Ext_SendEventByID("ReaGirl_Settings", "Tooltip checkbox", 1, "", 0, 0, 0)        -- toggle "show tooltips"-checkbox
+
+          Now open the ReaGirl settings, select the General tab and run the script. The show-tooltip checkbox will now toggle, everytime you run the script.
+          
+          Nice.
+          
+          Now, let's add a second event, to influence the Blink every-slider of the Draggable UI-elemens-area. This is basically the same thing, but we adjust the id of the ui-element to use "Drag Blink Every Slider" and the event to send is 5, which selects a certain value for a slider.
+          And to choose, which value to set it to, we adjust the fifth parameter to 5, which makes the slider go to 5.
+          Here's the script:
+          
+                -- enable ReaGirl for the script
+                dofile(reaper.GetResourcePath().."/UserPlugins/reagirl.lua")
+
+                -- set ui-elements
+                reagirl.Ext_SendEventByID("ReaGirl_Settings", "Tooltip checkbox", 1, "", 0, 0, 0)        -- toggle "show tooltips"-checkbox
+                reagirl.Ext_SendEventByID("ReaGirl_Settings", "Drag Blink Every Slider", 5, "", 5, 0, 0) -- set "Blink every"-slider of highlight drag destinations to 5
+
+          You see, we just added another line. And when we run it, not only the show tooltips-checkbox toggles, but the blink-every-slider is set to 5. Now adjust the fifth parameter to 2 and rerun the script. The slider is changed to 2.
+          Ok, but what if you want to set text into an inputbox? You can, so let's do it for the "Test input"-inputbox. We tab through the settings and find out, that its id is "Test Input Inputbox".
+          With that, we can add another reagirl.Ext\_SendEventByID()-functioncall and set the second parameter to "Test Input Inputbox", the third parameter to 8(for setting text) and then add into the fourth parameter the new text, like "New text".
+          
+                -- enable ReaGirl for the script
+                dofile(reaper.GetResourcePath().."/UserPlugins/reagirl.lua")
+
+                -- set ui-elements
+                reagirl.Ext_SendEventByID("ReaGirl_Settings", "Tooltip checkbox", 1, "", 0, 0, 0)        -- toggle "show tooltips"-checkbox
+                reagirl.Ext_SendEventByID("ReaGirl_Settings", "Drag Blink Every Slider", 5, "", 5, 0, 0) -- set "Blink every"-slider of highlight drag destinations to 5
+                reagirl.Ext_SendEventByID("ReaGirl_Settings", "Test Input Inputbox", 8, "New text", 0, 0, 0) -- set "Test input"-inputbox to "New text"
+
+          And when we run it, the checkbox is toggled, the slider is set to the desired value AND the Test input-inputbox is set to "New text".
+          
+          Ok, this is cool. However: this script needs, that the settings are already open to have an effect. So let's automatically open the gui-script and close the gui-script.
+          For opening we use Reaper's own functions reaper.NamedCommandLookup(). Go into the actionlist, search for the gui-script, right click and click "Copy selected action command ID", which will put the action command id of the script into the clipboard.
+          This will be used in the following example:
+          
+                -- enable ReaGirl for the script
+                dofile(reaper.GetResourcePath().."/UserPlugins/reagirl.lua")
+
+                -- open ReaGirl settings
+                cmd=reaper.NamedCommandLookup("_RS40947c73d65bf5f2d6b7f4d52a4e6a69629495f0")                               
+                reaper.Main_OnCommand(cmd, 0)
+
+                -- set ui-elements
+                reagirl.Ext_SendEventByID("ReaGirl_Settings", "Tooltip checkbox", 1, "", 0, 0, 0)        -- toggle "show tooltips"-checkbox
+                reagirl.Ext_SendEventByID("ReaGirl_Settings", "Drag Blink Every Slider", 5, "", 5, 0, 0) -- set "Blink every"-slider of highlight drag destinations to 5
+                reagirl.Ext_SendEventByID("ReaGirl_Settings", "Test Input Inputbox", 8, "New text", 0, 0, 0) -- set "Test input"-inputbox to "New text"
+
+          So close the settings and run the script. This opens the gui and sets the various values.
+          
+          Ok, but we also want it to close automatically, so let's add this. as well.
+          For this, we need to send a close-event to the settings. However, we shouldn't do it right after the reagirl.Ext\_SendEventByID()-functioncalls, because this could close the gui and end the gui-script before all values were set to the gui.
+          To circumvent, we add one single defer-cycle.
+          Defer-cycles are ways to let a script run in the background. For ReaGirl-guis, each defer-run checks, whether ui-elements were clicked, then the gui is drawn again if needed and then it temporarily stops, so the next defer-script could be run and do its stuff and when it's done, it gives control to he next script, etc.
+          In our case, we set all ui-elements, then we give control to other background-scripts, including the ReaGirl-settings to set all ui-elements the way we wanted it. Then it gives back the control to our script, which requests the close-button to be clicked.
+          And when it gives control to the ReaGirl-settings, they will close the gui and end the gui-script.
+          
+          This sounds more complicated than it actually is. In fact, you can use the code from the next snippet and adjust it accordingly. It is basically everything from function main() to reaper.defer(main) which you can copy n paste.
+          Within the main-function, we add a reagirl.Ext_Window_Close()-functioncall.
+          And here is it how it looks like:
+                
+                -- enable ReaGirl for the script
+                dofile(reaper.GetResourcePath().."/UserPlugins/reagirl.lua")
+
+                -- open ReaGirl settings
+                cmd=reaper.NamedCommandLookup("_RS40947c73d65bf5f2d6b7f4d52a4e6a69629495f0")                               
+                reaper.Main_OnCommand(cmd, 0)
+
+                -- set ui-elements
+                reagirl.Ext_SendEventByID("ReaGirl_Settings", "Tooltip checkbox", 1, "", 0, 0, 0)        -- toggle "show tooltips"-checkbox
+                reagirl.Ext_SendEventByID("ReaGirl_Settings", "Drag Blink Every Slider", 5, "", 5, 0, 0) -- set "Blink every"-slider of highlight drag destinations to 5
+                reagirl.Ext_SendEventByID("ReaGirl_Settings", "Test Input Inputbox", 8, "New text", 0, 0, 0) -- set "Test input"-inputbox to "New text"
+
+                -- close the gui by clicking the close-Button
+                -- we do this in a second defer-cycle so we don't accidentally close the gui(and possibly ending the script) before all values were set successfully
+                -- Copy and paste the following lines and adjust the reagirl.Ext_SendeEventByID()-line, if needed.
+                function main()                  
+                  reagirl.Ext_Window_Close("ReaGirl_Settings")
+                end
+                reaper.defer(main)
+
+          You see, that it basically is the same functioncall, it is just "delayed" a little, so the gui-script had a chance to apply all the changes we requested.
+          
+          And there we are. A script that opens the ReaGirl-settings, sets the values and closes it again. This should make ReaGirl-settings controllable for you from the outside.
+          
+          One more thing: sometimes you may notice, that the id of a ui-element hasn't been set and you see it only as "". In this case, you can't use the id, as the scripter didn't set one.
+          But, you can use the name of the gui-element as well, for which you use the function reagirl.Ext\_SendEvent() !
+
+        </description>  
+        <target_document>ReaGirl_Introduction_and_Concepts.html</target_document>  
+        <source_document>ReaGirl_Introduction_and_Concepts.USDocML</source_document>  
+        <chapter_context>
+          Tutorials
+        </chapter_context>
+        <previous_chapter>Tutorial_014_ToolbarButtons</previous_chapter>  
         <next_chapter>The_Gui_Elements_000</next_chapter>  
         <tags></tags>  
     </US_DocBloc>  
@@ -4791,8 +5535,10 @@
               
             - reagirl.Button\_SetDisabled() - sets a button to disability-state, so you can prevent the button from being clickable  
             - reagirl.Button\_GetDisabled() - gets the current disability state, if the button can be clicked or not  
-            - reagirl.Button\_SetRadius - allows you to make the button more round or more square  
-            - reagirl.Button\_GetRadius - gets the current roundness of the button's edges  
+            - reagirl.Button\_SetRadius() - allows you to make the button more round or more square  
+            - reagirl.Button\_GetRadius() - gets the current roundness of the button's edges  
+            - reagirl.Button\_GetEdgeStyle() - gets, if the edges of the button are round or square
+            - reagirl.Button\_SetEdgeStyle() - sets, if the edges of the button are round or square
               
             Check the [first tutorial "A basic gui"](#Tutorial_001_A_Basic_Gui) to see examples of guis with buttons.  
         </description>  
@@ -4833,7 +5579,6 @@
             - reagirl.Checkbox\_SetCheckState - sets the checkstate of the checkbox  
             - reagirl.Checkbox\_GetCheckState - gets the current checkstate of the checkbox  
             - reagirl.Checkbox\_SetWidth - sets width of a checkbox, which helps you with autopositioning  
-			
             - reagirl.Checkbox\_LinkToConfigVar - links the checkbox to a certain config-variable-bitfield  
             - reagirl.Checkbox\_LinkToExtstate - links the checkbox to an extstate  
             - reagirl.Checkbox\_LinkToIniValue - links the checkbox to an ini-value
@@ -4887,8 +5632,7 @@
             - reagirl.Label\_SetAlignment - sets the alignment of the label-text, like centered or right aligned  
             - reagirl.Label\_GetAlignment - gets the current alignment for this label  
             - reagirl.Label\_SetDraggable - sets the label as draggable, including possible drag-destinations  
-            - reagirl.Label\_GetDraggable - gets the current drag-state and the current drag-destinations  
-              
+            - reagirl.Label\_GetDraggable - gets the current drag-state and the current drag-destinations                
             - reagirl.UI_Element\_GetSetCaption - gets or sets the label text  
               
             Check the [first tutorial "A basic gui"](#Tutorial_001_A_Basic_Gui) to see examples of guis with labels.  
@@ -4957,6 +5701,8 @@
               - reagirl.Image\_GetImageFilename - get the current image-filename  
               - reagirl.Image\_Load - loads a new image-file into the image  
               - reagirl.Image\_ClearToColor - clears the image and sets it to a color instead  
+              - reagirl.Image\_GetDropShadow - gets, if the image is drawn with a drop-shadow
+              - reagirl.Image\_SetDropShadow - sets, if the image is drawn with a drop-shadow(good for better contrast with certain background-colors)
                               
             See the tutorial ["A basic Image Viewer"](#Tutorial_003_A_Basic_Image_Viewer) and the tutorial ["Draggable Images"](#Tutorial_005_Draggable_Images) to know how to work with images.              
         </description>  
@@ -5005,7 +5751,8 @@
             - reagirl.Inputbox\_SetEmptyText - sets text that is shown when no text has been entered  
             - reagirl.Inputbox\_GetSelectedText - gets the currently selected text  
             - reagirl.InputBox\_GetCursorOffset - gets the current offset of the edit-cursor in the editfield of an inputbox              
-			
+            - reagirl.Inputbox\_GetTextSuggestions - gets the current text-suggestions of an inputbox
+            - reagirl.Inputbox\_SetTextSuggestions - sets the text-suggestions of an inputbox           
 						- reagirl.InputBox\_LinkToConfigVar - links the inputbox to a certain config-variable
 						- reagirl.InputBox\_LinkToExtstate - links the inputbox to an extstate  
 						- reagirl.InputBox\_LinkToIniValue - links the inputbox to an ini-value
@@ -5054,7 +5801,8 @@
             - reagirl.DropDownMenu\_GetDisabled - gets the current disability state of the drop down menu  
             - reagirl.DropDownMenu\_GetMenuItems - gets the menu-items of the drop down menu  
             - reagirl.DropDownMenu\_SetMenuItems - sets the menu-items of the drop down menu  
-			
+            - reagirl.DropDownMenu\_GetSelectedMenuItem - gets the selected menu-item
+            - reagirl.DropDownMenu\_SetSelectedMenuItem - sets the selected menu-item
 						- reagirl.DropDownMenu\_LinkToExtstate - links the drop down menu to an extstate  
 						- reagirl.DropDownMenu\_LinkToIniValue - links the drop down menu to an ini-value
 						- reagirl.DropDownMenu\_Unlink - removes the link between the drop down menu and a certain state  
@@ -5119,7 +5867,6 @@
             - reagirl.Slider\_SetDimensions - sets the width of the slider  
             - reagirl.Slider\_GetDisabled - gets the disability-state of the slider  
             - reagirl.Slider\_SetDisabled - sets the disability-state of the slider, means, if it can be influenced by mouse or keyboard or not  
-			
             - reagirl.Slider\_LinkToIntConfigVar - links the slider to a certain integer config-variable
 						- reagirl.Slider\_LinkToDoubleConfigVar - links the slider to a certain double config-variable
 						- reagirl.Slider\_LinkToExtstate - links the slider to an extstate  
@@ -5191,9 +5938,9 @@
 						It is optionally possible to open a color-selector-dialog when clicking the color rectangle and the chosen color will be used right away in the rectangle.
 						It has a border around it. You can also choose to make the edges round or square shaped individually.
 						
-						Screen reader users will get notified the color value by its name and by its color-values. These are also communicated via the tooltip for colorblind users.
-						To make it easier for blind users to get a picture of the used color, use one that has a name for it. You can use reagirl.Color_EnumerateNames(), reagirl.Color_GetName() 
-						and reagirl.Color_GetColorValuesByName() for this. All standard HTML-color-names are supported.
+            Screen reader users will get notified the color value by its name and by its color-values. These are also communicated via the tooltip for colorblind users.
+            To make it easier for blind users to get a picture of the used color, use one that has a name for it. You can use reagirl.Color\_EnumerateNames(), reagirl.Color\_GetName() 
+            and reagirl.Color\_GetColorValuesByName() for this. All standard HTML-color-names are supported.
               
             You add Color-Rectangles to your gui using reagirl.ColorRectangle\_Add(), which has 12 parameters.  
               
@@ -5210,12 +5957,12 @@
             
             There are more things you can do with color-rectangles:  
             
-						- reagirl.ColorRectangle\_GetEdgeStyle - gets if the individual edges of the color-rectangle are square or rounded			
+            - reagirl.ColorRectangle\_GetEdgeStyle - gets if the individual edges of the color-rectangle are square or rounded			
             - reagirl.ColorRectangle\_SetEdgeStyle - sets the individual edges of the color-rectangle to square or rounded  
-						- reagirl.ColorRectangle\_GetRadius - gets the current radius of the color-rectangle edges
-						- reagirl.ColorRectangle\_SetRadius - sets the radius of the color-rectangle edges
-						- reagirl.ColorRectangle\_GetColor - gets the current color of the color-rectangle
-						- reagirl.ColorRectangle\_SetColor - sets the color of the color-rectangle
+            - reagirl.ColorRectangle\_GetRadius - gets the current radius of the color-rectangle edges
+            - reagirl.ColorRectangle\_SetRadius - sets the radius of the color-rectangle edges
+            - reagirl.ColorRectangle\_GetColor - gets the current color of the color-rectangle
+            - reagirl.ColorRectangle\_SetColor - sets the color of the color-rectangle
               
             Check the [second tutorial "Adding Tabs to a Gui"](#Tutorial_002_Adding_Tabs_to_a_Gui) as well as the [eight tutorial "Autopositioning with tabs"](#Tutorial_008_Autopositioning_With_Tabs) to see, how to code tabs.  
         </description>  
@@ -5267,13 +6014,13 @@
             It's possible to show them with a button-image or as a text-toolbar-button.
             Toolbarbuttons are basically the same as what you expect from the buttons in Reaper's toolbars, but with more options.
 						
-            For toolbar-button-images, you create a toolbar-image, which is 30 pixels in height and 30*number of states. So if you have 5 states, you create an image with 
+            For toolbar-button-images, you create a toolbar-image, which is 30 pixels in height and 30\*number of states. So if you have 5 states, you create an image with 
             30+150 pixels. In the images, you put the number of states as individual images. So for our 5-state image, the first 30 pixels are for the image of state 1, the second 30 pixels
             are for the image of state 2, the third 30 pixels for the image of state 3, etc.
-            Important: if you set mode=5, the image will behave as Reaper's own toolbar-buttons. With that, the image is 30*90 pixels with the first 30 pixels being the image for button is turned off, 
+            Important: if you set mode=5, the image will behave as Reaper's own toolbar-buttons. With that, the image is 30\*90 pixels with the first 30 pixels being the image for button is turned off, 
             the second 30 pixels for the mouse is hovering above the button and the third 30 pixels for when the button is turned on.
             
-            For scaling, you create upscaled images for 1x(30 x num_states*30 pixels), 2x(60 x num_states*60 pixels, 3x(90 x num_states*60 pixels), etc.
+            For scaling, you create upscaled images for 1x(30\*num\_states x 30 pixels), 2x(60\*num\_states x 60 pixels, 3x(90\*num\_states x 60 pixels), etc.
             The filenames are either in the same folder like the unscaled image, like:
             
             toolbaricon-image.png
@@ -5314,21 +6061,17 @@
             - Parameter 11 is unique identifier, used to adress this specific ui-element. With that, it's possible to control the ui-element from the outside of a script, like clicking it
               
             There are more things you can do with burgermenus:  
-						- reagirl.ToolbarButton\_GetColor()	- gets the color of the toolbar-button
-            - reagirl.ToolbarButton\_SetColor() - sets the color of the toolbar-button
             
+						- reagirl.ToolbarButton\_GetColor()	- gets the color of the toolbar-button
+            - reagirl.ToolbarButton\_SetColor() - sets the color of the toolbar-button           
             - reagirl.ToolbarButton\_GetState() - gets the state of the toolbar-button
             - reagirl.ToolbarButton\_SetState() - gets the state of the toolbar-button
-            
             - reagirl.ToolbarButton\_GetDropShadow() - gets, if the toolbar-icon is drawn with a drop-shadow 
             - reagirl.ToolbarButton\_SetDropShadow() - sets the toolbar-icon to be drawn with a drop-shadow(good for borderless toolbars, where the image would drown otherwise)
-            
             - reagirl.ToolbarButton\_GetEdgeStyle() - get, if the individual edges of the toolbar-button are square or rounded
             - reagirl.ToolbarButton\_SetEdgeStyle() - set, if the individual edges of the toolbar-button are square or rounded
-            
             - reagirl.ToolbarButton\_GetRadius() - get the roundness of the edges of the toolbar-button
             - reagirl.ToolbarButton\_SetRadius() - set the roundness of the edges of the toolbar-button
-            
             - reagirl.ToolbarButton\_LinkToExtstate() - link the toolbar-button to an extstate, so everytime the extstate is updated, the toolbar is as well, vice versa
             - reagirl.ToolbarButton\_LinkToIniValue() - link the toolbar-button to an ini-value, so everytime the ini-value is updated, the toolbar is as well, vice versa
             - reagirl.ToolbarButton\_LinkToIntConfigVar() - link the toolbar-button to a configuration variable, so everytime the config-var is updated, the toolbar is as well, vice versa
@@ -5366,15 +6109,12 @@
             There are more things you can do with meters:  
 						- reagirl.Meter\_GetMode() - gets the current drawing-mode of a meter
             - reagirl.Meter\_SetMode() - sets the drawing mode of a meter
-            
             - reagirl.Meter\_GetPeak() - gets the currently measured peaks of a meter
             - reagirl.Meter\_SetPeak() - sets new peak-values for a meter
-            
             - reagirl.Meter\_GetLink() - gets, to which the meter is currently linked to
             - reagirl.Meter\_LinkToHWInput() - links a meter to a hardware input
             - reagirl.Meter\_LinkToTrack() - links a meter to a track, including the options for the main track 
             - reagirl.Meter\_Unlink() - unlinks the meter
-            
             - reagirl.Meter\_GetOptions() - gets the various options for a meter
             - reagirl.Meter\_SetOptions() - sets various options of a meter 
             - reagirl.Meter\_GetScreenreaderOptions() - gets various screen reader options for a meter
@@ -5515,9 +6255,16 @@
           - reagirl.Gui\_PreventCloseViaEscForOneCycle - prevents the closing of the gui via esc-key for one defer-cycle  
           - reagirl.Gui\_PreventEnterForOneCycle - prevents the "global" enter-key from working for one defer-cycle  
           - reagirl.Gui\_PreventScrollingForOneCycle - prevents scrolling of the gui for one defer-cycle  
+          
+          Functions for the color-theme:
+          
+            - reagirl.Color\_GetSet() - gets/sets the colors of ui-elements
+            - reagirl.Color\_GetColorValuesByName - get the r,g,b-color-values by the name of a color(all html-color-names are supported)
+            - reagirl.Color\_GetName - gets the name of a color by its r,g,b-values(all html-color-names are supported)
+            - reagirl.Color\_EnumerateNames - enumerates the supported html-names  
   
           Functions for the gui-window:  
-            
+          
           - reagirl.Window\_ForceSize\_Minimum - forces that the window can't be resizes under a specific minimum  
           - reagirl.Window\_ForceSize\_Maximum - forces that the window can't be resizes above a specific maximum  
           - reagirl.Window\_GetCurrentScale - gets the currently used scaling-factor for the gui  
@@ -5526,24 +6273,26 @@
 					- reagirl.Window\_ResizedFunc - sets a run-function that gets called everytime the ReaGirl-window gets resized  
           - reagirl.Window\_SetCurrentScale - sets a scaling factor for the gui between 1 and 8  
           - reagirl.Window\_SetFocus - sets window-focus back to the gui-window  
+          - reagirl.Window\_DragOnEmptyArea - sets, if clicking into an empty area(an area without ui-elements) allows dragging the window 
+          - reagirl.Window\_SetBorderless - sets, the window to be borderless
             
           Function to access a ReaGirl-gui-window from other scripts:  
-  
+          
+          - reagirl.Ext\_SendEvent - send an event to a ui-element in a ReaGirl-gui; set "Show gui-name and ui-element-name in console" in the settings to get the attributes
+          - reagirl.Ext\_SendEventByID - send an event to a ui-element in a ReaGirl-gui; set "Show gui-name and ui-element-name in console" in the settings to get the attributes
           - reagirl.Ext\_Tab\_SetSelected - sets a tab of specific ReaGirl-gui-window focused  
 					- reagirl.Ext\_UI\_Element\_GetHovered - gets the currently hovered ui-element from a ReaGirl-gui-window   
 					- reagirl.Ext\_Window\_GetInstances - gets the ReaGirl-window-instances currently opened  
           - reagirl.Ext\_Window\_Focus - sets window-focus to an opened ReaGirl-gui-window  
 					- reagirl.Ext\_IsAnyReaGirlGuiHovered - gets, if the mouse is currently hovering above any ReaGirl-window  
           - reagirl.Ext\_Window\_IsOpen - gets, if a specific ReaGirl-gui-window is currently opened  
+          - reagirl.Ext\_Window_Close - close a ReaGirl-gui-window from the outside
           - reagirl.Ext\_Window\_GetState - gets the current dimensions and dock-state of an opened/previously opened ReaGirl-window  
           - reagirl.Ext\_Window\_SetState - sets the current dimensions and dock-state of an opened/previously opened ReaGirl-window  
           - reagirl.Ext\_Window\_ResetToDefault - resets a ReaGirl-Gui-Window to its default dimensions and dockstate  
   
 					Tools:  
 					
-					- reagirl.Color\_GetColorValuesByName - get the r,g,b-color-values by the name of a color(all html-color-names are supported)
-					- reagirl.Color\_GetName - gets the name of a color by its r,g,b-values(all html-color-names are supported)
-					- reagirl.Color\_EnumerateNames - enumerates the supported html-names  
 					- reagirl.Base64\_Decoder - decodes a base-64-encoded string  
 					- reagirl.Base64\_Encoder - encodes a string into base64  
 	

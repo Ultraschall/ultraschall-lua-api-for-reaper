@@ -5945,7 +5945,8 @@ function reagirl.Ext_SendEventByID(gui_name, ui_element_caption, event, send_str
   if type(value2)~="number" then error("Ext_SendEventByID: param #6 - must be an integer", 2) end
   if type(value3)~="number" then error("Ext_SendEventByID: param #7 - must be an integer", 2) end
   
-  local text=reaper.GetExtState("ReaGirl", "ExternalEvents:"..gui_name)
+  local text=reaper.GetExtState("ReaGirl", "ExternalEventsID:"..gui_name)
+  --reaper.MB(text,"Events-1",0)
   Events={"leftClick", "ext_setCheckTrue", "ext_setCheckFalse", "ext_setDropDownMenu_", "ext_setSlider_", 
           "scroll_to", "focus_and_scroll_to", "set_label_", "set_color_", "set_toolbar_"}
   if event~=4 and event~=5 and event~=9 and event~=10 then value="" end
@@ -5966,8 +5967,55 @@ function reagirl.Ext_SendEventByID(gui_name, ui_element_caption, event, send_str
     value=value.."_"
     value2=value2.."_"
   end
+  --reaper.MB(text,"EVENTS0",0)
   text=text.."\n"..Events[event]..value..value2..value3..send_string..":"..ui_element_caption
+  
   reaper.SetExtState("ReaGirl", "ExternalEventsID:"..gui_name, text, false)
+  --reaper.MB(text,"EVENTS",0)
+end
+
+
+
+function reagirl.Ext_Window_Close(gui_name, gui_identifier)
+  --[[
+  <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+    <slug>Ext_Window_Close</slug>
+    <requires>
+      ReaGirl=1.3
+      Reaper=7.03
+      Lua=5.4
+    </requires>
+    <functioncall>boolean retval = reagirl.Ext_Window_Close(string gui_name, optional string gui_identifier)</functioncall>
+    <description>
+      Closes an opened ReaGirl-gui-window from the outside.
+      
+      Parameter gui_name is the same as the name set in the first parameter of Gui_Open.
+      
+      Returns false, if no window with the window name is currently opened.
+    </description>
+    <parameters>
+      string gui_name - the name of the gui-window, which you want to close
+      optional string gui_identifier - a unique identifier(guid) of an opened ReaGirl-gui-instance
+    </parameters>
+    <retvals>
+      boolean retval - the gui-window is opened; false, the gui-window isn't opened
+    </retvals>
+    <chapter_context>
+      Ext
+    </chapter_context>
+    <target_document>ReaGirl_Docs</target_document>
+    <source_document>reagirl_GuiEngine.lua</source_document>
+    <tags>ext, close, window</tags>
+  </US_DocBloc>
+  ]]
+    if type(gui_name)~="string" then error("Ext_Window_Close: param #1 - must be a string", 2) end
+    if gui_identifier~=nil and type(gui_identifier)~="string" then error("Ext_Window_Close: param #2 - must be a string", 2) end
+    if gui_identifier==nil then gui_identifier="" else gui_identifier="-"..gui_identifier end
+    if reaper.GetExtState("Reagirl_Window_"..gui_name, "open")=="true" then
+      reaper.SetExtState("ReaGirl", "CloseWindow", gui_name..gui_identifier, false)
+      return true
+    end
+    return false
 end
 
 function reagirl.Ext_ExecuteExternalEvents_ByID()
@@ -5976,7 +6024,9 @@ function reagirl.Ext_ExecuteExternalEvents_ByID()
   --local text=reaper.GetExtState("ReaGirl", "ExternalEvents:"..reagirl.Window_Title)
   if text=="" then return end
   reaper.SetExtState("ReaGirl", "ExternalEventsID:"..reagirl.Window_name, "", false)
+  --reaper.MB(text,"",0)
   for k in string.gmatch(text.."\n", "(.-)\n") do
+    --reaper.MB(k,"",0)
     local event, ui_element = k:match("(.-):(.*)")
     if event~=nil then
       for i=1, #reagirl.Elements do
@@ -6232,6 +6282,16 @@ function reagirl.Gui_Manage(keep_running)
     reaper.SetExtState("ReaGirl", "ReFocusWindow","",false)
   end
   
+  if reaper.GetExtState("ReaGirl", "CloseWindow")==reagirl.Window_name then
+    reagirl.Gui_Close()
+    reaper.SetExtState("ReaGirl", "CloseWindow","",false)
+  end
+  
+  if reaper.GetExtState("ReaGirl", "CloseWindow")==reagirl.Window_name.."-"..reagirl.Gui_ScriptInstance then
+    reagirl.Gui_Close()
+    reaper.SetExtState("ReaGirl", "CloseWindow","",false)
+  end
+  
 --]]  
   -- Osara Override
   if reaper.GetExtState("ReaGirl", "osara_override")=="" or reaper.GetExtState("ReaGirl", "osara_override")=="true" or reagirl.Settings_Override==true then 
@@ -6277,8 +6337,6 @@ function reagirl.Gui_Manage(keep_running)
   end
   
   reagirl.Ext_IsAnyReaGirlGuiHovered()
-  reagirl.Ext_ExecuteExternalEvents() -- listen for external click-events and set them in the ui-element
-  reagirl.Ext_ExecuteExternalEvents_ByID() -- listen for external click events and set them in the ui-element by its id
   if reaper.time_precise()<reagirl.FocusRectangle_BlinkStartTime+reagirl.FocusRectangle_BlinkTime then
     if reagirl.FocusRectangle_BlinkSpeed>1 then
       reagirl.FocusRectangle_Blink=reagirl.FocusRectangle_Blink+1
@@ -6908,7 +6966,9 @@ function reagirl.Gui_Manage(keep_running)
     if reaper.GetExtState("ReaGirl", "show_gui_and_ui_names")=="true" and reagirl.Debug_ShowInConsoleUI_Element~=reagirl.Elements.FocusedElement then
       local gui_id=""
       if reagirl.Elements[reagirl.Elements.FocusedElement].ID~=nil then gui_id="\""..reagirl.Elements[reagirl.Elements.FocusedElement].ID.."\"" end
-      reaper.ShowConsoleMsg("Gui-Name:\""..reagirl.Window_name.."\"\nGui-Element-Name:\""..reagirl.Elements[reagirl.Elements.FocusedElement].Name.."\"\nGui-Element_ID:"..gui_id.."\n\n")
+      if reagirl.Elements[reagirl.Elements.FocusedElement].Name~="" then
+        reaper.ShowConsoleMsg("Gui-Name:\""..reagirl.Window_name.."\"\nGui-Element-Name:\""..reagirl.Elements[reagirl.Elements.FocusedElement].Name.."\"\nGui-Element_ID:"..gui_id.."\nGui-Element-Type:"..reagirl.Elements[reagirl.Elements.FocusedElement].GUI_Element_Type.."\n\n")
+      end
       
     end
     reagirl.Debug_ShowInConsoleUI_Element=reagirl.Elements.FocusedElement
@@ -7172,10 +7232,16 @@ function reagirl.Gui_Manage(keep_running)
     reagirl.FocusRectangle_Toggle(false)
     reagirl.Elements.FocusedElement=0
     reagirl.Gui_ForceRefresh(9989.9)
+  elseif reagirl.FocusRectangle_AlwaysOn==false and gfx.mouse_cap&1==1 then 
+    reagirl.FocusRectangle_Toggle(false)
+    reagirl.Gui_ForceRefresh(9989.9)
   end
   
   -- calculate and store processing time
   reaper.SetExtState("ReaGirl", "ProcessTime_"..reagirl.Gui_ScriptInstance, reaper.time_precise()-reagirl.Defer_StartTime, false)
+  
+  reagirl.Ext_ExecuteExternalEvents() -- listen for external click-events and set them in the ui-element
+  reagirl.Ext_ExecuteExternalEvents_ByID() -- listen for external click events and set them in the ui-element by its id
   
   -- go over to draw the ui-elements
   local Gui_ForceRefreshState=reagirl.Gui_ForceRefreshState
@@ -7241,7 +7307,11 @@ function reagirl.Gui_Manage(keep_running)
         gfx.dock(0)
         if reagirl.Window_Style~=nil then 
           reagirl.Window_Style=false
-          reagirl.Window_SetBorderless(true)
+          
+          --reagirl.Window_SetBorderless(true)
+          if reagirl.Window_Style~=nil then
+            local retval=reaper.JS_Window_SetStyle(reagirl.GFX_WindowHWND, "POPUP")
+          end
         end
       else
         gfx.dock(1)
@@ -12764,7 +12834,15 @@ function reagirl.Button_Manage(element_id, selected, hovered, clicked, mouse_cap
     element_storage["pressed"]=true
     message=""
     reagirl.Gui_ForceRefresh(20)
-  elseif selected~="not selected" and (element_storage.external_leftclick==true or (mouse_cap&1~=0 and gfx.mouse_x>x and gfx.mouse_y>y and gfx.mouse_x<x+w and gfx.mouse_y<y+h)) then
+  elseif selected~="not selected" and (mouse_cap&1~=0 and gfx.mouse_x>x and gfx.mouse_y>y and gfx.mouse_x<x+w and gfx.mouse_y<y+h) then
+    element_storage.external_leftclick=false
+    local oldstate=element_storage["pressed"]
+    element_storage["pressed"]=true
+    if oldstate~=element_storage["pressed"] then
+      reagirl.Gui_ForceRefresh(21)
+    end
+    message=""
+  elseif element_storage.external_leftclick==true then
     element_storage.external_leftclick=false
     local oldstate=element_storage["pressed"]
     element_storage["pressed"]=true
@@ -12956,7 +13034,7 @@ function reagirl.ToolbarButton_Add(x, y, toolbaricon, num_states, default_state,
     Important: if you set mode=5, the image will behave as Reaper's own toolbar-buttons. With that, the image is 30*90 pixels with the first 30 pixels being the image for button is turned off, 
     the second 30 pixels for the mouse is hovering above the button and the third 30 pixels for when the button is turned on.
     
-    For scaling, you create upscaled images for 1x(30 x num_states*30 pixels), 2x(60 x num_states*60 pixels, 3x(90 x num_states*60 pixels), etc.
+    For scaling, you create upscaled images for 1x(30*num_states x 30 pixels), 2x(60*num_states x 60 pixels, 3x(90*num_states x 60 pixels), etc.
     The filenames are either in the same folder like the unscaled image, like:
     
     toolbaricon-image.png

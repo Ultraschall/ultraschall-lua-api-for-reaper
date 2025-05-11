@@ -414,7 +414,7 @@ Issue:
 
 ### 5.3 - " - " - 15th of May 2025
 
-Has now 1903 functions, with 45 new ones
+Has now 1904 functions, with 46 new ones
 
 **new in this release:**  
 
@@ -429,6 +429,7 @@ Has now 1903 functions, with 45 new ones
   - ReaGirl: DropDownMenu\_SetSelectedMenuItem - sets the selected menu-item
   - ReaGirl: Ext\_SendEvent - send various events to ui-elements in a ReaGirl-gui
   - ReaGirl: Ext\_SendEventByID - send various events to ui-elements in a ReaGirl-gui by ID
+  - ReaGirl: Ext\_Window_Close - close a ReaGirl-gui-window from the outside
   - ReaGirl: Image\_GetDropShadow - gets a drop-shadow-state, drawn behind the image
   - ReaGirl: Image\_SetDropShadow - sets a drop-shadow drawn behind the image
   - ReaGirl: Inputbox\_GetTextSuggestions - gets the currently available text suggestions that the user can choose from a dropdownmenu in the inputbox
@@ -470,7 +471,7 @@ Has now 1903 functions, with 45 new ones
   - Rendering: SetRender\_AutoReturnToDialog - sets the auto-return to this dialog when finished-checkbox in the Render to file-dialog
 
 #### Changes from 5.2 to 5.3  
-  - Docs: Reaper Internals - updated to SWS 2.14.0.3, Llm 0.7.0, ReaMCULive 0.1.7, ReaBlink 0.5.6
+  - Docs: Reaper Internals - updated to Reaper 7.38, SWS 2.14.0.3, Llm 0.7.0, ReaMCULive 0.1.7, ReaBlink 0.5.6
   - ReaGirl: General - clicking outside any ui-element resets the focus rectangle; right click into an empty area gives option to dock/close window
   - ReaGirl: All UI-elements - except images will now highlight, when the mouse hovers above them(can be disabled in the settings)
   - ReaGirl: Buttons - caption wasn't properly drawn when y-margin was>0 -> fixed
@@ -487,13 +488,13 @@ Has now 1903 functions, with 45 new ones
   - Rendering: AddRenderPreset - improved error-handling when presets already exist
   - Rendering: SetRenderPreset - didn't accept all preset-names, should be fixed now - thanks to MountWest
   - Rendering: ApplyRenderTable\_Project - added new attributes ReturnToDialog, SaveOutfile
-  - Rendering: CreateNewRenderTable - added new attributes Preserve_Start_Offset, Preserve_Metadata, ReturnToDialog, SaveOutfile
+  - Rendering: CreateNewRenderTable - added new attributes Preserve\_Start\_Offset, Preserve\_Metadata, ReturnToDialog, SaveOutfile
   - Rendering: GetRender\_SaveRenderStats - added combined/per rendered file-options; didn't return correct values when render to file-dialog was closed -> fixed
-  - Rendering: GetRenderTable\_Project - added new attributes Preserve_Start_Offset, Preserve_Metadata, ReturnToDialog, SaveOutfile
+  - Rendering: GetRenderTable\_Project - added new attributes Preserve\_Start\_Offset, Preserve\_Metadata, ReturnToDialog, SaveOutfile
   - Rendering: GetRenderTable\_ProjectDefaults - added new attributes ReturnToDialog, SaveOutfile
   - Rendering: DeleteRenderPreset\_Bounds - didn't accept all preset-names, should be fixed now - thanks to MountWest
   - Rendering: DeleteRenderPreset\_FormatOptions - didn't accept all preset-names, should be fixed now - thanks to MountWest
-  - Rendering: IsValidRenderTable - added new attributes Preserve_Start_Offset, Preserve_Metadata, ReturnToDialog, SaveOutfile
+  - Rendering: IsValidRenderTable - added new attributes Preserve\_Start\_Offset, Preserve\_Metadata, ReturnToDialog, SaveOutfile
   - Rendering: SetRender\_SaveRenderStats - added combined/per rendered file-options
 
 ---

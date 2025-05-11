@@ -45,26 +45,31 @@ reagirl.Tabs_SetUIElementsForTab(tabs, 2, hardware_meters) -- associate ui-eleme
 -- the meter for the main track
 track_meters.main_track_label = reagirl.Label_Add(20, 50, "Main track", "The main track.", false)
 track_meters.main_track_meter = reagirl.Meter_Add(20, 70, 60, -50, 3, "Main track", "The levels of the main track.")
-reagirl.Meter_LinkToTrack(track_meters.main_track_meter, 1)
+reagirl.Meter_LinkToTrack(track_meters.main_track_meter, 0)
 
--- the meters for tracks 1-5
+-- the meters for tracks 1-3
 track_meters.track_label = reagirl.Label_Add(90, 50, "Track 1-5", "Tracks 1-5.", false)
+
 track_meters.track_1_meter = reagirl.Meter_Add(90, 70,  -30, 40, 2, "Track 1", "The levels of the track 1.")
 reagirl.Meter_LinkToTrack(track_meters.track_1_meter, 1)
+
 track_meters.track_2_meter = reagirl.Meter_Add(90, 120, -30, 40, 2, "Track 2", "The levels of the track 2.")
 reagirl.Meter_LinkToTrack(track_meters.track_2_meter, 2)
+
 track_meters.track_3_meter = reagirl.Meter_Add(90, 170, -30, 40, 2, "Track 3", "The levels of the track 3.")
 reagirl.Meter_LinkToTrack(track_meters.track_3_meter, 3)
+
 track_meters.track_4_meter = reagirl.Meter_Add(90, 220, -30, 40, 2, "Track 4", "The levels of the track 4.")
 reagirl.Meter_LinkToTrack(track_meters.track_4_meter, 4)
+
 track_meters.track_5_meter = reagirl.Meter_Add(90, 270, -30, 40, 2, "Track 5", "The levels of the track 5.")
 reagirl.Meter_LinkToTrack(track_meters.track_5_meter, 5)
 
 -- UI-elements in tab 2
 -- a label
-hardware_meters.hardware_inputs = reagirl.Label_Add(20, 50, "Hardware inputs 1-5", "Hardware inputs 1-5.", false)
+hardware_meters.hardware_inputs = reagirl.Label_Add(20, 50, "Hardware input 1", "Hardware inputs 1.", false)
 
--- the meters for hardware inputs 1-5
+-- the meters for hardware inputs 1-3
 hardware_meters.track_1_meter = reagirl.Meter_Add(20, 70,  -30, 40, 2, "Hardware input 1", "The levels of hardware input 1.")
 reagirl.Meter_LinkToHWInput(hardware_meters.track_1_meter, 1)
 

@@ -45,7 +45,7 @@ reagirl.Tabs_SetUIElementsForTab(tabs, 2, hardware_meters) -- associate ui-eleme
 -- the meter for the main track
 track_meters.main_track_label = reagirl.Label_Add(20, 50, "Main track", "The main track.", false)
 track_meters.main_track_meter = reagirl.Meter_Add(20, 70, 60, -50, 3, "Main track", "The levels of the main track.")
-reagirl.Meter_LinkToTrack(track_meters.main_track_meter, 1)
+reagirl.Meter_LinkToTrack(track_meters.main_track_meter, 0)
 
 -- the meters for tracks 1-5
 track_meters.track_label = reagirl.Label_Add(90, 50, "Track 1-5", "Tracks 1-5.", false)
