@@ -192,13 +192,6 @@
   reagirl.Label_AutoBackdrop(tab1.label_header5, tab1.more_options) -- set backdrop drawn by tab1.label_header5
                                                                     -- let it end underneath tab1.more_options
                                                                     -- let it end underneath tab1.more_options
-  
-  
-                                                                    
-  -- Buttons
-  reagirl.NextLine(10)
-  button_ok_id = reagirl.Button_Add(-133, nil, 0, 0, "OK", "Apply changes and close dialog.", nil)
-  button_cancel_id = reagirl.Button_Add(-95, nil, 0, 0, "Cancel", "Discard changes and close dialog.", nil)
 
   --Meters:
   reagirl.AutoPosition_SetNextUIElementRelativeTo(tabs)
@@ -216,6 +209,13 @@
   reagirl.Meter_LinkToHWInput(tab2.meters3_id, 1)
   tab2.meters4_id = reagirl.Meter_Add(-190, nil, -50, 100, 3, "Hardware Input 1", "The Levels for Hardware Input 2.")
   reagirl.Meter_LinkToHWInput(tab2.meters4_id, 2)
+
+  -- Buttons
+  reagirl.AutoPosition_SetNextUIElementRelativeTo(tab1.more_options)
+  reagirl.NextLine()
+  button_ok_id = reagirl.Button_Add(-133, nil, 0, 0, "OK", "Apply changes and close dialog.", nil)
+  button_cancel_id = reagirl.Button_Add(-95, nil, 0, 0, "Cancel", "Discard changes and close dialog.", nil)
+
 
   -- open the new gui
   reagirl.Gui_Open("My Dialog Name", false, "The dialog", "This is a demo dialog with settings for tool xyz.", nil, nil, 0, nil, nil)

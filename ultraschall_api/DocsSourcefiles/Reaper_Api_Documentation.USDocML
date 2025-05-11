@@ -9928,7 +9928,7 @@
               &4128=32 = normalize stems as if files play together (common gain), 
               &4128=4096 = normalize to loudest file
               &4128=4128 = normalize as if files play together
-              &524288=0 - adjust mono media additional -3dB; =524288 - adjust mono media additional +3dB              
+              &524288=0 - adjust mono media additional -3dB; =524288 - adjust mono media additional +3dB
               &(1<<<16)=pad start with silence, 
               &(2<<16)=pad end with silence, 
               &(4<<16)=disable all render postprocessing, 
@@ -37953,9 +37953,9 @@
             JS=0.963
         </requires>
         <description indent="default" markup_type="markdown" markup_version="1.0.1" indent="default">
-            Deprecated - use [GetViewportFromRect](#GetViewportFromRect) instead.
+            Deprecated - use [JS_Window_GetViewportFromRect](#JS_Window_GetViewportFromRect) instead.
         </description>
-        <deprecated since_when="JS 0.963" alternative="GetViewportFromRect(available since at least JS 0.980)"/>
+        <deprecated since_when="JS 0.963" alternative="JS_Window_GetViewportFromRect(available since at least JS 0.980)"/>
         <retvals>
             integer left - 
             integer top - 

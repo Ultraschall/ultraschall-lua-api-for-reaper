@@ -465,17 +465,19 @@ Has now 1903 functions, with 45 new ones
   - ReaGirl: ToolbarButton\_SetState - sets the current state of a toolbar button
   - ReaGirl: ToolbarButton\_Unlink - unlinks a toolbar-button rom a state
   - ReaGirl: Window\_DragOnEmptyArea - sets, if clicking into an empty area allows dragging of the window
-  - ReaGirl: Window\_SetStyle - sets the style of the window, like borderless window, etc
+  - ReaGirl: Window\_SetBorderless - sets, if the gui-window is borderless or regular
   - Rendering: GetRender\_AutoReturnToDialog - gets the auto-return to this dialog when finished-checkboxstate in the Render to file-dialog
   - Rendering: SetRender\_AutoReturnToDialog - sets the auto-return to this dialog when finished-checkbox in the Render to file-dialog
 
 #### Changes from 5.2 to 5.3  
   - Docs: Reaper Internals - updated to SWS 2.14.0.3, Llm 0.7.0, ReaMCULive 0.1.7, ReaBlink 0.5.6
+  - ReaGirl: General - clicking outside any ui-element resets the focus rectangle; right click into an empty area gives option to dock/close window
   - ReaGirl: All UI-elements - except images will now highlight, when the mouse hovers above them(can be disabled in the settings)
   - ReaGirl: Buttons - caption wasn't properly drawn when y-margin was>0 -> fixed
   - ReaGirl: Checkboxes - linked states weren't updated, when setting checkstate via Checkbox\_SetCheckState(); when linked-state was update from externally, it was reported constantly to screen reader -> fixed
   - ReaGirl: DropDownMenus - clicking dropdownlists wasn't shown properly, when focus rectangle was set as show always; linked states weren't updated, when setting via DropDownMenu\_SetSelectedMenuItem() -> fixed
-  - ReaGirl: InputBoxes - when screen reader support is active, Ctrl+C copies the entire text to clipboard and Ctrl+V overwrites text with text from clipboard; linked states weren't updated when setting new text via Inputbox_SetText() -> fixed
+  - ReaGirl: InputBoxes - when screen reader support is active, Ctrl+C copies the entire text to clipboard and Ctrl+V overwrites text with text from clipboard; linked states weren't updated when setting new text via Inputbox_SetText(); could crash under rare circumstances -> fixed
+  - ReaGirl: Labels - with clickable labels, hitting enter always triggered the run-function, even when it was not focused
   - ReaGirl: Sliders - couldn't show negative unit-values; linked states weren't updated, when setting value using Slider\_SetValue() -> fixed
   - ReaGirl: Slider\_LinkToDoubleConfigVar - added new parameter factor
   - ReaGirl: Slider\_LinkToExtstate - added new parameter factor

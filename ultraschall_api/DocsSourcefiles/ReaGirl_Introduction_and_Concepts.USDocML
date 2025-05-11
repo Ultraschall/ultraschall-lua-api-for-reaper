@@ -5356,7 +5356,7 @@
 						You add Meters to your gui using reagirl.Meter\_Add(), which has 9 parameters.  
               
             - Parameters 1 and 2 are x and y-position of the meter in pixels. You can set these to nil to autoposition the meters.  
-            - Parameters 3 and 4 are width and height of the meters
+            - Parameters 3 and 4 are width and height of the meters; can be negative to anchor them to the bottom or right edge of the window
             - Parameter 5 is the mode, which is either 1, the meter is a rectangle showing the level using the color of the rectangle, 2, a horizontal meter, 3, a vertical meter
             - Parameter 6 is the name of the meter, that will be communicated to screen reader users
             - Parameter 7 is a description of the meter, communicated to accessibility-users by screen reader as well as a tooltip        

@@ -4146,8 +4146,8 @@ function reagirl.Window_DragOnEmptyArea(toggle)
   <source_document>reagirl_GuiEngine.lua</source_document>
   <tags>window, set, drag on empty areas</tags>
   <linked_to desc="see also:">
-      ReaGirl:Window_SetStyle
-             for setting a style of the window
+      ReaGirl:Window_SetBorderless
+             for setting the window to borderless
   </linked_to>
   <changelog>
     ReaGirl 1.3 - added to ReaGirl
@@ -4158,9 +4158,65 @@ function reagirl.Window_DragOnEmptyArea(toggle)
   reagirl.DragWindow=toggle
 end
 
-function reagirl.Window_SetStyle(style)
+function reagirl.Window_SetBorderless()
+  -- Teste mal auf Mac OS, wie gut das funzt...
   --[[
   <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+    <slug>Window_SetBorderless</slug>
+    <requires>
+      ReaGirl=1.3
+      Reaper=7.03
+      JS=0.964
+      Lua=5.4
+    </requires>
+    <functioncall>reagirl.Window_SetBorderless()</functioncall>
+    <description>
+      Sets the style of the window to borderless.
+      
+      When applied, use reagirl.Window_DragOnEmptyArea() to make the window draggable by clicking into an empty area.
+    </description>
+    <chapter_context>
+      Window
+    </chapter_context>
+    <target_document>ReaGirl_Docs</target_document>
+    <source_document>reagirl_GuiEngine.lua</source_document>
+    <linked_to desc="see also:">
+        ReaGirl:Window_DragOnEmptyArea
+                For setting, if the window can be dragged by clicking inbetween ui-elements
+    </linked_to>
+    <tags>window, set, style, borderless</tags>
+    <changelog>
+      ReaGirl 1.3 - added to ReaGirl
+    </changelog>
+  </US_DocBloc>
+  ]]--
+  if reagirl.Window_Style~=nil then error("Window_SetBorderless: can only be applied once per script run", 2) end
+  toggle=true
+  if toggle==true then toggle="POPUP" else toggle="" end
+  local height=gfx.h
+  local width=gfx.w
+  local retval=reaper.JS_Window_SetStyle(reagirl.GFX_WindowHWND, toggle)
+  if toggle=="POPUP" then
+    if reaper.GetOS():match("Win")~=nil then
+      gfx.init("", gfx.w-14, gfx.h-37)
+    end
+  end
+  
+  reagirl.Window_Style=toggle
+  return retval
+end
+
+function reagirl.Window_SetStyle(style)
+  -- TODO: funzt nicht stabil, wenn man von regular style auf borderless wechselt
+  --       sprich: das Fenster wird dadurch höher. Wenn man jetzt aber das Fenster forciert
+  --       auf eine bestimmte Höhe, so hauen dann zukünftige GRößenveränderungen nicht mehr hin.
+  --       Versuch mal folgende Kombi: style 1, style 0, style 1, style 2. Das sollte ein
+  --       maximiertes Fenster erzeugen. Tuts aber nicht. Es sei denn, ich forciere NICHT 
+  --       eine Höhe mit height=(A[5]-A[3])-height.
+  
+  -- Teste mal auf Mac OS, wie gut das funzt...
+  --[[
+  <US _DocBloc version="1.0" spok_lang="en" prog_lang="*">
     <slug>Window_SetStyle</slug>
     <requires>
       ReaGirl=1.3
@@ -4175,14 +4231,18 @@ function reagirl.Window_SetStyle(style)
       Note: The styles may appear different on different os!
       
       Note: when doing a borderless window, use reagirl.Window_DragOnEmptyArea(true) to make the window draggable by clicking into an empty area, means, inbetween ui-elements!
+      
+      Due to api-limitations, you can only set the style once per script-run and need to stick to it.
+      This is due uncertainties of the underlying api, that doesn't reliably resize the window always properly.
+      This restriction might be lifted at some point in the future, when I find a workaround for this.
     </description>
     <parameters>
       integer style - the style of the window
+                    - 0, regular window
                     - 1, Popup borderless window
-                    - 2, Maximize(only on Windows OS!)
-                    - 3, Caption
-                    - 4, sizebox
-                    - 5, sysmenu
+                    - 2, Caption
+                    - 3, sizebox
+                    - 4, sysmenu
     </parameters>
     <chapter_context>
       Window
@@ -4199,10 +4259,20 @@ function reagirl.Window_SetStyle(style)
     </changelog>
   </US_DocBloc>
   ]]--
+  if reagirl.Window_Style~=nil then error("Window_SetStyle: you can set the style only once in a script run!", 2) end
   if math.type(style)~="integer" then error("Window_SetStyle: param #1 - must be an integer", 2) end
-  if style<1 or style>5 then error("Window_SetStyle: param #1 - must be between 1 and 5", 2) end
-  local styles={"POPUP", "MAXIMIZE", "CAPTION", "SIZEBOX", "SYSMENU"}
-  return reaper.JS_Window_SetStyle(reagirl.GFX_WindowHWND, styles[style])
+  if style<0 or style>5 then error("Window_SetStyle: param #1 - must be between 1 and 5", 2) end
+  local styles={"POPUP", "CAPTION", "SIZEBOX", "SYSMENU"}
+  local height=gfx.h
+
+  if reagirl.Window_Style==nil and style==1 then
+    local A={reaper.JS_Window_GetClientRect(reagirl.GFX_WindowHWND)}
+    height=(A[5]-A[3])-height
+  end
+  reagirl.Window_Style=style
+  local retval=reaper.JS_Window_SetStyle(reagirl.GFX_WindowHWND, styles[style])
+  gfx.init("", reagirl.Window_Actual_W, height, 0)
+  return retval
 end
 
 function reagirl.Window_SetFocus(accmessage)
@@ -4568,6 +4638,15 @@ function reagirl.Gui_New()
   else
     reagirl.UI_Element_NextX_Default=reagirl.UI_Element_NextX_Default_temp
   end
+  reagirl.Elements[0]={}
+  reagirl.Elements[0]["Name"]=""
+  reagirl.Elements[0]["Description"]=""
+  reagirl.Elements[0]["x"]=0
+  reagirl.Elements[0]["y"]=0
+  reagirl.Elements[0]["w"]=0
+  reagirl.Elements[0]["h"]=0
+  reagirl.Elements[0]["GUI_Element_Type"]=""
+  reagirl.Elements[0]["AccHint"]=""
 end
 
 function reagirl.ScrollBar_Right_Add()
@@ -5012,14 +5091,17 @@ function reagirl.Gui_Open(name, restore_old_window_state, title, description, w,
   local _, _, _, _, _, w2, _, h2 = reagirl.Gui_GetBoundaries()
   w2=w2/reagirl.Window_GetCurrentScale()
   h2=h2/reagirl.Window_GetCurrentScale()
-  local tab_add=0
-  if reagirl.Tabs_Count~=nil then tab_add=13 end 
+  local tab_addx=0
+  local tab_addy=-2
+  if reagirl.Tabs_Count~=nil then tab_addx=13 tab_addy=-2 end 
   if w==nil then 
-    w=w2+19+tab_add
+    w=w2+19+tab_addx
   end
   if h==nil then
-    h=h2+15+tab_add
+    h=h2+15+tab_addy
   end
+  
+  --reaper.MB(h,"",0)
 
   name=string.gsub(name, "[\n\r%c]", "")
   
@@ -6025,6 +6107,7 @@ end
 
 
 function reagirl.Gui_Manage(keep_running)
+-- Note: it's possible to doubleclick the empty area of the gui to dock/undock, but the code is currently deactivated
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>Gui_Manage</slug>
@@ -6226,7 +6309,7 @@ function reagirl.Gui_Manage(keep_running)
   local init_message=""
   local helptext=""
   if reagirl.osara_init_message==false then
-    if reagirl.Elements["FocusedElement"]>0 then
+    --if reagirl.Elements["FocusedElement"]>0 then
       if reagirl.Elements[1]~=nil then
         reagirl.osara_init_message=reagirl.Window_Title .."-dialog, ".. reagirl.Window_Description .." ".. reagirl.Elements[reagirl.Elements["FocusedElement"]]["Name"].." ".. reagirl.Elements[reagirl.Elements["FocusedElement"]]["GUI_Element_Type"]..". "
         local acc_message=""
@@ -6237,7 +6320,7 @@ function reagirl.Gui_Manage(keep_running)
       else
         reagirl.osara_init_message=reagirl.Window_Title.."-dialog, "..reagirl.Window_Description.." "
       end
-    end
+    --end
   end
   
   -- reset clicked state
@@ -6287,9 +6370,21 @@ function reagirl.Gui_Manage(keep_running)
   if Key==-1 then reagirl.IsWindowOpen_attribute_Old=true reagirl.IsWindowOpen_attribute=false end
   if Key==-1 then reagirl.UnRegisterWindow("HUCH") reagirl.Ext_IsAnyReaGirlGuiHovered() end
   
+  
+  if reagirl.Elements.FocusedElement>0 and reaper.osara_outputMessage~=nil then
+    if Key==27 then
+      reagirl.ScreenReader_SendMessage("No UI element selected. Hit escape again to close window.")
+      reagirl.Gui_PreventCloseViaEscForOneCycle_State=true
+      reagirl.Elements.FocusedElement=0
+      reagirl.FocusRectangle_On=false
+      reagirl.Gui_ForceRefresh("Esc to deselect ui elements")
+    end
+  end
+  
   if reagirl.Gui_PreventCloseViaEscForOneCycle_State~=true then
     if Key==27 then 
       reagirl.Gui_Close() 
+      reagirl.ScreenReader_SendMessage(reagirl.Window_Title.." closed.")
     end -- esc closes window
   end 
   reagirl.Window_ForceMinSize() 
@@ -6427,7 +6522,7 @@ function reagirl.Gui_Manage(keep_running)
     end
     skip_hover_acc_message=true
   end
-  if reagirl.Elements["FocusedElement"]<1 then reagirl.Elements["FocusedElement"]=#reagirl.Elements end
+  if reagirl.Elements["FocusedElement"]<0 then reagirl.Elements["FocusedElement"]=#reagirl.Elements end
   
   -- Space-Bar "clicks" currently focused ui-element
   if Key==32 then reagirl.Elements[reagirl.Elements["FocusedElement"]]["clicked"]=true end
@@ -6497,7 +6592,7 @@ function reagirl.Gui_Manage(keep_running)
             local add_info=""
             local desc=reagirl.Elements[i]["Description"]
             if reagirl.Elements[i]["Color_Name"]~=nil then add_info=" "..reagirl.Elements[i]["Color_Name"].." " end
-            if reagirl.Elements[i]["state_names"]~=nil then add_info=reagirl.Elements[i]["state_names"][reagirl.Elements[i]["cur_state"]+1] desc="" end
+            if reagirl.Elements[i]["state_names"]~=nil then add_info=reagirl.Elements[i]["Description"].."\n"..reagirl.Elements[i]["state_names"][reagirl.Elements[i]["cur_state"]+1] desc="" end
             if add_info==nil then add_info="" end
             reaper.TrackCtl_SetToolTip(desc..""..add_info.."\n"..draggable..contextmenu..dropfiles, XX+15, YY+10, true)
           end
@@ -7084,6 +7179,7 @@ function reagirl.Gui_Manage(keep_running)
   
   -- go over to draw the ui-elements
   local Gui_ForceRefreshState=reagirl.Gui_ForceRefreshState
+  reagirl.Gui_PreventCloseViaEscForOneCycle_State=nil
   reagirl.Gui_Draw(Key, Key_utf, clickstate, specific_clickstate, mouse_cap, click_x, click_y, drag_x, drag_y, mouse_wheel, mouse_hwheel)
   if Gui_ForceRefreshState~=true then
     reagirl.Gui_DrawSingular(Key, Key_utf, clickstate, specific_clickstate, mouse_cap, click_x, click_y, drag_x, drag_y, mouse_wheel, mouse_hwheel)
@@ -7112,6 +7208,46 @@ function reagirl.Gui_Manage(keep_running)
     elseif specific_clickstate~="DRAG" and reagirl.UI_Elements_HoveredElement~=-1 then
       reagirl.Mouse_drag_x=nil
       reagirl.Mouse_drag_y=nil
+    elseif specific_clickstate=="DBLCLK" and reagirl.UI_Elements_HoveredElement==-1 and gfx.mouse_cap==1 then
+      --[[
+      local dockstate=gfx.dock(-1)
+      --reaper.MB(dockstate,"",0)
+      if dockstate==1 then
+        gfx.dock(0)
+        if reagirl.Window_Style~=nil then 
+          reagirl.Window_Style=false
+          reagirl.Window_SetBorderless(true)
+        end
+      else
+        gfx.dock(1)
+      end
+      --]]
+    end
+  end
+  
+  -- contextmenu for docking or closing the window
+  if specific_clickstate=="FirstCLK" and reagirl.UI_Elements_HoveredElement==-1 and gfx.mouse_cap&2==2 then
+    gfx.x=gfx.mouse_x
+    gfx.y=gfx.mouse_y
+    local dockstate=gfx.dock(-1)
+    local selection
+    if dockstate==0 then
+      selection = gfx.showmenu("Dock window in docker|Close window")
+    else
+      selection = gfx.showmenu("Undock window from docker|Close window")
+    end
+    if selection==1 then
+      if dockstate==1 then
+        gfx.dock(0)
+        if reagirl.Window_Style~=nil then 
+          reagirl.Window_Style=false
+          reagirl.Window_SetBorderless(true)
+        end
+      else
+        gfx.dock(1)
+      end
+    elseif selection==2 then 
+      reagirl.Gui_Close() 
     end
   end
   
@@ -7745,6 +7881,7 @@ function reagirl.UI_Element_GetType(element_id)
 end
 
 function reagirl.UI_Element_GetNextXAndYPosition(x, y, functionname, placenext)
+ 
   if placenext==nil or placenext==false then placenext=0 else placenext=9 end
   local slot=reagirl.UI_Element_GetNextFreeSlot()
   local slot3=slot
@@ -7754,6 +7891,8 @@ function reagirl.UI_Element_GetNextXAndYPosition(x, y, functionname, placenext)
     if slot==1 or reagirl.UI_Element_NextLineY>0 then
       x=reagirl.UI_Element_NextX_Default
     elseif reagirl.Next_Y~=nil then
+      local offset=0
+      if reagirl.Next_Y_offset~=nil then offset=reagirl.Next_Y_offset end
       local x2=reagirl.Elements[reagirl.Next_Y]["x"]
       local w2=reagirl.Elements[reagirl.Next_Y]["w"]
       local y=reagirl.Elements[reagirl.Next_Y]["y"]
@@ -7784,7 +7923,9 @@ function reagirl.UI_Element_GetNextXAndYPosition(x, y, functionname, placenext)
     end
     reagirl.Next_Y=nil
     if y2<0 and y2+h2+reagirl.UI_Element_NextLineY>0 then error(functionname..": param #2 - can't anchor ui-element closer to bottom of window", 2) end
-    y=y2+h2+taboffset
+    local offset=0
+    if reagirl.Next_Y_offset~=nil then offset=reagirl.Next_Y_offset end
+    y=y2+h2+taboffset+offset
   elseif y==nil then 
     y=reagirl.UI_Element_NextY_Default
     if slot>1 then
@@ -12517,16 +12658,16 @@ function reagirl.Button_SetEdgeStyle(element_id, top_left, top_right, bottom_lef
     Reaper=7.03
     Lua=5.4
   </requires>
-  <functioncall>reagirl.Button_SetEdgeStyle(string element_id, boolean top_left, boolean top_right, boolean bottom_left, boolean bottom_right)</functioncall>
+  <functioncall>reagirl.Button_SetEdgeStyle(string element_id, boolean top_left_square, boolean top_right_square, boolean bottom_left_square, boolean bottom_right_square)</functioncall>
   <description>
     Sets, if the individual edges of a button are rounded or square.
   </description>
   <parameters>
     string element_id - the guid of the button, whose edge-styles you want to set
-    boolean top_left - true, edge is square; false, edge is rounded
-    boolean top_right - true, edge is square; false, edge is rounded
-    boolean bottom_left - true, edge is square; false, edge is rounded
-    boolean bottom_right - true, edge is square; false, edge is rounded
+    boolean top_left_square - true, edge is square; false, edge is rounded
+    boolean top_right_square - true, edge is square; false, edge is rounded
+    boolean bottom_left_square - true, edge is square; false, edge is rounded
+    boolean bottom_right_square - true, edge is square; false, edge is rounded
   </parameters>
   <chapter_context>
     Button
@@ -13137,7 +13278,7 @@ function reagirl.ToolbarButton_Manage(element_id, selected, hovered, clicked, mo
       if element_storage["DropZoneFunction_ACC"]~="" then dropfiles="Allows dropping of files. " end
       if element_storage["Draggable"]==true then draggable="Draggable. " end
       if element_storage["ContextMenu_ACC"]~="" then contextmenu="Has context-menu. " end
-      reaper.TrackCtl_SetToolTip(element_storage["state_names"][element_storage["cur_state"]+1].."\n"..draggable..contextmenu..dropfiles, XX+15, YY+10, true)
+      reaper.TrackCtl_SetToolTip(element_storage["Description"].."\n"..element_storage["state_names"][element_storage["cur_state"]+1].."\n"..draggable..contextmenu..dropfiles, XX+15, YY+10, true)
       refresh=true
     end
   end
@@ -14171,16 +14312,16 @@ function reagirl.ToolbarButton_SetEdgeStyle(element_id, top_left, top_right, bot
     Reaper=7.03
     Lua=5.4
   </requires>
-  <functioncall>reagirl.ToolbarButton_SetEdgeStyle(string element_id, boolean top_left, boolean top_right, boolean bottom_left, boolean bottom_right)</functioncall>
+  <functioncall>reagirl.ToolbarButton_SetEdgeStyle(string element_id, boolean top_left_square, boolean top_right_square, boolean bottom_left_square, boolean bottom_right_square)</functioncall>
   <description>
     Sets, if the individual edges of a toolbar-button are rounded or square.
   </description>
   <parameters>
     string element_id - the guid of the toolbar-button, whose edge-styles you want to set
-    boolean top_left - true, edge is square; false, edge is rounded
-    boolean top_right - true, edge is square; false, edge is rounded
-    boolean bottom_left - true, edge is square; false, edge is rounded
-    boolean bottom_right - true, edge is square; false, edge is rounded
+    boolean top_left_square - true, edge is square; false, edge is rounded
+    boolean top_right_square - true, edge is square; false, edge is rounded
+    boolean bottom_left_square - true, edge is square; false, edge is rounded
+    boolean bottom_right_square - true, edge is square; false, edge is rounded
   </parameters>
   <chapter_context>
     Toolbarbutton
@@ -16119,17 +16260,17 @@ end
 function reagirl.Inputbox_Calculate_DrawOffset(forward, element_storage)
   local dpi_scale = reagirl.Window_GetCurrentScale()
   local w_dropdownarea
+  local cap_w, x2, w2
+  if element_storage["x"]<0 then x2=gfx.w+element_storage["x"]*dpi_scale else x2=element_storage["x"]*dpi_scale end
   if element_storage["w"]<0 then w_dropdownarea=gfx.w-x2+element_storage.w-element_storage.w_dropdownarea else w_dropdownarea=element_storage.w-element_storage.w_dropdownarea end
   reagirl.SetFont(1, reagirl.Font_Face, reagirl.Font_Size, 0)
-  local cap_w, x2, w2
+  
   if element_storage["Cap_width"]==nil then
     cap_w=gfx.measurestr(element_storage["Name"])+dpi_scale*5
   else
     cap_w=element_storage["Cap_width"]*dpi_scale
     cap_w=cap_w+dpi_scale
   end
-  
-  if element_storage["x"]<0 then x2=gfx.w+element_storage["x"]*dpi_scale else x2=element_storage["x"]*dpi_scale end
   if element_storage["w"]<0 then w2=gfx.w-x2+w_dropdownarea*dpi_scale else w2=w_dropdownarea*dpi_scale end
   local w2=w2-cap_w
   local offset_me=dpi_scale*2
@@ -18023,11 +18164,10 @@ function reagirl.Label_Manage(element_id, selected, hovered, clicked, mouse_cap,
   end
   
   if selected~="not selected" and 
-    (Key==32 or mouse_cap==1) and 
-    (gfx.mouse_x>=x and gfx.mouse_x<=x+w and gfx.mouse_y>=y and gfx.mouse_y<=y+h) 
-    and clicked=="FirstCLK" 
+    (Key==32 or (mouse_cap==1 and 
+    gfx.mouse_x>=x and gfx.mouse_x<=x+w and gfx.mouse_y>=y and gfx.mouse_y<=y+h)
+    and clicked=="FirstCLK")
     and element_storage["run_function"]~=nil then 
-    --print("1")
       element_storage["clickstate"]="clicked"
       if element_storage["Draggable"]==true and hovered==true then
         reagirl.Draggable_Element=element_id
@@ -18092,7 +18232,7 @@ function reagirl.Label_Manage(element_id, selected, hovered, clicked, mouse_cap,
     element_storage["clickstate2"]=true
   end
   
-  if element_storage["clickable"]==true and Key==13 then
+  if selected~="not selected" and element_storage["clickable"]==true and Key==13 then
     if element_storage["run_function"]~=nil then reagirl.Elements[element_id]["run_function"](element_storage["Guid"]) end
   end
   
@@ -20445,7 +20585,7 @@ function reagirl.UI_Element_SetHiddenFromTable(table_element_ids, visible)
   end
 end
 
-function reagirl.AutoPosition_SetNextUIElementRelativeTo(element_id)
+function reagirl.AutoPosition_SetNextUIElementRelativeTo(element_id, offset)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>AutoPosition_SetNextUIElementRelativeTo</slug>
@@ -20475,10 +20615,13 @@ function reagirl.AutoPosition_SetNextUIElementRelativeTo(element_id)
 ]]
   if type(element_id)~="string" then error("AutoPosition_SetNextUIElementRelativeTo: param #1: must be a string", 2) return end
   if reagirl.IsValidGuid(element_id, true)~=true then error("AutoPosition_SetNextUIElementRelativeTo: param #1: must be a valid element_id", 2) return end
+  if offset~=nil and math.type(offset)~="integer" then error("AutoPosition_SetNextUIElementRelativeTo: param #2: must be either nil or an integer", 2) return end
+  if offset==nil then offset=10 end
   element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
   if element_id==-1 then error("AutoPosition_SetNextUIElementRelativeTo: param #1: no such ui-element", 2) return end
   if reagirl.Elements[element_id]["GUI_Element_Type"]=="Tabs" then reagirl.NextLine() end
   reagirl.Next_Y=element_id
+  reagirl.Next_Y_offset=offset
 end
 
 -- mespotine
