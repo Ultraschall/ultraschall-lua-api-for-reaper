@@ -6429,7 +6429,7 @@ function reagirl.Gui_Manage(keep_running)
   if Key==-1 then reagirl.UnRegisterWindow("HUCH") reagirl.Ext_IsAnyReaGirlGuiHovered() end
   
   
-  if reagirl.Elements.FocusedElement>0 and reaper.osara_outputMessage~=nil then
+  if reagirl.FocusRectangle_On==true and reaper.osara_outputMessage~=nil then
     if Key==27 then
       reagirl.ScreenReader_SendMessage("No UI element selected. Hit escape again to close window.")
       reagirl.Gui_PreventCloseViaEscForOneCycle_State=true
@@ -7800,7 +7800,7 @@ function reagirl.UI_Element_GetFocusRect()
       w=reagirl.Elements[reagirl.Elements["FocusedElement"]]["w"]
       h=reagirl.Elements[reagirl.Elements["FocusedElement"]]["h"]
       
-      reagirl.UI_Element_SetFocusRect(true, x, y, w, h)
+      reagirl.UI_Element_SetFocusRect(true, math.floor(x), math.floor(y), math.floor(w), math.floor(h))
     --else
       --reagirl.UI_Element_SetFocusRect(true, 0,0,0,0)
     end
