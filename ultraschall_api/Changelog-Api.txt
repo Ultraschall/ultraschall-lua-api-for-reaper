@@ -422,7 +422,7 @@ Has now 1904 functions, with 46 new ones
   New ui-elements toolbar buttons as well as level-meters for track and hardware inputs. 
   
   - **ReaGirl**  
-  You can control guis now from an external script. This should make it possible to set values in a pre-existing script without havinf to modify the original gui-script.
+  You can control guis now from an external script. This should make it possible to set values in a pre-existing script without having to modify the original gui-script.
   
   - **ReaGirl**  
   Inputboxes can now have text suggestions.
