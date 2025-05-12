@@ -5327,7 +5327,7 @@
             You can do more with toolbars, so see [Level Meters](#The_Gui_Elements_012_LevelMeters) and the various ToolbarButton\_ functions for more details.
                 
             A final note: toolbar-images can be scaled too, so different scale-factors make the buttons look good.
-            For this you create upscaled images for 1x(30*num\_states x 30 pixels), 2x(60*num\_states x 60 pixels, 3x(90*num\_states x 60 pixels), etc.
+            For this you create upscaled images for 1x(30\*num\_states x 30 pixels), 2x(60\*num\_states x 60 pixels, 3x(90\*num\_states x 60 pixels), etc.
             The filenames are either in the same folder like the unscaled image, like:
 
             toolbaricon-image.png
