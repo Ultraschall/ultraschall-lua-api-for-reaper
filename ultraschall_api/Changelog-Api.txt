@@ -404,15 +404,15 @@ Docs: eine Doku, wie man eine Gui so schreibt, dass man einfach mal schnell ui-e
     Checkbox_Add(10,h)
   So in Etwa.
 
-Issue:
-  - when initializing the gui/clicking into an empty area, the first or the last selected ui-element is still focused with keyboard control. Means, scroll via keyboard isn't working then.
-    -- seems to be, that FocusedElement=-1 doesn't work properly....
+To Do:
+  - add entries to global context menu(when right clicking an empty area), which currently only has dock and close states
+  - Render Presets docs: Adjust mono files by an additional -3db +3db not documented yet, due to a bug in Reaper, which produces inconsistent values when toggling the checkbox
  
 </TODO>
 
 ## Ultraschall Framework - Changelog
 
-### 5.3 - " - " - 15th of May 2025
+### 5.3 - "Spice Girls - Too Much" - 12th of May 2025
 
 Has now 1904 functions, with 46 new ones
 

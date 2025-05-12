@@ -9111,9 +9111,6 @@
 					 >> 0 1, Normalize to loudest file
 					 >> 1 1, Normalize as if one long file
 					 >> 1 0, Normalize all files to master mix
-					 
-					 >&8192=0, Adjust mono media an additional -3dB - unchecked
-					 >&8192=1, Adjust mono media an additional -3dB - checked
            
            >&16384=0, Trim leading silence-checkbox - unchecked
            >&16384=1, Trim leading silence-checkbox - checked
@@ -9169,7 +9166,7 @@
           Pad end with silence-inputbox, as set in the Render to File-dialog -> Postprocess button.
           It is a double-float, project variable.
           
-          In milliseconds.
+          In seconds.
           
           Stored in reaper.ini under the same name in the section REAPER, when Save as default project settings has been clicked.  
       </description>  
@@ -9216,7 +9213,7 @@
           Pad start with silence-inputbox, as set in the Render to File-dialog -> Postprocess button.
           It is a double-float, project variable.
           
-          In milliseconds.
+          In seconds.
           
           Stored in reaper.ini under the same name in the section REAPER, when Save as default project settings has been clicked.  
       </description>  
