@@ -1,0 +1,45 @@
+  --[[
+  ################################################################################
+  # 
+  # Copyright (c) 2014-2019 Ultraschall (http://ultraschall.fm)
+  # 
+  # Permission is hereby granted, free of charge, to any person obtaining a copy
+  # of this software and associated documentation files (the "Software"), to deal
+  # in the Software without restriction, including without limitation the rights
+  # to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+  # copies of the Software, and to permit persons to whom the Software is
+  # furnished to do so, subject to the following conditions:
+  # 
+  # The above copyright notice and this permission notice shall be included in
+  # all copies or substantial portions of the Software.
+  # 
+  # THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  # IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  # FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  # AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  # LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+  # THE SOFTWARE.
+  # 
+  ################################################################################
+  --]]
+
+if reaper.file_exists(reaper.GetResourcePath().."/UserPlugins/ultraschall_api.lua")==true then
+  dofile(reaper.GetResourcePath().."/UserPlugins/ultraschall_api.lua")
+else
+  dofile(reaper.GetResourcePath().."/Scripts/Reaper_Internals/ultraschall_api.lua")
+end
+
+filecount, files = ultraschall.GetAllFilenamesInPath(ultraschall.Api_Path.."/Scripts/Tools/DeveloperScripts")
+
+print_update("Adding Ultraschall-API Developer Scripts")
+commit=false
+for i=1, filecount do
+  if i==filecount then commit=true end
+  O=reaper.AddRemoveReaScript(true, 0, files[i], commit)
+  if O~=0 then O="success" else O="failed " end
+  print(O.." - "..files[i]:match(".*/(.*)"))
+end
+
+reaper.AddRemoveReaScript(true, 0, ultraschall.Api_Path.."3rd_party_modules/Lokasenna_GUI v2/Developer Tools/GUI Builder/Lokasenna_GUI Builder.lua", true)
+
