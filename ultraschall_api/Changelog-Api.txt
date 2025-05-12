@@ -418,8 +418,21 @@ Has now 1904 functions, with 46 new ones
 
 **new in this release:**  
 
-  - **Bla**  
-  Bla
+  - **ReaGirl**  
+  New ui-elements toolbar buttons as well as level-meters for track and hardware inputs. 
+  
+  - **ReaGirl**  
+  You can control guis now from an external script. This should make it possible to set values in a pre-existing script without havinf to modify the original gui-script.
+  
+  - **ReaGirl**  
+  Inputboxes can now have text suggestions.
+  
+  - **ReaGirl**  
+  It's now possible to easily dock/undock ReaGirl-windows. It's also possible to set them, that left-clicking into an empty area allows dragging the window.
+  
+  - **Bugfixes**  
+  As usual ;)
+  
     
 #### New features in 5.3  
   - ReaGirl: Button\_GetEdgeStyle - gets, if the individual edges of a button are rounded or square
