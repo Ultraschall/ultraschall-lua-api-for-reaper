@@ -6155,6 +6155,21 @@ function reagirl.Ext_IsAnyReaGirlGuiHovered(register)
   if states:match("true")~=nil then return true else return false end
 end
 
+function reagirl.Manage_Shortcuts(Key)
+  -- add shortcuts for switching to labels
+  -- add a setting that suppresses shortcuts or allows it always
+  -- add a function to get/set if shortcuts are allowed
+  if Key~=9 and reagirl.FocusRectangle_On~=true then
+    if reagirl.GFX_WindowHWND==reaper.JS_Window_GetFocus() then
+      local keys = reaper.JS_VKeys_GetState(-1)
+      for k = 1, #keys do
+        if k ~= 0xD and keys:byte(k) ~= 0 then
+          reaper.CF_SendActionShortcut(reaper.GetMainHwnd(), 0, k)
+        end
+      end
+    end
+  end
+end
 
 function reagirl.Gui_Manage(keep_running)
 -- Note: it's possible to doubleclick the empty area of the gui to dock/undock, but the code is currently deactivated
@@ -7326,6 +7341,10 @@ function reagirl.Gui_Manage(keep_running)
   else
     reagirl.Gui_Manage_keep_running=nil
   end
+  
+  -- manage Reaper-shortcuts
+  --reagirl.Manage_Shortcuts(Key)
+  
   -- reset screenreader messages
   reagirl.osara_AddedMessage=""
 end
@@ -15944,7 +15963,7 @@ function reagirl.Inputbox_Manage(element_id, selected, hovered, clicked, mouse_c
     elseif selected~="not selected" and clicked=="FirstCLK" and (gfx.mouse_y>=y and gfx.mouse_x>=x+w-element_storage.w_dropdownarea*dpi_scale and gfx.mouse_x<=x+w and gfx.mouse_y<=y+h) then 
       element_storage.dropdown_clicked=true
       --reagirl.Gui_ForceRefresh(4638349.2376701)
-    elseif Key==1685026670 and element_storage.w_dropdownarea~=0 then
+    elseif selected~="not selected" and Key==1685026670 and element_storage.w_dropdownarea~=0 then
       element_storage.dropdown_clicked=true
     end
     -- keyboard management
