@@ -118,7 +118,7 @@ _,_,_, Devtools = ultraschall.GetAllRecursiveFilesAndSubdirectories(SourceDir.."
 SourceDir=string.gsub(SourceDir,"\\", "/")
 for i=#Devtools, 1, -1 do
   Devtools[i]=Devtools[i]:match("(/Tools/DeveloperScripts/.*)")
-  if Devtools[i]:match("%.lua")==nil then table.remove(Devtools, i) end
+  if Devtools[i]:match("%.lua")==nil then table.remove(Devtools, i) else Devtools[i]=string.gsub(Devtools[i],"//", "/") end
 end
 
 
@@ -351,9 +351,9 @@ end
 
 --if lol==nil then return end
 -- generate ReaPack-indexfile
-XML_file="\t"..[[<source file="reagirl.lua" type="extension">]]..Url.."/reagirl.lua</source>\n"
-XML_file=XML_file.."\t"..[[<source file="ultraschall_api.lua" type="extension">]]..Url.."/ultraschall_api.lua</source>\n"
-XML_file=XML_file.."\t"..[[<source file="ultraschall_api_readme.txt" type="extension">]]..Url.."/ultraschall_api_readme.txt</source>\n"
+XML_file="\t"..[[<source file="reagirl.lua" type="extension">]]..Url.."reagirl.lua</source>\n"
+XML_file=XML_file.."\t"..[[<source file="ultraschall_api.lua" type="extension">]]..Url.."ultraschall_api.lua</source>\n"
+XML_file=XML_file.."\t"..[[<source file="ultraschall_api_readme.txt" type="extension">]]..Url.."ultraschall_api_readme.txt</source>\n"
 
 
 for i=1, #files_array do
@@ -363,11 +363,11 @@ for i=1, #files_array do
 end
 
 for i=1, #Docs do
-  XML_file=XML_file.."\t<source main=\"true\" file=\"/"..Docs[i].."\" type=\"script\">"..Url.."/ultraschall_api/Scripts/"..Docs[i].."</source>\n"
+  XML_file=XML_file.."\t<source main=\"true\" file=\"/"..Docs[i].."\" type=\"script\">"..Url.."ultraschall_api/Scripts/"..Docs[i].."</source>\n"
 end
 
 for i=1, #Devtools do
-  XML_file=XML_file.."\t<source main=\"true\" file=\"/"..Devtools[i]:match(".*/(.*)").."\" type=\"script\">"..Url.."/ultraschall_api/Scripts/"..Devtools[i].."</source>\n"
+  XML_file=XML_file.."\t<source main=\"true\" file=\"/"..Devtools[i]:match(".*/(.*)").."\" type=\"script\">"..Url.."ultraschall_api/Scripts/"..Devtools[i].."</source>\n"
 end
 
 

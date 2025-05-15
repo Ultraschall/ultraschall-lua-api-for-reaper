@@ -10291,7 +10291,7 @@ function reagirl.DecorRectangle_Add(x, y, w, h, radius, r, g, b)
   if math.type(b)~="integer" then error("DecorRectangle_Add: param #8 - must be an integer", 2) end
   
   
-  local _,_,slot=reagirl.UI_Element_GetNextXAndYPosition(x, y, "DecorRectangle_Add")
+  local x,y,slot=reagirl.UI_Element_GetNextXAndYPosition(x, y, "DecorRectangle_Add")
   --reagirl.UI_Element_NextX_Default=x
   
   --reagirl.SetFont(1, reagirl.Font_Face, reagirl.Font_Size, 0, 1)
@@ -12704,8 +12704,7 @@ function reagirl.Button_SetRadius(element_id, radius)
   if type(element_id)~="string" then error("Button_SetRadius: param #1 - must be a string", 2) end
   if reagirl.IsValidGuid(element_id, true)==nil then error("Button_SetRadius: param #1 - must be a valid guid", 2) end
   if math.type(radius)~="integer" then error("Button_SetRadius: param #2 - must be an integer", 2) end
-  if radius>10 then 
-     radius=10 end
+  --if radius>10 then radius=10 end
   if radius<0 then radius=0 end
   element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
   if element_id==-1 then error("Button_SetRadius: param #1 - no such ui-element", 2) end
@@ -13056,6 +13055,7 @@ function reagirl.ToolbarButton_Add(x, y, toolbaricon, num_states, default_state,
     string toolbaricon - filename+path to the toolbar-icon-image; will be ignored for text-toolbar-icons
     integer num_states - number of states when clicked; 1, 1-state; 2, 2-states; 3, 3-states, etc
     integer default_state - default-state(1 or higher); can't be higher than maximum states!
+                          - will be 2, when mode=5!
     table state_names - a table with all state-names. These will be shown in the tooltip/screen reader message when a certain state has been set. 
                       - Each entry must be a string!
     integer mode - 1, toolbar-icon only
@@ -13093,6 +13093,7 @@ function reagirl.ToolbarButton_Add(x, y, toolbaricon, num_states, default_state,
   if type(state_names)~="table" then error("ToolbarButton_Add: param #6 - must be a table", 2) end
   
   if math.type(mode)~="integer" then error("ToolbarButton_Add: param #7 - must be a string", 2) end
+  if mode==5 then num_states=2 end
   if type(caption)~="string" then error("ToolbarButton_Add: param #8 - must be a string", 2) end
   caption=string.gsub(caption, "[\n\r]", "")
   if type(meaningOfUI_Element)~="string" then error("ToolbarButton_Add: param #9 - must be a string", 2) end
@@ -20151,6 +20152,7 @@ function reagirl.Gui_GetBoundaries()
   local miny=0
   local maxy=0
   local scale=reagirl.Window_GetCurrentScale()
+  
   for i=1, #reagirl.Elements do
     if reagirl.Elements[i].hidden~=true then
       if reagirl.Elements[i].sticky_x==false or reagirl.Elements[i].sticky_y==false then
