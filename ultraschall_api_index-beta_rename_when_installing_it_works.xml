@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API and ReaGirl">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API and ReaGirl package" type="extension">
-      <version name="56165.00" author="Meo-Ada Mespotine">
+      <version name="56167.00" author="Meo-Ada Mespotine">
 	<source file="reagirl.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5.3/reagirl.lua</source>
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5.3/ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5.3/ultraschall_api_readme.txt</source>
@@ -750,182 +750,18 @@
 	<source main="true" file="/ultraschall_developertool_increment_mouse_modifier_and_store_name_of_mm_action_into_extstate.lua" type="script">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5.3/ultraschall_api/Scripts//Tools/DeveloperScripts/ultraschall_developertool_increment_mouse_modifier_and_store_name_of_mm_action_into_extstate.lua</source>
 <changelog><![CDATA[Ultraschall Framework - Changelog
 
-5.3 - “Spice Girls - Too Much” - 12th of May 2025
+5.31 - “Herbie Hancock - Hang up your hang ups” - 12th of May 2025
 
-Has now 1904 functions, with 46 new ones
+Has now 1904 functions, with XX new ones
 
 new in this release:
 
--   ReaGirl
-    New ui-elements toolbar buttons as well as level-meters for track
-    and hardware inputs.
+-   Bla
+    Bla
 
--   ReaGirl
-    You can control guis now from an external script. This should make
-    it possible to set values in a pre-existing script without having to
-    modify the original gui-script.
+New features in 5.31
 
--   ReaGirl
-    Inputboxes can now have text suggestions.
-
--   ReaGirl
-    It’s now possible to easily dock/undock ReaGirl-windows. It’s also
-    possible to set them, that left-clicking into an empty area allows
-    dragging the window.
-
--   Bugfixes
-    As usual ;)
-
-New features in 5.3
-
--   ReaGirl: Button_GetEdgeStyle - gets, if the individual edges of a
-    button are rounded or square
--   ReaGirl: Button_SetEdgeStyle - sets, if the individual edges of a
-    button are rounded or square
--   ReaGirl: Color_GetSet - gets/sets the global colors of a specific
-    ui-element
--   ReaGirl: DropDownMenu_GetSelectedMenuItem - gets the selected
-    menu-item
--   ReaGirl: DropDownMenu_SetSelectedMenuItem - sets the selected
-    menu-item
--   ReaGirl: Ext_SendEvent - send various events to ui-elements in a
-    ReaGirl-gui
--   ReaGirl: Ext_SendEventByID - send various events to ui-elements in a
-    ReaGirl-gui by ID
--   ReaGirl: Ext_Window_Close - close a ReaGirl-gui-window from the
-    outside
--   ReaGirl: Image_GetDropShadow - gets a drop-shadow-state, drawn
-    behind the image
--   ReaGirl: Image_SetDropShadow - sets a drop-shadow drawn behind the
-    image
--   ReaGirl: Inputbox_GetTextSuggestions - gets the currently available
-    text suggestions that the user can choose from a dropdownmenu in the
-    inputbox
--   ReaGirl: Inputbox_SetTextSuggestions - sets text suggestions that
-    the user can choose from a dropdownmenu in the inputbox
--   ReaGirl: Meter_Add - adds a level-meter to the gui
--   ReaGirl: Meter_GetLink - gets, to which the meter is currently
-    linked to
--   ReaGirl: Meter_GetMode - gets the current drawing mode of a meter
--   ReaGirl: Meter_GetOptions - gets the current drawing options
--   ReaGirl: Meter_GetPeaks - gets the currently drawn peak-value for
-    all channels
--   ReaGirl: Meter_GetScreenreaderOptions - gets various options for
-    meters with screen reader
--   ReaGirl: Meter_LinkToTrack - links a meter to a certain track, so
-    its levels are displayed
--   ReaGirl: Meter_LinkToHWInput- links a meter to a certain hardware
-    input, so its levels are displayed
--   ReaGirl: Meter_SetMode - sets the drawing mode of a meter
--   ReaGirl: Meter_SetOptions - sets the drawing options
--   ReaGirl: Meter_SetPeaks - sets the peaks to be drawn to a meter
--   ReaGirl: Meter_SetScreenreaderOptions - sets various options for
-    meters with screen reader
--   ReaGirl: Meter_Unlink - unlinks a meter from hardware inputs/tracks
--   ReaGirl: Settings - new option for setting, if clicking into an
-    empty area allows dragging of the window
--   ReaGirl: ToolbarButton_Add - adds a toolbar-button to a ReaGirl-gui
--   ReaGirl: ToolbarButton_GetColor - gets the background-color of a
-    toolbar-button
--   ReaGirl: ToolbarButton_GetState - gets the current state of the
-    toolbar-button
--   ReaGirl: ToolbarButton_GetDropShadow - gets a drop-shadow-state,
-    drawn behind the button-image
--   ReaGirl: ToolbarButton_GetEdgeStyle - gets, if the individual edges
-    of a toolbar-button are rounded or square
--   ReaGirl: ToolbarButton_GetRadius - gets the radius of the edges of a
-    toolbar-button
--   ReaGirl: ToolbarButton_LinkToIntConfigVar - links a toolbar-button
-    to an integer config-variable
--   ReaGirl: ToolbarButton_LinkToIntConfigVarBit - links a
-    toolbar-button to an integer config-variable bit
--   ReaGirl: ToolbarButton_LinkToExtstate - links a toolbar-button to an
-    extstate
--   ReaGirl: ToolbarButton_LinkToIniValue - links a toolbar-button to an
-    ini-value
--   ReaGirl: ToolbarButton_LinkToToggleState - links a toolbar-button to
-    a toggle-state
--   ReaGirl: ToolbarButton_SetColor - sets the background-color of a
-    toolbar-button
--   ReaGirl: ToolbarButton_SetDropShadow - sets a drop-shadow drawn
-    behind the button-image
--   ReaGirl: ToolbarButton_SetEdgeStyle - sets the individual edges of a
-    toolbar-button to either rounded or square
--   ReaGirl: ToolbarButton_SetRadius - sets the radius of the edges of a
-    toolbar-button
--   ReaGirl: ToolbarButton_SetState - sets the current state of a
-    toolbar button
--   ReaGirl: ToolbarButton_Unlink - unlinks a toolbar-button rom a state
--   ReaGirl: Window_DragOnEmptyArea - sets, if clicking into an empty
-    area allows dragging of the window
--   ReaGirl: Window_SetBorderless - sets, if the gui-window is
-    borderless or regular
--   Rendering: GetRender_AutoReturnToDialog - gets the auto-return to
-    this dialog when finished-checkboxstate in the Render to file-dialog
--   Rendering: SetRender_AutoReturnToDialog - sets the auto-return to
-    this dialog when finished-checkbox in the Render to file-dialog
-
-Changes from 5.2 to 5.3
-
--   Docs: Reaper Internals - updated to Reaper 7.38, SWS 2.14.0.3, Llm
-    0.7.0, ReaMCULive 0.1.7, ReaBlink 0.5.6
--   ReaGirl: General - clicking outside any ui-element resets the focus
-    rectangle; right click into an empty area gives option to dock/close
-    window
--   ReaGirl: All UI-elements - except images will now highlight, when
-    the mouse hovers above them(can be disabled in the settings)
--   ReaGirl: Buttons - caption wasn’t properly drawn when y-margin was>0
-    -> fixed
--   ReaGirl: Checkboxes - linked states weren’t updated, when setting
-    checkstate via Checkbox_SetCheckState(); when linked-state was
-    update from externally, it was reported constantly to screen reader
-    -> fixed
--   ReaGirl: DropDownMenus - clicking dropdownlists wasn’t shown
-    properly, when focus rectangle was set as show always; linked states
-    weren’t updated, when setting via DropDownMenu_SetSelectedMenuItem()
-    -> fixed
--   ReaGirl: InputBoxes - when screen reader support is active, Ctrl+C
-    copies the entire text to clipboard and Ctrl+V overwrites text with
-    text from clipboard; linked states weren’t updated when setting new
-    text via Inputbox_SetText(); could crash under rare circumstances ->
-    fixed
--   ReaGirl: Labels - with clickable labels, hitting enter always
-    triggered the run-function, even when it was not focused
--   ReaGirl: Sliders - couldn’t show negative unit-values; linked states
-    weren’t updated, when setting value using Slider_SetValue() -> fixed
--   ReaGirl: Slider_LinkToDoubleConfigVar - added new parameter factor
--   ReaGirl: Slider_LinkToExtstate - added new parameter factor
--   ReaGirl: Slider_LinkToIniValue - added new parameter factor
--   ReaGirl: Slider_LinkToIntConfigVa - added new parameter factor
--   ReaGirl: Tooltips - the meaning_ofUIElement is now in the first
-    line, the info Has contextmenu, draggable and Allows dropping of
-    files is now in the second line. Looks more clean that way.
--   Rendering: AddRenderPreset - improved error-handling when presets
-    already exist
--   Rendering: SetRenderPreset - didn’t accept all preset-names, should
-    be fixed now - thanks to MountWest
--   Rendering: ApplyRenderTable_Project - added new attributes
-    ReturnToDialog, SaveOutfile
--   Rendering: CreateNewRenderTable - added new attributes
-    Preserve_Start_Offset, Preserve_Metadata, ReturnToDialog,
-    SaveOutfile
--   Rendering: GetRender_SaveRenderStats - added combined/per rendered
-    file-options; didn’t return correct values when render to
-    file-dialog was closed -> fixed
--   Rendering: GetRenderTable_Project - added new attributes
-    Preserve_Start_Offset, Preserve_Metadata, ReturnToDialog,
-    SaveOutfile
--   Rendering: GetRenderTable_ProjectDefaults - added new attributes
-    ReturnToDialog, SaveOutfile
--   Rendering: DeleteRenderPreset_Bounds - didn’t accept all
-    preset-names, should be fixed now - thanks to MountWest
--   Rendering: DeleteRenderPreset_FormatOptions - didn’t accept all
-    preset-names, should be fixed now - thanks to MountWest
--   Rendering: IsValidRenderTable - added new attributes
-    Preserve_Start_Offset, Preserve_Metadata, ReturnToDialog,
-    SaveOutfile
--   Rendering: SetRender_SaveRenderStats - added combined/per rendered
-    file-options
+Changes from 5.3 to 5.31
 ]]>
 </changelog>
       </version>
@@ -957,7 +793,7 @@ Changes from 5.2 to 5.3
         \par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af6\langfe2052\dbch\af8\afs24\lang1081\loch\f0\fs24\lang1031{\rtlch \ltrch\loch
         }
         \par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af6\langfe2052\dbch\af8\afs24\lang1081\loch\f0\fs24\lang1031{\rtlch \ltrch\loch\loch\f4
-        a 1693 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 56165 from 15.05.2025 13:04:38).}
+        a 1682 Lua-functions library for Reaper.}
         \par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af6\langfe2052\dbch\af8\afs24\lang1081\loch\f0\fs24\lang1031{\rtlch \ltrch\loch
         }
         \par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af6\langfe2052\dbch\af8\afs24\lang1081\loch\f0\fs24\lang1031{\rtlch \ltrch\loch
