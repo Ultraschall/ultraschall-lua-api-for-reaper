@@ -412,6 +412,23 @@ To Do:
 
 ## Ultraschall Framework - Changelog
 
+### 5.31 - "Herbie Hancock - Hang up your hang ups" - 12th of May 2025
+
+Has now 1904 functions, with XX new ones
+
+**new in this release:**  
+
+  - **Bla**  
+  Bla
+    
+#### New features in 5.31  
+
+
+#### Changes from 5.3 to 5.31
+  
+
+---
+
 ### 5.3 - "Spice Girls - Too Much" - 12th of May 2025
 
 Has now 1904 functions, with 46 new ones
