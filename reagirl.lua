@@ -10918,7 +10918,7 @@ function reagirl.ColorRectangle_SetRadius(element_id, radius)
   </description>
   <parameters>
     string element_id - the guid of the color-rectangle, whose radius you want to set
-    integer radius - between 0 and 10
+    integer radius - 0 and higher(too high may lead to drawing issues, experiment with it
   </parameters>
   <chapter_context>
     Color Rectangle
@@ -12690,7 +12690,7 @@ function reagirl.Button_SetRadius(element_id, radius)
   </description>
   <parameters>
     string element_id - the guid of the button, whose radius you want to set
-    integer radius - the radius of the edges of the button; between 0 and 10
+    integer radius - the radius of the edges of the button; 0 and higher, too high radius can lead to drawing issues, experiment with it
   </parameters>
   <retvals>
     boolean retval - true, setting was succesful; false, setting was unsuccessful
