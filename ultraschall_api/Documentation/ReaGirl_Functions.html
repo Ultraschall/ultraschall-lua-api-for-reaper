@@ -501,7 +501,7 @@ Sets the radius of a button.<br>
 </table>
 <table class="ch">
 <tr><td class="pr"><i>integer</i> radius</td></tr>
-<tr><td class="ch2">the radius of the edges of the button; between 0 and 10</td></tr>
+<tr><td class="ch2">the radius of the edges of the button; 0 and higher, too high radius can lead to drawing issues, experiment with it</td></tr>
 </table>
 <br>
 </div>
@@ -1127,7 +1127,7 @@ Sets the radius of a color-rectangle.<br>
 </table>
 <table class="ch">
 <tr><td class="pr"><i>integer</i> radius</td></tr>
-<tr><td class="ch2">between 0 and 10</td></tr>
+<tr><td class="ch2">0 and higher(too high may lead to drawing issues, experiment with it</td></tr>
 </table>
 <br>
 </div>
@@ -6179,7 +6179,8 @@ etc<br>
 </table>
 <table class="ch">
 <tr><td class="pr"><i>integer</i> default_state</td></tr>
-<tr><td class="ch2">default-state(1 or higher); can't be higher than maximum states!</td></tr>
+<tr><td class="ch2">default-state(1 or higher); can't be higher than maximum states!<br/>
+will be 2, when mode=5!</td></tr>
 </table>
 <table class="ch">
 <tr><td class="pr"><i>table</i> state_names</td></tr>
