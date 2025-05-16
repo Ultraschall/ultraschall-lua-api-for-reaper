@@ -98,6 +98,9 @@ TODO:
 
 gfx.ext_retina=1
 reagirl={}
+reagirl.Shortcut_Mode=4
+reagirl.Shortcut_Section=32063
+reagirl.Shortcuts_Enabled=1
 --reagirl.setcursor=gfx.setcursor
 --gfx = dofile(reaper.GetResourcePath().."/Scripts/ReaTeam Extensions/API/gfx2imgui.lua")
 -- gfx2imgui needs gfx.update() in the defer-loop to do anything
@@ -6155,6 +6158,77 @@ function reagirl.Ext_IsAnyReaGirlGuiHovered(register)
   if states:match("true")~=nil then return true else return false end
 end
 
+function reagirl.Shortcut_Manage(Key)
+  -- add shortcuts for switching to labels
+  -- add a setting that suppresses shortcuts or allows it always
+  -- add a function to get/set if shortcuts are allowed
+  if reagirl.Shortcuts_InitCount==nil then reagirl.Shortcuts_InitCount=1 end
+  if reagirl.Shortcuts_InitCount<2 then reagirl.Shortcuts_InitCount=reagirl.Shortcuts_InitCount+1 return end
+  if reagirl.Shortcuts_Enabled~=1 then return end
+  
+  -- code based on a code-snippet by CFillion. Thanks for this :D
+  if reaper.GetMainHwnd()==reaper.BR_Win32_GetForegroundWindow() then
+    reagirl.Shortcut_HWND=reaper.GetMainHwnd()
+    reagirl.Shortcut_Section=0
+  elseif reaper.MIDIEditor_GetActive()==reaper.BR_Win32_GetForegroundWindow() then
+    reagirl.Shortcut_HWND=reaper.MIDIEditor_GetActive()
+    if reaper.MIDIEditor_GetMode(reagirl.Shortcut_HWND)==0 then
+      reagirl.Shortcut_Section=32060
+    elseif reaper.MIDIEditor_GetMode(reagirl.Shortcut_HWND)==1 then
+      reagirl.Shortcut_Section=32061
+    end
+  elseif reaper.GetToggleCommandState(50124)~=0 and reaper.OpenMediaExplorer("", false)==reaper.BR_Win32_GetForegroundWindow() then
+    reagirl.Shortcut_HWND=reaper.OpenMediaExplorer("", false)
+    reagirl.Shortcut_Section=32063
+  elseif reagirl.Shortcut_HWND==nil then
+    reagirl.Shortcut_HWND=reaper.GetMainHwnd()
+    reagirl.Shortcut_Section=0
+  end
+  local HWND_MidiEditor=reaper.MIDIEditor_GetActive()
+  local HWND_MediaExplorer
+  if reaper.GetToggleCommandState(50124)~=0 then 
+    HWND_MediaExplorer=reaper.OpenMediaExplorer("", false) 
+  end
+  local HWND_Main=reaper.GetMainHwnd()
+  
+  if reagirl.Shortcut_Mode==0 then
+    return
+  elseif reagirl.Shortcut_Mode==1 then
+    HWND=reagirl.Shortcut_HWND
+  elseif reagirl.Shortcut_Mode==2 then
+    HWND=reaper.GetMainHwnd()
+  elseif reagirl.Shortcut_Mode==3 then
+    HWND=reaper.MIDIEditor_GetActive()
+  elseif reagirl.Shortcut_Mode==4 then
+    if reaper.GetToggleCommandState(50124)~=0 then 
+      HWND=reaper.OpenMediaExplorer("", false) 
+    end
+  else
+    return
+  end
+  if HWND==nil then return end
+  if Key~=9 and reagirl.FocusRectangle_On~=true then
+    if reagirl.GFX_WindowHWND==reaper.BR_Win32_GetForegroundWindow() then
+      --local keys = reaper.JS_VKeys_GetState(-1)
+      local keys = reaper.JS_VKeys_GetState(-1)
+      for k = 1, #keys do
+        if k ~= 0xD and keys:byte(k) ~= 0 then
+          reagirl.Shortcut_Pressed=k
+          break
+        end
+      end
+      
+      local keys = reaper.JS_VKeys_GetState(-1)
+      for k = 1, #keys do
+        if k ~= 0xD and k==reagirl.Shortcut_Pressed and keys:byte(k)==0 then
+          reaper.CF_SendActionShortcut(HWND, reagirl.Shortcut_Section, k)
+          reagirl.Shortcut_Pressed=nil
+          break
+        end
+      end
+    end
+  end
+end
 
 function reagirl.Gui_Manage(keep_running)
 -- Note: it's possible to doubleclick the empty area of the gui to dock/undock, but the code is currently deactivated
@@ -7326,6 +7400,10 @@ function reagirl.Gui_Manage(keep_running)
   else
     reagirl.Gui_Manage_keep_running=nil
   end
+  
+  -- manage Reaper-shortcuts
+  reagirl.Shortcut_Manage(Key)
+  
   -- reset screenreader messages
   reagirl.osara_AddedMessage=""
 end
@@ -15944,7 +16022,7 @@ function reagirl.Inputbox_Manage(element_id, selected, hovered, clicked, mouse_c
     elseif selected~="not selected" and clicked=="FirstCLK" and (gfx.mouse_y>=y and gfx.mouse_x>=x+w-element_storage.w_dropdownarea*dpi_scale and gfx.mouse_x<=x+w and gfx.mouse_y<=y+h) then 
       element_storage.dropdown_clicked=true
       --reagirl.Gui_ForceRefresh(4638349.2376701)
-    elseif Key==1685026670 and element_storage.w_dropdownarea~=0 then
+    elseif selected~="not selected" and Key==1685026670 and element_storage.w_dropdownarea~=0 then
       element_storage.dropdown_clicked=true
     end
     -- keyboard management
