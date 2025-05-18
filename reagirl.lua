@@ -6823,6 +6823,7 @@ function reagirl.Gui_Manage(keep_running)
   
   -- [[ click management-code]]
   local clickstate, specific_clickstate, mouse_cap, click_x, click_y, drag_x, drag_y, mouse_wheel, mouse_hwheel = reagirl.Mouse_GetCap(5, 10)
+
   -- finds out also, which ui-element shall be seen as clicked(only the last ui-element within click-area will be seen as clicked)
   -- changes the selected ui-element when clicked AND shows tooltip
   local Scroll_Override_ScrollButtons=6
@@ -7500,6 +7501,9 @@ function reagirl.Gui_Manage(keep_running)
   -- click on an area, where no ui-element is to drag the window around
   if reaper.GetExtState("ReaGirl", "DragWindow")~="3" and (reagirl.DragWindow==true or reaper.GetExtState("ReaGirl", "DragWindow")=="2") then
     if specific_clickstate=="FirstCLK" and reagirl.UI_Elements_HoveredElement==-1 then
+      reagirl.Mouse_drag_x=gfx.mouse_x
+      reagirl.Mouse_drag_y=gfx.mouse_y
+    elseif reagirl.Mouse_drag_x==nil and reagirl.Mouse_drag_y==nil and specific_clickstate=="DRAG" then
       reagirl.Mouse_drag_x=gfx.mouse_x
       reagirl.Mouse_drag_y=gfx.mouse_y
     elseif reagirl.Mouse_drag_x~=nil and reagirl.Mouse_drag_y~=nil and specific_clickstate=="DRAG" then
