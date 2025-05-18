@@ -5113,7 +5113,7 @@ function reagirl.Gui_Open(name, restore_old_window_state, title, description, w,
   h2=h2/reagirl.Window_GetCurrentScale()
   local tab_addx=0
   local tab_addy=-2
-  if reagirl.Tabs_Count~=nil then tab_addx=13 tab_addy=-2 end 
+  if reagirl.Tabs_Count~=nil then tab_addx=13 tab_addy=10 end 
   if w==nil then 
     w=w2+19+tab_addx
   end
