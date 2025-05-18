@@ -96,11 +96,28 @@ TODO:
 
 --GFX2IMGUI_DEBUG = true
 
+function shortcuts(shortcut, shortcut_name, shortcut_modifier)
+  reaper.MB(shortcut, shortcut_name.." "..shortcut_modifier, 0)
+end
+
 gfx.ext_retina=1
 reagirl={}
-reagirl.Shortcut_Mode=4
+reagirl.Shortcut_Mode=5
 reagirl.Shortcut_Section=32063
-reagirl.Shortcuts_Enabled=1
+reagirl.Shortcut_Enabled=1
+reagirl.Shortcut_List={}
+reagirl.Shortcut_List[1]={}
+reagirl.Shortcut_List[1]["modifier"]=0
+reagirl.Shortcut_List[1]["shortcut"]=65
+reagirl.Shortcut_List[1]["description"]="Hurtz"
+reagirl.Shortcut_List[1]["run_func"]=shortcuts
+reagirl.Shortcut_List[2]={}
+reagirl.Shortcut_List[2]["modifier"]=0
+reagirl.Shortcut_List[2]["shortcut"]=97
+reagirl.Shortcut_List[2]["description"]="Hurtz"
+reagirl.Shortcut_List[2]["run_func"]=shortcuts
+
+
 --reagirl.setcursor=gfx.setcursor
 --gfx = dofile(reaper.GetResourcePath().."/Scripts/ReaTeam Extensions/API/gfx2imgui.lua")
 -- gfx2imgui needs gfx.update() in the defer-loop to do anything
@@ -6158,13 +6175,158 @@ function reagirl.Ext_IsAnyReaGirlGuiHovered(register)
   if states:match("true")~=nil then return true else return false end
 end
 
-function reagirl.Shortcut_Manage(Key)
+function reagirl.Shortcut_GetChar(character, readable_characters)
+--[[
+<US_ DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GFX_GetChar</slug>
+  <requires>
+    Ultraschall=4.2
+    Reaper=6.42
+    Lua=5.3
+  </requires>
+  <functioncall>integer first_typed_character, integer num_characters, table character_queue = ultraschall.GFX_GetChar(optional integer character, optional boolean readable_characters)</functioncall>
+  <description>
+    gets all characters from the keyboard-queue of gfx.getchar as a handy table.
+    
+    the returned table character_queue is of the following format:
+    
+        character_queue[index]["Code"] - the character-code
+        character_queue[index]["Ansi"] - the character-code converted into Ansi
+        character_queue[index]["UTF8"] - the character-code converted into UTF8
+      
+    When readable_characters=true, the entries of the character_queue for Ansi and UTF8 will hold readable strings for non-printable characters, like:
+      "ins ", "del ", "home", "F1  "-"F12 ", "tab ", "esc ", "pgup", "pgdn", "up  ", "down", "left", "rght", "bspc", "ente"
+      
+    You can optionally let this function manage clipboard. So hitting Ctrl+V will get put the content of the clipboard into the character_queue of Ansi/UTF8 in the specific position of the character-queue,
+    while hitting Ctrl+C will put the contents of the parameter to_clipboard into the clipboard in this case.
+    
+    Retval first_typed_character behaves basically like the returned character of Reaper's native function gfx.getchar()
+    
+    returns -2 in case of an error
+  </description>
+  <parameters>
+    optional integer character - a specific character-code to check for(will ignore all other keys)
+                               - 65536 queries special flags, like: &amp;1 (supported in this script), &amp;2=window has focus, &amp;4=window is visible  
+    optional boolean readable_characters - true, make non-printable characters readable; false, keep them in original state
+  </parameters>
+  <retvals>
+    integer first_typed_character - the character-code of the first character found
+    integer num_characters - the number of characters in the queue
+    table character_queue - the characters in the queue, within a table(see description for more details)
+  </retvals>
+  <chapter_context>
+    Key-Management
+  </chapter_context>
+  <target_document>US_Api_GFX</target_document>
+  <source_document>ultraschall_gfx_engine.lua</source_document>
+  <tags>gfx, functions, gfx, getchar, character, clipboard</tags>
+</US_DocBloc>
+]]
+  if character~=nil and type(character)~="number" then return -3 end
+  if manage_clipboard~=nil and type(manage_clipboard)~="boolean" then return -4 end
+  if readable_characters~=nil and type(readable_characters)~="boolean" then return -5 end
+  to_clipboard=tostring(to_clipboard)
+  
+  local CharacterTable={}
+  local A=character
+  if A>-1 and A<255 then
+    CharacterTable["Ansi"]=string.char(A)
+  else
+    CharacterTable["Ansi"]=""
+  end
+  if A>-1 and A<1114112 then
+    CharacterTable["UTF8"]=utf8.char(A)
+  else
+    CharacterTable["UTF8"]=""
+  end
+  if readable_characters==true then
+    --[[if A>1114112 then
+      CharacterTable["UTF8"] = ultraschall.ConvertIntegerIntoString2(4, math.tointeger(A)):reverse()
+      CharacterTable["Ansi"] = CharacterTable["UTF8"]
+    end--]]
+    
+    if A==1752132965.0 then
+      CharacterTable["Ansi"] = "pos 1" 
+      CharacterTable["UTF8"] = "pos 1"
+    end
+    
+    if A==1885828464.0 then 
+      CharacterTable["Ansi"] = "pageUp" 
+      CharacterTable["UTF8"] = "pageUp"
+    end
+    
+    if A==1885824110.0 then 
+      CharacterTable["Ansi"] = "pageDown" 
+      CharacterTable["UTF8"] = "pageDown"
+    end
+    
+    if A==6647396.0 then -- end-key
+      CharacterTable["Ansi"] = "end" 
+      CharacterTable["UTF8"] = "end"
+    end
+    if A==6909555.0 then -- insert key
+      CharacterTable["Ansi"] = "insert" 
+      CharacterTable["UTF8"] = "insert"
+    end
+    if A==6579564.0 then -- del key
+      CharacterTable["Ansi"] = "delete" 
+      CharacterTable["UTF8"] = "delete"
+    end
+    if A>26160.0 and A<26170.0 then -- F1 through F9
+      CharacterTable["Ansi"] = "F"..(math.tointeger(A)-26160)
+      CharacterTable["UTF8"] = "F"..(math.tointeger(A)-26160)
+    end
+    if A>=6697264.0 and A<=6697266.0 then -- F10 and higher
+      CharacterTable["Ansi"] = "F"..(math.tointeger(A)-6697254)
+      CharacterTable["UTF8"] = "F"..(math.tointeger(A)-6697254)
+    end
+    if A==8 then -- backspace
+      CharacterTable["Ansi"] = "backspace"
+      CharacterTable["UTF8"] = "backspace"
+    end
+    if A==9 then -- backspace
+      CharacterTable["Ansi"] = "tab"
+      CharacterTable["UTF8"] = "tab"
+    end
+    if A==13 then -- enter
+      CharacterTable["Ansi"] = "enter"
+      CharacterTable["UTF8"] = "enter"
+    end
+    if A==27 then -- escape
+      CharacterTable["Ansi"] = "escape"
+      CharacterTable["UTF8"] = "escape"
+    end
+    if A==30064.0 then -- upkey, others are treated with A>1114112
+      CharacterTable["Ansi"] = "up"
+      CharacterTable["UTF8"] = "up"
+    end
+  end
+
+  return string.upper(CharacterTable["Ansi"]), CharacterTable["UTF8"]
+end
+
+function reagirl.Shortcut_Manage(Key, Key_utf, mouse_cap)
   -- add shortcuts for switching to labels
   -- add a setting that suppresses shortcuts or allows it always
   -- add a function to get/set if shortcuts are allowed
-  if reagirl.Shortcuts_InitCount==nil then reagirl.Shortcuts_InitCount=1 end
-  if reagirl.Shortcuts_InitCount<2 then reagirl.Shortcuts_InitCount=reagirl.Shortcuts_InitCount+1 return end
-  if reagirl.Shortcuts_Enabled~=1 then return end
+  -- use Shortcut_GetChar to resolve the correct character-code for things like F1/Insert/Enter/etc
+  
+  -- regular shortcuts within the gui-window
+  -- still missing modifer management
+  if reagirl.Shortcut_Mode==5 then
+    for i=1, #reagirl.Shortcut_List do
+      if Key==reagirl.Shortcut_List[i]["shortcut"] then
+        reagirl.Shortcut_List[i]["run_func"](reagirl.Shortcut_List[i]["shortcut"], (reagirl.Shortcut_GetChar(Key, true)), mouse_cap)
+        return
+      end
+    end
+    return
+  end
+  
+  -- shortcuts to windows
+  if reagirl.Shortcut_InitCount==nil then reagirl.Shortcut_InitCount=1 end
+  if reagirl.Shortcut_InitCount<2 then reagirl.Shortcut_InitCount=reagirl.Shortcut_InitCount+1 return end
+  if reagirl.Shortcut_Enabled~=1 then return end
   
   -- code based on a code-snippet by CFillion. Thanks for this :D
   if reaper.GetMainHwnd()==reaper.BR_Win32_GetForegroundWindow() then
@@ -7402,7 +7564,7 @@ function reagirl.Gui_Manage(keep_running)
   end
   
   -- manage Reaper-shortcuts
-  reagirl.Shortcut_Manage(Key)
+  reagirl.Shortcut_Manage(Key, Key_utf, math.floor(gfx.mouse_cap))
   
   -- reset screenreader messages
   reagirl.osara_AddedMessage=""

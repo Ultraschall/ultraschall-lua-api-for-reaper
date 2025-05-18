@@ -367,7 +367,7 @@ for i=1, #Docs do
 end
 
 for i=1, #Devtools do
-  XML_file=XML_file.."\t<source main=\"true\" file=\"/"..Devtools[i]:match(".*/(.*)").."\" type=\"script\">"..Url.."ultraschall_api/Scripts/"..Devtools[i].."</source>\n"
+  XML_file=XML_file.."\t<source main=\"true\" file=\"/"..Devtools[i]:match(".*/(.*)").."\" type=\"script\">"..Url.."ultraschall_api/Scripts"..Devtools[i].."</source>\n"
 end
 
 

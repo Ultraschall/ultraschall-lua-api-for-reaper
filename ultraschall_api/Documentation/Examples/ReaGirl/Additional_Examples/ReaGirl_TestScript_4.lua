@@ -223,8 +223,8 @@
   function main()
     -- a function that runs the gui-manage function in the background, so the gui is updated correctly
     reagirl.Gui_Manage()
-    --AAA=reaper.GetInputActivityLevel(0)
     -- if the gui-window hasn't been closed, keep the script alive.
+    
     if reagirl.Gui_IsOpen()==true then reaper.defer(main) end
   end
 

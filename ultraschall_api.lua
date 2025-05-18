@@ -62,8 +62,8 @@ else
 end
 
 ultraschall.Api_InstallPath=ultraschall.Api_Path:sub(1,-2):match("(.*)/")
-ultraschall.API_TempPath=ultraschall.Api_Path.."/temp/"
-ultraschall.Api_ScriptPath=ultraschall.Api_Path.."/Scripts"
+ultraschall.API_TempPath=ultraschall.Api_Path.."temp/"
+ultraschall.Api_ScriptPath=ultraschall.Api_Path.."Scripts"
 
 
 -- load the individual parts of the framework, if set to ON
