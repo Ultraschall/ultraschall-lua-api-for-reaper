@@ -106,17 +106,29 @@ reagirl.Shortcut_Mode=5
 reagirl.Shortcut_Section=32063
 reagirl.Shortcut_Enabled=1
 reagirl.Shortcut_List={}
+--[[
 reagirl.Shortcut_List[1]={}
 reagirl.Shortcut_List[1]["modifier"]=0
+reagirl.Shortcut_List[1]["guid"]=reaper.genGuid("")
 reagirl.Shortcut_List[1]["shortcut"]=65
 reagirl.Shortcut_List[1]["description"]="Hurtz"
 reagirl.Shortcut_List[1]["run_func"]=shortcuts
+reagirl.Shortcut_List[1]["run_func_source"]="function main(string) reaper.MB(tostring(string),\"\",0) end"
 reagirl.Shortcut_List[2]={}
+reagirl.Shortcut_List[2]["run_func_source"]="function main(string) reaper.MB(tostring(string),\"\",0) end"
 reagirl.Shortcut_List[2]["modifier"]=0
-reagirl.Shortcut_List[2]["shortcut"]=97
+reagirl.Shortcut_List[2]["shortcut"]=98
 reagirl.Shortcut_List[2]["description"]="Hurtz"
 reagirl.Shortcut_List[2]["run_func"]=shortcuts
-
+reagirl.Shortcut_List[2]["guid"]=reaper.genGuid("")
+reagirl.Shortcut_List[3]={}
+reagirl.Shortcut_List[3]["run_func_source"]="function main(string) reaper.MB(tostring(string),\"\",0) end"
+reagirl.Shortcut_List[3]["modifier"]=8
+reagirl.Shortcut_List[3]["shortcut"]=1752132965
+reagirl.Shortcut_List[3]["description"]="Hurtz"
+reagirl.Shortcut_List[3]["run_func"]=shortcuts
+reagirl.Shortcut_List[3]["guid"]=reaper.genGuid("")
+--]]
 
 --reagirl.setcursor=gfx.setcursor
 --gfx = dofile(reaper.GetResourcePath().."/Scripts/ReaTeam Extensions/API/gfx2imgui.lua")
@@ -3859,8 +3871,8 @@ function reagirl.ResizeImageKeepAspectRatio(image, neww, newh, bg_r, bg_g, bg_b)
   <chapter_context>
     Misc
   </chapter_context>
-  <target_document>ReaGirl_Docs</target_document>
-  <source_document>reagirl_GuiEngine.lua</source_document>
+  <target_document>ReaGirl_Functions</target_document>
+  <source_document>reagirl.lua</source_document>
   <tags>gfx, functions, resize, image</tags>
 </US_DocBloc>
 ]]
@@ -3961,8 +3973,8 @@ function reagirl.Window_Open(...)
   <chapter_context>
     Window
   </chapter_context>
-  <target_document>ReaGirl_Docs</target_document>
-  <source_document>reagirl_GuiEngine.lua</source_document>
+  <target_document>ReaGirl_Functions</target_document>
+  <source_document>reagirl.lua</source_document>
   <tags>init, window, create, hwnd</tags>
 </US_DocBloc>
 ]]
@@ -4130,8 +4142,8 @@ function reagirl.Window_GetHWND()
   <chapter_context>
     Window
   </chapter_context>
-  <target_document>ReaGirl_Docs</target_document>
-  <source_document>reagirl_GuiEngine.lua</source_document>
+  <target_document>ReaGirl_Functions</target_document>
+  <source_document>reagirl.lua</source_document>
   <tags>refocus, focus, window, hwnd</tags>
 </US_DocBloc>
 ]]
@@ -4162,8 +4174,8 @@ function reagirl.Window_DragOnEmptyArea(toggle)
   <chapter_context>
     Window
   </chapter_context>
-  <target_document>ReaGirl_Docs</target_document>
-  <source_document>reagirl_GuiEngine.lua</source_document>
+  <target_document>ReaGirl_Functions</target_document>
+  <source_document>reagirl.lua</source_document>
   <tags>window, set, drag on empty areas</tags>
   <linked_to desc="see also:">
       ReaGirl:Window_SetBorderless
@@ -4198,8 +4210,8 @@ function reagirl.Window_SetBorderless()
     <chapter_context>
       Window
     </chapter_context>
-    <target_document>ReaGirl_Docs</target_document>
-    <source_document>reagirl_GuiEngine.lua</source_document>
+    <target_document>ReaGirl_Functions</target_document>
+    <source_document>reagirl.lua</source_document>
     <linked_to desc="see also:">
         ReaGirl:Window_DragOnEmptyArea
                 For setting, if the window can be dragged by clicking inbetween ui-elements
@@ -4267,8 +4279,8 @@ function reagirl.Window_SetStyle(style)
     <chapter_context>
       Window
     </chapter_context>
-    <target_document>ReaGirl_Docs</target_document>
-    <source_document>reagirl_GuiEngine.lua</source_document>
+    <target_document>ReaGirl_Functions</target_document>
+    <source_document>reagirl.lua</source_document>
     <linked_to desc="see also:">
         ReaGirl:Window_DragOnEmptyArea
                 For setting, if the window can be dragged by clicking inbetween ui-elements
@@ -4312,8 +4324,8 @@ function reagirl.Window_SetFocus(accmessage)
   <chapter_context>
     Window
   </chapter_context>
-  <target_document>ReaGirl_Docs</target_document>
-  <source_document>reagirl_GuiEngine.lua</source_document>
+  <target_document>ReaGirl_Functions</target_document>
+  <source_document>reagirl.lua</source_document>
   <tags>refocus, focus, window, hwnd</tags>
 </US_DocBloc>
 ]]
@@ -4441,8 +4453,8 @@ function reagirl.Mouse_GetCap(doubleclick_wait, drag_wait)
   <chapter_context>
     Misc
   </chapter_context>
-  <target_document>ReaGirl_Docs</target_document>
-  <source_document>reagirl_GuiEngine.lua</source_document>
+  <target_document>ReaGirl_Functions</target_document>
+  <source_document>reagirl.lua</source_document>
   <tags>functions, mouse, mouse cap, leftclick, rightclick, doubleclick, drag, wheel, mousewheel, horizontal mousewheel</tags>
 </US_DocBloc>
 ]]
@@ -4573,8 +4585,8 @@ function reagirl.Gui_AtExit(run_func)
   <chapter_context>
     Gui
   </chapter_context>
-  <target_document>ReaGirl_Docs</target_document>
-  <source_document>reagirl_GuiEngine.lua</source_document>
+  <target_document>ReaGirl_Functions</target_document>
+  <source_document>reagirl.lua</source_document>
   <tags>functions, atexit, gui, function</tags>
 </US_DocBloc>
 ]]
@@ -4601,8 +4613,8 @@ function reagirl.Gui_AtEnter(run_func)
   <chapter_context>
     Gui
   </chapter_context>
-  <target_document>ReaGirl_Docs</target_document>
-  <source_document>reagirl_GuiEngine.lua</source_document>
+  <target_document>ReaGirl_Functions</target_document>
+  <source_document>reagirl.lua</source_document>
   <tags>functions, atenter, gui, function</tags>
 </US_DocBloc>
 ]]
@@ -4626,8 +4638,8 @@ function reagirl.Gui_New()
   <chapter_context>
     Gui
   </chapter_context>
-  <target_document>ReaGirl_Docs</target_document>
-  <source_document>reagirl_GuiEngine.lua</source_document>
+  <target_document>ReaGirl_Functions</target_document>
+  <source_document>reagirl.lua</source_document>
   <tags>functions, new, gui</tags>
 </US_DocBloc>
 ]]
@@ -4909,8 +4921,8 @@ function reagirl.Window_GetCurrentScale()
   <chapter_context>
     Window
   </chapter_context>
-  <target_document>ReaGirl_Docs</target_document>
-  <source_document>reagirl_GuiEngine.lua</source_document>
+  <target_document>ReaGirl_Functions</target_document>
+  <source_document>reagirl.lua</source_document>
   <tags>window, get, current scale</tags>
 </US_DocBloc>
 ]]
@@ -4959,8 +4971,8 @@ function reagirl.Window_SetCurrentScale(newscale)
   <chapter_context>
     Window
   </chapter_context>
-  <target_document>ReaGirl_Docs</target_document>
-  <source_document>reagirl_GuiEngine.lua</source_document>
+  <target_document>ReaGirl_Functions</target_document>
+  <source_document>reagirl.lua</source_document>
   <tags>window, set, current scale</tags>
 </US_DocBloc>
 ]]
@@ -5026,8 +5038,8 @@ function reagirl.SetFont(idx, fontface, size, flags, scale_override)
   <chapter_context>
     Misc
   </chapter_context>
-  <target_document>ReaGirl_Docs</target_document>
-  <source_document>reagirl_GuiEngine.lua</source_document>
+  <target_document>ReaGirl_Functions</target_document>
+  <source_document>reagirl.lua</source_document>
   <tags>functions, set, font</tags>
 </US_DocBloc>
 ]]
@@ -5085,8 +5097,8 @@ function reagirl.Gui_Open(name, restore_old_window_state, title, description, w,
   <chapter_context>
     Gui
   </chapter_context>
-  <target_document>ReaGirl_Docs</target_document>
-  <source_document>reagirl_GuiEngine.lua</source_document>
+  <target_document>ReaGirl_Functions</target_document>
+  <source_document>reagirl.lua</source_document>
   <tags>functions, open, gui</tags>
 </US_DocBloc>
 ]]
@@ -5213,8 +5225,8 @@ function reagirl.Gui_IsOpen()
   <chapter_context>
     Gui
   </chapter_context>
-  <target_document>ReaGirl_Docs</target_document>
-  <source_document>reagirl_GuiEngine.lua</source_document>
+  <target_document>ReaGirl_Functions</target_document>
+  <source_document>reagirl.lua</source_document>
   <tags>functions, is open, gui</tags>
 </US_DocBloc>
 ]]
@@ -5237,8 +5249,8 @@ function reagirl.Gui_Close()
   <chapter_context>
     Gui
   </chapter_context>
-  <target_document>ReaGirl_Docs</target_document>
-  <source_document>reagirl_GuiEngine.lua</source_document>
+  <target_document>ReaGirl_Functions</target_document>
+  <source_document>reagirl.lua</source_document>
   <tags>functions, close, gui</tags>
 </US_DocBloc>
 ]]
@@ -5315,8 +5327,8 @@ function reagirl.Ext_UI_Element_GetHovered()
   <chapter_context>
     Ext
   </chapter_context>
-  <target_document>ReaGirl_Docs</target_document>
-  <source_document>reagirl_GuiEngine.lua</source_document>
+  <target_document>ReaGirl_Functions</target_document>
+  <source_document>reagirl.lua</source_document>
   <tags>ext, get, hovered, ui element</tags>
 </US_DocBloc>
 ]]
@@ -5360,8 +5372,8 @@ function reagirl.Ext_Window_GetInstances()
   <chapter_context>
     Ext
   </chapter_context>
-  <target_document>ReaGirl_Docs</target_document>
-  <source_document>reagirl_GuiEngine.lua</source_document>
+  <target_document>ReaGirl_Functions</target_document>
+  <source_document>reagirl.lua</source_document>
   <tags>ext, get, window, opened, instances</tags>
 </US_DocBloc>
 ]]
@@ -5406,8 +5418,8 @@ function reagirl.Ext_Window_GetState(gui_name, gui_instance)
   <chapter_context>
     Ext
   </chapter_context>
-  <target_document>ReaGirl_Docs</target_document>
-  <source_document>reagirl_GuiEngine.lua</source_document>
+  <target_document>ReaGirl_Functions</target_document>
+  <source_document>reagirl.lua</source_document>
   <tags>ext, get, window, state</tags>
 </US_DocBloc>
 ]]
@@ -5451,8 +5463,8 @@ function reagirl.Ext_Window_SetState(gui_name, width, height, dockstate, x_posit
   <chapter_context>
     Ext
   </chapter_context>
-  <target_document>ReaGirl_Docs</target_document>
-  <source_document>reagirl_GuiEngine.lua</source_document>
+  <target_document>ReaGirl_Functions</target_document>
+  <source_document>reagirl.lua</source_document>
   <tags>ext, set, window, state</tags>
 </US_DocBloc>
 ]]
@@ -5496,8 +5508,8 @@ function reagirl.Ext_Window_ResetToDefault(gui_name)
   <chapter_context>
     Ext
   </chapter_context>
-  <target_document>ReaGirl_Docs</target_document>
-  <source_document>reagirl_GuiEngine.lua</source_document>
+  <target_document>ReaGirl_Functions</target_document>
+  <source_document>reagirl.lua</source_document>
   <tags>ext, set, reset, default, window, state</tags>
 </US_DocBloc>
 ]]
@@ -5532,8 +5544,8 @@ function reagirl.Ext_Window_Focus(gui_name, gui_identifier)
   <chapter_context>
     Ext
   </chapter_context>
-  <target_document>ReaGirl_Docs</target_document>
-  <source_document>reagirl_GuiEngine.lua</source_document>
+  <target_document>ReaGirl_Functions</target_document>
+  <source_document>reagirl.lua</source_document>
   <tags>ext, focus, window</tags>
 </US_DocBloc>
 ]]
@@ -5569,8 +5581,8 @@ function reagirl.Ext_Window_IsOpen(gui_name)
   <chapter_context>
     Ext
   </chapter_context>
-  <target_document>ReaGirl_Docs</target_document>
-  <source_document>reagirl_GuiEngine.lua</source_document>
+  <target_document>ReaGirl_Functions</target_document>
+  <source_document>reagirl.lua</source_document>
   <tags>ext, get, open, window</tags>
 </US_DocBloc>
 ]]
@@ -5605,8 +5617,8 @@ function reagirl.Ext_Tab_SetSelected(gui_name, tabnumber)
   <chapter_context>
     Ext
   </chapter_context>
-  <target_document>ReaGirl_Docs</target_document>
-  <source_document>reagirl_GuiEngine.lua</source_document>
+  <target_document>ReaGirl_Functions</target_document>
+  <source_document>reagirl.lua</source_document>
   <tags>ext, focus, tab, window</tags>
 </US_DocBloc>
 ]]
@@ -5694,8 +5706,8 @@ function reagirl.ScreenReader_SendMessage(message)
     <chapter_context>
       Screen Reader
     </chapter_context>
-    <target_document>ReaGirl_Docs</target_document>
-    <source_document>reagirl_GuiEngine.lua</source_document>
+    <target_document>ReaGirl_Functions</target_document>
+    <source_document>reagirl.lua</source_document>
     <tags>screen reader, send, message</tags>
   </US_DocBloc>
   ]]
@@ -5728,8 +5740,8 @@ function reagirl.Ext_Window_GetProcessTime(reagirl_instance_guid)
     <chapter_context>
       Ext
     </chapter_context>
-    <target_document>ReaGirl_Docs</target_document>
-    <source_document>reagirl_GuiEngine.lua</source_document>
+    <target_document>ReaGirl_Functions</target_document>
+    <source_document>reagirl.lua</source_document>
     <tags>ext, get, process time, in last defer</tags>
   </US_DocBloc>
   ]]
@@ -5793,8 +5805,8 @@ function reagirl.Ext_SendEvent(gui_name, ui_element_caption, event, send_string,
     <chapter_context>
       Ext
     </chapter_context>
-    <target_document>ReaGirl_Docs</target_document>
-    <source_document>reagirl_GuiEngine.lua</source_document>
+    <target_document>ReaGirl_Functions</target_document>
+    <source_document>reagirl.lua</source_document>
     <tags>ext, send, messages</tags>
     <changelog>
       ReaGirl 1.3 - added to ReaGirl
@@ -5949,8 +5961,8 @@ function reagirl.Ext_SendEventByID(gui_name, ui_element_caption, event, send_str
     <chapter_context>
       Ext
     </chapter_context>
-    <target_document>ReaGirl_Docs</target_document>
-    <source_document>reagirl_GuiEngine.lua</source_document>
+    <target_document>ReaGirl_Functions</target_document>
+    <source_document>reagirl.lua</source_document>
     <tags>ext, send, messages</tags>
     <changelog>
       ReaGirl 1.3 - added to ReaGirl
@@ -6023,8 +6035,8 @@ function reagirl.Ext_Window_Close(gui_name, gui_identifier)
     <chapter_context>
       Ext
     </chapter_context>
-    <target_document>ReaGirl_Docs</target_document>
-    <source_document>reagirl_GuiEngine.lua</source_document>
+    <target_document>ReaGirl_Functions</target_document>
+    <source_document>reagirl.lua</source_document>
     <tags>ext, close, window</tags>
   </US_DocBloc>
   ]]
@@ -6125,8 +6137,8 @@ function reagirl.Ext_IsAnyReaGirlGuiHovered(register)
     <chapter_context>
       Ext
     </chapter_context>
-    <target_document>ReaGirl_Docs</target_document>
-    <source_document>reagirl_GuiEngine.lua</source_document>
+    <target_document>ReaGirl_Functions</target_document>
+    <source_document>reagirl.lua</source_document>
     <tags>ext, is any reagirl instance hovered</tags>
   </US_DocBloc>
   ]]
@@ -6176,50 +6188,38 @@ function reagirl.Ext_IsAnyReaGirlGuiHovered(register)
 end
 
 function reagirl.Shortcut_GetChar(character, readable_characters)
+-- TODO:
+--      Alt modifies keycode +256 -> take care of that
+--      ctrl modifies keycode -64 -> take care of that
+--      non-printable-characters missing
+
 --[[
 <US_ DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>GFX_GetChar</slug>
+  <slug>Shortcut_GetChar</slug>
   <requires>
-    Ultraschall=4.2
+    Ultraschall=5.4
     Reaper=6.42
+    ReaGirl=1.4
     Lua=5.3
   </requires>
-  <functioncall>integer first_typed_character, integer num_characters, table character_queue = ultraschall.GFX_GetChar(optional integer character, optional boolean readable_characters)</functioncall>
+  <functioncall>string character, string character_utf8 = reagirl.Shortcut_GetChar(integer character, optional boolean readable_characters)</functioncall>
   <description>
-    gets all characters from the keyboard-queue of gfx.getchar as a handy table.
-    
-    the returned table character_queue is of the following format:
-    
-        character_queue[index]["Code"] - the character-code
-        character_queue[index]["Ansi"] - the character-code converted into Ansi
-        character_queue[index]["UTF8"] - the character-code converted into UTF8
-      
-    When readable_characters=true, the entries of the character_queue for Ansi and UTF8 will hold readable strings for non-printable characters, like:
-      "ins ", "del ", "home", "F1  "-"F12 ", "tab ", "esc ", "pgup", "pgdn", "up  ", "down", "left", "rght", "bspc", "ente"
-      
-    You can optionally let this function manage clipboard. So hitting Ctrl+V will get put the content of the clipboard into the character_queue of Ansi/UTF8 in the specific position of the character-queue,
-    while hitting Ctrl+C will put the contents of the parameter to_clipboard into the clipboard in this case.
-    
-    Retval first_typed_character behaves basically like the returned character of Reaper's native function gfx.getchar()
-    
-    returns -2 in case of an error
+    returns the character associated with a certain keycode(as returned by gfx.getchar() )
   </description>
   <parameters>
-    optional integer character - a specific character-code to check for(will ignore all other keys)
-                               - 65536 queries special flags, like: &amp;1 (supported in this script), &amp;2=window has focus, &amp;4=window is visible  
-    optional boolean readable_characters - true, make non-printable characters readable; false, keep them in original state
+    integer character - the keycode, that you want to convert into it's character
+    optional boolean readable_characters - true, return special keys like pageUp, Insert, End, Enter as describing string; false, return the character as is
   </parameters>
   <retvals>
-    integer first_typed_character - the character-code of the first character found
-    integer num_characters - the number of characters in the queue
-    table character_queue - the characters in the queue, within a table(see description for more details)
+    string character - the character of the keycode
+    string character_utf8 - the character of the keycode in its utf8-unicode-representation
   </retvals>
   <chapter_context>
-    Key-Management
+    Shortcuts
   </chapter_context>
-  <target_document>US_Api_GFX</target_document>
-  <source_document>ultraschall_gfx_engine.lua</source_document>
-  <tags>gfx, functions, gfx, getchar, character, clipboard</tags>
+  <target_document>ReaGirl_Functions</target_document>
+  <source_document>reagirl.lua</source_document>
+  <tags>reagirl, get, gfx, getchar, character</tags>
 </US_DocBloc>
 ]]
   if character~=nil and type(character)~="number" then return -3 end
@@ -6305,24 +6305,408 @@ function reagirl.Shortcut_GetChar(character, readable_characters)
   return string.upper(CharacterTable["Ansi"]), CharacterTable["UTF8"]
 end
 
+function reagirl.ConvertFunction_ToBase64String(to_convert_function)
+  local Dump=string.dump (to_convert_function, false)
+  local DumpBase64 = reagirl.Base64_Encoder(Dump)
+  
+  return DumpBase64
+end
+
+function reagirl.ConvertFunction_FromBase64String(BASE64_functionstring)
+  local Dump = reagirl.Base64_Decoder(BASE64_functionstring)
+  local function2=load(Dump)
+
+  return function2
+end
+
+function reagirl.GetFunctionByName(name)
+  for k,v in pairs(_G) do
+    if name==k then
+      return v
+    end
+  end
+end
+
+function reagirl.GetNameOfFunction(function_name)
+  for k,v in pairs(_G) do
+    if function_name==v then
+      return k
+    end
+  end
+end
+
+function reagirl.Shortcut_Add(modifier, keycode, description, run_function)
+  --[[
+  <US_ DocBloc version="1.0" spok_lang="en" prog_lang="*">
+    <slug>Shortcut_Add</slug>
+    <requires>
+      Ultraschall=5.4
+      Reaper=6.42
+      ReaGirl=1.4
+      Lua=5.3
+    </requires>
+    <functioncall>string shortcut_id = reagirl.Shortcut_Add(integer modifier, integer keycode, string description, function run_function)</functioncall>
+    <description>
+      Adds an inside shortcut to a gui, which is limited to this gui.
+      
+      Note: It is not possible to have modifer=4, as ctrl-shortcuts are reserved for accessibility shortcuts
+    </description>
+    <parameters>
+      integer modifier - the modifier; &4=Ctrl; &8==Shift; &16=Alt; &32=Windows(Windows)/ControlKey(MacOS)
+      integer keycode - the keycode of the intended shortcut; the same as returned by gfx.getchar()
+      string description - a description for this shortcut, which will be read to screen reader users, when hitting the shortcut
+      function run_function - a run-function that is run, when the shortcut is triggered
+    </parameters>
+    <retvals>
+      string shortcut_id - a unique identifier for this shortcut, which can be used to adress a certain shortcut
+    </retvals>
+    <chapter_context>
+      Shortcuts
+    </chapter_context>
+    <target_document>ReaGirl_Functions</target_document>
+    <source_document>reagirl.lua</source_document>
+    <tags>reagirl, add, shortcut</tags>
+  </US_DocBloc>
+  ]]
+  if math.type(modifier)~="integer" then error("Shortcut_Add: param #1 - must be an integer", 2) end
+  if type(keycode)~="number" then error("Shortcut_Add: param #2 - must be an integer", 2) end
+  if type(description)~="string" then error("Shortcut_Add: param #3 - must be a string", 2) end
+  if description:sub(-1,-1)~="." and description:sub(-1,-1)~="!" then error("Shortcut_Add: param #3 - must end on either . or ! ", 2) end
+  if type(run_function)~="function" then error("Shortcut_Add: param #4 - must be a function", 2) end
+
+  modifier=(modifier&4)+(modifier&8)+(modifier&16)+(modifier&32)
+  if modifier==4 then error("Shortcut_Add: param #1 - can't be 4 only, since these shortcuts are reserved for accessibility", 2) end
+  reagirl.Shortcut_List[#reagirl.Shortcut_List+1]={}
+  reagirl.Shortcut_List[#reagirl.Shortcut_List]["guid"]=reaper.genGuid("")
+  reagirl.Shortcut_List[#reagirl.Shortcut_List]["modifier"]=modifier
+  reagirl.Shortcut_List[#reagirl.Shortcut_List]["shortcut"]=keycode
+  reagirl.Shortcut_List[#reagirl.Shortcut_List]["description"]=description
+  reagirl.Shortcut_List[#reagirl.Shortcut_List]["run_func"]=run_function
+  reagirl.Shortcut_List[#reagirl.Shortcut_List]["run_func_name"]=reagirl.GetNameOfFunction(run_function)
+  return reagirl.Shortcut_List[#reagirl.Shortcut_List]["guid"]
+end
+
+function reagirl.Shortcut_Enumerate(index)
+  --[[
+  <US_ DocBloc version="1.0" spok_lang="en" prog_lang="*">
+    <slug>Shortcut_Enumerate</slug>
+    <requires>
+      Ultraschall=5.4
+      Reaper=6.42
+      ReaGirl=1.4
+      Lua=5.3
+    </requires>
+    <functioncall>string shortcut_guid, integer modifier, integer keycode, string description, function run_function = reagirl.Shortcut_Enumerate(integer index)</functioncall>
+    <description>
+      Enumerates the inside shortcuts.
+      
+      returns nil, if no such shortcut exists
+    </description>
+    <parameters>
+      integer index - the index of the requested shortcut; 1-based
+    </parameters>
+    <retvals>
+      string shortcut_guid - the shortcut_id of the shortcut
+      integer modifier - the modifier; &4=Ctrl; &8==Shift; &16=Alt; &32=Windows(Windows)/ControlKey(MacOS)
+      integer keycode - the keycode of the intended shortcut; the same as returned by gfx.getchar()
+      string description - a description for this shortcut, which will be read to screen reader users, when hitting the shortcut
+      function run_function - a run-function that is run, when the shortcut is triggered
+    </retvals>
+    <chapter_context>
+      Shortcuts
+    </chapter_context>
+    <target_document>ReaGirl_Functions</target_document>
+    <source_document>reagirl.lua</source_document>
+    <tags>reagirl, enumerate, shortcut</tags>
+  </US_DocBloc>
+  ]]
+  if math.type(index)~="integer" then error("Shortcut_Enumerate: param #1 - must be an integer", 2) end
+  if reagirl.Shortcut_List[index]==nil then return end
+  return reagirl.Shortcut_List[index]["guid"], reagirl.Shortcut_List[index]["modifier"], reagirl.Shortcut_List[index]["shortcut"], (reagirl.Shortcut_GetChar(reagirl.Shortcut_List[index]["shortcut"], true)), reagirl.Shortcut_List[index]["description"], reagirl.Shortcut_List[index]["run_func"]
+end
+
+function reagirl.Shortcut_GetByID(shortcut_id)
+  --[[
+  <US_ DocBloc version="1.0" spok_lang="en" prog_lang="*">
+    <slug>Shortcut_GetByID</slug>
+    <requires>
+      Ultraschall=5.4
+      Reaper=6.42
+      ReaGirl=1.4
+      Lua=5.3
+    </requires>
+    <functioncall>integer modifier, integer keycode, string description, function run_function = reagirl.Shortcut_GetByID(string shortcut_id)</functioncall>
+    <description>
+      Gets the attributes of an inside shortcut.
+      
+      returns nil, if no such shortcut exists
+    </description>
+    <parameters>
+      string shortcut_id - the id of the requested shortcut
+    </parameters>
+    <retvals>
+      integer modifier - the modifier; &4=Ctrl; &8==Shift; &16=Alt; &32=Windows(Windows)/ControlKey(MacOS)
+      integer keycode - the keycode of the intended shortcut; the same as returned by gfx.getchar()
+      string description - a description for this shortcut, which will be read to screen reader users, when hitting the shortcut
+      function run_function - a run-function that is run, when the shortcut is triggered
+    </retvals>
+    <chapter_context>
+      Shortcuts
+    </chapter_context>
+    <target_document>ReaGirl_Functions</target_document>
+    <source_document>reagirl.lua</source_document>
+    <tags>reagirl, get, by id, shortcut</tags>
+  </US_DocBloc>
+  ]]
+  if type(shortcut_id)~="string" then error("Shortcut_GetByID: param #1 - must be a string", 2) end
+  if reagirl.IsValidGuid(shortcut_id)==false then error("Shortcut_GetByID: param #1 - must be a valid guid", 2) end
+  local index=-1
+  for i=1, #reagirl.Shortcut_List do
+    if reagirl.Shortcut_List[i]["guid"]==shortcut_id then
+      index=i
+      break
+    end 
+  end
+  if index==-1 then 
+    return
+  else
+    return reagirl.Shortcut_List[index]["modifier"], reagirl.Shortcut_List[index]["shortcut"], (reagirl.Shortcut_GetChar(reagirl.Shortcut_List[index]["shortcut"], true)), reagirl.Shortcut_List[index]["description"], reagirl.Shortcut_List[index]["run_func"]
+  end
+end
+
+function reagirl.Shortcut_SetByID(shortcut_id, modifier, keycode, description, run_function)
+  --[[
+  <US_ DocBloc version="1.0" spok_lang="en" prog_lang="*">
+    <slug>Shortcut_SetByID</slug>
+    <requires>
+      Ultraschall=5.4
+      Reaper=6.42
+      ReaGirl=1.4
+      Lua=5.3
+    </requires>
+    <functioncall>boolean retval = reagirl.Shortcut_SetByID(string shortcut_id, integer modifier, integer keycode, string description, function run_function)</functioncall>
+    <description>
+      Sets the attributes of an inside shortcut.
+      
+      Note: It is not possible to have modifer=4, as ctrl-shortcuts are reserved for accessibility shortcuts
+    </description>
+    <parameters>
+      string shortcut_id - the id of the inside shortcut
+      integer modifier - the modifier; &4=Ctrl; &8==Shift; &16=Alt; &32=Windows(Windows)/ControlKey(MacOS)
+      integer keycode - the keycode of the intended shortcut; the same as returned by gfx.getchar()
+      string description - a description for this shortcut, which will be read to screen reader users, when hitting the shortcut
+      function run_function - a run-function that is run, when the shortcut is triggered
+    </parameters>
+    <retvals>
+      boolean retval - true, setting was successful; false, setting was not successful(if no such shortcut exists)
+    </retvals>
+    <chapter_context>
+      Shortcuts
+    </chapter_context>
+    <target_document>ReaGirl_Functions</target_document>
+    <source_document>reagirl.lua</source_document>
+    <tags>reagirl, set, by id, shortcut</tags>
+  </US_DocBloc>
+  ]]
+  if type(shortcut_id)~="string" then error("Shortcut_SetByID: param #1 - must be a string", 2) end
+  if reagirl.IsValidGuid(shortcut_id)==false then error("Shortcut_SetByID: param #1 - must be a valid guid", 2) end
+  if math.type(modifier)~="integer" then error("Shortcut_SetByID: param #2 - must be an integer", 2) end
+  if type(keycode)~="number" then error("Shortcut_SetByID: param #3 - must be an integer", 2) end
+  if type(description)~="string" then error("Shortcut_SetByID: param #4 - must be a string", 2) end
+  if description:sub(-1,-1)~="." and description:sub(-1,-1)~="!" then error("Shortcut_SetByID: param #4 - must end on either . or ! ", 2) end
+  if type(run_function)~="function" then error("Shortcut_SetByID: param #5 - must be a function", 2) end
+  modifier=(modifier&4)+(modifier&8)+(modifier&16)+(modifier&32)
+  if modifier==4 then error("Shortcut_SetByID: param #2 - can't be 4 only, since these shortcuts are reserved for accessibility", 2) end
+  
+  local index=-1
+  for i=1, #reagirl.Shortcut_List do
+    if reagirl.Shortcut_List[i]["guid"]==shortcut_id then
+      index=i
+      break
+    end 
+  end
+  
+  if index==-1 then 
+    return false
+  else
+    reagirl.Shortcut_List[index]["guid"]=reaper.genGuid("")
+    reagirl.Shortcut_List[index]["modifier"]=modifier
+    reagirl.Shortcut_List[index]["shortcut"]=keycode
+    reagirl.Shortcut_List[index]["description"]=description
+    reagirl.Shortcut_List[index]["run_func"]=run_function
+    reagirl.Shortcut_List[index]["run_func_name"]=reagirl.GetNameOfFunction(run_function)
+    return true
+  end
+end
+
+function reagirl.Shortcut_Remove(index)
+  --[[
+  <US_ DocBloc version="1.0" spok_lang="en" prog_lang="*">
+    <slug>Shortcut_Remove</slug>
+    <requires>
+      Ultraschall=5.4
+      Reaper=6.42
+      ReaGirl=1.4
+      Lua=5.3
+    </requires>
+    <functioncall>boolean retval = reagirl.Shortcut_Remove(integer shortcut_index)</functioncall>
+    <description>
+      Removes an inside shortcut.
+    </description>
+    <parameters>
+      integer shortcut_index - the index of the shortcut; 1-based
+    </parameters>
+    <retvals>
+      boolean retval - true, removing was successful; false, removing was not successful(if no such shortcut exists)
+    </retvals>
+    <chapter_context>
+      Shortcuts
+    </chapter_context>
+    <target_document>ReaGirl_Functions</target_document>
+    <source_document>reagirl.lua</source_document>
+    <tags>reagirl, remove, shortcut</tags>
+  </US_DocBloc>
+  ]]
+  if index<1 or index>#reagirl.Shortcut_List then return false end
+  table.remove(reagirl.Shortcut_List, index)
+  return true
+end
+
+function reagirl.Shortcut_Count()
+  --[[
+  <US_ DocBloc version="1.0" spok_lang="en" prog_lang="*">
+    <slug>Shortcut_Remove</slug>
+    <requires>
+      Ultraschall=5.4
+      Reaper=6.42
+      ReaGirl=1.4
+      Lua=5.3
+    </requires>
+    <functioncall>integer shortcut_count = reagirl.Shortcut_Remove()</functioncall>
+    <description>
+      Returns the number of available shortcuts.
+    </description>
+    <retvals>
+      integer shortcut_count - the number of avaiable shortcuts
+    </retvals>
+    <chapter_context>
+      Shortcuts
+    </chapter_context>
+    <target_document>ReaGirl_Functions</target_document>
+    <source_document>reagirl.lua</source_document>
+    <tags>reagirl, count, shortcut</tags>
+  </US_DocBloc>
+  ]]
+  return #reagirl.Shortcut_List
+end
+
+function reagirl.Shortcut_RemoveByID(shortcut_id)
+  --[[
+  <US_ DocBloc version="1.0" spok_lang="en" prog_lang="*">
+    <slug>Shortcut_RemoveByID</slug>
+    <requires>
+      Ultraschall=5.4
+      Reaper=6.42
+      ReaGirl=1.4
+      Lua=5.3
+    </requires>
+    <functioncall>boolean retval = reagirl.Shortcut_RemoveByID(string shortcut_id)</functioncall>
+    <description>
+      Removes an inside shortcut.
+    </description>
+    <parameters>
+      string shortcut_id - the id of the shortcut, which you want to remove
+    </parameters>
+    <retvals>
+      boolean retval - true, removing was successful; false, removing was not successful(if no such shortcut exists)
+    </retvals>
+    <chapter_context>
+      Shortcuts
+    </chapter_context>
+    <target_document>ReaGirl_Functions</target_document>
+    <source_document>reagirl.lua</source_document>
+    <tags>reagirl, remove, by id, shortcut</tags>
+  </US_DocBloc>
+  ]]
+  local index=-1
+  for i=1, #reagirl.Shortcut_List do
+    if reagirl.Shortcut_List[i]["guid"]==shortcut_id then
+      index=i
+      break
+    end 
+  end
+  
+  if index==-1 then 
+    return false
+  else
+    table.remove(reagirl.Shortcut_List, index)
+    return true
+  end
+end
+
+function reagirl.ExportShortcutsToFile(ini_filename, section)
+  for index=1, #reagirl.Shortcut_List do
+    D0, D1, D2=reaper.BR_Win32_WritePrivateProfileString(section, index.."_guid_", reagirl.Shortcut_List[index]["guid"], ini_filename)
+    D0, D1, D2=reaper.BR_Win32_WritePrivateProfileString(section, index.."_description", reagirl.Shortcut_List[index]["description"], ini_filename)
+    D0, D1, D2=reaper.BR_Win32_WritePrivateProfileString(section, index.."_modifier", reagirl.Shortcut_List[index]["modifier"], ini_filename)
+    D0, D1, D2=reaper.BR_Win32_WritePrivateProfileString(section, index.."_shortcut", reagirl.Shortcut_List[index]["shortcut"], ini_filename)
+    D0, D1, D2=reaper.BR_Win32_WritePrivateProfileString(section, index.."_run_func", reagirl.Base64_Encoder(reagirl.Shortcut_List[index]["run_func_name"]), ini_filename)
+  end
+end
+
+function reagirl.ImportShortcutsFromFile(ini_filename, section)
+  reagirl.Shortcut_List={}
+  for index=1, 65555 do
+    D0, D1, D2=reaper.BR_Win32_GetPrivateProfileString(section, index.."_guid_", "", ini_filename)
+    if D0==0 then break end
+    reagirl.Shortcut_List[index]={}
+    reagirl.Shortcut_List[index]["guid"]=D1
+    D0, D1, D2=reaper.BR_Win32_GetPrivateProfileString(section, index.."_description", "", ini_filename)
+    reagirl.Shortcut_List[index]["description"]=D1
+    D0, D1, D2=reaper.BR_Win32_GetPrivateProfileString(section, index.."_modifier", "", ini_filename)
+    reagirl.Shortcut_List[index]["modifier"]=tonumber(D1)
+    D0, D1, D2=reaper.BR_Win32_GetPrivateProfileString(section, index.."_shortcut", "", ini_filename)
+    reagirl.Shortcut_List[index]["shortcut"]=tonumber(D1)
+    D0, D1, D2=reaper.BR_Win32_GetPrivateProfileString(section, index.."_run_func", "", ini_filename)
+    reagirl.Shortcut_List[index]["run_func_name"]=reagirl.Base64_Decoder(D1)
+    reagirl.Shortcut_List[index]["run_func"]=reagirl.GetFunctionByName(reagirl.Shortcut_List[index]["run_func_name"])
+  end
+end
+
 function reagirl.Shortcut_Manage(Key, Key_utf, mouse_cap)
+  -- inline-shortcuts(inside the gui) should be indexed in the table by a guid, not by index-number, to be able to address them individually using a guid. That way, removing shortcuts is possible to do.
+  -- (re-)load inline-shortcuts from an ini-file at gui-startup
+  -- adding inline-shortcuts from externally to a gui using reagirl.Ext_Send_Event() maybe; sends the shortcut AND a run-function
   -- add shortcuts for switching to labels
   -- add a setting that suppresses shortcuts or allows it always
   -- add a function to get/set if shortcuts are allowed
-  -- use Shortcut_GetChar to resolve the correct character-code for things like F1/Insert/Enter/etc
+  -- use Shortcut_GetChar to resolve the correct character-code for things like F1/Insert/Enter/etc; especially for the "put all available shortcuts into clipboard"-accessibility feature
   
   -- regular shortcuts within the gui-window
   -- still missing modifer management
-  if reagirl.Shortcut_Mode==5 then
+  -- Ctrl and Alt have issues as modifiers, some keys are not clickable, like alt+1 and ctrl+1 because of that
+  if reagirl.Shortcut_Mode==5 and Key>0 then
+    --print(Key, reagirl.Shortcut_GetChar(Key, true))
+    --ABBA=Key
+    
+    mouse_cap=gfx.mouse_cap
+    local cap=(mouse_cap&4)+(mouse_cap&8)+(mouse_cap&16)+(mouse_cap&32)
     for i=1, #reagirl.Shortcut_List do
-      if Key==reagirl.Shortcut_List[i]["shortcut"] then
+      local Key2=Key
+      -- modify keycode when alt/ctrl are pressed
+      if cap&16==16 then Key2=Key-256 end
+      if cap&4==4 then Key2=Key2+64 end
+      
+      
+        
+      if Key2==reagirl.Shortcut_List[i]["shortcut"] and cap==reagirl.Shortcut_List[i]["modifier"] then
         reagirl.Shortcut_List[i]["run_func"](reagirl.Shortcut_List[i]["shortcut"], (reagirl.Shortcut_GetChar(Key, true)), mouse_cap)
-        return
+        break 
       end
     end
+    
     return
   end
-  
   -- shortcuts to windows
   if reagirl.Shortcut_InitCount==nil then reagirl.Shortcut_InitCount=1 end
   if reagirl.Shortcut_InitCount<2 then reagirl.Shortcut_InitCount=reagirl.Shortcut_InitCount+1 return end
@@ -6416,8 +6800,8 @@ function reagirl.Gui_Manage(keep_running)
   <chapter_context>
     Gui
   </chapter_context>
-  <target_document>ReaGirl_Docs</target_document>
-  <source_document>reagirl_GuiEngine.lua</source_document>
+  <target_document>ReaGirl_Functions</target_document>
+  <source_document>reagirl.lua</source_document>
   <tags>gui, functions, manage</tags>
 </US_DocBloc>
 ]]
@@ -7970,8 +8354,8 @@ function reagirl.UI_Element_SetFocusRect(override, x, y, w, h)
   <chapter_context>
     UI Elements
   </chapter_context>
-  <target_document>ReaGirl_Docs</target_document>
-  <source_document>reagirl_GuiEngine.lua</source_document>
+  <target_document>ReaGirl_Functions</target_document>
+  <source_document>reagirl.lua</source_document>
   <tags>ui-elements, set, focus rectangle</tags>
 </US_DocBloc>
 ]]
@@ -8031,8 +8415,8 @@ function reagirl.UI_Element_GetFocusRect()
   <chapter_context>
     UI Elements
   </chapter_context>
-  <target_document>ReaGirl_Docs</target_document>
-  <source_document>reagirl_GuiEngine.lua</source_document>
+  <target_document>ReaGirl_Functions</target_document>
+  <source_document>reagirl.lua</source_document>
   <tags>ui-elements, get, focus rectangle</tags>
 </US_DocBloc>
 ]]
@@ -8086,8 +8470,8 @@ function reagirl.UI_Elements_OutsideWindow()
   <chapter_context>
     UI Elements
   </chapter_context>
-  <target_document>ReaGirl_Docs</target_document>
-  <source_document>reagirl_GuiEngine.lua</source_document>
+  <target_document>ReaGirl_Functions</target_document>
+  <source_document>reagirl.lua</source_document>
   <tags>ui-elements, is outside window</tags>
 </US_DocBloc>
 ]]
@@ -8180,8 +8564,8 @@ function reagirl.UI_Element_GetType(element_id)
   <chapter_context>
     UI Elements
   </chapter_context>
-  <target_document>ReaGirl_Docs</target_document>
-  <source_document>reagirl_GuiEngine.lua</source_document>
+  <target_document>ReaGirl_Functions</target_document>
+  <source_document>reagirl.lua</source_document>
   <tags>ui-elements, get, type</tags>
 </US_DocBloc>
 ]]
@@ -8308,8 +8692,8 @@ function reagirl.UI_Element_GetSet_ContextMenu(element_id, is_set, menu, menu_fu
   <chapter_context>
     UI Elements
   </chapter_context>
-  <target_document>ReaGirl_Docs</target_document>
-  <source_document>reagirl_GuiEngine.lua</source_document>
+  <target_document>ReaGirl_Functions</target_document>
+  <source_document>reagirl.lua</source_document>
   <tags>ui-elements, set, get, context menu</tags>
 </US_DocBloc>
 ]]
@@ -8364,8 +8748,8 @@ function reagirl.UI_Element_GetSet_DropZoneFunction(element_id, is_set, dropzone
   <chapter_context>
     UI Elements
   </chapter_context>
-  <target_document>ReaGirl_Docs</target_document>
-  <source_document>reagirl_GuiEngine.lua</source_document>
+  <target_document>ReaGirl_Functions</target_document>
+  <source_document>reagirl.lua</source_document>
   <tags>ui-elements, set, get, dropzone</tags>
 </US_DocBloc>
 ]]
@@ -8409,8 +8793,8 @@ function reagirl.UI_Element_GetSetCaption(element_id, is_set, caption)
   <chapter_context>
     UI Elements
   </chapter_context>
-  <target_document>ReaGirl_Docs</target_document>
-  <source_document>reagirl_GuiEngine.lua</source_document>
+  <target_document>ReaGirl_Functions</target_document>
+  <source_document>reagirl.lua</source_document>
   <tags>ui-elements, set, get, caption</tags>
 </US_DocBloc>
 ]]
@@ -8452,8 +8836,8 @@ function reagirl.UI_Element_GetSetVisibility(element_id, is_set, visible)
   <chapter_context>
     UI Elements
   </chapter_context>
-  <target_document>ReaGirl_Docs</target_document>
-  <source_document>reagirl_GuiEngine.lua</source_document>
+  <target_document>ReaGirl_Functions</target_document>
+  <source_document>reagirl.lua</source_document>
   <tags>ui-elements, set, get, hidden, visibility</tags>
 </US_DocBloc>
 ]]
@@ -8512,8 +8896,8 @@ function reagirl.UI_Element_GetSetSticky(element_id, is_set, sticky_x, sticky_y)
   <chapter_context>
     UI Elements
   </chapter_context>
-  <target_document>ReaGirl_Docs</target_document>
-  <source_document>reagirl_GuiEngine.lua</source_document>
+  <target_document>ReaGirl_Functions</target_document>
+  <source_document>reagirl.lua</source_document>
   <tags>ui-elements, set, get, sticky</tags>
 </US_DocBloc>
 ]]
@@ -8562,8 +8946,8 @@ function reagirl.Gui_GetSetStickyOffset(is_set, y_offset_top, y_offset_bottom)
   <chapter_context>
     Gui
   </chapter_context>
-  <target_document>ReaGirl_Docs</target_document>
-  <source_document>reagirl_GuiEngine.lua</source_document>
+  <target_document>ReaGirl_Functions</target_document>
+  <source_document>reagirl.lua</source_document>
   <tags>gui, set, get, sticky</tags>
 </US_DocBloc>
 ]]
@@ -8606,8 +8990,8 @@ function reagirl.UI_Element_GetSetMeaningOfUIElement(element_id, is_set, meaning
   <chapter_context>
     UI Elements
   </chapter_context>
-  <target_document>ReaGirl_Docs</target_document>
-  <source_document>reagirl_GuiEngine.lua</source_document>
+  <target_document>ReaGirl_Functions</target_document>
+  <source_document>reagirl.lua</source_document>
   <tags>ui-elements, set, get, accessibility_hint, meaningOfUI_Element</tags>
 </US_DocBloc>
 ]]
@@ -8646,8 +9030,8 @@ function reagirl.UI_Element_IsElementAtMousePosition(element_id)
   <chapter_context>
     UI Elements
   </chapter_context>
-  <target_document>ReaGirl_Docs</target_document>
-  <source_document>reagirl_GuiEngine.lua</source_document>
+  <target_document>ReaGirl_Functions</target_document>
+  <source_document>reagirl.lua</source_document>
   <tags>ui-elements, get, is at position</tags>
 </US_DocBloc>
 ]]
@@ -8684,8 +9068,8 @@ function reagirl.UI_Element_GetSetPosition(element_id, is_set, x, y)
   <chapter_context>
     UI Elements
   </chapter_context>
-  <target_document>ReaGirl_Docs</target_document>
-  <source_document>reagirl_GuiEngine.lua</source_document>
+  <target_document>ReaGirl_Functions</target_document>
+  <source_document>reagirl.lua</source_document>
   <tags>ui-elements, set, get, position</tags>
 </US_DocBloc>
 ]]
@@ -8771,8 +9155,8 @@ function reagirl.UI_Element_GetSetAllHorizontalOffset(is_set, x_offset)
   <chapter_context>
     UI Elements
   </chapter_context>
-  <target_document>ReaGirl_Docs</target_document>
-  <source_document>reagirl_GuiEngine.lua</source_document>
+  <target_document>ReaGirl_Functions</target_document>
+  <source_document>reagirl.lua</source_document>
   <tags>ui-elements, set, get, horizontal offset</tags>
 </US_DocBloc>
 ]]
@@ -8808,8 +9192,8 @@ function reagirl.UI_Element_GetSetAllVerticalOffset(is_set, y_offset)
   <chapter_context>
     UI Elements
   </chapter_context>
-  <target_document>ReaGirl_Docs</target_document>
-  <source_document>reagirl_GuiEngine.lua</source_document>
+  <target_document>ReaGirl_Functions</target_document>
+  <source_document>reagirl.lua</source_document>
   <tags>ui-elements, set, get, vertical offset</tags>
 </US_DocBloc>
 ]]
@@ -8846,8 +9230,8 @@ function reagirl.UI_Element_GetSetRunFunction(element_id, is_set, run_function, 
   <chapter_context>
     UI Elements
   </chapter_context>
-  <target_document>ReaGirl_Docs</target_document>
-  <source_document>reagirl_GuiEngine.lua</source_document>
+  <target_document>ReaGirl_Functions</target_document>
+  <source_document>reagirl.lua</source_document>
   <tags>ui-elements, set, get, run function</tags>
 </US_DocBloc>
 ]]
@@ -8886,8 +9270,8 @@ function reagirl.UI_Element_Remove(element_id)
   <chapter_context>
     UI Elements
   </chapter_context>
-  <target_document>ReaGirl_Docs</target_document>
-  <source_document>reagirl_GuiEngine.lua</source_document>
+  <target_document>ReaGirl_Functions</target_document>
+  <source_document>reagirl.lua</source_document>
   <tags>ui-elements, remove</tags>
 </US_DocBloc>
 ]]
@@ -20386,8 +20770,8 @@ function reagirl.Gui_GetBoundaries()
   <chapter_context>
     Gui
   </chapter_context>
-  <target_document>ReaGirl_Docs</target_document>
-  <source_document>reagirl_GuiEngine.lua</source_document>
+  <target_document>ReaGirl_Functions</target_document>
+  <source_document>reagirl.lua</source_document>
   <tags>gui, functions, get, boundaries</tags>
 </US_DocBloc>
 ]]
@@ -20806,8 +21190,8 @@ function reagirl.UI_Element_GetHovered()
   <chapter_context>
     UI Elements
   </chapter_context>
-  <target_document>ReaGirl_Docs</target_document>
-  <source_document>reagirl_GuiEngine.lua</source_document>
+  <target_document>ReaGirl_Functions</target_document>
+  <source_document>reagirl.lua</source_document>
   <tags>functions, get, hovered, hover, gui</tags>
 </US_DocBloc>
 ]]
@@ -20834,8 +21218,8 @@ function reagirl.UI_Element_GetFocused()
   <chapter_context>
     UI Elements
   </chapter_context>
-  <target_document>ReaGirl_Docs</target_document>
-  <source_document>reagirl_GuiEngine.lua</source_document>
+  <target_document>ReaGirl_Functions</target_document>
+  <source_document>reagirl.lua</source_document>
   <tags>functions, get, focused, gui</tags>
 </US_DocBloc>
 ]]
@@ -20862,8 +21246,8 @@ function reagirl.UI_Element_SetFocused(element_id)
   <chapter_context>
     UI Elements
   </chapter_context>
-  <target_document>ReaGirl_Docs</target_document>
-  <source_document>reagirl_GuiEngine.lua</source_document>
+  <target_document>ReaGirl_Functions</target_document>
+  <source_document>reagirl.lua</source_document>
   <tags>functions, set, focused, gui</tags>
 </US_DocBloc>
 ]]
@@ -20895,8 +21279,8 @@ function reagirl.UI_Element_SetHiddenFromTable(table_element_ids, visible)
   <chapter_context>
     UI Elements
   </chapter_context>
-  <target_document>ReaGirl_Docs</target_document>
-  <source_document>reagirl_GuiEngine.lua</source_document>
+  <target_document>ReaGirl_Functions</target_document>
+  <source_document>reagirl.lua</source_document>
   <tags>functions, set, hidden, visible, from table, gui</tags>
 </US_DocBloc>
 ]]
@@ -20932,8 +21316,8 @@ function reagirl.AutoPosition_SetNextUIElementRelativeTo(element_id, offset)
   <chapter_context>
     Autoposition
   </chapter_context>
-  <target_document>ReaGirl_Docs</target_document>
-  <source_document>reagirl_GuiEngine.lua</source_document>
+  <target_document>ReaGirl_Functions</target_document>
+  <source_document>reagirl.lua</source_document>
   <tags>functions, set, auto position, next line</tags>
 </US_DocBloc>
 ]]

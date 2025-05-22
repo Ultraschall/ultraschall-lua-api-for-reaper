@@ -30,6 +30,7 @@
 -- Means, you can place ui-elements automatically with either x-position or y-position with the other one a fixed coordinate.
 -- So you can combine them.
 
+  dofile(reaper.GetResourcePath().."/UserPlugins/ultraschall_api.lua")
   dofile(reaper.GetResourcePath().."/UserPlugins/reagirl.lua")
 
   -- create new gui
@@ -230,3 +231,8 @@
 
   main()
 
+--reagirl.Shortcut_Add(0, 65, "TURTZ.", print2)
+--reagirl.Shortcut_Add(0, 66, "TURTZ2.", print2)
+--reagirl.Shortcut_Add(0, 67, "TURTZ3.", print2)
+--reagirl.ExportShortcutsToFile(reaper.GetResourcePath().."/ShortCutTest.ini", "Tudelu")
+reagirl.ImportShortcutsFromFile(reaper.GetResourcePath().."/ShortCutTest.ini", "Tudelu")
