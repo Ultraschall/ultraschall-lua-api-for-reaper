@@ -102,7 +102,8 @@ end
 
 gfx.ext_retina=1
 reagirl={}
-reagirl.Shortcut_Mode=5
+reagirl.Shortcut_Mode=1 -- mode
+reagirl.Shortcut_HWND=reaper.JS_Window_Find("The dialog", true)
 reagirl.Shortcut_Section=32063
 reagirl.Shortcut_Enabled=1
 reagirl.Shortcut_List={}
@@ -6347,7 +6348,7 @@ function reagirl.Shortcut_Add(modifier, keycode, description, run_function)
     </requires>
     <functioncall>string shortcut_id = reagirl.Shortcut_Add(integer modifier, integer keycode, string description, function run_function)</functioncall>
     <description>
-      Adds an inside shortcut to a gui, which is limited to this gui.
+      Adds an inline-shortcut to a gui, which is limited to this gui.
       
       Note: It is not possible to have modifer=4, as ctrl-shortcuts are reserved for accessibility shortcuts
     </description>
@@ -6398,7 +6399,7 @@ function reagirl.Shortcut_Enumerate(index)
     </requires>
     <functioncall>string shortcut_guid, integer modifier, integer keycode, string description, function run_function = reagirl.Shortcut_Enumerate(integer index)</functioncall>
     <description>
-      Enumerates the inside shortcuts.
+      Enumerates the inline-shortcuts.
       
       returns nil, if no such shortcut exists
     </description>
@@ -6437,7 +6438,7 @@ function reagirl.Shortcut_GetByID(shortcut_id)
     </requires>
     <functioncall>integer modifier, integer keycode, string description, function run_function = reagirl.Shortcut_GetByID(string shortcut_id)</functioncall>
     <description>
-      Gets the attributes of an inside shortcut.
+      Gets the attributes of an inline-shortcut.
       
       returns nil, if no such shortcut exists
     </description>
@@ -6486,12 +6487,12 @@ function reagirl.Shortcut_SetByID(shortcut_id, modifier, keycode, description, r
     </requires>
     <functioncall>boolean retval = reagirl.Shortcut_SetByID(string shortcut_id, integer modifier, integer keycode, string description, function run_function)</functioncall>
     <description>
-      Sets the attributes of an inside shortcut.
+      Sets the attributes of an inline-shortcut.
       
       Note: It is not possible to have modifer=4, as ctrl-shortcuts are reserved for accessibility shortcuts
     </description>
     <parameters>
-      string shortcut_id - the id of the inside shortcut
+      string shortcut_id - the id of the inline-shortcut
       integer modifier - the modifier; &4=Ctrl; &8==Shift; &16=Alt; &32=Windows(Windows)/ControlKey(MacOS)
       integer keycode - the keycode of the intended shortcut; the same as returned by gfx.getchar()
       string description - a description for this shortcut, which will be read to screen reader users, when hitting the shortcut
@@ -6551,7 +6552,7 @@ function reagirl.Shortcut_Remove(index)
     </requires>
     <functioncall>boolean retval = reagirl.Shortcut_Remove(integer shortcut_index)</functioncall>
     <description>
-      Removes an inside shortcut.
+      Removes an inline-shortcut.
     </description>
     <parameters>
       integer shortcut_index - the index of the shortcut; 1-based
@@ -6612,7 +6613,7 @@ function reagirl.Shortcut_RemoveByID(shortcut_id)
     </requires>
     <functioncall>boolean retval = reagirl.Shortcut_RemoveByID(string shortcut_id)</functioncall>
     <description>
-      Removes an inside shortcut.
+      Removes an inline-shortcut.
     </description>
     <parameters>
       string shortcut_id - the id of the shortcut, which you want to remove
@@ -6674,7 +6675,6 @@ function reagirl.ImportShortcutsFromFile(ini_filename, section)
 end
 
 function reagirl.Shortcut_Manage(Key, Key_utf, mouse_cap)
-  -- inline-shortcuts(inside the gui) should be indexed in the table by a guid, not by index-number, to be able to address them individually using a guid. That way, removing shortcuts is possible to do.
   -- (re-)load inline-shortcuts from an ini-file at gui-startup
   -- adding inline-shortcuts from externally to a gui using reagirl.Ext_Send_Event() maybe; sends the shortcut AND a run-function
   -- add shortcuts for switching to labels
@@ -6685,7 +6685,7 @@ function reagirl.Shortcut_Manage(Key, Key_utf, mouse_cap)
   -- regular shortcuts within the gui-window
   -- still missing modifer management
   -- Ctrl and Alt have issues as modifiers, some keys are not clickable, like alt+1 and ctrl+1 because of that
-  if reagirl.Shortcut_Mode==5 and Key>0 then
+  if reagirl.Shortcut_Mode==10 and Key>0 then
     --print(Key, reagirl.Shortcut_GetChar(Key, true))
     --ABBA=Key
     
@@ -6768,6 +6768,16 @@ function reagirl.Shortcut_Manage(Key, Key_utf, mouse_cap)
       for k = 1, #keys do
         if k ~= 0xD and k==reagirl.Shortcut_Pressed and keys:byte(k)==0 then
           reaper.CF_SendActionShortcut(HWND, reagirl.Shortcut_Section, k)
+          if reagirl.Shortcut_Mode>1 then 
+            
+          elseif reagirl.Shortcut_Mode==1 then
+            -- doesn't reliably send the shortcut to the target window(like ctrl+I is sent as tab)
+            --ABBA=reaper.time_precise()
+            --ABBA2=reaper.JS_Window_GetTitle(HWND)
+            --ABBA3=k
+            --reaper.JS_WindowMessage_Send(HWND, "WM_KEYDOWN", k, 0, 0, 0)
+            --reaper.JS_WindowMessage_Send(HWND, "WM_KEYUP", k, 0, 0, 0)
+          end
           reagirl.Shortcut_Pressed=nil
           break
         end
