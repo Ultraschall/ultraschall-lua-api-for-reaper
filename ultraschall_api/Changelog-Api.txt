@@ -425,7 +425,7 @@ Has now 1904 functions, with XX new ones
   - ReaGirl: UI\_Element\_GetSetExtState - gets/sets additional string-data to a ui-element
 
 #### Changes from 5.3 to 5.31
-    
+  - DeveloperTools: Create\_New\_Script\_With\_Dialog - shows now resolved script-filename; allows now subfolders in scripts-folder to be added; fixed tooltip
 
 ---
 
