@@ -235,4 +235,4 @@
 --reagirl.Shortcut_Add(0, 66, "TURTZ2.", print2)
 --reagirl.Shortcut_Add(0, 67, "TURTZ3.", print2)
 --reagirl.ExportShortcutsToFile(reaper.GetResourcePath().."/ShortCutTest.ini", "Tudelu")
-reagirl.ImportShortcutsFromFile(reaper.GetResourcePath().."/ShortCutTest.ini", "Tudelu")
+--reagirl.ImportShortcutsFromFile(reaper.GetResourcePath().."/ShortCutTest.ini", "Tudelu")

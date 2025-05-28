@@ -422,10 +422,10 @@ Has now 1904 functions, with XX new ones
   Bla
     
 #### New features in 5.31  
-
+  - ReaGirl: UI\_Element\_GetSetExtState - gets/sets additional string-data to a ui-element
 
 #### Changes from 5.3 to 5.31
-  
+    
 
 ---
 

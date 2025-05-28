@@ -102,7 +102,12 @@ end
 
 gfx.ext_retina=1
 reagirl={}
-reagirl.Shortcut_Mode=1 -- mode
+reagirl.Shortcut_Mode=10 -- mode: 10=inline shortcuts
+                         --       0=no shortcuts
+                         --       1=send shortcut to previously focused Reaper/Midi-Editor/Media-Explorer-window
+                         --       2=send shortcuts to Reaper-window
+                         --       3=send shortcuts to Midi-Editor-window
+                         --       4=send shortcuts to MediaExplorer
 reagirl.Shortcut_HWND=reaper.JS_Window_Find("The dialog", true)
 reagirl.Shortcut_Section=32063
 reagirl.Shortcut_Enabled=1
@@ -3534,7 +3539,7 @@ function reagirl.IsValidGuid(guid, strict)
 </US_DocBloc>
 --]]
   if type(guid)~="string" then return false end
-  if type(strict)~="boolean" then error("IsValidGuid: param #2 - must be a boolean", -2) return false end
+  if type(strict)~="boolean" then error("IsValidGuid: param #2 - must be a boolean", 2) return false end
   if strict==true and guid:match("^{%x%x%x%x%x%x%x%x%-%x%x%x%x%-%x%x%x%x%-%x%x%x%x%-%x%x%x%x%x%x%x%x%x%x%x%x%}$")~=nil then return true
   elseif strict==false and guid:match(".-{%x%x%x%x%x%x%x%x%-%x%x%x%x%-%x%x%x%x%-%x%x%x%x%-%x%x%x%x%x%x%x%x%x%x%x%x%}.*")~=nil then return true
   else return false
@@ -4591,7 +4596,7 @@ function reagirl.Gui_AtExit(run_func)
   <tags>functions, atexit, gui, function</tags>
 </US_DocBloc>
 ]]
-  if run_func~=nil and type(run_func)~="function" then error("Gui_AtExit: param #1 - must be a function", -2) return end
+  if run_func~=nil and type(run_func)~="function" then error("Gui_AtExit: param #1 - must be a function", 2) return end
   reagirl.AtExit_RunFunc=run_func
 end
 
@@ -4619,7 +4624,7 @@ function reagirl.Gui_AtEnter(run_func)
   <tags>functions, atenter, gui, function</tags>
 </US_DocBloc>
 ]]
-  if run_func~=nil and type(run_func)~="function" then error("Gui_AtEnter: param #1 - must be a function", -2) return end
+  if run_func~=nil and type(run_func)~="function" then error("Gui_AtEnter: param #1 - must be a function", 2) return end
   reagirl.AtEnter_RunFunc=run_func
 end
 
@@ -6350,7 +6355,7 @@ function reagirl.Shortcut_Add(modifier, keycode, description, run_function)
     <description>
       Adds an inline-shortcut to a gui, which is limited to this gui.
       
-      Note: It is not possible to have modifer=4, as ctrl-shortcuts are reserved for accessibility shortcuts
+      Note: It is not possible to have modifer=4, as ctrl/cmd-shortcuts are reserved for accessibility shortcuts
     </description>
     <parameters>
       integer modifier - the modifier; &4=Ctrl; &8==Shift; &16=Alt; &32=Windows(Windows)/ControlKey(MacOS)
@@ -6489,7 +6494,7 @@ function reagirl.Shortcut_SetByID(shortcut_id, modifier, keycode, description, r
     <description>
       Sets the attributes of an inline-shortcut.
       
-      Note: It is not possible to have modifer=4, as ctrl-shortcuts are reserved for accessibility shortcuts
+      Note: It is not possible to have modifer=4, as ctrl/cmd-shortcuts are reserved for accessibility shortcuts
     </description>
     <parameters>
       string shortcut_id - the id of the inline-shortcut
@@ -6824,7 +6829,7 @@ function reagirl.Gui_Manage(keep_running)
   local message
   if reagirl.Gui_IsOpen()==false then return end
   if reagirl.NewUI~=false then reagirl.NewUI=false if reagirl.Elements.FocusedElement==nil then reagirl.Elements.FocusedElement=0 end end
-  if #reagirl.Elements==0 then error("Gui_Manage: no ui-element available", -2) end
+  if #reagirl.Elements==0 then error("Gui_Manage: no ui-element available", 2) end
   
   if #reagirl.Elements<reagirl.Elements.FocusedElement then reagirl.Elements.FocusedElement=1 end
   reagirl.Window_State=gfx.getchar(65536)
@@ -9326,6 +9331,47 @@ function reagirl.UI_Element_GetGuidFromID(id)
   else
     error("UI_Element_GetGuidFromID: param #1 - no such ui-element", 2)
   end
+end
+
+function reagirl.UI_Element_GetSetExtState(element_id, key, value)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>UI_Element_GetSetExtState</slug>
+  <requires>
+    ReaGirl=1.31
+    Reaper=7.03
+    Lua=5.4
+  </requires>
+  <functioncall>string value = reagirl.UI_Element_GetSetExtState(string element_id, string key, string value)</functioncall>
+  <description>
+    Get/Set additional values to a ui-element to store additional data.
+  </description>
+  <retvals>
+    string value - the value stored under the key
+  </retvals>
+  <parameters>
+    string element_id - the id of the ui-element, which you want to get/set additional data
+    string key - a key, under which you want to store the additional data
+    string value - the value to store
+  </parameters>
+  <chapter_context>
+    UI Elements
+  </chapter_context>
+  <target_document>ReaGirl_Functions</target_document>
+  <source_document>reagirl.lua</source_document>
+  <tags>functions, get, set, extstate, key, value, additional data, gui</tags>
+</US_DocBloc>
+]]
+  if type(element_id)~="string" then error("UI_Element_GetSetExtState: #1 - must be a string", 2) end
+  if type(key)~="string" then error("UI_Element_GetSetExtState: #2 - must be a string", 2) end
+  if type(value)~="string" then error("UI_Element_GetSetExtState: #3 - must be a string", 2) end
+  local id=reagirl.UI_Element_GetIDFromGuid(element_id)
+  if id==-1 then error("UI_Element_GetSetExtState: param #1 - no such ui-element", 2) end
+  if reagirl.Elements[id]["extstate"]==nil then
+    reagirl.Elements[id]["extstate"]={}
+  end
+  reagirl.Elements[id]["extstate"][key]=value
+  return reagirl.Elements[id]["extstate"][key]
 end
 
 function reagirl.Checkbox_Add(x, y, caption, meaningOfUI_Element, default, run_function, unique_identifier)
@@ -15645,7 +15691,7 @@ function reagirl.Inputbox_Add(x, y, w, caption, Cap_width, meaningOfUI_Element, 
   if type(Default)~="string" then error("Inputbox_Add: param #7 - must be a string", 2) end
   if run_function_enter~=nil and type(run_function_enter)~="function" then error("Inputbox_Add: param #8 - must be either nil or a function", 2) end
   if run_function_type~=nil and type(run_function_type)~="function" then error("Inputbox_Add: param #9 - must be either nil or a function", 2) end
-  if run_function_type~=nil and run_function_enter==nil then error("Inputbox_Add: param #8 - must be set when using one for type, or blind people might not be able to use the gui properly", -2) end
+  if run_function_type~=nil and run_function_enter==nil then error("Inputbox_Add: param #8 - must be set when using one for type, or blind people might not be able to use the gui properly", 2) end
   if unique_identifier~=nil and type(unique_identifier)~="string" then error("Inputbox_Add: param #9 - must be either nil or a string", 2) end  
   
   local x,y,slot=reagirl.UI_Element_GetNextXAndYPosition(x, y, "Inputbox_Add")
@@ -21248,7 +21294,7 @@ function reagirl.UI_Element_SetFocused(element_id)
   </requires>
   <functioncall>reagirl.UI_Element_SetFocused(string element_id)</functioncall>
   <description>
-    Set an ui-element focused. 
+    Set a ui-element focused. 
   </description>
   <parameters>
     string element_id - the id of the ui-element, which you want to set to focused
@@ -21262,8 +21308,9 @@ function reagirl.UI_Element_SetFocused(element_id)
 </US_DocBloc>
 ]]
   if reagirl.Elements.FocusedElement>=#reagirl.Elements-5 then return end
+  if type(element_id)~="string" then error("UI_Element_SetFocused: param #1 - must be a string", 2) end
   local id=reagirl.UI_Element_GetIDFromGuid(element_id)
-  if id==-1 then error("UI_Element_SetFocused: param #1 - no such ui-element", -2) end
+  if id==-1 then error("UI_Element_SetFocused: param #1 - no such ui-element", 2) end
 
   reagirl.Elements.FocusedElement=id
   reagirl.Gui_ForceRefresh(52)
@@ -21298,7 +21345,7 @@ function reagirl.UI_Element_SetHiddenFromTable(table_element_ids, visible)
   if type(visible)~="boolean" then error("UI_Element_SetHiddenFromTable: param #2: must be a boolean", 2) return end
   --for i=1, #table_element_ids do
   for k, v in pairs(table_element_ids) do
-    if reagirl.IsValidGuid(v, true)==false then error("UI_Element_SetHiddenFromTable: param #1: table-entry "..i.." is not a valid guid", -2) return end
+    if reagirl.IsValidGuid(v, true)==false then error("UI_Element_SetHiddenFromTable: param #1: table-entry "..i.." is not a valid guid", 2) return end
     reagirl.UI_Element_GetSetVisibility(v, true, visible)
   end
 end
@@ -24883,7 +24930,7 @@ function reagirl.Base64_Encoder(source_string, remove_newlines, remove_tabs)
   
   -- check parameters and prepare variables
   if type(source_string)~="string" then error("Base64_Encoder: param #1 - must be a string", 2) return nil end
-  if remove_newlines~=nil and math.type(remove_newlines)~="integer" then error("Base64_Encoder: param #2 - must be either nil or an integer", -2) return nil end
+  if remove_newlines~=nil and math.type(remove_newlines)~="integer" then error("Base64_Encoder: param #2 - must be either nil or an integer", 2) return nil end
   if remove_tabs~=nil and math.type(remove_tabs)~="integer" then error("Base64_Encoder: param #3 - must be either nil or an integer", 2) return nil end
   if base64_type~=nil and math.type(base64_type)~="integer" then error("Base64_Encoder: base64_type - must be either nil or an integer", 2) return nil end
   
