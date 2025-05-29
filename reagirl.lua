@@ -9333,7 +9333,7 @@ function reagirl.UI_Element_GetGuidFromID(id)
   end
 end
 
-function reagirl.UI_Element_GetSetExtState(element_id, key, value)
+function reagirl.UI_Element_GetSetExtState(element_id, is_set, key, value)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>UI_Element_GetSetExtState</slug>
@@ -9342,15 +9342,18 @@ function reagirl.UI_Element_GetSetExtState(element_id, key, value)
     Reaper=7.03
     Lua=5.4
   </requires>
-  <functioncall>string value = reagirl.UI_Element_GetSetExtState(string element_id, string key, string value)</functioncall>
+  <functioncall>string value = reagirl.UI_Element_GetSetExtState(string element_id, boolean is_set, string key, string value)</functioncall>
   <description>
     Get/Set additional values to a ui-element to store additional data.
+    
+    Returns "" if value hasn't been set yet.
   </description>
   <retvals>
     string value - the value stored under the key
   </retvals>
   <parameters>
     string element_id - the id of the ui-element, which you want to get/set additional data
+    boolean is_set - true, set the value; false, only get the value
     string key - a key, under which you want to store the additional data
     string value - the value to store
   </parameters>
@@ -9363,15 +9366,71 @@ function reagirl.UI_Element_GetSetExtState(element_id, key, value)
 </US_DocBloc>
 ]]
   if type(element_id)~="string" then error("UI_Element_GetSetExtState: #1 - must be a string", 2) end
-  if type(key)~="string" then error("UI_Element_GetSetExtState: #2 - must be a string", 2) end
-  if type(value)~="string" then error("UI_Element_GetSetExtState: #3 - must be a string", 2) end
+  if type(is_set)~="boolean" then error("UI_Element_GetSetExtState: #1 - must be a boolean", 2) end
+  if type(key)~="string" then error("UI_Element_GetSetExtState: #3 - must be a string", 2) end
+  if type(value)~="string" then error("UI_Element_GetSetExtState: #4 - must be a string", 2) end
   local id=reagirl.UI_Element_GetIDFromGuid(element_id)
   if id==-1 then error("UI_Element_GetSetExtState: param #1 - no such ui-element", 2) end
-  if reagirl.Elements[id]["extstate"]==nil then
-    reagirl.Elements[id]["extstate"]={}
+  if is_set==true then
+    if reagirl.Elements[id]["extstate"]==nil then
+      reagirl.Elements[id]["extstate"]={}
+    end
+    reagirl.Elements[id]["extstate"][key]=value
   end
-  reagirl.Elements[id]["extstate"][key]=value
-  return reagirl.Elements[id]["extstate"][key]
+  
+  local value=""
+  if reagirl.Elements[id]["extstate"]~=nil then
+    value=reagirl.Elements[id]["extstate"][key]
+  end
+  return value
+end
+
+function reagirl.UI_Element_GetSetIdentifier(element_id, is_set, unique_identifier)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>UI_Element_GetSetIdentifier</slug>
+  <requires>
+    ReaGirl=1.31
+    Reaper=7.03
+    Lua=5.4
+  </requires>
+  <functioncall>string unique_identifier = reagirl.UI_Element_GetSetIdentifier(string element_id, boolean is_set, string unique_identifier)</functioncall>
+  <description>
+    Get/Set the unique identifier of a ui-element. This can be used to control the ui-element from the outside.
+    When localizing is possible with ReaGirl, this will be used for localizing the texts of the ui-element.
+    
+    Returns "" if value hasn't been set yet.
+  </description>
+  <retvals>
+    string unique_identifier - the unique identifier of the ui-element
+  </retvals>
+  <parameters>
+    string element_id - the id of the ui-element, which you want to get/set additional data
+    boolean is_set - true, set the value; false, only get the value
+    string unique_identifier - the unique identifier you want to set
+  </parameters>
+  <chapter_context>
+    UI Elements
+  </chapter_context>
+  <target_document>ReaGirl_Functions</target_document>
+  <source_document>reagirl.lua</source_document>
+  <tags>functions, get, set, unique identifieri</tags>
+</US_DocBloc>
+]]
+  if type(element_id)~="string" then error("UI_Element_GetSetIdentifier: #1 - must be a string", 2) end
+  if type(is_set)~="boolean" then error("UI_Element_GetSetIdentifier: #1 - must be a boolean", 2) end
+  if type(unique_identifier)~="string" then error("UI_Element_GetSetIdentifier: #3 - must be a string", 2) end
+  local id=reagirl.UI_Element_GetIDFromGuid(element_id)
+  if id==-1 then error("UI_Element_GetSetIdentifier: param #1 - no such ui-element", 2) end
+  if is_set==true then
+    reagirl.Elements[id]["ID"]=unique_identifier
+  end
+  
+  local value=""
+  if reagirl.Elements[id]["ID"]~=nil then
+    value=reagirl.Elements[id]["ID"]
+  end
+  return value
 end
 
 function reagirl.Checkbox_Add(x, y, caption, meaningOfUI_Element, default, run_function, unique_identifier)
@@ -19211,6 +19270,7 @@ function reagirl.Label_SetBackdrop(element_id, width, height)
 end
 
 function reagirl.Label_AutoBackdrop(element_id, dest_element_id)
+-- TODO: parameters to set, if the width is also located to dest_element_id. Currently, the width is determined by all(!) ui-elements that are located to the far right of the window. Means, the ui-element whose edge being most right determines, where the backdrop ends.
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>Label_AutoBackdrop</slug>

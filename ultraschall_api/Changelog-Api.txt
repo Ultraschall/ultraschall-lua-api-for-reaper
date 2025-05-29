@@ -423,6 +423,7 @@ Has now 1904 functions, with XX new ones
     
 #### New features in 5.31  
   - ReaGirl: UI\_Element\_GetSetExtState - gets/sets additional string-data to a ui-element
+  - ReaGirl: UI\_Element\_GetSetIdentifier - gets/sets the unique identifier of a ui-element
 
 #### Changes from 5.3 to 5.31
   - DeveloperTools: Create\_New\_Script\_With\_Dialog - shows now resolved script-filename; allows now subfolders in scripts-folder to be added; fixed tooltip
@@ -799,7 +800,7 @@ Note: requires at least Reaper 7.03 now!
   - ReaGirl: UI\_Element\_Last\_Element\_Current\_Position - Returns the x and y position as well as width and height of the last added ui-element.
   - ReaGirl: UI\_Element\_Remove - Removes a ui-element.
   - ReaGirl: UI\_Element\_SetFocusRect - sets the rectangle for focused ui-element. Can be used for custom ui-element, who need to control the focus-rectangle due some of their own ui-elements incorporated, like options in radio-buttons, etc.
-  - ReaGirl: UI\_Element\_SetFocused - Set an ui-element focused. 
+  - ReaGirl: UI\_Element\_SetFocused - Set a ui-element focused. 
   - ReaGirl: UI\_Element\_SetHiddenFromTable - Set ui-elements stored in a table to hidden or visible.
   - ReaGirl: UI\_Elements\_OutsideWindow - returns, if any of the gui-elements are outside of the window and by how much.
   - ReaGirl: Window\_ForceSize\_Maximum - Sets a maximum window size that will be enforced by ReaGirl.

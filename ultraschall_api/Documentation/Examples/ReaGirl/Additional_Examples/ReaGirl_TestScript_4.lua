@@ -215,8 +215,8 @@
   reagirl.AutoPosition_SetNextUIElementRelativeTo(tab1.more_options)
   reagirl.NextLine()
   button_ok_id = reagirl.Button_Add(-133, nil, 0, 0, "OK", "Apply changes and close dialog.", nil)
-  button_cancel_id = reagirl.Button_Add(-95, nil, 0, 0, "Cancel", "Discard changes and close dialog.", nil)
-
+  button_cancel_id = reagirl.Button_Add(-95, nil, 0, 0, "Cancel", "Discard changes and close dialog.", nil, "HURTZ")
+  IDSOFT=reagirl.UI_Element_GetSetIdentifier(button_cancel_id, true, "HURTZ2")
 
   -- open the new gui
   reagirl.Gui_Open("My Dialog Name", false, "The dialog", "This is a demo dialog with settings for tool xyz.", nil, nil, 0, nil, nil)
