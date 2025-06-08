@@ -33,6 +33,7 @@
 <h2>Ultraschall Framework - Changelog</h2>
 <h3>5.31 - "Herbie Hancock - Hang up your hang ups" - 12th of May 2025</h3>
 <p>Has now 1904 functions, with XX new ones</p>
+<p>NOTE: Check mal, ob wirklich alle NORMALIZE-attribute ordentlich gesetzt werden. Speziell, wenn checboxen=false gesetzt werden sollen, da scheint es Issues zu geben...</p>
 <p><strong>new in this release:</strong></p>
 <ul>
 <li><strong>Bla</strong><br />
@@ -40,13 +41,20 @@ Bla</li>
 </ul>
 <h4>New features in 5.31</h4>
 <ul>
+<li>ProjectManagement: GetProject_Render_Trim - gets the trim/pad-settings from a project/projectstatechunk</li>
+<li>ProjectManagement: SetProject_Render_Trim - sets the trim/pad-settings in a project/projectstatechunk</li>
 <li>ReaGirl: UI_Element_GetSetExtState - gets/sets additional string-data to a ui-element</li>
 <li>ReaGirl: UI_Element_GetSetIdentifier - gets/sets the unique identifier of a ui-element</li>
 </ul>
 <h4>Changes from 5.3 to 5.31</h4>
 <ul>
 <li>DeveloperTools: Create_New_Script_With_Dialog - shows now resolved script-filename; allows now subfolders in scripts-folder to be added; fixed tooltip</li>
+<li>ProjectManagement: SetProject_Render_Normalize - didn't correctly store the normalize-values into the project/projectstatechunk -&gt; fixed</li>
+<li>Rendering: ApplyRenderTable_Project - supports now attributes PostProcessingEnabled, PadStartWithSilence, PadStartWithSilenceSeconds, PadEndWithSilence, PadEndWithSilenceSeconds, AdjustMonoFiles, AdjustMonoFilesBy, TrimLeadingSilence, TrimLeadingSilenceDB, TrimTrailingSilence, TrimTrailingSilenceDB, Normalize<em>Only</em>Files<em>Too</em>Quiet, ParallelRender</li>
+<li>Rendering: GetRenderTable_Project - supports now attributes PostProcessingEnabled, PadStartWithSilence, PadStartWithSilenceSeconds, PadEndWithSilence, PadEndWithSilenceSeconds, AdjustMonoFiles, AdjustMonoFilesBy, TrimLeadingSilence, TrimLeadingSilenceDB, TrimTrailingSilence, TrimTrailingSilenceDB, Normalize<em>Only</em>Files<em>Too</em>Quiet, ParallelRender</li>
+<li>Rendering: CreateNewRenderTable - supports now attributes PostProcessingEnabled, PadStartWithSilence, PadStartWithSilenceSeconds, PadEndWithSilence, PadEndWithSilenceSeconds, AdjustMonoFiles, AdjustMonoFilesBy, TrimLeadingSilence, TrimLeadingSilenceDB, TrimTrailingSilence, TrimTrailingSilenceDB, Normalize<em>Only</em>Files<em>Too</em>Quiet, ParallelRender</li>
 </ul>
+<p>PostProcessingEnabled, PadStartWithSilence, PadStartWithSilenceSeconds, PadEndWithSilence, PadEndWithSilenceSeconds, AdjustMonoFiles, AdjustMonoFilesBy, TrimLeadingSilence, TrimLeadingSilenceDB, TrimTrailingSilence, TrimTrailingSilenceDB, Normalize<em>Only</em>Files<em>Too</em>Quiet, ParallelRender</p>
 <hr />
 <h3>5.3 - "Spice Girls - Too Much" - 12th of May 2025</h3>
 <p>Has now 1904 functions, with 46 new ones</p>
