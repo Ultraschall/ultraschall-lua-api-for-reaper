@@ -45438,7 +45438,7 @@ returns the trim/pad-settings in the post processing-render-settings of the proj
 <br>
 It's the entry RENDER_TRIM<br>
 <br>
-returns nil in case of an error<br>
+returns nil in case of an erroror if the entry is not present(i.e. in older project files)<br>
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
@@ -53754,8 +53754,8 @@ q=9 ; mp3 VBR lowest</td></tr>
 <hr>
 <a class="anch" id="ApplyRenderTable_ProjectFile"></a>
 <a href="#ApplyRenderTable_ProjectFile"> ^</a> 
-<img width="3%" src="gfx/reaper7.34.png" alt="requires Reaper version 7.34">
-<img width="3%" src="gfx/ultraschall5.3.png" alt="requires Ultraschall version 5.3"><u><b>ApplyRenderTable_ProjectFile</b></u><br>			<p>
+<img width="3%" src="gfx/reaper7.39.png" alt="requires Reaper version 7.39">
+<img width="3%" src="gfx/ultraschall5.31.png" alt="requires Ultraschall version 5.31"><u><b>ApplyRenderTable_ProjectFile</b></u><br>			<p>
 <div class="cc">
 <div class="l">Lua: <code> <i>boolean</i> retval, <i>string</i> ProjectStateChunk = <em>ultraschall.ApplyRenderTable_ProjectFile</em>(<i>table</i> RenderTable, <i>string</i> projectfilename_with_path, <i>optional</i> <i>boolean</i> apply_rendercfg_string, <i>optional</i> <i>string</i> ProjectStateChunk)</code></div>
 </div><p>
@@ -53765,6 +53765,8 @@ q=9 ; mp3 VBR lowest</td></tr>
 <pre><code>    RenderTable[&quot;AddToProj&quot;] - Add rendered items to new tracks in project-checkbox; 
                                 true, checked; 
                                 false, unchecked
+    RenderTable[&quot;AdjustMonoFiles&quot;] - the adjust mono files by an additional-checkbox; true, enabled; false, disabled
+    RenderTable[&quot;AdjustMonoFilesBy&quot;] - the adjust mono files by an additional-inputbox; -3, -3dB; 3, +3dB
     RenderTable[&quot;Brickwall_Limiter_Enabled&quot;] - true, brickwall limiting is enabled; false, brickwall limiting is disabled            
     RenderTable[&quot;Brickwall_Limiter_Method&quot;] - brickwall-limiting-mode; 1, peak; 2, true peak
     RenderTable[&quot;Brickwall_Limiter_Target&quot;] - the volume of the brickwall-limit
@@ -53812,12 +53814,9 @@ q=9 ; mp3 VBR lowest</td></tr>
                            - 4, Quartic fade in
                            - 5, Cosine S-curve fade in
                            - 6, Quartic S-curve fade in
-    RenderTable[&quot;MultiChannelFiles&quot;]   - Multichannel tracks to multichannel files-checkbox; true, checked; false, unchecked
+    RenderTable[&quot;MultiChannelFiles&quot;]   - Multichannel tracks to multichannel files-checkbox; true, checked; false, unchecked            
     RenderTable[&quot;Normalize_Enabled&quot;]   - true, normalization enabled; 
                                          false, normalization not enabled
-    RenderTable[&quot;Normalize_Only_Files_Too_Loud&quot;] - Only normalize files that are too loud,checkbox
-                                                 - true, checkbox checked
-                                                 - false, checkbox unchecked
     RenderTable[&quot;Normalize_Method&quot;]    - the normalize-method-dropdownlist
                                              0, LUFS-I
                                              1, RMS-I
@@ -53825,6 +53824,10 @@ q=9 ; mp3 VBR lowest</td></tr>
                                              3, True Peak
                                              4, LUFS-M max
                                              5, LUFS-S max
+    RenderTable[&quot;Normalize_Only_Files_Too_Loud&quot;] - Only normalize files that are too loud,checkbox
+                                                 true, checkbox checked
+                                                 false, checkbox unchecked
+    RenderTable[&quot;Normalize_Only_Files_Too_Quiet&quot;] - Only normalize files that are too quiet-checkbox; true, enabled; false, disabled
     RenderTable[&quot;Normalize_Stems_to_Master_Target&quot;] - true, normalize-stems to master target(common gain to stems)
                                                       false, normalize each file individually
     RenderTable[&quot;Normalize_Target&quot;]       - the normalize-target as dB-value    
@@ -53839,10 +53842,19 @@ q=9 ; mp3 VBR lowest</td></tr>
     RenderTable[&quot;OnlyMonoMedia&quot;] - Tracks with only mono media to mono files-checkbox; 
                                        true, checked; 
                                        false, unchecked
+    RenderTable[&quot;PadEndWithSilence&quot;] - Pad end with silence-checkbox; true, enabled; false, disabled
+    RenderTable[&quot;PadEndWithSilenceSeconds&quot;] - Pad end with silence-inputbox in seconds
+    RenderTable[&quot;PadStartWithSilence&quot;] - Pad start with silence-checkbox; true, enabled; false, disabled
+    RenderTable[&quot;PadStartWithSilenceSeconds&quot;] - Pad start with silence-inputbox, in seconds
+    RenderTable[&quot;ParallelRender&quot;] - Parallel-render-checkbox; true, enabled; false, disabled
     RenderTable[&quot;Preserve_Start_Offset&quot;] - true, preserve start-offset-checkbox(with Bounds=4 and Source=32); false, don&#39;t preserve
     RenderTable[&quot;Preserve_Metadata&quot;] - true, preserve metadata-checkbox; false, don&#39;t preserve
     RenderTable[&quot;ProjectSampleRateFXProcessing&quot;] - Use project sample rate for mixing and FX/synth processing-checkbox; 
                                                    true, checked; false, unchecked
+    RenderTable[&quot;PostProcessingEnabled&quot;] - true, enabled; false, disabled; activates AdjustMonoFiles, AdjustMonoFilesBy, Brickwall\_Limiter\_Enabled, Brickwall\_Limiter\_Method, Brickwall\_Limiter\_Target, 
+                                 FadeIn, FadeIn\_Shape, FadeOut\_Enabled, FadeOut, FadeOut\_Shape, Normalize\_Enabled, Normalize\_Method, Normalize\_Only\_Files\_Too\_Quiet, 
+                                 Normalize\_Only\_Files\_Too\_Loud, Normalize\_Stems\_to\_Master\_Target, Normalize\_Target, PadStartWithSilence, PadStartWithSilenceMS, 
+                                 PadEndWithSilence, PadEndWithSilenceMS, TrimLeadingSilence, TrimLeadingSilenceDB, TrimTrailingSilence, TrimTrailingSilenceDB
     RenderTable[&quot;RenderFile&quot;]       - the contents of the Directory-inputbox of the Render to File-dialog
     RenderTable[&quot;RenderPattern&quot;]    - the render pattern as input into the File name-inputbox of the Render to File-dialog
     RenderTable[&quot;RenderQueueDelay&quot;] - Delay queued render to allow samples to load-checkbox; true, checked; false, unchecked
@@ -53863,12 +53875,12 @@ q=9 ; mp3 VBR lowest</td></tr>
     RenderTable[&quot;RenderString&quot;]     - the render-cfg-string, that holds all settings of the currently set render-output-format as BASE64 string
     RenderTable[&quot;RenderString2&quot;]    - the render-cfg-string, that holds all settings of the currently set secondary-render-output-format as BASE64 string
     RenderTable[&quot;RenderTable&quot;]=true - signals, this is a valid render-table
-                    RenderTable[&quot;ReturnToDialog&quot;] - not stored in project files
+                    RenderTable[&quot;ReturnToDialog&quot;] - true, return to render to file-dialog after rendering; false, don&#39;t return to render to file-dialog after rendering
     RenderTable[&quot;SampleRate&quot;]       - the samplerate of the rendered file(s)
     RenderTable[&quot;SaveCopyOfProject&quot;] - the &quot;Save copy of project to outfile.wav.RPP&quot;-checkbox; 
                                         true, checked; 
                                         false, unchecked
-                    RenderTable[&quot;SaveRenderStatsFile&quot;] - not stored in project files
+                    RenderTable[&quot;SaveRenderStatsFile&quot;] - 0, no render-stats-outfile; 1, Combined; 2, Per rendered file
     RenderTable[&quot;SilentlyIncrementFilename&quot;] - Silently increment filenames to avoid overwriting-checkbox; 
                                                 true, checked
                                                 false, unchecked
@@ -53892,6 +53904,10 @@ q=9 ; mp3 VBR lowest</td></tr>
                                 &amp;32, selected project regions
                                 &amp;64, razor edit areas
     RenderTable[&quot;TailMS&quot;] - the amount of milliseconds of the tail
+    RenderTable[&quot;TrimLeadingSilence&quot;] - Trim leading silence, threshold(peak)-checkbox; true, enabled; false, disabled
+    RenderTable[&quot;TrimLeadingSilenceDB&quot;] - Trim leading silence, threshold(peak)-inputbox in dB
+    RenderTable[&quot;TrimTrailingSilence&quot;] - Trim trailing silence, threshold(peak)-checkbox; true, enabled; false, disabled
+    RenderTable[&quot;TrimTrailingSilenceDB&quot;] - Trim trailing silence, threshold(peak)-inputbox in dB
     </code></pre>
 <p>Returns false in case of an error</p>
 </div><br>      
@@ -54642,43 +54658,47 @@ Gets the render-settings of a RenderTable from a project-extstate, stored by Set
 <hr>
 <a class="anch" id="GetRenderTable_ProjectDefaults"></a>
 <a href="#GetRenderTable_ProjectDefaults"> ^</a> 
-<img width="3%" src="gfx/reaper7.34.png" alt="requires Reaper version 7.34">
+<img width="3%" src="gfx/reaper7.39.png" alt="requires Reaper version 7.39">
 <img width="3%" src="gfx/sws2.10.0.1.png" alt="requires SWS version 2.10.0.1">
 <img width="3%" src="gfx/js_0.972.png" alt="requires JS version 0.972">
-<img width="3%" src="gfx/ultraschall5.3.png" alt="requires Ultraschall version 5.3"><u><b>GetRenderTable_ProjectDefaults</b></u><br>			<p>
+<img width="3%" src="gfx/ultraschall5.31.png" alt="requires Ultraschall version 5.31"><u><b>GetRenderTable_ProjectDefaults</b></u><br>			<p>
 <div class="cc">
 <div class="l">Lua: <code> <i>table</i> RenderTable = <em>ultraschall.GetRenderTable_ProjectDefaults</em>()</code></div>
 </div><p>
 <div class="ch">
 <p>Returns all stored render-settings for the project-defaults, as a handy table.</p>
-<pre><code>    RenderTable[&quot;AddToProj&quot;] - Add rendered items to new tracks in project-checkbox; true, checked; false, unchecked
+<pre><code>    RenderTable[&quot;AddToProj&quot;] - Add rendered items to new tracks in project-checkbox; 
+                                true, checked; 
+                                false, unchecked
+    RenderTable[&quot;AdjustMonoFiles&quot;] - the adjust mono files by an additional-checkbox; true, enabled; false, disabled
+    RenderTable[&quot;AdjustMonoFilesBy&quot;] - the adjust mono files by an additional-inputbox; -3, -3dB; 3, +3dB
     RenderTable[&quot;Brickwall_Limiter_Enabled&quot;] - true, brickwall limiting is enabled; false, brickwall limiting is disabled            
     RenderTable[&quot;Brickwall_Limiter_Method&quot;] - brickwall-limiting-mode; 1, peak; 2, true peak
     RenderTable[&quot;Brickwall_Limiter_Target&quot;] - the volume of the brickwall-limit
-    RenderTable[&quot;Bounds&quot;] - not stored with project defaults; will use the default bounds for the source
-                            0, Custom time range; 
-                            1, Entire project; 
-                            2, Time selection; 
-                            3, Project regions; 
-                            4, Selected Media Items(in combination with Source 32); 
-                            5, Selected regions
-                            6, Razor edit areas
-                            7, All project markers
-                            8, Selected markers
+    RenderTable[&quot;Bounds&quot;]    - 0, Custom time range; 
+                               1, Entire project; 
+                               2, Time selection; 
+                               3, Project regions; 
+                               4, Selected Media Items(in combination with Source 32); 
+                               5, Selected regions
+                               6, Razor edit areas
+                               7, All project markers
+                               8, Selected markers
     RenderTable[&quot;Channels&quot;] - the number of channels in the rendered file; 
-                              1, mono; 
-                              2, stereo; 
-                              higher, the number of channels
-    RenderTable[&quot;CloseAfterRender&quot;] - true, closes rendering to file-dialog after render; false, doesn&#39;t close it
+                                  1, mono; 
+                                  2, stereo; 
+                                  higher, the number of channels
+    RenderTable[&quot;CloseAfterRender&quot;] - true, close rendering to file-dialog after render; 
+                                      false, don&#39;t close it
     RenderTable[&quot;Dither&quot;] - &amp;1, dither master mix; 
                             &amp;2, noise shaping master mix; 
                             &amp;4, dither stems; 
                             &amp;8, noise shaping stems
-    RenderTable[&quot;EmbedMetaData&quot;] - Embed metadata; true, checked; false, unchecked
+    RenderTable[&quot;EmbedMetaData&quot;]       - Embed metadata; true, checked; false, unchecked
     RenderTable[&quot;EmbedStretchMarkers&quot;] - Embed stretch markers/transient guides; true, checked; false, unchecked
-    RenderTable[&quot;EmbedTakeMarkers&quot;] - Embed Take markers; true, checked; false, unchecked                        
+    RenderTable[&quot;EmbedTakeMarkers&quot;]    - Embed Take markers; true, checked; false, unchecked
     RenderTable[&quot;Enable2ndPassRender&quot;] - true, 2nd pass render is enabled; false, 2nd pass render is disabled
-    RenderTable[&quot;Endposition&quot;] - the endposition of the rendering selection in seconds; always 0 because it&#39;s not stored with project defaults
+    RenderTable[&quot;Endposition&quot;]         - the endposition of the rendering selection in seconds
     RenderTable[&quot;FadeIn_Enabled&quot;] - true, fade-in is enabled; false, fade-in is disabled
     RenderTable[&quot;FadeIn&quot;] - the fade-in-time in seconds
     RenderTable[&quot;FadeIn_Shape&quot;] - the fade-in-shape
@@ -54699,173 +54719,49 @@ Gets the render-settings of a RenderTable from a project-extstate, stored by Set
                            - 4, Quartic fade in
                            - 5, Cosine S-curve fade in
                            - 6, Quartic S-curve fade in
-    RenderTable[&quot;MultiChannelFiles&quot;] - Multichannel tracks to multichannel files-checkbox; true, checked; false, unchecked            
-    RenderTable[&quot;Normalize_Enabled&quot;] - true, normalization enabled; false, normalization not enabled
-    RenderTable[&quot;Normalize_Method&quot;] - the normalize-method-dropdownlist
-                   0, LUFS-I
-                   1, RMS-I
-                   2, Peak
-                   3, True Peak
-                   4, LUFS-M max
-                   5, LUFS-S max
+    RenderTable[&quot;MultiChannelFiles&quot;]   - Multichannel tracks to multichannel files-checkbox; true, checked; false, unchecked            
+    RenderTable[&quot;Normalize_Enabled&quot;]   - true, normalization enabled; 
+                                         false, normalization not enabled
+    RenderTable[&quot;Normalize_Method&quot;]    - the normalize-method-dropdownlist
+                                             0, LUFS-I
+                                             1, RMS-I
+                                             2, Peak
+                                             3, True Peak
+                                             4, LUFS-M max
+                                             5, LUFS-S max
     RenderTable[&quot;Normalize_Only_Files_Too_Loud&quot;] - Only normalize files that are too loud,checkbox
-                                                 - true, checkbox checked
-                                                 - false, checkbox unchecked
+                                                 true, checkbox checked
+                                                 false, checkbox unchecked
+    RenderTable[&quot;Normalize_Only_Files_Too_Quiet&quot;] - Only normalize files that are too quiet-checkbox; true, enabled; false, disabled
     RenderTable[&quot;Normalize_Stems_to_Master_Target&quot;] - true, normalize-stems to master target(common gain to stems)
                                                       false, normalize each file individually
-    RenderTable[&quot;Normalize_Target&quot;] - the normalize-target as dB-value
-    RenderTable[&quot;NoSilentRender&quot;] - Do not render files that are likely silent-checkbox; true, checked; false, unchecked
+    RenderTable[&quot;Normalize_Target&quot;]       - the normalize-target as dB-value    
+    RenderTable[&quot;NoSilentRender&quot;]         - Do not render files that are likely silent-checkbox; true, checked; false, unchecked
     RenderTable[&quot;OfflineOnlineRendering&quot;] - Offline/Online rendering-dropdownlist; 
-                                            0, Full-speed Offline
-                                            1, 1x Offline
-                                            2, Online Render
-                                            3, Online Render(Idle)
-                                            4, Offline Render(Idle)
+                                                0, Full-speed Offline; 
+                                                1, 1x Offline; 
+                                                2, Online Render; 
+                                                3, Online Render(Idle); 
+                                                4, Offline Render(Idle)
     RenderTable[&quot;OnlyChannelsSentToParent&quot;] - true, option is checked; false, option is unchecked
-    RenderTable[&quot;OnlyMonoMedia&quot;] - Tracks with only mono media to mono files-checkbox; true, checked; false, unchecked
+    RenderTable[&quot;OnlyMonoMedia&quot;] - Tracks with only mono media to mono files-checkbox; 
+                                       true, checked; 
+                                       false, unchecked
+    RenderTable[&quot;PadEndWithSilence&quot;] - Pad end with silence-checkbox; true, enabled; false, disabled
+    RenderTable[&quot;PadEndWithSilenceSeconds&quot;] - Pad end with silence-inputbox in seconds
+    RenderTable[&quot;PadStartWithSilence&quot;] - Pad start with silence-checkbox; true, enabled; false, disabled
+    RenderTable[&quot;PadStartWithSilenceSeconds&quot;] - Pad start with silence-inputbox, in seconds
+    RenderTable[&quot;ParallelRender&quot;] - Parallel-render-checkbox; true, enabled; false, disabled
     RenderTable[&quot;Preserve_Start_Offset&quot;] - true, preserve start-offset-checkbox(with Bounds=4 and Source=32); false, don&#39;t preserve
     RenderTable[&quot;Preserve_Metadata&quot;] - true, preserve metadata-checkbox; false, don&#39;t preserve
     RenderTable[&quot;ProjectSampleRateFXProcessing&quot;] - Use project sample rate for mixing and FX/synth processing-checkbox; 
                                                    true, checked; false, unchecked
-    RenderTable[&quot;RenderFile&quot;] - the contents of the Directory-inputbox of the Render to File-dialog; 
-                                always &quot;&quot; because it&#39;s not stored with project defaults
-    RenderTable[&quot;RenderPattern&quot;] - the render pattern as input into the File name-inputbox of the Render to File-dialog; 
-                                   always &quot;&quot; because it&#39;s not stored with project defaults
-    RenderTable[&quot;RenderQueueDelay&quot;] - Delay queued render to allow samples to load-checkbox; 
-                                      true, checked; false, unchecked
-    RenderTable[&quot;RenderQueueDelaySeconds&quot;] - the amount of seconds for the render-queue-delay
-    RenderTable[&quot;RenderResample&quot;] - Resample mode-dropdownlist; 
-                                        0, Sinc Interpolation: 64pt (medium quality)
-                                        1, Linear Interpolation: (low quality)
-                                        2, Point Sampling (lowest quality, retro)
-                                        3, Sinc Interpolation: 192pt
-                                        4, Sinc Interpolation: 384pt
-                                        5, Linear Interpolation + IIR
-                                        6, Linear Interpolation + IIRx2
-                                        7, Sinc Interpolation: 16pt
-                                        8, Sinc Interpolation: 512pt(slow)
-                                        9, Sinc Interpolation: 768pt(very slow)
-                                        10, r8brain free (highest quality, fast)
-    RenderTable[&quot;RenderStems_Prefader&quot;] - true, option is checked; false, option is unchecked
-    RenderTable[&quot;RenderString&quot;] - the render-cfg-string, that holds all settings of the currently set render-output-format as BASE64 string
-    RenderTable[&quot;RenderString2&quot;] - the render-cfg-string, that holds all settings of the currently set secondary-render-output-format as BASE64 string
-    RenderTable[&quot;RenderTable&quot;]=true - signals, this is a valid render-table
-                    RenderTable[&quot;ReturnToDialog&quot;] - true, return to render to file-dialog after rendering; false, don&#39;t return to render to file-dialog after rendering
-    RenderTable[&quot;SampleRate&quot;] - the samplerate of the rendered file(s)
-    RenderTable[&quot;SaveCopyOfProject&quot;] - the &quot;Save copy of project to outfile.wav.RPP&quot;-checkbox; true, checked; false, unchecked
-                    RenderTable[&quot;SaveRenderStatsFile&quot;] - 0, no render-stats-outfile; 1, Combined; 2, Per rendered file
-    RenderTable[&quot;SilentlyIncrementFilename&quot;] - Silently increment filenames to avoid overwriting-checkbox; true, checked; false, unchecked
-    RenderTable[&quot;Source&quot;] - 0, Master mix; 
-                            1, Master mix + stems; 
-                            3, Stems (selected tracks); 
-                            8, Region render matrix; 
-                            32, Selected media items; 
-                            64, selected media items via master; 
-                            128, selected tracks via master
-                            136, Region render matrix via master
-                            4096, Razor edit areas
-                            4224, Razor edit areas via master
-    RenderTable[&quot;Startposition&quot;] - the startposition of the rendering selection in seconds; always 0 because it&#39;s not stored with project defaults
-    RenderTable[&quot;TailFlag&quot;] - in which bounds is the Tail-checkbox checked
-                              &amp;1, custom time bounds; 
-                              &amp;2, entire project; 
-                              &amp;4, time selection; 
-                              &amp;8, all project regions; 
-                              &amp;16, selected media items; 
-                              &amp;32, selected project regions
-                              &amp;64, razor edit areas
-    RenderTable[&quot;TailMS&quot;] - the amount of milliseconds of the tail</code></pre>
-<p>Returns nil in case of an error</p>
-</div><br>      
-<u>Returnvalues:</u>
-<table class="ch">
-<tr><td class="pr"><i>table</i> RenderTable</td></tr>
-<tr><td class="ch2">a table with all of the current project's default render-settings</td></tr>
-</table>
-<br>
-</div>
-<div class="ch">
-<hr>
-<a class="anch" id="GetRenderTable_ProjectFile"></a>
-<a href="#GetRenderTable_ProjectFile"> ^</a> 
-<img width="3%" src="gfx/reaper7.34.png" alt="requires Reaper version 7.34">
-<img width="3%" src="gfx/ultraschall5.3.png" alt="requires Ultraschall version 5.3"><u><b>GetRenderTable_ProjectFile</b></u><br>			<p>
-<div class="cc">
-<div class="l">Lua: <code> <i>table</i> RenderTable = <em>ultraschall.GetRenderTable_ProjectFile</em>(<i>string</i> projectfilename_with_path)</code></div>
-</div><p>
-<div class="ch">
-<p>Returns all stored render-settings in a projectfile, as a handy table.</p>
-<pre><code>    RenderTable[&quot;AddToProj&quot;] - Add rendered items to new tracks in project-checkbox; true, checked; false, unchecked
-    RenderTable[&quot;Brickwall_Limiter_Enabled&quot;] - true, brickwall limiting is enabled; false, brickwall limiting is disabled            
-    RenderTable[&quot;Brickwall_Limiter_Method&quot;] - brickwall-limiting-mode; 1, peak; 2, true peak
-    RenderTable[&quot;Brickwall_Limiter_Target&quot;] - the volume of the brickwall-limit
-    RenderTable[&quot;Bounds&quot;] - 0, Custom time range; 
-                            1, Entire project; 
-                            2, Time selection; 
-                            3, Project regions; 
-                            4, Selected Media Items(in combination with Source 32); 
-                            5, Selected regions
-                            6, Razor edit areas
-                            7, All project markers
-                            8, Selected markers
-    RenderTable[&quot;Channels&quot;] - the number of channels in the rendered file; 
-                              1, mono; 
-                              2, stereo; 
-                              higher, the number of channels
-    RenderTable[&quot;CloseAfterRender&quot;] - true, closes rendering to file-dialog after render; always true, as this isn&#39;t stored in projectfiles
-    RenderTable[&quot;Dither&quot;] - &amp;1, dither master mix; 
-                            &amp;2, noise shaping master mix; 
-                            &amp;4, dither stems; 
-                            &amp;8, noise shaping stems
-    RenderTable[&quot;EmbedMetaData&quot;] - Embed metadata; true, checked; false, unchecked
-    RenderTable[&quot;EmbedStretchMarkers&quot;] - Embed stretch markers/transient guides; true, checked; false, unchecked
-    RenderTable[&quot;EmbedTakeMarkers&quot;] - Embed Take markers; true, checked; false, unchecked                        
-    RenderTable[&quot;Enable2ndPassRender&quot;] - true, 2nd pass render is enabled; false, 2nd pass render is disabled
-    RenderTable[&quot;Endposition&quot;] - the endposition of the rendering selection in seconds            
-    RenderTable[&quot;FadeIn_Enabled&quot;] - true, fade-in is enabled; false, fade-in is disabled
-    RenderTable[&quot;FadeIn&quot;] - the fade-in-time in seconds
-    RenderTable[&quot;FadeIn_Shape&quot;] - the fade-in-shape
-                           - 0, Linear fade in
-                           - 1, Inverted quadratic fade in
-                           - 2, Quadratic fade in
-                           - 3, Inverted quartic fade in
-                           - 4, Quartic fade in
-                           - 5, Cosine S-curve fade in
-                           - 6, Quartic S-curve fade in
-    RenderTable[&quot;FadeOut_Enabled&quot;] - true, fade-out is enabled; false, fade-out is disabled
-    RenderTable[&quot;FadeOut&quot;] - the fade-out time in seconds
-    RenderTable[&quot;FadeOut_Shape&quot;] - the fade-out-shape
-                           - 0, Linear fade in
-                           - 1, Inverted quadratic fade in
-                           - 2, Quadratic fade in
-                           - 3, Inverted quartic fade in
-                           - 4, Quartic fade in
-                           - 5, Cosine S-curve fade in
-                           - 6, Quartic S-curve fade in
-    RenderTable[&quot;MultiChannelFiles&quot;] - Multichannel tracks to multichannel files-checkbox; true, checked; false, unchecked
-    RenderTable[&quot;Normalize_Enabled&quot;] - true, normalization enabled; false, normalization not enabled
-    RenderTable[&quot;Normalize_Method&quot;] - the normalize-method-dropdownlist
-                               0, LUFS-I
-                               1, RMS-I
-                               2, Peak
-                               3, True Peak
-                               4, LUFS-M max
-                               5, LUFS-S max
-    RenderTable[&quot;Normalize_Stems_to_Master_Target&quot;] - true, normalize-stems to master target(common gain to stems)
-                                                      false, normalize each file individually
-    RenderTable[&quot;Normalize_Target&quot;] - the normalize-target as dB-value
-    RenderTable[&quot;NoSilentRender&quot;] - Do not render files that are likely silent-checkbox; true, checked; false, unchecked
-    RenderTable[&quot;OfflineOnlineRendering&quot;] - Offline/Online rendering-dropdownlist; 
-                                            0, Full-speed Offline; 
-                                            1, 1x Offline; 
-                                            2, Online Render; 
-                                            3, Online Render(Idle); 
-                                            4, Offline Render(Idle)
-    RenderTable[&quot;OnlyChannelsSentToParent&quot;] - true, option is checked; false, option is unchecked
-    RenderTable[&quot;OnlyMonoMedia&quot;] - Tracks with only mono media to mono files-checkbox; true, checked; false, unchecked
-    RenderTable[&quot;ProjectSampleRateFXProcessing&quot;] - Use project sample rate for mixing and FX/synth processing-checkbox; true, checked; false, unchecked
-    RenderTable[&quot;RenderFile&quot;] - the contents of the Directory-inputbox of the Render to File-dialog
-    RenderTable[&quot;RenderPattern&quot;] - the render pattern as input into the File name-inputbox of the Render to File-dialog
+    RenderTable[&quot;PostProcessingEnabled&quot;] - true, enabled; false, disabled; activates AdjustMonoFiles, AdjustMonoFilesBy, Brickwall\_Limiter\_Enabled, Brickwall\_Limiter\_Method, Brickwall\_Limiter\_Target, 
+                                 FadeIn, FadeIn\_Shape, FadeOut\_Enabled, FadeOut, FadeOut\_Shape, Normalize\_Enabled, Normalize\_Method, Normalize\_Only\_Files\_Too\_Quiet, 
+                                 Normalize\_Only\_Files\_Too\_Loud, Normalize\_Stems\_to\_Master\_Target, Normalize\_Target, PadStartWithSilence, PadStartWithSilenceMS, 
+                                 PadEndWithSilence, PadEndWithSilenceMS, TrimLeadingSilence, TrimLeadingSilenceDB, TrimTrailingSilence, TrimTrailingSilenceDB
+    RenderTable[&quot;RenderFile&quot;]       - the contents of the Directory-inputbox of the Render to File-dialog
+    RenderTable[&quot;RenderPattern&quot;]    - the render pattern as input into the File name-inputbox of the Render to File-dialog
     RenderTable[&quot;RenderQueueDelay&quot;] - Delay queued render to allow samples to load-checkbox; true, checked; false, unchecked
     RenderTable[&quot;RenderQueueDelaySeconds&quot;] - the amount of seconds for the render-queue-delay
     RenderTable[&quot;RenderResample&quot;] - Resample mode-dropdownlist; 
@@ -54881,34 +54777,208 @@ Gets the render-settings of a RenderTable from a project-extstate, stored by Set
                                         9, Sinc Interpolation: 768pt(very slow)
                                         10, r8brain free (highest quality, fast)
     RenderTable[&quot;RenderStems_Prefader&quot;] - true, option is checked; false, option is unchecked
-    RenderTable[&quot;RenderString&quot;] - the render-cfg-string, that holds all settings of the currently set render-output-format as BASE64 string
-    RenderTable[&quot;RenderString2&quot;] - the render-cfg-string, that holds all settings of the currently set secondary-render-output-format as BASE64 string
+    RenderTable[&quot;RenderString&quot;]     - the render-cfg-string, that holds all settings of the currently set render-output-format as BASE64 string
+    RenderTable[&quot;RenderString2&quot;]    - the render-cfg-string, that holds all settings of the currently set secondary-render-output-format as BASE64 string
     RenderTable[&quot;RenderTable&quot;]=true - signals, this is a valid render-table
-                    RenderTable[&quot;ReturnToDialog&quot;] - not stored in project files
-    RenderTable[&quot;SampleRate&quot;] - the samplerate of the rendered file(s)
-    RenderTable[&quot;SaveCopyOfProject&quot;] - the &quot;Save copy of project to outfile.wav.RPP&quot;-checkbox; always true(checked), as this isn&#39;t stored in projectfiles
-                    RenderTable[&quot;SaveRenderStatsFile&quot;] - not stored in project files
-    RenderTable[&quot;SilentlyIncrementFilename&quot;] - Silently increment filenames to avoid overwriting-checkbox; always false, as this is not stored in projectfiles
+                    RenderTable[&quot;ReturnToDialog&quot;] - true, return to render to file-dialog after rendering; false, don&#39;t return to render to file-dialog after rendering
+    RenderTable[&quot;SampleRate&quot;]       - the samplerate of the rendered file(s)
+    RenderTable[&quot;SaveCopyOfProject&quot;] - the &quot;Save copy of project to outfile.wav.RPP&quot;-checkbox; 
+                                        true, checked; 
+                                        false, unchecked
+                    RenderTable[&quot;SaveRenderStatsFile&quot;] - 0, no render-stats-outfile; 1, Combined; 2, Per rendered file
+    RenderTable[&quot;SilentlyIncrementFilename&quot;] - Silently increment filenames to avoid overwriting-checkbox; 
+                                                true, checked
+                                                false, unchecked
     RenderTable[&quot;Source&quot;] - 0, Master mix; 
                             1, Master mix + stems; 
                             3, Stems (selected tracks); 
                             8, Region render matrix; 
-                            32, Selected media items; 
+                            32, Selected media items; 64, selected media items via master; 
                             64, selected media items via master; 
                             128, selected tracks via master
                             136, Region render matrix via master
                             4096, Razor edit areas
                             4224, Razor edit areas via master
     RenderTable[&quot;Startposition&quot;] - the startposition of the rendering selection in seconds
-    RenderTable[&quot;TailFlag&quot;] - in which bounds is the Tail-checkbox checked
-                              &amp;1, custom time bounds; 
-                              &amp;2, entire project; 
-                              &amp;4, time selection; 
-                              &amp;8, all project regions; 
-                              &amp;16, selected media items; 
-                              &amp;32, selected project regions
-                              &amp;64, razor edit areas
+    RenderTable[&quot;TailFlag&quot;] - in which bounds is the Tail-checkbox checked? 
+                                &amp;1, custom time bounds; 
+                                &amp;2, entire project; 
+                                &amp;4, time selection; 
+                                &amp;8, all project regions; 
+                                &amp;16, selected media items; 
+                                &amp;32, selected project regions
+                                &amp;64, razor edit areas
     RenderTable[&quot;TailMS&quot;] - the amount of milliseconds of the tail
+    RenderTable[&quot;TrimLeadingSilence&quot;] - Trim leading silence, threshold(peak)-checkbox; true, enabled; false, disabled
+    RenderTable[&quot;TrimLeadingSilenceDB&quot;] - Trim leading silence, threshold(peak)-inputbox in dB
+    RenderTable[&quot;TrimTrailingSilence&quot;] - Trim trailing silence, threshold(peak)-checkbox; true, enabled; false, disabled
+    RenderTable[&quot;TrimTrailingSilenceDB&quot;] - Trim trailing silence, threshold(peak)-inputbox in dB</code></pre>
+<p>Returns nil in case of an error</p>
+</div><br>      
+<u>Returnvalues:</u>
+<table class="ch">
+<tr><td class="pr"><i>table</i> RenderTable</td></tr>
+<tr><td class="ch2">a table with all of the current project's default render-settings</td></tr>
+</table>
+<br>
+</div>
+<div class="ch">
+<hr>
+<a class="anch" id="GetRenderTable_ProjectFile"></a>
+<a href="#GetRenderTable_ProjectFile"> ^</a> 
+<img width="3%" src="gfx/reaper7.39.png" alt="requires Reaper version 7.39">
+<img width="3%" src="gfx/ultraschall5.31.png" alt="requires Ultraschall version 5.31"><u><b>GetRenderTable_ProjectFile</b></u><br>			<p>
+<div class="cc">
+<div class="l">Lua: <code> <i>table</i> RenderTable = <em>ultraschall.GetRenderTable_ProjectFile</em>(<i>string</i> projectfilename_with_path)</code></div>
+</div><p>
+<div class="ch">
+<p>Returns all stored render-settings in a projectfile, as a handy table.</p>
+<pre><code>    RenderTable[&quot;AddToProj&quot;] - Add rendered items to new tracks in project-checkbox; 
+                                true, checked; 
+                                false, unchecked
+    RenderTable[&quot;AdjustMonoFiles&quot;] - the adjust mono files by an additional-checkbox; true, enabled; false, disabled
+    RenderTable[&quot;AdjustMonoFilesBy&quot;] - the adjust mono files by an additional-inputbox; -3, -3dB; 3, +3dB
+    RenderTable[&quot;Brickwall_Limiter_Enabled&quot;] - true, brickwall limiting is enabled; false, brickwall limiting is disabled            
+    RenderTable[&quot;Brickwall_Limiter_Method&quot;] - brickwall-limiting-mode; 1, peak; 2, true peak
+    RenderTable[&quot;Brickwall_Limiter_Target&quot;] - the volume of the brickwall-limit
+    RenderTable[&quot;Bounds&quot;]    - 0, Custom time range; 
+                               1, Entire project; 
+                               2, Time selection; 
+                               3, Project regions; 
+                               4, Selected Media Items(in combination with Source 32); 
+                               5, Selected regions
+                               6, Razor edit areas
+                               7, All project markers
+                               8, Selected markers
+    RenderTable[&quot;Channels&quot;] - the number of channels in the rendered file; 
+                                  1, mono; 
+                                  2, stereo; 
+                                  higher, the number of channels
+    RenderTable[&quot;CloseAfterRender&quot;] - true, close rendering to file-dialog after render; 
+                                      false, don&#39;t close it
+    RenderTable[&quot;Dither&quot;] - &amp;1, dither master mix; 
+                            &amp;2, noise shaping master mix; 
+                            &amp;4, dither stems; 
+                            &amp;8, noise shaping stems
+    RenderTable[&quot;EmbedMetaData&quot;]       - Embed metadata; true, checked; false, unchecked
+    RenderTable[&quot;EmbedStretchMarkers&quot;] - Embed stretch markers/transient guides; true, checked; false, unchecked
+    RenderTable[&quot;EmbedTakeMarkers&quot;]    - Embed Take markers; true, checked; false, unchecked
+    RenderTable[&quot;Enable2ndPassRender&quot;] - true, 2nd pass render is enabled; false, 2nd pass render is disabled
+    RenderTable[&quot;Endposition&quot;]         - the endposition of the rendering selection in seconds
+    RenderTable[&quot;FadeIn_Enabled&quot;] - true, fade-in is enabled; false, fade-in is disabled
+    RenderTable[&quot;FadeIn&quot;] - the fade-in-time in seconds
+    RenderTable[&quot;FadeIn_Shape&quot;] - the fade-in-shape
+                           - 0, Linear fade in
+                           - 1, Inverted quadratic fade in
+                           - 2, Quadratic fade in
+                           - 3, Inverted quartic fade in
+                           - 4, Quartic fade in
+                           - 5, Cosine S-curve fade in
+                           - 6, Quartic S-curve fade in
+    RenderTable[&quot;FadeOut_Enabled&quot;] - true, fade-out is enabled; false, fade-out is disabled
+    RenderTable[&quot;FadeOut&quot;] - the fade-out time in seconds
+    RenderTable[&quot;FadeOut_Shape&quot;] - the fade-out-shape
+                           - 0, Linear fade in
+                           - 1, Inverted quadratic fade in
+                           - 2, Quadratic fade in
+                           - 3, Inverted quartic fade in
+                           - 4, Quartic fade in
+                           - 5, Cosine S-curve fade in
+                           - 6, Quartic S-curve fade in
+    RenderTable[&quot;MultiChannelFiles&quot;]   - Multichannel tracks to multichannel files-checkbox; true, checked; false, unchecked            
+    RenderTable[&quot;Normalize_Enabled&quot;]   - true, normalization enabled; 
+                                         false, normalization not enabled
+    RenderTable[&quot;Normalize_Method&quot;]    - the normalize-method-dropdownlist
+                                             0, LUFS-I
+                                             1, RMS-I
+                                             2, Peak
+                                             3, True Peak
+                                             4, LUFS-M max
+                                             5, LUFS-S max
+    RenderTable[&quot;Normalize_Only_Files_Too_Loud&quot;] - Only normalize files that are too loud,checkbox
+                                                 true, checkbox checked
+                                                 false, checkbox unchecked
+    RenderTable[&quot;Normalize_Only_Files_Too_Quiet&quot;] - Only normalize files that are too quiet-checkbox; true, enabled; false, disabled
+    RenderTable[&quot;Normalize_Stems_to_Master_Target&quot;] - true, normalize-stems to master target(common gain to stems)
+                                                      false, normalize each file individually
+    RenderTable[&quot;Normalize_Target&quot;]       - the normalize-target as dB-value    
+    RenderTable[&quot;NoSilentRender&quot;]         - Do not render files that are likely silent-checkbox; true, checked; false, unchecked
+    RenderTable[&quot;OfflineOnlineRendering&quot;] - Offline/Online rendering-dropdownlist; 
+                                                0, Full-speed Offline; 
+                                                1, 1x Offline; 
+                                                2, Online Render; 
+                                                3, Online Render(Idle); 
+                                                4, Offline Render(Idle)
+    RenderTable[&quot;OnlyChannelsSentToParent&quot;] - true, option is checked; false, option is unchecked
+    RenderTable[&quot;OnlyMonoMedia&quot;] - Tracks with only mono media to mono files-checkbox; 
+                                       true, checked; 
+                                       false, unchecked
+    RenderTable[&quot;PadEndWithSilence&quot;] - Pad end with silence-checkbox; true, enabled; false, disabled
+    RenderTable[&quot;PadEndWithSilenceSeconds&quot;] - Pad end with silence-inputbox in seconds
+    RenderTable[&quot;PadStartWithSilence&quot;] - Pad start with silence-checkbox; true, enabled; false, disabled
+    RenderTable[&quot;PadStartWithSilenceSeconds&quot;] - Pad start with silence-inputbox, in seconds
+    RenderTable[&quot;ParallelRender&quot;] - Parallel-render-checkbox; true, enabled; false, disabled
+    RenderTable[&quot;Preserve_Start_Offset&quot;] - true, preserve start-offset-checkbox(with Bounds=4 and Source=32); false, don&#39;t preserve
+    RenderTable[&quot;Preserve_Metadata&quot;] - true, preserve metadata-checkbox; false, don&#39;t preserve
+    RenderTable[&quot;ProjectSampleRateFXProcessing&quot;] - Use project sample rate for mixing and FX/synth processing-checkbox; 
+                                                   true, checked; false, unchecked
+    RenderTable[&quot;PostProcessingEnabled&quot;] - true, enabled; false, disabled; activates AdjustMonoFiles, AdjustMonoFilesBy, Brickwall\_Limiter\_Enabled, Brickwall\_Limiter\_Method, Brickwall\_Limiter\_Target, 
+                                 FadeIn, FadeIn\_Shape, FadeOut\_Enabled, FadeOut, FadeOut\_Shape, Normalize\_Enabled, Normalize\_Method, Normalize\_Only\_Files\_Too\_Quiet, 
+                                 Normalize\_Only\_Files\_Too\_Loud, Normalize\_Stems\_to\_Master\_Target, Normalize\_Target, PadStartWithSilence, PadStartWithSilenceMS, 
+                                 PadEndWithSilence, PadEndWithSilenceMS, TrimLeadingSilence, TrimLeadingSilenceDB, TrimTrailingSilence, TrimTrailingSilenceDB
+    RenderTable[&quot;RenderFile&quot;]       - the contents of the Directory-inputbox of the Render to File-dialog
+    RenderTable[&quot;RenderPattern&quot;]    - the render pattern as input into the File name-inputbox of the Render to File-dialog
+    RenderTable[&quot;RenderQueueDelay&quot;] - Delay queued render to allow samples to load-checkbox; true, checked; false, unchecked
+    RenderTable[&quot;RenderQueueDelaySeconds&quot;] - the amount of seconds for the render-queue-delay
+    RenderTable[&quot;RenderResample&quot;] - Resample mode-dropdownlist; 
+                                        0, Sinc Interpolation: 64pt (medium quality)
+                                        1, Linear Interpolation: (low quality)
+                                        2, Point Sampling (lowest quality, retro)
+                                        3, Sinc Interpolation: 192pt
+                                        4, Sinc Interpolation: 384pt
+                                        5, Linear Interpolation + IIR
+                                        6, Linear Interpolation + IIRx2
+                                        7, Sinc Interpolation: 16pt
+                                        8, Sinc Interpolation: 512pt(slow)
+                                        9, Sinc Interpolation: 768pt(very slow)
+                                        10, r8brain free (highest quality, fast)
+    RenderTable[&quot;RenderStems_Prefader&quot;] - true, option is checked; false, option is unchecked
+    RenderTable[&quot;RenderString&quot;]     - the render-cfg-string, that holds all settings of the currently set render-output-format as BASE64 string
+    RenderTable[&quot;RenderString2&quot;]    - the render-cfg-string, that holds all settings of the currently set secondary-render-output-format as BASE64 string
+    RenderTable[&quot;RenderTable&quot;]=true - signals, this is a valid render-table
+                    RenderTable[&quot;ReturnToDialog&quot;] - true, return to render to file-dialog after rendering; false, don&#39;t return to render to file-dialog after rendering
+    RenderTable[&quot;SampleRate&quot;]       - the samplerate of the rendered file(s)
+    RenderTable[&quot;SaveCopyOfProject&quot;] - the &quot;Save copy of project to outfile.wav.RPP&quot;-checkbox; 
+                                        true, checked; 
+                                        false, unchecked
+                    RenderTable[&quot;SaveRenderStatsFile&quot;] - 0, no render-stats-outfile; 1, Combined; 2, Per rendered file
+    RenderTable[&quot;SilentlyIncrementFilename&quot;] - Silently increment filenames to avoid overwriting-checkbox; 
+                                                true, checked
+                                                false, unchecked
+    RenderTable[&quot;Source&quot;] - 0, Master mix; 
+                            1, Master mix + stems; 
+                            3, Stems (selected tracks); 
+                            8, Region render matrix; 
+                            32, Selected media items; 64, selected media items via master; 
+                            64, selected media items via master; 
+                            128, selected tracks via master
+                            136, Region render matrix via master
+                            4096, Razor edit areas
+                            4224, Razor edit areas via master
+    RenderTable[&quot;Startposition&quot;] - the startposition of the rendering selection in seconds
+    RenderTable[&quot;TailFlag&quot;] - in which bounds is the Tail-checkbox checked? 
+                                &amp;1, custom time bounds; 
+                                &amp;2, entire project; 
+                                &amp;4, time selection; 
+                                &amp;8, all project regions; 
+                                &amp;16, selected media items; 
+                                &amp;32, selected project regions
+                                &amp;64, razor edit areas
+    RenderTable[&quot;TailMS&quot;] - the amount of milliseconds of the tail
+    RenderTable[&quot;TrimLeadingSilence&quot;] - Trim leading silence, threshold(peak)-checkbox; true, enabled; false, disabled
+    RenderTable[&quot;TrimLeadingSilenceDB&quot;] - Trim leading silence, threshold(peak)-inputbox in dB
+    RenderTable[&quot;TrimTrailingSilence&quot;] - Trim trailing silence, threshold(peak)-checkbox; true, enabled; false, disabled
+    RenderTable[&quot;TrimTrailingSilenceDB&quot;] - Trim trailing silence, threshold(peak)-inputbox in dB
        </code></pre>
 <p>Returns nil in case of an error</p>
 </div><br>      
@@ -55025,8 +55095,8 @@ Returns, if Reaper is currently rendering and the rendering position and project
 <hr>
 <a class="anch" id="IsValidRenderTable"></a>
 <a href="#IsValidRenderTable"> ^</a> 
-<img width="3%" src="gfx/reaper7.34.png" alt="requires Reaper version 7.34">
-<img width="3%" src="gfx/ultraschall5.3.png" alt="requires Ultraschall version 5.3"><u><b>IsValidRenderTable</b></u><br>			<p>
+<img width="3%" src="gfx/reaper7.39.png" alt="requires Reaper version 7.39">
+<img width="3%" src="gfx/ultraschall5.31.png" alt="requires Ultraschall version 5.31"><u><b>IsValidRenderTable</b></u><br>			<p>
 <div class="cc">
 <div class="l">Lua: <code> <i>boolean</i> retval = <em>ultraschall.IsValidRenderTable</em>(<i>table</i> RenderTable)</code></div>
 </div><p>

@@ -432,11 +432,18 @@ NOTE: Check mal, ob wirklich alle NORMALIZE-attribute ordentlich gesetzt werden.
 #### Changes from 5.3 to 5.31
   - DeveloperTools: Create\_New\_Script\_With\_Dialog - shows now resolved script-filename; allows now subfolders in scripts-folder to be added; fixed tooltip
   - ProjectManagement: SetProject\_Render\_Normalize - didn't correctly store the normalize-values into the project/projectstatechunk -> fixed
-  - Rendering: ApplyRenderTable\_Project - supports now attributes PostProcessingEnabled,  PadStartWithSilence, PadStartWithSilenceSeconds, PadEndWithSilence, PadEndWithSilenceSeconds, AdjustMonoFiles, AdjustMonoFilesBy, TrimLeadingSilence, TrimLeadingSilenceDB, TrimTrailingSilence, TrimTrailingSilenceDB, Normalize_Only_Files_Too_Quiet, ParallelRender
-  - Rendering: GetRenderTable\_Project - supports now attributes PostProcessingEnabled,  PadStartWithSilence, PadStartWithSilenceSeconds, PadEndWithSilence, PadEndWithSilenceSeconds, AdjustMonoFiles, AdjustMonoFilesBy, TrimLeadingSilence, TrimLeadingSilenceDB, TrimTrailingSilence, TrimTrailingSilenceDB, Normalize_Only_Files_Too_Quiet, ParallelRender
+  - Rendering: ApplyRenderTable\_Project - supports now attributes PostProcessingEnabled,  PadStartWithSilence, PadStartWithSilenceSeconds, PadEndWithSilence, PadEndWithSilenceSeconds, AdjustMonoFiles, AdjustMonoFilesBy, TrimLeadingSilence, TrimLeadingSilenceDB, TrimTrailingSilence, TrimTrailingSilenceDB, Normalize_Only_Files_Too_Quiet, ParallelRender; fixed issues with some normalization-attributes
+  - Rendering: ApplyRenderTable\_ProjectFile - supports now attributes PostProcessingEnabled,  PadStartWithSilence, PadStartWithSilenceSeconds, PadEndWithSilence, PadEndWithSilenceSeconds, AdjustMonoFiles, AdjustMonoFilesBy, TrimLeadingSilence, TrimLeadingSilenceDB, TrimTrailingSilence, TrimTrailingSilenceDB, Normalize_Only_Files_Too_Quiet, ParallelRender; fixed issues with some normalization-attributes
   - Rendering: CreateNewRenderTable - supports now attributes PostProcessingEnabled,  PadStartWithSilence, PadStartWithSilenceSeconds, PadEndWithSilence, PadEndWithSilenceSeconds, AdjustMonoFiles, AdjustMonoFilesBy, TrimLeadingSilence, TrimLeadingSilenceDB, TrimTrailingSilence, TrimTrailingSilenceDB, Normalize_Only_Files_Too_Quiet, ParallelRender
-  
-PostProcessingEnabled,  PadStartWithSilence, PadStartWithSilenceSeconds, PadEndWithSilence, PadEndWithSilenceSeconds, AdjustMonoFiles, AdjustMonoFilesBy, TrimLeadingSilence, TrimLeadingSilenceDB, TrimTrailingSilence, TrimTrailingSilenceDB, Normalize_Only_Files_Too_Quiet, ParallelRender
+  - Rendering: GetRenderTable\_Project - supports now attributes PostProcessingEnabled,  PadStartWithSilence, PadStartWithSilenceSeconds, PadEndWithSilence, PadEndWithSilenceSeconds, AdjustMonoFiles, AdjustMonoFilesBy, TrimLeadingSilence, TrimLeadingSilenceDB, TrimTrailingSilence, TrimTrailingSilenceDB, Normalize_Only_Files_Too_Quiet, ParallelRender
+  - Rendering: GetRenderTable\_ProjectDefaults - supports now attributes PostProcessingEnabled,  PadStartWithSilence, PadStartWithSilenceSeconds, PadEndWithSilence, PadEndWithSilenceSeconds, AdjustMonoFiles, AdjustMonoFilesBy, TrimLeadingSilence, TrimLeadingSilenceDB, TrimTrailingSilence, TrimTrailingSilenceDB, Normalize_Only_Files_Too_Quiet, ParallelRender
+  - Rendering: GetRenderTable\_ProjectFile - supports now attributes PostProcessingEnabled,  PadStartWithSilence, PadStartWithSilenceSeconds, PadEndWithSilence, PadEndWithSilenceSeconds, AdjustMonoFiles, AdjustMonoFilesBy, TrimLeadingSilence, TrimLeadingSilenceDB, TrimTrailingSilence, TrimTrailingSilenceDB, Normalize_Only_Files_Too_Quiet, ParallelRender
+  - Rendering: IsValidRenderTable - supports now attributes PostProcessingEnabled,  PadStartWithSilence, PadStartWithSilenceSeconds, PadEndWithSilence, PadEndWithSilenceSeconds, AdjustMonoFiles, AdjustMonoFilesBy, TrimLeadingSilence, TrimLeadingSilenceDB, TrimTrailingSilence, TrimTrailingSilenceDB, Normalize_Only_Files_Too_Quiet, ParallelRender
+
+
+PostProcessingEnabled, Normalize_Only_Files_Too_Quiet, PadStartWithSilence, PadEndWithSilence, TrimTrailingSilence, TrimLeadingSilence, ParallelRender, PadStartWithSilenceSeconds, PadEndWithSilenceSeconds,  TrimLeadingSilenceDB,  TrimTrailingSilenceDB, AdjustMonoFiles, AdjustMonoFilesBy, 
+
+ToDo: AddRenderPreset, SetRenderPreset, GetRenderPreset
 
 ---
 

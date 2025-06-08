@@ -81,9 +81,13 @@ function ultraschall.GetProjectState_NumbersOnly(projectfilename_with_path, stat
   end
   ProjectStateChunk=ProjectStateChunk:match(state.." (.-)\n")
   if ProjectStateChunk==nil then return end
-  local count, individual_values = ultraschall.CSV2IndividualLinesAsArray(ProjectStateChunk, " ")
+  --local count, individual_values = ultraschall.CSV2IndividualLinesAsArray(ProjectStateChunk, " ")
+  local individual_values={}
+  for v in string.gmatch(ProjectStateChunk.." ", "(.-) ") do
+    individual_values[#individual_values+1]=v
+  end
   if numbertoggle~=false then
-    for i=1, count do
+    for i=1, #individual_values do
         individual_values[i]=tonumber(individual_values[i])
     end
   end
@@ -11983,7 +11987,7 @@ function ultraschall.GetProject_Render_Trim(projectfilename_with_path, ProjectSt
     
     It's the entry RENDER_TRIM
     
-    returns nil in case of an error
+    returns nil in case of an erroror if the entry is not present(i.e. in older project files)
   </description>
   <parameters>
     string projectfilename_with_path - the projectfile+path, from which to get the trackview-states; nil to use ProjectStateChunk
@@ -12113,7 +12117,6 @@ function ultraschall.SetProject_Render_Normalize(projectfilename_with_path, rend
   if projectfilename_with_path~=nil and reaper.file_exists(projectfilename_with_path)==false then ultraschall.AddErrorMessage("SetProject_Render_Normalize", "projectfilename_with_path", "File does not exist", -2) return -1 end
   if projectfilename_with_path~=nil then ProjectStateChunk=ultraschall.ReadFullFile(projectfilename_with_path) end
   if projectfilename_with_path~=nil and ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("SetProject_Render_Normalize", "projectfilename_with_path", "File is no valid RPP-Projectfile", -3) return -1 end
-
   if math.type(render_normalize_method)~="integer" then ultraschall.AddErrorMessage("SetProject_Render_Normalize", "render_normalize_method", "Must be an integer", -4) return -1 end
   if type(normalize_target)~="number" then ultraschall.AddErrorMessage("SetProject_Render_Normalize", "normalize_target", "Must be a number", -5) return -1 end
   if brickwall_target~=nil and type(brickwall_target)~="number" then ultraschall.AddErrorMessage("SetProject_Render_Normalize", "brickwall_target", "Must be a number", -7) return -1 end
@@ -12133,7 +12136,7 @@ function ultraschall.SetProject_Render_Normalize(projectfilename_with_path, rend
   
   local ProjectEntry=""
   
-  ProjectEntry="  RENDER_NORMALIZE "..render_normalize_method.." "..normalize_target.." "..brickwall_target.." "..fadein_length.." "..fadeout_length.." "..fadein_shape.." "..fadeout_shape.."\n" 
+  ProjectEntry="  RENDER_NORMALIZE "..render_normalize_method.." "..normalize_target..brickwall_target..fadein_length..fadeout_length..fadein_shape..fadeout_shape.."\n" 
   
   if ProjectStateChunk:match("RENDER_NORMALIZE")~=nil then
     ProjectStateChunk=string.gsub(ProjectStateChunk, "\n  RENDER_NORMALIZE .-%c", "\n"..ProjectEntry)
@@ -12187,12 +12190,12 @@ function ultraschall.SetProject_Render_Trim(projectfilename_with_path, trim_lead
   if projectfilename_with_path~=nil then ProjectStateChunk=ultraschall.ReadFullFile(projectfilename_with_path) end
   if projectfilename_with_path~=nil and ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("SetProject_Render_Trim", "projectfilename_with_path", "File is no valid RPP-Projectfile", -3) return -1 end
 
-  if type(trim_leading_db)~="number" then ultraschall.AddErrorMessage("SetProject_Render_Normalize", "trim_leading_db", "Must be a number", -4) return -1 end
-  if type(trim_trailing_db)~="number" then ultraschall.AddErrorMessage("SetProject_Render_Normalize", "trim_trailing_db", "Must be a number", -5) return -1 end
-  if math.type(pad_start_seconds)~="integer" then ultraschall.AddErrorMessage("SetProject_Render_Normalize", "pad_start_seconds", "Must be an integer", -6) return -1 end
-  if math.type(pad_end_seconds)~="integer" then ultraschall.AddErrorMessage("SetProject_Render_Normalize", "pad_end_seconds", "Must be an integer", -7) return -1 end
+  if type(trim_leading_db)~="number" then ultraschall.AddErrorMessage("SetProject_Render_Trim", "trim_leading_db", "Must be a number", -4) return -1 end
+  if type(trim_trailing_db)~="number" then ultraschall.AddErrorMessage("SetProject_Render_Trim", "trim_trailing_db", "Must be a number", -5) return -1 end
+  if type(pad_start_seconds)~="number" then ultraschall.AddErrorMessage("SetProject_Render_Trim", "pad_start_seconds", "Must be a number", -6) return -1 end
+  if type(pad_end_seconds)~="number" then ultraschall.AddErrorMessage("SetProject_Render_Trim", "pad_end_seconds", "Must be a number", -7) return -1 end
   
-  if ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("SetProject_Render_Normalize", "projectfilename_with_path", "No valid RPP-Projectfile!", -8) return -1 end
+  if ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("SetProject_Render_Trim", "projectfilename_with_path", "No valid RPP-Projectfile!", -8) return -1 end
   
   local ProjectEntry=""
   
