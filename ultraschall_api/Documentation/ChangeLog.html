@@ -41,25 +41,29 @@ Bla</li>
 </ul>
 <h4>New features in 5.31</h4>
 <ul>
-<li>ProjectManagement: GetProject_Render_Trim - gets the trim/pad-settings from a project/projectstatechunk</li>
-<li>ProjectManagement: SetProject_Render_Trim - sets the trim/pad-settings in a project/projectstatechunk</li>
+<li>ProjectManagement: GetProject_Render_Trim - gets the trim/pad-settings of a project/projectstatechunk</li>
+<li>ProjectManagement: SetProject_Render_Trim - sets the trim/pad-settings of a project/projectstatechunk</li>
 <li>ReaGirl: UI_Element_GetSetExtState - gets/sets additional string-data to a ui-element</li>
 <li>ReaGirl: UI_Element_GetSetIdentifier - gets/sets the unique identifier of a ui-element</li>
 </ul>
 <h4>Changes from 5.3 to 5.31</h4>
 <ul>
 <li>DeveloperTools: Create_New_Script_With_Dialog - shows now resolved script-filename; allows now subfolders in scripts-folder to be added; fixed tooltip</li>
+<li>HelperFunctions: ShowMenu - overwrote the values in gfx.x and gfx.y -&gt; fixed</li>
 <li>ProjectManagement: SetProject_Render_Normalize - didn't correctly store the normalize-values into the project/projectstatechunk -&gt; fixed</li>
 <li>Rendering: ApplyRenderTable_Project - supports now attributes PostProcessingEnabled, PadStartWithSilence, PadStartWithSilenceSeconds, PadEndWithSilence, PadEndWithSilenceSeconds, AdjustMonoFiles, AdjustMonoFilesBy, TrimLeadingSilence, TrimLeadingSilenceDB, TrimTrailingSilence, TrimTrailingSilenceDB, Normalize<em>Only</em>Files<em>Too</em>Quiet, ParallelRender; fixed issues with some normalization-attributes</li>
+<li>Rendering: AddRenderPreset - supports now attributes PostProcessingEnabled, PadStartWithSilence, PadStartWithSilenceSeconds, PadEndWithSilence, PadEndWithSilenceSeconds, AdjustMonoFiles, AdjustMonoFilesBy, TrimLeadingSilence, TrimLeadingSilenceDB, TrimTrailingSilence, TrimTrailingSilenceDB, Normalize<em>Only</em>Files<em>Too</em>Quiet, ParallelRender, FadeIn/Out</li>
 <li>Rendering: ApplyRenderTable_ProjectFile - supports now attributes PostProcessingEnabled, PadStartWithSilence, PadStartWithSilenceSeconds, PadEndWithSilence, PadEndWithSilenceSeconds, AdjustMonoFiles, AdjustMonoFilesBy, TrimLeadingSilence, TrimLeadingSilenceDB, TrimTrailingSilence, TrimTrailingSilenceDB, Normalize<em>Only</em>Files<em>Too</em>Quiet, ParallelRender; fixed issues with some normalization-attributes</li>
 <li>Rendering: CreateNewRenderTable - supports now attributes PostProcessingEnabled, PadStartWithSilence, PadStartWithSilenceSeconds, PadEndWithSilence, PadEndWithSilenceSeconds, AdjustMonoFiles, AdjustMonoFilesBy, TrimLeadingSilence, TrimLeadingSilenceDB, TrimTrailingSilence, TrimTrailingSilenceDB, Normalize<em>Only</em>Files<em>Too</em>Quiet, ParallelRender</li>
 <li>Rendering: GetRenderTable_Project - supports now attributes PostProcessingEnabled, PadStartWithSilence, PadStartWithSilenceSeconds, PadEndWithSilence, PadEndWithSilenceSeconds, AdjustMonoFiles, AdjustMonoFilesBy, TrimLeadingSilence, TrimLeadingSilenceDB, TrimTrailingSilence, TrimTrailingSilenceDB, Normalize<em>Only</em>Files<em>Too</em>Quiet, ParallelRender</li>
 <li>Rendering: GetRenderTable_ProjectDefaults - supports now attributes PostProcessingEnabled, PadStartWithSilence, PadStartWithSilenceSeconds, PadEndWithSilence, PadEndWithSilenceSeconds, AdjustMonoFiles, AdjustMonoFilesBy, TrimLeadingSilence, TrimLeadingSilenceDB, TrimTrailingSilence, TrimTrailingSilenceDB, Normalize<em>Only</em>Files<em>Too</em>Quiet, ParallelRender</li>
 <li>Rendering: GetRenderTable_ProjectFile - supports now attributes PostProcessingEnabled, PadStartWithSilence, PadStartWithSilenceSeconds, PadEndWithSilence, PadEndWithSilenceSeconds, AdjustMonoFiles, AdjustMonoFilesBy, TrimLeadingSilence, TrimLeadingSilenceDB, TrimTrailingSilence, TrimTrailingSilenceDB, Normalize<em>Only</em>Files<em>Too</em>Quiet, ParallelRender</li>
+<li>Rendering: GetRenderPreset_RenderTable - supports now attributes PostProcessingEnabled, PadStartWithSilence, PadStartWithSilenceSeconds, PadEndWithSilence, PadEndWithSilenceSeconds, AdjustMonoFiles, AdjustMonoFilesBy, TrimLeadingSilence, TrimLeadingSilenceDB, TrimTrailingSilence, TrimTrailingSilenceDB, Normalize<em>Only</em>Files<em>Too</em>Quiet, ParallelRender; fixed various issues with some preset names and settings</li>
+<li>Rendering: SetRenderPreset - supports now attributes PostProcessingEnabled, PadStartWithSilence, PadStartWithSilenceSeconds, PadEndWithSilence, PadEndWithSilenceSeconds, AdjustMonoFiles, AdjustMonoFilesBy, TrimLeadingSilence, TrimLeadingSilenceDB, TrimTrailingSilence, TrimTrailingSilenceDB, Normalize<em>Only</em>Files<em>Too</em>Quiet, ParallelRender, FadeIn/Out</li>
 <li>Rendering: IsValidRenderTable - supports now attributes PostProcessingEnabled, PadStartWithSilence, PadStartWithSilenceSeconds, PadEndWithSilence, PadEndWithSilenceSeconds, AdjustMonoFiles, AdjustMonoFilesBy, TrimLeadingSilence, TrimLeadingSilenceDB, TrimTrailingSilence, TrimTrailingSilenceDB, Normalize<em>Only</em>Files<em>Too</em>Quiet, ParallelRender</li>
 </ul>
 <p>PostProcessingEnabled, Normalize<em>Only</em>Files<em>Too</em>Quiet, PadStartWithSilence, PadEndWithSilence, TrimTrailingSilence, TrimLeadingSilence, ParallelRender, PadStartWithSilenceSeconds, PadEndWithSilenceSeconds, TrimLeadingSilenceDB, TrimTrailingSilenceDB, AdjustMonoFiles, AdjustMonoFilesBy,</p>
-<p>ToDo: AddRenderPreset, SetRenderPreset, GetRenderPreset</p>
+<p>ToDo: GetRenderPreset</p>
 <hr />
 <h3>5.3 - "Spice Girls - Too Much" - 12th of May 2025</h3>
 <p>Has now 1904 functions, with 46 new ones</p>
@@ -144,14 +148,14 @@ As usual ;)</p></li>
 <li>ReaGirl: Tooltips - the meaning_ofUIElement is now in the first line, the info Has contextmenu, draggable and Allows dropping of files is now in the second line. Looks more clean that way.</li>
 <li>Rendering: AddRenderPreset - improved error-handling when presets already exist</li>
 <li>Rendering: SetRenderPreset - didn't accept all preset-names, should be fixed now - thanks to MountWest</li>
-<li>Rendering: ApplyRenderTable_Project - added new attributes ReturnToDialog, SaveOutfile</li>
-<li>Rendering: CreateNewRenderTable - added new attributes Preserve_Start_Offset, Preserve_Metadata, ReturnToDialog, SaveOutfile</li>
+<li>Rendering: ApplyRenderTable_Project - added new attributes ReturnToDialog, SaveRenderStatsFile</li>
+<li>Rendering: CreateNewRenderTable - added new attributes Preserve_Start_Offset, Preserve_Metadata, ReturnToDialog, SaveRenderStatsFile</li>
 <li>Rendering: GetRender_SaveRenderStats - added combined/per rendered file-options; didn't return correct values when render to file-dialog was closed -&gt; fixed</li>
-<li>Rendering: GetRenderTable_Project - added new attributes Preserve_Start_Offset, Preserve_Metadata, ReturnToDialog, SaveOutfile</li>
-<li>Rendering: GetRenderTable_ProjectDefaults - added new attributes ReturnToDialog, SaveOutfile</li>
+<li>Rendering: GetRenderTable_Project - added new attributes Preserve_Start_Offset, Preserve_Metadata, ReturnToDialog, SaveRenderStatsFile</li>
+<li>Rendering: GetRenderTable_ProjectDefaults - added new attributes ReturnToDialog, SaveRenderStatsFile</li>
 <li>Rendering: DeleteRenderPreset_Bounds - didn't accept all preset-names, should be fixed now - thanks to MountWest</li>
 <li>Rendering: DeleteRenderPreset_FormatOptions - didn't accept all preset-names, should be fixed now - thanks to MountWest</li>
-<li>Rendering: IsValidRenderTable - added new attributes Preserve_Start_Offset, Preserve_Metadata, ReturnToDialog, SaveOutfile</li>
+<li>Rendering: IsValidRenderTable - added new attributes Preserve_Start_Offset, Preserve_Metadata, ReturnToDialog, SaveRenderStatsFile</li>
 <li>Rendering: SetRender_SaveRenderStats - added combined/per rendered file-options</li>
 </ul>
 <hr />

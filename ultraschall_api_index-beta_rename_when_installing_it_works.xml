@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API and ReaGirl">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API and ReaGirl package" type="extension">
-      <version name="56179.00" author="Meo-Ada Mespotine">
+      <version name="56180.00" author="Meo-Ada Mespotine">
 	<source file="reagirl.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5.31/reagirl.lua</source>
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5.31/ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5.31/ultraschall_api_readme.txt</source>
@@ -767,9 +767,9 @@ new in this release:
 New features in 5.31
 
 -   ProjectManagement: GetProject_Render_Trim - gets the
-    trim/pad-settings from a project/projectstatechunk
+    trim/pad-settings of a project/projectstatechunk
 -   ProjectManagement: SetProject_Render_Trim - sets the
-    trim/pad-settings in a project/projectstatechunk
+    trim/pad-settings of a project/projectstatechunk
 -   ReaGirl: UI_Element_GetSetExtState - gets/sets additional
     string-data to a ui-element
 -   ReaGirl: UI_Element_GetSetIdentifier - gets/sets the unique
@@ -780,6 +780,8 @@ Changes from 5.3 to 5.31
 -   DeveloperTools: Create_New_Script_With_Dialog - shows now resolved
     script-filename; allows now subfolders in scripts-folder to be
     added; fixed tooltip
+-   HelperFunctions: ShowMenu - overwrote the values in gfx.x and gfx.y
+    -> fixed
 -   ProjectManagement: SetProject_Render_Normalize - didn’t correctly
     store the normalize-values into the project/projectstatechunk ->
     fixed
@@ -790,6 +792,13 @@ Changes from 5.3 to 5.31
     TrimLeadingSilence, TrimLeadingSilenceDB, TrimTrailingSilence,
     TrimTrailingSilenceDB, Normalize_Only_Files_Too_Quiet,
     ParallelRender; fixed issues with some normalization-attributes
+-   Rendering: AddRenderPreset - supports now attributes
+    PostProcessingEnabled, PadStartWithSilence,
+    PadStartWithSilenceSeconds, PadEndWithSilence,
+    PadEndWithSilenceSeconds, AdjustMonoFiles, AdjustMonoFilesBy,
+    TrimLeadingSilence, TrimLeadingSilenceDB, TrimTrailingSilence,
+    TrimTrailingSilenceDB, Normalize_Only_Files_Too_Quiet,
+    ParallelRender, FadeIn/Out
 -   Rendering: ApplyRenderTable_ProjectFile - supports now attributes
     PostProcessingEnabled, PadStartWithSilence,
     PadStartWithSilenceSeconds, PadEndWithSilence,
@@ -825,6 +834,21 @@ Changes from 5.3 to 5.31
     TrimLeadingSilence, TrimLeadingSilenceDB, TrimTrailingSilence,
     TrimTrailingSilenceDB, Normalize_Only_Files_Too_Quiet,
     ParallelRender
+-   Rendering: GetRenderPreset_RenderTable - supports now attributes
+    PostProcessingEnabled, PadStartWithSilence,
+    PadStartWithSilenceSeconds, PadEndWithSilence,
+    PadEndWithSilenceSeconds, AdjustMonoFiles, AdjustMonoFilesBy,
+    TrimLeadingSilence, TrimLeadingSilenceDB, TrimTrailingSilence,
+    TrimTrailingSilenceDB, Normalize_Only_Files_Too_Quiet,
+    ParallelRender; fixed various issues with some preset names and
+    settings
+-   Rendering: SetRenderPreset - supports now attributes
+    PostProcessingEnabled, PadStartWithSilence,
+    PadStartWithSilenceSeconds, PadEndWithSilence,
+    PadEndWithSilenceSeconds, AdjustMonoFiles, AdjustMonoFilesBy,
+    TrimLeadingSilence, TrimLeadingSilenceDB, TrimTrailingSilence,
+    TrimTrailingSilenceDB, Normalize_Only_Files_Too_Quiet,
+    ParallelRender, FadeIn/Out
 -   Rendering: IsValidRenderTable - supports now attributes
     PostProcessingEnabled, PadStartWithSilence,
     PadStartWithSilenceSeconds, PadEndWithSilence,
@@ -839,7 +863,7 @@ TrimLeadingSilence, ParallelRender, PadStartWithSilenceSeconds,
 PadEndWithSilenceSeconds, TrimLeadingSilenceDB, TrimTrailingSilenceDB,
 AdjustMonoFiles, AdjustMonoFilesBy,
 
-ToDo: AddRenderPreset, SetRenderPreset, GetRenderPreset
+ToDo: GetRenderPreset
 ]]>
 </changelog>
       </version>
@@ -871,7 +895,7 @@ ToDo: AddRenderPreset, SetRenderPreset, GetRenderPreset
         \par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af6\langfe2052\dbch\af8\afs24\lang1081\loch\f0\fs24\lang1031{\rtlch \ltrch\loch
         }
         \par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af6\langfe2052\dbch\af8\afs24\lang1081\loch\f0\fs24\lang1031{\rtlch \ltrch\loch\loch\f4
-        a 1695 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 56179 from 08.06.2025 22:47:38).}
+        a 1695 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 56180 from 13.06.2025 14:43:37).}
         \par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af6\langfe2052\dbch\af8\afs24\lang1081\loch\f0\fs24\lang1031{\rtlch \ltrch\loch
         }
         \par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af6\langfe2052\dbch\af8\afs24\lang1081\loch\f0\fs24\lang1031{\rtlch \ltrch\loch

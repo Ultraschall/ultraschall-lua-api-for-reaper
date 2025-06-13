@@ -693,7 +693,7 @@ function ultraschall.ShowMenu(Title,Entries,x,y)
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>ShowMenu</slug>
   <requires>
-    Ultraschall=4.7
+    Ultraschall=5.31
     Reaper=5.95
     Lua=5.3
   </requires>
@@ -759,7 +759,7 @@ function ultraschall.ShowMenu(Title,Entries,x,y)
   if math.type(y)~="integer" then ultraschall.AddErrorMessage("ShowMenu", "y", "must be an integer", -4) return -1 end
   if Entries=="" then ultraschall.AddErrorMessage("ShowMenu", "Entries", "must have at least one entry", -5) return -1 end
   if Title:len()<=5 then for i=5-Title:len(),1, -1 do Title=Title.." " end end
-
+  local oldx, oldy=gfx.x, gfx.y
   local ownwindow=false
   if gfx.h==0 and gfx.w==0 then gfx.init("Ultraschall-Menu",0,0,0,x,y)
     gfx.x=-10
@@ -773,6 +773,8 @@ function ultraschall.ShowMenu(Title,Entries,x,y)
   
   local selection=gfx.showmenu("#"..Title.."||"..Entries)
   if ownwindow==true then gfx.quit() gfx.w=0 gfx.h=0 end
+  gfx.x=oldx
+  gfx.y=oldy
   return math.floor(selection)-1
 end
 
