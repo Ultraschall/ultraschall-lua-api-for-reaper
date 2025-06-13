@@ -411,6 +411,22 @@ To Do:
 </TODO>
 
 ## Ultraschall Framework - Changelog
+### 5.4 - " - " - 13th of June 2025
+
+Has now 1939 functions, with X new ones
+
+**new in this release:**  
+
+  - **Bla**  
+  Bla
+  
+#### New features in 5.4  
+  - 
+
+#### Changes from 5.31 to 5.4
+
+
+---
 
 ### 5.31 - "Herbie Hancock - Hang up your hang ups" - 13th of June 2025
 
