@@ -6226,6 +6226,8 @@
           - reagirl.UI\_Element\_GetFocused - gets the currently focused ui-element  
           - reagirl.UI\_Element\_GetHovered - gets the currently hovered ui-element  
           - reagirl.UI\_Element\_GetSetCaption - gets/sets the caption of a ui-element  
+          - reagirl.UI\_Element\_GetSetExtState - gets/sets an ext-state, which can be used to store additional data with a ui-element
+          - reagirl.UI\_Element\_GetSetIdentifier - gets/sets the unique identifier of a ui-element, that can be used to control it from an external script
           - reagirl.UI\_Element\_GetSetMeaningOfUIElement - gets/sets the meaning of ui-element, like tooltip/screen reader helpmessage  
           - reagirl.UI\_Element\_GetSetPosition - gets/sets the position of a ui-element  
           - reagirl.UI\_Element\_GetSetRunFunction - gets/sets the current run-functions  

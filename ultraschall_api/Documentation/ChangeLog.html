@@ -31,13 +31,14 @@
       
           <div class="ch"><p></p>
 <h2>Ultraschall Framework - Changelog</h2>
-<h3>5.31 - "Herbie Hancock - Hang up your hang ups" - 12th of May 2025</h3>
-<p>Has now 1904 functions, with XX new ones</p>
-<p>NOTE: Check mal, ob wirklich alle NORMALIZE-attribute ordentlich gesetzt werden. Speziell, wenn checboxen=false gesetzt werden sollen, da scheint es Issues zu geben...</p>
+<h3>5.31 - "Herbie Hancock - Hang up your hang ups" - 13th of June 2025</h3>
+<p>Has now 1908 functions, with 4 new ones</p>
 <p><strong>new in this release:</strong></p>
 <ul>
-<li><strong>Bla</strong><br />
-Bla</li>
+<li><p><strong>PostProcessing</strong><br />
+All new post-processing features are now supported by the rendering-functions.</p></li>
+<li><p><strong>ReaGirl</strong><br />
+UI-elements now have their own ext-state, which can be used to store metadata with a ui-element</p></li>
 </ul>
 <h4>New features in 5.31</h4>
 <ul>
@@ -51,19 +52,17 @@ Bla</li>
 <li>DeveloperTools: Create_New_Script_With_Dialog - shows now resolved script-filename; allows now subfolders in scripts-folder to be added; fixed tooltip</li>
 <li>HelperFunctions: ShowMenu - overwrote the values in gfx.x and gfx.y -&gt; fixed</li>
 <li>ProjectManagement: SetProject_Render_Normalize - didn't correctly store the normalize-values into the project/projectstatechunk -&gt; fixed</li>
-<li>Rendering: ApplyRenderTable_Project - supports now attributes PostProcessingEnabled, PadStartWithSilence, PadStartWithSilenceSeconds, PadEndWithSilence, PadEndWithSilenceSeconds, AdjustMonoFiles, AdjustMonoFilesBy, TrimLeadingSilence, TrimLeadingSilenceDB, TrimTrailingSilence, TrimTrailingSilenceDB, Normalize<em>Only</em>Files<em>Too</em>Quiet, ParallelRender; fixed issues with some normalization-attributes</li>
-<li>Rendering: AddRenderPreset - supports now attributes PostProcessingEnabled, PadStartWithSilence, PadStartWithSilenceSeconds, PadEndWithSilence, PadEndWithSilenceSeconds, AdjustMonoFiles, AdjustMonoFilesBy, TrimLeadingSilence, TrimLeadingSilenceDB, TrimTrailingSilence, TrimTrailingSilenceDB, Normalize<em>Only</em>Files<em>Too</em>Quiet, ParallelRender, FadeIn/Out</li>
-<li>Rendering: ApplyRenderTable_ProjectFile - supports now attributes PostProcessingEnabled, PadStartWithSilence, PadStartWithSilenceSeconds, PadEndWithSilence, PadEndWithSilenceSeconds, AdjustMonoFiles, AdjustMonoFilesBy, TrimLeadingSilence, TrimLeadingSilenceDB, TrimTrailingSilence, TrimTrailingSilenceDB, Normalize<em>Only</em>Files<em>Too</em>Quiet, ParallelRender; fixed issues with some normalization-attributes</li>
-<li>Rendering: CreateNewRenderTable - supports now attributes PostProcessingEnabled, PadStartWithSilence, PadStartWithSilenceSeconds, PadEndWithSilence, PadEndWithSilenceSeconds, AdjustMonoFiles, AdjustMonoFilesBy, TrimLeadingSilence, TrimLeadingSilenceDB, TrimTrailingSilence, TrimTrailingSilenceDB, Normalize<em>Only</em>Files<em>Too</em>Quiet, ParallelRender</li>
-<li>Rendering: GetRenderTable_Project - supports now attributes PostProcessingEnabled, PadStartWithSilence, PadStartWithSilenceSeconds, PadEndWithSilence, PadEndWithSilenceSeconds, AdjustMonoFiles, AdjustMonoFilesBy, TrimLeadingSilence, TrimLeadingSilenceDB, TrimTrailingSilence, TrimTrailingSilenceDB, Normalize<em>Only</em>Files<em>Too</em>Quiet, ParallelRender</li>
-<li>Rendering: GetRenderTable_ProjectDefaults - supports now attributes PostProcessingEnabled, PadStartWithSilence, PadStartWithSilenceSeconds, PadEndWithSilence, PadEndWithSilenceSeconds, AdjustMonoFiles, AdjustMonoFilesBy, TrimLeadingSilence, TrimLeadingSilenceDB, TrimTrailingSilence, TrimTrailingSilenceDB, Normalize<em>Only</em>Files<em>Too</em>Quiet, ParallelRender</li>
-<li>Rendering: GetRenderTable_ProjectFile - supports now attributes PostProcessingEnabled, PadStartWithSilence, PadStartWithSilenceSeconds, PadEndWithSilence, PadEndWithSilenceSeconds, AdjustMonoFiles, AdjustMonoFilesBy, TrimLeadingSilence, TrimLeadingSilenceDB, TrimTrailingSilence, TrimTrailingSilenceDB, Normalize<em>Only</em>Files<em>Too</em>Quiet, ParallelRender</li>
-<li>Rendering: GetRenderPreset_RenderTable - supports now attributes PostProcessingEnabled, PadStartWithSilence, PadStartWithSilenceSeconds, PadEndWithSilence, PadEndWithSilenceSeconds, AdjustMonoFiles, AdjustMonoFilesBy, TrimLeadingSilence, TrimLeadingSilenceDB, TrimTrailingSilence, TrimTrailingSilenceDB, Normalize<em>Only</em>Files<em>Too</em>Quiet, ParallelRender; fixed various issues with some preset names and settings</li>
-<li>Rendering: SetRenderPreset - supports now attributes PostProcessingEnabled, PadStartWithSilence, PadStartWithSilenceSeconds, PadEndWithSilence, PadEndWithSilenceSeconds, AdjustMonoFiles, AdjustMonoFilesBy, TrimLeadingSilence, TrimLeadingSilenceDB, TrimTrailingSilence, TrimTrailingSilenceDB, Normalize<em>Only</em>Files<em>Too</em>Quiet, ParallelRender, FadeIn/Out</li>
-<li>Rendering: IsValidRenderTable - supports now attributes PostProcessingEnabled, PadStartWithSilence, PadStartWithSilenceSeconds, PadEndWithSilence, PadEndWithSilenceSeconds, AdjustMonoFiles, AdjustMonoFilesBy, TrimLeadingSilence, TrimLeadingSilenceDB, TrimTrailingSilence, TrimTrailingSilenceDB, Normalize<em>Only</em>Files<em>Too</em>Quiet, ParallelRender</li>
+<li>Rendering: ApplyRenderTable_Project - supports now attributes PostProcessingEnabled, PadStartWithSilence, PadStartWithSilenceSeconds, PadEndWithSilence, PadEndWithSilenceSeconds, AdjustMonoFiles, AdjustMonoFilesBy, TrimLeadingSilence, TrimLeadingSilenceDB, TrimTrailingSilence, TrimTrailingSilenceDB, Normalize_Only_Files_Too_Quiet, ParallelRender; fixed issues with some normalization-attributes</li>
+<li>Rendering: AddRenderPreset - supports now attributes PostProcessingEnabled, PadStartWithSilence, PadStartWithSilenceSeconds, PadEndWithSilence, PadEndWithSilenceSeconds, AdjustMonoFiles, AdjustMonoFilesBy, TrimLeadingSilence, TrimLeadingSilenceDB, TrimTrailingSilence, TrimTrailingSilenceDB, Normalize_Only_Files_Too_Quiet, ParallelRender, FadeIn/Out</li>
+<li>Rendering: ApplyRenderTable_ProjectFile - supports now attributes PostProcessingEnabled, PadStartWithSilence, PadStartWithSilenceSeconds, PadEndWithSilence, PadEndWithSilenceSeconds, AdjustMonoFiles, AdjustMonoFilesBy, TrimLeadingSilence, TrimLeadingSilenceDB, TrimTrailingSilence, TrimTrailingSilenceDB, Normalize_Only_Files_Too_Quiet, ParallelRender; fixed issues with some normalization-attributes</li>
+<li>Rendering: CreateNewRenderTable - supports now attributes PostProcessingEnabled, PadStartWithSilence, PadStartWithSilenceSeconds, PadEndWithSilence, PadEndWithSilenceSeconds, AdjustMonoFiles, AdjustMonoFilesBy, TrimLeadingSilence, TrimLeadingSilenceDB, TrimTrailingSilence, TrimTrailingSilenceDB, Normalize_Only_Files_Too_Quiet, ParallelRender</li>
+<li>Rendering: GetRenderTable_Project - supports now attributes PostProcessingEnabled, PadStartWithSilence, PadStartWithSilenceSeconds, PadEndWithSilence, PadEndWithSilenceSeconds, AdjustMonoFiles, AdjustMonoFilesBy, TrimLeadingSilence, TrimLeadingSilenceDB, TrimTrailingSilence, TrimTrailingSilenceDB, Normalize_Only_Files_Too_Quiet, ParallelRender</li>
+<li>Rendering: GetRenderTable_ProjectDefaults - supports now attributes PostProcessingEnabled, PadStartWithSilence, PadStartWithSilenceSeconds, PadEndWithSilence, PadEndWithSilenceSeconds, AdjustMonoFiles, AdjustMonoFilesBy, TrimLeadingSilence, TrimLeadingSilenceDB, TrimTrailingSilence, TrimTrailingSilenceDB, Normalize_Only_Files_Too_Quiet, ParallelRender</li>
+<li>Rendering: GetRenderTable_ProjectFile - supports now attributes PostProcessingEnabled, PadStartWithSilence, PadStartWithSilenceSeconds, PadEndWithSilence, PadEndWithSilenceSeconds, AdjustMonoFiles, AdjustMonoFilesBy, TrimLeadingSilence, TrimLeadingSilenceDB, TrimTrailingSilence, TrimTrailingSilenceDB, Normalize_Only_Files_Too_Quiet, ParallelRender</li>
+<li>Rendering: GetRenderPreset_RenderTable - supports now attributes PostProcessingEnabled, PadStartWithSilence, PadStartWithSilenceSeconds, PadEndWithSilence, PadEndWithSilenceSeconds, AdjustMonoFiles, AdjustMonoFilesBy, TrimLeadingSilence, TrimLeadingSilenceDB, TrimTrailingSilence, TrimTrailingSilenceDB, Normalize_Only_Files_Too_Quiet, ParallelRender; fixed various issues with some preset names and settings</li>
+<li>Rendering: SetRenderPreset - supports now attributes PostProcessingEnabled, PadStartWithSilence, PadStartWithSilenceSeconds, PadEndWithSilence, PadEndWithSilenceSeconds, AdjustMonoFiles, AdjustMonoFilesBy, TrimLeadingSilence, TrimLeadingSilenceDB, TrimTrailingSilence, TrimTrailingSilenceDB, Normalize_Only_Files_Too_Quiet, ParallelRender, FadeIn/Out</li>
+<li>Rendering: IsValidRenderTable - supports now attributes PostProcessingEnabled, PadStartWithSilence, PadStartWithSilenceSeconds, PadEndWithSilence, PadEndWithSilenceSeconds, AdjustMonoFiles, AdjustMonoFilesBy, TrimLeadingSilence, TrimLeadingSilenceDB, TrimTrailingSilence, TrimTrailingSilenceDB, Normalize_Only_Files_Too_Quiet, ParallelRender</li>
 </ul>
-<p>PostProcessingEnabled, Normalize<em>Only</em>Files<em>Too</em>Quiet, PadStartWithSilence, PadEndWithSilence, TrimTrailingSilence, TrimLeadingSilence, ParallelRender, PadStartWithSilenceSeconds, PadEndWithSilenceSeconds, TrimLeadingSilenceDB, TrimTrailingSilenceDB, AdjustMonoFiles, AdjustMonoFilesBy,</p>
-<p>ToDo: GetRenderPreset</p>
 <hr />
 <h3>5.3 - "Spice Girls - Too Much" - 12th of May 2025</h3>
 <p>Has now 1904 functions, with 46 new ones</p>
