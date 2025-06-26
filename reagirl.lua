@@ -11784,7 +11784,7 @@ function reagirl.ListView_Add(x, y, w, h, caption, meaningOfUI_Element, enable_s
 <US_ DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>ListView_Add</slug>
   <requires>
-    ReaGirl=1.3
+    ReaGirl=1.4
     Reaper=7.03
     Lua=5.4
   </requires>
@@ -11864,6 +11864,8 @@ function reagirl.ListView_Add(x, y, w, h, caption, meaningOfUI_Element, enable_s
   reagirl.SetFont(1, reagirl.Font_Face, reagirl.Font_Size, 0, 1)
   --local tx,ty=gfx.measurestr(caption)
   local entries2={}
+  local entries_indent={}
+  local entries_state={}
   for i=1, #entries do
     entries[i]=tostring(entries[i])
     if i==default then
@@ -11875,12 +11877,16 @@ function reagirl.ListView_Add(x, y, w, h, caption, meaningOfUI_Element, enable_s
     else
       entries2[i]=false
     end
+    entries_indent[i]=0
+    entries_state[i]=0
   end
   reagirl.SetFont(1, reagirl.Font_Face, reagirl.Font_Size, 0)
   
   reagirl.Elements[slot]["entry_width"]=math.floor(w)
   reagirl.Elements[slot]["entry_width_start"]=0
   reagirl.Elements[slot]["entries_org"]=entries
+  reagirl.Elements[slot]["entries_indent"]=entries_indent
+  reagirl.Elements[slot]["entries_state"]=entries_state
   local entries3={}
   local tags={}
   local entries_index={}
@@ -11912,7 +11918,7 @@ function reagirl.ListView_Filter(element_id, filter, case_sensitive)
 <US_ DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>ListView_Filter</slug>
   <requires>
-    ReaGirl=1.3
+    ReaGirl=1.4
     Reaper=7.03
     Lua=5.4
   </requires>
@@ -11922,6 +11928,8 @@ function reagirl.ListView_Filter(element_id, filter, case_sensitive)
   </description>
   <parameters>
     string element_id - the guid of the listview, whose entries you want to have filtered
+    string filter - the string to filter out specific entries
+    boolean case_insensitive - true, filter is seen as not case sensitive; false, filter is seen as case sensitive
   </parameters>
   <retvals>
     integer count_found_entries - the number of found entries that are now shown in the list
@@ -11975,7 +11983,7 @@ function reagirl.ListView_SetAllDeselected(element_id)
 <US_ DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>ListView_SetAllDeselected</slug>
   <requires>
-    ReaGirl=1.3
+    ReaGirl=1.4
     Reaper=7.03
     Lua=5.4
   </requires>
@@ -12544,8 +12552,13 @@ function reagirl.ListView_Draw(element_id, selected, hovered, clicked, mouse_cap
       gfx.set(0.6)
     end
     local entry=element_storage["entries"][i]
-    if entry==nil then entry="" end
-    gfx.x=-element_storage["entry_width_start"]+scale+1
+    local entry_index=element_storage["entries_index"][i]
+    local entry_indent=element_storage["entries_indent"][entry_index]
+    local entry_state=element_storage["entries_state"][entry_index]
+    
+    if entry==nil then entry="" entry_indent=0 entry_state=0 end
+    if entry_state~=0 then entry_indent=entry_indent+1 end
+    gfx.x=-element_storage["entry_width_start"]+scale+1+(entry_indent*8*scale)
     gfx.drawstr(entry,0,w,h)
     gfx.y=gfx.y
     if i==element_storage["selected"] then
@@ -12623,7 +12636,103 @@ function reagirl.ListView_Draw(element_id, selected, hovered, clicked, mouse_cap
     gfx.triangle(x+w-9*scale, y+scale+h-3*scale,
                  x+w-9*scale, y+scale+h-13*scale,
                  x+w-4*scale,  y+scale+h-8*scale)
+  end
+end
+
+function reagirl.ListView_SetIndent(element_id, entry, indent)
+--[[
+<US_ DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>ListView_SetIndent</slug>
+  <requires>
+    ReaGirl=1.4
+    Reaper=7.03
+    Lua=5.4
+  </requires>
+  <functioncall>boolean retval = reagirl.ListView_SetIndent(string element_id, integer entry, integer indent)</functioncall>
+  <description>
+    Sets the indentation of a listview-entry. 
+  </description>
+  <parameters>
+    string element_id - the guid of the listview, whose entries you want to have filtered
+    integer entry - the entry, whose indentation you want to set, 1 or higher
+    integer indent - the indentation of the entry, 0 or higher
+  </parameters>
+  <retvals>
+    boolean retval - true, setting was successful; false, setting was unsuccessful
+  </retvals>
+  <chapter_context>
+    ListView
+  </chapter_context>
+  <tags>listview, set, indentation</tags>
+</US_DocBloc>
+--]]
+
+  if type(element_id)~="string" then error("ListView_SetIndent: param #1 - must be a string", 2) end
+  if reagirl.IsValidGuid(element_id, true)==nil then error("ListView_SetIndent: param #1 - must be a valid guid", 2) end
+  if math.type(entry)~="integer" then error("ListView_SetIndent: param #2 - must be an integer", 2) end
+  if entry<1 then error("ListView_SetIndent: param #2 - must be 1 or higher", 2) end
+  if math.type(indent)~="integer" then error("ListView_SetIndent: param #3 - must be an integer", 2) end
+  if indent<1 then error("ListView_SetIndent: param #3 - must be 0 or higher", 2) end
+  
+  element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
+  if element_id==-1 then error("ListView_Filter: param #1 - no such ui-element", 2) end
+  
+  if reagirl.Elements[element_id]["GUI_Element_Type"]~="ListView" then
+    return false
+  else
+    reagirl.Elements[element_id]["entries_indent"][entry]=indent
+    reagirl.Gui_ForceRefresh("Listview: SetIndent")
+    return true
+  end
+end
+
+function reagirl.ListView_SetIndent_Table(element_id, indentation)
+--[[
+<US_ DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>ListView_SetIndent_Table</slug>
+  <requires>
+    ReaGirl=1.4
+    Reaper=7.03
+    Lua=5.4
+  </requires>
+  <functioncall>boolean retval = reagirl.ListView_SetIndent_Table(string element_id, table indentation)</functioncall>
+  <description>
+    Sets the indentation of all listview-entries from a table. 
     
+    The table indentation must be a table of integer-values and the number of table-entries must match the number of listview-entries.
+  </description>
+  <parameters>
+    string element_id - the guid of the listview, whose entries you want to have filtered
+    table indentation - a table with all indentation-values as integers. Each entry must be 0 or higher.
+  </parameters>
+  <retvals>
+    boolean retval - true, setting was successful; false, setting was unsuccessful
+  </retvals>
+  <chapter_context>
+    ListView
+  </chapter_context>
+  <tags>listview, set, indentation, by table</tags>
+</US_DocBloc>
+--]]
+
+  if type(element_id)~="string" then error("ListView_SetIndent_Table: param #1 - must be a string", 2) end
+  if reagirl.IsValidGuid(element_id, true)==nil then error("ListView_SetIndent_Table: param #1 - must be a valid guid", 2) end
+  if type(indentation)~="table" then error("ListView_SetIndent_Table: param #2 - must be a table", 2) end
+  
+  element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
+  if element_id==-1 then error("ListView_SetIndent_Table: param #1 - no such ui-element", 2) end
+  
+  if reagirl.Elements[element_id]["GUI_Element_Type"]~="ListView" then
+    return false
+  else
+    if #reagirl.Elements[element_id]["entries_org"]~=#indentation then error("ListView_SetIndent_Table: param #2 - number of table-entries must match exactly number of listview-entries", 2) end
+    for i=1, #reagirl.Elements[element_id]["entries_org"] do
+      if math.type(indentation[i])~="integer" then error("ListView_SetIndent_Table: param #2 - entry #"..i.." is not an integer", 2) end
+      if indentation[i]<0 then error("ListView_SetIndent_Table: param #2 - entry #"..i.." is must be 0 or higher", 2) end
+      reagirl.Elements[element_id]["entries_indent"][i]=indentation[i]
+    end
+    reagirl.Gui_ForceRefresh("Listview: ListView_SetIndent_Table")
+    return true
   end
 end
 
@@ -13219,16 +13328,16 @@ function reagirl.Textbox_Draw(element_id, selected, hovered, clicked, mouse_cap,
 end
 
 
-function reagirl.Button_Add(x, y, w_margin, h_margin, caption, meaningOfUI_Element, run_function, unique_identifier)
+function reagirl.Button_Add(x, y, w_margin, h_margin, caption, meaningOfUI_Element, run_function, unique_identifier, mode, width, height)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>Button_Add</slug>
   <requires>
-    ReaGirl=1.3
+    ReaGirl=1.4
     Reaper=7.03
     Lua=5.4
   </requires>
-  <functioncall>string button_guid = reagirl.Button_Add(optional integer x, optional integer y, integer w_margin, integer h_margin, string caption, string meaningOfUI_Element, optional function run_function, optional string unique_identifier)</functioncall>
+  <functioncall>string button_guid = reagirl.Button_Add(optional integer x, optional integer y, integer w_margin, integer h_margin, string caption, string meaningOfUI_Element, optional function run_function, optional string unique_identifier, optional integer mode, optional integer width, optional integer height)</functioncall>
   <description>
     Adds a button to a gui.
     
@@ -13247,6 +13356,9 @@ function reagirl.Button_Add(x, y, w_margin, h_margin, caption, meaningOfUI_Eleme
     string meaningOfUI_Element - the meaningOfUI_Element of the ui-element(for tooltips and blind users). Make it a sentence that ends with . or ?
     optional function run_function - a function that shall be run when the button is clicked; will get the button-element_id passed over as first parameter; nil, no run-function for this button
     optional unique_identifier - a unique identifier for this ui-element; make this unique among all ui-elements in this gui, as this can be used for scripters to externally control your ReaGirl-gui
+    optional integer mode - the drawing mode of the button, currently unused so set it to nil or to 0
+    optional integer width - the width of the button; negative anchors its width to the right edge of the window; will ignore w_margin
+    optional integer height - the height of the button; negative anchors its width to the bottom edge of the window; will ignore h_margin
   </parameters>
   <retvals>
     string button_guid - a guid that can be used for altering the button-attributes
@@ -13256,6 +13368,7 @@ function reagirl.Button_Add(x, y, w_margin, h_margin, caption, meaningOfUI_Eleme
   </chapter_context>
   <tags>button, add</tags>
   <changelog>
+    ReaGirl 1.4 - added new parameters mode, width and height
     ReaGirl 1.3 - added new parameter unique_id for a unique identifier
     ReaGirl 1.0 - added to ReaGirl
   </changelog>
@@ -13271,6 +13384,9 @@ function reagirl.Button_Add(x, y, w_margin, h_margin, caption, meaningOfUI_Eleme
   if meaningOfUI_Element:sub(-1,-1)~="." and meaningOfUI_Element:sub(-1,-1)~="?" then error("Button_Add: param #6 - must end on a . like a regular sentence.", 2) end
   if run_function~=nil and type(run_function)~="function" then error("Button_Add: param #7 - must be either nil or a function", 2) end
   if unique_identifier~=nil and type(unique_identifier)~="string" then error("Button_Add: param #8 - must be either nil or a string", 2) end
+  if mode~=nil and math.type(mode)~="integer" then error("Button_Add: param #9 - must be either nil or an integer", 2) end
+  if width~=nil and math.type(width)~="integer" then error("Button_Add: param #10 - must be either nil or an integer", 2) end
+  if height~=nil and math.type(height)~="integer" then error("Button_Add: param #11 - must be either nil or an integer", 2) end
   local x,y,slot=reagirl.UI_Element_GetNextXAndYPosition(x, y, "Button_Add")
   --reagirl.UI_Element_NextX_Default=x
   
@@ -13293,8 +13409,18 @@ function reagirl.Button_Add(x, y, w_margin, h_margin, caption, meaningOfUI_Eleme
   reagirl.Elements[slot]["DropZoneFunction_ACC"]=""
   reagirl.Elements[slot]["x"]=x
   reagirl.Elements[slot]["y"]=y
-  reagirl.Elements[slot]["w"]=math.tointeger(tx+15+w_margin)
-  reagirl.Elements[slot]["h"]=math.tointeger(ty+h_margin)
+  if width~=nil then 
+    reagirl.Elements[slot]["w"]=width
+    w_margin=0
+  else
+    reagirl.Elements[slot]["w"]=math.tointeger(tx+15+w_margin)
+  end
+  if height~=nil then
+    reagirl.Elements[slot]["h"]=height
+    h_margin=0
+  else
+    reagirl.Elements[slot]["h"]=math.tointeger(ty+h_margin)
+  end
   if math.tointeger(ty+h_margin)>reagirl.NextLine_Overflow then reagirl.NextLine_Overflow=math.tointeger(ty+h_margin) end
   reagirl.Elements[slot]["w_margin"]=w_margin
   reagirl.Elements[slot]["h_margin"]=h_margin

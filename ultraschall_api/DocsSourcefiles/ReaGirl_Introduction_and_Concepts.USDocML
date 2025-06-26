@@ -5530,6 +5530,9 @@
             - The sixth parameter is meaningOfUI\_Element, which is a short explanation on what the button is doing and why. This is needed by blind users so they know, what the button is for.  
             - The seventh parameter is a run-function. This function will be run, when the button is clicked. It gets as parameter the element\_id of the button that was clicked.  
             - The eighth parameter is a unique identifier, used to adress this specific ui-element. With that, it's possible to control the ui-element from the outside of a script, like clicking it.
+            - the ninth parameter is the drawing mode of the button, currently unused so set it to 0 or to nil
+            - the tenth parameter is the width of the button. Make it negative to anchor it to the right edge of the window(will ignore the third parameter w\_margin
+            - the eleventh parameter is the height of the button. Make it negative to anchor it to the bottom edge of the window(will ignore the fourth parameter h\_margin
             
             With this, you can add a button to your gui, but there's more that you can do with a button.  
               

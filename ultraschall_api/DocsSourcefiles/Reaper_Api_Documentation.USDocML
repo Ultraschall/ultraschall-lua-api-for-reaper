@@ -20804,7 +20804,7 @@
         <functioncall prog_lang="lua">reaper.ShowConsoleMsg(string msg)</functioncall>
         <functioncall prog_lang="python">RPR_ShowConsoleMsg(String msg)</functioncall>
         <requires>
-            Reaper=7.00
+            Reaper=7.28
         </requires>
         <description>
             Show a message to the user (also useful for debugging). 
@@ -20813,7 +20813,9 @@
             "\n" for newline, 
             "" to clear the console
             
-            Prefix string with "!SHOW:" and text will be added to console without opening the window.
+            It's also possible to add messages to the console without showing the window. There will be an indicator at the top of the Reaper-window that shows, that new messages are available.
+            Prefix the string with "!SHOW:" to add a message without opening the console window. The text [MSG] will appear at the top of the Reaper-window.
+            Prefix the string with "!SHOWERR" to add an erorr-message without opening the console window. The text [ERR] will appear at the top of the Reaper-window.
         </description>
         <parameters>
             string msg - a message to be shown in ReaConsole
