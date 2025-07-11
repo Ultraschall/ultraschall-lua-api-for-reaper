@@ -12790,7 +12790,7 @@ function reagirl.Textbox_Add(x, y, label, meaningOfUI_Element, run_function, uni
   if type(run_function)~="function" then error("Textbox_Add: param #6 - must be either nil or a function", 2) end
   if unique_identifier~=nil and type(unique_identifier)~="string" then error("Textbox_Add: param #7 - must be either nil or a string", 2) end
     
-  local x,y,slot=reagirl.UI_Element_GetNextXAndYPosition(x, y, "Label_Add")
+  local x,y,slot=reagirl.UI_Element_GetNextXAndYPosition(x, y, "Textbox_Add")
   --reagirl.UI_Element_NextX_Default=x
   
   local acc_clickable=""
@@ -16123,8 +16123,6 @@ function reagirl.Inputbox_OnMouseDown(mouse_cap, element_storage)
       --reaper.ShowConsoleMsg(element_storage.cursor_offset.."\n")
       element_storage.cursor_startoffset=element_storage.cursor_offset
       element_storage.clicked1=true
-      A=element_storage.cursor_offset
-      B=draw_offset_end
       if element_storage.cursor_offset==-2 then 
         --[[
         if element_storage.w_dropdownarea==0 then
@@ -17325,16 +17323,16 @@ function reagirl.Inputbox_GetDisabled(element_id)
   end
 end
 
-function reagirl.Inputbox_SetText(element_id, new_text)
+function reagirl.Inputbox_SetText(element_id, new_text, startoffset, replace_length)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>Inputbox_SetText</slug>
   <requires>
-    ReaGirl=1.0
+    ReaGirl=1.4
     Reaper=7.03
     Lua=5.4
   </requires>
-  <functioncall>reagirl.Inputbox_SetText(string element_id, string new_text)</functioncall>
+  <functioncall>reagirl.Inputbox_SetText(string element_id, string new_text, optional integer insert_at_offset, optional integer replace_length)</functioncall>
   <description>
     Sets a new text of an inputbox.
     
@@ -17343,16 +17341,34 @@ function reagirl.Inputbox_SetText(element_id, new_text)
   <parameters>
     string element_id - the guid of the inputbox, whose disability-state you want to set
     string new_text - the new text for the inputbox
+    optional integer insert_at_offset - inserts new_text at a specific offset into an inputbox; nil to replace the entire text
+    optional integer replace_length - replace text of an inputbox for x number of characters; 0 to just insert new_text; nil, to replace the entire text
   </parameters>
   <chapter_context>
     Inputbox
   </chapter_context>
   <tags>inputbox, set, text</tags>
+  <changelog>
+    ReaGirl 1.4 - added new parameters insert_at_offset and replace_until_offset
+    ReaGirl 1.0 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
+--]]
+-- Note: when passing start/endoffset, the drawn text might be too long, but I can't find this edgecase again...
+-- Code that shows this behavior occasionally when clicking into the inputbox:
+--[[
+
+elid=reagirl.Inputbox_Add(10, 10, 100, "Tudel", nil, "Loo.", "HurtzHurtzHurtzHurtzHurtzHurtzHurtzHurtzHurtzHurtzHurtzHurtzHurtzHurtz", nil, nil, nil)
+reagirl.Inputbox_SetText(elid, "!!!", 1, 2)
+
 --]]
   if type(element_id)~="string" then error("Inputbox_SetText: param #1 - must be a string", 2) end
   if reagirl.IsValidGuid(element_id, true)==nil then error("Inputbox_SetText: param #1 - must be a valid guid", 2) end
   if type(new_text)~="string" then error("Inputbox_SetText: param #2 - must be a string", 2) end
+  if startoffset~=nil and math.type(startoffset)~="integer" then error("Inputbox_SetText: param #3 - must be either nil or an integer", 2) end
+  if replace_length~=nil and math.type(replace_length)~="integer" then error("Inputbox_SetText: param #4 - must be either nil or an integer", 2) end
+  if replace_length~=nil and replace_length<0 then error("Inputbox_SetText: param #4 - must be either nil or >=0", 2) end
+  
   element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
   if element_id==-1 then error("Inputbox_SetText: param #1 - no such ui-element", 2) end
   if reagirl.Elements[element_id]["GUI_Element_Type"]~="Edit" then
@@ -17360,7 +17376,12 @@ function reagirl.Inputbox_SetText(element_id, new_text)
   else
     new_text=string.gsub(new_text, "\n", "")
     new_text=string.gsub(new_text, "\r", "")
-    reagirl.Elements[element_id]["Text"]=new_text
+    if startoffset==nil then
+      reagirl.Elements[element_id]["Text"]=new_text
+    else
+      if replace_length==nil then replace_length=0 end
+      reagirl.Elements[element_id]["Text"]=reagirl.Elements[element_id]["Text"]:sub(1, startoffset)..new_text..reagirl.Elements[element_id]["Text"]:sub(startoffset+1+replace_length,-1)
+    end
     reagirl.Elements[element_id]["cursor_offset"]=reagirl.Elements[element_id]["Text"]:utf8_len()
     reagirl.Elements[element_id]["draw_offset_end"]=reagirl.Elements[element_id]["cursor_offset"]
     reagirl.Inputbox_Calculate_DrawOffset(false, reagirl.Elements[element_id])
@@ -17405,6 +17426,84 @@ function reagirl.Inputbox_GetText(element_id)
     error("Inputbox_GetText: param #1 - ui-element is not an input-box", 2)
   else
     return reagirl.Elements[element_id]["Text"]
+  end
+end
+
+function reagirl.Inputbox_GetTextLength(element_id)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Inputbox_GetTextLength</slug>
+  <requires>
+    ReaGirl=1.4
+    Reaper=7.03
+    Lua=5.4
+  </requires>
+  <functioncall>integer text_length = reagirl.Inputbox_GetTextLength(string element_id)</functioncall>
+  <description>
+    Gets the length of the text in an inputbox.
+  </description>
+  <parameters>
+    string element_id - the guid of the inputbox, whose textlength you want to get
+  </parameters>
+  <retvals>
+    integer text_length - the length of the currently existing text of an inputbox
+  </retvals>
+  <chapter_context>
+    Inputbox
+  </chapter_context>
+  <tags>inputbox, get, textlength</tags>
+  <changelog>
+    ReaGirl 1.4 - added to ReaGirl
+  </changelog>
+</US_DocBloc>
+--]]
+  if type(element_id)~="string" then error("Inputbox_GetTextLength: param #1 - must be a string", 2) end
+  if reagirl.IsValidGuid(element_id, true)==nil then error("Inputbox_GetTextLength: param #1 - must be a valid guid", 2) end
+  element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
+  if element_id==-1 then error("Inputbox_GetTextLength: param #1 - no such ui-element", 2) end
+  if reagirl.Elements[element_id]["GUI_Element_Type"]~="Edit" then
+    error("Inputbox_GetTextLength: param #1 - ui-element is not an input-box", 2)
+  else
+    return reagirl.Elements[element_id]["Text"]:utf8_len()
+  end
+end
+
+function reagirl.Inputbox_GetTextSelection(element_id)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Inputbox_GetTextSelection</slug>
+  <requires>
+    ReaGirl=1.4
+    Reaper=7.03
+    Lua=5.4
+  </requires>
+  <functioncall>integer text_selection_startoffset, integer_text_selection_length = reagirl.Inputbox_GetTextSelection(string element_id)</functioncall>
+  <description>
+    Gets the length of the text in an inputbox.
+  </description>
+  <parameters>
+    string element_id - the guid of the inputbox, whose textlength you want to get
+  </parameters>
+  <retvals>
+    integer text_length - the length of the currently existing text of an inputbox
+  </retvals>
+  <chapter_context>
+    Inputbox
+  </chapter_context>
+  <tags>inputbox, get, selection</tags>
+  <changelog>
+    ReaGirl 1.4 - added to ReaGirl
+  </changelog>
+</US_DocBloc>
+--]]
+  if type(element_id)~="string" then error("Inputbox_GetTextSelection: param #1 - must be a string", 2) end
+  if reagirl.IsValidGuid(element_id, true)==nil then error("Inputbox_GetTextSelection: param #1 - must be a valid guid", 2) end
+  element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
+  if element_id==-1 then error("Inputbox_GetTextSelection: param #1 - no such ui-element", 2) end
+  if reagirl.Elements[element_id]["GUI_Element_Type"]~="Edit" then
+    error("Inputbox_GetTextSelection: param #1 - ui-element is not an input-box", 2)
+  else
+    return reagirl.Elements[element_id]["selection_startoffset"], reagirl.Elements[element_id]["selection_endoffset"]-reagirl.Elements[element_id]["selection_startoffset"]
   end
 end
 
@@ -18753,16 +18852,16 @@ function reagirl.Label_GetStyle(element_id)
 end
 
   
-function reagirl.Label_Add(x, y, label, meaningOfUI_Element, clickable, run_function, unique_identifier)
+function reagirl.Label_Add(x, y, label, meaningOfUI_Element, clickable, run_function, unique_identifier, font_size)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>Label_Add</slug>
   <requires>
-    ReaGirl=1.3
+    ReaGirl=1.4
     Reaper=7.03
     Lua=5.4
   </requires>
-  <functioncall>string label_id = reagirl.Label_Add(optional integer x, optional integer y, string label, string meaningOfUI_Element, boolean clickable, optional function run_function, optional string unique_identifier)</functioncall>
+  <functioncall>string label_id = reagirl.Label_Add(optional integer x, optional integer y, string label, string meaningOfUI_Element, boolean clickable, optional function run_function, optional string unique_identifier, optional integer font_size)</functioncall>
   <description>
     Adds a label to the gui.
     
@@ -18783,6 +18882,7 @@ function reagirl.Label_Add(x, y, label, meaningOfUI_Element, clickable, run_func
     boolean clickable - true, the text is a clickable link-text; false or nil, the label-text is normal text
     optional function run_function - a function that gets run when clicking the link-text(clickable=true)
     optional unique_identifier - a unique identifier for this ui-element; make this unique among all ui-elements in this gui, as this can be used for scripters to externally control your ReaGirl-gui
+    optional integer font_size - the font-size for this label; maximum 240; nil to use standard font-size
   </parameters>
   <retvals>
     string label_id - a guid that can be used for altering the label-attributes
@@ -18792,6 +18892,7 @@ function reagirl.Label_Add(x, y, label, meaningOfUI_Element, clickable, run_func
   </chapter_context>
   <tags>label, add</tags>
   <changelog>
+    ReaGirl 1.4 - added new parameter font_size
     ReaGirl 1.3 - added new parameter unique_id for a unique identifier
     ReaGirl 1.0 - added to ReaGirl
   </changelog>
@@ -18806,15 +18907,20 @@ function reagirl.Label_Add(x, y, label, meaningOfUI_Element, clickable, run_func
   if run_function==nil then run_function=reagirl.Dummy end
   if type(run_function)~="function" then error("Label_Add: param #6 - must be either nil or a function", 2) end
   if unique_identifier~=nil and type(unique_identifier)~="string" then error("Label_Add: param #7 - must be either nil or a string", 2) end
+  if font_size~=nil and math.type(font_size)~="integer" then error("Label_Add: param #8 - must be either nil or an integer", 2) end
+  if font_size>240 then error("Label_Add: param #8 - maximum 240", 2) end
   local x,y,slot=reagirl.UI_Element_GetNextXAndYPosition(x, y, "Label_Add")
   --reagirl.UI_Element_NextX_Default=x
   
   local acc_clickable=""
   local clickable_text=""
   if clickable==true then clickable_text="Clickable " acc_clickable="Enter or leftclick to click link. " else acc_clickable="" end
-  
   table.insert(reagirl.Elements, slot, {})
-  reagirl.SetFont(1, reagirl.Font_Face, reagirl.Font_Size, 0, 1)
+  if font_size==nil then
+    reagirl.SetFont(1, reagirl.Font_Face, reagirl.Font_Size, 0, 1)
+  else
+    reagirl.SetFont(1, reagirl.Font_Face, font_size, 0, 1)
+  end
   local w,h=gfx.measurestr(label)
   reagirl.SetFont(1, reagirl.Font_Face, reagirl.Font_Size, 0)
   reagirl.Elements[slot]["ID"]=unique_identifier
@@ -18830,7 +18936,8 @@ function reagirl.Label_Add(x, y, label, meaningOfUI_Element, clickable, run_func
   reagirl.Elements[slot]["x"]=x
   reagirl.Elements[slot]["y"]=y
   
-  reagirl.Elements[slot]["font_size"]=reagirl.Font_Size
+  reagirl.Elements[slot]["font_size"]=font_size
+  if font_size==nil then reagirl.Elements[slot]["font_size"]=reagirl.Font_Size end
   reagirl.Elements[slot]["clickable"]=clickable
   reagirl.Elements[slot]["sticky_x"]=false
   reagirl.Elements[slot]["sticky_y"]=false

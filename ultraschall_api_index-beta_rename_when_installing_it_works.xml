@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API and ReaGirl">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API and ReaGirl package" type="extension">
-      <version name="56185.00" author="Meo-Ada Mespotine">
+      <version name="56188.00" author="Meo-Ada Mespotine">
 	<source file="reagirl.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5.4/reagirl.lua</source>
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5.4/ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5.4/ultraschall_api_readme.txt</source>
@@ -765,9 +765,20 @@ new in this release:
 
 New features in 5.4
 
--   
+-   ReaGirl: Inputbox_GetTextLength - gets the length of the currently
+    entered text of an inputbox
+-   ReaGirl: Inputbox_GetTextSelection - gets the startoffset and length
+    of the currently selected text of an inputbox
 
 Changes from 5.31 to 5.4
+
+-   ReaGirl: Button_Add - added new parameters mode, width and height;
+    width and height can be anchored to the right and bottom edge of the
+    window
+-   ReaGirl: Inputbox_SetText - allows now setting an offset and the
+    length to insert/replace text of an inputbox
+-   ReaGirl: Inputboxes - removed debug-code
+-   ReaGirl: Label_Add - allows now for setting the font-size of a label
 ]]>
 </changelog>
       </version>
@@ -799,7 +810,7 @@ Changes from 5.31 to 5.4
         \par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af6\langfe2052\dbch\af8\afs24\lang1081\loch\f0\fs24\lang1031{\rtlch \ltrch\loch
         }
         \par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af6\langfe2052\dbch\af8\afs24\lang1081\loch\f0\fs24\lang1031{\rtlch \ltrch\loch\loch\f4
-        a 1941 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 56185 from 26.06.2025 23:38:50).}
+        a 1943 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 56188 from 12.07.2025 00:34:29).}
         \par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af6\langfe2052\dbch\af8\afs24\lang1081\loch\f0\fs24\lang1031{\rtlch \ltrch\loch
         }
         \par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af6\langfe2052\dbch\af8\afs24\lang1081\loch\f0\fs24\lang1031{\rtlch \ltrch\loch

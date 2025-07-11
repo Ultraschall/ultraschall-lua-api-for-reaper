@@ -5622,6 +5622,7 @@
             - The sixth parameter is a run-function, that is run when a clickable label is clicked and/or a label is dragged onto another ui-element.  
               You can keep the run-function nil if you don't need a run-function to be run.  
             - The seventh parameter is a unique identifier, used to adress this specific ui-element. With that, it's possible to control the ui-element from the outside of a script, like clicking it.
+            - The eighth parameter is the font-size for this label. Use nil to use the standard-font-size of ReaGirl.
               
             There's more that you can do with labels:  
               
