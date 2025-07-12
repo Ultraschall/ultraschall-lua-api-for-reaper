@@ -422,12 +422,14 @@ Has now 1939 functions, with X new ones
   
 #### New features in 5.4  
   - ReaGirl: Inputbox\_GetTextLength - gets the length of the currently entered text of an inputbox
-  - ReaGirl: Inputbox\_GetTextSelection - gets the startoffset and length of the currently selected text of an inputbox
+  - ReaGirl: Inputbox\_SetCursorOffset - sets the cursor-offset of an inputbox
+  - ReaGirl: Inputbox\_SetSelectedText - sets the text-selection of an inputbox
 
 #### Changes from 5.31 to 5.4
   - ReaGirl: Button\_Add - added new parameters mode, width and height; width and height can be anchored to the right and bottom edge of the window
+  - ReaGirl: Inputbox\_GetSelectedText - corrected docs; added new retval for length of the selected text
   - ReaGirl: Inputbox\_SetText - allows now setting an offset and the length to insert/replace text of an inputbox
-  - ReaGirl: Inputboxes - removed debug-code
+  - ReaGirl: Inputboxes - removed debug-code; added defaut-context-menu with options for cut/copy/paste and select all text; paste erased all text -> fixed
   - ReaGirl: Label\_Add - allows now for setting the font-size of a label
 
 ---
