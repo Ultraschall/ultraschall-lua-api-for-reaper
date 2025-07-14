@@ -2684,13 +2684,12 @@ reagirl.Colors.Burgermenu_Stripes_r=0.55
 reagirl.Colors.Burgermenu_Stripes_g=0.55
 reagirl.Colors.Burgermenu_Stripes_b=0.55
 
-
 reagirl.Colors.Label_TextFG_r=0.8
 reagirl.Colors.Label_TextFG_g=0.8
 reagirl.Colors.Label_TextFG_b=0.8
 reagirl.Colors.Label_TextFGclickable_r=0.4
 reagirl.Colors.Label_TextFGclickable_g=0.65
-reagirl.Colors.Label_TextFGclickable_b=1
+reagirl.Colors.Label_TextFGclickable_b=0.99
 reagirl.Colors.Label_TextBG_r=0.2
 reagirl.Colors.Label_TextBG_g=0.2
 reagirl.Colors.Label_TextBG_b=0.2
@@ -13897,7 +13896,9 @@ function reagirl.Color_CalculateHighlighter(r, g, b)
   local val=tonumber(reaper.GetExtState("ReaGirl", "Highlight_Intensity"))
   if val==nil then val=0.075 end
   if val<0.025 then return 0 end
-  if color>0.8 then return -val else return val end
+  --if color>0.8 then return -val else return val end
+  if r==1 or g==1 or b==1 then return -val end
+  return val
 end
 
 function reagirl.ToolbarButton_Add(x, y, toolbaricon, num_states, default_state, state_names, mode, caption, meaningOfUI_Element, run_function, unique_identifier, toolbar, toolbarbutton_index)
@@ -19475,13 +19476,23 @@ function reagirl.Label_Draw(element_id, selected, hovered, clicked, mouse_cap, m
     --reagirl.BlitText_AdaptLineLength(name, x+dpi_scale, y+dpi_scale, w, h, element_storage["align"], element_storage.start_pos, element_storage.end_pos, element_storage.pos3, element_storage.startline, element_storage.positions, 1, 1, 0, cursor_alpha, col3, col3, col3, 1, element_storage["font_size"], style)
 
     gfx.set(reagirl.Colors.Label_TextFG_r, reagirl.Colors.Label_TextFG_g, reagirl.Colors.Label_TextFG_b)
+    if element_storage["col_r"]~=nil then
+      gfx.set(element_storage["col_r"], element_storage["col_g"], element_storage["col_b"])
+    end 
     if element_storage["clickable"]==true then 
       local add_color=0
       if hovered==true then
         add_color=reagirl.Color_CalculateHighlighter(reagirl.Colors.Label_TextFGclickable_r, reagirl.Colors.Label_TextFGclickable_g, reagirl.Colors.Label_TextFGclickable_b)
+        if element_storage["col_clickable_r"]~=nil then
+          add_color=reagirl.Color_CalculateHighlighter(element_storage["col_clickable_r"], element_storage["col_clickable_g"], element_storage["col_clickable_b"])
+        end
         --reaper.ShowConsoleMsg(add_color.."\n")
       end
       gfx.set(reagirl.Colors.Label_TextFGclickable_r+add_color, reagirl.Colors.Label_TextFGclickable_g+add_color, reagirl.Colors.Label_TextFGclickable_b+add_color)
+      if element_storage["col_clickable_r"]~=nil then
+        add_color=add_color*2
+        gfx.set(element_storage["col_clickable_r"]+add_color, element_storage["col_clickable_g"]+add_color, element_storage["col_clickable_b"]+add_color)
+      end
     end
     gfx.x=x
     gfx.y=y
@@ -19607,6 +19618,141 @@ function reagirl.Label_SetBackdrop(element_id, width, height)
   else
     reagirl.Elements[element_id]["bg_w"]=width
     reagirl.Elements[element_id]["bg_h"]=height
+  end
+end
+
+function reagirl.Label_SetColor(element_id, r, g, b, r_clickable, g_clickable, b_clickable)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Label_SetColor</slug>
+  <requires>
+    ReaGirl=1.4
+    Reaper=7.03
+    Lua=5.4
+  </requires>
+  <functioncall>reagirl.Label_SetColor(string element_id, integer r, integer g, integer b, integer r_clickable, integer g_clickable, integer b_clickable)</functioncall>
+  <description>
+    Sets a color for a label.
+    
+    Don't use 51, 51, 51 as this is the color for the backshadow of label-texts.
+  </description>
+  <parameters>
+    string element_id - the label-element, whose color you want to set
+    integer r - the red-color; 0-255; -1 to reset r, g, b to the default color
+    integer g - the green-color; 0-255
+    integer b - the blue-color; 0-255
+    integer r_clickable - the red-color for clickable labels; 0-255; -1 to reset r, g, b to the default color
+    integer g_clickable - the green-color for clickable labels; 0-255
+    integer b_clickable - the blue-color for clickable labels; 0-255
+  </parameters>
+  <chapter_context>
+    Label
+  </chapter_context>
+  <tags>label, set, color</tags>
+  <changelog>
+    ReaGirl 1.4 - added to ReaGirl
+  </changelog>
+</US_DocBloc>
+--]]
+  if type(element_id)~="string" then error("Label_SetColor: param #1 - must be a string", 2) end
+  if reagirl.IsValidGuid(element_id, true)==false then error("Label_SetColor: param #1 - must be a valid guid", 2) end
+  if math.type(r)~="integer" then error("Label_SetColor: param #2 - must be an integer", 2) end
+  if r<-1 or r>255 then error("Label_SetColor: param #2 - must be between 0 and 255 or -1", 2) end
+  if math.type(g)~="integer" then error("Label_SetColor: param #3 - must be an integer", 2) end
+  if g<0 or g>255 then error("Label_SetColor: param #3 - must be between 0 and 255", 2) end
+  if math.type(b)~="integer" then error("Label_SetColor: param #4 - must be an integer", 2) end
+  if b<0 or b>255 then error("Label_SetColor: param #4 - must be between 0 and 255", 2) end
+  
+  if math.type(r_clickable)~="integer" then error("Label_SetColor: param #5 - must be an integer", 2) end
+  if r_clickable<-1 or r_clickable>255 then error("Label_SetColor: param #5 - must be between 0 and 255 or -1", 2) end
+  if math.type(g_clickable)~="integer" then error("Label_SetColor: param #6 - must be an integer", 2) end
+  if g_clickable<0 or g_clickable>255 then error("Label_SetColor: param #6 - must be between 0 and 255", 2) end
+  if math.type(b_clickable)~="integer" then error("Label_SetColor: param #7 - must be an integer", 2) end
+  if b_clickable<0 or b_clickable>255 then error("Label_SetColor: param #7 - must be between 0 and 255", 2) end
+  
+  element_id=reagirl.UI_Element_GetIDFromGuid(element_id)
+  if element_id==-1 then error("Label_SetColor: param #1 - no such ui-element", 2) end
+  
+  if reagirl.Elements[element_id]["GUI_Element_Type"]:sub(-5, -1)~="Label" then
+    reagirl.Elements[element_id]["GUI_Element_Type"]:sub(-5, -1)
+    error("Label_SetBackdrop: param #1 - ui-element is not a label", 2)
+  else
+    if r~=-1 then
+      reagirl.Elements[element_id]["col_r"]=r/255
+      reagirl.Elements[element_id]["col_g"]=g/255
+      reagirl.Elements[element_id]["col_b"]=b/255
+    else
+      reagirl.Elements[element_id]["col_r"]=nil
+      reagirl.Elements[element_id]["col_g"]=nil
+      reagirl.Elements[element_id]["col_b"]=nil
+    end
+    if r_clickable~=-1 then
+      reagirl.Elements[element_id]["col_clickable_r"]=r_clickable/255
+      reagirl.Elements[element_id]["col_clickable_g"]=g_clickable/255
+      reagirl.Elements[element_id]["col_clickable_b"]=b_clickable/255
+    else
+      reagirl.Elements[element_id]["col_clickable_r"]=nil
+      reagirl.Elements[element_id]["col_clickable_g"]=nil
+      reagirl.Elements[element_id]["col_clickable_b"]=nil
+    end
+  end
+end
+
+function reagirl.Label_GetColor(element_id)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Label_SetColor</slug>
+  <requires>
+    ReaGirl=1.4
+    Reaper=7.03
+    Lua=5.4
+  </requires>
+  <functioncall>integer r, integer g, integer b, integer r_clickable, integer g_clickable, integer b_clickable = reagirl.Label_SetColor(string element_id)</functioncall>
+  <description>
+    Sets a color for a label.
+    
+    Don't use 51, 51, 51 as this is the color for the backshadow of label-texts.
+  </description>
+  <parameters>
+    string element_id - the label-element, whose color you want to set
+  </parameters>
+  <retvals>
+    integer r - the red-color; 0-255; -1 to reset r, g, b to the default color
+    integer g - the green-color; 0-255
+    integer b - the blue-color; 0-255
+    integer r_clickable - the red-color for clickable labels; 0-255; -1 to reset r, g, b to the default color
+    integer g_clickable - the green-color for clickable labels; 0-255
+    integer b_clickable - the blue-color for clickable labels; 0-255
+  </retvals>
+  <chapter_context>
+    Label
+  </chapter_context>
+  <tags>label, get, color</tags>
+  <changelog>
+    ReaGirl 1.4 - added to ReaGirl
+  </changelog>
+</US_DocBloc>
+--]]
+  if type(element_id)~="string" then error("Label_GetColor: param #1 - must be a string", 2) end
+  if reagirl.IsValidGuid(element_id, true)==false then error("Label_GetColor: param #1 - must be a valid guid", 2) end
+  
+  element_id=reagirl.UI_Element_GetIDFromGuid(element_id)
+  if element_id==-1 then error("Label_GetColor: param #1 - no such ui-element", 2) end
+  
+  if reagirl.Elements[element_id]["GUI_Element_Type"]:sub(-5, -1)~="Label" then
+    reagirl.Elements[element_id]["GUI_Element_Type"]:sub(-5, -1)
+    error("Label_SetBackdrop: param #1 - ui-element is not a label", 2)
+  else
+    local r, g, b, r_clickable, g_clickable, b_clickable
+    if reagirl.Elements[element_id]["col_r"]==nil then r=-1 else r=reagirl.Elements[element_id]["col_r"]*255 end 
+    if reagirl.Elements[element_id]["col_g"]==nil then g=-1 else g=reagirl.Elements[element_id]["col_g"]*255 end 
+    if reagirl.Elements[element_id]["col_b"]==nil then b=-1 else b=reagirl.Elements[element_id]["col_b"]*255 end 
+
+    if reagirl.Elements[element_id]["col_clickable_r"]==nil then r_clickable=-1 else r_clickable=reagirl.Elements[element_id]["col_clickable_r"]*255 end 
+    if reagirl.Elements[element_id]["col_clickable_g"]==nil then g_clickable=-1 else g_clickable=reagirl.Elements[element_id]["col_clickable_g"]*255 end 
+    if reagirl.Elements[element_id]["col_clickable_b"]==nil then b_clickable=-1 else b_clickable=reagirl.Elements[element_id]["col_clickable_b"]*255 end 
+    
+    return r, g, b, r_clickable, g_clickable, b_clickable
   end
 end
 

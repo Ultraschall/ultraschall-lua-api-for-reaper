@@ -424,6 +424,8 @@ Has now 1939 functions, with X new ones
   - ReaGirl: Inputbox\_GetTextLength - gets the length of the currently entered text of an inputbox
   - ReaGirl: Inputbox\_SetCursorOffset - sets the cursor-offset of an inputbox
   - ReaGirl: Inputbox\_SetSelectedText - sets the text-selection of an inputbox
+  - ReaGirl: Label\_GetColor - gets the color of a label
+  - ReaGirl: Label\_SetColor - sets the color of a label
 
 #### Changes from 5.31 to 5.4
   - ReaGirl: Button\_Add - added new parameters mode, width and height; width and height can be anchored to the right and bottom edge of the window

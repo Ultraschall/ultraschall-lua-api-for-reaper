@@ -66,13 +66,16 @@
   
   tab1.label_medium=reagirl.Label_Add(nil, nil, "font", "Label with medium font-size.", false, nil)
   reagirl.Label_SetFontSize(tab1.label_medium, 30) -- set to medium font-size
+  reagirl.Label_SetColor(tab1.label_medium, 255, 0, 0, -1, 0, 0)
   
   tab1.label_large=reagirl.Label_Add(nil, nil, "size", "Label with large font-size.", false, nil)
   reagirl.Label_SetFontSize(tab1.label_large, 50) -- set to large font-size
+  reagirl.Label_SetColor(tab1.label_large, 100, 255, 0, -1, 0, 0)
 
   tab1.label_medium_and_style=reagirl.Label_Add(nil, nil, "and style", "Label with medium font-size and some styles.", false, nil)
   reagirl.Label_SetFontSize(tab1.label_medium_and_style, 30) -- set to medium font-size
   reagirl.Label_SetStyle(tab1.label_medium_and_style, 2, 0, 0) -- set to italic
+  reagirl.Label_SetColor(tab1.label_medium_and_style, 255, 255, 0, 255, 0, 0)
   
   reagirl.Label_AutoBackdrop(tab1.label_header, tab1.label_large) -- set backdrop drawn by tab1.label_header
                                                                   -- let it end underneath tab1.label_large - the largest label
@@ -215,8 +218,7 @@
   reagirl.AutoPosition_SetNextUIElementRelativeTo(tab1.more_options)
   reagirl.NextLine()
   button_ok_id = reagirl.Button_Add(-133, nil, 0, 0, "OK", "Apply changes and close dialog.", nil)
-  button_cancel_id = reagirl.Button_Add(-95, nil, 0, 0, "Cancel", "Discard changes and close dialog.", nil, "HURTZ")
-  IDSOFT=reagirl.UI_Element_GetSetIdentifier(button_cancel_id, true, "HURTZ2")
+  button_cancel_id = reagirl.Button_Add(-95, nil, 0, 0, "Cancel", "Discard changes and close dialog.", nil)
 
   -- open the new gui
   reagirl.Gui_Open("My Dialog Name", false, "The dialog", "This is a demo dialog with settings for tool xyz.", nil, nil, 0, nil, nil)
