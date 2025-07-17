@@ -190,7 +190,7 @@ function ultraschall.GetApiVersion()
 </US_DocBloc>
 --]]
   local retval, BuildNumber = reaper.BR_Win32_GetPrivateProfileString("Ultraschall-Api-Build", "API-Build", "", ultraschall.Api_Path.."IniFiles/ultraschall_api.ini")
-  return 503.1, "5.31","13th of June 2025", "",  "\"Herbie Hancock - Hang up your hang ups\"", "xx of xxxx xxxx", BuildNumber..".00"
+  return 503.1, "5.31","13th of June 2025", "",  "\"Herbie Hancock - Hang up your hang ups\"", "17th of June 2025", BuildNumber..".01"
 end
 
 --A,B,C,D,E,F,G,H,I=ultraschall.GetApiVersion()

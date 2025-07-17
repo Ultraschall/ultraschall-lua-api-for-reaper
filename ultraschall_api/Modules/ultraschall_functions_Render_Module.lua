@@ -4824,11 +4824,11 @@ PadStartWithSilence, PadStartWithSilenceSeconds, PadEndWithSilence, PadEndWithSi
 	
   if PostProcessingEnabled~=nil and type(PostProcessingEnabled)~="boolean" then ultraschall.AddErrorMessage("CreateNewRenderTable", "PostProcessingEnabled", "#52: must be nil or a boolean", -53) return end  
   if PadStartWithSilence~=nil and type(PadStartWithSilence)~="boolean" then ultraschall.AddErrorMessage("CreateNewRenderTable", "PadStartWithSilence", "#53: must be nil or a boolean", -54) return end  
-  if PadStartWithSilenceSeconds~=nil and type(PadStartWithSilenceMS)~="number" then ultraschall.AddErrorMessage("CreateNewRenderTable", "PadStartWithSilenceSeconds", "#54: must be nil or a number", -55) return end  
+  if PadStartWithSilenceSeconds~=nil and type(PadStartWithSilenceSeconds)~="number" then ultraschall.AddErrorMessage("CreateNewRenderTable", "PadStartWithSilenceSeconds", "#54: must be nil or a number", -55) return end  
   if PadEndWithSilence~=nil and type(PadEndWithSilence)~="boolean" then ultraschall.AddErrorMessage("CreateNewRenderTable", "PadEndWithSilence", "#55: must be nil or a boolean", -56) return end  
-  if PadEndWithSilenceSeconds~=nil and type(PadEndWithSilenceMS)~="number" then ultraschall.AddErrorMessage("CreateNewRenderTable", "PadEndWithSilenceSeconds", "#56: must be nil or a number", -57) return end  
+  if PadEndWithSilenceSeconds~=nil and type(PadEndWithSilenceSeconds)~="number" then ultraschall.AddErrorMessage("CreateNewRenderTable", "PadEndWithSilenceSeconds", "#56: must be nil or a number", -57) return end  
   if AdjustMonoFiles~=nil and type(AdjustMonoFiles)~="boolean" then ultraschall.AddErrorMessage("CreateNewRenderTable", "AdjustMonoFiles", "#57: must be nil or a boolean", -58) return end  
-  if AdjustMonoFilesBy~=nil and type(AdjustMonoFilesBy)~="boolean" then ultraschall.AddErrorMessage("CreateNewRenderTable", "AdjustMonoFilesBy", "#58: must be nil or a number", -59) return end  
+  if AdjustMonoFilesBy~=nil and type(AdjustMonoFilesBy)~="number" then ultraschall.AddErrorMessage("CreateNewRenderTable", "AdjustMonoFilesBy", "#58: must be nil or a number", -59) return end  
   if TrimLeadingSilence~=nil and type(TrimLeadingSilence)~="boolean" then ultraschall.AddErrorMessage("CreateNewRenderTable", "TrimLeadingSilence", "#59: must be nil or a boolean", -60) return end  
   if TrimLeadingSilenceDB~=nil and type(TrimLeadingSilenceDB)~="number" then ultraschall.AddErrorMessage("CreateNewRenderTable", "TrimLeadingSilenceDB", "#60: must be nil or a number", -61) return end  
   if TrimTrailingSilence~=nil and type(TrimTrailingSilence)~="boolean" then ultraschall.AddErrorMessage("CreateNewRenderTable", "TrimTrailingSilence", "#61: must be nil or a boolean", -62) return end  
@@ -4956,9 +4956,9 @@ PadStartWithSilence, PadStartWithSilenceSeconds, PadEndWithSilence, PadEndWithSi
   if SaveRenderStatsFile~=nil then RenderTable["SaveRenderStatsFile"]=SaveRenderStatsFile end  
  
   if PadStartWithSilence~=nil then RenderTable["PadStartWithSilence"]=PadStartWithSilence end
-  if PadStartWithSilenceSeconds~=nil then RenderTable["PadStartWithSilenceSeconds"]=PadStartWithSilenceMS end
+  if PadStartWithSilenceSeconds~=nil then RenderTable["PadStartWithSilenceSeconds"]=PadStartWithSilenceSeconds end
   if PadEndWithSilence~=nil then RenderTable["PadEndWithSilence"]=PadEndWithSilence end
-  if PadEndWithSilenceSeconds~=nil then RenderTable["PadEndWithSilenceSeconds"]=PadEndWithSilenceMS end
+  if PadEndWithSilenceSeconds~=nil then RenderTable["PadEndWithSilenceSeconds"]=PadEndWithSilenceSeconds end
   if AdjustMonoFiles~=nil then RenderTable["AdjustMonoFiles"]=AdjustMonoFiles end
   if AdjustMonoFilesBy~=nil then RenderTable["AdjustMonoFilesBy"]=AdjustMonoFilesBy end
   if TrimLeadingSilence~=nil then RenderTable["TrimLeadingSilence"]=TrimLeadingSilence end
@@ -4967,6 +4967,7 @@ PadStartWithSilence, PadStartWithSilenceSeconds, PadEndWithSilence, PadEndWithSi
   if TrimTrailingSilenceDB~=nil then RenderTable["TrimTrailingSilenceDB"]=TrimTrailingSilenceDB end
   if Normalize_Only_Files_Too_Quiet~=nil then RenderTable["Normalize_Only_Files_Too_Quiet"]=Normalize_Only_Files_Too_Quiet end
   if ParallelRender~=nil then RenderTable["ParallelRender"]=ParallelRender end
+  if PostProcessingEnabled~=nil then RenderTable["PostProcessingEnabled"]=PostProcessingEnabled end
  
   return RenderTable
 end
