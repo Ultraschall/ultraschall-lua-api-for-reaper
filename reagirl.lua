@@ -22372,33 +22372,39 @@ function reagirl.Settings_Global_GetSet(setting, is_set, value)
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>Settings_Global_GetSet</slug>
   <requires>
-    ReaGirl=1.3
+    ReaGirl=1.4
     Reaper=7.03
     Lua=5.4
   </requires>
   <functioncall>number value = reagirl.Settings_Global_GetSet(string setting, boolean is_set, number value)</functioncall>
   <description>
-    Sets the global settings, as set in the ReaGirl-settings dialog. The changes will have immediate effect on
-    all ReaGirl-gui-instances.
+    Sets the global settings, as set in the ReaGirl-settings dialog. 
+    
+    The changes will have immediate effect on all ReaGirl-gui-instances and be active in all ReaGirl-guis in this Reaper-installation!
+    So don't use this function, if you just want to influence your own ReaGirl-gui and not others!
+    
+    returns nil in case of an error
     
     The following settings are valid:
       Show_Tooltips - 0, don't show tooltips; 1, show tooltips
-      Scroll_Via_Keyboard - 0, don't scroll via keyboard; 1, enable scroll via keyboard(default)
+      Debug_Message_Destination - the destination of error-messages; 1, IDE; 2, a messagebox; 3, ReaScript console window      
+      Debug_Show_Gui_And_UI_Names - 0, don't show gui and ui-element-names in ReaScript-console; 1, show gui and ui-element-names in ReaScript-console
+      Drag_Highlight_Destinations - 0, don't highlight drag destinations; 1, highlight drag destinations(default)
+      Drag_Highlight_Destinations_Blink - the speed of blinking of the highlighted drag-destinations; 0-5 seconds(default: 0)
       FocusRectangle_Always_On - 0, only show focus rectangle, when tabbing; 1, always show focus rectangle(default)
       FocusRectangle_BlinkSpeed - the speed of the blinking of the focus rectangle; 0-3(default 1)
       FocusRectangle_BlinkTime - the length of the blinking in seconds; 0-10 seconds(default: 0)
-      Inputbox_Blinkspeed - the blinkspeed of the inputbox-cursor; 0.4-5 seconds(default: 1)
-      Scaling_Override - the default scaling of the guis; 0-8(default: 0=auto-scaling)
       Highlight_UI_Element_Intensity - the intensity of highlighting when hovering above ui-elements; 0-3(default 0.75)
-      Drag_Highlight_Destinations - 0, don't highlight drag destinations; 1, highlight drag destinations(default)
-      Drag_Highlight_Destinations_Blink - the speed of blinking of the highlighted drag-destinations; 0-5 seconds(default: 0)
+      Inputbox_Blinkspeed - the blinkspeed of the inputbox-cursor; 0.4-5 seconds(default: 1)
+      Osara_Debug - 0, don't show screen reader messages in ReaScript console(default); 1, show screen reader messages in ReaScript console
       Osara_Enabled - 0, osara-screen reader support is disabled; 1, osara-screen reader support is enabled(default)
+      Osara_Enable_AccessibilityMessages - 0, only report caption+state to screen reader; 1, also report help-messages for ui-element to screen reader(default)
       Osara_Hover_Mouse - 0, don't report hovered ui-elements to screen reader; 1, report hovered ui-elements to screen reader(default)
       Osara_Move_Mouse - 0, don't move mouse when tabbing; 1, move mouse when tabbing to tabbed ui-element(default)
-      Osara_Enable_AccessibilityMessages - 0, only report caption+state to screen reader; 1, also report help-messages for ui-element to screen reader(default)
       Osara_Report_Meter_Clippings - 1, report clippings to screen reader when gui has focus; 2, report clippings also when gui has no focus; 3, never report clippings
-      Osara_Debug - 0, don't show screen reader messages in ReaScript console(default); 1, show screen reader messages in ReaScript console
-      Debug_Message_Destination - the destination of error-messages; 1, IDE; 2, a messagebox; 3, ReaScript console window
+      Scroll_Via_Keyboard - 0, don't scroll via keyboard; 1, enable scroll via keyboard(default)
+      Scaling_Override - the default scaling of the guis; 0-8(default: 0=auto-scaling)
+      Window_Dragging - drag the window by clicking into empty area of the gui; 1, let script decide; 2, always allow dragging; 3, never allow dragging
   </description>
   <retvals>
     string value - the current value set for a specific setting
@@ -22413,6 +22419,7 @@ function reagirl.Settings_Global_GetSet(setting, is_set, value)
   </chapter_context>
   <tags>misc, get, set, options</tags>
   <changelog>
+    ReaGirl 1.4 - added new option Debug_Show_Gui_And_UI_Names, Window_Dragging; returns now nil in case of an error
     ReaGirl 1.3 - added to ReaGirl
   </changelog>
 </US_DocBloc>
@@ -22470,8 +22477,18 @@ function reagirl.Settings_Global_GetSet(setting, is_set, value)
     elseif setting=="Debug_Message_Destination" then
       val=reaper.GetExtState("ReaGirl", "Error_Message_Destination")
       if val=="" then val=1 else val=tonumber(val) end
+    elseif setting=="Debug_Show_Gui_And_UI_Names" then
+      val=reaper.GetExtState("ReaGirl", "show_gui_and_ui_names")
+      if val=="true" then val=1 else val=0 end
+    elseif setting=="Window_Dragging" then
+        -- drag the window by clicking into empty area of the gui; 1, let script decide; 2, always allow dragging; 3, never allow dragging
+      val=reaper.GetExtState("ReaGirl", "DragWindow")
+      val=tonumber(val)
+      if val==nil then val=1 end
+    else
+      val=nil
     end
-    if val==math.floor(val) then val=math.floor(val) end
+    if val~=nil and val==math.floor(val) then val=math.floor(val) end
     return val
   else
     local val=value
@@ -22554,6 +22571,17 @@ function reagirl.Settings_Global_GetSet(setting, is_set, value)
       val=value
       if value==1 then value="" end
       reaper.SetExtState("ReaGirl", "Error_Message_Destination", value, true)
+    elseif setting=="Debug_Show_Gui_And_UI_Names" then
+      if value==0 then val="" else val="true" end      
+      reaper.SetExtState("ReaGirl", "show_gui_and_ui_names", val, true)
+    elseif setting=="Window_Dragging" then
+        -- drag the window by clicking into empty area of the gui; 1, let script decide; 2, always allow dragging; 3, never allow dragging
+        if value<1 then value=1 end 
+        if value>3 then value=3 end
+      reaper.SetExtState("ReaGirl", "DragWindow", value, true)
+      val=value
+    else
+      val=nil
     end
 
     return val

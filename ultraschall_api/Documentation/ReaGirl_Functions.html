@@ -5492,32 +5492,38 @@ Note: this uses image 1023 as temporary buffer so don't use image 1023, when usi
 <a class="anch" id="Settings_Global_GetSet"></a>
 <a href="#Settings_Global_GetSet"> ^</a> 
 <img width="3%" src="gfx/reaper7.03.png" alt="requires Reaper version 7.03">
-<img width="3%" src="gfx/reagirl1.3.png" alt="requires ReaGirl version 1.3"><u><b>Settings_Global_GetSet</b></u><br>			<p>
+<img width="3%" src="gfx/reagirl1.4.png" alt="requires ReaGirl version 1.4"><u><b>Settings_Global_GetSet</b></u><br>			<p>
 <div class="cc">
 <div class="l">Lua: <code> <i>number</i> value = <em>reagirl.Settings_Global_GetSet</em>(<i>string</i> setting, <i>boolean</i> is_set, <i>number</i> value)</code></div>
 </div><p>
 <div class="ch">
-Sets the global settings, as set in the ReaGirl-settings dialog. The changes will have immediate effect on<br>
-all ReaGirl-gui-instances.<br>
+Sets the global settings, as set in the ReaGirl-settings dialog. <br>
+<br>
+The changes will have immediate effect on all ReaGirl-gui-instances and be active in all ReaGirl-guis in this Reaper-installation!<br>
+So don't use this function, if you just want to influence your own ReaGirl-gui and not others!<br>
+<br>
+returns nil in case of an error<br>
 <br>
 The following settings are valid:<br>
 &nbsp;&nbsp;Show_Tooltips - 0, don't show tooltips; 1, show tooltips<br>
-&nbsp;&nbsp;Scroll_Via_Keyboard - 0, don't scroll via keyboard; 1, enable scroll via keyboard(default)<br>
+&nbsp;&nbsp;Debug_Message_Destination - the destination of error-messages; 1, IDE; 2, a messagebox; 3, ReaScript console window&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+&nbsp;&nbsp;Debug_Show_Gui_And_UI_Names - 0, don't show gui and ui-element-names in ReaScript-console; 1, show gui and ui-element-names in ReaScript-console<br>
+&nbsp;&nbsp;Drag_Highlight_Destinations - 0, don't highlight drag destinations; 1, highlight drag destinations(default)<br>
+&nbsp;&nbsp;Drag_Highlight_Destinations_Blink - the speed of blinking of the highlighted drag-destinations; 0-5 seconds(default: 0)<br>
 &nbsp;&nbsp;FocusRectangle_Always_On - 0, only show focus rectangle, when tabbing; 1, always show focus rectangle(default)<br>
 &nbsp;&nbsp;FocusRectangle_BlinkSpeed - the speed of the blinking of the focus rectangle; 0-3(default 1)<br>
 &nbsp;&nbsp;FocusRectangle_BlinkTime - the length of the blinking in seconds; 0-10 seconds(default: 0)<br>
-&nbsp;&nbsp;Inputbox_Blinkspeed - the blinkspeed of the inputbox-cursor; 0.4-5 seconds(default: 1)<br>
-&nbsp;&nbsp;Scaling_Override - the default scaling of the guis; 0-8(default: 0=auto-scaling)<br>
 &nbsp;&nbsp;Highlight_UI_Element_Intensity - the intensity of highlighting when hovering above ui-elements; 0-3(default 0.75)<br>
-&nbsp;&nbsp;Drag_Highlight_Destinations - 0, don't highlight drag destinations; 1, highlight drag destinations(default)<br>
-&nbsp;&nbsp;Drag_Highlight_Destinations_Blink - the speed of blinking of the highlighted drag-destinations; 0-5 seconds(default: 0)<br>
+&nbsp;&nbsp;Inputbox_Blinkspeed - the blinkspeed of the inputbox-cursor; 0.4-5 seconds(default: 1)<br>
+&nbsp;&nbsp;Osara_Debug - 0, don't show screen reader messages in ReaScript console(default); 1, show screen reader messages in ReaScript console<br>
 &nbsp;&nbsp;Osara_Enabled - 0, osara-screen reader support is disabled; 1, osara-screen reader support is enabled(default)<br>
+&nbsp;&nbsp;Osara_Enable_AccessibilityMessages - 0, only report caption+state to screen reader; 1, also report help-messages for ui-element to screen reader(default)<br>
 &nbsp;&nbsp;Osara_Hover_Mouse - 0, don't report hovered ui-elements to screen reader; 1, report hovered ui-elements to screen reader(default)<br>
 &nbsp;&nbsp;Osara_Move_Mouse - 0, don't move mouse when tabbing; 1, move mouse when tabbing to tabbed ui-element(default)<br>
-&nbsp;&nbsp;Osara_Enable_AccessibilityMessages - 0, only report caption+state to screen reader; 1, also report help-messages for ui-element to screen reader(default)<br>
 &nbsp;&nbsp;Osara_Report_Meter_Clippings - 1, report clippings to screen reader when gui has focus; 2, report clippings also when gui has no focus; 3, never report clippings<br>
-&nbsp;&nbsp;Osara_Debug - 0, don't show screen reader messages in ReaScript console(default); 1, show screen reader messages in ReaScript console<br>
-&nbsp;&nbsp;Debug_Message_Destination - the destination of error-messages; 1, IDE; 2, a messagebox; 3, ReaScript console window<br>
+&nbsp;&nbsp;Scroll_Via_Keyboard - 0, don't scroll via keyboard; 1, enable scroll via keyboard(default)<br>
+&nbsp;&nbsp;Scaling_Override - the default scaling of the guis; 0-8(default: 0=auto-scaling)<br>
+&nbsp;&nbsp;Window_Dragging - drag the window by clicking into empty area of the gui; 1, let script decide; 2, always allow dragging; 3, never allow dragging<br>
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">

@@ -24086,6 +24086,8 @@ List the subdirectories in the "path" directory. Use subdirindex = -1 to force r
 </div><p>
 <div class="ch">
 Get text-based metadata from a media file for a given identifier. Call with identifier="" to list all identifiers contained in the file, separated by newlines. May return "[Binary data]" for metadata that REAPER doesn't handle.<br>
+<br>
+Note: for chapter-markers, convert the time into a number and mutiply it by 0.001 to get the correct seconds. That way you can convert the time with format_timestr.<br>
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
@@ -35220,8 +35222,8 @@ count the number of items in the project (proj=0 for active project)<br>
 <div class="ch">
 Discouraged, since it's inefficiently coded. For new code, do it the following way:<br>
 Get the MediaItems using GetMediaItem and check, if it's selected with GetMediaItemInfo_Value and B_UISEL in a loop. Count, how often B_UISEL==1<br>
-<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;count the number of selected items in the project (proj=0 for active project)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+&nbsp;&nbsp;count the number of selected items in the project (proj=0 for active project)<br>
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">

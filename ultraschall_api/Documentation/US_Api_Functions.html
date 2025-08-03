@@ -36972,7 +36972,7 @@ All metadata currently set in the active project will be set in the MetaDataTabl
 <a class="anch" id="Metadata_ExtractCover"></a>
 <a href="#Metadata_ExtractCover"> ^</a> 
 <img width="3%" src="gfx/reaper7.03.png" alt="requires Reaper version 7.03">
-<img width="3%" src="gfx/ultraschall5.1.png" alt="requires Ultraschall version 5.1"><u><b>Metadata_ExtractCover</b></u><br>			<p>
+<img width="3%" src="gfx/ultraschall5.4.png" alt="requires Ultraschall version 5.4"><u><b>Metadata_ExtractCover</b></u><br>			<p>
 <div class="cc">
 <div class="l">Lua: <code> <i>boolean</i> retval, <i>string</i> filename = <em>ultraschall.Metadata_ExtractCover</em>(<i>string</i> media_filename, <i>string</i> target_filename)</code></div>
 </div><p>
@@ -36997,6 +36997,14 @@ returns false in case of an error<br>
 <tr><td class="pr"><i>string</i> image_description</td></tr>
 <tr><td class="ch2">a description of the image</td></tr>
 </table>
+<table class="ch">
+<tr><td class="pr"><i>string</i> cover_image</td></tr>
+<tr><td class="ch2">the binary-data of the cover-image</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>string</i> cover_type</td></tr>
+<tr><td class="ch2">the type of the cover-image</td></tr>
+</table>
 <br>
 <u>Parameters:</u>
 <table class="ch">
@@ -37005,7 +37013,7 @@ returns false in case of an error<br>
 </table>
 <table class="ch">
 <tr><td class="pr"><i>string</i> target_filename</td></tr>
-<tr><td class="ch2">the filename, where you want to store the cover-image(don't add an extension)</td></tr>
+<tr><td class="ch2">the filename, where you want to store the cover-image(don't add an extension); nil, don't write a file</td></tr>
 </table>
 <br>
 </div>
@@ -55169,9 +55177,9 @@ Stores the render-settings of a RenderTable into a project-extstate.<br>
 <a class="anch" id="CreateRenderCFG_AIFF"></a>
 <a href="#CreateRenderCFG_AIFF"> ^</a> 
 <img width="3%" src="gfx/reaper5.77.png" alt="requires Reaper version 5.77">
-<img width="3%" src="gfx/ultraschall4.00.png" alt="requires Ultraschall version 4.00"><u><b>CreateRenderCFG_AIFF</b></u><br>			<p>
+<img width="3%" src="gfx/ultraschall5.4.png" alt="requires Ultraschall version 5.4"><u><b>CreateRenderCFG_AIFF</b></u><br>			<p>
 <div class="cc">
-<div class="l">Lua: <code> <i>string</i> render_cfg_string = <em>ultraschall.CreateRenderCFG_AIFF</em>(<i>integer</i> bits, <i>optional</i> <i>boolean</i> EmbedBeatLength)</code></div>
+<div class="l">Lua: <code> <i>string</i> render_cfg_string_base64, <i>string</i> render_cfg_string_hexstring, <i>string</i> render_cfg_string_unencoded = <em>ultraschall.CreateRenderCFG_AIFF</em>(<i>integer</i> bits, <i>optional</i> <i>boolean</i> EmbedBeatLength)</code></div>
 </div><p>
 <div class="ch">
 Returns the render-cfg-string for the AIFF-format. You can use this in ProjectStateChunks, RPP-Projectfiles and reaper-render.ini<br>
@@ -55182,8 +55190,16 @@ Returns nil in case of an error<br>
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>string</i> render_cfg_string</td></tr>
-<tr><td class="ch2">the render-cfg-string for the selected AIFF-settings</td></tr>
+<tr><td class="pr"><i>string</i> render_cfg_string_base64</td></tr>
+<tr><td class="ch2">the render-cfg-string for the selected AIFF-settings base64-encoded(use this for render-table-functions)</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>string</i> render_cfg_string_hexstring</td></tr>
+<tr><td class="ch2">the render-cfg-string for the selected AIFF-settings hex-string-encoded(used in reaper.ini)</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>string</i> render_cfg_string_unencoded</td></tr>
+<tr><td class="ch2">the binary version of the render string, so you can reencode it into other means </td></tr>
 </table>
 <br>
 <u>Parameters:</u>
@@ -55202,9 +55218,9 @@ Returns nil in case of an error<br>
 <a class="anch" id="CreateRenderCFG_AVI_Video"></a>
 <a href="#CreateRenderCFG_AVI_Video"> ^</a> 
 <img width="3%" src="gfx/reaper6.62.png" alt="requires Reaper version 6.62">
-<img width="3%" src="gfx/ultraschall4.7.png" alt="requires Ultraschall version 4.7"><u><b>CreateRenderCFG_AVI_Video</b></u><br>			<p>
+<img width="3%" src="gfx/ultraschall5.4.png" alt="requires Ultraschall version 5.4"><u><b>CreateRenderCFG_AVI_Video</b></u><br>			<p>
 <div class="cc">
-<div class="l">Lua: <code> <i>string</i> render_cfg_string = <em>ultraschall.CreateRenderCFG_AVI_Video</em>(<i>integer</i> VideoCodec, <i>integer</i> MJPEG_quality, <i>integer</i> AudioCodec, <i>integer</i> WIDTH, <i>integer</i> HEIGHT, <i>number</i> FPS, <i>boolean</i> AspectRatio, <i>optional</i> <i>string</i> VideoOptions, <i>optional</i> <i>string</i> AudioOptions)</code></div>
+<div class="l">Lua: <code> <i>string</i> render_cfg_string_base64, <i>string</i> render_cfg_string_hexstring, <i>string</i> render_cfg_string_unencoded= <em>ultraschall.CreateRenderCFG_AVI_Video</em>(<i>integer</i> VideoCodec, <i>integer</i> MJPEG_quality, <i>integer</i> AudioCodec, <i>integer</i> WIDTH, <i>integer</i> HEIGHT, <i>number</i> FPS, <i>boolean</i> AspectRatio, <i>optional</i> <i>string</i> VideoOptions, <i>optional</i> <i>string</i> AudioOptions)</code></div>
 </div><p>
 <div class="ch">
 Returns the render-cfg-string for the AVI-Video-format. You can use this in ProjectStateChunks, RPP-Projectfiles and reaper-render.ini<br>
@@ -55215,8 +55231,16 @@ Returns nil in case of an error<br>
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>string</i> render_cfg_string</td></tr>
-<tr><td class="ch2">the render-cfg-string for the selected AVI-Video-settings</td></tr>
+<tr><td class="pr"><i>string</i> render_cfg_string_base64</td></tr>
+<tr><td class="ch2">the render-cfg-string for the selected GIF-settings base64-encoded(use this for render-table-functions)</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>string</i> render_cfg_string_hexstring</td></tr>
+<tr><td class="ch2">the render-cfg-string for the selected GIF-settings hex-string-encoded(used in reaper.ini)</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>string</i> render_cfg_string_unencoded</td></tr>
+<tr><td class="ch2">the binary version of the render string, so you can reencode it into other means </td></tr>
 </table>
 <br>
 <u>Parameters:</u>
@@ -55283,9 +55307,9 @@ q=9 ; mp3 VBR lowest&nbsp;&nbsp;&nbsp;&nbsp;</td></tr>
 <a class="anch" id="CreateRenderCFG_AudioCD"></a>
 <a href="#CreateRenderCFG_AudioCD"> ^</a> 
 <img width="3%" src="gfx/reaper5.77.png" alt="requires Reaper version 5.77">
-<img width="3%" src="gfx/ultraschall4.00.png" alt="requires Ultraschall version 4.00"><u><b>CreateRenderCFG_AudioCD</b></u><br>			<p>
+<img width="3%" src="gfx/ultraschall5.4.png" alt="requires Ultraschall version 5.4"><u><b>CreateRenderCFG_AudioCD</b></u><br>			<p>
 <div class="cc">
-<div class="l">Lua: <code> <i>string</i> render_cfg_string = <em>ultraschall.CreateRenderCFG_AudioCD</em>(<i>integer</i> trackmode, <i>boolean</i> only_markers_starting_with_hash, <i>integer</i> leadin_silence_tracks, <i>integer</i> leadin_silence_disc, <i>boolean</i> burncd_image_after_render)</code></div>
+<div class="l">Lua: <code> <i>string</i> render_cfg_string_base64, <i>string</i> render_cfg_string_hexstring, <i>string</i> render_cfg_string_unencoded = <em>ultraschall.CreateRenderCFG_AudioCD</em>(<i>integer</i> trackmode, <i>boolean</i> only_markers_starting_with_hash, <i>integer</i> leadin_silence_tracks, <i>integer</i> leadin_silence_disc, <i>boolean</i> burncd_image_after_render)</code></div>
 </div><p>
 <div class="ch">
 Returns the render-cfg-string for the AudioCD-format. You can use this in ProjectStateChunks, RPP-Projectfiles and reaper-render.ini<br>
@@ -55296,8 +55320,16 @@ Returns nil in case of an error<br>
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>string</i> render_cfg_string</td></tr>
-<tr><td class="ch2">the render-cfg-string for the selected AudioCD-image-settings</td></tr>
+<tr><td class="pr"><i>string</i> render_cfg_string_base64</td></tr>
+<tr><td class="ch2">the render-cfg-string for the selected AudioCD-image-settings base64-encoded(use this for render-table-functions)</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>string</i> render_cfg_string_hexstring</td></tr>
+<tr><td class="ch2">the render-cfg-string for the selected AudioCD-image-settings hex-string-encoded(used in reaper.ini)</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>string</i> render_cfg_string_unencoded</td></tr>
+<tr><td class="ch2">the binary version of the render string, so you can reencode it into other means </td></tr>
 </table>
 <br>
 <u>Parameters:</u>
@@ -55328,9 +55360,9 @@ Returns nil in case of an error<br>
 <a class="anch" id="CreateRenderCFG_CAF"></a>
 <a href="#CreateRenderCFG_CAF"> ^</a> 
 <img width="3%" src="gfx/reaper6.43.png" alt="requires Reaper version 6.43">
-<img width="3%" src="gfx/ultraschall4.2.png" alt="requires Ultraschall version 4.2"><u><b>CreateRenderCFG_CAF</b></u><br>			<p>
+<img width="3%" src="gfx/ultraschall5.4.png" alt="requires Ultraschall version 5.4"><u><b>CreateRenderCFG_CAF</b></u><br>			<p>
 <div class="cc">
-<div class="l">Lua: <code> <i>string</i> render_cfg_string = <em>ultraschall.CreateRenderCFG_CAF</em>(<i>integer</i> bits, <i>boolean</i> EmbedTempo, <i>integer</i> include_markers)</code></div>
+<div class="l">Lua: <code> <i>string</i> render_cfg_string_base64, <i>string</i> render_cfg_string_hexstring, <i>string</i> render_cfg_string_unencoded = <em>ultraschall.CreateRenderCFG_CAF</em>(<i>integer</i> bits, <i>boolean</i> EmbedTempo, <i>integer</i> include_markers)</code></div>
 </div><p>
 <div class="ch">
 Returns the render-cfg-string for the CAF-format. You can use this in ProjectStateChunks, RPP-Projectfiles and reaper-render.ini<br>
@@ -55341,8 +55373,16 @@ Returns nil in case of an error<br>
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>string</i> render_cfg_string</td></tr>
-<tr><td class="ch2">the render-cfg-string for the selected CAF-settings</td></tr>
+<tr><td class="pr"><i>string</i> render_cfg_string_base64</td></tr>
+<tr><td class="ch2">the render-cfg-string for the selected CAF-settings base64-encoded(use this for render-table-functions)</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>string</i> render_cfg_string_hexstring</td></tr>
+<tr><td class="ch2">the render-cfg-string for the selected CAF-settings hex-string-encoded(used in reaper.ini)</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>string</i> render_cfg_string_unencoded</td></tr>
+<tr><td class="ch2">the binary version of the render string, so you can reencode it into other means </td></tr>
 </table>
 <br>
 <u>Parameters:</u>
@@ -55372,17 +55412,25 @@ Returns nil in case of an error<br>
 <a class="anch" id="CreateRenderCFG_DDP"></a>
 <a href="#CreateRenderCFG_DDP"> ^</a> 
 <img width="3%" src="gfx/reaper5.77.png" alt="requires Reaper version 5.77">
-<img width="3%" src="gfx/ultraschall4.00.png" alt="requires Ultraschall version 4.00"><u><b>CreateRenderCFG_DDP</b></u><br>			<p>
+<img width="3%" src="gfx/ultraschall5.4.png" alt="requires Ultraschall version 5.4"><u><b>CreateRenderCFG_DDP</b></u><br>			<p>
 <div class="cc">
-<div class="l">Lua: <code> <i>string</i> render_cfg_string = <em>ultraschall.CreateRenderCFG_DDP</em>()</code></div>
+<div class="l">Lua: <code> <i>string</i> render_cfg_string_base64, <i>string</i> render_cfg_string_hexstring, <i>string</i> render_cfg_string_unencoded = <em>ultraschall.CreateRenderCFG_DDP</em>()</code></div>
 </div><p>
 <div class="ch">
 Returns the render-cfg-string for the DDP-format. You can use this in ProjectStateChunks, RPP-Projectfiles and reaper-render.ini<br>
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>string</i> render_cfg_string</td></tr>
-<tr><td class="ch2">the render-cfg-string for the selected DDP-settings</td></tr>
+<tr><td class="pr"><i>string</i> render_cfg_string_base64</td></tr>
+<tr><td class="ch2">the render-cfg-string for the selected DDP-settings base64-encoded(use this for render-table-functions)</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>string</i> render_cfg_string_hexstring</td></tr>
+<tr><td class="ch2">the render-cfg-string for the selected DDP-settings hex-string-encoded(used in reaper.ini)</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>string</i> render_cfg_string_unencoded</td></tr>
+<tr><td class="ch2">the binary version of the render string, so you can reencode it into other means </td></tr>
 </table>
 <br>
 </div>
@@ -55391,9 +55439,9 @@ Returns the render-cfg-string for the DDP-format. You can use this in ProjectSta
 <a class="anch" id="CreateRenderCFG_FLAC"></a>
 <a href="#CreateRenderCFG_FLAC"> ^</a> 
 <img width="3%" src="gfx/reaper5.77.png" alt="requires Reaper version 5.77">
-<img width="3%" src="gfx/ultraschall4.00.png" alt="requires Ultraschall version 4.00"><u><b>CreateRenderCFG_FLAC</b></u><br>			<p>
+<img width="3%" src="gfx/ultraschall5.4.png" alt="requires Ultraschall version 5.4"><u><b>CreateRenderCFG_FLAC</b></u><br>			<p>
 <div class="cc">
-<div class="l">Lua: <code> <i>string</i> render_cfg_string = <em>ultraschall.CreateRenderCFG_FLAC</em>(<i>integer</i> Bitrate, <i>integer</i> EncSpeed)</code></div>
+<div class="l">Lua: <code> <i>string</i> render_cfg_string_base64, <i>string</i> render_cfg_string_hexstring, <i>string</i> render_cfg_string_unencoded = <em>ultraschall.CreateRenderCFG_FLAC</em>(<i>integer</i> Bitrate, <i>integer</i> EncSpeed)</code></div>
 </div><p>
 <div class="ch">
 Returns the render-cfg-string for the FLAC-format. You can use this in ProjectStateChunks, RPP-Projectfiles and reaper-render.ini<br>
@@ -55404,8 +55452,16 @@ Returns nil in case of an error<br>
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>string</i> render_cfg_string</td></tr>
-<tr><td class="ch2">the render-cfg-string for the selected FLAC-settings</td></tr>
+<tr><td class="pr"><i>string</i> render_cfg_string_base64</td></tr>
+<tr><td class="ch2">the render-cfg-string for the selected Flac-settings base64-encoded(use this for render-table-functions)</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>string</i> render_cfg_string_hexstring</td></tr>
+<tr><td class="ch2">the render-cfg-string for the selected Flac-settings hex-string-encoded(used in reaper.ini)</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>string</i> render_cfg_string_unencoded</td></tr>
+<tr><td class="ch2">the binary version of the render string, so you can reencode it into other means </td></tr>
 </table>
 <br>
 <u>Parameters:</u>
@@ -55433,9 +55489,9 @@ Returns nil in case of an error<br>
 <a class="anch" id="CreateRenderCFG_FLV_Video"></a>
 <a href="#CreateRenderCFG_FLV_Video"> ^</a> 
 <img width="3%" src="gfx/reaper6.62.png" alt="requires Reaper version 6.62">
-<img width="3%" src="gfx/ultraschall4.7.png" alt="requires Ultraschall version 4.7"><u><b>CreateRenderCFG_FLV_Video</b></u><br>			<p>
+<img width="3%" src="gfx/ultraschall5.4.png" alt="requires Ultraschall version 5.4"><u><b>CreateRenderCFG_FLV_Video</b></u><br>			<p>
 <div class="cc">
-<div class="l">Lua: <code> <i>string</i> render_cfg_string = <em>ultraschall.CreateRenderCFG_FLV_Video</em>(<i>integer</i> VideoCodec, <i>integer</i> VIDKBPS, <i>integer</i> AudioCodec, <i>integer</i> AUDKBPS, <i>integer</i> WIDTH, <i>integer</i> HEIGHT, <i>number</i> FPS, <i>boolean</i> AspectRatio, <i>optional</i> <i>string</i> VideoOptions, <i>optional</i> <i>string</i> AudioOptions)</code></div>
+<div class="l">Lua: <code> <i>string</i> render_cfg_string_base64, <i>string</i> render_cfg_string_hexstring, <i>string</i> render_cfg_string_unencoded = <em>ultraschall.CreateRenderCFG_FLV_Video</em>(<i>integer</i> VideoCodec, <i>integer</i> VIDKBPS, <i>integer</i> AudioCodec, <i>integer</i> AUDKBPS, <i>integer</i> WIDTH, <i>integer</i> HEIGHT, <i>number</i> FPS, <i>boolean</i> AspectRatio, <i>optional</i> <i>string</i> VideoOptions, <i>optional</i> <i>string</i> AudioOptions)</code></div>
 </div><p>
 <div class="ch">
 Returns the render-cfg-string for the FLV-Video-format. You can use this in ProjectStateChunks, RPP-Projectfiles and reaper-render.ini<br>
@@ -55446,8 +55502,16 @@ Returns nil in case of an error<br>
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>string</i> render_cfg_string</td></tr>
-<tr><td class="ch2">the render-cfg-string for the selected MPEG-2-Video-settings</td></tr>
+<tr><td class="pr"><i>string</i> render_cfg_string_base64</td></tr>
+<tr><td class="ch2">the render-cfg-string for the selected MPEG-2-settings base64-encoded(use this for render-table-functions)</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>string</i> render_cfg_string_hexstring</td></tr>
+<tr><td class="ch2">the render-cfg-string for the selected MPEG-2-settings hex-string-encoded(used in reaper.ini)</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>string</i> render_cfg_string_unencoded</td></tr>
+<tr><td class="ch2">the binary version of the render string, so you can reencode it into other means </td></tr>
 </table>
 <br>
 <u>Parameters:</u>
@@ -55509,9 +55573,9 @@ q=9 ; mp3 VBR lowest</td></tr>
 <a class="anch" id="CreateRenderCFG_GIF"></a>
 <a href="#CreateRenderCFG_GIF"> ^</a> 
 <img width="3%" src="gfx/reaper5.975.png" alt="requires Reaper version 5.975">
-<img width="3%" src="gfx/ultraschall4.2.png" alt="requires Ultraschall version 4.2"><u><b>CreateRenderCFG_GIF</b></u><br>			<p>
+<img width="3%" src="gfx/ultraschall5.4.png" alt="requires Ultraschall version 5.4"><u><b>CreateRenderCFG_GIF</b></u><br>			<p>
 <div class="cc">
-<div class="l">Lua: <code> <i>string</i> render_cfg_string = <em>ultraschall.CreateRenderCFG_GIF</em>(<i>integer</i> Width, <i>integer</i> Height, <i>number</i> MaxFPS, <i>boolean</i> AspectRatio, <i>integer</i> IgnoreLowBits, <i>boolean</i> EncodeTransparency)</code></div>
+<div class="l">Lua: <code> <i>string</i> render_cfg_string_base64, <i>string</i> render_cfg_string_hexstring, <i>string</i> render_cfg_string_unencoded = <em>ultraschall.CreateRenderCFG_GIF</em>(<i>integer</i> Width, <i>integer</i> Height, <i>number</i> MaxFPS, <i>boolean</i> AspectRatio, <i>integer</i> IgnoreLowBits, <i>boolean</i> EncodeTransparency)</code></div>
 </div><p>
 <div class="ch">
 Creates the render-cfg-string for the GIF-format. You can use this in ProjectStateChunks, RPP-Projectfiles and reaper-render.ini<br>
@@ -55520,8 +55584,16 @@ Returns nil in case of an error<br>
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>string</i> render_cfg_string</td></tr>
-<tr><td class="ch2">the render-cfg-string for the selected GIF-settings</td></tr>
+<tr><td class="pr"><i>string</i> render_cfg_string_base64</td></tr>
+<tr><td class="ch2">the render-cfg-string for the selected GIF-settings base64-encoded(use this for render-table-functions)</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>string</i> render_cfg_string_hexstring</td></tr>
+<tr><td class="ch2">the render-cfg-string for the selected GIF-settings hex-string-encoded(used in reaper.ini)</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>string</i> render_cfg_string_unencoded</td></tr>
+<tr><td class="ch2">the binary version of the render string, so you can reencode it into other means </td></tr>
 </table>
 <br>
 <u>Parameters:</u>
@@ -55556,9 +55628,9 @@ Returns nil in case of an error<br>
 <a class="anch" id="CreateRenderCFG_LCF"></a>
 <a href="#CreateRenderCFG_LCF"> ^</a> 
 <img width="3%" src="gfx/reaper5.975.png" alt="requires Reaper version 5.975">
-<img width="3%" src="gfx/ultraschall4.2.png" alt="requires Ultraschall version 4.2"><u><b>CreateRenderCFG_LCF</b></u><br>			<p>
+<img width="3%" src="gfx/ultraschall5.4.png" alt="requires Ultraschall version 5.4"><u><b>CreateRenderCFG_LCF</b></u><br>			<p>
 <div class="cc">
-<div class="l">Lua: <code> <i>string</i> render_cfg_string = <em>ultraschall.CreateRenderCFG_LCF</em>(<i>integer</i> Width, <i>integer</i> Height, <i>number</i> MaxFPS, <i>boolean</i> AspectRatio, <i>optional</i> <i>string</i> LCFoptionstweak)</code></div>
+<div class="l">Lua: <code> <i>string</i> render_cfg_string_base64, <i>string</i> render_cfg_string_hexstring, <i>string</i> render_cfg_string_unencoded = <em>ultraschall.CreateRenderCFG_LCF</em>(<i>integer</i> Width, <i>integer</i> Height, <i>number</i> MaxFPS, <i>boolean</i> AspectRatio, <i>optional</i> <i>string</i> LCFoptionstweak)</code></div>
 </div><p>
 <div class="ch">
 Creates the render-cfg-string for the LCF-format. You can use this in ProjectStateChunks, RPP-Projectfiles and reaper-render.ini<br>
@@ -55567,8 +55639,16 @@ Returns nil in case of an error<br>
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>string</i> render_cfg_string</td></tr>
-<tr><td class="ch2">the render-cfg-string for the selected LCF-settings</td></tr>
+<tr><td class="pr"><i>string</i> render_cfg_string_base64</td></tr>
+<tr><td class="ch2">the render-cfg-string for the selected LCF-settings base64-encoded(use this for render-table-functions)</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>string</i> render_cfg_string_hexstring</td></tr>
+<tr><td class="ch2">the render-cfg-string for the selected LCF-settings hex-string-encoded(used in reaper.ini)</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>string</i> render_cfg_string_unencoded</td></tr>
+<tr><td class="ch2">the binary version of the render string, so you can reencode it into other means </td></tr>
 </table>
 <br>
 <u>Parameters:</u>
@@ -55599,9 +55679,9 @@ Returns nil in case of an error<br>
 <a class="anch" id="CreateRenderCFG_M4AMAC"></a>
 <a href="#CreateRenderCFG_M4AMAC"> ^</a> 
 <img width="3%" src="gfx/reaper5.975.png" alt="requires Reaper version 5.975">
-<img width="3%" src="gfx/ultraschall4.00.png" alt="requires Ultraschall version 4.00"><u><b>CreateRenderCFG_M4AMAC</b></u><br>			<p>
+<img width="3%" src="gfx/ultraschall5.4.png" alt="requires Ultraschall version 5.4"><u><b>CreateRenderCFG_M4AMAC</b></u><br>			<p>
 <div class="cc">
-<div class="l">Lua: <code> <i>string</i> render_cfg_string = <em>ultraschall.CreateRenderCFG_M4AMAC</em>(<i>integer</i> AUDKBPS, <i>integer</i> WIDTH, <i>integer</i> HEIGHT, <i>number</i> FPS, <i>boolean</i> AspectRatio)</code></div>
+<div class="l">Lua: <code> <i>string</i> render_cfg_string_base64, <i>string</i> render_cfg_string_hexstring, <i>string</i> render_cfg_string_unencoded = <em>ultraschall.CreateRenderCFG_M4AMAC</em>(<i>integer</i> AUDKBPS, <i>integer</i> WIDTH, <i>integer</i> HEIGHT, <i>number</i> FPS, <i>boolean</i> AspectRatio)</code></div>
 </div><p>
 <div class="ch">
 Returns the render-cfg-string for the M4A-Mac-format. You can use this in ProjectStateChunks, RPP-Projectfiles and reaper-render.ini<br>
@@ -55611,8 +55691,16 @@ Returns nil in case of an error<br>
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>string</i> render_cfg_string</td></tr>
-<tr><td class="ch2">the render-cfg-string for the selected M4A-Mac-settings</td></tr>
+<tr><td class="pr"><i>string</i> render_cfg_string_base64</td></tr>
+<tr><td class="ch2">the render-cfg-string for the selected GIF-settings base64-encoded(use this for render-table-functions)</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>string</i> render_cfg_string_hexstring</td></tr>
+<tr><td class="ch2">the render-cfg-string for the selected GIF-settings hex-string-encoded(used in reaper.ini)</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>string</i> render_cfg_string_unencoded</td></tr>
+<tr><td class="ch2">the binary version of the render string, so you can reencode it into other means </td></tr>
 </table>
 <br>
 <u>Parameters:</u>
@@ -55643,9 +55731,9 @@ Returns nil in case of an error<br>
 <a class="anch" id="CreateRenderCFG_MKV_Video"></a>
 <a href="#CreateRenderCFG_MKV_Video"> ^</a> 
 <img width="3%" src="gfx/reaper6.62.png" alt="requires Reaper version 6.62">
-<img width="3%" src="gfx/ultraschall4.7.png" alt="requires Ultraschall version 4.7"><u><b>CreateRenderCFG_MKV_Video</b></u><br>			<p>
+<img width="3%" src="gfx/ultraschall5.4.png" alt="requires Ultraschall version 5.4"><u><b>CreateRenderCFG_MKV_Video</b></u><br>			<p>
 <div class="cc">
-<div class="l">Lua: <code> <i>string</i> render_cfg_string = <em>ultraschall.CreateRenderCFG_MKV_Video</em>(<i>integer</i> VideoCodec, <i>integer</i> MJPEG_quality, <i>integer</i> AudioCodec, <i>integer</i> WIDTH, <i>integer</i> HEIGHT, <i>number</i> FPS, <i>boolean</i> AspectRatio, <i>optional</i> <i>integer</i> VIDKBPS, <i>optional</i> <i>integer</i> AUDKBPS, <i>optional</i> <i>string</i> VideoOptions, <i>optional</i> <i>string</i> AudioOptions)</code></div>
+<div class="l">Lua: <code> <i>string</i> render_cfg_string_base64, <i>string</i> render_cfg_string_hexstring, <i>string</i> render_cfg_string_unencoded= <em>ultraschall.CreateRenderCFG_MKV_Video</em>(<i>integer</i> VideoCodec, <i>integer</i> MJPEG_quality, <i>integer</i> AudioCodec, <i>integer</i> WIDTH, <i>integer</i> HEIGHT, <i>number</i> FPS, <i>boolean</i> AspectRatio, <i>optional</i> <i>integer</i> VIDKBPS, <i>optional</i> <i>integer</i> AUDKBPS, <i>optional</i> <i>string</i> VideoOptions, <i>optional</i> <i>string</i> AudioOptions)</code></div>
 </div><p>
 <div class="ch">
 Returns the render-cfg-string for the MKV-Video-format. You can use this in ProjectStateChunks, RPP-Projectfiles and reaper-render.ini<br>
@@ -55656,8 +55744,16 @@ Returns nil in case of an error<br>
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>string</i> render_cfg_string</td></tr>
-<tr><td class="ch2">the render-cfg-string for the selected MKV-Video-settings</td></tr>
+<tr><td class="pr"><i>string</i> render_cfg_string_base64</td></tr>
+<tr><td class="ch2">the render-cfg-string for the selected MKV-settings base64-encoded(use this for render-table-functions)</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>string</i> render_cfg_string_hexstring</td></tr>
+<tr><td class="ch2">the render-cfg-string for the selected MKV-settings hex-string-encoded(used in reaper.ini)</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>string</i> render_cfg_string_unencoded</td></tr>
+<tr><td class="ch2">the binary version of the render string, so you can reencode it into other means </td></tr>
 </table>
 <br>
 <u>Parameters:</u>
@@ -55730,9 +55826,9 @@ q=9 ; mp3 VBR lowest&nbsp;&nbsp;&nbsp;&nbsp;</td></tr>
 <a class="anch" id="CreateRenderCFG_MOVMAC_Video"></a>
 <a href="#CreateRenderCFG_MOVMAC_Video"> ^</a> 
 <img width="3%" src="gfx/reaper5.975.png" alt="requires Reaper version 5.975">
-<img width="3%" src="gfx/ultraschall4.3.png" alt="requires Ultraschall version 4.3"><u><b>CreateRenderCFG_MOVMAC_Video</b></u><br>			<p>
+<img width="3%" src="gfx/ultraschall5.4.png" alt="requires Ultraschall version 5.4"><u><b>CreateRenderCFG_MOVMAC_Video</b></u><br>			<p>
 <div class="cc">
-<div class="l">Lua: <code> <i>string</i> render_cfg_string = <em>ultraschall.CreateRenderCFG_MOVMAC_Video</em>(<i>integer</i> VideoCodec, <i>integer</i> VIDKBPS, <i>integer</i> MJPEG_quality, <i>integer</i> AudioCodec, <i>integer</i> AUDKBPS, <i>integer</i> WIDTH, <i>integer</i> HEIGHT, <i>number</i> FPS, <i>boolean</i> AspectRatio, <i>optional</i> <i>integer</i> VideoFormat)</code></div>
+<div class="l">Lua: <code> <i>string</i> render_cfg_string_base64, <i>string</i> render_cfg_string_hexstring, <i>string</i> render_cfg_string_unencoded = <em>ultraschall.CreateRenderCFG_MOVMAC_Video</em>(<i>integer</i> VideoCodec, <i>integer</i> VIDKBPS, <i>integer</i> MJPEG_quality, <i>integer</i> AudioCodec, <i>integer</i> AUDKBPS, <i>integer</i> WIDTH, <i>integer</i> HEIGHT, <i>number</i> FPS, <i>boolean</i> AspectRatio, <i>optional</i> <i>integer</i> VideoFormat)</code></div>
 </div><p>
 <div class="ch">
 Returns the render-cfg-string for the MOV-Mac-Video-format. You can use this in ProjectStateChunks, RPP-Projectfiles and reaper-render.ini<br>
@@ -55742,8 +55838,16 @@ Returns nil in case of an error<br>
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>string</i> render_cfg_string</td></tr>
-<tr><td class="ch2">the render-cfg-string for the selected MP4-Mac-Video-settings</td></tr>
+<tr><td class="pr"><i>string</i> render_cfg_string_base64</td></tr>
+<tr><td class="ch2">the render-cfg-string for the selected Mov-Mac-settings base64-encoded(use this for render-table-functions)</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>string</i> render_cfg_string_hexstring</td></tr>
+<tr><td class="ch2">the render-cfg-string for the selected Mov-Mac-settings hex-string-encoded(used in reaper.ini)</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>string</i> render_cfg_string_unencoded</td></tr>
+<tr><td class="ch2">the binary version of the render string, so you can reencode it into other means </td></tr>
 </table>
 <br>
 <u>Parameters:</u>
@@ -55798,9 +55902,9 @@ Returns nil in case of an error<br>
 <a class="anch" id="CreateRenderCFG_MP3ABR"></a>
 <a href="#CreateRenderCFG_MP3ABR"> ^</a> 
 <img width="3%" src="gfx/reaper5.975.png" alt="requires Reaper version 5.975">
-<img width="3%" src="gfx/ultraschall4.00.png" alt="requires Ultraschall version 4.00"><u><b>CreateRenderCFG_MP3ABR</b></u><br>			<p>
+<img width="3%" src="gfx/ultraschall5.4.png" alt="requires Ultraschall version 5.4"><u><b>CreateRenderCFG_MP3ABR</b></u><br>			<p>
 <div class="cc">
-<div class="l">Lua: <code> <i>string</i> render_cfg_string = <em>ultraschall.CreateRenderCFG_MP3ABR</em>(<i>integer</i> bitrate, <i>integer</i> quality, <i>optional</i> <i>boolean</i> no_joint_stereo, <i>optional</i> <i>boolean</i> write_replay_gain)</code></div>
+<div class="l">Lua: <code> <i>string</i> render_cfg_string_base64, <i>string</i> render_cfg_string_hexstring, <i>string</i> render_cfg_string_unencoded = <em>ultraschall.CreateRenderCFG_MP3ABR</em>(<i>integer</i> bitrate, <i>integer</i> quality, <i>optional</i> <i>boolean</i> no_joint_stereo, <i>optional</i> <i>boolean</i> write_replay_gain)</code></div>
 </div><p>
 <div class="ch">
 Creates the render-cfg-string for the MP3-format with average bitrate. You can use this in ProjectStateChunks, RPP-Projectfiles and reaper-render.ini<br>
@@ -55811,8 +55915,16 @@ Returns nil in case of an error<br>
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>string</i> render_cfg_string</td></tr>
-<tr><td class="ch2">the render-cfg-string for the selected MP3-ABR-settings</td></tr>
+<tr><td class="pr"><i>string</i> render_cfg_string_base64</td></tr>
+<tr><td class="ch2">the render-cfg-string for the selected MP3(ABR)-settings base64-encoded(use this for render-table-functions)</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>string</i> render_cfg_string_hexstring</td></tr>
+<tr><td class="ch2">the render-cfg-string for the selected MP3(ABR)-settings hex-string-encoded(used in reaper.ini)</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>string</i> render_cfg_string_unencoded</td></tr>
+<tr><td class="ch2">the binary version of the render string, so you can reencode it into other means </td></tr>
 </table>
 <br>
 <u>Parameters:</u>
@@ -55862,9 +55974,9 @@ Returns nil in case of an error<br>
 <a class="anch" id="CreateRenderCFG_MP3CBR"></a>
 <a href="#CreateRenderCFG_MP3CBR"> ^</a> 
 <img width="3%" src="gfx/reaper5.975.png" alt="requires Reaper version 5.975">
-<img width="3%" src="gfx/ultraschall4.00.png" alt="requires Ultraschall version 4.00"><u><b>CreateRenderCFG_MP3CBR</b></u><br>			<p>
+<img width="3%" src="gfx/ultraschall5.4.png" alt="requires Ultraschall version 5.4"><u><b>CreateRenderCFG_MP3CBR</b></u><br>			<p>
 <div class="cc">
-<div class="l">Lua: <code> <i>string</i> render_cfg_string = <em>ultraschall.CreateRenderCFG_MP3CBR</em>(<i>integer</i> bitrate, <i>integer</i> quality, <i>optional</i> <i>boolean</i> no_joint_stereo, <i>optional</i> <i>boolean</i> write_replay_gain)</code></div>
+<div class="l">Lua: <code> <i>string</i> render_cfg_string_base64, <i>string</i> render_cfg_string_hexstring, <i>string</i> render_cfg_string_unencoded = <em>ultraschall.CreateRenderCFG_MP3CBR</em>(<i>integer</i> bitrate, <i>integer</i> quality, <i>optional</i> <i>boolean</i> no_joint_stereo, <i>optional</i> <i>boolean</i> write_replay_gain)</code></div>
 </div><p>
 <div class="ch">
 Creates the render-cfg-string for the MP3-format with constant bitrate. You can use this in ProjectStateChunks, RPP-Projectfiles and reaper-render.ini<br>
@@ -55875,8 +55987,16 @@ Returns nil in case of an error<br>
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>string</i> render_cfg_string</td></tr>
-<tr><td class="ch2">the render-cfg-string for the selected MP3-CBR-settings</td></tr>
+<tr><td class="pr"><i>string</i> render_cfg_string_base64</td></tr>
+<tr><td class="ch2">the render-cfg-string for the selected MP3(CBR)-settings base64-encoded(use this for render-table-functions)</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>string</i> render_cfg_string_hexstring</td></tr>
+<tr><td class="ch2">the render-cfg-string for the selected MP3(CBR)-settings hex-string-encoded(used in reaper.ini)</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>string</i> render_cfg_string_unencoded</td></tr>
+<tr><td class="ch2">the binary version of the render string, so you can reencode it into other means </td></tr>
 </table>
 <br>
 <u>Parameters:</u>
@@ -55926,9 +56046,9 @@ Returns nil in case of an error<br>
 <a class="anch" id="CreateRenderCFG_MP3MaxQuality"></a>
 <a href="#CreateRenderCFG_MP3MaxQuality"> ^</a> 
 <img width="3%" src="gfx/reaper5.975.png" alt="requires Reaper version 5.975">
-<img width="3%" src="gfx/ultraschall4.00.png" alt="requires Ultraschall version 4.00"><u><b>CreateRenderCFG_MP3MaxQuality</b></u><br>			<p>
+<img width="3%" src="gfx/ultraschall5.4.png" alt="requires Ultraschall version 5.4"><u><b>CreateRenderCFG_MP3MaxQuality</b></u><br>			<p>
 <div class="cc">
-<div class="l">Lua: <code> <i>string</i> render_cfg_string = <em>ultraschall.CreateRenderCFG_MP3MaxQuality</em>(<i>optional</i> <i>boolean</i> write_replay_gain)</code></div>
+<div class="l">Lua: <code> <i>string</i> render_cfg_string_base64, <i>string</i> render_cfg_string_hexstring, <i>string</i> render_cfg_string_unencoded = <em>ultraschall.CreateRenderCFG_MP3MaxQuality</em>(<i>optional</i> <i>boolean</i> write_replay_gain)</code></div>
 </div><p>
 <div class="ch">
 Creates the render-cfg-string for the MP3-format with highest quality-settings. You can use this in ProjectStateChunks, RPP-Projectfiles and reaper-render.ini<br>
@@ -55937,8 +56057,16 @@ Note: Can also be applied as RecCFG!<br>
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>string</i> render_cfg_string</td></tr>
-<tr><td class="ch2">the renderstring for MP3 with maximum quality</td></tr>
+<tr><td class="pr"><i>string</i> render_cfg_string_base64</td></tr>
+<tr><td class="ch2">the render-cfg-string for the selected MP3-settings(for maximum quality) base64-encoded(use this for render-table-functions)</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>string</i> render_cfg_string_hexstring</td></tr>
+<tr><td class="ch2">the render-cfg-string for the selected MP3-settings(for maximum quality) hex-string-encoded(used in reaper.ini)</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>string</i> render_cfg_string_unencoded</td></tr>
+<tr><td class="ch2">the binary version of the render string, so you can reencode it into other means </td></tr>
 </table>
 <br>
 <u>Parameters:</u>
@@ -55953,9 +56081,9 @@ Note: Can also be applied as RecCFG!<br>
 <a class="anch" id="CreateRenderCFG_MP3VBR"></a>
 <a href="#CreateRenderCFG_MP3VBR"> ^</a> 
 <img width="3%" src="gfx/reaper5.975.png" alt="requires Reaper version 5.975">
-<img width="3%" src="gfx/ultraschall4.00.png" alt="requires Ultraschall version 4.00"><u><b>CreateRenderCFG_MP3VBR</b></u><br>			<p>
+<img width="3%" src="gfx/ultraschall5.4.png" alt="requires Ultraschall version 5.4"><u><b>CreateRenderCFG_MP3VBR</b></u><br>			<p>
 <div class="cc">
-<div class="l">Lua: <code> <i>string</i> render_cfg_string = <em>ultraschall.CreateRenderCFG_MP3VBR</em>(<i>integer</i> vbr_quality, <i>integer</i> quality, <i>optional</i> <i>boolean</i> no_joint_stereo, <i>optional</i> <i>boolean</i> write_replay_gain)</code></div>
+<div class="l">Lua: <code> <i>string</i> render_cfg_string_base64, <i>string</i> render_cfg_string_hexstring, <i>string</i> render_cfg_string_unencoded = <em>ultraschall.CreateRenderCFG_MP3VBR</em>(<i>integer</i> vbr_quality, <i>integer</i> quality, <i>optional</i> <i>boolean</i> no_joint_stereo, <i>optional</i> <i>boolean</i> write_replay_gain)</code></div>
 </div><p>
 <div class="ch">
 Creates the render-cfg-string for the MP3-format with variable bitrate. You can use this in ProjectStateChunks, RPP-Projectfiles and reaper-render.ini<br>
@@ -55966,8 +56094,16 @@ Returns nil in case of an error<br>
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>string</i> render_cfg_string</td></tr>
-<tr><td class="ch2">the render-cfg-string for the selected MP3-VBR-settings</td></tr>
+<tr><td class="pr"><i>string</i> render_cfg_string_base64</td></tr>
+<tr><td class="ch2">the render-cfg-string for the selected MP3(VBR)-settings base64-encoded(use this for render-table-functions)</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>string</i> render_cfg_string_hexstring</td></tr>
+<tr><td class="ch2">the render-cfg-string for the selected MP3(VBR)-settings hex-string-encoded(used in reaper.ini)</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>string</i> render_cfg_string_unencoded</td></tr>
+<tr><td class="ch2">the binary version of the render string, so you can reencode it into other means </td></tr>
 </table>
 <br>
 <u>Parameters:</u>
@@ -56000,9 +56136,9 @@ Returns nil in case of an error<br>
 <a class="anch" id="CreateRenderCFG_MP4MAC_Video"></a>
 <a href="#CreateRenderCFG_MP4MAC_Video"> ^</a> 
 <img width="3%" src="gfx/reaper5.975.png" alt="requires Reaper version 5.975">
-<img width="3%" src="gfx/ultraschall4.00.png" alt="requires Ultraschall version 4.00"><u><b>CreateRenderCFG_MP4MAC_Video</b></u><br>			<p>
+<img width="3%" src="gfx/ultraschall5.4.png" alt="requires Ultraschall version 5.4"><u><b>CreateRenderCFG_MP4MAC_Video</b></u><br>			<p>
 <div class="cc">
-<div class="l">Lua: <code> <i>string</i> render_cfg_string = <em>ultraschall.CreateRenderCFG_MP4MAC_Video</em>(<i>boolean</i> stream, <i>integer</i> VIDKBPS, <i>integer</i> AUDKBPS, <i>integer</i> WIDTH, <i>integer</i> HEIGHT, <i>number</i> FPS, <i>boolean</i> AspectRatio)</code></div>
+<div class="l">Lua: <code> <i>string</i> render_cfg_string_base64, <i>string</i> render_cfg_string_hexstring, <i>string</i> render_cfg_string_unencoded = <em>ultraschall.CreateRenderCFG_MP4MAC_Video</em>(<i>boolean</i> stream, <i>integer</i> VIDKBPS, <i>integer</i> AUDKBPS, <i>integer</i> WIDTH, <i>integer</i> HEIGHT, <i>number</i> FPS, <i>boolean</i> AspectRatio)</code></div>
 </div><p>
 <div class="ch">
 Returns the render-cfg-string for the MP4-Mac-Video-format. You can use this in ProjectStateChunks, RPP-Projectfiles and reaper-render.ini<br>
@@ -56012,8 +56148,16 @@ Returns nil in case of an error<br>
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>string</i> render_cfg_string</td></tr>
-<tr><td class="ch2">the render-cfg-string for the selected MP4-Mac-Video-settings</td></tr>
+<tr><td class="pr"><i>string</i> render_cfg_string_base64</td></tr>
+<tr><td class="ch2">the render-cfg-string for the selected MP4-Mac-settings base64-encoded(use this for render-table-functions)</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>string</i> render_cfg_string_hexstring</td></tr>
+<tr><td class="ch2">the render-cfg-string for the selected MP4-Mac-settings hex-string-encoded(used in reaper.ini)</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>string</i> render_cfg_string_unencoded</td></tr>
+<tr><td class="ch2">the binary version of the render string, so you can reencode it into other means </td></tr>
 </table>
 <br>
 <u>Parameters:</u>
@@ -56052,9 +56196,9 @@ Returns nil in case of an error<br>
 <a class="anch" id="CreateRenderCFG_MPEG1_Video"></a>
 <a href="#CreateRenderCFG_MPEG1_Video"> ^</a> 
 <img width="3%" src="gfx/reaper6.62.png" alt="requires Reaper version 6.62">
-<img width="3%" src="gfx/ultraschall4.7.png" alt="requires Ultraschall version 4.7"><u><b>CreateRenderCFG_MPEG1_Video</b></u><br>			<p>
+<img width="3%" src="gfx/ultraschall5.4.png" alt="requires Ultraschall version 5.4"><u><b>CreateRenderCFG_MPEG1_Video</b></u><br>			<p>
 <div class="cc">
-<div class="l">Lua: <code> <i>string</i> render_cfg_string = <em>ultraschall.CreateRenderCFG_MPEG1_Video</em>(<i>integer</i> VideoCodec, <i>integer</i> VIDKBPS, <i>integer</i> AudioCodec, <i>integer</i> AUDKBPS, <i>integer</i> WIDTH, <i>integer</i> HEIGHT, <i>number</i> FPS, <i>boolean</i> AspectRatio, <i>optional</i> <i>string</i> VideoOptions, <i>optional</i> <i>string</i> AudioOptions)</code></div>
+<div class="l">Lua: <code> <i>string</i> render_cfg_string_base64, <i>string</i> render_cfg_string_hexstring, <i>string</i> render_cfg_string_unencoded = <em>ultraschall.CreateRenderCFG_MPEG1_Video</em>(<i>integer</i> VideoCodec, <i>integer</i> VIDKBPS, <i>integer</i> AudioCodec, <i>integer</i> AUDKBPS, <i>integer</i> WIDTH, <i>integer</i> HEIGHT, <i>number</i> FPS, <i>boolean</i> AspectRatio, <i>optional</i> <i>string</i> VideoOptions, <i>optional</i> <i>string</i> AudioOptions)</code></div>
 </div><p>
 <div class="ch">
 Returns the render-cfg-string for the MPEG-1-Video-format. You can use this in ProjectStateChunks, RPP-Projectfiles and reaper-render.ini<br>
@@ -56065,8 +56209,16 @@ Returns nil in case of an error<br>
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>string</i> render_cfg_string</td></tr>
-<tr><td class="ch2">the render-cfg-string for the selected MPEG-1-Video-settings</td></tr>
+<tr><td class="pr"><i>string</i> render_cfg_string_base64</td></tr>
+<tr><td class="ch2">the render-cfg-string for the selected MPEG1-settings base64-encoded(use this for render-table-functions)</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>string</i> render_cfg_string_hexstring</td></tr>
+<tr><td class="ch2">the render-cfg-string for the selected MPEG1-settings hex-string-encoded(used in reaper.ini)</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>string</i> render_cfg_string_unencoded</td></tr>
+<tr><td class="ch2">the binary version of the render string, so you can reencode it into other means </td></tr>
 </table>
 <br>
 <u>Parameters:</u>
@@ -56127,9 +56279,9 @@ q=9 ; mp3 VBR lowest</td></tr>
 <a class="anch" id="CreateRenderCFG_MPEG2_Video"></a>
 <a href="#CreateRenderCFG_MPEG2_Video"> ^</a> 
 <img width="3%" src="gfx/reaper6.62.png" alt="requires Reaper version 6.62">
-<img width="3%" src="gfx/ultraschall4.7.png" alt="requires Ultraschall version 4.7"><u><b>CreateRenderCFG_MPEG2_Video</b></u><br>			<p>
+<img width="3%" src="gfx/ultraschall5.4.png" alt="requires Ultraschall version 5.4"><u><b>CreateRenderCFG_MPEG2_Video</b></u><br>			<p>
 <div class="cc">
-<div class="l">Lua: <code> <i>string</i> render_cfg_string = <em>ultraschall.CreateRenderCFG_MPEG2_Video</em>(<i>integer</i> VideoCodec, <i>integer</i> VIDKBPS, <i>integer</i> AudioCodec, <i>integer</i> AUDKBPS, <i>integer</i> WIDTH, <i>integer</i> HEIGHT, <i>number</i> FPS, <i>boolean</i> AspectRatio, <i>optional</i> <i>string</i> VideoOptions, <i>optional</i> <i>string</i> AudioOptions)</code></div>
+<div class="l">Lua: <code> <i>string</i> render_cfg_string_base64, <i>string</i> render_cfg_string_hexstring, <i>string</i> render_cfg_string_unencoded = <em>ultraschall.CreateRenderCFG_MPEG2_Video</em>(<i>integer</i> VideoCodec, <i>integer</i> VIDKBPS, <i>integer</i> AudioCodec, <i>integer</i> AUDKBPS, <i>integer</i> WIDTH, <i>integer</i> HEIGHT, <i>number</i> FPS, <i>boolean</i> AspectRatio, <i>optional</i> <i>string</i> VideoOptions, <i>optional</i> <i>string</i> AudioOptions)</code></div>
 </div><p>
 <div class="ch">
 Returns the render-cfg-string for the MPEG-2-Video-format. You can use this in ProjectStateChunks, RPP-Projectfiles and reaper-render.ini<br>
@@ -56140,8 +56292,16 @@ Returns nil in case of an error<br>
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>string</i> render_cfg_string</td></tr>
-<tr><td class="ch2">the render-cfg-string for the selected MPEG-2-Video-settings</td></tr>
+<tr><td class="pr"><i>string</i> render_cfg_string_base64</td></tr>
+<tr><td class="ch2">the render-cfg-string for the selected MPEG2-settings base64-encoded(use this for render-table-functions)</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>string</i> render_cfg_string_hexstring</td></tr>
+<tr><td class="ch2">the render-cfg-string for the selected MPEG2-settings hex-string-encoded(used in reaper.ini)</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>string</i> render_cfg_string_unencoded</td></tr>
+<tr><td class="ch2">the binary version of the render string, so you can reencode it into other means </td></tr>
 </table>
 <br>
 <u>Parameters:</u>
@@ -56203,9 +56363,9 @@ q=9 ; mp3 VBR lowest&nbsp;&nbsp;&nbsp;&nbsp;</td></tr>
 <a class="anch" id="CreateRenderCFG_OGG"></a>
 <a href="#CreateRenderCFG_OGG"> ^</a> 
 <img width="3%" src="gfx/reaper5.77.png" alt="requires Reaper version 5.77">
-<img width="3%" src="gfx/ultraschall4.00.png" alt="requires Ultraschall version 4.00"><u><b>CreateRenderCFG_OGG</b></u><br>			<p>
+<img width="3%" src="gfx/ultraschall5.4.png" alt="requires Ultraschall version 5.4"><u><b>CreateRenderCFG_OGG</b></u><br>			<p>
 <div class="cc">
-<div class="l">Lua: <code> <i>string</i> render_cfg_string = <em>ultraschall.CreateRenderCFG_OGG</em>(<i>integer</i> Mode, <i>number</i> VBR_Quality, <i>integer</i> CBR_KBPS, <i>integer</i> ABR_KBPS, <i>integer</i> ABR_KBPS_MIN, <i>integer</i> ABR_KBPS_MAX)</code></div>
+<div class="l">Lua: <code> <i>string</i> render_cfg_string_base64, <i>string</i> render_cfg_string_hexstring, <i>string</i> render_cfg_string_unencoded = <em>ultraschall.CreateRenderCFG_OGG</em>(<i>integer</i> Mode, <i>number</i> VBR_Quality, <i>integer</i> CBR_KBPS, <i>integer</i> ABR_KBPS, <i>integer</i> ABR_KBPS_MIN, <i>integer</i> ABR_KBPS_MAX)</code></div>
 </div><p>
 <div class="ch">
 Returns the render-cfg-string for the OGG-format. You can use this in ProjectStateChunks, RPP-Projectfiles and reaper-render.ini<br>
@@ -56217,8 +56377,16 @@ Returns nil in case of an error<br>
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>string</i> render_cfg_string</td></tr>
-<tr><td class="ch2">the render-cfg-string for the selected OGG-settings</td></tr>
+<tr><td class="pr"><i>string</i> render_cfg_string_base64</td></tr>
+<tr><td class="ch2">the render-cfg-string for the selected OGG-settings base64-encoded(use this for render-table-functions)</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>string</i> render_cfg_string_hexstring</td></tr>
+<tr><td class="ch2">the render-cfg-string for the selected OGG-settings hex-string-encoded(used in reaper.ini)</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>string</i> render_cfg_string_unencoded</td></tr>
+<tr><td class="ch2">the binary version of the render string, so you can reencode it into other means </td></tr>
 </table>
 <br>
 <u>Parameters:</u>
@@ -56253,9 +56421,9 @@ Returns nil in case of an error<br>
 <a class="anch" id="CreateRenderCFG_Opus"></a>
 <a href="#CreateRenderCFG_Opus"> ^</a> 
 <img width="3%" src="gfx/reaper5.975.png" alt="requires Reaper version 5.975">
-<img width="3%" src="gfx/ultraschall4.00.png" alt="requires Ultraschall version 4.00"><u><b>CreateRenderCFG_Opus</b></u><br>			<p>
+<img width="3%" src="gfx/ultraschall5.4.png" alt="requires Ultraschall version 5.4"><u><b>CreateRenderCFG_Opus</b></u><br>			<p>
 <div class="cc">
-<div class="l">Lua: <code> <i>string</i> render_cfg_string = <em>ultraschall.CreateRenderCFG_Opus</em>(<i>integer</i> Mode, <i>integer</i> Kbps, <i>integer</i> Complexity, <i>optional</i> <i>boolean</i> channel_audio, <i>optional</i> <i>boolean</i> per_channel)</code></div>
+<div class="l">Lua: <code> <i>string</i> render_cfg_string_base64, <i>string</i> render_cfg_string_hexstring, <i>string</i> render_cfg_string_unencoded = <em>ultraschall.CreateRenderCFG_Opus</em>(<i>integer</i> Mode, <i>integer</i> Kbps, <i>integer</i> Complexity, <i>optional</i> <i>boolean</i> channel_audio, <i>optional</i> <i>boolean</i> per_channel)</code></div>
 </div><p>
 <div class="ch">
 Creates the render-cfg-string for the Opus-format. You can use this in ProjectStateChunks, RPP-Projectfiles and reaper-render.ini<br>
@@ -56266,8 +56434,16 @@ Returns nil in case of an error<br>
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>string</i> render_cfg_string</td></tr>
-<tr><td class="ch2">the render-cfg-string for the selected Opus-settings</td></tr>
+<tr><td class="pr"><i>string</i> render_cfg_string_base64</td></tr>
+<tr><td class="ch2">the render-cfg-string for the selected Opus-settings base64-encoded(use this for render-table-functions)</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>string</i> render_cfg_string_hexstring</td></tr>
+<tr><td class="ch2">the render-cfg-string for the selected Opus-settings hex-string-encoded(used in reaper.ini)</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>string</i> render_cfg_string_unencoded</td></tr>
+<tr><td class="ch2">the binary version of the render string, so you can reencode it into other means </td></tr>
 </table>
 <br>
 <u>Parameters:</u>
@@ -56298,9 +56474,9 @@ Returns nil in case of an error<br>
 <a class="anch" id="CreateRenderCFG_QTMOVMP4_Video"></a>
 <a href="#CreateRenderCFG_QTMOVMP4_Video"> ^</a> 
 <img width="3%" src="gfx/reaper6.62.png" alt="requires Reaper version 6.62">
-<img width="3%" src="gfx/ultraschall4.7.png" alt="requires Ultraschall version 4.7"><u><b>CreateRenderCFG_QTMOVMP4_Video</b></u><br>			<p>
+<img width="3%" src="gfx/ultraschall5.4.png" alt="requires Ultraschall version 5.4"><u><b>CreateRenderCFG_QTMOVMP4_Video</b></u><br>			<p>
 <div class="cc">
-<div class="l">Lua: <code> <i>string</i> render_cfg_string = <em>ultraschall.CreateRenderCFG_QTMOVMP4_Video</em>(<i>integer</i> VideoCodec, <i>integer</i> MJPEG_quality, <i>integer</i> AudioCodec, <i>integer</i> WIDTH, <i>integer</i> HEIGHT, <i>number</i> FPS, <i>boolean</i> AspectRatio, <i>optional</i> <i>integer</i> VIDKBPS, <i>optional</i> <i>integer</i> AUDKBPS, <i>optional</i> <i>string</i> VideoOptions, <i>optional</i> <i>string</i> AudioOptions)</code></div>
+<div class="l">Lua: <code> <i>string</i> render_cfg_string_base64, <i>string</i> render_cfg_string_hexstring, <i>string</i> render_cfg_string_unencoded = <em>ultraschall.CreateRenderCFG_QTMOVMP4_Video</em>(<i>integer</i> VideoCodec, <i>integer</i> MJPEG_quality, <i>integer</i> AudioCodec, <i>integer</i> WIDTH, <i>integer</i> HEIGHT, <i>number</i> FPS, <i>boolean</i> AspectRatio, <i>optional</i> <i>integer</i> VIDKBPS, <i>optional</i> <i>integer</i> AUDKBPS, <i>optional</i> <i>string</i> VideoOptions, <i>optional</i> <i>string</i> AudioOptions)</code></div>
 </div><p>
 <div class="ch">
 Returns the render-cfg-string for the QT/MOV/MP4-Video-format. You can use this in ProjectStateChunks, RPP-Projectfiles and reaper-render.ini<br>
@@ -56311,8 +56487,16 @@ Returns nil in case of an error<br>
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>string</i> render_cfg_string</td></tr>
-<tr><td class="ch2">the render-cfg-string for the selected QT/MOV/MP4-Video-settings</td></tr>
+<tr><td class="pr"><i>string</i> render_cfg_string_base64</td></tr>
+<tr><td class="ch2">the render-cfg-string for the selected QT/MOV/MP4-settings base64-encoded(use this for render-table-functions)</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>string</i> render_cfg_string_hexstring</td></tr>
+<tr><td class="ch2">the render-cfg-string for the selected QT/MOV/MP4-settings hex-string-encoded(used in reaper.ini)</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>string</i> render_cfg_string_unencoded</td></tr>
+<tr><td class="ch2">the binary version of the render string, so you can reencode it into other means </td></tr>
 </table>
 <br>
 <u>Parameters:</u>
@@ -56382,9 +56566,9 @@ q=9 ; mp3 VBR lowest&nbsp;&nbsp;&nbsp;&nbsp;</td></tr>
 <a class="anch" id="CreateRenderCFG_RAW"></a>
 <a href="#CreateRenderCFG_RAW"> ^</a> 
 <img width="3%" src="gfx/reaper7.0.png" alt="requires Reaper version 7.0">
-<img width="3%" src="gfx/ultraschall5.png" alt="requires Ultraschall version 5"><u><b>CreateRenderCFG_RAW</b></u><br>			<p>
+<img width="3%" src="gfx/ultraschall5.4.png" alt="requires Ultraschall version 5.4"><u><b>CreateRenderCFG_RAW</b></u><br>			<p>
 <div class="cc">
-<div class="l">Lua: <code> <i>string</i> render_cfg_string = <em>ultraschall.CreateRenderCFG_RAW</em>(<i>integer</i> bitrate, <i>boolean</i> write_sidecar_file)</code></div>
+<div class="l">Lua: <code> <i>string</i> render_cfg_string_base64, <i>string</i> render_cfg_string_hexstring, <i>string</i> render_cfg_string_unencoded = <em>ultraschall.CreateRenderCFG_RAW</em>(<i>integer</i> bitrate, <i>boolean</i> write_sidecar_file)</code></div>
 </div><p>
 <div class="ch">
 Returns the render-cfg-string for the RAW-PCM-format. You can use this in ProjectStateChunks, RPP-Projectfiles and reaper-render.ini<br>
@@ -56393,8 +56577,16 @@ Returns nil in case of an error<br>
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>string</i> render_cfg_string</td></tr>
-<tr><td class="ch2">the render-cfg-string for the selected RAW PCM-settings</td></tr>
+<tr><td class="pr"><i>string</i> render_cfg_string_base64</td></tr>
+<tr><td class="ch2">the render-cfg-string for the selected RAW-PCM-settings base64-encoded(use this for render-table-functions)</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>string</i> render_cfg_string_hexstring</td></tr>
+<tr><td class="ch2">the render-cfg-string for the selected RAW-PCM-settings hex-string-encoded(used in reaper.ini)</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>string</i> render_cfg_string_unencoded</td></tr>
+<tr><td class="ch2">the binary version of the render string, so you can reencode it into other means </td></tr>
 </table>
 <br>
 <u>Parameters:</u>
@@ -56425,9 +56617,9 @@ Returns nil in case of an error<br>
 <a class="anch" id="CreateRenderCFG_WAV"></a>
 <a href="#CreateRenderCFG_WAV"> ^</a> 
 <img width="3%" src="gfx/reaper6.13.png" alt="requires Reaper version 6.13">
-<img width="3%" src="gfx/ultraschall4.2.png" alt="requires Ultraschall version 4.2"><u><b>CreateRenderCFG_WAV</b></u><br>			<p>
+<img width="3%" src="gfx/ultraschall5.4.png" alt="requires Ultraschall version 5.4"><u><b>CreateRenderCFG_WAV</b></u><br>			<p>
 <div class="cc">
-<div class="l">Lua: <code> <i>string</i> render_cfg_string = <em>ultraschall.CreateRenderCFG_WAV</em>(<i>integer</i> BitDepth, <i>integer</i> LargeFiles, <i>integer</i> BWFChunk, <i>integer</i> IncludeMarkers, <i>boolean</i> EmbedProjectTempo)</code></div>
+<div class="l">Lua: <code> <i>string</i> render_cfg_string_base64, <i>string</i> render_cfg_string_hexstring, <i>string</i> render_cfg_string_unencoded = <em>ultraschall.CreateRenderCFG_WAV</em>(<i>integer</i> BitDepth, <i>integer</i> LargeFiles, <i>integer</i> BWFChunk, <i>integer</i> IncludeMarkers, <i>boolean</i> EmbedProjectTempo)</code></div>
 </div><p>
 <div class="ch">
 Creates the render-cfg-string for the WAV-format. You can use this in ProjectStateChunks, RPP-Projectfiles and reaper-render.ini<br>
@@ -56438,8 +56630,16 @@ Returns nil in case of an error<br>
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>string</i> render_cfg_string</td></tr>
-<tr><td class="ch2">the render-cfg-string for the selected WAV-settings</td></tr>
+<tr><td class="pr"><i>string</i> render_cfg_string_base64</td></tr>
+<tr><td class="ch2">the render-cfg-string for the selected GIF-settings base64-encoded(use this for render-table-functions)</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>string</i> render_cfg_string_hexstring</td></tr>
+<tr><td class="ch2">the render-cfg-string for the selected GIF-settings hex-string-encoded(used in reaper.ini)</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>string</i> render_cfg_string_unencoded</td></tr>
+<tr><td class="ch2">the binary version of the render string, so you can reencode it into other means </td></tr>
 </table>
 <br>
 <u>Parameters:</u>
@@ -56495,9 +56695,9 @@ Returns nil in case of an error<br>
 <a class="anch" id="CreateRenderCFG_WAVPACK"></a>
 <a href="#CreateRenderCFG_WAVPACK"> ^</a> 
 <img width="3%" src="gfx/reaper5.77.png" alt="requires Reaper version 5.77">
-<img width="3%" src="gfx/ultraschall4.00.png" alt="requires Ultraschall version 4.00"><u><b>CreateRenderCFG_WAVPACK</b></u><br>			<p>
+<img width="3%" src="gfx/ultraschall5.4.png" alt="requires Ultraschall version 5.4"><u><b>CreateRenderCFG_WAVPACK</b></u><br>			<p>
 <div class="cc">
-<div class="l">Lua: <code> <i>string</i> render_cfg_string = <em>ultraschall.CreateRenderCFG_WAVPACK</em>(<i>integer</i> Mode, <i>integer</i> Bitdepth, <i>integer</i> Writemarkers, <i>boolean</i> WriteBWFChunk, <i>boolean</i> IncludeFilenameBWF)</code></div>
+<div class="l">Lua: <code> <i>string</i> render_cfg_string_base64, <i>string</i> render_cfg_string_hexstring, <i>string</i> render_cfg_string_unencoded = <em>ultraschall.CreateRenderCFG_WAVPACK</em>(<i>integer</i> Mode, <i>integer</i> Bitdepth, <i>integer</i> Writemarkers, <i>boolean</i> WriteBWFChunk, <i>boolean</i> IncludeFilenameBWF)</code></div>
 </div><p>
 <div class="ch">
 Returns the render-cfg-string for the WAVPACK-format. You can use this in ProjectStateChunks, RPP-Projectfiles and reaper-render.ini<br>
@@ -56508,8 +56708,16 @@ Returns nil in case of an error<br>
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>string</i> render_cfg_string</td></tr>
-<tr><td class="ch2">the render-cfg-string for the selected WAVPACK-settings</td></tr>
+<tr><td class="pr"><i>string</i> render_cfg_string_base64</td></tr>
+<tr><td class="ch2">the render-cfg-string for the selected WAVPACK-settings base64-encoded(use this for render-table-functions)</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>string</i> render_cfg_string_hexstring</td></tr>
+<tr><td class="ch2">the render-cfg-string for the selected WAVPACK-settings hex-string-encoded(used in reaper.ini)</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>string</i> render_cfg_string_unencoded</td></tr>
+<tr><td class="ch2">the binary version of the render string, so you can reencode it into other means </td></tr>
 </table>
 <br>
 <u>Parameters:</u>
@@ -56557,9 +56765,9 @@ Returns nil in case of an error<br>
 <a class="anch" id="CreateRenderCFG_WMF"></a>
 <a href="#CreateRenderCFG_WMF"> ^</a> 
 <img width="3%" src="gfx/reaper6.59.png" alt="requires Reaper version 6.59">
-<img width="3%" src="gfx/ultraschall4.7.png" alt="requires Ultraschall version 4.7"><u><b>CreateRenderCFG_WMF</b></u><br>			<p>
+<img width="3%" src="gfx/ultraschall5.4.png" alt="requires Ultraschall version 5.4"><u><b>CreateRenderCFG_WMF</b></u><br>			<p>
 <div class="cc">
-<div class="l">Lua: <code> <i>string</i> render_cfg_string = <em>ultraschall.CreateRenderCFG_WMF</em>(<i>integer</i> VideoFormat, <i>integer</i> VideoCodec, <i>integer</i> VideoBitrate, <i>integer</i> AudioCodec, <i>integer</i> AudioBitrate, <i>integer</i> WIDTH, <i>integer</i> HEIGHT, <i>number</i> FPS, <i>boolean</i> AspectRatio)</code></div>
+<div class="l">Lua: <code> <i>string</i> render_cfg_string_base64, <i>string</i> render_cfg_string_hexstring, <i>string</i> render_cfg_string_unencoded = <em>ultraschall.CreateRenderCFG_WMF</em>(<i>integer</i> VideoFormat, <i>integer</i> VideoCodec, <i>integer</i> VideoBitrate, <i>integer</i> AudioCodec, <i>integer</i> AudioBitrate, <i>integer</i> WIDTH, <i>integer</i> HEIGHT, <i>number</i> FPS, <i>boolean</i> AspectRatio)</code></div>
 </div><p>
 <div class="ch">
 Returns the render-cfg-string for the WMF-Video-format. You can use this in ProjectStateChunks, RPP-Projectfiles and reaper-render.ini<br>
@@ -56568,8 +56776,16 @@ Returns nil in case of an error<br>
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>string</i> render_cfg_string</td></tr>
-<tr><td class="ch2">the render-cfg-string for the selected wmf-Video-settings</td></tr>
+<tr><td class="pr"><i>string</i> render_cfg_string_base64</td></tr>
+<tr><td class="ch2">the render-cfg-string for the selected WMF-settings base64-encoded(use this for render-table-functions)</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>string</i> render_cfg_string_hexstring</td></tr>
+<tr><td class="ch2">the render-cfg-string for the selected WMF-settings hex-string-encoded(used in reaper.ini)</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>string</i> render_cfg_string_unencoded</td></tr>
+<tr><td class="ch2">the binary version of the render string, so you can reencode it into other means </td></tr>
 </table>
 <br>
 <u>Parameters:</u>
@@ -56621,9 +56837,9 @@ Returns nil in case of an error<br>
 <a class="anch" id="CreateRenderCFG_WebM_Video"></a>
 <a href="#CreateRenderCFG_WebM_Video"> ^</a> 
 <img width="3%" src="gfx/reaper6.62.png" alt="requires Reaper version 6.62">
-<img width="3%" src="gfx/ultraschall4.3.png" alt="requires Ultraschall version 4.3"><u><b>CreateRenderCFG_WebM_Video</b></u><br>			<p>
+<img width="3%" src="gfx/ultraschall5.4.png" alt="requires Ultraschall version 5.4"><u><b>CreateRenderCFG_WebM_Video</b></u><br>			<p>
 <div class="cc">
-<div class="l">Lua: <code> <i>string</i> render_cfg_string = <em>ultraschall.CreateRenderCFG_WebM_Video</em>(<i>integer</i> VIDKBPS, <i>integer</i> AUDKBPS, <i>integer</i> WIDTH, <i>integer</i> HEIGHT, <i>number</i> FPS, <i>boolean</i> AspectRatio, <i>integer</i> VideoCodec, <i>integer</i> AudioCodec, <i>optional</i> <i>string</i> VideoOptions, <i>optional</i> <i>string</i> AudioOptions)</code></div>
+<div class="l">Lua: <code> <i>string</i> render_cfg_string_base64, <i>string</i> render_cfg_string_hexstring, <i>string</i> render_cfg_string_unencoded = <em>ultraschall.CreateRenderCFG_WebM_Video</em>(<i>integer</i> VIDKBPS, <i>integer</i> AUDKBPS, <i>integer</i> WIDTH, <i>integer</i> HEIGHT, <i>number</i> FPS, <i>boolean</i> AspectRatio, <i>integer</i> VideoCodec, <i>integer</i> AudioCodec, <i>optional</i> <i>string</i> VideoOptions, <i>optional</i> <i>string</i> AudioOptions)</code></div>
 </div><p>
 <div class="ch">
 Returns the render-cfg-string for the WebM-Video-format. You can use this in ProjectStateChunks, RPP-Projectfiles and reaper-render.ini<br>
@@ -56634,8 +56850,16 @@ Returns nil in case of an error<br>
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>string</i> render_cfg_string</td></tr>
-<tr><td class="ch2">the render-cfg-string for the selected WebM-Video-settings</td></tr>
+<tr><td class="pr"><i>string</i> render_cfg_string_base64</td></tr>
+<tr><td class="ch2">the render-cfg-string for the selected WebM-settings base64-encoded(use this for render-table-functions)</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>string</i> render_cfg_string_hexstring</td></tr>
+<tr><td class="ch2">the render-cfg-string for the selected WebM-settings hex-string-encoded(used in reaper.ini)</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>string</i> render_cfg_string_unencoded</td></tr>
+<tr><td class="ch2">the binary version of the render string, so you can reencode it into other means </td></tr>
 </table>
 <br>
 <u>Parameters:</u>
