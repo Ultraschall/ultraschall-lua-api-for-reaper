@@ -36977,7 +36977,7 @@ All metadata currently set in the active project will be set in the MetaDataTabl
 <div class="l">Lua: <code> <i>boolean</i> retval, <i>string</i> filename = <em>ultraschall.Metadata_ExtractCover</em>(<i>string</i> media_filename, <i>string</i> target_filename)</code></div>
 </div><p>
 <div class="ch">
-Extracts the cover-image from a media-file into an image-file.<br>
+Extracts the cover-image from a media-file into an image-file. Currently supported are files with ID3(usually mp3s) and FLACPIC(usually flac) in them.<br>
 <br>
 Note: don't add the extension to the target-filename, since the filetype is defined by the stored cover-image(usually jpeg or png).<br>
 Use the return value "filename" to get the actual filename of the cover-image.<br>
@@ -36996,6 +36996,31 @@ returns false in case of an error<br>
 <table class="ch">
 <tr><td class="pr"><i>string</i> image_description</td></tr>
 <tr><td class="ch2">a description of the image</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>string</i> image_type</td></tr>
+<tr><td class="ch2">the image-type<br/>
+Other&nbsp;&nbsp;<br/>
+32x32 pixel file icon (PNG only)&nbsp;&nbsp;<br/>
+Other file icon&nbsp;&nbsp;<br/>
+Cover (front)&nbsp;&nbsp;<br/>
+Cover (back)&nbsp;&nbsp;<br/>
+Leaflet page&nbsp;&nbsp;<br/>
+Media&nbsp;&nbsp;<br/>
+Lead artist/Lead Performer/Solo&nbsp;&nbsp;<br/>
+Artist/Performer&nbsp;&nbsp;<br/>
+Conductor&nbsp;&nbsp;<br/>
+Band/Orchestra&nbsp;&nbsp;<br/>
+Composer&nbsp;&nbsp;<br/>
+Lyricist/Text writer&nbsp;&nbsp;<br/>
+Recording location&nbsp;&nbsp;<br/>
+During recording&nbsp;&nbsp;<br/>
+During performance&nbsp;&nbsp;<br/>
+Movie/video screen capture&nbsp;&nbsp;<br/>
+A bright colored fish&nbsp;&nbsp;<br/>
+Illustration&nbsp;&nbsp;<br/>
+Band/Artist logotype&nbsp;&nbsp;<br/>
+Publisher/Studiotype&nbsp;&nbsp;</td></tr>
 </table>
 <table class="ch">
 <tr><td class="pr"><i>string</i> cover_image</td></tr>

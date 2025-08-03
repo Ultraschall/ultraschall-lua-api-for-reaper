@@ -428,12 +428,13 @@ Has now 1939 functions, with X new ones
   - ReaGirl: Label\_SetColor - sets the color of a label
 
 #### Changes from 5.31 to 5.4
-  - Metadata: Metadata\_ExtractCover - allows now not saving the cover-file; returns now the file-type and the cover-image as binary string
+  - Metadata: Metadata\_ExtractCover - allows now not saving the cover-file; returns now the file-type and the cover-image as binary string; supports now flac as well
   - ReaGirl: Button\_Add - added new parameters mode, width and height; width and height can be anchored to the right and bottom edge of the window
   - ReaGirl: Inputbox\_GetSelectedText - corrected docs; added new retval for length of the selected text
   - ReaGirl: Inputbox\_SetText - allows now setting an offset and the length to insert/replace text of an inputbox
   - ReaGirl: Inputboxes - removed debug-code; added defaut-context-menu with options for cut/copy/paste and select all text; paste erased all text -> fixed
   - ReaGirl: Label\_Add - allows now for setting the font-size of a label
+  - ReaGirl: Settings_Global_GetSet - added new option Debug_Show_Gui_And_UI_Names, Window_Dragging; returns now nil in case of an error
   - Rendering: CreateNewRenderTable - some parameters were not correctly set into the RenderTable -> fixed(thanks to Aurelien)
   - Rendering: CreateRenderCFG\_GIF - returns now the render-cfg-string as hex-string and unencoded render-string as well
   - Rendering: CreateRenderCFG\_LCF - returns now the render-cfg-string as hex-string and unencoded render-string as well

@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API and ReaGirl">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API and ReaGirl package" type="extension">
-      <version name="56191.00" author="Meo-Ada Mespotine">
+      <version name="56193.00" author="Meo-Ada Mespotine">
 	<source file="reagirl.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5.4/reagirl.lua</source>
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5.4/ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5.4/ultraschall_api_readme.txt</source>
@@ -778,7 +778,7 @@ Changes from 5.31 to 5.4
 
 -   Metadata: Metadata_ExtractCover - allows now not saving the
     cover-file; returns now the file-type and the cover-image as binary
-    string
+    string; supports now flac as well
 -   ReaGirl: Button_Add - added new parameters mode, width and height;
     width and height can be anchored to the right and bottom edge of the
     window
@@ -790,6 +790,9 @@ Changes from 5.31 to 5.4
     with options for cut/copy/paste and select all text; paste erased
     all text -> fixed
 -   ReaGirl: Label_Add - allows now for setting the font-size of a label
+-   ReaGirl: Settings_Global_GetSet - added new option
+    Debug_Show_Gui_And_UI_Names, Window_Dragging; returns now nil in
+    case of an error
 -   Rendering: CreateNewRenderTable - some parameters were not correctly
     set into the RenderTable -> fixed(thanks to Aurelien)
 -   Rendering: CreateRenderCFG_GIF - returns now the render-cfg-string
@@ -875,7 +878,7 @@ Changes from 5.31 to 5.4
         \par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af6\langfe2052\dbch\af8\afs24\lang1081\loch\f0\fs24\lang1031{\rtlch \ltrch\loch
         }
         \par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af6\langfe2052\dbch\af8\afs24\lang1081\loch\f0\fs24\lang1031{\rtlch \ltrch\loch\loch\f4
-        a 1946 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 56191 from 03.08.2025 17:48:55).}
+        a 1946 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 56193 from 03.08.2025 18:17:24).}
         \par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af6\langfe2052\dbch\af8\afs24\lang1081\loch\f0\fs24\lang1031{\rtlch \ltrch\loch
         }
         \par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af6\langfe2052\dbch\af8\afs24\lang1081\loch\f0\fs24\lang1031{\rtlch \ltrch\loch
