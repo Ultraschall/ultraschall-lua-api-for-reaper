@@ -1422,18 +1422,20 @@ function ultraschall.CreateRenderCFG_GIF(Width, Height, MaxFPS, AspectRatio, Ign
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>CreateRenderCFG_GIF</slug>
   <requires>
-    Ultraschall=4.2
+    Ultraschall=5.32
     Reaper=5.975
     Lua=5.3
   </requires>
-  <functioncall>string render_cfg_string = ultraschall.CreateRenderCFG_GIF(integer Width, integer Height, number MaxFPS, boolean AspectRatio, integer IgnoreLowBits, boolean EncodeTransparency)</functioncall>
+  <functioncall>string render_cfg_string_base64, string render_cfg_string_hexstring, string render_cfg_string_unencoded = ultraschall.CreateRenderCFG_GIF(integer Width, integer Height, number MaxFPS, boolean AspectRatio, integer IgnoreLowBits, boolean EncodeTransparency)</functioncall>
   <description>
     Creates the render-cfg-string for the GIF-format. You can use this in ProjectStateChunks, RPP-Projectfiles and reaper-render.ini
     
     Returns nil in case of an error
   </description>
   <retvals>
-    string render_cfg_string - the render-cfg-string for the selected GIF-settings
+    string render_cfg_string_base64 - the render-cfg-string for the selected GIF-settings base64-encoded(use this for render-table-functions)
+    string render_cfg_string_hexstring - the render-cfg-string for the selected GIF-settings hex-string-encoded
+    string render_cfg_string_unencoded - the binary version of the render string, so you can reencode it into other means 
   </retvals>
   <parameters>
     integer Width - the width of the gif in pixels; 1 to 2147483647
@@ -1473,7 +1475,7 @@ function ultraschall.CreateRenderCFG_GIF(Width, Height, MaxFPS, AspectRatio, Ign
   IgnoreLowBits=IgnoreLowBits*2
   if EncodeTransparency==true then IgnoreLowBits=IgnoreLowBits+1 end
   
-  return ultraschall.Base64_Encoder(" FIG"..Width..Height..MaxFPS..AspectRatio..string.char(IgnoreLowBits).."\0")
+  return ultraschall.Base64_Encoder(" FIG"..Width..Height..MaxFPS..AspectRatio..string.char(IgnoreLowBits).."\0"),  ultraschall.ConvertAscii2Hex(" FIG"..Width..Height..MaxFPS..AspectRatio..string.char(IgnoreLowBits).."\0"), " FIG"..Width..Height..MaxFPS..AspectRatio..string.char(IgnoreLowBits).."\0"
 end
 
 --A=ultraschall.CreateRenderCFG_GIF(640, 360, 30.00, false, 0, false)
@@ -1483,18 +1485,20 @@ function ultraschall.CreateRenderCFG_LCF(Width, Height, MaxFPS, AspectRatio, LCF
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>CreateRenderCFG_LCF</slug>
   <requires>
-    Ultraschall=4.2
+    Ultraschall=5.32
     Reaper=5.975
     Lua=5.3
   </requires>
-  <functioncall>string render_cfg_string = ultraschall.CreateRenderCFG_LCF(integer Width, integer Height, number MaxFPS, boolean AspectRatio, optional string LCFoptionstweak)</functioncall>
+  <functioncall>string render_cfg_string_base64, string render_cfg_string_hexstring, string render_cfg_string_unencoded = ultraschall.CreateRenderCFG_LCF(integer Width, integer Height, number MaxFPS, boolean AspectRatio, optional string LCFoptionstweak)</functioncall>
   <description>
     Creates the render-cfg-string for the LCF-format. You can use this in ProjectStateChunks, RPP-Projectfiles and reaper-render.ini
     
     Returns nil in case of an error
   </description>
   <retvals>
-    string render_cfg_string - the render-cfg-string for the selected LCF-settings
+    string render_cfg_string_base64 - the render-cfg-string for the selected LCF-settings base64-encoded(use this for render-table-functions)
+    string render_cfg_string_hexstring - the render-cfg-string for the selected LCF-settings hex-string-encoded
+    string render_cfg_string_unencoded - the binary version of the render string, so you can reencode it into other means 
   </retvals>
   <parameters>
     integer Width - the width of the lcf in pixels; 1 to 2147483647
@@ -1533,7 +1537,7 @@ function ultraschall.CreateRenderCFG_LCF(Width, Height, MaxFPS, AspectRatio, LCF
   
   if AspectRatio==true then AspectRatio=string.char(1) else AspectRatio=string.char(0) end
 
-  return ultraschall.Base64_Encoder(" FCL"..Width..Height..MaxFPS..AspectRatio..LCFoptionstweak)
+  return ultraschall.Base64_Encoder(" FCL"..Width..Height..MaxFPS..AspectRatio..LCFoptionstweak), ultraschall.ConvertAscii2Hex(" FCL"..Width..Height..MaxFPS..AspectRatio..LCFoptionstweak), " FCL"..Width..Height..MaxFPS..AspectRatio..LCFoptionstweak
 end
 
 --A=ultraschall.CreateRenderCFG_LCF(10,10,120,true,"Tudelu                                                         A")
@@ -1544,11 +1548,11 @@ function ultraschall.CreateRenderCFG_WebM_Video(VIDKBPS, AUDKBPS, WIDTH, HEIGHT,
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>CreateRenderCFG_WebM_Video</slug>
   <requires>
-    Ultraschall=4.3
+    Ultraschall=5.32
     Reaper=6.62
     Lua=5.3
   </requires>
-  <functioncall>string render_cfg_string = ultraschall.CreateRenderCFG_WebM_Video(integer VIDKBPS, integer AUDKBPS, integer WIDTH, integer HEIGHT, number FPS, boolean AspectRatio, integer VideoCodec, integer AudioCodec, optional string VideoOptions, optional string AudioOptions)</functioncall>
+  <functioncall>string render_cfg_string_base64, string render_cfg_string_hexstring, string render_cfg_string_unencoded = ultraschall.CreateRenderCFG_WebM_Video(integer VIDKBPS, integer AUDKBPS, integer WIDTH, integer HEIGHT, number FPS, boolean AspectRatio, integer VideoCodec, integer AudioCodec, optional string VideoOptions, optional string AudioOptions)</functioncall>
   <description>
     Returns the render-cfg-string for the WebM-Video-format. You can use this in ProjectStateChunks, RPP-Projectfiles and reaper-render.ini
     
@@ -1557,7 +1561,9 @@ function ultraschall.CreateRenderCFG_WebM_Video(VIDKBPS, AUDKBPS, WIDTH, HEIGHT,
     Returns nil in case of an error
   </description>
   <retvals>
-    string render_cfg_string - the render-cfg-string for the selected WebM-Video-settings
+    string render_cfg_string_base64 - the render-cfg-string for the selected WebM-settings base64-encoded(use this for render-table-functions)
+    string render_cfg_string_hexstring - the render-cfg-string for the selected WebM-settings hex-string-encoded
+    string render_cfg_string_unencoded - the binary version of the render string, so you can reencode it into other means 
   </retvals>
   <parameters>
     integer VIDKBPS - the video-bitrate of the video in kbps; 1 to 2147483647
@@ -1629,7 +1635,11 @@ function ultraschall.CreateRenderCFG_WebM_Video(VIDKBPS, AUDKBPS, WIDTH, HEIGHT,
   if AspectRatio==true then AspectRatio=string.char(1) else AspectRatio=string.char(0) end
   
   return ultraschall.Base64_Encoder("PMFF"..VideoFormat.."\0\0\0"..VideoCodec.."\0\0\0"..VIDKBPS..AudioCodec.."\0\0\0"..AUDKBPS..
-         WIDTH..HEIGHT..FPS..AspectRatio.."\0\0\0"..MJPEGQuality..AudioOptions.."\0"..VideoOptions.."\0")
+         WIDTH..HEIGHT..FPS..AspectRatio.."\0\0\0"..MJPEGQuality..AudioOptions.."\0"..VideoOptions.."\0"),
+         ultraschall.ConvertAscii2Hex("PMFF"..VideoFormat.."\0\0\0"..VideoCodec.."\0\0\0"..VIDKBPS..AudioCodec.."\0\0\0"..AUDKBPS..
+         WIDTH..HEIGHT..FPS..AspectRatio.."\0\0\0"..MJPEGQuality..AudioOptions.."\0"..VideoOptions.."\0"),
+         "PMFF"..VideoFormat.."\0\0\0"..VideoCodec.."\0\0\0"..VIDKBPS..AudioCodec.."\0\0\0"..AUDKBPS..
+         WIDTH..HEIGHT..FPS..AspectRatio.."\0\0\0"..MJPEGQuality..AudioOptions.."\0"..VideoOptions.."\0"
 end
 
 --LLL=ultraschall.CreateRenderCFG_WebM_Video(1, 1, 1, 1, 1, true)
@@ -1642,11 +1652,11 @@ function ultraschall.CreateRenderCFG_MKV_Video(VideoCodec, MJPEG_quality, AudioC
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>CreateRenderCFG_MKV_Video</slug>
   <requires>
-    Ultraschall=4.7
+    Ultraschall=5.32
     Reaper=6.62
     Lua=5.3
   </requires>
-  <functioncall>string render_cfg_string = ultraschall.CreateRenderCFG_MKV_Video(integer VideoCodec, integer MJPEG_quality, integer AudioCodec, integer WIDTH, integer HEIGHT, number FPS, boolean AspectRatio, optional integer VIDKBPS, optional integer AUDKBPS, optional string VideoOptions, optional string AudioOptions)</functioncall>
+  <functioncall>string render_cfg_string_base64, string render_cfg_string_hexstring, string render_cfg_string_unencoded= ultraschall.CreateRenderCFG_MKV_Video(integer VideoCodec, integer MJPEG_quality, integer AudioCodec, integer WIDTH, integer HEIGHT, number FPS, boolean AspectRatio, optional integer VIDKBPS, optional integer AUDKBPS, optional string VideoOptions, optional string AudioOptions)</functioncall>
   <description>
     Returns the render-cfg-string for the MKV-Video-format. You can use this in ProjectStateChunks, RPP-Projectfiles and reaper-render.ini
     
@@ -1655,7 +1665,9 @@ function ultraschall.CreateRenderCFG_MKV_Video(VideoCodec, MJPEG_quality, AudioC
     Returns nil in case of an error
   </description>
   <retvals>
-    string render_cfg_string - the render-cfg-string for the selected MKV-Video-settings
+    string render_cfg_string_base64 - the render-cfg-string for the selected MKV-settings base64-encoded(use this for render-table-functions)
+    string render_cfg_string_hexstring - the render-cfg-string for the selected MKV-settings hex-string-encoded
+    string render_cfg_string_unencoded - the binary version of the render string, so you can reencode it into other means 
   </retvals>
   <parameters>
     integer VideoCodec - the videocodec used for the video;
@@ -1754,7 +1766,11 @@ function ultraschall.CreateRenderCFG_MKV_Video(VideoCodec, MJPEG_quality, AudioC
   if AspectRatio==true then AspectRatio=string.char(1) else AspectRatio=string.char(0) end
   
   return ultraschall.Base64_Encoder("PMFF"..VideoFormat.."\0\0\0"..VideoCodec.."\0\0\0"..VIDKBPS..AudioCodec.."\0\0\0"..AUDKBPS..
-         WIDTH..HEIGHT..FPS..AspectRatio.."\0\0\0"..MJPEGQuality..AudioOptions.."\0"..VideoOptions.."\0")
+         WIDTH..HEIGHT..FPS..AspectRatio.."\0\0\0"..MJPEGQuality..AudioOptions.."\0"..VideoOptions.."\0"),
+         ultraschall.ConvertAscii2Hex("PMFF"..VideoFormat.."\0\0\0"..VideoCodec.."\0\0\0"..VIDKBPS..AudioCodec.."\0\0\0"..AUDKBPS..
+         WIDTH..HEIGHT..FPS..AspectRatio.."\0\0\0"..MJPEGQuality..AudioOptions.."\0"..VideoOptions.."\0"),
+         "PMFF"..VideoFormat.."\0\0\0"..VideoCodec.."\0\0\0"..VIDKBPS..AudioCodec.."\0\0\0"..AUDKBPS..
+         WIDTH..HEIGHT..FPS..AspectRatio.."\0\0\0"..MJPEGQuality..AudioOptions.."\0"..VideoOptions.."\0"
 end
 
 --A=ultraschall.CreateRenderCFG_MKVMVideo(1, 1, 1, 1, 1, 1, false)
@@ -1765,11 +1781,11 @@ function ultraschall.CreateRenderCFG_QTMOVMP4_Video(VideoCodec, MJPEG_quality, A
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>CreateRenderCFG_QTMOVMP4_Video</slug>
   <requires>
-    Ultraschall=4.7
+    Ultraschall=5.32
     Reaper=6.62
     Lua=5.3
   </requires>
-  <functioncall>string render_cfg_string = ultraschall.CreateRenderCFG_QTMOVMP4_Video(integer VideoCodec, integer MJPEG_quality, integer AudioCodec, integer WIDTH, integer HEIGHT, number FPS, boolean AspectRatio, optional integer VIDKBPS, optional integer AUDKBPS, optional string VideoOptions, optional string AudioOptions)</functioncall>
+  <functioncall>string render_cfg_string_base64, string render_cfg_string_hexstring, string render_cfg_string_unencoded = ultraschall.CreateRenderCFG_QTMOVMP4_Video(integer VideoCodec, integer MJPEG_quality, integer AudioCodec, integer WIDTH, integer HEIGHT, number FPS, boolean AspectRatio, optional integer VIDKBPS, optional integer AUDKBPS, optional string VideoOptions, optional string AudioOptions)</functioncall>
   <description>
     Returns the render-cfg-string for the QT/MOV/MP4-Video-format. You can use this in ProjectStateChunks, RPP-Projectfiles and reaper-render.ini
     
@@ -1778,7 +1794,9 @@ function ultraschall.CreateRenderCFG_QTMOVMP4_Video(VideoCodec, MJPEG_quality, A
     Returns nil in case of an error
   </description>
   <retvals>
-    string render_cfg_string - the render-cfg-string for the selected QT/MOV/MP4-Video-settings
+    string render_cfg_string_base64 - the render-cfg-string for the selected QT/MOV/MP4-settings base64-encoded(use this for render-table-functions)
+    string render_cfg_string_hexstring - the render-cfg-string for the selected QT/MOV/MP4-settings hex-string-encoded
+    string render_cfg_string_unencoded - the binary version of the render string, so you can reencode it into other means 
   </retvals>
   <parameters>
     integer VideoCodec - the videocodec used for the video;
@@ -1872,7 +1890,11 @@ function ultraschall.CreateRenderCFG_QTMOVMP4_Video(VideoCodec, MJPEG_quality, A
   if AspectRatio==true then AspectRatio=string.char(1) else AspectRatio=string.char(0) end
   
   return ultraschall.Base64_Encoder("PMFF"..VideoFormat.."\0\0\0"..VideoCodec.."\0\0\0"..VIDKBPS..AudioCodec.."\0\0\0"..AUDKBPS..
-         WIDTH..HEIGHT..FPS..AspectRatio.."\0\0\0"..MJPEGQuality..AudioOptions.."\0"..VideoOptions.."\0")
+         WIDTH..HEIGHT..FPS..AspectRatio.."\0\0\0"..MJPEGQuality..AudioOptions.."\0"..VideoOptions.."\0"),
+         ultraschall.ConvertAscii2Hex("PMFF"..VideoFormat.."\0\0\0"..VideoCodec.."\0\0\0"..VIDKBPS..AudioCodec.."\0\0\0"..AUDKBPS..
+         WIDTH..HEIGHT..FPS..AspectRatio.."\0\0\0"..MJPEGQuality..AudioOptions.."\0"..VideoOptions.."\0"),
+         "PMFF"..VideoFormat.."\0\0\0"..VideoCodec.."\0\0\0"..VIDKBPS..AudioCodec.."\0\0\0"..AUDKBPS..
+         WIDTH..HEIGHT..FPS..AspectRatio.."\0\0\0"..MJPEGQuality..AudioOptions.."\0"..VideoOptions.."\0"
 end
 
 --A=ultraschall.CreateRenderCFG_QTMOVMP4_Video(1, 1, 1, 1, 1, 1, false)
@@ -1883,11 +1905,11 @@ function ultraschall.CreateRenderCFG_AVI_Video(VideoCodec, MJPEG_quality, AudioC
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>CreateRenderCFG_AVI_Video</slug>
   <requires>
-    Ultraschall=4.7
+    Ultraschall=5.32
     Reaper=6.62
     Lua=5.3
   </requires>
-  <functioncall>string render_cfg_string = ultraschall.CreateRenderCFG_AVI_Video(integer VideoCodec, integer MJPEG_quality, integer AudioCodec, integer WIDTH, integer HEIGHT, number FPS, boolean AspectRatio, optional string VideoOptions, optional string AudioOptions)</functioncall>
+  <functioncall>string render_cfg_string_base64, string render_cfg_string_hexstring, string render_cfg_string_unencoded= ultraschall.CreateRenderCFG_AVI_Video(integer VideoCodec, integer MJPEG_quality, integer AudioCodec, integer WIDTH, integer HEIGHT, number FPS, boolean AspectRatio, optional string VideoOptions, optional string AudioOptions)</functioncall>
   <description>
     Returns the render-cfg-string for the AVI-Video-format. You can use this in ProjectStateChunks, RPP-Projectfiles and reaper-render.ini
     
@@ -1896,7 +1918,9 @@ function ultraschall.CreateRenderCFG_AVI_Video(VideoCodec, MJPEG_quality, AudioC
     Returns nil in case of an error
   </description>
   <retvals>
-    string render_cfg_string - the render-cfg-string for the selected AVI-Video-settings
+    string render_cfg_string_base64 - the render-cfg-string for the selected GIF-settings base64-encoded(use this for render-table-functions)
+    string render_cfg_string_hexstring - the render-cfg-string for the selected GIF-settings hex-string-encoded
+    string render_cfg_string_unencoded - the binary version of the render string, so you can reencode it into other means 
   </retvals>
   <parameters>
     integer VideoCodec - the videocodec used for the video;
@@ -1979,8 +2003,13 @@ function ultraschall.CreateRenderCFG_AVI_Video(VideoCodec, MJPEG_quality, AudioC
   
   if AspectRatio==true then AspectRatio=string.char(1) else AspectRatio=string.char(0) end
   
-  return ultraschall.Base64_Encoder("PMFF"..VideoFormat.."\0\0\0"..VideoCodec.."\0\0\0"..VIDKBPS..AudioCodec.."\0\0\0"..AUDKBPS..
-         WIDTH..HEIGHT..FPS..AspectRatio.."\0\0\0"..MJPEGQuality..AudioOptions.."\0"..VideoOptions.."\0")
+  return ultraschall.ConvertAscii2Hex("PMFF"..VideoFormat.."\0\0\0"..VideoCodec.."\0\0\0"..VIDKBPS..AudioCodec.."\0\0\0"..AUDKBPS..
+         WIDTH..HEIGHT..FPS..AspectRatio.."\0\0\0"..MJPEGQuality..AudioOptions.."\0"..VideoOptions.."\0"),
+         ultraschall.Base64_Encoder("PMFF"..VideoFormat.."\0\0\0"..VideoCodec.."\0\0\0"..VIDKBPS..AudioCodec.."\0\0\0"..AUDKBPS..
+         WIDTH..HEIGHT..FPS..AspectRatio.."\0\0\0"..MJPEGQuality..AudioOptions.."\0"..VideoOptions.."\0"),
+         "PMFF"..VideoFormat.."\0\0\0"..VideoCodec.."\0\0\0"..VIDKBPS..AudioCodec.."\0\0\0"..AUDKBPS..
+         WIDTH..HEIGHT..FPS..AspectRatio.."\0\0\0"..MJPEGQuality..AudioOptions.."\0"..VideoOptions.."\0"
+         
 end
 
 --A=ultraschall.CreateRenderCFG_AVI_Video(1, 1, 1, 1, 1, 1, false)
@@ -2199,11 +2228,11 @@ function ultraschall.CreateRenderCFG_MP4MAC_Video(Stream, VIDKBPS, AUDKBPS, WIDT
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>CreateRenderCFG_MP4MAC_Video</slug>
   <requires>
-    Ultraschall=4.00
+    Ultraschall=5.32
     Reaper=5.975
     Lua=5.3
   </requires>
-  <functioncall>string render_cfg_string = ultraschall.CreateRenderCFG_MP4MAC_Video(boolean stream, integer VIDKBPS, integer AUDKBPS, integer WIDTH, integer HEIGHT, number FPS, boolean AspectRatio)</functioncall>
+  <functioncall>string render_cfg_string_base64, string render_cfg_string_hexstring, string render_cfg_string_unencoded = ultraschall.CreateRenderCFG_MP4MAC_Video(boolean stream, integer VIDKBPS, integer AUDKBPS, integer WIDTH, integer HEIGHT, number FPS, boolean AspectRatio)</functioncall>
   <description>
     Returns the render-cfg-string for the MP4-Mac-Video-format. You can use this in ProjectStateChunks, RPP-Projectfiles and reaper-render.ini
     Only available on MacOS!
@@ -2211,7 +2240,9 @@ function ultraschall.CreateRenderCFG_MP4MAC_Video(Stream, VIDKBPS, AUDKBPS, WIDT
     Returns nil in case of an error
   </description>
   <retvals>
-    string render_cfg_string - the render-cfg-string for the selected MP4-Mac-Video-settings
+    string render_cfg_string_base64 - the render-cfg-string for the selected MP4-Mac-settings base64-encoded(use this for render-table-functions)
+    string render_cfg_string_hexstring - the render-cfg-string for the selected MP4-Mac-settings hex-string-encoded
+    string render_cfg_string_unencoded - the binary version of the render string, so you can reencode it into other means 
   </retvals>
   <parameters>
     boolean Stream - true, the mp4-video is stream-optimized; false, the video is not stream-optimized
@@ -2261,7 +2292,11 @@ function ultraschall.CreateRenderCFG_MP4MAC_Video(Stream, VIDKBPS, AUDKBPS, WIDT
   if AspectRatio==true then AspectRatio=string.char(1) else AspectRatio=string.char(0) end
   
   return ultraschall.Base64_Encoder("FVAX"..VideoFormat.."\0\0\0"..VideoCodec.."\0\0\0"..VIDKBPS..AudioCodec.."\0\0\0"..AUDKBPS..
-         WIDTH..HEIGHT..FPS..AspectRatio.."\0\0\0"..MJPEGQuality.."\0")
+         WIDTH..HEIGHT..FPS..AspectRatio.."\0\0\0"..MJPEGQuality.."\0"),
+         ultraschall.ConvertAscii2Hex("FVAX"..VideoFormat.."\0\0\0"..VideoCodec.."\0\0\0"..VIDKBPS..AudioCodec.."\0\0\0"..AUDKBPS..
+         WIDTH..HEIGHT..FPS..AspectRatio.."\0\0\0"..MJPEGQuality.."\0"),
+         "FVAX"..VideoFormat.."\0\0\0"..VideoCodec.."\0\0\0"..VIDKBPS..AudioCodec.."\0\0\0"..AUDKBPS..
+         WIDTH..HEIGHT..FPS..AspectRatio.."\0\0\0"..MJPEGQuality.."\0"
 end
 
 function ultraschall.CreateRenderCFG_M4AMAC(AUDKBPS, WIDTH, HEIGHT, FPS, AspectRatio)
@@ -2269,11 +2304,11 @@ function ultraschall.CreateRenderCFG_M4AMAC(AUDKBPS, WIDTH, HEIGHT, FPS, AspectR
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>CreateRenderCFG_M4AMAC</slug>
   <requires>
-    Ultraschall=4.00
+    Ultraschall=5.32
     Reaper=5.975
     Lua=5.3
   </requires>
-  <functioncall>string render_cfg_string = ultraschall.CreateRenderCFG_M4AMAC(integer AUDKBPS, integer WIDTH, integer HEIGHT, number FPS, boolean AspectRatio)</functioncall>
+  <functioncall>string render_cfg_string_base64, string render_cfg_string_hexstring, string render_cfg_string_unencoded = ultraschall.CreateRenderCFG_M4AMAC(integer AUDKBPS, integer WIDTH, integer HEIGHT, number FPS, boolean AspectRatio)</functioncall>
   <description>
     Returns the render-cfg-string for the M4A-Mac-format. You can use this in ProjectStateChunks, RPP-Projectfiles and reaper-render.ini
     Only available on MacOS!
@@ -2281,7 +2316,9 @@ function ultraschall.CreateRenderCFG_M4AMAC(AUDKBPS, WIDTH, HEIGHT, FPS, AspectR
     Returns nil in case of an error
   </description>
   <retvals>
-    string render_cfg_string - the render-cfg-string for the selected M4A-Mac-settings
+    string render_cfg_string_base64 - the render-cfg-string for the selected GIF-settings base64-encoded(use this for render-table-functions)
+    string render_cfg_string_hexstring - the render-cfg-string for the selected GIF-settings hex-string-encoded
+    string render_cfg_string_unencoded - the binary version of the render string, so you can reencode it into other means 
   </retvals>
   <parameters>
     integer AUDKBPS - the audio-bitrate for the video; 0 to 2147483647 kbps
@@ -2325,7 +2362,11 @@ function ultraschall.CreateRenderCFG_M4AMAC(AUDKBPS, WIDTH, HEIGHT, FPS, AspectR
   if AspectRatio==true then AspectRatio=string.char(1) else AspectRatio=string.char(0) end
   
   return ultraschall.Base64_Encoder("FVAX"..VideoFormat.."\0\0\0"..VideoCodec.."\0\0\0"..VIDKBPS..AudioCodec.."\0\0\0"..AUDKBPS..
-         WIDTH..HEIGHT..FPS..AspectRatio.."\0\0\0"..MJPEGQuality.."\0")
+         WIDTH..HEIGHT..FPS..AspectRatio.."\0\0\0"..MJPEGQuality.."\0"),
+         ultraschall.ConvertAscii2Hex("FVAX"..VideoFormat.."\0\0\0"..VideoCodec.."\0\0\0"..VIDKBPS..AudioCodec.."\0\0\0"..AUDKBPS..
+         WIDTH..HEIGHT..FPS..AspectRatio.."\0\0\0"..MJPEGQuality.."\0"),
+         "FVAX"..VideoFormat.."\0\0\0"..VideoCodec.."\0\0\0"..VIDKBPS..AudioCodec.."\0\0\0"..AUDKBPS..
+         WIDTH..HEIGHT..FPS..AspectRatio.."\0\0\0"..MJPEGQuality.."\0"
 end
 
 --integer VideoCodec, integer VIDKBPS, integer MJPEG_quality, integer AudioCodec, integer AUDKBPS, integer WIDTH, integer HEIGHT, integer FPS, boolean AspectRatio
@@ -2334,11 +2375,11 @@ function ultraschall.CreateRenderCFG_MOVMAC_Video(VideoCodec, VIDKBPS, MJPEG_qua
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>CreateRenderCFG_MOVMAC_Video</slug>
   <requires>
-    Ultraschall=4.3
+    Ultraschall=5.32
     Reaper=5.975
     Lua=5.3
   </requires>
-  <functioncall>string render_cfg_string = ultraschall.CreateRenderCFG_MOVMAC_Video(integer VideoCodec, integer VIDKBPS, integer MJPEG_quality, integer AudioCodec, integer AUDKBPS, integer WIDTH, integer HEIGHT, number FPS, boolean AspectRatio, optional integer VideoFormat)</functioncall>
+  <functioncall>string render_cfg_string_base64, string render_cfg_string_hexstring, string render_cfg_string_unencoded = ultraschall.CreateRenderCFG_MOVMAC_Video(integer VideoCodec, integer VIDKBPS, integer MJPEG_quality, integer AudioCodec, integer AUDKBPS, integer WIDTH, integer HEIGHT, number FPS, boolean AspectRatio, optional integer VideoFormat)</functioncall>
   <description>
     Returns the render-cfg-string for the MOV-Mac-Video-format. You can use this in ProjectStateChunks, RPP-Projectfiles and reaper-render.ini
     Only available on MacOS!
@@ -2346,7 +2387,9 @@ function ultraschall.CreateRenderCFG_MOVMAC_Video(VideoCodec, VIDKBPS, MJPEG_qua
     Returns nil in case of an error
   </description>
   <retvals>
-    string render_cfg_string - the render-cfg-string for the selected MP4-Mac-Video-settings
+    string render_cfg_string_base64 - the render-cfg-string for the selected Mov-Mac-settings base64-encoded(use this for render-table-functions)
+    string render_cfg_string_hexstring - the render-cfg-string for the selected Mov-Mac-settings hex-string-encoded
+    string render_cfg_string_unencoded - the binary version of the render string, so you can reencode it into other means 
   </retvals>
   <parameters>
     integer VideoCodec - the videocodec used for this setting
@@ -2413,7 +2456,11 @@ function ultraschall.CreateRenderCFG_MOVMAC_Video(VideoCodec, VIDKBPS, MJPEG_qua
   if AspectRatio==true then AspectRatio=string.char(1) else AspectRatio=string.char(0) end
   
   return ultraschall.Base64_Encoder("FVAX"..VideoFormat.."\0\0\0"..VideoCodec.."\0\0\0"..VIDKBPS..AudioCodec.."\0\0\0"..AUDKBPS..
-         WIDTH..HEIGHT..FPS..AspectRatio.."\0\0\0"..MJPEGQuality)--, "FVAX"..VideoFormat.."\0\0\0"..VideoCodec.."\0\0\0"..VIDKBPS..AudioCodec.."\0\0\0"..AUDKBPS..WIDTH..HEIGHT..FPS..AspectRatio.."\0\0\0"..MJPEGQuality
+         WIDTH..HEIGHT..FPS..AspectRatio.."\0\0\0"..MJPEGQuality),
+         ultraschall.ConvertAscii2Hex("FVAX"..VideoFormat.."\0\0\0"..VideoCodec.."\0\0\0"..VIDKBPS..AudioCodec.."\0\0\0"..AUDKBPS..
+         WIDTH..HEIGHT..FPS..AspectRatio.."\0\0\0"..MJPEGQuality),
+         "FVAX"..VideoFormat.."\0\0\0"..VideoCodec.."\0\0\0"..VIDKBPS..AudioCodec.."\0\0\0"..AUDKBPS..
+         WIDTH..HEIGHT..FPS..AspectRatio.."\0\0\0"..MJPEGQuality--, "FVAX"..VideoFormat.."\0\0\0"..VideoCodec.."\0\0\0"..VIDKBPS..AudioCodec.."\0\0\0"..AUDKBPS..WIDTH..HEIGHT..FPS..AspectRatio.."\0\0\0"..MJPEGQuality
 end
 
 --A,AA=reaper.EnumProjects(3, "")
@@ -3280,11 +3327,11 @@ function ultraschall.CreateRenderCFG_Opus(Mode, Kbps, Complexity, channel_audio,
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>CreateRenderCFG_Opus</slug>
   <requires>
-    Ultraschall=4.00
+    Ultraschall=5.32
     Reaper=5.975
     Lua=5.3
   </requires>
-  <functioncall>string render_cfg_string = ultraschall.CreateRenderCFG_Opus(integer Mode, integer Kbps, integer Complexity, optional boolean channel_audio, optional boolean per_channel)</functioncall>
+  <functioncall>string render_cfg_string_base64, string render_cfg_string_hexstring, string render_cfg_string_unencoded = ultraschall.CreateRenderCFG_Opus(integer Mode, integer Kbps, integer Complexity, optional boolean channel_audio, optional boolean per_channel)</functioncall>
   <description>
     Creates the render-cfg-string for the Opus-format. You can use this in ProjectStateChunks, RPP-Projectfiles and reaper-render.ini
     
@@ -3293,7 +3340,9 @@ function ultraschall.CreateRenderCFG_Opus(Mode, Kbps, Complexity, channel_audio,
     Returns nil in case of an error
   </description>
   <retvals>
-    string render_cfg_string - the render-cfg-string for the selected Opus-settings
+    string render_cfg_string_base64 - the render-cfg-string for the selected Opus-settings base64-encoded(use this for render-table-functions)
+    string render_cfg_string_hexstring - the render-cfg-string for the selected Opus-settings hex-string-encoded
+    string render_cfg_string_unencoded - the binary version of the render string, so you can reencode it into other means 
   </retvals>
   <parameters>
     integer Mode - the Mode for the Opus-file; 0, VBR; 1, CVBR; 2, HARDCBR
@@ -3328,7 +3377,7 @@ function ultraschall.CreateRenderCFG_Opus(Mode, Kbps, Complexity, channel_audio,
   
   RenderString="SggO\0"..Bitrate..string.char(Mode)..string.char(Complexity).."\0\0\0"..string.char(EncodeChannelAudio).."\0\0\0\0"
   
-  return ultraschall.Base64_Encoder(RenderString)
+  return ultraschall.Base64_Encoder(RenderString), ultraschall.ConvertAscii2Hex(RenderString), RenderString
 end
 
 
@@ -3347,11 +3396,11 @@ function ultraschall.CreateRenderCFG_OGG(Mode, VBR_Quality, CBR_KBPS, ABR_KBPS, 
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>CreateRenderCFG_OGG</slug>
   <requires>
-    Ultraschall=4.00
+    Ultraschall=5.32
     Reaper=5.77
     Lua=5.3
   </requires>
-  <functioncall>string render_cfg_string = ultraschall.CreateRenderCFG_OGG(integer Mode, number VBR_Quality, integer CBR_KBPS, integer ABR_KBPS, integer ABR_KBPS_MIN, integer ABR_KBPS_MAX)</functioncall>
+  <functioncall>string render_cfg_string_base64, string render_cfg_string_hexstring, string render_cfg_string_unencoded = ultraschall.CreateRenderCFG_OGG(integer Mode, number VBR_Quality, integer CBR_KBPS, integer ABR_KBPS, integer ABR_KBPS_MIN, integer ABR_KBPS_MAX)</functioncall>
   <description>
     Returns the render-cfg-string for the OGG-format. You can use this in ProjectStateChunks, RPP-Projectfiles and reaper-render.ini
     For all mode-settings that you don't need(kbps or quality), you can safely set them to 1.
@@ -3361,7 +3410,9 @@ function ultraschall.CreateRenderCFG_OGG(Mode, VBR_Quality, CBR_KBPS, ABR_KBPS, 
     Returns nil in case of an error
   </description>
   <retvals>
-    string render_cfg_string - the render-cfg-string for the selected OGG-settings
+    string render_cfg_string_base64 - the render-cfg-string for the selected OGG-settings base64-encoded(use this for render-table-functions)
+    string render_cfg_string_hexstring - the render-cfg-string for the selected OGG-settings hex-string-encoded
+    string render_cfg_string_unencoded - the binary version of the render string, so you can reencode it into other means 
   </retvals>
   <parameters>
     integer Mode - the mode for the ogg-file; 0, VBR; 1, CBR; 2, ABR
@@ -3411,7 +3462,7 @@ function ultraschall.CreateRenderCFG_OGG(Mode, VBR_Quality, CBR_KBPS, ABR_KBPS, 
   
   RenderString="vggo"..VBR_Quality..string.char(Mode)..CBR_KBPS..ABR_KBPS..ABR_KBPS_MIN..ABR_KBPS_MAX.."\0"
   
-  return ultraschall.Base64_Encoder(RenderString)
+  return ultraschall.Base64_Encoder(RenderString), ultraschall.ConvertAscii2Hex(RenderString), RenderString
 end
 --A=ultraschall.CreateRenderCFG_OGG(1,1,3,4,5,600)
 
@@ -3420,16 +3471,18 @@ function ultraschall.CreateRenderCFG_DDP()
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>CreateRenderCFG_DDP</slug>
   <requires>
-    Ultraschall=4.00
+    Ultraschall=5.32
     Reaper=5.77
     Lua=5.3
   </requires>
-  <functioncall>string render_cfg_string = ultraschall.CreateRenderCFG_DDP()</functioncall>
+  <functioncall>string render_cfg_string_base64, string render_cfg_string_hexstring, string render_cfg_string_unencoded = ultraschall.CreateRenderCFG_DDP()</functioncall>
   <description>
     Returns the render-cfg-string for the DDP-format. You can use this in ProjectStateChunks, RPP-Projectfiles and reaper-render.ini
   </description>
   <retvals>
-    string render_cfg_string - the render-cfg-string for the selected DDP-settings
+    string render_cfg_string_base64 - the render-cfg-string for the selected DDP-settings base64-encoded(use this for render-table-functions)
+    string render_cfg_string_hexstring - the render-cfg-string for the selected DDP-settings hex-string-encoded
+    string render_cfg_string_unencoded - the binary version of the render string, so you can reencode it into other means 
   </retvals>
   <chapter_context>
     Rendering Projects
@@ -3440,7 +3493,7 @@ function ultraschall.CreateRenderCFG_DDP()
   <tags>render management, create, render, outputformat, ddp</tags>
 </US_DocBloc>
 ]]
-  return "IHBkZA=="
+  return "IHBkZA==", ultraschall.ConvertAscii2Hex(ultraschall.Base64_Decoder("IHBkZA==")), ultraschall.Base64_Decoder("IHBkZA==")
 end
 
 --A=ultraschall.CreateRenderCFG_DDP()
@@ -3452,11 +3505,11 @@ function ultraschall.CreateRenderCFG_FLAC(Bitrate, EncSpeed)
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>CreateRenderCFG_FLAC</slug>
   <requires>
-    Ultraschall=4.00
+    Ultraschall=5.32
     Reaper=5.77
     Lua=5.3
   </requires>
-  <functioncall>string render_cfg_string = ultraschall.CreateRenderCFG_FLAC(integer Bitrate, integer EncSpeed)</functioncall>
+  <functioncall>string render_cfg_string_base64, string render_cfg_string_hexstring, string render_cfg_string_unencoded = ultraschall.CreateRenderCFG_FLAC(integer Bitrate, integer EncSpeed)</functioncall>
   <description>
     Returns the render-cfg-string for the FLAC-format. You can use this in ProjectStateChunks, RPP-Projectfiles and reaper-render.ini
     
@@ -3465,7 +3518,9 @@ function ultraschall.CreateRenderCFG_FLAC(Bitrate, EncSpeed)
     Returns nil in case of an error
   </description>
   <retvals>
-    string render_cfg_string - the render-cfg-string for the selected FLAC-settings
+    string render_cfg_string_base64 - the render-cfg-string for the selected Flac-settings base64-encoded(use this for render-table-functions)
+    string render_cfg_string_hexstring - the render-cfg-string for the selected Flac-settings hex-string-encoded
+    string render_cfg_string_unencoded - the binary version of the render string, so you can reencode it into other means 
   </retvals>
   <parameters>
     integer Bitrate - the bitrate of the flac-file; 
@@ -3519,7 +3574,7 @@ function ultraschall.CreateRenderCFG_FLAC(Bitrate, EncSpeed)
   
   renderstring=string.gsub(renderstring, "%[BITRATE%]", Bitrate)
   renderstring=string.gsub(renderstring, "%[ENCSPEED%]", EncSpeed)
-  return renderstring
+  return renderstring, ultraschall.ConvertAscii2Hex(ultraschall.Base64_Decoder(renderstring)), ultraschall.Base64_Decoder(renderstring)
 end
 
 --A=ultraschall.CreateRenderCFG_FLAC(1,1)
@@ -3529,11 +3584,11 @@ function ultraschall.CreateRenderCFG_WAVPACK(Mode, Bitdepth, Writemarkers, Write
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>CreateRenderCFG_WAVPACK</slug>
   <requires>
-    Ultraschall=4.00
+    Ultraschall=5.32
     Reaper=5.77
     Lua=5.3
   </requires>
-  <functioncall>string render_cfg_string = ultraschall.CreateRenderCFG_WAVPACK(integer Mode, integer Bitdepth, integer Writemarkers, boolean WriteBWFChunk, boolean IncludeFilenameBWF)</functioncall>
+  <functioncall>string render_cfg_string_base64, string render_cfg_string_hexstring, string render_cfg_string_unencoded = ultraschall.CreateRenderCFG_WAVPACK(integer Mode, integer Bitdepth, integer Writemarkers, boolean WriteBWFChunk, boolean IncludeFilenameBWF)</functioncall>
   <description>
     Returns the render-cfg-string for the WAVPACK-format. You can use this in ProjectStateChunks, RPP-Projectfiles and reaper-render.ini
     
@@ -3542,7 +3597,9 @@ function ultraschall.CreateRenderCFG_WAVPACK(Mode, Bitdepth, Writemarkers, Write
     Returns nil in case of an error
   </description>
   <retvals>
-    string render_cfg_string - the render-cfg-string for the selected WAVPACK-settings
+    string render_cfg_string_base64 - the render-cfg-string for the selected WAVPACK-settings base64-encoded(use this for render-table-functions)
+    string render_cfg_string_hexstring - the render-cfg-string for the selected WAVPACK-settings hex-string-encoded
+    string render_cfg_string_unencoded - the binary version of the render string, so you can reencode it into other means 
   </retvals>
   <parameters>
     integer Mode - 0, Normal; 1, Fast; 2, High; 3, Very High(slowest)
@@ -3628,7 +3685,7 @@ function ultraschall.CreateRenderCFG_WAVPACK(Mode, Bitdepth, Writemarkers, Write
   renderstring=string.gsub(renderstring, "%[WRITEMARKERS%]", Writemarkers)
   renderstring=string.gsub(renderstring, "%[BWFCHUNK%]", BWFCHUNK)
   
-  return renderstring
+  return renderstring, ultraschall.ConvertAscii2Hex(ultraschall.Base64_Decoder(renderstring)), ultraschall.Base64_Decoder(renderstring)
 end
 
 --A=ultraschall.CreateRenderCFG_WAVPACK(0, 0, 2, true, true)
@@ -7529,18 +7586,20 @@ function ultraschall.CreateRenderCFG_MP3MaxQuality()
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>CreateRenderCFG_MP3MaxQuality</slug>
   <requires>
-    Ultraschall=4.00
+    Ultraschall=5.32
     Reaper=5.975
     Lua=5.3
   </requires>
-  <functioncall>string render_cfg_string = ultraschall.CreateRenderCFG_MP3MaxQuality(optional boolean write_replay_gain)</functioncall>
+  <functioncall>string render_cfg_string_base64, string render_cfg_string_hexstring, string render_cfg_string_unencoded = ultraschall.CreateRenderCFG_MP3MaxQuality(optional boolean write_replay_gain)</functioncall>
   <description>
     Creates the render-cfg-string for the MP3-format with highest quality-settings. You can use this in ProjectStateChunks, RPP-Projectfiles and reaper-render.ini
     
     Note: Can also be applied as RecCFG!
   </description>
   <retvals>
-    string render_cfg_string - the renderstring for MP3 with maximum quality
+    string render_cfg_string_base64 - the render-cfg-string for the selected MP3-settings(for maximum quality) base64-encoded(use this for render-table-functions)
+    string render_cfg_string_hexstring - the render-cfg-string for the selected MP3-settings(for maximum quality) hex-string-encoded
+    string render_cfg_string_unencoded - the binary version of the render string, so you can reencode it into other means 
   </retvals>
   <parameters>
     optional boolean write_replay_gain - the "Write ReplayGain-tag"-checkbox; true, checked; false, unchecked; default is unchecked
@@ -7554,8 +7613,9 @@ function ultraschall.CreateRenderCFG_MP3MaxQuality()
   <tags>render management, create, render, outputformat, mp3 high quality, mp3</tags>
 </US_DocBloc>
 ]]
-  if write_replay_gain==true then return "bDNwbUABAAAAAAQACgAAAP////8EAAAAQAEAAAAAAAA=" end
-  return "bDNwbUABAAAAAAAACgAAAP////8EAAAAQAEAAAAAAAA="
+  local renderstring="bDNwbUABAAAAAAAACgAAAP////8EAAAAQAEAAAAAAAA="
+  if write_replay_gain==true then renderstring="bDNwbUABAAAAAAQACgAAAP////8EAAAAQAEAAAAAAAA=" end
+  return renderstring, ultraschall.ConvertAscii2Hex(ultraschall.Base64_Decoder(renderstring)), ultraschall.Base64_Decoder(renderstring)
 end
 
 
@@ -7564,11 +7624,11 @@ function ultraschall.CreateRenderCFG_MP3VBR(vbr_quality, quality, no_joint_stere
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>CreateRenderCFG_MP3VBR</slug>
   <requires>
-    Ultraschall=4.00
+    Ultraschall=5.32
     Reaper=5.975
     Lua=5.3
   </requires>
-  <functioncall>string render_cfg_string = ultraschall.CreateRenderCFG_MP3VBR(integer vbr_quality, integer quality, optional boolean no_joint_stereo, optional boolean write_replay_gain)</functioncall>
+  <functioncall>string render_cfg_string_base64, string render_cfg_string_hexstring, string render_cfg_string_unencoded = ultraschall.CreateRenderCFG_MP3VBR(integer vbr_quality, integer quality, optional boolean no_joint_stereo, optional boolean write_replay_gain)</functioncall>
   <description>
     Creates the render-cfg-string for the MP3-format with variable bitrate. You can use this in ProjectStateChunks, RPP-Projectfiles and reaper-render.ini
     
@@ -7577,7 +7637,9 @@ function ultraschall.CreateRenderCFG_MP3VBR(vbr_quality, quality, no_joint_stere
     Returns nil in case of an error
   </description>
   <retvals>
-    string render_cfg_string - the render-cfg-string for the selected MP3-VBR-settings
+    string render_cfg_string_base64 - the render-cfg-string for the selected MP3(VBR)-settings base64-encoded(use this for render-table-functions)
+    string render_cfg_string_hexstring - the render-cfg-string for the selected MP3(VBR)-settings hex-string-encoded
+    string render_cfg_string_unencoded - the binary version of the render string, so you can reencode it into other means 
   </retvals>
   <parameters>
     integer vbr_quality - the variable-bitrate quality; 1(for 10%) to 10(for 100%)
@@ -7628,7 +7690,7 @@ function ultraschall.CreateRenderCFG_MP3VBR(vbr_quality, quality, no_joint_stere
     Replaced_string = ultraschall.ReplacePartOfString(Replaced_string, string.char(4), 10, 1)
   end
   
-  return ultraschall.Base64_Encoder(Replaced_string)
+  return ultraschall.Base64_Encoder(Replaced_string), ultraschall.ConvertAscii2Hex(Replaced_string), Replaced_string
 end
 
 --A=ultraschall.CreateRenderCFG_MP3VBR(1, 0)
@@ -7639,11 +7701,11 @@ function ultraschall.CreateRenderCFG_MP3ABR(bitrate, quality, no_joint_stereo, w
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>CreateRenderCFG_MP3ABR</slug>
   <requires>
-    Ultraschall=4.00
+    Ultraschall=5.32
     Reaper=5.975
     Lua=5.3
   </requires>
-  <functioncall>string render_cfg_string = ultraschall.CreateRenderCFG_MP3ABR(integer bitrate, integer quality, optional boolean no_joint_stereo, optional boolean write_replay_gain)</functioncall>
+  <functioncall>string render_cfg_string_base64, string render_cfg_string_hexstring, string render_cfg_string_unencoded = ultraschall.CreateRenderCFG_MP3ABR(integer bitrate, integer quality, optional boolean no_joint_stereo, optional boolean write_replay_gain)</functioncall>
   <description>
     Creates the render-cfg-string for the MP3-format with average bitrate. You can use this in ProjectStateChunks, RPP-Projectfiles and reaper-render.ini
     
@@ -7652,7 +7714,9 @@ function ultraschall.CreateRenderCFG_MP3ABR(bitrate, quality, no_joint_stereo, w
     Returns nil in case of an error
   </description>
   <retvals>
-    string render_cfg_string - the render-cfg-string for the selected MP3-ABR-settings
+    string render_cfg_string_base64 - the render-cfg-string for the selected MP3(ABR)-settings base64-encoded(use this for render-table-functions)
+    string render_cfg_string_hexstring - the render-cfg-string for the selected MP3(ABR)-settings hex-string-encoded
+    string render_cfg_string_unencoded - the binary version of the render string, so you can reencode it into other means 
   </retvals>
   <parameters>
     integer bitrate - the encoding quality for the mp3
@@ -7720,7 +7784,7 @@ function ultraschall.CreateRenderCFG_MP3ABR(bitrate, quality, no_joint_stereo, w
     Replaced_string = ultraschall.ReplacePartOfString(Replaced_string, string.char(4), 10, 1)
   end
   
-  return ultraschall.Base64_Encoder(Replaced_string)  
+  return ultraschall.Base64_Encoder(Replaced_string), ultraschall.ConvertAscii2Hex(Replaced_string), Replaced_string
 end
 
 --A=ultraschall.CreateRenderCFG_MP3ABR(1, 0)
@@ -7730,11 +7794,11 @@ function ultraschall.CreateRenderCFG_MP3CBR(bitrate, quality, no_joint_stereo, w
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>CreateRenderCFG_MP3CBR</slug>
   <requires>
-    Ultraschall=4.00
+    Ultraschall=5.32
     Reaper=5.975
     Lua=5.3
   </requires>
-  <functioncall>string render_cfg_string = ultraschall.CreateRenderCFG_MP3CBR(integer bitrate, integer quality, optional boolean no_joint_stereo, optional boolean write_replay_gain)</functioncall>
+  <functioncall>string render_cfg_string_base64, string render_cfg_string_hexstring, string render_cfg_string_unencoded = ultraschall.CreateRenderCFG_MP3CBR(integer bitrate, integer quality, optional boolean no_joint_stereo, optional boolean write_replay_gain)</functioncall>
   <description>
     Creates the render-cfg-string for the MP3-format with constant bitrate. You can use this in ProjectStateChunks, RPP-Projectfiles and reaper-render.ini
     
@@ -7743,7 +7807,9 @@ function ultraschall.CreateRenderCFG_MP3CBR(bitrate, quality, no_joint_stereo, w
     Returns nil in case of an error
   </description>
   <retvals>
-    string render_cfg_string - the render-cfg-string for the selected MP3-CBR-settings
+    string render_cfg_string_base64 - the render-cfg-string for the selected MP3(CBR)-settings base64-encoded(use this for render-table-functions)
+    string render_cfg_string_hexstring - the render-cfg-string for the selected MP3(CBR)-settings hex-string-encoded
+    string render_cfg_string_unencoded - the binary version of the render string, so you can reencode it into other means 
   </retvals>
   <parameters>
     integer bitrate - the encoding quality for the mp3
@@ -7811,7 +7877,7 @@ function ultraschall.CreateRenderCFG_MP3CBR(bitrate, quality, no_joint_stereo, w
     Replaced_string = ultraschall.ReplacePartOfString(Replaced_string, string.char(4), 10, 1)
   end
   
-  return ultraschall.Base64_Encoder(Replaced_string)  
+  return ultraschall.Base64_Encoder(Replaced_string), ultraschall.ConvertAscii2Hex(Replaced_string), Replaced_string
 end
 --A=ultraschall.CreateRenderCFG_MP3CBR(1, 1)
 
@@ -7823,11 +7889,11 @@ function ultraschall.CreateRenderCFG_WAV(BitDepth, LargeFiles, BWFChunk, Include
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>CreateRenderCFG_WAV</slug>
   <requires>
-    Ultraschall=4.2
+    Ultraschall=5.32
     Reaper=6.13
     Lua=5.3
   </requires>
-  <functioncall>string render_cfg_string = ultraschall.CreateRenderCFG_WAV(integer BitDepth, integer LargeFiles, integer BWFChunk, integer IncludeMarkers, boolean EmbedProjectTempo)</functioncall>
+  <functioncall>string render_cfg_string_base64, string render_cfg_string_hexstring, string render_cfg_string_unencoded = ultraschall.CreateRenderCFG_WAV(integer BitDepth, integer LargeFiles, integer BWFChunk, integer IncludeMarkers, boolean EmbedProjectTempo)</functioncall>
   <description>
     Creates the render-cfg-string for the WAV-format. You can use this in ProjectStateChunks, RPP-Projectfiles and reaper-render.ini
     
@@ -7836,7 +7902,9 @@ function ultraschall.CreateRenderCFG_WAV(BitDepth, LargeFiles, BWFChunk, Include
     Returns nil in case of an error
   </description>
   <retvals>
-    string render_cfg_string - the render-cfg-string for the selected WAV-settings
+    string render_cfg_string_base64 - the render-cfg-string for the selected GIF-settings base64-encoded(use this for render-table-functions)
+    string render_cfg_string_hexstring - the render-cfg-string for the selected GIF-settings hex-string-encoded
+    string render_cfg_string_unencoded - the binary version of the render string, so you can reencode it into other means 
   </retvals>
   <parameters>
     integer BitDepth - the bitdepth of the WAV-file
@@ -7950,7 +8018,7 @@ function ultraschall.CreateRenderCFG_WAV(BitDepth, LargeFiles, BWFChunk, Include
   end
   
   local WavEnder="=="
-  return WavHeader..BitDepth..A0..A..B..C..WavEnder  
+  return WavHeader..BitDepth..A0..A..B..C..WavEnder,  ultraschall.Base64_Decoder(WavHeader..BitDepth..A0..A..B..C..WavEnder), ultraschall.ConvertAscii2Hex(ultraschall.Base64_Decoder(WavHeader..BitDepth..A0..A..B..C..WavEnder))
 end
 
 
@@ -8069,11 +8137,11 @@ function ultraschall.CreateRenderCFG_AIFF(bits, EmbedBeatLength)
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>CreateRenderCFG_AIFF</slug>
   <requires>
-    Ultraschall=4.00
+    Ultraschall=5.32
     Reaper=5.77
     Lua=5.3
   </requires>
-  <functioncall>string render_cfg_string = ultraschall.CreateRenderCFG_AIFF(integer bits, optional boolean EmbedBeatLength)</functioncall>
+  <functioncall>string render_cfg_string_base64, string render_cfg_string_hexstring, string render_cfg_string_unencoded = ultraschall.CreateRenderCFG_AIFF(integer bits, optional boolean EmbedBeatLength)</functioncall>
   <description>
     Returns the render-cfg-string for the AIFF-format. You can use this in ProjectStateChunks, RPP-Projectfiles and reaper-render.ini
     
@@ -8082,7 +8150,9 @@ function ultraschall.CreateRenderCFG_AIFF(bits, EmbedBeatLength)
     Returns nil in case of an error
   </description>
   <retvals>
-    string render_cfg_string - the render-cfg-string for the selected AIFF-settings
+    string render_cfg_string_base64 - the render-cfg-string for the selected AIFF-settings base64-encoded(use this for render-table-functions)
+    string render_cfg_string_hexstring - the render-cfg-string for the selected AIFF-settings hex-string-encoded
+    string render_cfg_string_unencoded - the binary version of the render string, so you can reencode it into other means 
   </retvals>
   <parameters>
     integer bits - the bitdepth of the aiff-file; 8, 16, 24 and 32 are supported
@@ -8103,9 +8173,9 @@ function ultraschall.CreateRenderCFG_AIFF(bits, EmbedBeatLength)
   if EmbedBeatLength==nil or EmbedBeatLength==false then EmbedBeatLength=0 else EmbedBeatLength=32 end
   
   local renderstring="ffia"..string.char(bits)..string.char(EmbedBeatLength)..string.char(0)
-  renderstring=ultraschall.Base64_Encoder(renderstring)
+  local renderstring2=ultraschall.Base64_Encoder(renderstring)
 
-  return renderstring
+  return renderstring2, ultraschall.ConvertAscii2Hex(renderstring), renderstring
 end
 
 
@@ -8114,11 +8184,11 @@ function ultraschall.CreateRenderCFG_AudioCD(trackmode, only_markers_starting_wi
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>CreateRenderCFG_AudioCD</slug>
   <requires>
-    Ultraschall=4.00
+    Ultraschall=5.32
     Reaper=5.77
     Lua=5.3
   </requires>
-  <functioncall>string render_cfg_string = ultraschall.CreateRenderCFG_AudioCD(integer trackmode, boolean only_markers_starting_with_hash, integer leadin_silence_tracks, integer leadin_silence_disc, boolean burncd_image_after_render)</functioncall>
+  <functioncall>string render_cfg_string_base64, string render_cfg_string_hexstring, string render_cfg_string_unencoded = ultraschall.CreateRenderCFG_AudioCD(integer trackmode, boolean only_markers_starting_with_hash, integer leadin_silence_tracks, integer leadin_silence_disc, boolean burncd_image_after_render)</functioncall>
   <description>
     Returns the render-cfg-string for the AudioCD-format. You can use this in ProjectStateChunks, RPP-Projectfiles and reaper-render.ini
     
@@ -8127,7 +8197,9 @@ function ultraschall.CreateRenderCFG_AudioCD(trackmode, only_markers_starting_wi
     Returns nil in case of an error
   </description>
   <retvals>
-    string render_cfg_string - the render-cfg-string for the selected AudioCD-image-settings
+    string render_cfg_string_base64 - the render-cfg-string for the selected AudioCD-image-settings base64-encoded(use this for render-table-functions)
+    string render_cfg_string_hexstring - the render-cfg-string for the selected AudioCD-image-settings hex-string-encoded
+    string render_cfg_string_unencoded - the binary version of the render string, so you can reencode it into other means 
   </retvals>
   <parameters>
     integer trackmode - Track mode-dropdownlist: 1, Markers define new track; 2, Regions define tracks (other areas ignored); 3, One Track
@@ -8162,7 +8234,7 @@ function ultraschall.CreateRenderCFG_AudioCD(trackmode, only_markers_starting_wi
   
   local RenderString=" osi"..leadin_silence_disc..leadin_silence_tracks..string.char(burncd_image_after_render).."\0\0\0"..string.char(trackmode-1).."\0\0\0"..string.char(only_markers_starting_with_hash).."\0\0\0\0"
   
-  return ultraschall.Base64_Encoder(RenderString)
+  return ultraschall.Base64_Encoder(RenderString), ultraschall.ConvertAscii2Hex(RenderString), RenderString
 end
 
 --A=ultraschall.CreateRenderCFG_AudioCD(1,false,100000,100000,false)
@@ -9081,11 +9153,11 @@ function ultraschall.CreateRenderCFG_CAF(bits, EmbedTempo, include_markers)
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>CreateRenderCFG_CAF</slug>
   <requires>
-    Ultraschall=4.2
+    Ultraschall=5.32
     Reaper=6.43
     Lua=5.3
   </requires>
-  <functioncall>string render_cfg_string = ultraschall.CreateRenderCFG_CAF(integer bits, boolean EmbedTempo, integer include_markers)</functioncall>
+  <functioncall>string render_cfg_string_base64, string render_cfg_string_hexstring, string render_cfg_string_unencoded = ultraschall.CreateRenderCFG_CAF(integer bits, boolean EmbedTempo, integer include_markers)</functioncall>
   <description>
     Returns the render-cfg-string for the CAF-format. You can use this in ProjectStateChunks, RPP-Projectfiles and reaper-render.ini
     
@@ -9094,7 +9166,9 @@ function ultraschall.CreateRenderCFG_CAF(bits, EmbedTempo, include_markers)
     Returns nil in case of an error
   </description>
   <retvals>
-    string render_cfg_string - the render-cfg-string for the selected CAF-settings
+    string render_cfg_string_base64 - the render-cfg-string for the selected CAF-settings base64-encoded(use this for render-table-functions)
+    string render_cfg_string_hexstring - the render-cfg-string for the selected CAF-settings hex-string-encoded
+    string render_cfg_string_unencoded - the binary version of the render string, so you can reencode it into other means 
   </retvals>
   <parameters>
       integer bitdepth - the bitdepth of the CAF-file(8, 16, 24, 32(fp), 33(pcm), 64)
@@ -9133,9 +9207,9 @@ function ultraschall.CreateRenderCFG_CAF(bits, EmbedTempo, include_markers)
   if EmbedTempo==true then include_markers=include_markers+32 end
 
   local renderstring="ffac"..string.char(bits)..string.char(include_markers)..string.char(0)
-  renderstring=ultraschall.Base64_Encoder(renderstring)
+  local renderstring2=ultraschall.Base64_Encoder(renderstring)
   
-  return renderstring
+  return renderstring2, ultraschall.ConvertAscii2Hex(renderstring), renderstring
 end
 
 function ultraschall.GetRenderTargetFiles()
@@ -9410,18 +9484,18 @@ function ultraschall.GetRenderCFG_Settings_FLV_Video(rendercfg)
   
   return VideoCodec, MJPEG_quality[1], AudioCodec, Width[1], Height[1], FPS, AspectRatio, FFMPEG_Options_Video, FFMPEG_Options_Audio
 end
-
+--Mespotine
 
 function ultraschall.CreateRenderCFG_MPEG1_Video(VideoCodec, VIDKBPS, AudioCodec, AUDKBPS, WIDTH, HEIGHT, FPS, AspectRatio, VideoOptions, AudioOptions)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>CreateRenderCFG_MPEG1_Video</slug>
   <requires>
-    Ultraschall=4.7
+    Ultraschall=5.32
     Reaper=6.62
     Lua=5.3
   </requires>
-  <functioncall>string render_cfg_string = ultraschall.CreateRenderCFG_MPEG1_Video(integer VideoCodec, integer VIDKBPS, integer AudioCodec, integer AUDKBPS, integer WIDTH, integer HEIGHT, number FPS, boolean AspectRatio, optional string VideoOptions, optional string AudioOptions)</functioncall>
+  <functioncall>string render_cfg_string_base64, string render_cfg_string_hexstring, string render_cfg_string_unencoded = ultraschall.CreateRenderCFG_MPEG1_Video(integer VideoCodec, integer VIDKBPS, integer AudioCodec, integer AUDKBPS, integer WIDTH, integer HEIGHT, number FPS, boolean AspectRatio, optional string VideoOptions, optional string AudioOptions)</functioncall>
   <description>
     Returns the render-cfg-string for the MPEG-1-Video-format. You can use this in ProjectStateChunks, RPP-Projectfiles and reaper-render.ini
     
@@ -9430,7 +9504,9 @@ function ultraschall.CreateRenderCFG_MPEG1_Video(VideoCodec, VIDKBPS, AudioCodec
     Returns nil in case of an error
   </description>
   <retvals>
-    string render_cfg_string - the render-cfg-string for the selected MPEG-1-Video-settings
+    string render_cfg_string_base64 - the render-cfg-string for the selected MPEG1-settings base64-encoded(use this for render-table-functions)
+    string render_cfg_string_hexstring - the render-cfg-string for the selected MPEG1-settings hex-string-encoded
+    string render_cfg_string_unencoded - the binary version of the render string, so you can reencode it into other means 
   </retvals>
   <parameters>
     integer VideoCodec - the videocodec used for the video;
@@ -9500,7 +9576,11 @@ function ultraschall.CreateRenderCFG_MPEG1_Video(VideoCodec, VIDKBPS, AudioCodec
   if AspectRatio==true then AspectRatio=string.char(1) else AspectRatio=string.char(0) end
   
   return ultraschall.Base64_Encoder("PMFF"..VideoFormat.."\0\0\0"..VideoCodec.."\0\0\0"..VIDKBPS..AudioCodec.."\0\0\0"..AUDKBPS..
-         WIDTH..HEIGHT..FPS..AspectRatio.."\0\0\0"..MJPEGQuality..AudioOptions.."\0"..VideoOptions.."\0")
+         WIDTH..HEIGHT..FPS..AspectRatio.."\0\0\0"..MJPEGQuality..AudioOptions.."\0"..VideoOptions.."\0"),
+         ultraschall.ConvertAscii2Hex("PMFF"..VideoFormat.."\0\0\0"..VideoCodec.."\0\0\0"..VIDKBPS..AudioCodec.."\0\0\0"..AUDKBPS..
+         WIDTH..HEIGHT..FPS..AspectRatio.."\0\0\0"..MJPEGQuality..AudioOptions.."\0"..VideoOptions.."\0"),
+         "PMFF"..VideoFormat.."\0\0\0"..VideoCodec.."\0\0\0"..VIDKBPS..AudioCodec.."\0\0\0"..AUDKBPS..
+         WIDTH..HEIGHT..FPS..AspectRatio.."\0\0\0"..MJPEGQuality..AudioOptions.."\0"..VideoOptions.."\0"
 end
 
 function ultraschall.CreateRenderCFG_MPEG2_Video(VideoCodec, VIDKBPS, AudioCodec, AUDKBPS, WIDTH, HEIGHT, FPS, AspectRatio, VideoOptions, AudioOptions)
@@ -9508,11 +9588,11 @@ function ultraschall.CreateRenderCFG_MPEG2_Video(VideoCodec, VIDKBPS, AudioCodec
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>CreateRenderCFG_MPEG2_Video</slug>
   <requires>
-    Ultraschall=4.7
+    Ultraschall=5.32
     Reaper=6.62
     Lua=5.3
   </requires>
-  <functioncall>string render_cfg_string = ultraschall.CreateRenderCFG_MPEG2_Video(integer VideoCodec, integer VIDKBPS, integer AudioCodec, integer AUDKBPS, integer WIDTH, integer HEIGHT, number FPS, boolean AspectRatio, optional string VideoOptions, optional string AudioOptions)</functioncall>
+  <functioncall>string render_cfg_string_base64, string render_cfg_string_hexstring, string render_cfg_string_unencoded = ultraschall.CreateRenderCFG_MPEG2_Video(integer VideoCodec, integer VIDKBPS, integer AudioCodec, integer AUDKBPS, integer WIDTH, integer HEIGHT, number FPS, boolean AspectRatio, optional string VideoOptions, optional string AudioOptions)</functioncall>
   <description>
     Returns the render-cfg-string for the MPEG-2-Video-format. You can use this in ProjectStateChunks, RPP-Projectfiles and reaper-render.ini
     
@@ -9521,7 +9601,9 @@ function ultraschall.CreateRenderCFG_MPEG2_Video(VideoCodec, VIDKBPS, AudioCodec
     Returns nil in case of an error
   </description>
   <retvals>
-    string render_cfg_string - the render-cfg-string for the selected MPEG-2-Video-settings
+    string render_cfg_string_base64 - the render-cfg-string for the selected MPEG2-settings base64-encoded(use this for render-table-functions)
+    string render_cfg_string_hexstring - the render-cfg-string for the selected MPEG2-settings hex-string-encoded
+    string render_cfg_string_unencoded - the binary version of the render string, so you can reencode it into other means 
   </retvals>
   <parameters>
     integer VideoCodec - the videocodec used for the video;
@@ -9592,7 +9674,11 @@ function ultraschall.CreateRenderCFG_MPEG2_Video(VideoCodec, VIDKBPS, AudioCodec
   if AspectRatio==true then AspectRatio=string.char(1) else AspectRatio=string.char(0) end
   
   return ultraschall.Base64_Encoder("PMFF"..VideoFormat.."\0\0\0"..VideoCodec.."\0\0\0"..VIDKBPS..AudioCodec.."\0\0\0"..AUDKBPS..
-         WIDTH..HEIGHT..FPS..AspectRatio.."\0\0\0"..MJPEGQuality..AudioOptions.."\0"..VideoOptions.."\0")
+         WIDTH..HEIGHT..FPS..AspectRatio.."\0\0\0"..MJPEGQuality..AudioOptions.."\0"..VideoOptions.."\0"),
+         ultraschall.ConvertAscii2Hex("PMFF"..VideoFormat.."\0\0\0"..VideoCodec.."\0\0\0"..VIDKBPS..AudioCodec.."\0\0\0"..AUDKBPS..
+         WIDTH..HEIGHT..FPS..AspectRatio.."\0\0\0"..MJPEGQuality..AudioOptions.."\0"..VideoOptions.."\0"),
+         "PMFF"..VideoFormat.."\0\0\0"..VideoCodec.."\0\0\0"..VIDKBPS..AudioCodec.."\0\0\0"..AUDKBPS..
+         WIDTH..HEIGHT..FPS..AspectRatio.."\0\0\0"..MJPEGQuality..AudioOptions.."\0"..VideoOptions.."\0"
 end
 
 function ultraschall.CreateRenderCFG_FLV_Video(VideoCodec, VIDKBPS, AudioCodec, AUDKBPS, WIDTH, HEIGHT, FPS, AspectRatio, VideoOptions, AudioOptions)
@@ -9600,11 +9686,11 @@ function ultraschall.CreateRenderCFG_FLV_Video(VideoCodec, VIDKBPS, AudioCodec, 
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>CreateRenderCFG_FLV_Video</slug>
   <requires>
-    Ultraschall=4.7
+    Ultraschall=5.32
     Reaper=6.62
     Lua=5.3
   </requires>
-  <functioncall>string render_cfg_string = ultraschall.CreateRenderCFG_FLV_Video(integer VideoCodec, integer VIDKBPS, integer AudioCodec, integer AUDKBPS, integer WIDTH, integer HEIGHT, number FPS, boolean AspectRatio, optional string VideoOptions, optional string AudioOptions)</functioncall>
+  <functioncall>string render_cfg_string_base64, string render_cfg_string_hexstring, string render_cfg_string_unencoded = ultraschall.CreateRenderCFG_FLV_Video(integer VideoCodec, integer VIDKBPS, integer AudioCodec, integer AUDKBPS, integer WIDTH, integer HEIGHT, number FPS, boolean AspectRatio, optional string VideoOptions, optional string AudioOptions)</functioncall>
   <description>
     Returns the render-cfg-string for the FLV-Video-format. You can use this in ProjectStateChunks, RPP-Projectfiles and reaper-render.ini
     
@@ -9613,7 +9699,9 @@ function ultraschall.CreateRenderCFG_FLV_Video(VideoCodec, VIDKBPS, AudioCodec, 
     Returns nil in case of an error
   </description>
   <retvals>
-    string render_cfg_string - the render-cfg-string for the selected MPEG-2-Video-settings
+    string render_cfg_string_base64 - the render-cfg-string for the selected MPEG-2-settings base64-encoded(use this for render-table-functions)
+    string render_cfg_string_hexstring - the render-cfg-string for the selected MPEG-2-settings hex-string-encoded
+    string render_cfg_string_unencoded - the binary version of the render string, so you can reencode it into other means 
   </retvals>
   <parameters>
     integer VideoCodec - the videocodec used for the video;
@@ -9684,7 +9772,11 @@ function ultraschall.CreateRenderCFG_FLV_Video(VideoCodec, VIDKBPS, AudioCodec, 
   if AspectRatio==true then AspectRatio=string.char(1) else AspectRatio=string.char(0) end
   
   return ultraschall.Base64_Encoder("PMFF"..VideoFormat.."\0\0\0"..VideoCodec.."\0\0\0"..VIDKBPS..AudioCodec.."\0\0\0"..AUDKBPS..
-         WIDTH..HEIGHT..FPS..AspectRatio.."\0\0\0"..MJPEGQuality..AudioOptions.."\0"..VideoOptions.."\0")
+         WIDTH..HEIGHT..FPS..AspectRatio.."\0\0\0"..MJPEGQuality..AudioOptions.."\0"..VideoOptions.."\0"),
+         ultraschall.ConvertAscii2Hex("PMFF"..VideoFormat.."\0\0\0"..VideoCodec.."\0\0\0"..VIDKBPS..AudioCodec.."\0\0\0"..AUDKBPS..
+         WIDTH..HEIGHT..FPS..AspectRatio.."\0\0\0"..MJPEGQuality..AudioOptions.."\0"..VideoOptions.."\0"),
+         "PMFF"..VideoFormat.."\0\0\0"..VideoCodec.."\0\0\0"..VIDKBPS..AudioCodec.."\0\0\0"..AUDKBPS..
+         WIDTH..HEIGHT..FPS..AspectRatio.."\0\0\0"..MJPEGQuality..AudioOptions.."\0"..VideoOptions.."\0"
 end
 
 
@@ -10208,18 +10300,20 @@ function ultraschall.CreateRenderCFG_WMF(OutputFormat, VideoCodec, VideoBitrate,
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>CreateRenderCFG_WMF</slug>
   <requires>
-    Ultraschall=4.7
+    Ultraschall=5.32
     Reaper=6.59
     Lua=5.3
   </requires>
-  <functioncall>string render_cfg_string = ultraschall.CreateRenderCFG_WMF(integer VideoFormat, integer VideoCodec, integer VideoBitrate, integer AudioCodec, integer AudioBitrate, integer WIDTH, integer HEIGHT, number FPS, boolean AspectRatio)</functioncall>
+  <functioncall>string render_cfg_string_base64, string render_cfg_string_hexstring, string render_cfg_string_unencoded = ultraschall.CreateRenderCFG_WMF(integer VideoFormat, integer VideoCodec, integer VideoBitrate, integer AudioCodec, integer AudioBitrate, integer WIDTH, integer HEIGHT, number FPS, boolean AspectRatio)</functioncall>
   <description>
     Returns the render-cfg-string for the WMF-Video-format. You can use this in ProjectStateChunks, RPP-Projectfiles and reaper-render.ini
     
     Returns nil in case of an error
   </description>
   <retvals>
-    string render_cfg_string - the render-cfg-string for the selected wmf-Video-settings
+    string render_cfg_string_base64 - the render-cfg-string for the selected WMF-settings base64-encoded(use this for render-table-functions)
+    string render_cfg_string_hexstring - the render-cfg-string for the selected WMF-settings hex-string-encoded
+    string render_cfg_string_unencoded - the binary version of the render string, so you can reencode it into other means 
   </retvals>
   <parameters>
       integer OutputFormat - the used OutputFormat
@@ -10282,7 +10376,11 @@ function ultraschall.CreateRenderCFG_WMF(OutputFormat, VideoCodec, VideoBitrate,
   if AspectRatio==true then AspectRatio=string.char(1) else AspectRatio=string.char(0) end
   
   return ultraschall.Base64_Encoder(" FMW"..OutputFormat.."\0\0\0"..VideoCodec.."\0\0\0"..VIDKBPS..AudioCodec.."\0\0\0"..AUDKBPS..
-         WIDTH..HEIGHT..FPS..AspectRatio.."\0\0\0\0\0\0\0\0")
+         WIDTH..HEIGHT..FPS..AspectRatio.."\0\0\0\0\0\0\0\0"),
+         ultraschall.ConvertAscii2Hex(" FMW"..OutputFormat.."\0\0\0"..VideoCodec.."\0\0\0"..VIDKBPS..AudioCodec.."\0\0\0"..AUDKBPS..
+         WIDTH..HEIGHT..FPS..AspectRatio.."\0\0\0\0\0\0\0\0"),
+         " FMW"..OutputFormat.."\0\0\0"..VideoCodec.."\0\0\0"..VIDKBPS..AudioCodec.."\0\0\0"..AUDKBPS..
+         WIDTH..HEIGHT..FPS..AspectRatio.."\0\0\0\0\0\0\0\0"
 end
 
 CreateRenderCFG_WMF_Video=CreateRenderCFG_WMF -- look above for the actual function!!
@@ -10721,18 +10819,20 @@ function ultraschall.CreateRenderCFG_RAW(bitrate, write_sidecar_file)
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>CreateRenderCFG_RAW</slug>
   <requires>
-    Ultraschall=5
+    Ultraschall=5.32
     Reaper=7.0
     Lua=5.4
   </requires>
-  <functioncall>string render_cfg_string = ultraschall.CreateRenderCFG_RAW(integer bitrate, boolean write_sidecar_file)</functioncall>
+  <functioncall>string render_cfg_string_base64, string render_cfg_string_hexstring, string render_cfg_string_unencoded = ultraschall.CreateRenderCFG_RAW(integer bitrate, boolean write_sidecar_file)</functioncall>
   <description>
     Returns the render-cfg-string for the RAW-PCM-format. You can use this in ProjectStateChunks, RPP-Projectfiles and reaper-render.ini
     
     Returns nil in case of an error
   </description>
   <retvals>
-    string render_cfg_string - the render-cfg-string for the selected RAW PCM-settings
+    string render_cfg_string_base64 - the render-cfg-string for the selected RAW-PCM-settings base64-encoded(use this for render-table-functions)
+    string render_cfg_string_hexstring - the render-cfg-string for the selected RAW-PCM-settings hex-string-encoded
+    string render_cfg_string_unencoded - the binary version of the render string, so you can reencode it into other means 
   </retvals>
   <parameters>
     integer bitrate - the bitrate 
@@ -10777,7 +10877,7 @@ function ultraschall.CreateRenderCFG_RAW(bitrate, write_sidecar_file)
   end
   if write_sidecar_file==false then option=option+64 end
   --print2(option)
-  return ultraschall.Base64_Encoder(" war"..string.char(bitrate)..string.char(option))
+  return ultraschall.Base64_Encoder(" war"..string.char(bitrate)..string.char(option)), ultraschall.ConvertAscii2Hex(" war"..string.char(bitrate)..string.char(option)), " war"..string.char(bitrate)..string.char(option)
 end
 
 function ultraschall.GetRenderCFG_Settings_RAW(rendercfg)

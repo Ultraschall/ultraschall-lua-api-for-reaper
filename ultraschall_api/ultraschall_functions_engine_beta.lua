@@ -1336,3 +1336,43 @@ end
 --id = get_fx_id_from_container_path(track, 1, 1) -- first item of first item (which must be a container)
 --ok, name = reaper.TrackFX_GetFXName(track,id)
 
+
+
+function ultraschall.BounceRecording_SetValues(folder, filename, render_format_string, number_of_channels, save_output_while_playing_recording, stop_saving_output_on_first_stop, dont_save_when_below, dont_save_when_below_db, dont_save_when_below_milliseconds, silently_increment_filenames)
+--[[
+  folder
+  filename
+  render_format_string
+  number_of_channels 1, mono; 2, stereo; 4, 4-channels; 6, 6-channels; 8, 8-channels
+  save_output_while_playing_recording
+  stop_saving_output_on_first_stop
+  dont_save_when_below
+  dont_save_when_below_db
+  dont_save_when_below_milliseconds
+  silently_increment_filenames
+  --]]
+  reaper.BR_Win32_WritePrivateProfileString("REAPER", "bounce_path", folder, reaper.get_ini_file())
+  reaper.BR_Win32_WritePrivateProfileString("REAPER", "bounce_pattern", filename, reaper.get_ini_file())
+  
+  -- the following two lines don't work, due to a mismatch between render-cfgs created by CreateRendeCFG-functions and the ones needed by Bouncing
+  reaper.BR_Win32_WritePrivateProfileString("REAPER", "bouncecfg", ultraschall.ConvertAscii2Hex(ultraschall.Base64_Decoder(render_format_string)), reaper.get_ini_file())
+  reaper.BR_Win32_WritePrivateProfileString("REAPER", "bouncecfg_sz", ultraschall.Base64_Decoder(render_format_string):len(), reaper.get_ini_file())
+  
+  reaper.BR_Win32_WritePrivateProfileString("REAPER", "liveoutnch", tonumber(number_of_channels), reaper.get_ini_file())
+  reaper.BR_Win32_WritePrivateProfileString("REAPER", "save_output_while_playing_recording", tonumber(number_of_channels), reaper.get_ini_file())
+  
+  local liveoutmode=0
+  if save_output_while_playing_recording==true then liveoutmode=liveoutmode+1 end
+  if stop_saving_output_on_first_stop==true then liveoutmode=liveoutmode+2 end
+  if dont_save_when_below==true then liveoutmode=liveoutmode+4 end
+  if silently_increment_filenames==true then liveoutmode=liveoutmode+8 end
+  reaper.BR_Win32_WritePrivateProfileString("REAPER", "liveoutmode", liveoutmode, reaper.get_ini_file())
+  
+  reaper.BR_Win32_WritePrivateProfileString("REAPER", "liveoutgate", dont_save_when_below_db, reaper.get_ini_file())
+  reaper.BR_Win32_WritePrivateProfileString("REAPER", "liveoutgatelen", dont_save_when_below_milliseconds, reaper.get_ini_file())
+  
+end
+--[[
+rendercfg=ultraschall.CreateRenderCFG_WAVPACK(0, 0, 0, true, true)
+--ultraschall.BounceRecording_SetValues("C:\\D\\", "Pusteblume", rendercfg, 0, true, true, true, -12, 234, true)
+-]]

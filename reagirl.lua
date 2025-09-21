@@ -256,7 +256,7 @@ function reagirl.GetVersion()
     <tags>misc, get, version</tags>
   </US_DocBloc>
   --]]
-  return 1.3
+  return 1.32
 end
 
 reagirl.osara_outputMessage=reaper.osara_outputMessage
@@ -2684,13 +2684,12 @@ reagirl.Colors.Burgermenu_Stripes_r=0.55
 reagirl.Colors.Burgermenu_Stripes_g=0.55
 reagirl.Colors.Burgermenu_Stripes_b=0.55
 
-
 reagirl.Colors.Label_TextFG_r=0.8
 reagirl.Colors.Label_TextFG_g=0.8
 reagirl.Colors.Label_TextFG_b=0.8
 reagirl.Colors.Label_TextFGclickable_r=0.4
 reagirl.Colors.Label_TextFGclickable_g=0.65
-reagirl.Colors.Label_TextFGclickable_b=1
+reagirl.Colors.Label_TextFGclickable_b=0.99
 reagirl.Colors.Label_TextBG_r=0.2
 reagirl.Colors.Label_TextBG_g=0.2
 reagirl.Colors.Label_TextBG_b=0.2
@@ -5482,7 +5481,7 @@ function reagirl.Ext_Window_SetState(gui_name, width, height, dockstate, x_posit
   if y_position~=nil and math.type(y_position)~="integer" then error("Ext_Window_SetState: param #6 - must be nil or an integer", 2) end
   if gui_instance~=nil and type(gui_instance)~="string" then error("Ext_Window_SetState: param #7 - must be a string", 2) end
   if gui_instance==nil then gui_instance="" else gui_instance="-"..gui_instance end
-  --mespotine
+  
   reaper.SetExtState("Reagirl_Window_"..gui_name..gui_instance, "newstate", "newstate", false)
   reaper.SetExtState("Reagirl_Window_"..gui_name..gui_instance, "newstate_w", width, false)
   reaper.SetExtState("Reagirl_Window_"..gui_name..gui_instance, "newstate_h", height, false)
@@ -5751,7 +5750,6 @@ function reagirl.Ext_Window_GetProcessTime(reagirl_instance_guid)
     <tags>ext, get, process time, in last defer</tags>
   </US_DocBloc>
   ]]
---mespotine
   local number=reaper.GetExtState("ReaGirl", "ProcessTime_"..reagirl_instance_guid)
   if number=="" then return -1 else return tonumber(number) end
 end
@@ -7667,10 +7665,42 @@ function reagirl.Gui_Manage(keep_running)
   if reagirl.UI_Elements_HoveredElement~=-1 and reagirl.ContextMenuClicked==true then
     gfx.x=gfx.mouse_x
     gfx.y=gfx.mouse_y
-    if reagirl.Elements[reagirl.UI_Elements_HoveredElement]["ContextMenu"]~=nil then
-      local selection=gfx.showmenu(reagirl.Elements[reagirl.UI_Elements_HoveredElement]["ContextMenu"])
+    if reagirl.Elements[reagirl.UI_Elements_HoveredElement]["ContextMenu"]~=nil or reagirl.Elements[reagirl.UI_Elements_HoveredElement]["ContextMenu_Custom"]~=nil then
+      local menu=reagirl.Elements[reagirl.UI_Elements_HoveredElement]["ContextMenu"]
+      local add_menu=reagirl.Elements[reagirl.UI_Elements_HoveredElement]["ContextMenu_Custom"]
+      if menu==nil then menu="" end
+      if add_menu~=nil and menu~="" then menu="|"..menu end
+      if add_menu==nil then add_menu="" end
       
-      if selection>0 then
+      local selection=gfx.showmenu(add_menu..menu)
+      local guid=reagirl.Elements[reagirl.UI_Elements_HoveredElement]["Guid"]
+      if add_menu~="" then 
+        if reagirl.Elements[reagirl.UI_Elements_HoveredElement]["GUI_Element_Type"]=="Edit" then
+          -- do default-context-menu of inputboxes for cut, copy, paste, select all
+          if selection==1 then
+            local text, selstart, selend, sellength = reagirl.Inputbox_GetSelectedText(guid)
+            reaper.CF_SetClipboard(text)
+            reagirl.Inputbox_SetText(guid, "", selstart, sellength)
+            reagirl.Inputbox_SetCursorOffset(guid, selstart)
+          elseif selection==2 then
+            local text, selstart, selend, sellength = reagirl.Inputbox_GetSelectedText(guid)
+            reaper.CF_SetClipboard(text)
+          elseif selection==3 then
+            local text=reaper.CF_GetClipboard()
+            local text2, selstart, selend, sellength = reagirl.Inputbox_GetSelectedText(guid)
+            if selstart==-1 then
+              selstart = reagirl.Inputbox_GetCursorOffset(guid)
+            end
+            reagirl.Inputbox_SetText(guid, text, selstart, 0)
+            reagirl.Inputbox_SetCursorOffset(guid, selstart+text:utf8_len())
+          elseif selection==4 then
+            reagirl.Inputbox_SetSelectedText(guid, 0, -1)
+          end
+        end
+        selection=selection-reagirl.Elements[reagirl.UI_Elements_HoveredElement]["ContextMenu_Custom_Length"] 
+      end
+      
+      if menu~="" and selection>0 then
         local name, checked=reagirl.Menu_GetEntryName(reagirl.Elements[reagirl.UI_Elements_HoveredElement]["ContextMenu"], selection)
         reagirl.Elements[reagirl.UI_Elements_HoveredElement]["ContextMenuFunction"](reagirl.Elements[reagirl.UI_Elements_HoveredElement]["Guid"], math.tointeger(selection), name, checked)
         reagirl.Gui_ForceRefresh(985)
@@ -7974,7 +8004,7 @@ function reagirl.Gui_Manage(keep_running)
 end
 
 function reagirl.Gui_DrawSingular(Key, Key_utf, clickstate, specific_clickstate, mouse_cap, click_x, click_y, drag_x, drag_y, mouse_wheel, mouse_hwheel)
-  --if lol==nil then return end
+
   local scale=reagirl.Window_GetCurrentScale()
   gfx.x=0
   gfx.y=0
@@ -8681,12 +8711,16 @@ function reagirl.UI_Element_GetSet_ContextMenu(element_id, is_set, menu, menu_fu
     Setting this will show a context-menu, when the user rightclicks the ui-element.
     
     Parameter menu is a list of fields separated by | characters. Each field represents a menu item.
+    Two || after each other will create a separator
     Fields can start with special characters:
 
     # : grayed out
     ! : checked
     > : this menu item shows a submenu
     < : last item in the current submenu
+    
+    Note: inputboxes have their own context-menu for cut/copy/paste/select all. Your context-menu will be appended to the end of it.
+    Don't worry, the index will be counted from your first added menu-entrx, means, the first entry you added gets the index 1, the second index 2, etc
     
     The menu_runfunction will be called with two parameters: 
       string element_id - the guid of the ui-element, whose context-menu has been used
@@ -8826,7 +8860,7 @@ function reagirl.UI_Element_GetSetCaption(element_id, is_set, caption)
   end
   return reagirl.Elements[element_id]["Name"]
 end
---mespotine
+
 function reagirl.UI_Element_GetSetVisibility(element_id, is_set, visible)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
@@ -9051,7 +9085,7 @@ function reagirl.UI_Element_IsElementAtMousePosition(element_id)
 </US_DocBloc>
 ]]
   local x, y, real_x, real_y = reagirl.UI_Element_GetSetPosition(element_id, false)
-  local w, h, real_w, real_h =reagirl.UI_Element_GetSetDimension(element_id, false)
+  local w, h, real_w, real_h = reagirl.UI_Element_GetDimension(element_id, false)
   return gfx.mouse_x>=real_x and gfx.mouse_x<=real_x+real_w and gfx.mouse_y>=real_y and gfx.mouse_y<=real_y+real_h
 end
 
@@ -9111,7 +9145,7 @@ function reagirl.UI_Element_GetSetPosition(element_id, is_set, x, y)
     if reagirl.osara_outputMessage~=nil then
       reagirl.UI_Element_ScrollToUIElement(elid, -cap_w)
       if reaper.GetExtState("ReaGirl", "osara_move_mouse")~="false" then
-        reaper.JS_Mouse_SetPosition(gfx.clienttoscreen(x2+cap_w+reagirl.MoveItAllRight+4,y2+reagirl.MoveItAllUp+4)) 
+        --reaper.JS_Mouse_SetPosition(gfx.clienttoscreen(x2+cap_w+reagirl.MoveItAllRight+4,y2+reagirl.MoveItAllUp+4)) 
       end
     end
   end
@@ -9119,15 +9153,41 @@ function reagirl.UI_Element_GetSetPosition(element_id, is_set, x, y)
   return reagirl.Elements[element_id]["x"], reagirl.Elements[element_id]["y"], x2+reagirl.MoveItAllRight, y2+reagirl.MoveItAllUp
 end
 
-function reagirl.UI_Element_GetSetDimension(element_id, is_set, w, h)
+function reagirl.UI_Element_GetDimension(element_id)
+  --[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>UI_Element_GetDimension</slug>
+  <requires>
+    ReaGirl=1.32
+    Reaper=7.03
+    Lua=5.4
+  </requires>
+  <functioncall>integer x, integer y, integer actual_x, integer actual_y = reagirl.UI_Element_GetDimension(string element_id)</functioncall>
+  <description>
+    gets the width and height of the ui-element
+  </description>
+  <retvals>
+    integer w - the width of the ui-element
+    integer h - the height of the ui-element
+    integer actual_w - the actual current width resolved to the anchor-position including scaling and scroll-offset
+    integer actual_h - the actual current height resolved to the anchor-position including scaling and scroll-offset
+  </retvals>
+  <parameters>
+    string element_id - the id of the element, whose dimensions you want to get
+  </parameters>
+  <chapter_context>
+    UI Elements
+  </chapter_context>
+  <target_document>ReaGirl_Functions</target_document>
+  <source_document>reagirl.lua</source_document>
+  <tags>ui-elements, get, position</tags>
+</US_DocBloc>
+]]
   -- maybe restrict this to certain ui-elements
-  if type(element_id)~="string" then error("UI_Element_GetSetDimension: param #1 - must be a guid as string", 2) end
+  if type(element_id)~="string" then error("UI_Element_GetDimension: param #1 - must be a guid as string", 2) end
   element_id=reagirl.UI_Element_GetIDFromGuid(element_id)
-  if element_id==nil then error("UI_Element_GetSetDimension: param #1 - no such ui-element", 2) end
-  if reagirl.Elements[element_id]==nil then error("UI_Element_GetSetDimension: param #1 - no such ui-element", 2) end
-  if type(is_set)~="boolean" then error("UI_Element_GetSetDimension: param #2 - must be a boolean", 2) end
-  if is_set==true and math.type(w)~="integer" then error("UI_Element_GetSetDimension: param #3 - must be an integer when is_set==true", 2) end
-  if is_set==true and math.type(h)~="integer" then error("UI_Element_GetSetDimension: param #4 - must be an integer when is_set==true", 2) end
+  if element_id==nil then error("UI_Element_GetDimension: param #1 - no such ui-element", 2) end
+  if reagirl.Elements[element_id]==nil then error("UI_Element_GetDimension: param #1 - no such ui-element", 2) end
   
   local w2, h2, x2, y2
   local scale=reagirl.Window_GetCurrentScale()
@@ -9136,10 +9196,12 @@ function reagirl.UI_Element_GetSetDimension(element_id, is_set, w, h)
   if reagirl.Elements[element_id]["w"]<0 then w2=gfx.w-x2+reagirl.Elements[element_id]["w"]*scale else w2=reagirl.Elements[element_id]["w"]*scale end
   if reagirl.Elements[element_id]["h"]<0 then h2=gfx.h-y2+reagirl.Elements[element_id]["h"]*scale else h2=reagirl.Elements[element_id]["h"]*scale end
   
+  --[[
   if is_set==true then
     reagirl.Elements[element_id]["w"]=w
     reagirl.Elements[element_id]["h"]=h
   end
+  --]]
           
   return reagirl.Elements[element_id]["w"], reagirl.Elements[element_id]["h"], w2, h2
 end
@@ -9264,7 +9326,7 @@ function reagirl.UI_Element_GetSetRunFunction(element_id, is_set, run_function, 
   end
   return reagirl.Elements[element_id]["run_function"], reagirl.Elements[element_id]["run_function_type"]
 end
---mespotine
+
 
 function reagirl.UI_Element_Remove(element_id)
 --[[
@@ -10317,7 +10379,7 @@ function reagirl.UI_Element_OnMouse(element_id, mouse_cap, mouse_event, mouse_x,
   gfx.mouse_hwheel=oldhwheel
   gfx.mouse_cap=oldmousecap
 end
---mespotine
+
 function reagirl.UI_Element_Last_Element_Current_Position()
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
@@ -11784,7 +11846,7 @@ function reagirl.ListView_Add(x, y, w, h, caption, meaningOfUI_Element, enable_s
 <US_ DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>ListView_Add</slug>
   <requires>
-    ReaGirl=1.3
+    ReaGirl=1.4
     Reaper=7.03
     Lua=5.4
   </requires>
@@ -11864,6 +11926,8 @@ function reagirl.ListView_Add(x, y, w, h, caption, meaningOfUI_Element, enable_s
   reagirl.SetFont(1, reagirl.Font_Face, reagirl.Font_Size, 0, 1)
   --local tx,ty=gfx.measurestr(caption)
   local entries2={}
+  local entries_indent={}
+  local entries_state={}
   for i=1, #entries do
     entries[i]=tostring(entries[i])
     if i==default then
@@ -11875,12 +11939,16 @@ function reagirl.ListView_Add(x, y, w, h, caption, meaningOfUI_Element, enable_s
     else
       entries2[i]=false
     end
+    entries_indent[i]=0
+    entries_state[i]=0
   end
   reagirl.SetFont(1, reagirl.Font_Face, reagirl.Font_Size, 0)
   
   reagirl.Elements[slot]["entry_width"]=math.floor(w)
   reagirl.Elements[slot]["entry_width_start"]=0
   reagirl.Elements[slot]["entries_org"]=entries
+  reagirl.Elements[slot]["entries_indent"]=entries_indent
+  reagirl.Elements[slot]["entries_state"]=entries_state
   local entries3={}
   local tags={}
   local entries_index={}
@@ -11912,7 +11980,7 @@ function reagirl.ListView_Filter(element_id, filter, case_sensitive)
 <US_ DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>ListView_Filter</slug>
   <requires>
-    ReaGirl=1.3
+    ReaGirl=1.4
     Reaper=7.03
     Lua=5.4
   </requires>
@@ -11922,6 +11990,8 @@ function reagirl.ListView_Filter(element_id, filter, case_sensitive)
   </description>
   <parameters>
     string element_id - the guid of the listview, whose entries you want to have filtered
+    string filter - the string to filter out specific entries
+    boolean case_insensitive - true, filter is seen as not case sensitive; false, filter is seen as case sensitive
   </parameters>
   <retvals>
     integer count_found_entries - the number of found entries that are now shown in the list
@@ -11975,7 +12045,7 @@ function reagirl.ListView_SetAllDeselected(element_id)
 <US_ DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>ListView_SetAllDeselected</slug>
   <requires>
-    ReaGirl=1.3
+    ReaGirl=1.4
     Reaper=7.03
     Lua=5.4
   </requires>
@@ -12544,8 +12614,13 @@ function reagirl.ListView_Draw(element_id, selected, hovered, clicked, mouse_cap
       gfx.set(0.6)
     end
     local entry=element_storage["entries"][i]
-    if entry==nil then entry="" end
-    gfx.x=-element_storage["entry_width_start"]+scale+1
+    local entry_index=element_storage["entries_index"][i]
+    local entry_indent=element_storage["entries_indent"][entry_index]
+    local entry_state=element_storage["entries_state"][entry_index]
+    
+    if entry==nil then entry="" entry_indent=0 entry_state=0 end
+    if entry_state~=0 then entry_indent=entry_indent+1 end
+    gfx.x=-element_storage["entry_width_start"]+scale+1+(entry_indent*8*scale)
     gfx.drawstr(entry,0,w,h)
     gfx.y=gfx.y
     if i==element_storage["selected"] then
@@ -12623,7 +12698,103 @@ function reagirl.ListView_Draw(element_id, selected, hovered, clicked, mouse_cap
     gfx.triangle(x+w-9*scale, y+scale+h-3*scale,
                  x+w-9*scale, y+scale+h-13*scale,
                  x+w-4*scale,  y+scale+h-8*scale)
+  end
+end
+
+function reagirl.ListView_SetIndent(element_id, entry, indent)
+--[[
+<US_ DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>ListView_SetIndent</slug>
+  <requires>
+    ReaGirl=1.4
+    Reaper=7.03
+    Lua=5.4
+  </requires>
+  <functioncall>boolean retval = reagirl.ListView_SetIndent(string element_id, integer entry, integer indent)</functioncall>
+  <description>
+    Sets the indentation of a listview-entry. 
+  </description>
+  <parameters>
+    string element_id - the guid of the listview, whose entries you want to have filtered
+    integer entry - the entry, whose indentation you want to set, 1 or higher
+    integer indent - the indentation of the entry, 0 or higher
+  </parameters>
+  <retvals>
+    boolean retval - true, setting was successful; false, setting was unsuccessful
+  </retvals>
+  <chapter_context>
+    ListView
+  </chapter_context>
+  <tags>listview, set, indentation</tags>
+</US_DocBloc>
+--]]
+
+  if type(element_id)~="string" then error("ListView_SetIndent: param #1 - must be a string", 2) end
+  if reagirl.IsValidGuid(element_id, true)==nil then error("ListView_SetIndent: param #1 - must be a valid guid", 2) end
+  if math.type(entry)~="integer" then error("ListView_SetIndent: param #2 - must be an integer", 2) end
+  if entry<1 then error("ListView_SetIndent: param #2 - must be 1 or higher", 2) end
+  if math.type(indent)~="integer" then error("ListView_SetIndent: param #3 - must be an integer", 2) end
+  if indent<1 then error("ListView_SetIndent: param #3 - must be 0 or higher", 2) end
+  
+  element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
+  if element_id==-1 then error("ListView_Filter: param #1 - no such ui-element", 2) end
+  
+  if reagirl.Elements[element_id]["GUI_Element_Type"]~="ListView" then
+    return false
+  else
+    reagirl.Elements[element_id]["entries_indent"][entry]=indent
+    reagirl.Gui_ForceRefresh("Listview: SetIndent")
+    return true
+  end
+end
+
+function reagirl.ListView_SetIndent_Table(element_id, indentation)
+--[[
+<US_ DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>ListView_SetIndent_Table</slug>
+  <requires>
+    ReaGirl=1.4
+    Reaper=7.03
+    Lua=5.4
+  </requires>
+  <functioncall>boolean retval = reagirl.ListView_SetIndent_Table(string element_id, table indentation)</functioncall>
+  <description>
+    Sets the indentation of all listview-entries from a table. 
     
+    The table indentation must be a table of integer-values and the number of table-entries must match the number of listview-entries.
+  </description>
+  <parameters>
+    string element_id - the guid of the listview, whose entries you want to have filtered
+    table indentation - a table with all indentation-values as integers. Each entry must be 0 or higher.
+  </parameters>
+  <retvals>
+    boolean retval - true, setting was successful; false, setting was unsuccessful
+  </retvals>
+  <chapter_context>
+    ListView
+  </chapter_context>
+  <tags>listview, set, indentation, by table</tags>
+</US_DocBloc>
+--]]
+
+  if type(element_id)~="string" then error("ListView_SetIndent_Table: param #1 - must be a string", 2) end
+  if reagirl.IsValidGuid(element_id, true)==nil then error("ListView_SetIndent_Table: param #1 - must be a valid guid", 2) end
+  if type(indentation)~="table" then error("ListView_SetIndent_Table: param #2 - must be a table", 2) end
+  
+  element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
+  if element_id==-1 then error("ListView_SetIndent_Table: param #1 - no such ui-element", 2) end
+  
+  if reagirl.Elements[element_id]["GUI_Element_Type"]~="ListView" then
+    return false
+  else
+    if #reagirl.Elements[element_id]["entries_org"]~=#indentation then error("ListView_SetIndent_Table: param #2 - number of table-entries must match exactly number of listview-entries", 2) end
+    for i=1, #reagirl.Elements[element_id]["entries_org"] do
+      if math.type(indentation[i])~="integer" then error("ListView_SetIndent_Table: param #2 - entry #"..i.." is not an integer", 2) end
+      if indentation[i]<0 then error("ListView_SetIndent_Table: param #2 - entry #"..i.." is must be 0 or higher", 2) end
+      reagirl.Elements[element_id]["entries_indent"][i]=indentation[i]
+    end
+    reagirl.Gui_ForceRefresh("Listview: ListView_SetIndent_Table")
+    return true
   end
 end
 
@@ -12681,7 +12852,7 @@ function reagirl.Textbox_Add(x, y, label, meaningOfUI_Element, run_function, uni
   if type(run_function)~="function" then error("Textbox_Add: param #6 - must be either nil or a function", 2) end
   if unique_identifier~=nil and type(unique_identifier)~="string" then error("Textbox_Add: param #7 - must be either nil or a string", 2) end
     
-  local x,y,slot=reagirl.UI_Element_GetNextXAndYPosition(x, y, "Label_Add")
+  local x,y,slot=reagirl.UI_Element_GetNextXAndYPosition(x, y, "Textbox_Add")
   --reagirl.UI_Element_NextX_Default=x
   
   local acc_clickable=""
@@ -12791,7 +12962,7 @@ function reagirl.Textbox_FindCharacter(element_storage, x, y, startposition)
   return #element_storage.positions
 end
 
--- mespotine
+
 function reagirl.Textbox_Manage(element_id, selected, hovered, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
 -- text-selection in line 2 is buggy:
 -- with: reagirl.Textbox_Add(20, 35, "Hurtz\nFurtz\nTurtz", ".", run_function)
@@ -13219,16 +13390,16 @@ function reagirl.Textbox_Draw(element_id, selected, hovered, clicked, mouse_cap,
 end
 
 
-function reagirl.Button_Add(x, y, w_margin, h_margin, caption, meaningOfUI_Element, run_function, unique_identifier)
+function reagirl.Button_Add(x, y, w_margin, h_margin, caption, meaningOfUI_Element, run_function, unique_identifier, mode, width, height)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>Button_Add</slug>
   <requires>
-    ReaGirl=1.3
+    ReaGirl=1.32
     Reaper=7.03
     Lua=5.4
   </requires>
-  <functioncall>string button_guid = reagirl.Button_Add(optional integer x, optional integer y, integer w_margin, integer h_margin, string caption, string meaningOfUI_Element, optional function run_function, optional string unique_identifier)</functioncall>
+  <functioncall>string button_guid = reagirl.Button_Add(optional integer x, optional integer y, integer w_margin, integer h_margin, string caption, string meaningOfUI_Element, optional function run_function, optional string unique_identifier, optional integer mode, optional integer width, optional integer height)</functioncall>
   <description>
     Adds a button to a gui.
     
@@ -13247,6 +13418,9 @@ function reagirl.Button_Add(x, y, w_margin, h_margin, caption, meaningOfUI_Eleme
     string meaningOfUI_Element - the meaningOfUI_Element of the ui-element(for tooltips and blind users). Make it a sentence that ends with . or ?
     optional function run_function - a function that shall be run when the button is clicked; will get the button-element_id passed over as first parameter; nil, no run-function for this button
     optional unique_identifier - a unique identifier for this ui-element; make this unique among all ui-elements in this gui, as this can be used for scripters to externally control your ReaGirl-gui
+    optional integer mode - the drawing mode of the button, currently unused so set it to nil or to 0
+    optional integer width - the width of the button; negative anchors its width to the right edge of the window; will ignore w_margin
+    optional integer height - the height of the button; negative anchors its width to the bottom edge of the window; will ignore h_margin
   </parameters>
   <retvals>
     string button_guid - a guid that can be used for altering the button-attributes
@@ -13256,6 +13430,7 @@ function reagirl.Button_Add(x, y, w_margin, h_margin, caption, meaningOfUI_Eleme
   </chapter_context>
   <tags>button, add</tags>
   <changelog>
+    ReaGirl 1.32 - added new parameters mode, width and height
     ReaGirl 1.3 - added new parameter unique_id for a unique identifier
     ReaGirl 1.0 - added to ReaGirl
   </changelog>
@@ -13271,6 +13446,9 @@ function reagirl.Button_Add(x, y, w_margin, h_margin, caption, meaningOfUI_Eleme
   if meaningOfUI_Element:sub(-1,-1)~="." and meaningOfUI_Element:sub(-1,-1)~="?" then error("Button_Add: param #6 - must end on a . like a regular sentence.", 2) end
   if run_function~=nil and type(run_function)~="function" then error("Button_Add: param #7 - must be either nil or a function", 2) end
   if unique_identifier~=nil and type(unique_identifier)~="string" then error("Button_Add: param #8 - must be either nil or a string", 2) end
+  if mode~=nil and math.type(mode)~="integer" then error("Button_Add: param #9 - must be either nil or an integer", 2) end
+  if width~=nil and math.type(width)~="integer" then error("Button_Add: param #10 - must be either nil or an integer", 2) end
+  if height~=nil and math.type(height)~="integer" then error("Button_Add: param #11 - must be either nil or an integer", 2) end
   local x,y,slot=reagirl.UI_Element_GetNextXAndYPosition(x, y, "Button_Add")
   --reagirl.UI_Element_NextX_Default=x
   
@@ -13293,8 +13471,18 @@ function reagirl.Button_Add(x, y, w_margin, h_margin, caption, meaningOfUI_Eleme
   reagirl.Elements[slot]["DropZoneFunction_ACC"]=""
   reagirl.Elements[slot]["x"]=x
   reagirl.Elements[slot]["y"]=y
-  reagirl.Elements[slot]["w"]=math.tointeger(tx+15+w_margin)
-  reagirl.Elements[slot]["h"]=math.tointeger(ty+h_margin)
+  if width~=nil then 
+    reagirl.Elements[slot]["w"]=width
+    w_margin=0
+  else
+    reagirl.Elements[slot]["w"]=math.tointeger(tx+15+w_margin)
+  end
+  if height~=nil then
+    reagirl.Elements[slot]["h"]=height
+    h_margin=0
+  else
+    reagirl.Elements[slot]["h"]=math.tointeger(ty+h_margin)
+  end
   if math.tointeger(ty+h_margin)>reagirl.NextLine_Overflow then reagirl.NextLine_Overflow=math.tointeger(ty+h_margin) end
   reagirl.Elements[slot]["w_margin"]=w_margin
   reagirl.Elements[slot]["h_margin"]=h_margin
@@ -13736,7 +13924,9 @@ function reagirl.Color_CalculateHighlighter(r, g, b)
   local val=tonumber(reaper.GetExtState("ReaGirl", "Highlight_Intensity"))
   if val==nil then val=0.075 end
   if val<0.025 then return 0 end
-  if color>0.8 then return -val else return val end
+  --if color>0.8 then return -val else return val end
+  if r==1 or g==1 or b==1 then return -val end
+  return val
 end
 
 function reagirl.ToolbarButton_Add(x, y, toolbaricon, num_states, default_state, state_names, mode, caption, meaningOfUI_Element, run_function, unique_identifier, toolbar, toolbarbutton_index)
@@ -15214,7 +15404,7 @@ function reagirl.ToolbarButton_GetEdgeStyle(element_id)
     return reagirl.Elements[element_id]["square_topleft"], reagirl.Elements[element_id]["square_topright"], reagirl.Elements[element_id]["square_bottomleft"], reagirl.Elements[element_id]["square_bottomright"]
   end
 end
---mespotine
+
 --PINisdo()
 function reagirl.Color_GetSet(color_name, is_set, r, g, b)
 --[[
@@ -15769,6 +15959,8 @@ function reagirl.Inputbox_Add(x, y, w, caption, Cap_width, meaningOfUI_Element, 
   reagirl.Elements[slot]["Description"]=meaningOfUI_Element
   reagirl.Elements[slot]["IsDisabled"]=false
   reagirl.Elements[slot]["AccHint"]="Hit Enter to open up an accessible input dialog to enter text(maximum 1023 characters). Control+C to copy entire text into clipboard. Control+V to replace text with text from clipboard."
+  reagirl.Elements[slot]["ContextMenu_Custom"]="Cut|Copy|Paste|Select All|"
+  reagirl.Elements[slot]["ContextMenu_Custom_Length"]=4
   reagirl.Elements[slot]["ContextMenu_ACC"]=""
   reagirl.Elements[slot]["DropZoneFunction_ACC"]=""
   reagirl.Elements[slot]["Cap_width"]=Cap_width
@@ -15997,8 +16189,6 @@ function reagirl.Inputbox_OnMouseDown(mouse_cap, element_storage)
       --reaper.ShowConsoleMsg(element_storage.cursor_offset.."\n")
       element_storage.cursor_startoffset=element_storage.cursor_offset
       element_storage.clicked1=true
-      A=element_storage.cursor_offset
-      B=draw_offset_end
       if element_storage.cursor_offset==-2 then 
         --[[
         if element_storage.w_dropdownarea==0 then
@@ -16421,13 +16611,10 @@ function reagirl.Inputbox_OnTyping(Key, Key_UTF, mouse_cap, element_storage)
     -- Paste Cmd+V
     if reaper.CF_GetClipboard~=nil then
       local text=string.gsub(reaper.CF_GetClipboard(), "\n", "")
-      if reaper.osara_outputMessage==nil then
-        text=string.gsub(text, "\r", "")
-        element_storage.Text=element_storage.Text:utf8_sub(1, element_storage.selection_startoffset)..text..element_storage.Text:utf8_sub(element_storage.selection_endoffset+1, -1)
-      else
-        element_storage.Text=text
-      end
-      element_storage.cursor_offset=text:len()
+      text=string.gsub(text, "\r", "")
+      element_storage.Text=element_storage.Text:utf8_sub(1, element_storage.selection_startoffset)..text..element_storage.Text:utf8_sub(element_storage.selection_endoffset+1, -1)
+
+      element_storage.cursor_offset=text:len()+1
       element_storage.selection_startoffset=element_storage.cursor_offset
       element_storage.selection_endoffset=element_storage.cursor_offset
       reagirl.Inputbox_ConsolidateCursorPos(element_storage)
@@ -16573,6 +16760,7 @@ function reagirl.Inputbox_Manage(element_id, selected, hovered, clicked, mouse_c
     reagirl.Gui_ForceRefresh(4638349.23)
   end
   element_storage.dropdown_clicked=nil
+  -- start here debug mespotine
   
   if reagirl.osara_outputMessage~=nil and selected~="not selected" then
     reagirl.Gui_PreventEnterForOneCycle()
@@ -16617,6 +16805,7 @@ function reagirl.Inputbox_Manage(element_id, selected, hovered, clicked, mouse_c
     else
       element_storage["blink"]=0
     end
+-- start here mespotine
     if element_storage["run_function"]~=nil and selected~="not selected" then
       reagirl.Gui_PreventEnterForOneCycle()
     end
@@ -16627,7 +16816,7 @@ function reagirl.Inputbox_Manage(element_id, selected, hovered, clicked, mouse_c
       element_storage.cursor_offset=element_storage.Text:utf8_len() 
     end
     
-    if selected=="first selected" then      
+    if selected=="first selected" and gfx.mouse_cap&2~=2 then      
       element_storage["cursor_offset"]=element_storage["Text"]:utf8_len()
       element_storage["draw_offset_end"]=element_storage["Text"]:utf8_len()
       element_storage["selection_endoffset"]=element_storage["Text"]:utf8_len()
@@ -16639,8 +16828,7 @@ function reagirl.Inputbox_Manage(element_id, selected, hovered, clicked, mouse_c
       element_storage["selection_startoffset"]=element_storage["cursor_offset"]
     end
     gfx.setfont(1, reagirl.Font_Face, reagirl.Font_Size, 0)
-  
-    
+    -- mespotine
     if selected~="not selected" and mouse_cap==1 and (gfx.mouse_x>=x and gfx.mouse_y>=y and gfx.mouse_x<=x+w-element_storage.w_dropdownarea*dpi_scale and gfx.mouse_y<=y+h) then 
       -- mousewheel scroll the text inside the input-box via hmousewheel(doesn't work properly, yet)
       reagirl.Gui_PreventScrollingForOneCycle(true, true, false)
@@ -16705,7 +16893,7 @@ function reagirl.Inputbox_Manage(element_id, selected, hovered, clicked, mouse_c
     refresh=true
     element_storage["hasfocus"]=true
   end
-  
+  -- mespotine
   if mouse_cap==0 then
     element_storage.clicked1=nil
   end
@@ -17199,34 +17387,52 @@ function reagirl.Inputbox_GetDisabled(element_id)
   end
 end
 
-function reagirl.Inputbox_SetText(element_id, new_text)
+function reagirl.Inputbox_SetText(element_id, new_text, startoffset, replace_length)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>Inputbox_SetText</slug>
   <requires>
-    ReaGirl=1.0
+    ReaGirl=1.32
     Reaper=7.03
     Lua=5.4
   </requires>
-  <functioncall>reagirl.Inputbox_SetText(string element_id, string new_text)</functioncall>
+  <functioncall>reagirl.Inputbox_SetText(string element_id, string new_text, optional integer insert_at_offset, optional integer replace_length)</functioncall>
   <description>
     Sets a new text of an inputbox.
     
     Will remove newlines from it.
   </description>
   <parameters>
-    string element_id - the guid of the inputbox, whose disability-state you want to set
+    string element_id - the guid of the inputbox, whose text you want to set
     string new_text - the new text for the inputbox
+    optional integer insert_at_offset - inserts new_text at a specific offset into an inputbox; nil to replace the entire text
+    optional integer replace_length - replace text of an inputbox for x number of characters; 0 to just insert new_text; nil, to replace the entire text
   </parameters>
   <chapter_context>
     Inputbox
   </chapter_context>
   <tags>inputbox, set, text</tags>
+  <changelog>
+    ReaGirl 1.32 - added new parameters insert_at_offset and replace_until_offset
+    ReaGirl 1.0 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
+--]]
+-- Note: when passing start/endoffset, the drawn text might be too long, but I can't find this edgecase again...
+-- Code that shows this behavior occasionally when clicking into the inputbox:
+--[[
+
+elid=reagirl.Inputbox_Add(10, 10, 100, "Tudel", nil, "Loo.", "HurtzHurtzHurtzHurtzHurtzHurtzHurtzHurtzHurtzHurtzHurtzHurtzHurtzHurtz", nil, nil, nil)
+reagirl.Inputbox_SetText(elid, "!!!", 1, 2)
+
 --]]
   if type(element_id)~="string" then error("Inputbox_SetText: param #1 - must be a string", 2) end
   if reagirl.IsValidGuid(element_id, true)==nil then error("Inputbox_SetText: param #1 - must be a valid guid", 2) end
   if type(new_text)~="string" then error("Inputbox_SetText: param #2 - must be a string", 2) end
+  if startoffset~=nil and math.type(startoffset)~="integer" then error("Inputbox_SetText: param #3 - must be either nil or an integer", 2) end
+  if replace_length~=nil and math.type(replace_length)~="integer" then error("Inputbox_SetText: param #4 - must be either nil or an integer", 2) end
+  if replace_length~=nil and replace_length<0 then error("Inputbox_SetText: param #4 - must be either nil or >=0", 2) end
+  
   element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
   if element_id==-1 then error("Inputbox_SetText: param #1 - no such ui-element", 2) end
   if reagirl.Elements[element_id]["GUI_Element_Type"]~="Edit" then
@@ -17234,7 +17440,12 @@ function reagirl.Inputbox_SetText(element_id, new_text)
   else
     new_text=string.gsub(new_text, "\n", "")
     new_text=string.gsub(new_text, "\r", "")
-    reagirl.Elements[element_id]["Text"]=new_text
+    if startoffset==nil then
+      reagirl.Elements[element_id]["Text"]=new_text
+    else
+      if replace_length==nil then replace_length=0 end
+      reagirl.Elements[element_id]["Text"]=reagirl.Elements[element_id]["Text"]:sub(1, startoffset)..new_text..reagirl.Elements[element_id]["Text"]:sub(startoffset+1+replace_length,-1)
+    end
     reagirl.Elements[element_id]["cursor_offset"]=reagirl.Elements[element_id]["Text"]:utf8_len()
     reagirl.Elements[element_id]["draw_offset_end"]=reagirl.Elements[element_id]["cursor_offset"]
     reagirl.Inputbox_Calculate_DrawOffset(false, reagirl.Elements[element_id])
@@ -17243,6 +17454,67 @@ function reagirl.Inputbox_SetText(element_id, new_text)
     reagirl.Elements[element_id]["selection_startoffset"]=reagirl.Elements[element_id]["cursor_offset"]
     reagirl.Elements[element_id]["linked_update"]=true
     reagirl.Gui_ForceRefresh(25)
+  end
+end
+
+function reagirl.Inputbox_SetSelectedText(element_id, start_offset, length)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Inputbox_SetSelectedText</slug>
+  <requires>
+    ReaGirl=1.32
+    Reaper=7.03
+    Lua=5.4
+  </requires>
+  <functioncall>reagirl.Inputbox_SetSelectedText(string element_id, integer start_offset, integer length)</functioncall>
+  <description>
+    Sets the text-selection of an inputbox
+    
+    To erase text-selection, use length=0
+    
+    Note: the cursor will be placed at the end of the text-selection!
+    
+    Also note: if the offset and length are out of bounds, the selection will be placed at the beginning or the end of the text respectively.
+  </description>
+  <parameters>
+    string element_id - the guid of the inputbox, whose text-selection you want to set
+    integer start_offset - the offset, at which the text-selection shall start
+    integer length - the length of the text-selection; negative, will count from the end of the inputbox's text
+  </parameters>
+  <chapter_context>
+    Inputbox
+  </chapter_context>
+  <tags>inputbox, set, text selection</tags>
+  <changelog>
+    ReaGirl 1.32 - added to ReaGirl
+  </changelog>
+</US_DocBloc>
+--]]
+-- mespotine
+  if type(element_id)~="string" then error("Inputbox_SetSelectedText: param #1 - must be a string", 2) end
+  if reagirl.IsValidGuid(element_id, true)==nil then error("Inputbox_SetSelectedText: param #1 - must be a valid guid", 2) end
+  if math.type(start_offset)~="integer" then error("Inputbox_SetSelectedText: param #2 - must be an integer", 2) end
+  if math.type(length)~="integer" then error("Inputbox_SetSelectedText: param #3 - must be an integer", 2) end
+  
+  element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
+  if element_id==-1 then error("Inputbox_SetSelectedText: param #1 - no such ui-element", 2) end
+  if reagirl.Elements[element_id]["GUI_Element_Type"]~="Edit" then
+    error("Inputbox_SetSelectedText: param #1 - ui-element is not an input-box", 2)
+  else
+    if start_offset<0 then start_offset=0 end
+    if length<0 then
+      length=reagirl.Elements[element_id]["Text"]:utf8_len()-start_offset+length+1
+    end
+    if length<0 then length=0 end
+    if reagirl.Elements[element_id]["Text"]:utf8_len()-start_offset+length<0 then
+      length=reagirl.Elements[element_id]["Text"]:utf8_len()-start_offset
+    end
+    reagirl.Elements[element_id]["selection_endoffset"]=start_offset+length
+    reagirl.Elements[element_id]["cursor_offset"]=start_offset+length
+    reagirl.Elements[element_id]["selection_startoffset"]=start_offset
+    reagirl.Inputbox_ConsolidateCursorPos(reagirl.Elements[element_id])
+    reagirl.Inputbox_Calculate_DrawOffset(false, reagirl.Elements[element_id])
+    reagirl.Gui_ForceRefresh("SetSelectedText()")
   end
 end
 
@@ -17279,6 +17551,45 @@ function reagirl.Inputbox_GetText(element_id)
     error("Inputbox_GetText: param #1 - ui-element is not an input-box", 2)
   else
     return reagirl.Elements[element_id]["Text"]
+  end
+end
+
+function reagirl.Inputbox_GetTextLength(element_id)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Inputbox_GetTextLength</slug>
+  <requires>
+    ReaGirl=1.32
+    Reaper=7.03
+    Lua=5.4
+  </requires>
+  <functioncall>integer text_length = reagirl.Inputbox_GetTextLength(string element_id)</functioncall>
+  <description>
+    Gets the length of the text in an inputbox.
+  </description>
+  <parameters>
+    string element_id - the guid of the inputbox, whose textlength you want to get
+  </parameters>
+  <retvals>
+    integer text_length - the length of the currently existing text of an inputbox
+  </retvals>
+  <chapter_context>
+    Inputbox
+  </chapter_context>
+  <tags>inputbox, get, textlength</tags>
+  <changelog>
+    ReaGirl 1.32 - added to ReaGirl
+  </changelog>
+</US_DocBloc>
+--]]
+  if type(element_id)~="string" then error("Inputbox_GetTextLength: param #1 - must be a string", 2) end
+  if reagirl.IsValidGuid(element_id, true)==nil then error("Inputbox_GetTextLength: param #1 - must be a valid guid", 2) end
+  element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
+  if element_id==-1 then error("Inputbox_GetTextLength: param #1 - no such ui-element", 2) end
+  if reagirl.Elements[element_id]["GUI_Element_Type"]~="Edit" then
+    error("Inputbox_GetTextLength: param #1 - ui-element is not an input-box", 2)
+  else
+    return reagirl.Elements[element_id]["Text"]:utf8_len()
   end
 end
 
@@ -17324,11 +17635,11 @@ function reagirl.Inputbox_GetSelectedText(element_id)
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>Inputbox_GetSelectedText</slug>
   <requires>
-    ReaGirl=1.0
+    ReaGirl=1.32
     Reaper=7.03
     Lua=5.4
   </requires>
-  <functioncall>string text = reagirl.Inputbox_GetSelectedText(string element_id)</functioncall>
+  <functioncall>string text, integer selection_startoffset, integer selection_endoffset, integer selection_length = reagirl.Inputbox_GetSelectedText(string element_id)</functioncall>
   <description>
     Gets an inputbox's currently selected text.
   </description>
@@ -17339,11 +17650,16 @@ function reagirl.Inputbox_GetSelectedText(element_id)
     string text - the text currently selected in the inputbox
     integer selection_startoffset - the startoffset of the text-selection; -1, no text is selected
     integer selection_endoffset - the endoffset of the text-selection; -1, no text is selected
+    integer selection_length - the length of the selected text; -1, no text is selected
   </retvals>
   <chapter_context>
     Inputbox
   </chapter_context>
   <tags>inputbox, get, selected, text</tags>
+  <changelog>
+    ReaGirl 1.32 - added new return-value selection_length; documented retvals selection_startoffset and selection_endoffset
+    ReaGirl 1.0 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 --]]
   if type(element_id)~="string" then error("Inputbox_GetSelectedText: param #1 - must be a string", 2) end
@@ -17354,9 +17670,9 @@ function reagirl.Inputbox_GetSelectedText(element_id)
     error("Inputbox_GetSelectedText: param #1 - ui-element is not an input-box", 2)
   else
     if reagirl.Elements[element_id]["selection_startoffset"]~=reagirl.Elements[element_id]["selection_endoffset"] then
-      return reagirl.Elements[element_id]["Text"]:utf8_sub(reagirl.Elements[element_id]["selection_startoffset"]+1, reagirl.Elements[element_id]["selection_endoffset"]), reagirl.Elements[element_id]["selection_startoffset"], reagirl.Elements[element_id]["selection_endoffset"]
+      return reagirl.Elements[element_id]["Text"]:utf8_sub(reagirl.Elements[element_id]["selection_startoffset"]+1, reagirl.Elements[element_id]["selection_endoffset"]), reagirl.Elements[element_id]["selection_startoffset"], reagirl.Elements[element_id]["selection_endoffset"], reagirl.Elements[element_id]["selection_endoffset"]-reagirl.Elements[element_id]["selection_startoffset"]
     else
-      return "", -1, -1
+      return "", -1, -1, -1
     end
   end
 end
@@ -17397,6 +17713,52 @@ function reagirl.Inputbox_GetCursorOffset(element_id)
   end
 end
 
+function reagirl.Inputbox_SetCursorOffset(element_id, cursor_offset)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Inputbox_SetCursorOffset</slug>
+  <requires>
+    ReaGirl=1.32
+    Reaper=7.03
+    Lua=5.4
+  </requires>
+  <functioncall>reagirl.Inputbox_SetCursorOffset(string element_id, integer cursor_offset)</functioncall>
+  <description>
+    Sets an inputbox's current cursor offset.
+    
+    Note: if the offset is out of bounds, it will be placed at the beginning or the end of the text respectively.
+  </description>
+  <parameters>
+    string element_id - the guid of the inputbox, whose cursor offset you want to get
+    integer cursor_offset - the offset of the cursor; 0, at the start; negative, position from the end of the inputbox's text
+  </parameters>
+  <chapter_context>
+    Inputbox
+  </chapter_context>
+  <tags>inputbox, set, cursor offset</tags>
+  <changelog>
+    ReaGirl 1.32 - added to ReaGirl
+  </changelog>
+</US_DocBloc>
+--]]
+  if type(element_id)~="string" then error("Inputbox_SetCursorOffset: param #1 - must be a string", 2) end
+  if reagirl.IsValidGuid(element_id, true)==nil then error("Inputbox_SetCursorOffset: param #1 - must be a valid guid", 2) end
+  element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
+  if element_id==-1 then error("Inputbox_SetCursorOffset: param #1 - no such ui-element", 2) end
+  if math.type(cursor_offset)~="integer" then error("Inputbox_SetCursorOffset: param #2 - must be an integer", 2) end
+  if reagirl.Elements[element_id]["GUI_Element_Type"]~="Edit" then
+    error("Inputbox_SetCursorOffset: param #1 - ui-element is not an input-box", 2)
+  else
+    if cursor_offset<0 then cursor_offset=reagirl.Elements[element_id]["Text"]:utf8_len()+cursor_offset+1 end
+    if cursor_offset<0 then cursor_offset=0 end
+    if cursor_offset>reagirl.Elements[element_id]["Text"]:utf8_len() then
+      cusor_offset=reagirl.Elements[element_id]["Text"]:utf8_len()
+    end
+    reagirl.Elements[element_id]["cursor_offset"]=cursor_offset
+    reagirl.Inputbox_ConsolidateCursorPos(reagirl.Elements[element_id])
+    reagirl.Inputbox_Calculate_DrawOffset(false, reagirl.Elements[element_id])
+  end
+end
 
 
 function reagirl.DropDownMenu_Add(x, y, w, caption, Cap_width, meaningOfUI_Element, menuItems, menuSelectedItem, run_function, unique_identifier)
@@ -18627,16 +18989,16 @@ function reagirl.Label_GetStyle(element_id)
 end
 
   
-function reagirl.Label_Add(x, y, label, meaningOfUI_Element, clickable, run_function, unique_identifier)
+function reagirl.Label_Add(x, y, label, meaningOfUI_Element, clickable, run_function, unique_identifier, font_size)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>Label_Add</slug>
   <requires>
-    ReaGirl=1.3
+    ReaGirl=1.32
     Reaper=7.03
     Lua=5.4
   </requires>
-  <functioncall>string label_id = reagirl.Label_Add(optional integer x, optional integer y, string label, string meaningOfUI_Element, boolean clickable, optional function run_function, optional string unique_identifier)</functioncall>
+  <functioncall>string label_id = reagirl.Label_Add(optional integer x, optional integer y, string label, string meaningOfUI_Element, boolean clickable, optional function run_function, optional string unique_identifier, optional integer font_size)</functioncall>
   <description>
     Adds a label to the gui.
     
@@ -18657,6 +19019,7 @@ function reagirl.Label_Add(x, y, label, meaningOfUI_Element, clickable, run_func
     boolean clickable - true, the text is a clickable link-text; false or nil, the label-text is normal text
     optional function run_function - a function that gets run when clicking the link-text(clickable=true)
     optional unique_identifier - a unique identifier for this ui-element; make this unique among all ui-elements in this gui, as this can be used for scripters to externally control your ReaGirl-gui
+    optional integer font_size - the font-size for this label; maximum 240; nil to use standard font-size
   </parameters>
   <retvals>
     string label_id - a guid that can be used for altering the label-attributes
@@ -18666,6 +19029,7 @@ function reagirl.Label_Add(x, y, label, meaningOfUI_Element, clickable, run_func
   </chapter_context>
   <tags>label, add</tags>
   <changelog>
+    ReaGirl 1.32 - added new parameter font_size
     ReaGirl 1.3 - added new parameter unique_id for a unique identifier
     ReaGirl 1.0 - added to ReaGirl
   </changelog>
@@ -18680,15 +19044,20 @@ function reagirl.Label_Add(x, y, label, meaningOfUI_Element, clickable, run_func
   if run_function==nil then run_function=reagirl.Dummy end
   if type(run_function)~="function" then error("Label_Add: param #6 - must be either nil or a function", 2) end
   if unique_identifier~=nil and type(unique_identifier)~="string" then error("Label_Add: param #7 - must be either nil or a string", 2) end
+  if font_size~=nil and math.type(font_size)~="integer" then error("Label_Add: param #8 - must be either nil or an integer", 2) end
+  if font_size~=nil and font_size>240 then error("Label_Add: param #8 - maximum 240", 2) end
   local x,y,slot=reagirl.UI_Element_GetNextXAndYPosition(x, y, "Label_Add")
   --reagirl.UI_Element_NextX_Default=x
   
   local acc_clickable=""
   local clickable_text=""
   if clickable==true then clickable_text="Clickable " acc_clickable="Enter or leftclick to click link. " else acc_clickable="" end
-  
   table.insert(reagirl.Elements, slot, {})
-  reagirl.SetFont(1, reagirl.Font_Face, reagirl.Font_Size, 0, 1)
+  if font_size==nil then
+    reagirl.SetFont(1, reagirl.Font_Face, reagirl.Font_Size, 0, 1)
+  else
+    reagirl.SetFont(1, reagirl.Font_Face, font_size, 0, 1)
+  end
   local w,h=gfx.measurestr(label)
   reagirl.SetFont(1, reagirl.Font_Face, reagirl.Font_Size, 0)
   reagirl.Elements[slot]["ID"]=unique_identifier
@@ -18704,7 +19073,8 @@ function reagirl.Label_Add(x, y, label, meaningOfUI_Element, clickable, run_func
   reagirl.Elements[slot]["x"]=x
   reagirl.Elements[slot]["y"]=y
   
-  reagirl.Elements[slot]["font_size"]=reagirl.Font_Size
+  reagirl.Elements[slot]["font_size"]=font_size
+  if font_size==nil then reagirl.Elements[slot]["font_size"]=reagirl.Font_Size end
   reagirl.Elements[slot]["clickable"]=clickable
   reagirl.Elements[slot]["sticky_x"]=false
   reagirl.Elements[slot]["sticky_y"]=false
@@ -19134,13 +19504,23 @@ function reagirl.Label_Draw(element_id, selected, hovered, clicked, mouse_cap, m
     --reagirl.BlitText_AdaptLineLength(name, x+dpi_scale, y+dpi_scale, w, h, element_storage["align"], element_storage.start_pos, element_storage.end_pos, element_storage.pos3, element_storage.startline, element_storage.positions, 1, 1, 0, cursor_alpha, col3, col3, col3, 1, element_storage["font_size"], style)
 
     gfx.set(reagirl.Colors.Label_TextFG_r, reagirl.Colors.Label_TextFG_g, reagirl.Colors.Label_TextFG_b)
+    if element_storage["col_r"]~=nil then
+      gfx.set(element_storage["col_r"], element_storage["col_g"], element_storage["col_b"])
+    end 
     if element_storage["clickable"]==true then 
       local add_color=0
       if hovered==true then
         add_color=reagirl.Color_CalculateHighlighter(reagirl.Colors.Label_TextFGclickable_r, reagirl.Colors.Label_TextFGclickable_g, reagirl.Colors.Label_TextFGclickable_b)
+        if element_storage["col_clickable_r"]~=nil then
+          add_color=reagirl.Color_CalculateHighlighter(element_storage["col_clickable_r"], element_storage["col_clickable_g"], element_storage["col_clickable_b"])
+        end
         --reaper.ShowConsoleMsg(add_color.."\n")
       end
       gfx.set(reagirl.Colors.Label_TextFGclickable_r+add_color, reagirl.Colors.Label_TextFGclickable_g+add_color, reagirl.Colors.Label_TextFGclickable_b+add_color)
+      if element_storage["col_clickable_r"]~=nil then
+        add_color=add_color*2
+        gfx.set(element_storage["col_clickable_r"]+add_color, element_storage["col_clickable_g"]+add_color, element_storage["col_clickable_b"]+add_color)
+      end
     end
     gfx.x=x
     gfx.y=y
@@ -19266,6 +19646,141 @@ function reagirl.Label_SetBackdrop(element_id, width, height)
   else
     reagirl.Elements[element_id]["bg_w"]=width
     reagirl.Elements[element_id]["bg_h"]=height
+  end
+end
+
+function reagirl.Label_SetColor(element_id, r, g, b, r_clickable, g_clickable, b_clickable)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Label_SetColor</slug>
+  <requires>
+    ReaGirl=1.32
+    Reaper=7.03
+    Lua=5.4
+  </requires>
+  <functioncall>reagirl.Label_SetColor(string element_id, integer r, integer g, integer b, integer r_clickable, integer g_clickable, integer b_clickable)</functioncall>
+  <description>
+    Sets a color for a label.
+    
+    Don't use 51, 51, 51 as this is the color for the backshadow of label-texts.
+  </description>
+  <parameters>
+    string element_id - the label-element, whose color you want to set
+    integer r - the red-color; 0-255; -1 to reset r, g, b to the default color
+    integer g - the green-color; 0-255
+    integer b - the blue-color; 0-255
+    integer r_clickable - the red-color for clickable labels; 0-255; -1 to reset r, g, b to the default color
+    integer g_clickable - the green-color for clickable labels; 0-255
+    integer b_clickable - the blue-color for clickable labels; 0-255
+  </parameters>
+  <chapter_context>
+    Label
+  </chapter_context>
+  <tags>label, set, color</tags>
+  <changelog>
+    ReaGirl 1.32 - added to ReaGirl
+  </changelog>
+</US_DocBloc>
+--]]
+  if type(element_id)~="string" then error("Label_SetColor: param #1 - must be a string", 2) end
+  if reagirl.IsValidGuid(element_id, true)==false then error("Label_SetColor: param #1 - must be a valid guid", 2) end
+  if math.type(r)~="integer" then error("Label_SetColor: param #2 - must be an integer", 2) end
+  if r<-1 or r>255 then error("Label_SetColor: param #2 - must be between 0 and 255 or -1", 2) end
+  if math.type(g)~="integer" then error("Label_SetColor: param #3 - must be an integer", 2) end
+  if g<0 or g>255 then error("Label_SetColor: param #3 - must be between 0 and 255", 2) end
+  if math.type(b)~="integer" then error("Label_SetColor: param #4 - must be an integer", 2) end
+  if b<0 or b>255 then error("Label_SetColor: param #4 - must be between 0 and 255", 2) end
+  
+  if math.type(r_clickable)~="integer" then error("Label_SetColor: param #5 - must be an integer", 2) end
+  if r_clickable<-1 or r_clickable>255 then error("Label_SetColor: param #5 - must be between 0 and 255 or -1", 2) end
+  if math.type(g_clickable)~="integer" then error("Label_SetColor: param #6 - must be an integer", 2) end
+  if g_clickable<0 or g_clickable>255 then error("Label_SetColor: param #6 - must be between 0 and 255", 2) end
+  if math.type(b_clickable)~="integer" then error("Label_SetColor: param #7 - must be an integer", 2) end
+  if b_clickable<0 or b_clickable>255 then error("Label_SetColor: param #7 - must be between 0 and 255", 2) end
+  
+  element_id=reagirl.UI_Element_GetIDFromGuid(element_id)
+  if element_id==-1 then error("Label_SetColor: param #1 - no such ui-element", 2) end
+  
+  if reagirl.Elements[element_id]["GUI_Element_Type"]:sub(-5, -1)~="Label" then
+    reagirl.Elements[element_id]["GUI_Element_Type"]:sub(-5, -1)
+    error("Label_SetBackdrop: param #1 - ui-element is not a label", 2)
+  else
+    if r~=-1 then
+      reagirl.Elements[element_id]["col_r"]=r/255
+      reagirl.Elements[element_id]["col_g"]=g/255
+      reagirl.Elements[element_id]["col_b"]=b/255
+    else
+      reagirl.Elements[element_id]["col_r"]=nil
+      reagirl.Elements[element_id]["col_g"]=nil
+      reagirl.Elements[element_id]["col_b"]=nil
+    end
+    if r_clickable~=-1 then
+      reagirl.Elements[element_id]["col_clickable_r"]=r_clickable/255
+      reagirl.Elements[element_id]["col_clickable_g"]=g_clickable/255
+      reagirl.Elements[element_id]["col_clickable_b"]=b_clickable/255
+    else
+      reagirl.Elements[element_id]["col_clickable_r"]=nil
+      reagirl.Elements[element_id]["col_clickable_g"]=nil
+      reagirl.Elements[element_id]["col_clickable_b"]=nil
+    end
+  end
+end
+
+function reagirl.Label_GetColor(element_id)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Label_SetColor</slug>
+  <requires>
+    ReaGirl=1.32
+    Reaper=7.03
+    Lua=5.4
+  </requires>
+  <functioncall>integer r, integer g, integer b, integer r_clickable, integer g_clickable, integer b_clickable = reagirl.Label_SetColor(string element_id)</functioncall>
+  <description>
+    Sets a color for a label.
+    
+    Don't use 51, 51, 51 as this is the color for the backshadow of label-texts.
+  </description>
+  <parameters>
+    string element_id - the label-element, whose color you want to set
+  </parameters>
+  <retvals>
+    integer r - the red-color; 0-255; -1 to reset r, g, b to the default color
+    integer g - the green-color; 0-255
+    integer b - the blue-color; 0-255
+    integer r_clickable - the red-color for clickable labels; 0-255; -1 to reset r, g, b to the default color
+    integer g_clickable - the green-color for clickable labels; 0-255
+    integer b_clickable - the blue-color for clickable labels; 0-255
+  </retvals>
+  <chapter_context>
+    Label
+  </chapter_context>
+  <tags>label, get, color</tags>
+  <changelog>
+    ReaGirl 1.32 - added to ReaGirl
+  </changelog>
+</US_DocBloc>
+--]]
+  if type(element_id)~="string" then error("Label_GetColor: param #1 - must be a string", 2) end
+  if reagirl.IsValidGuid(element_id, true)==false then error("Label_GetColor: param #1 - must be a valid guid", 2) end
+  
+  element_id=reagirl.UI_Element_GetIDFromGuid(element_id)
+  if element_id==-1 then error("Label_GetColor: param #1 - no such ui-element", 2) end
+  
+  if reagirl.Elements[element_id]["GUI_Element_Type"]:sub(-5, -1)~="Label" then
+    reagirl.Elements[element_id]["GUI_Element_Type"]:sub(-5, -1)
+    error("Label_SetBackdrop: param #1 - ui-element is not a label", 2)
+  else
+    local r, g, b, r_clickable, g_clickable, b_clickable
+    if reagirl.Elements[element_id]["col_r"]==nil then r=-1 else r=reagirl.Elements[element_id]["col_r"]*255 end 
+    if reagirl.Elements[element_id]["col_g"]==nil then g=-1 else g=reagirl.Elements[element_id]["col_g"]*255 end 
+    if reagirl.Elements[element_id]["col_b"]==nil then b=-1 else b=reagirl.Elements[element_id]["col_b"]*255 end 
+
+    if reagirl.Elements[element_id]["col_clickable_r"]==nil then r_clickable=-1 else r_clickable=reagirl.Elements[element_id]["col_clickable_r"]*255 end 
+    if reagirl.Elements[element_id]["col_clickable_g"]==nil then g_clickable=-1 else g_clickable=reagirl.Elements[element_id]["col_clickable_g"]*255 end 
+    if reagirl.Elements[element_id]["col_clickable_b"]==nil then b_clickable=-1 else b_clickable=reagirl.Elements[element_id]["col_clickable_b"]*255 end 
+    
+    return r, g, b, r_clickable, g_clickable, b_clickable
   end
 end
 
@@ -21372,6 +21887,8 @@ function reagirl.UI_Element_SetFocused(element_id)
   local id=reagirl.UI_Element_GetIDFromGuid(element_id)
   if id==-1 then error("UI_Element_SetFocused: param #1 - no such ui-element", 2) end
 
+  reagirl.ui_element_selected=nil
+  
   reagirl.Elements.FocusedElement=id
   reagirl.Gui_ForceRefresh(52)
 end
@@ -21885,33 +22402,39 @@ function reagirl.Settings_Global_GetSet(setting, is_set, value)
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>Settings_Global_GetSet</slug>
   <requires>
-    ReaGirl=1.3
+    ReaGirl=1.32
     Reaper=7.03
     Lua=5.4
   </requires>
   <functioncall>number value = reagirl.Settings_Global_GetSet(string setting, boolean is_set, number value)</functioncall>
   <description>
-    Sets the global settings, as set in the ReaGirl-settings dialog. The changes will have immediate effect on
-    all ReaGirl-gui-instances.
+    Sets the global settings, as set in the ReaGirl-settings dialog. 
+    
+    The changes will have immediate effect on all ReaGirl-gui-instances and be active in all ReaGirl-guis in this Reaper-installation!
+    So don't use this function, if you just want to influence your own ReaGirl-gui and not others!
+    
+    returns nil in case of an error
     
     The following settings are valid:
       Show_Tooltips - 0, don't show tooltips; 1, show tooltips
-      Scroll_Via_Keyboard - 0, don't scroll via keyboard; 1, enable scroll via keyboard(default)
+      Debug_Message_Destination - the destination of error-messages; 1, IDE; 2, a messagebox; 3, ReaScript console window      
+      Debug_Show_Gui_And_UI_Names - 0, don't show gui and ui-element-names in ReaScript-console; 1, show gui and ui-element-names in ReaScript-console
+      Drag_Highlight_Destinations - 0, don't highlight drag destinations; 1, highlight drag destinations(default)
+      Drag_Highlight_Destinations_Blink - the speed of blinking of the highlighted drag-destinations; 0-5 seconds(default: 0)
       FocusRectangle_Always_On - 0, only show focus rectangle, when tabbing; 1, always show focus rectangle(default)
       FocusRectangle_BlinkSpeed - the speed of the blinking of the focus rectangle; 0-3(default 1)
       FocusRectangle_BlinkTime - the length of the blinking in seconds; 0-10 seconds(default: 0)
-      Inputbox_Blinkspeed - the blinkspeed of the inputbox-cursor; 0.4-5 seconds(default: 1)
-      Scaling_Override - the default scaling of the guis; 0-8(default: 0=auto-scaling)
       Highlight_UI_Element_Intensity - the intensity of highlighting when hovering above ui-elements; 0-3(default 0.75)
-      Drag_Highlight_Destinations - 0, don't highlight drag destinations; 1, highlight drag destinations(default)
-      Drag_Highlight_Destinations_Blink - the speed of blinking of the highlighted drag-destinations; 0-5 seconds(default: 0)
+      Inputbox_Blinkspeed - the blinkspeed of the inputbox-cursor; 0.4-5 seconds(default: 1)
+      Osara_Debug - 0, don't show screen reader messages in ReaScript console(default); 1, show screen reader messages in ReaScript console
       Osara_Enabled - 0, osara-screen reader support is disabled; 1, osara-screen reader support is enabled(default)
+      Osara_Enable_AccessibilityMessages - 0, only report caption+state to screen reader; 1, also report help-messages for ui-element to screen reader(default)
       Osara_Hover_Mouse - 0, don't report hovered ui-elements to screen reader; 1, report hovered ui-elements to screen reader(default)
       Osara_Move_Mouse - 0, don't move mouse when tabbing; 1, move mouse when tabbing to tabbed ui-element(default)
-      Osara_Enable_AccessibilityMessages - 0, only report caption+state to screen reader; 1, also report help-messages for ui-element to screen reader(default)
       Osara_Report_Meter_Clippings - 1, report clippings to screen reader when gui has focus; 2, report clippings also when gui has no focus; 3, never report clippings
-      Osara_Debug - 0, don't show screen reader messages in ReaScript console(default); 1, show screen reader messages in ReaScript console
-      Debug_Message_Destination - the destination of error-messages; 1, IDE; 2, a messagebox; 3, ReaScript console window
+      Scroll_Via_Keyboard - 0, don't scroll via keyboard; 1, enable scroll via keyboard(default)
+      Scaling_Override - the default scaling of the guis; 0-8(default: 0=auto-scaling)
+      Window_Dragging - drag the window by clicking into empty area of the gui; 1, let script decide; 2, always allow dragging; 3, never allow dragging
   </description>
   <retvals>
     string value - the current value set for a specific setting
@@ -21926,6 +22449,7 @@ function reagirl.Settings_Global_GetSet(setting, is_set, value)
   </chapter_context>
   <tags>misc, get, set, options</tags>
   <changelog>
+    ReaGirl 1.32 - added new option Debug_Show_Gui_And_UI_Names, Window_Dragging; returns now nil in case of an error
     ReaGirl 1.3 - added to ReaGirl
   </changelog>
 </US_DocBloc>
@@ -21983,8 +22507,18 @@ function reagirl.Settings_Global_GetSet(setting, is_set, value)
     elseif setting=="Debug_Message_Destination" then
       val=reaper.GetExtState("ReaGirl", "Error_Message_Destination")
       if val=="" then val=1 else val=tonumber(val) end
+    elseif setting=="Debug_Show_Gui_And_UI_Names" then
+      val=reaper.GetExtState("ReaGirl", "show_gui_and_ui_names")
+      if val=="true" then val=1 else val=0 end
+    elseif setting=="Window_Dragging" then
+        -- drag the window by clicking into empty area of the gui; 1, let script decide; 2, always allow dragging; 3, never allow dragging
+      val=reaper.GetExtState("ReaGirl", "DragWindow")
+      val=tonumber(val)
+      if val==nil then val=1 end
+    else
+      val=nil
     end
-    if val==math.floor(val) then val=math.floor(val) end
+    if val~=nil and val==math.floor(val) then val=math.floor(val) end
     return val
   else
     local val=value
@@ -22067,6 +22601,17 @@ function reagirl.Settings_Global_GetSet(setting, is_set, value)
       val=value
       if value==1 then value="" end
       reaper.SetExtState("ReaGirl", "Error_Message_Destination", value, true)
+    elseif setting=="Debug_Show_Gui_And_UI_Names" then
+      if value==0 then val="" else val="true" end      
+      reaper.SetExtState("ReaGirl", "show_gui_and_ui_names", val, true)
+    elseif setting=="Window_Dragging" then
+        -- drag the window by clicking into empty area of the gui; 1, let script decide; 2, always allow dragging; 3, never allow dragging
+        if value<1 then value=1 end 
+        if value>3 then value=3 end
+      reaper.SetExtState("ReaGirl", "DragWindow", value, true)
+      val=value
+    else
+      val=nil
     end
 
     return val
