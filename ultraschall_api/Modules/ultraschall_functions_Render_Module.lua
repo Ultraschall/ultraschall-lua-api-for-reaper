@@ -4602,6 +4602,10 @@ PadStartWithSilence, PadStartWithSilenceSeconds, PadEndWithSilence, PadEndWithSi
   <description>
     Creates a new RenderTable.
     
+    IMPORTANT: 
+    you can create a RenderTable with all default factory settings by setting all parameters to nil with: RenderTable = ultraschall.CreateNewRenderTable()
+    Then alter all attributes, that you want to have set differently. This is the easiest way to use this function.    
+        
     Parameters set to nil will create a rendertable with all entries set to that of a vanilla factory-default Reaper installation:
 
     Factory-Default will be set to these settings:
