@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API and ReaGirl">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API and ReaGirl package" type="extension">
-      <version name="56196.00" author="Meo-Ada Mespotine">
+      <version name="56197.00" author="Meo-Ada Mespotine">
 	<source file="reagirl.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5.32/reagirl.lua</source>
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5.32/ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5.32/ultraschall_api_readme.txt</source>
@@ -759,12 +759,19 @@
 
 5.32 - “Birth Control - No Drugs” - 21st of September 2025
 
-Has now 1939 functions, with X new ones
+Has now 1944 functions, with 5 new ones
 
 new in this release:
 
--   Bla
-    Bla
+-   Labels
+    It’s now possible to get/set the color of the label.
+
+-   Buttons
+    It’s now optionally possible to set width and height of a button.
+    For like buttons spanneing the entire width of a window.
+
+-   Metadata Extractor Supports now FLAC for cover images and optionally
+    not saving the cover-image.
 
 New features in 5.32
 
