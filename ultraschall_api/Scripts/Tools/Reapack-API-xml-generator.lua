@@ -197,6 +197,7 @@ You can download the full Ultraschall-API-framework at ultraschall.fm/api
 
 ultraschall.WriteValueToFile(SourceDir.."/ultraschall_api/Reaper-Internals-readme.txt", ReadMe_Reaper_Internals)
 
+
 Batter=[[
 cd ]]..SourceDir..[[
 
@@ -367,7 +368,7 @@ for i=1, #Docs do
 end
 
 for i=1, #Devtools do
-  XML_file=XML_file.."\t<source main=\"true\" file=\"/"..Devtools[i]:match(".*/(.*)").."\" type=\"script\">"..Url.."ultraschall_api/Scripts/"..Devtools[i].."</source>\n"
+  XML_file=XML_file.."\t<source main=\"true\" file=\"/"..Devtools[i]:match(".*/(.*)").."\" type=\"script\">"..Url.."ultraschall_api/Scripts"..Devtools[i].."</source>\n"
 end
 
 

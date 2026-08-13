@@ -7970,10 +7970,18 @@ function reagirl.UI_Element_GetType(element_id)
 end
 
 function reagirl.UI_Element_GetNextXAndYPosition(x, y, functionname, placenext)
- 
   if placenext==nil or placenext==false then placenext=0 else placenext=9 end
   local slot=reagirl.UI_Element_GetNextFreeSlot()
   local slot3=slot
+  
+  if reagirl.TempX~=nil then 
+    local x=reagirl.TempX
+    local y=reagirl.TempY
+    reagirl.TempX=nil
+    reagirl.TempY=nil
+    return x, y, slot3    
+  end
+
   if reagirl.Next_Y~=nil then slot=reagirl.Next_Y+1 end
   local slot2
   if x==nil then
@@ -8039,6 +8047,37 @@ function reagirl.UI_Element_GetNextXAndYPosition(x, y, functionname, placenext)
   reagirl.NextLine_triggered=nil
   --print_alt(slot, y, reagirl.UI_Element_NextY_Default)
   return x, y, slot3
+end
+
+function reagirl.AutoPosition_SetNextUIElementAtPosition(x, y)
+  --[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>AutoPosition_SetNextUIElementAtPosition</slug>
+  <requires>
+    ReaGirl=1.4
+    Reaper=7.03
+    Lua=5.4
+  </requires>
+  <functioncall>reagirl.AutoPosition_SetNextUIElementAtPosition(integer x, integer y)</functioncall>
+  <description>
+    Sets the position of the next autopositioned UI-element at x and y position.
+  </description>
+  <parameters>
+    integer x - the x-position of the next autopositioned ui-element
+    integer y - the y-position of the next autopositioned ui-element
+  </parameters>
+  <chapter_context>
+    Autoposition
+  </chapter_context>
+  <target_document>ReaGirl_Docs</target_document>
+  <source_document>reagirl_GuiEngine.lua</source_document>
+  <tags>functions, set, auto position, absolute</tags>
+</US_DocBloc>
+]]
+  if math.type(x)~="integer" then error("AutoPosition_SetNextUIElementAtPosition: param #1 - must be an integer", 2) end
+  if math.type(y)~="integer" then error("AutoPosition_SetNextUIElementAtPosition: param #2 - must be an integer", 2) end
+  reagirl.TempX=x
+  reagirl.TempY=y
 end
 
 function reagirl.UI_Element_GetSet_ContextMenu(element_id, is_set, menu, menu_function)
@@ -10267,7 +10306,7 @@ function reagirl.DecorRectangle_Add(x, y, w, h, radius, r, g, b)
     Reaper=7.03
     Lua=5.4
   </requires>
-  <functioncall>string decor_rectangle_guid = reagirl.DecorRectangle_Add(optional integer x, optional integer y, integer w, integer h, integer radius, integer r, integer g, integer b)</functioncall>
+  <functioncall>string decor_rectangle_guid = reagirl.DecorRectangle_Add(integer x, integer y, integer w, integer h, integer radius, integer r, integer g, integer b)</functioncall>
   <description>
     Adds a decorative color-rectangle to a gui.
     
@@ -10282,8 +10321,8 @@ function reagirl.DecorRectangle_Add(x, y, w, h, radius, r, g, b)
     Note: if you want a clickable color-rectangle, use reagirl.ColorRectangle_Add()
   </description>
   <parameters>
-    optional integer x - the x position of the color-rectangle in pixels; negative anchors the color-rectangle to the right window-side; nil, autoposition after the last ui-element(see description)
-    optional integer y - the y position of the color-rectangle in pixels; negative anchors the color-rectangle to the bottom window-side; nil, autoposition after the last ui-element(see description)
+    integer x - the x position of the color-rectangle in pixels; negative anchors the color-rectangle to the right window-side; nil, autoposition after the last ui-element(see description)
+    integer y - the y position of the color-rectangle in pixels; negative anchors the color-rectangle to the bottom window-side; nil, autoposition after the last ui-element(see description)
     integer w - the width of the color-rectangle in pixels
     integer h - the height of the color-rectangle in pixels
     integer radius - the radius of the rectangle
@@ -10300,15 +10339,15 @@ function reagirl.DecorRectangle_Add(x, y, w, h, radius, r, g, b)
   <tags>decorative color rectangle, add</tags>
 </US_DocBloc>
 --]]
-  if x~=nil and math.type(x)~="integer" then error("DecorRectangle_Add: param #1 - must be either nil or an integer", 2) end
-  if y~=nil and math.type(y)~="integer" then error("DecorRectangle_Add: param #2 - must be either nil or an integer", 2) end
+  if math.type(x)~="integer" then error("DecorRectangle_Add: param #1 - must be either nil or an integer", 2) end
+  if math.type(y)~="integer" then error("DecorRectangle_Add: param #2 - must be either nil or an integer", 2) end
   if math.type(w)~="integer" then error("DecorRectangle_Add: param #3 - must be an integer", 2) end
   if math.type(h)~="integer" then error("DecorRectangle_Add: param #4 - must be an integer", 2) end
   if math.type(radius)~="integer" then error("DecorRectangle_Add: param #5 - must be an integer", 2) end
   if math.type(r)~="integer" then error("DecorRectangle_Add: param #6 - must be an integer", 2) end
   if math.type(g)~="integer" then error("DecorRectangle_Add: param #7 - must be an integer", 2) end
-  if math.type(b)~="integer" then error("DecorRectangle_Add: param #8 - must be an integer", 2) end
-  
+  if math.type(b)~="integer" then error("DecorRectangle_Add: param #8 - must be an integer", 2) end  
+  --local x,y,slot=reagirl.UI_Element_GetNextXAndYPosition(x, y, "DecorativeRectangle_Add")
   
   local x,y,slot=reagirl.UI_Element_GetNextXAndYPosition(x, y, "DecorRectangle_Add")
   --reagirl.UI_Element_NextX_Default=x
@@ -10937,7 +10976,7 @@ function reagirl.ColorRectangle_SetRadius(element_id, radius)
   </description>
   <parameters>
     string element_id - the guid of the color-rectangle, whose radius you want to set
-    integer radius - 0 and higher(too high may lead to drawing issues, experiment with it
+    integer radius - between 0 and higher(too high may lead to drawing issues, experiment with it)
   </parameters>
   <chapter_context>
     Color Rectangle
@@ -12723,7 +12762,8 @@ function reagirl.Button_SetRadius(element_id, radius)
   if type(element_id)~="string" then error("Button_SetRadius: param #1 - must be a string", 2) end
   if reagirl.IsValidGuid(element_id, true)==nil then error("Button_SetRadius: param #1 - must be a valid guid", 2) end
   if math.type(radius)~="integer" then error("Button_SetRadius: param #2 - must be an integer", 2) end
-  --if radius>10 then radius=10 end
+  --[[if radius>10 then 
+     radius=10 end--]]
   if radius<0 then radius=0 end
   element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
   if element_id==-1 then error("Button_SetRadius: param #1 - no such ui-element", 2) end
@@ -12984,8 +13024,9 @@ function reagirl.ToolbarButton_ReloadImage_Scaled(element_id)
   local scale=reagirl.Window_CurrentScale
   
   local path, filename = string.gsub(image_filename, "\\", "/"):match("(.*)(/.*)")
+  if path==nil then path="" filename=image_filename end
   reagirl.Elements[element_id]["toolbaricon_scale"]=1
-  if reaper.file_exists(image_filename:match("(.*)%.").."-"..scale.."x"..image_filename:match(".*(%..*)"))==true then
+  if reaper.file_exists(image_filename:match("(.*)%.").."-"..scale.."x"..  image_filename:match(".*(%..*)"))==true then
     image_filename=image_filename:match("(.*)%.").."-"..scale.."x"..image_filename:match(".*(%..*)")
     reagirl.Elements[element_id]["toolbaricon_scale"]=scale
   elseif reaper.file_exists(path.."/"..scale.."00/"..filename) then
@@ -13103,7 +13144,18 @@ function reagirl.ToolbarButton_Add(x, y, toolbaricon, num_states, default_state,
 --]]
   if x~=nil and math.type(x)~="integer" then error("ToolbarButton_Add: param #1 - must be either nil or an integer", 2) end
   if y~=nil and math.type(y)~="integer" then error("ToolbarButton_Add: param #2 - must be either nil or an integer", 2) end
-  if type(toolbaricon)~="string" then error("ToolbarButton_Add: param #3 - must be a string", 2) end
+  if type(toolbaricon)~="string" and toolbaricon~="" then 
+    error("ToolbarButton_Add: param #3 - must be a string with a filename", 2) 
+  elseif type(toolbaricon)=="string" then
+    local tempmode=mode
+    if tempmode&128==128 then tempmode=tempmode-128 end
+    if tempmode&256==256 then tempmode=tempmode-256 end
+    if tempmode&512==512 then tempmode=tempmode-512 end
+    if tempmode&1024==1024 then tempmode=tempmode-1024 end
+    if toolbaricon=="" and tempmode<3 and tempmode>4 then
+      error("ToolbarButton_Add: param #3 - must be a string with a filename, if mode is not set to text-button", 2) 
+    end
+  end
   if math.type(num_states)~="integer" then error("ToolbarButton_Add: param #4 - must be an integer", 2) end
   if num_states<1 or num_states>32 then error("ToolbarButton_Add: param #4 - must be between 1 and 32", 2) end
   if math.type(default_state)~="integer" then error("ToolbarButton_Add: param #5 - must be an integer", 2) end
@@ -20171,7 +20223,6 @@ function reagirl.Gui_GetBoundaries()
   local miny=0
   local maxy=0
   local scale=reagirl.Window_GetCurrentScale()
-  
   for i=1, #reagirl.Elements do
     if reagirl.Elements[i].hidden~=true then
       if reagirl.Elements[i].sticky_x==false or reagirl.Elements[i].sticky_y==false then
@@ -20629,7 +20680,7 @@ function reagirl.UI_Element_SetFocused(element_id)
   </requires>
   <functioncall>reagirl.UI_Element_SetFocused(string element_id)</functioncall>
   <description>
-    Set an ui-element focused. 
+    Set a ui-element focused. 
   </description>
   <parameters>
     string element_id - the id of the ui-element, which you want to set to focused
@@ -20637,18 +20688,26 @@ function reagirl.UI_Element_SetFocused(element_id)
   <chapter_context>
     UI Elements
   </chapter_context>
-  <target_document>ReaGirl_Docs</target_document>
-  <source_document>reagirl_GuiEngine.lua</source_document>
+  <target_document>ReaGirl_Functions</target_document>
+  <source_document>reagirl.lua</source_document>
   <tags>functions, set, focused, gui</tags>
+  <changelog>
+    ReaGirl 1.33 - crashed when used before Gui_Manage -> fixed
+    ReaGirl 1.0 - added to ReaGirl
+  </changelog>  
 </US_DocBloc>
 ]]
-  if reagirl.Elements.FocusedElement>=#reagirl.Elements-5 then return end
+  if reagirl.Elements.FocusedElement~=nil and (reagirl.Elements.FocusedElement>=#reagirl.Elements-5) then return end
+  if type(element_id)~="string" then error("UI_Element_SetFocused: param #1 - must be a string", 2) end
   local id=reagirl.UI_Element_GetIDFromGuid(element_id)
-  if id==-1 then error("UI_Element_SetFocused: param #1 - no such ui-element", -2) end
+  if id==-1 then error("UI_Element_SetFocused: param #1 - no such ui-element", 2) end
 
+  reagirl.ui_element_selected=nil
+  
   reagirl.Elements.FocusedElement=id
   reagirl.Gui_ForceRefresh(52)
 end
+
 
 function reagirl.UI_Element_SetHiddenFromTable(table_element_ids, visible)
 --[[
@@ -20709,7 +20768,7 @@ function reagirl.AutoPosition_SetNextUIElementRelativeTo(element_id, offset)
   </chapter_context>
   <target_document>ReaGirl_Docs</target_document>
   <source_document>reagirl_GuiEngine.lua</source_document>
-  <tags>functions, set, auto position, next line</tags>
+  <tags>functions, set, auto position, relative</tags>
 </US_DocBloc>
 ]]
   if type(element_id)~="string" then error("AutoPosition_SetNextUIElementRelativeTo: param #1: must be a string", 2) return end
