@@ -2137,6 +2137,10 @@ else
     ultraschall.LM(14)
     return ultraschall.SplitReaperString(table.unpack({...}))
   end
+  function ultraschall.ShowActionList(...)
+    ultraschall.LM(14)
+    return ultraschall.ShowActionList(table.unpack({...}))
+  end
   function ultraschall.ResizePNG(...)
     ultraschall.LM(15)
     return ultraschall.ResizePNG(table.unpack({...}))
