@@ -28802,6 +28802,8 @@ Note: Mousebuttons will be returned after gfx_init(), the other keyboard-modifie
 Causes gmem_read()/gmem_write() to read EEL2/JSFX/Video shared memory segment named by parameter. Set to empty string to detach. 6.20+: returns previous shared memory segment name.<br>
 <br>
 Must be called, before you can use a specific gmem-variable-index with gmem_write!<br>
+<br>
+Important: if the attached gmem is not used by another script, jsfx or video processor, it will be reset after the script finishes. So it can NOT(!) be used as alternative to extstates!<br>
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
@@ -28832,6 +28834,8 @@ Must be called, before you can use a specific gmem-variable-index with gmem_writ
 Read (number) value from shared memory attached-to by gmem_attach(). index can be [0..1<<25).<br>
 <br>
 returns nil if not available<br>
+<br>
+Important: if the attached gmem is not used by another script, jsfx or video processor, it will be reset after the script finishes. So it can NOT(!) be used as alternative to extstates!<br>
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
@@ -28862,6 +28866,8 @@ returns nil if not available<br>
 Write (number) value to shared memory attached-to by gmem_attach(). index can be [0..1<<25).<br>
 <br>
 Before you can write into a currently unused variable with index "index", you must call gmem_attach first!<br>
+<br>
+Important: if the attached gmem is not used by another script, jsfx or video processor, it will be reset after the script finishes. So it can NOT(!) be used as alternative to extstates!<br>
 </div><br>          <u>Parameters:</u>
 <table class="ch">
 <tr><td class="pr"><i>integer</i> index</td></tr>

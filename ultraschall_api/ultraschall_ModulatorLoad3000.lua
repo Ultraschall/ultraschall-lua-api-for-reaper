@@ -6349,6 +6349,10 @@ else
     ultraschall.LM(35)
     return ultraschall.LUFS_Metering_ShowEffect(table.unpack({...}))
   end
+  function ultraschall.GetStreamDeckActions(...)
+    ultraschall.LM(35)
+    return ultraschall.GetStreamDeckActions(table.unpack({...}))
+  end
   function ultraschall.WebInterface_GetInstalledInterfaces(...)
     ultraschall.LM(36)
     return ultraschall.WebInterface_GetInstalledInterfaces(table.unpack({...}))
