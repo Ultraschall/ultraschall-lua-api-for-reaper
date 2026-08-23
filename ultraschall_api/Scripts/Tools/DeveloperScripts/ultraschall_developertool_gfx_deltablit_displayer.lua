@@ -160,11 +160,11 @@ function main()
   gfx.update()
   gfx.set(0)
   gfx.x=20
-  gfx.y=gfx.h-80
+  gfx.y=gfx.h-110
   gfx.drawstr("Press F1 for help. \n\nParameter description: \n"..Helptexts[Index])
   gfx.set(1)
   gfx.x=19
-  gfx.y=gfx.h-81
+  gfx.y=gfx.h-111
   gfx.drawstr("Press F1 for help. \n\nParameter description: \n"..Helptexts[Index])
 
   

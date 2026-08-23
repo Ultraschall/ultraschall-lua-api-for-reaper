@@ -58272,20 +58272,20 @@ returns -1 in case of an error <br>
 <img width="3%" src="gfx/reaper6.20.png" alt="requires Reaper version 6.20">
 <img width="3%" src="gfx/ultraschall5.33.png" alt="requires Ultraschall version 5.33"><u><b>GetStreamDeckActions</b></u><br>			<p>
 <div class="cc">
-<div class="l">Lua: <code> <i>table</i> StreamDeckButtons = <em>ultraschall.GetStreamDeckActions</em>()</code></div>
+<div class="l">Lua: <code> <i>table</i> StreamDeckButtons = <em>ultraschall.GetStreamDeckActions</em>(<i>optional</i> <i>integer</i> num_sd_buttons)</code></div>
 </div><p>
 <div class="ch">
 Reads out, to which action the StreamDeckButtons are associated plus addition information.<br>
 It returns it in a) a table and b) extstates.<br>
 <br>
-The table is of the following format(XXX is from 001 to 255):<br>
+The table is of the following format(XXX is from 1(without leading 0!) to 255):<br>
 &nbsp;&nbsp;StreamDeckButtons["StreamDeckButton_XXX action command id"] - the action command id, to which it is associated; "" if not associated<br>
 &nbsp;&nbsp;StreamDeckButtons["StreamDeckButton_XXX section"] - the setion to which it is associated; "" if not associated<br>
 &nbsp;&nbsp;StreamDeckButtons["StreamDeckButton_XXX toggle state"] - toggle state of the action; -1, not available, 0, off, 1, on; "" if not associated<br>
 &nbsp;&nbsp;StreamDeckButtons["StreamDeckButton_XXX action description"] - description of the associated action; "" if not associated<br>
 &nbsp;&nbsp;StreamDeckButtons["StreamDeckButton_XXX additional text"] - possible additional text(soundboard-slot-filename, etc), "" if not given<br>
 &nbsp;&nbsp;<br>
-The extstates are of the following format(XXX is from 001 to 255) and are stored as strings:<br>
+The extstates are of the following format(XXX is from 1(without leading 0!) to 255) and are stored as strings:<br>
 Section: <br>
 &nbsp;&nbsp;"Ultraschall StreamDeck"<br>
 Keys:<br>
@@ -58294,11 +58294,19 @@ Keys:<br>
 &nbsp;&nbsp;"StreamDeckButton_XXX toggle state"] - toggle state of the action; -1, not available, 0, off, 1, on; "" if not associated<br>
 &nbsp;&nbsp;"StreamDeckButton_XXX action description"] - description of the associated action; "" if not associated<br>
 &nbsp;&nbsp;"StreamDeckButton_XXX additional text"] - possible additional text(soundboard-slot-filename, etc), "" if not given<br>
+&nbsp;&nbsp;<br>
+&nbsp;&nbsp;Returns nil in case of an error<br>
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
 <tr><td class="pr"><i>table</i> StreamDeckButtons</td></tr>
 <tr><td class="ch2">a table with all associated stream-deck-buttons. Read description for more details.</td></tr>
+</table>
+<br>
+<u>Parameters:</u>
+<table class="ch">
+<tr><td class="pr"><i>optional</i> <i>integer</i> num_sd_buttons</td></tr>
+<tr><td class="ch2">the number of StreamDeckbuttons to check for; nil=255</td></tr>
 </table>
 <br>
 </div>
