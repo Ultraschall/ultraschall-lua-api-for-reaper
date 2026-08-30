@@ -42,7 +42,10 @@
 <h4>New features in 5.33</h4>
 <ul>
 <li>Actions: ShowActionList - shows the actionlist and allows setting the filter</li>
-<li>StreamDeck: GetStreamDeckActions - only relevant for Ultraschall: returns the actions associated with shortcuts StreamDeckButton<em>001 to StreamDeckButton</em>255</li>
+<li>ReaGirl: AutoPosition_SetNextUIElementAtPosition - sets the next autopositioned ui-element at x,y-position</li>
+<li>StreamDeck: StreamDeck_GetActions - only relevant for Ultraschall: returns the actions associated with shortcuts StreamDeckButton<em>001 to StreamDeckButton</em>255</li>
+<li>StreamDeck: StreamDeck_GetSet_Parameters - only relevant for Ultraschall: gets/sets a parameter of a certain StreamDeckButton-shortcut</li>
+<li>StreamDeck: StreamDeck_GetAllParametersForThisScript - only relevant for Ultraschall; gets all parameters stored for a certain StreamDeckButton-shortcut that ran the current script</li>
 </ul>
 <h4>Changes from 5.32 to 5.33</h4>
 <ul>
@@ -50,6 +53,8 @@
 <li>MediaItems: InsertMediaItemFromFile - length=-1 didn't set the edit-cursor to the end of the inserted item; retval endposition was only returning length of inserted item, added missing info to the docs; when edit-cursor=2 and offset was set, the position wasn't at the end of the item -&gt; fixed</li>
 <li>MediaItem_Takes: GetTakeSourcePosByProjectPos - created additional undo points -&gt; fixed</li>
 <li>ReaGirl: UI_Element_SetFocused - crashed, when Gui_Manage hasn't been used yet -&gt; fixed</li>
+<li>ReaGirl: Gui\Open - stored window dimensions even when storing it was disabled(though didn't restore it) -&gt; fixed</li>
+<li>ReaGirl: General - stored debug-information into reaper-exstate.ini -&gt; fixed</li>
 </ul>
 <hr />
 <h3>5.32 - "Birth Control - No Drugs" - 21st of September 2025</h3>

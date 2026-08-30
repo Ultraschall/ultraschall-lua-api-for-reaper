@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API and ReaGirl">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API and ReaGirl package" type="extension">
-      <version name="56202.00" author="Meo-Ada Mespotine">
+      <version name="56204.00" author="Meo-Ada Mespotine">
 	<source file="reagirl.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5.33/reagirl.lua</source>
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5.33/ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5.33/ultraschall_api_readme.txt</source>
@@ -812,9 +812,17 @@ New features in 5.33
 
 -   Actions: ShowActionList - shows the actionlist and allows setting
     the filter
--   StreamDeck: GetStreamDeckActions - only relevant for Ultraschall:
+-   ReaGirl: AutoPosition_SetNextUIElementAtPosition - sets the next
+    autopositioned ui-element at x,y-position
+-   StreamDeck: StreamDeck_GetActions - only relevant for Ultraschall:
     returns the actions associated with shortcuts StreamDeckButton_001
     to StreamDeckButton_255
+-   StreamDeck: StreamDeck_GetSet_Parameters - only relevant for
+    Ultraschall: gets/sets a parameter of a certain
+    StreamDeckButton-shortcut
+-   StreamDeck: StreamDeck_GetAllParametersForThisScript - only relevant
+    for Ultraschall; gets all parameters stored for a certain
+    StreamDeckButton-shortcut that ran the current script
 
 Changes from 5.32 to 5.33
 
@@ -829,6 +837,10 @@ Changes from 5.32 to 5.33
     undo points -> fixed
 -   ReaGirl: UI_Element_SetFocused - crashed, when Gui_Manage hasn’t
     been used yet -> fixed
+-   ReaGirl: Gui- stored window dimensions even when storing it was
+    disabled(though didn’t restore it) -> fixed
+-   ReaGirl: General - stored debug-information into reaper-exstate.ini
+    -> fixed
 ]]>
 </changelog>
       </version>

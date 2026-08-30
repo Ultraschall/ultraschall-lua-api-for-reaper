@@ -451,13 +451,19 @@ TODO:
   
 #### New features in 5.33  
   - Actions: ShowActionList - shows the actionlist and allows setting the filter
-  - StreamDeck: GetStreamDeckActions - only relevant for Ultraschall: returns the actions associated with shortcuts StreamDeckButton_001 to StreamDeckButton_255
+  - ReaGirl: AutoPosition\_SetNextUIElementAtPosition - sets the next autopositioned ui-element at x,y-position
+  - StreamDeck: StreamDeck\_GetActions - only relevant for Ultraschall: returns the actions associated with shortcuts StreamDeckButton_001 to StreamDeckButton_255
+  - StreamDeck: StreamDeck\_GetSet_Parameters - only relevant for Ultraschall: gets/sets a parameter of a certain StreamDeckButton-shortcut
+  - StreamDeck: StreamDeck\_GetAllParametersForThisScript - only relevant for Ultraschall; gets all parameters stored for a certain StreamDeckButton-shortcut that ran the current script
+  
 
 #### Changes from 5.32 to 5.33
   - HelperFunctions: CompareStringWithAsciiValues - crashed, when string was 0-bytes long -> fixed
   - MediaItems: InsertMediaItemFromFile - length=-1 didn't set the edit-cursor to the end of the inserted item; retval endposition was only returning length of inserted item, added missing info to the docs; when edit-cursor=2 and offset was set, the position wasn't at the end of the item -> fixed
   - MediaItem\_Takes: GetTakeSourcePosByProjectPos - created additional undo points -> fixed
   - ReaGirl: UI\_Element\_SetFocused - crashed, when Gui\_Manage hasn't been used yet -> fixed
+  - ReaGirl: Gui\Open - stored window dimensions even when storing it was disabled(though didn't restore it) -> fixed
+  - ReaGirl: General - stored debug-information into reaper-exstate.ini -> fixed
   
 ---
 
