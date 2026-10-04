@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API and ReaGirl">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API and ReaGirl package" type="extension">
-      <version name="56193.00" author="Meo-Ada Mespotine">
+      <version name="56211.00" author="Meo-Ada Mespotine">
 	<source file="reagirl.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5.4/reagirl.lua</source>
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5.4/ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5.4/ultraschall_api_readme.txt</source>
@@ -29,6 +29,7 @@
 	<source file="/ultraschall_api/DocsSourcefiles/US_Api-Concepts_GFX.USDocML" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5.4/ultraschall_api/DocsSourcefiles/US_Api-Concepts_GFX.USDocML</source>
 	<source file="/ultraschall_api/DocsSourcefiles/US_Api-Concepts_VID.USDocML" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5.4/ultraschall_api/DocsSourcefiles/US_Api-Concepts_VID.USDocML</source>
 	<source file="/ultraschall_api/DocsSourcefiles/US_Api_Introduction_and_Concepts.USDocML" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5.4/ultraschall_api/DocsSourcefiles/US_Api_Introduction_and_Concepts.USDocML</source>
+	<source file="/ultraschall_api/Documentation/API_Changelog.html" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5.4/ultraschall_api/Documentation/API_Changelog.html</source>
 	<source file="/ultraschall_api/Documentation/ChangeLog.html" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5.4/ultraschall_api/Documentation/ChangeLog.html</source>
 	<source file="/ultraschall_api/Documentation/Downloads.html" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5.4/ultraschall_api/Documentation/Downloads.html</source>
 	<source file="/ultraschall_api/Documentation/Examples/Mespotine_GetMasterTrack_MasterTrackVolume.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5.4/ultraschall_api/Documentation/Examples/Mespotine_GetMasterTrack_MasterTrackVolume.lua</source>
@@ -142,6 +143,8 @@
 	<source file="/ultraschall_api/Documentation/US_Api_GUI.html" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5.4/ultraschall_api/Documentation/US_Api_GUI.html</source>
 	<source file="/ultraschall_api/Documentation/US_Api_Introduction_and_Concepts.html" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5.4/ultraschall_api/Documentation/US_Api_Introduction_and_Concepts.html</source>
 	<source file="/ultraschall_api/Documentation/US_Api_VID.html" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5.4/ultraschall_api/Documentation/US_Api_VID.html</source>
+	<source file="/ultraschall_api/Documentation/gfx/API_Changelog.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5.4/ultraschall_api/Documentation/gfx/API_Changelog.png</source>
+	<source file="/ultraschall_api/Documentation/gfx/API_Changelog_Un.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5.4/ultraschall_api/Documentation/gfx/API_Changelog_Un.png</source>
 	<source file="/ultraschall_api/Documentation/gfx/Changelog.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5.4/ultraschall_api/Documentation/gfx/Changelog.png</source>
 	<source file="/ultraschall_api/Documentation/gfx/Changelog_Un.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5.4/ultraschall_api/Documentation/gfx/Changelog_Un.png</source>
 	<source file="/ultraschall_api/Documentation/gfx/Downloads.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5.4/ultraschall_api/Documentation/gfx/Downloads.png</source>
@@ -293,6 +296,8 @@
 	<source file="/ultraschall_api/Documentation/gfx/reagirl1.1.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5.4/ultraschall_api/Documentation/gfx/reagirl1.1.png</source>
 	<source file="/ultraschall_api/Documentation/gfx/reagirl1.2.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5.4/ultraschall_api/Documentation/gfx/reagirl1.2.png</source>
 	<source file="/ultraschall_api/Documentation/gfx/reagirl1.3.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5.4/ultraschall_api/Documentation/gfx/reagirl1.3.png</source>
+	<source file="/ultraschall_api/Documentation/gfx/reagirl1.31.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5.4/ultraschall_api/Documentation/gfx/reagirl1.31.png</source>
+	<source file="/ultraschall_api/Documentation/gfx/reagirl1.32.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5.4/ultraschall_api/Documentation/gfx/reagirl1.32.png</source>
 	<source file="/ultraschall_api/Documentation/gfx/reagirl1.4.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5.4/ultraschall_api/Documentation/gfx/reagirl1.4.png</source>
 	<source file="/ultraschall_api/Documentation/gfx/reaimgui0.8.1.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5.4/ultraschall_api/Documentation/gfx/reaimgui0.8.1.png</source>
 	<source file="/ultraschall_api/Documentation/gfx/reaimgui0.8.5.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5.4/ultraschall_api/Documentation/gfx/reaimgui0.8.5.png</source>
@@ -465,6 +470,8 @@
 	<source file="/ultraschall_api/Documentation/gfx/ultraschall5.1.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5.4/ultraschall_api/Documentation/gfx/ultraschall5.1.png</source>
 	<source file="/ultraschall_api/Documentation/gfx/ultraschall5.2.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5.4/ultraschall_api/Documentation/gfx/ultraschall5.2.png</source>
 	<source file="/ultraschall_api/Documentation/gfx/ultraschall5.3.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5.4/ultraschall_api/Documentation/gfx/ultraschall5.3.png</source>
+	<source file="/ultraschall_api/Documentation/gfx/ultraschall5.32.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5.4/ultraschall_api/Documentation/gfx/ultraschall5.32.png</source>
+	<source file="/ultraschall_api/Documentation/gfx/ultraschall5.4.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5.4/ultraschall_api/Documentation/gfx/ultraschall5.4.png</source>
 	<source file="/ultraschall_api/Documentation/gfx/ultraschall5.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5.4/ultraschall_api/Documentation/gfx/ultraschall5.png</source>
 	<source file="/ultraschall_api/Documentation/gfx/us-Kopie.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5.4/ultraschall_api/Documentation/gfx/us-Kopie.png</source>
 	<source file="/ultraschall_api/Documentation/gfx/us-Kopie2.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5.4/ultraschall_api/Documentation/gfx/us-Kopie2.png</source>
@@ -556,6 +563,7 @@
 	<source file="/ultraschall_api/Scripts/Tools/DeveloperScripts/Ultraschall_StateInspector/Ultraschall_Inspector_Gfx_GetKey_Codes.ini" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5.4/ultraschall_api/Scripts/Tools/DeveloperScripts/Ultraschall_StateInspector/Ultraschall_Inspector_Gfx_GetKey_Codes.ini</source>
 	<source file="/ultraschall_api/Scripts/Tools/DeveloperScripts/Ultraschall_StateInspector/us.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5.4/ultraschall_api/Scripts/Tools/DeveloperScripts/Ultraschall_StateInspector/us.png</source>
 	<source file="/ultraschall_api/Scripts/Tools/DeveloperScripts_InDevelopment/Ultraschall_StateInspectorV3.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5.4/ultraschall_api/Scripts/Tools/DeveloperScripts_InDevelopment/Ultraschall_StateInspectorV3.lua</source>
+	<source file="/ultraschall_api/Scripts/Tools/Docgenerator/API_Changelog_Generator.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5.4/ultraschall_api/Scripts/Tools/Docgenerator/API_Changelog_Generator.lua</source>
 	<source file="/ultraschall_api/Scripts/Tools/Docgenerator/DocGenerator_v2.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5.4/ultraschall_api/Scripts/Tools/Docgenerator/DocGenerator_v2.lua</source>
 	<source file="/ultraschall_api/Scripts/Tools/Docgenerator/Doc_CreationPipeLine_v2.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5.4/ultraschall_api/Scripts/Tools/Docgenerator/Doc_CreationPipeLine_v2.lua</source>
 	<source file="/ultraschall_api/Scripts/Tools/Docgenerator/ReaGirl_Doc_Concepts_Converter_v2.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5.4/ultraschall_api/Scripts/Tools/Docgenerator/ReaGirl_Doc_Concepts_Converter_v2.lua</source>
@@ -668,6 +676,7 @@
 	<source main="true" file="/ReaGirl_OpenFolder_ExampleScripts.lua" type="script">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5.4/ultraschall_api/Scripts/ReaGirl_OpenFolder_ExampleScripts.lua</source>
 	<source main="true" file="/ReaGirl_Help_Functions_Documentation.lua" type="script">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5.4/ultraschall_api/Scripts/ReaGirl_Help_Functions_Documentation.lua</source>
 	<source main="true" file="/ReaGirl_Help_Introduction_Concepts_Tutorials_Documentation.lua" type="script">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5.4/ultraschall_api/Scripts/ReaGirl_Help_Introduction_Concepts_Tutorials_Documentation.lua</source>
+	<source main="true" file="/FindNewAPI_Functions.lua" type="script">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5.4/ultraschall_api/Scripts/Tools/DeveloperScripts/FindNewAPI_Functions.lua</source>
 	<source main="true" file="/ReaGirl_Gui_Settings.lua" type="script">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5.4/ultraschall_api/Scripts/Tools/DeveloperScripts/ReaGirl_Gui_Settings.lua</source>
 	<source main="true" file="/ReaGirl_Gui_Settings_EditMode_Disable.lua" type="script">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5.4/ultraschall_api/Scripts/Tools/DeveloperScripts/ReaGirl_Gui_Settings_EditMode_Disable.lua</source>
 	<source main="true" file="/ReaGirl_Gui_Settings_EditMode_Enable.lua" type="script">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5.4/ultraschall_api/Scripts/Tools/DeveloperScripts/ReaGirl_Gui_Settings_EditMode_Enable.lua</source>
@@ -752,101 +761,116 @@
 	<source main="true" file="/ultraschall_developertool_findConfigVarsToggledByActions.lua" type="script">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5.4/ultraschall_api/Scripts/Tools/DeveloperScripts/ultraschall_developertool_findConfigVarsToggledByActions.lua</source>
 	<source main="true" file="/ultraschall_developertool_gfx_deltablit_displayer.lua" type="script">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5.4/ultraschall_api/Scripts/Tools/DeveloperScripts/ultraschall_developertool_gfx_deltablit_displayer.lua</source>
 	<source main="true" file="/ultraschall_developertool_increment_mouse_modifier_and_store_name_of_mm_action_into_extstate.lua" type="script">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5.4/ultraschall_api/Scripts/Tools/DeveloperScripts/ultraschall_developertool_increment_mouse_modifier_and_store_name_of_mm_action_into_extstate.lua</source>
-<changelog><![CDATA[Ultraschall Framework - Changelog
+<changelog><![CDATA[TODO: speichere mal die mouse-states in Variablen. So dass man dragged
+Koordinaten beispielsweise nach dem Dragging noch abrufen kann um Dinge
+zu tun. Mal durchdenken, was für Implikationen das hat für
+Accessibility….
 
-5.4 - " - " - 13th of June 2025
+Podmeta: chap_next_chapter_numbers and chap_previous_chapter_numbers
+Make them numbered, like chap_previous_chapter_1 to
+chap_previous_chapter_X. Also include
+chap_previous_chapter_description_X that describes, what the
+next/previous chapter is all about.
 
-Has now 1939 functions, with X new ones
+Add Contentmarkers, like cntm_X_position - position of the content
+cntm_X_mimetype - the type of the content(mp3, mp4, gif, jpg, png are
+allowed) cntm_X_description - the description of the marker
+cntm_X_content - the binary content of the marker(Base64) cntm_X_license
+- the license of the content cntm_X_author - the author of the content
+cntm_X_url - the url, where the content has been gotten from
+Contentmarkers allow embedding other content into a podcast, that can
+optionally be played. Chapterimages can be stored that way, but also
+other media types, which is more flexible than ID3-chapter-images.
+
+Chapter images aus chap_-Attributen rausnehmen. Das sollen Content
+Marker übernehmen.
+
+Ultraschall Framework - Changelog
+
+5.4 - “Take That - Relight my Fire” - XX of XXXX XXXX
+
+Has now 1944 functions, with X new ones
 
 new in this release:
 
--   Bla
-    Bla
+TODO: - When rendering without importing audio, the audio is added and
+then removed, which seems to create undo-points. Fix this by undoing
+instead of removing the tracks after you got the filenames. - ReaGirl on
+Retina-Macs: - Fensterposition wird nicht korrekt gemerkt, wenn remember
+window-position auf true gestellt ist. Die Fenster wandern Stück für
+Stück nach oben. Vermutung: beim Speichern der Fensterposition vergessen
+wir auf dem Mac die Höhe des Fensters von der Y-position abzuziehen, so
+dass es da zu nem Offset kommt. Note: wird die X-Koordinate auch korrekt
+berechnet? Muss ich da auch was ändern, weil die Retina-Fenster in der
+Größe nochmal angepasst werden oder läuft das korrekt -> Testen und
+fixen evtl. - Bei Window_Open x=nil und y=nil wird das Fenster nicht
+sauber positioniert in der Mitte auf der y-Position. Als ob da was
+falsch kalkuliert wird. Vermutung: ich positioniere die y-Position
+korrekt VOR der Mac-Y-Koordinatenanpassung. Dadurch wandert das Fenster
+nach oben. Was ich also vermutlich tun muss ist mir temporör zu merken,
+ob die Y-Koordinate=nil ist und dann in der Mac-Retina-Weiche die
+Y-Position nochmal neu kalkulieren NACH der Rekalkulation des finalen
+Fensters. So dass die y-Position quasi nochmal nachaktualisiert werden
+muss. ZUM GLÜCK: haut die X-Koordinate sauber hin, die wird korrekt
+positioniert. - Script:
+ultraschall_developertool_Create_New_Script_With_Dialog.lua stoppt mit
+ner Nil-Fehlermeldung, wenn SWS&JS-Extensions nicht installiert sind,
+obwohl es nach “Kein SWS/JS-Extension” stoppen sollte. - Füge noch die
+Option für ReaImGui-Shims hinzu. - ReaImGui: drop down menü für
+Toobar-Buttons: sprich, am rechten Rand gibts noch ne Erweiterung mit
+nem DropDownMenü, das es ermöglich zusätzliche Optionen auszuwählen.
+Brauchen wir für den Aufnahmebutton im Transportfeld, so dass man beim
+normalen Aufnahmebutton-Bereich klicken ne normale Aufnahme startet und
+wenn man am rechten Rand klickt, bekommt man zur Auswahl normale
+Aufnahme, Ripple Insert, preview Recording als Aufnahmemodi. Vielleicht
+sollten wir dann die Buttongrafik enstsprechend ändern, dass sie
+anzeigt, welcher Modus grad ausgewählt ist. Das Tooltip muss dann
+erklären, welche Modi es gibt und wie man sie wechselt. Wichtig! Der
+Dropdownbereich kommt zusätzlich an den rechten Rand, so dass der Button
+nicht mehr quadratisch ist sondern breiter, damit genug Klickfläche im
+Button bleibt.
 
 New features in 5.4
 
--   ReaGirl: Inputbox_GetTextLength - gets the length of the currently
-    entered text of an inputbox
--   ReaGirl: Inputbox_SetCursorOffset - sets the cursor-offset of an
-    inputbox
--   ReaGirl: Inputbox_SetSelectedText - sets the text-selection of an
-    inputbox
--   ReaGirl: Label_GetColor - gets the color of a label
--   ReaGirl: Label_SetColor - sets the color of a label
+-   Actions: ShowActionList - shows the actionlist and allows setting
+    the filter
+-   Docs: API Changelog - added changelog for API-changes in extensions
+    and ReaGirl
+-   ReaGirl: AutoPosition_SetNextUIElementAtPosition - sets the next
+    autopositioned ui-element at x,y-position
+-   ReaGirl: DarkMode_Get - gets whether this current gui is currently
+    in dark mode or bright mode
+-   ReaGirl: DarkMode_Toggle - toggles ReaGirl between dark mode and
+    bright mode and ReaGirl’s preferences
 
-Changes from 5.31 to 5.4
+Changes from 5.32 to 5.4
 
--   Metadata: Metadata_ExtractCover - allows now not saving the
-    cover-file; returns now the file-type and the cover-image as binary
-    string; supports now flac as well
--   ReaGirl: Button_Add - added new parameters mode, width and height;
-    width and height can be anchored to the right and bottom edge of the
-    window
--   ReaGirl: Inputbox_GetSelectedText - corrected docs; added new retval
-    for length of the selected text
--   ReaGirl: Inputbox_SetText - allows now setting an offset and the
-    length to insert/replace text of an inputbox
--   ReaGirl: Inputboxes - removed debug-code; added defaut-context-menu
-    with options for cut/copy/paste and select all text; paste erased
-    all text -> fixed
--   ReaGirl: Label_Add - allows now for setting the font-size of a label
--   ReaGirl: Settings_Global_GetSet - added new option
-    Debug_Show_Gui_And_UI_Names, Window_Dragging; returns now nil in
-    case of an error
--   Rendering: CreateNewRenderTable - some parameters were not correctly
-    set into the RenderTable -> fixed(thanks to Aurelien)
--   Rendering: CreateRenderCFG_GIF - returns now the render-cfg-string
-    as hex-string and unencoded render-string as well
--   Rendering: CreateRenderCFG_LCF - returns now the render-cfg-string
-    as hex-string and unencoded render-string as well
--   Rendering: CreateRenderCFG_WebM_Video - returns now the
-    render-cfg-string as hex-string and unencoded render-string as well
--   Rendering: CreateRenderCFG_MKV_Video - returns now the
-    render-cfg-string as hex-string and unencoded render-string as well
--   Rendering: CreateRenderCFG_QTMOVMP4_Video - returns now the
-    render-cfg-string as hex-string and unencoded render-string as well
--   Rendering: CreateRenderCFG_AVI_Video - returns now the
-    render-cfg-string as hex-string and unencoded render-string as well
--   Rendering: CreateRenderCFG_MP4MAC_Video - returns now the
-    render-cfg-string as hex-string and unencoded render-string as well
--   Rendering: CreateRenderCFG_M4AMAC - returns now the
-    render-cfg-string as hex-string and unencoded render-string as well
--   Rendering: CreateRenderCFG_MOVMAC_Video - returns now the
-    render-cfg-string as hex-string and unencoded render-string as well
--   Rendering: CreateRenderCFG_Opus - returns now the render-cfg-string
-    as hex-string and unencoded render-string as well
--   Rendering: CreateRenderCFG_OGG - returns now the render-cfg-string
-    as hex-string and unencoded render-string as well
--   Rendering: CreateRenderCFG_DDP - returns now the render-cfg-string
-    as hex-string and unencoded render-string as well
--   Rendering: CreateRenderCFG_FLAC - returns now the render-cfg-string
-    as hex-string and unencoded render-string as well
--   Rendering: CreateRenderCFG_WAVPACK - returns now the
-    render-cfg-string as hex-string and unencoded render-string as well
--   Rendering: CreateRenderCFG_MP3MaxQuality - returns now the
-    render-cfg-string as hex-string and unencoded render-string as well
--   Rendering: CreateRenderCFG_MP3VBR - returns now the
-    render-cfg-string as hex-string and unencoded render-string as well
--   Rendering: CreateRenderCFG_MP3ABR - returns now the
-    render-cfg-string as hex-string and unencoded render-string as well
--   Rendering: CreateRenderCFG_MP3CBR - returns now the
-    render-cfg-string as hex-string and unencoded render-string as well
--   Rendering: CreateRenderCFG_AIFF - returns now the render-cfg-string
-    as hex-string and unencoded render-string as well
--   Rendering: CreateRenderCFG_AudioCD - returns now the
-    render-cfg-string as hex-string and unencoded render-string as well
--   Rendering: CreateRenderCFG_CAF - returns now the render-cfg-string
-    as hex-string and unencoded render-string as well
--   Rendering: CreateRenderCFG_MPEG1_Video - returns now the
-    render-cfg-string as hex-string and unencoded render-string as well
--   Rendering: CreateRenderCFG_MPEG2_Video - returns now the
-    render-cfg-string as hex-string and unencoded render-string as well
--   Rendering: CreateRenderCFG_FLV_Video - returns now the
-    render-cfg-string as hex-string and unencoded render-string as well
--   Rendering: CreateRenderCFG_WMF - returns now the render-cfg-string
-    as hex-string and unencoded render-string as well
--   Rendering: CreateRenderCFG_RAW - returns now the render-cfg-string
-    as hex-string and unencoded render-string as well
+-   Developer Tool: Create_New_Script_With_Dialog - fixed various bugs,
+    should work now much smoother
+-   HelperFunctions: CompareStringWithAsciiValues - crashed, when string
+    was 0-bytes long -> fixed
+-   MediaItems: InsertMediaItemFromFile - length=-1 didn’t set the
+    edit-cursor to the end of the inserted item; retval endposition was
+    only returning length of inserted item, added missing info to the
+    docs; when edit-cursor=2 and offset was set, the position wasn’t at
+    the end of the item -> fixed
+-   MediaItem: RippleCut - didn’t move markers that were at the exact
+    endposition -> fixed
+-   MediaItem_Takes: GetTakeSourcePosByProjectPos - created additional
+    undo points -> fixed
+-   ReaGirl: General - stored debug-information into reaper-exstate.ini
+    -> fixed
+-   ReaGirl: General - fixed font-sizes and window sizes on Retina-Macs
+-   ReaGirl: Refresh - removed unneeded refreshes, which could cause
+    flickering backshadow on images and toolbar-images
+-   ReaGirl: InputBoxes - doesn’t run the run-function for enter, when
+    using the inputbox with screenreader to avoid complications
+-   ReaGirl: Gui_AtEnter - the run-function gets now the element-id of
+    the currently focused ui-element as first parameter
+-   ReaGirl: Gui- stored window dimensions even when storing it was
+    disabled(though didn’t restore it) -> fixed
+-   ReaGirl: UI_Element_SetFocused - crashed, when Gui_Manage hasn’t
+    been used yet -> fixed
 ]]>
 </changelog>
       </version>
@@ -878,7 +902,7 @@ Changes from 5.31 to 5.4
         \par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af6\langfe2052\dbch\af8\afs24\lang1081\loch\f0\fs24\lang1031{\rtlch \ltrch\loch
         }
         \par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af6\langfe2052\dbch\af8\afs24\lang1081\loch\f0\fs24\lang1031{\rtlch \ltrch\loch\loch\f4
-        a 1946 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 56193 from 03.08.2025 18:17:24).}
+        a 1943 Lua-functions library for Reaper.}
         \par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af6\langfe2052\dbch\af8\afs24\lang1081\loch\f0\fs24\lang1031{\rtlch \ltrch\loch
         }
         \par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af6\langfe2052\dbch\af8\afs24\lang1081\loch\f0\fs24\lang1031{\rtlch \ltrch\loch

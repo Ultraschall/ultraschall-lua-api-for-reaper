@@ -44320,13 +44320,18 @@
         <requires>
             Reaper=5.62
         </requires>
-        <description indent="default">
+        <description markup_type="markdown" markup_version="1.0.1" indent="default">
             Call with v=-1 to query docked state, otherwise v>=0 to set docked state. State is &1 if docked, second byte is docker index (or last docker index if undocked). If wx-wh are specified, they will be filled with the undocked window position/size
-        </description>
-        <description indent="default">
+
             Queries or sets the docking-state of the gfx_init()-window.
             Call with v=-1 to query docked state, otherwise v>=0 to set docked state. State is &1 if docked, second byte is docker index (or last docker index if undocked). 
-            If wx-wh specified, additional values will be returned with the undocked window position/size
+            If wx-wh specified, additional values will be returned with the undocked window position/size            
+                      
+            ```
+              gfx_dock(1|docker_index<<8)
+            ```
+            
+            where docker\_index is the requested docker.
         </description>
         <retvals>
             integer dockstate - the new/queried dockstate
@@ -45168,6 +45173,7 @@
         </chapter_context>
         <tags>eel, gfx functions</tags>
         <changelog>
+          Reaper 7.70 - font-sizes are now identical on all platforms(used to need font_size*.8 on Mac)
         </changelog>
     </US_DocBloc>
 
@@ -47331,16 +47337,20 @@ Mespotine
         <requires>
             Reaper=5.62
         </requires>
-        <description indent="default">
+        <description markup_type="markdown" markup_version="1.0.1" indent="default">
             Queries or sets the docking-state of the gfx.init()-window.
             Call with v=-1 to query docked state, otherwise v>=0 to set docked state. 
             State is &1 if docked, second byte is docker index (or last docker index if undocked). 
 
             If you pass numbers to wx-wh, you can query window size and position additionally to the dock-state
 
-            A specific docking index does not necessarily represent a specific docker, means, you can not query/set left docker top, but rather all dockers that exist in the current screenset.
-            So the first queried/set docker can be top-left-docker or the top docker or even one of the bottom dockers.
-            The order doesn't seem to make any sense. Especially with more than 16 windows docked in the current screenset.
+            To dock to a specific docker, use:
+            
+              ```
+                gfx.dock(1|docker_index<<8)
+              ```
+              
+              where docker\_index is the requested docker.
         </description>
         <retvals>
             integer querystate - 0 if not docked; &1 if docked;  the bits &256, &512, &1024, &2048 get the docker-index
@@ -48259,9 +48269,6 @@ Mespotine
                   - The resulting flagvalue is: 0100 0010   1001 0010   0000 0000   0000 0000
                   - which is a binary representation of the integer value 18754, which combines 66 and 73 in it.
 
-
-
-
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>Reaper_Api_Documentation.USDocML</source_document>
@@ -48271,6 +48278,7 @@ Mespotine
         </chapter_context>
         <tags></tags>
         <changelog>
+          Reaper 7.70 - font-sizes are now identical on all platforms(used to need font_size*.8 on Mac)
         </changelog>
     </US_DocBloc>
 
@@ -48460,6 +48468,8 @@ Mespotine
             Causes gmem_read()/gmem_write() to read EEL2/JSFX/Video shared memory segment named by parameter. Set to empty string to detach. 6.20+: returns previous shared memory segment name.
 
             Must be called, before you can use a specific gmem-variable-index with gmem_write!
+            
+            Important: if the attached gmem is not used by another script, jsfx or video processor, it will be reset after the script finishes. So it can NOT(!) be used as alternative to extstates!
         </description>
         <retvals>
             string former_attached_gmemname - if you change the attached-gmem from one to a new one, this will hold the name of the previous attached shared memory(gmem)
@@ -48495,6 +48505,8 @@ Mespotine
             Read (number) value from shared memory attached-to by gmem_attach(). index can be [0..1<<25).
 
             returns nil if not available
+            
+            Important: if the attached gmem is not used by another script, jsfx or video processor, it will be reset after the script finishes. So it can NOT(!) be used as alternative to extstates!
         </description>
         <retvals>
             number retval - the stored number-value stored in gmem-variable with index
@@ -48531,6 +48543,8 @@ Mespotine
             Write (number) value to shared memory attached-to by gmem_attach(). index can be [0..1<<25).
 
             Before you can write into a currently unused variable with index "index", you must call gmem_attach first!
+            
+            Important: if the attached gmem is not used by another script, jsfx or video processor, it will be reset after the script finishes. So it can NOT(!) be used as alternative to extstates!
         </description>
         <parameters>
             integer index - the index of the memory-variable to write to; index must be 0 and higher
@@ -80995,4 +81009,6 @@ Mespotine
         <changelog>
         </changelog>
     </US_DocBloc>
+    
+    
 </USDocBloc>

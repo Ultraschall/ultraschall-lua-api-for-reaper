@@ -62,7 +62,8 @@ else if (window.location.hash == '#p') setdocview('p');
 <a href="US_Api_Functions.html"><img style="position: absolute; left:4.2%; width:11%;" src="gfx/US_Button_Un.png" alt="Ultraschall Internals Documentation"></a>  
 <a href="Reaper_Api_Documentation.html"><img style="position: absolute; left:15.2%; width:8.7%;" src="gfx/Reaper_Button.png" alt="Reaper Internals Documentation"></a>
 <a href="ReaGirl_Functions.html"><img style="position: absolute; left:23.95%; width:8.7%;" src="gfx/ReaGirl_Button_Un.png" alt="ReaGirl Documentation"></a>
-<a href="Downloads.html"><img style="position:absolute; left:74.4%; width:6.9%;" src="gfx/Downloads_Un.png" alt="Downloads"></a>
+<a href="Downloads.html"><img style="position:absolute; left:66.1%; width:6.9%;" src="gfx/Downloads_Un.png" alt="Downloads"></a>
+<a href="API_ChangeLog.html"><img style="position:absolute; left:73%; width:8.3%;" src="gfx/API_Changelog_un.png" alt="Changelog of API"></a>
 <a href="ChangeLog.html"><img style="position:absolute; left:81.3%; width:6.9%;" src="gfx/Changelog_Un.png" alt="Changelog of documentation"></a>
 <a href="Impressum.html"><img style="position:absolute; left:88.2%; width:6.9%;" src="gfx/Impressum_Un.png" alt="Impressum and Contact"></a>
 <div style="padding-top:2.5%">                    
@@ -15577,7 +15578,10 @@ KBD_OnMainActionEx<br>
 <div class="e">EEL2: <code> <i>integer</i> dockstate = <em>gfx_dock</em>(<i>integer</i> v[, <i>optional</i> <i>integer</i> wx, <i>optional</i> <i>integer</i> wy, <i>optional</i> <i>integer</i> ww, <i>optional</i> <i>integer</i> wh])</code></div>
 </div><p>
 <div class="ch">
-Call with v=-1 to query docked state, otherwise v>=0 to set docked state. State is &1 if docked, second byte is docker index (or last docker index if undocked). If wx-wh are specified, they will be filled with the undocked window position/size<br>
+<p>Call with v=-1 to query docked state, otherwise v&gt;=0 to set docked state. State is &amp;1 if docked, second byte is docker index (or last docker index if undocked). If wx-wh are specified, they will be filled with the undocked window position/size</p>
+<p>Queries or sets the docking-state of the gfx_init()-window. Call with v=-1 to query docked state, otherwise v&gt;=0 to set docked state. State is &amp;1 if docked, second byte is docker index (or last docker index if undocked). If wx-wh specified, additional values will be returned with the undocked window position/size</p>
+<p><code>gfx_dock(1|docker_index&lt;&lt;8)</code></p>
+<p>where docker_index is the requested docker.</p>
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
@@ -27502,15 +27506,11 @@ To do rotation, you can manipulate dtdx and dsdy together.<br>
 <div class="l">Lua: <code> <i>number</i> querystate, <i>optional</i> <i>integer</i> window_x_position, <i>optional</i> <i>integer</i> window_y_position, <i>optional</i> <i>integer</i> window_width, <i>optional</i> <i>integer</i> window_height = <em>gfx.dock</em>(<i>integer</i> v, <i>optional</i> <i>integer</i> wx, <i>optional</i> <i>integer</i> wy, <i>optional</i> <i>integer</i> ww, <i>optional</i> <i>integer</i> wh)</code></div>
 </div><p>
 <div class="ch">
-Queries or sets the docking-state of the gfx.init()-window.<br>
-Call with v=-1 to query docked state, otherwise v>=0 to set docked state. <br>
-State is &1 if docked, second byte is docker index (or last docker index if undocked). <br>
-<br>
-If you pass numbers to wx-wh, you can query window size and position additionally to the dock-state<br>
-<br>
-A specific docking index does not necessarily represent a specific docker, means, you can not query/set left docker top, but rather all dockers that exist in the current screenset.<br>
-So the first queried/set docker can be top-left-docker or the top docker or even one of the bottom dockers.<br>
-The order doesn't seem to make any sense. Especially with more than 16 windows docked in the current screenset.<br>
+<p>Queries or sets the docking-state of the gfx.init()-window. Call with v=-1 to query docked state, otherwise v&gt;=0 to set docked state. State is &amp;1 if docked, second byte is docker index (or last docker index if undocked).</p>
+<p>If you pass numbers to wx-wh, you can query window size and position additionally to the dock-state</p>
+<p>To dock to a specific docker, use:</p>
+<p><code>gfx.dock(1|docker_index&lt;&lt;8)</code></p>
+<p>where docker_index is the requested docker.</p>
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
@@ -28802,6 +28802,8 @@ Note: Mousebuttons will be returned after gfx_init(), the other keyboard-modifie
 Causes gmem_read()/gmem_write() to read EEL2/JSFX/Video shared memory segment named by parameter. Set to empty string to detach. 6.20+: returns previous shared memory segment name.<br>
 <br>
 Must be called, before you can use a specific gmem-variable-index with gmem_write!<br>
+<br>
+Important: if the attached gmem is not used by another script, jsfx or video processor, it will be reset after the script finishes. So it can NOT(!) be used as alternative to extstates!<br>
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
@@ -28832,6 +28834,8 @@ Must be called, before you can use a specific gmem-variable-index with gmem_writ
 Read (number) value from shared memory attached-to by gmem_attach(). index can be [0..1<<25).<br>
 <br>
 returns nil if not available<br>
+<br>
+Important: if the attached gmem is not used by another script, jsfx or video processor, it will be reset after the script finishes. So it can NOT(!) be used as alternative to extstates!<br>
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
@@ -28862,6 +28866,8 @@ returns nil if not available<br>
 Write (number) value to shared memory attached-to by gmem_attach(). index can be [0..1<<25).<br>
 <br>
 Before you can write into a currently unused variable with index "index", you must call gmem_attach first!<br>
+<br>
+Important: if the attached gmem is not used by another script, jsfx or video processor, it will be reset after the script finishes. So it can NOT(!) be used as alternative to extstates!<br>
 </div><br>          <u>Parameters:</u>
 <table class="ch">
 <tr><td class="pr"><i>integer</i> index</td></tr>

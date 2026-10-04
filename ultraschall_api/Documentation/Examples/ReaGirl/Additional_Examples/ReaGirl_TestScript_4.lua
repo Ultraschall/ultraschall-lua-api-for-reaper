@@ -227,14 +227,17 @@
     -- a function that runs the gui-manage function in the background, so the gui is updated correctly
     reagirl.Gui_Manage()
     -- if the gui-window hasn't been closed, keep the script alive.
-    
     if reagirl.Gui_IsOpen()==true then reaper.defer(main) end
   end
 
   main()
+
+
 
 --reagirl.Shortcut_Add(0, 65, "TURTZ.", print2)
 --reagirl.Shortcut_Add(0, 66, "TURTZ2.", print2)
 --reagirl.Shortcut_Add(0, 67, "TURTZ3.", print2)
 --reagirl.ExportShortcutsToFile(reaper.GetResourcePath().."/ShortCutTest.ini", "Tudelu")
 --reagirl.ImportShortcutsFromFile(reaper.GetResourcePath().."/ShortCutTest.ini", "Tudelu")
+
+

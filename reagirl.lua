@@ -102,6 +102,13 @@ end
 
 gfx.ext_retina=1
 reagirl={}
+reagirl.OS=reaper.GetOS():match("OS")
+if reagirl.OS~=nil then reagirl.OS="Mac"
+elseif reagirl.OS==nil then reagirl.OS=reaper.GetOS():match("Win")
+elseif reagirl.OS==nil then reagirl.OS="Linux" end
+
+reagirl.ReaperVersion=tonumber(reaper.GetAppVersion():match("(.-)/"))
+
 reagirl.Shortcut_Mode=10 -- mode: 10=inline shortcuts
                          --       0=no shortcuts
                          --       1=send shortcut to previously focused Reaper/Midi-Editor/Media-Explorer-window
@@ -256,7 +263,7 @@ function reagirl.GetVersion()
     <tags>misc, get, version</tags>
   </US_DocBloc>
   --]]
-  return 1.3
+  return 1.4
 end
 
 reagirl.osara_outputMessage=reaper.osara_outputMessage
@@ -471,7 +478,7 @@ reagirl.UI_Element_NextLineX=10 -- don't change
 reagirl.Font_Size=15
 
 if reaper.GetExtState("ReaGirl", "Font_Face")=="" then
-  if reaper.GetOS()=="Other" then
+  if reagirl.OS=="Linux" then
     reagirl.Font_Face="Liberation Sans"
   else
     reagirl.Font_Face="Arial"
@@ -2651,6 +2658,7 @@ reagirl.ColorName[#reagirl.ColorName+1]="Yellow"
 reagirl.ColorName[#reagirl.ColorName+1]="YellowGreen"
 reagirl.ColorName[#reagirl.ColorName+1]="Zombie Green"
 
+reagirl.DarkMode=true
 
 reagirl.Colors={}
 reagirl.Colors.Gui_Background_Color_r=0.2156862745098
@@ -2689,7 +2697,7 @@ reagirl.Colors.Label_TextFG_g=0.8
 reagirl.Colors.Label_TextFG_b=0.8
 reagirl.Colors.Label_TextFGclickable_r=0.4
 reagirl.Colors.Label_TextFGclickable_g=0.65
-reagirl.Colors.Label_TextFGclickable_b=0.99
+reagirl.Colors.Label_TextFGclickable_b=1
 reagirl.Colors.Label_TextBG_r=0.2
 reagirl.Colors.Label_TextBG_g=0.2
 reagirl.Colors.Label_TextBG_b=0.2
@@ -2858,6 +2866,204 @@ reagirl.Colors.ColorRectangle_Boundary_b=0.403921568627451
 reagirl.Colors.ColorRectangle_Boundary2_r=0
 reagirl.Colors.ColorRectangle_Boundary2_g=0
 reagirl.Colors.ColorRectangle_Boundary2_b=0
+
+reagirl.Bright_Colors={}
+reagirl.Bright_Colors.Toolbar_Area_g=0.726
+reagirl.Bright_Colors.Inputbox_Area_b=0.766
+reagirl.Bright_Colors.Buttons_Area_b=0.726
+reagirl.Bright_Colors.DropDownMenu_Area_r=0.726
+reagirl.Bright_Colors.Burgermenu_Stripes_b=0.45
+reagirl.Bright_Colors.Toolbar_TextBG_r=0.8
+reagirl.Bright_Colors.Inputbox_DropdownArea_g=0.726
+reagirl.Bright_Colors.Toolbar_CaptionFG_g=0.2
+reagirl.Bright_Colors.Tabs_Border_Background_r=0.59607843137255
+reagirl.Bright_Colors.Label_TextFGclickable_g=0.35
+reagirl.Bright_Colors.Label_TextFGclickable_r=0.6
+reagirl.Bright_Colors.Buttons_TextFG_g=0.216
+reagirl.Bright_Colors.Label_TextFGclickable_b=0
+reagirl.Bright_Colors.Slider_Circle_2_b=0.72745098039216
+reagirl.Bright_Colors.Checkbox_CheckArea_disabled_r=0.4156862745098
+reagirl.Bright_Colors.Toolbar_CaptionBG_g=0.8
+reagirl.Bright_Colors.Buttons_TextBG_b=0.8
+reagirl.Bright_Colors.Slider_CaptionFG_disabled_r=0.4
+reagirl.Bright_Colors.Slider_CaptionFG_r=0.2
+reagirl.Bright_Colors.Tabs_Border_Tabs_b=0.59607843137255
+reagirl.Bright_Colors.Toolbar_TextBG_b=0.8
+reagirl.Bright_Colors.DropDownMenu_AreaTextFGdisabled_b=0.91
+reagirl.Bright_Colors.Label_TextFG_r=0.2
+reagirl.Bright_Colors.Scrollbar_Foreground_r=0.51
+reagirl.Bright_Colors.Label_BackDrop_r=0.5
+reagirl.Bright_Colors.Slider_Circle_1_r=0.416
+reagirl.Bright_Colors.DropDownMenu_Circle_r=0.55
+reagirl.Bright_Colors.Checkbox_CaptionBG_b=0.8
+reagirl.Bright_Colors.Slider_CaptionBG_g=0.8
+reagirl.Bright_Colors.Slider_CaptionBG_r=0.8
+reagirl.Bright_Colors.Buttons_TextFG_disabled_b=0.4
+reagirl.Bright_Colors.Slider_Center_b=0.3
+reagirl.Bright_Colors.DropDownMenu_CaptionFGdisabled_r=0.4
+reagirl.Bright_Colors.Inputbox_CaptionFGdisabled_b=0.4
+reagirl.Bright_Colors.Checkbox_CaptionFG_disabled_g=0.4
+reagirl.Bright_Colors.Checkbox_background_r=0.766
+reagirl.Bright_Colors.Buttons_Area_r=0.726
+reagirl.Bright_Colors.DropDownMenu_AreaTextBG_b=0.8
+reagirl.Bright_Colors.Slider_Circle_1_g=0.416
+reagirl.Bright_Colors.Buttons_TextFG_disabled_r=0.4
+reagirl.Bright_Colors.DropDownMenu_Area_g=0.726
+reagirl.Bright_Colors.DropDownMenu_Circle_disabled_b=0.65
+reagirl.Bright_Colors.Inputbox_DropdownArea_b=0.726
+reagirl.Bright_Colors.Tabs_CaptionBG_g=0.8
+reagirl.Bright_Colors.InputBox_CaptionBG_g=0.8
+reagirl.Bright_Colors.Slider_DefaultLine_b=0.416
+reagirl.Bright_Colors.Slider_Center_disabled_r=0.4
+reagirl.Bright_Colors.InputBox_CaptionBG_r=0.8
+reagirl.Bright_Colors.Inputbox_DropdownArea_Circle_disabled_g=0.65
+reagirl.Bright_Colors.Tabs_Inner_Tabs_Selected_b=0.74607843137255
+reagirl.Bright_Colors.InputBox_TextFGTypeddisabled_b=0.4
+reagirl.Bright_Colors.Inputbox_CaptionFGdisabled_r=0.4
+reagirl.Bright_Colors.Toolbar_TextFG_r=0.2
+reagirl.Bright_Colors.InputBox_TextBGTyped_g=0.8
+reagirl.Bright_Colors.Checkbox_CheckArea_b=1
+reagirl.Bright_Colors.Slider_Circle_2_r=0.72745098039216
+reagirl.Bright_Colors.Checkbox_CaptionFG_g=0.2
+reagirl.Bright_Colors.Tabs_Border_Tabs_g=0.59607843137255
+reagirl.Bright_Colors.Buttons_TextBG_r=0.8
+reagirl.Bright_Colors.ColorRectangle_Boundary_r=0.59607843137255
+reagirl.Bright_Colors.Checkbox_CheckArea_g=0.1843137254902
+reagirl.Bright_Colors.Scrollbar_Background_g=0.61
+reagirl.Bright_Colors.ColorRectangle_Boundary2_b=1
+reagirl.Bright_Colors.Toolbar_Area_b=0.726
+reagirl.Bright_Colors.Checkbox_CaptionBG_r=0.8
+reagirl.Bright_Colors.Toolbar_CaptionFG_b=0.2
+reagirl.Bright_Colors.DropDownMenu_Area_b=0.726
+reagirl.Bright_Colors.DropDownMenu_AreaTextFG_g=0.216
+reagirl.Bright_Colors.ColorRectangle_Boundary2_g=1
+reagirl.Bright_Colors.Tabs_Border_Tabs_r=0.59607843137255
+reagirl.Bright_Colors.Toolbar_CaptionBG_r=0.8
+reagirl.Bright_Colors.ColorRectangle_Boundary_b=0.59607843137255
+reagirl.Bright_Colors.Checkbox_rectangle_r=0.5
+reagirl.Bright_Colors.Tabs_Inner_Tabs_Selected_g=0.74607843137255
+reagirl.Bright_Colors.ColorRectangle_Boundary_g=0.59607843137255
+reagirl.Bright_Colors.Slider_Center_disabled_g=0.4
+reagirl.Bright_Colors.Inputbox_Cursor_g=0.1843137254902
+reagirl.Bright_Colors.Scrollbar_Foreground_b=0.51
+reagirl.Bright_Colors.Toolbar_TextBG_g=0.8
+reagirl.Bright_Colors.Burgermenu_Stripes_r=0.45
+reagirl.Bright_Colors.Scrollbar_Foreground_g=0.51
+reagirl.Bright_Colors.DropDownMenu_CaptionFGdisabled_g=0.4
+reagirl.Bright_Colors.InputBox_TextBGTyped_b=0.8
+reagirl.Bright_Colors.Tabs_Inner_Background_r=0.74607843137255
+reagirl.Bright_Colors.Inputbox_CaptionFG_b=0.2
+reagirl.Bright_Colors.Inputbox_DropdownArea_r=0.726
+reagirl.Bright_Colors.Tabs_Border_Background_g=0.59607843137255
+reagirl.Bright_Colors.Tabs_CaptionBG_b=0.8
+reagirl.Bright_Colors.Checkbox_CheckArea_r=0.015686274509804
+reagirl.Bright_Colors.Tabs_CaptionBG_r=0.8
+reagirl.Bright_Colors.Gui_Background_Color_b=0.7843137254902
+reagirl.Bright_Colors.Label_TextBG_g=0.8
+reagirl.Bright_Colors.Buttons_TextFG_b=0.216
+reagirl.Bright_Colors.Slider_CaptionBG_b=0.8
+reagirl.Bright_Colors.Burgermenu_Area_b=0.726
+reagirl.Bright_Colors.Tabs_CaptionFG_g=0.2
+reagirl.Bright_Colors.Tabs_Inner_Background_g=0.74607843137255
+reagirl.Bright_Colors.DropDownMenu_CaptionFG_r=0.2
+reagirl.Bright_Colors.Slider_Circle_center_disabled_g=0.416
+reagirl.Bright_Colors.Tabs_Inner_Tabs_Unselected_g=0.84607843137255
+reagirl.Bright_Colors.DropDownMenu_CaptionBG_b=0.8
+reagirl.Bright_Colors.Toolbar_Area_r=0.726
+reagirl.Bright_Colors.Burgermenu_Area_r=0.726
+reagirl.Bright_Colors.Tabs_Inner_Tabs_Unselected_r=0.84607843137255
+reagirl.Bright_Colors.Tabs_Inner_Tabs_Selected_r=0.74607843137255
+reagirl.Bright_Colors.ColorRectangle_Boundary2_r=1
+reagirl.Bright_Colors.Inputbox_Cursor_r=0.015686274509804
+reagirl.Bright_Colors.Slider_Circle_center_disabled_b=0.416
+reagirl.Bright_Colors.Tabs_Inner_Tabs_Unselected_b=0.84607843137255
+reagirl.Bright_Colors.DropDownMenu_AreaTextFG_r=0.216
+reagirl.Bright_Colors.Slider_Circle_center_disabled_r=0.416
+reagirl.Bright_Colors.Slider_Circle_center_b=1
+reagirl.Bright_Colors.Checkbox_rectangle_g=0.5
+reagirl.Bright_Colors.Slider_Circle_center_g=0.1843137254902
+reagirl.Bright_Colors.Inputbox_CaptionFG_r=0.2
+reagirl.Bright_Colors.InputBox_TextFGTyped_g=0.2
+reagirl.Bright_Colors.Slider_Circle_2_g=0.72745098039216
+reagirl.Bright_Colors.Slider_Border_r=0.5
+reagirl.Bright_Colors.DropDownMenu_AreaTextBG_g=0.8
+reagirl.Bright_Colors.Slider_Circle_1_b=0.416
+reagirl.Bright_Colors.Checkbox_CaptionFG_b=0.2
+reagirl.Bright_Colors.InputBox_TextFGTypeddisabled_g=0.4
+reagirl.Bright_Colors.Slider_Center_disabled_b=0.4
+reagirl.Bright_Colors.Slider_Center_g=0.3
+reagirl.Bright_Colors.Slider_Center_r=0.3
+reagirl.Bright_Colors.Checkbox_CaptionFG_r=0.2
+reagirl.Bright_Colors.Buttons_TextFG_disabled_g=0.4
+reagirl.Bright_Colors.Toolbar_TextFG_g=0.2
+reagirl.Bright_Colors.Slider_Border_b=0.5
+reagirl.Bright_Colors.Slider_Border_g=0.5
+reagirl.Bright_Colors.Slider_DefaultLine_g=0.416
+reagirl.Bright_Colors.DropDownMenu_Circle_disabled_g=0.65
+reagirl.Bright_Colors.Slider_DefaultLine_r=0.416
+reagirl.Bright_Colors.Slider_CaptionFG_disabled_b=0.4
+reagirl.Bright_Colors.Slider_CaptionFG_disabled_g=0.4
+reagirl.Bright_Colors.Inputbox_DropdownArea_Circle_r=0.55
+reagirl.Bright_Colors.Slider_CaptionFG_b=0.2
+reagirl.Bright_Colors.Slider_CaptionFG_g=0.2
+reagirl.Bright_Colors.Scrollbar_Background_r=0.61
+reagirl.Bright_Colors.Buttons_TextBG_g=0.8
+reagirl.Bright_Colors.Tabs_CaptionFG_b=0.2
+reagirl.Bright_Colors.Checkbox_background_b=0.766
+reagirl.Bright_Colors.Label_BackDrop_b=0.5
+reagirl.Bright_Colors.Inputbox_Cursor_b=1
+reagirl.Bright_Colors.Checkbox_CheckArea_disabled_b=1
+reagirl.Bright_Colors.Checkbox_CheckArea_disabled_g=0.4156862745098
+reagirl.Bright_Colors.Checkbox_rectangle_b=0.5
+reagirl.Bright_Colors.Buttons_Area_g=0.726
+reagirl.Bright_Colors.Checkbox_CaptionFG_disabled_r=0.4
+reagirl.Bright_Colors.DropDownMenu_Circle_disabled_r=0.65
+reagirl.Bright_Colors.Tabs_CaptionFG_r=0.2
+reagirl.Bright_Colors.DropDownMenu_AreaTextFGdisabled_g=0.91
+reagirl.Bright_Colors.InputBox_CaptionBG_b=0.8
+reagirl.Bright_Colors.DropDownMenu_Circle_b=0.55
+reagirl.Bright_Colors.Buttons_TextFG_r=0.216
+reagirl.Bright_Colors.Inputbox_Area_r=0.766
+reagirl.Bright_Colors.DropDownMenu_CaptionBG_g=0.8
+reagirl.Bright_Colors.Tabs_Border_Background_b=0.59607843137255
+reagirl.Bright_Colors.DropDownMenu_CaptionBG_r=0.8
+reagirl.Bright_Colors.DropDownMenu_CaptionFG_g=0.2
+reagirl.Bright_Colors.Inputbox_CaptionFGdisabled_g=0.4
+reagirl.Bright_Colors.Inputbox_CaptionFG_g=0.2
+reagirl.Bright_Colors.Label_TextBG_b=0.8
+reagirl.Bright_Colors.InputBox_TextFGTypeddisabled_r=0.4
+reagirl.Bright_Colors.Burgermenu_Stripes_g=0.45
+reagirl.Bright_Colors.Inputbox_DropdownArea_Circle_b=0.55
+reagirl.Bright_Colors.Label_TextFG_g=0.2
+reagirl.Bright_Colors.Gui_Background_Color_g=0.7843137254902
+reagirl.Bright_Colors.Tabs_Inner_Background_b=0.74607843137255
+reagirl.Bright_Colors.Label_BackDrop_g=0.5
+reagirl.Bright_Colors.Checkbox_CaptionBG_g=0.8
+reagirl.Bright_Colors.Checkbox_background_g=0.766
+reagirl.Bright_Colors.Label_TextFG_b=0.2
+reagirl.Bright_Colors.Inputbox_DropdownArea_Circle_g=0.55
+reagirl.Bright_Colors.InputBox_TextBGTyped_r=0.8
+reagirl.Bright_Colors.Toolbar_CaptionFG_r=0.2
+reagirl.Bright_Colors.DropDownMenu_AreaTextFG_b=0.216
+reagirl.Bright_Colors.Toolbar_CaptionBG_b=0.8
+reagirl.Bright_Colors.DropDownMenu_AreaTextFGdisabled_r=0.91
+reagirl.Bright_Colors.Label_TextBG_r=0.8
+reagirl.Bright_Colors.DropDownMenu_CaptionFGdisabled_b=0.4
+reagirl.Bright_Colors.DropDownMenu_CaptionFG_b=0.2
+reagirl.Bright_Colors.Inputbox_DropdownArea_Circle_disabled_r=0.65
+reagirl.Bright_Colors.DropDownMenu_Circle_g=0.55
+reagirl.Bright_Colors.Gui_Background_Color_r=0.7843137254902
+reagirl.Bright_Colors.Inputbox_Area_g=0.766
+reagirl.Bright_Colors.Slider_Circle_center_r=0.015686274509804
+reagirl.Bright_Colors.Burgermenu_Area_g=0.726
+reagirl.Bright_Colors.InputBox_TextFGTyped_b=0.2
+reagirl.Bright_Colors.DropDownMenu_AreaTextBG_r=0.8
+reagirl.Bright_Colors.Toolbar_TextFG_b=0.2
+reagirl.Bright_Colors.Checkbox_CaptionFG_disabled_b=0.4
+reagirl.Bright_Colors.Scrollbar_Background_b=0.61
+reagirl.Bright_Colors.InputBox_TextFGTyped_r=0.2
+reagirl.Bright_Colors.Inputbox_DropdownArea_Circle_disabled_b=0.65
+
 
 reagirl.Dark_Colors={}
 reagirl.Dark_Colors.Gui_Background_Color_r=0.2156862745098
@@ -3098,36 +3304,74 @@ end
 -- add a setting that sets ReaGirl-guis to dark/light-theme
 -- add functionality to auto-update when the user chose a new theme
 
-function reagirl.Color_SetToLightTheme()
-  for k,v in pairs(reagirl.Colors) do
-    reagirl.Colors[k]=-(reagirl.Dark_Colors[k]-1)
+function reagirl.DarkMode_Toggle(toggle, param2, param3, param4, param5, param6, param7, param8, param9, param10, override)
+  --[[
+  <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+    <slug>DarkMode_Toggle</slug>
+    <requires>
+      ReaGirl=1.4
+      Reaper=7.03
+      Lua=5.4
+    </requires>
+    <functioncall>reagirl.DarkMode_Toggle(boolean toggle)</functioncall>
+    <description>
+      Toggles between bright and dark-mode in ReaGirl. The changes take effect immediately.
+    </description>
+    <parameters>
+      boolean toggle - true, set to dark mode; false, set to bright mode; nil to use ReaGirl-preferences
+    </parameters>
+    <chapter_context>
+      Colors
+    </chapter_context>
+    <tags>colors, set, dark mode, bright mode</tags>
+  </US_DocBloc>
+  --]]
+  if toggle~=nil and type(toggle)~="boolean" then error("DarkMode_Toggle: param #1 - must be a boolean", 2) end  
+  if toggle==nil then reagirl.DarkModeOverride=false return end
+  if reagirl.DarkMode==true and toggle==false then
+    for k in pairs(reagirl.Colors) do
+      reagirl.Colors[k]=reagirl.Bright_Colors[k]
+    end
+    reagirl.DarkMode=false
+    reagirl.Gui_ForceRefresh()
+  elseif reagirl.DarkMode==false and toggle==true then
+    for k in pairs(reagirl.Colors) do
+      reagirl.Colors[k]=reagirl.Dark_Colors[k]
+    end
+    reagirl.DarkMode=true
+    reagirl.Gui_ForceRefresh()
   end
-  reagirl.Color_GetSet("Gui_Background_Color", true, 200, 200, 200)
-  reagirl.Color_GetSet("Tabs_Inner_Background", true, 200, 200, 200)
-  reagirl.Color_GetSet("Tabs_Inner_Tabs_Selected", true, 200, 200, 200)
-  reagirl.Color_GetSet("Tabs_Inner_Tabs_Unselected", true, 180, 180, 180)
-  
-  reagirl.Color_GetSet("DropDownMenu_Area", true, 180, 180, 180)
-  reagirl.Color_GetSet("DropDownMenu_Circle", true, 100, 100, 100)
-  
-  reagirl.Color_GetSet("Slider_Center", true, 100, 100, 100)
-  reagirl.Color_GetSet("Inputbox_DropdownArea_Circle", true, 100, 100, 100)
-  reagirl.Color_GetSet("Inputbox_DropdownArea", true, 180, 180, 180)
-  reagirl.Color_GetSet("Label_TextFGclickable", true, 32, 145, 235)
-  reagirl.Color_GetSet("Toolbar_Area", true, 180, 180, 180)
-  reagirl.Gui_ForceRefresh("LightTheme")
+  if override==nil then reagirl.DarkModeOverride=true end
 end
 
-
-function reagirl.Color_SetToDarkTheme()
-  for k,v in pairs(reagirl.Colors) do
-    reagirl.Colors[k]=reagirl.Dark_Colors[k]
-  end
-  reagirl.Gui_ForceRefresh("DarkTheme")
+function reagirl.DarkMode_Get()
+  --[[
+  <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+    <slug>DarkMode_Get</slug>
+    <requires>
+      ReaGirl=1.4
+      Reaper=7.03
+      Lua=5.4
+    </requires>
+    <functioncall>reagirl.DarkMode_Get(boolean toggle)</functioncall>
+    <description>
+      Gets, if darkmode is currently set.
+    </description>
+    <retvals>
+      boolean toggle - true, set to dark mode; false, set to bright mode
+    </retvals>
+    <chapter_context>
+      Colors
+    </chapter_context>
+    <tags>colors, get, dark mode, bright mode</tags>
+  </US_DocBloc>
+  --]]
+  return reagirl.DarkMode
 end
+
 
 function reagirl.Color_UseThemeColors()
-  -- To Do: findin a proper theme-selection of colors to use in ReaGirl
+  -- To Do: finding a proper theme-selection of colors to use in ReaGirl
   function GetThemeColor(theme_color)
     local col=reaper.GetThemeColor(theme_color, 0)
     return reaper.ColorFromNative(col)
@@ -3948,6 +4192,9 @@ function reagirl.Window_Reposition(x_or_y)
 end
 
 function reagirl.Window_Open(...)
+-- TODO
+-- X&Y-position with x&y=nil don't position the window centered on mac for some fucking reason
+
 --[[
 <US_ DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>Window_Open</slug>
@@ -3993,7 +4240,6 @@ function reagirl.Window_Open(...)
   if parms[4]~=nil and type(parms[4])~="number" then error("Window_Open: param #4 - must be either nil or an integer", 2) end
   if parms[5]~=nil and type(parms[5])~="number" then error("Window_Open: param #5 - must be either nil or an integer", 2) end
   if parms[6]~=nil and type(parms[6])~="number" then error("Window_Open: param #6 - must be either nil or an integer", 2) end
-  
   local AAA, AAA2=reaper.ThemeLayout_GetLayout("tcp", -3)
   local minimum_scale_for_dpi, maximum_scale_for_dpi = 1,1--ultraschall.GetScaleRangeFromDpi(tonumber(AAA2))
   maximum_scale_for_dpi = math.floor(maximum_scale_for_dpi)
@@ -4017,6 +4263,7 @@ function reagirl.Window_Open(...)
     parms[3]=parms[3]*reagirl.Window_CurrentScale
     
     local A1,B,C,D=reaper.my_getViewport(0,0,0,0, 0,0,0,0, false)
+
     --parms[2]=parms[2]*reagirl.Window_CurrentScale
     --parms[3]=parms[3]*reagirl.Window_CurrentScale
     if parms[5]==nil then
@@ -4025,10 +4272,13 @@ function reagirl.Window_Open(...)
     if parms[6]==nil then
       parms[6]=(D-parms[3])/2
     end
+
     local temp_y=parms[6]
     reagirl.Window_TempY=temp_y
-    if reaper.GetOS():match("OS")~=nil then 
-      _, parms[6] = reaper.JS_Window_ClientToScreen(reaper.GetMainHwnd(), 10, parms[6]+parms[3])
+    if reagirl.OS=="Mac" then 
+      parms[2]=parms[2]*2
+      parms[3]=parms[3]*2
+      _, parms[6] = reaper.JS_Window_ClientToScreen(reaper.GetMainHwnd(), 10, math.floor(parms[6]+parms[3]))
     end
     
     if reaper.JS_Window_SetTitle==nil then 
@@ -4062,8 +4312,8 @@ function reagirl.Window_Open(...)
       
       parms[2]=parms[2]/scalex
       parms[3]=parms[3]/scaley
-      if reaper.GetOS():match("OS")~=nil then 
-        _, parms[6] = reaper.JS_Window_ClientToScreen(reaper.GetMainHwnd(), 10, temp_y+parms[3])
+      if reagirl.OS=="Mac" then 
+        _, parms[6] = reaper.JS_Window_ClientToScreen(reaper.GetMainHwnd(), 10, math.floor(temp_y+parms[3]))
       end
       gfx.init(table.unpack(parms))
     end
@@ -4091,7 +4341,7 @@ function reagirl.Window_Open(...)
     end
     local temp_y=parms[6]
     reagirl.Window_TempY=temp_y
-    if reaper.GetOS():match("OS")~=nil then 
+    if reagirl.OS=="Mac" then 
       _, parms[6] = reaper.JS_Window_ClientToScreen(reaper.GetMainHwnd(), 10, parms[6]+parms[3])
     end
     local B=gfx.init(table.unpack(parms)) 
@@ -4107,7 +4357,7 @@ function reagirl.Window_Open(...)
       
       parms[2]=parms[2]/scalex
       parms[3]=parms[3]/scaley
-      if reaper.GetOS():match("OS")~=nil then 
+      if reagirl.OS=="Mac" then 
         _, parms[6] = reaper.JS_Window_ClientToScreen(reaper.GetMainHwnd(), 10, temp_y+parms[3])
       end
       gfx.init(table.unpack(parms))
@@ -4159,6 +4409,7 @@ function reagirl.Window_DragOnEmptyArea(toggle)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>Window_DragOnEmptyArea</slug>
+  <title>Window_DragOnEmptyArea</title>
   <requires>
     ReaGirl=1.3
     Reaper=7.03
@@ -4200,6 +4451,7 @@ function reagirl.Window_SetBorderless()
   --[[
   <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
     <slug>Window_SetBorderless</slug>
+    <title>Window_SetBorderless</title>
     <requires>
       ReaGirl=1.3
       Reaper=7.03
@@ -4234,7 +4486,7 @@ function reagirl.Window_SetBorderless()
   local width=gfx.w
   local retval=reaper.JS_Window_SetStyle(reagirl.GFX_WindowHWND, toggle)
   if toggle=="POPUP" then
-    if reaper.GetOS():match("Win")~=nil then
+    if reagirl.OS=="Win" then
       gfx.init("", gfx.w-14, gfx.h-37)
     end
   end
@@ -4602,15 +4854,18 @@ end
 function reagirl.Gui_AtEnter(run_func)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>AtEnter</slug>
+  <slug>Gui_AtEnter</slug>
+  <title>Gui_AtEnter</title>
   <requires>
-    ReaGirl=1.0
+    ReaGirl=1.4
     Reaper=7.03
     Lua=5.4
   </requires>
   <functioncall>reagirl.Gui_AtEnter(optional function run_func)</functioncall>
   <description>
     Adds a function that shall be run when someone hits Enter while the gui is opened.
+    
+    The run-function gets passed over the element_id of the currently focused ui-element as first parameter.
   </description>
   <parameters>
     function run_func - a function, that shall be run when the user hits enter while gui is open; nil, removes the function
@@ -4621,6 +4876,9 @@ function reagirl.Gui_AtEnter(run_func)
   <target_document>ReaGirl_Functions</target_document>
   <source_document>reagirl.lua</source_document>
   <tags>functions, atenter, gui, function</tags>
+  <changelog>
+    ReaGirl 1.4 - RunFunction gets now the currently focused ui-element's element_id as first parameter
+  </changelog>
 </US_DocBloc>
 ]]
   if run_func~=nil and type(run_func)~="function" then error("Gui_AtEnter: param #1 - must be a function", 2) return end
@@ -5060,7 +5318,7 @@ function reagirl.SetFont(idx, fontface, size, flags, scale_override)
   end
   
   --local font_size = size * (1+reagirl.Window_CurrentScale)*0.5
-  if reaper.GetOS():match("OS")~=nil then size=math.floor(size*0.8) end
+  if reagirl.OS=="Mac" and reagirl.ReaperVersion<7.70 then size=math.floor(size*0.8) end
   gfx.setfont(idx, fontface, size, flags)
   return size
 end
@@ -5131,6 +5389,7 @@ function reagirl.Gui_Open(name, restore_old_window_state, title, description, w,
   local tab_addx=0
   local tab_addy=-2
   if reagirl.Tabs_Count~=nil then tab_addx=13 tab_addy=10 end 
+  -- if buggy, use instead:   if reagirl.Tabs_Count~=nil then tab_addx=13 tab_addy=-2 end 
   if w==nil then 
     w=w2+19+tab_addx
   end
@@ -5149,6 +5408,8 @@ function reagirl.Gui_Open(name, restore_old_window_state, title, description, w,
   if reaper.GetExtState("ReaGirl", "osara_enable_accmessage")~="false" and reaper.GetExtState("ReaGirl", "osara_move_mouse")~="false" then
     description=description.." When tabbing, mouse moves to tabbed ui-element."
   end
+  
+  reagirl.restore_old_window_state=restore_old_window_state
   
   if restore_old_window_state==false or (restore_old_window_state==true and reaper.GetExtState("Reagirl_Window_"..name, "stored")=="") then
     reagirl.Window_name=name
@@ -5207,7 +5468,7 @@ function reagirl.Gui_Open(name, restore_old_window_state, title, description, w,
   reagirl.FocusRectangle_BlinkStartTime=reaper.time_precise()
   reaper.SetExtState("Reagirl_Window_"..name, "open", "true", false)
   reaper.atexit(reagirl.AtExit)
-  
+
   return reagirl.Window_Open(title, w, h, dock, x, y)
 end
 
@@ -5270,13 +5531,15 @@ function reagirl.Gui_Close()
 end
 
 function reagirl.UnRegisterWindow()
-  reaper.SetExtState("Reagirl_Window_"..reagirl.Window_name, "stored", "true", true)
-  
-  reaper.SetExtState("Reagirl_Window_"..reagirl.Window_name, "x", reagirl.Window_Actual_X, true)
-  reaper.SetExtState("Reagirl_Window_"..reagirl.Window_name, "y", reagirl.Window_Actual_Y, true)
-  reaper.SetExtState("Reagirl_Window_"..reagirl.Window_name, "w", reagirl.Window_Actual_W, true)
-  reaper.SetExtState("Reagirl_Window_"..reagirl.Window_name, "h", reagirl.Window_Actual_H, true)
-  reaper.SetExtState("Reagirl_Window_"..reagirl.Window_name, "dock", reagirl.Window_Actual_Dock, true)
+  if reagirl.restore_old_window_state~=false then
+    reaper.SetExtState("Reagirl_Window_"..reagirl.Window_name, "stored", "true", true)
+    
+    reaper.SetExtState("Reagirl_Window_"..reagirl.Window_name, "x", reagirl.Window_Actual_X, true)
+    reaper.SetExtState("Reagirl_Window_"..reagirl.Window_name, "y", reagirl.Window_Actual_Y, true)
+    reaper.SetExtState("Reagirl_Window_"..reagirl.Window_name, "w", reagirl.Window_Actual_W, true)
+    reaper.SetExtState("Reagirl_Window_"..reagirl.Window_name, "h", reagirl.Window_Actual_H, true)
+    reaper.SetExtState("Reagirl_Window_"..reagirl.Window_name, "dock", reagirl.Window_Actual_Dock, true)
+  end
   
   local instances=reaper.GetExtState("ReaGirl", "WindowInstances").."\n"
   local newinstance=""
@@ -5290,15 +5553,15 @@ end
 
 function reagirl.AtExit()
   reagirl.Ext_IsAnyReaGirlGuiHovered()
-  reagirl.UnRegisterWindow("PUH")
-  reaper.SetExtState("Reagirl_Window_"..reagirl.Window_name, "open", "", false)
-  reaper.SetExtState("Reagirl_Window_"..reagirl.Window_name.."-"..reagirl.Gui_ScriptInstance, "stored", "", true)
-  reaper.SetExtState("Reagirl_Window_"..reagirl.Window_name.."-"..reagirl.Gui_ScriptInstance, "x", "", false)
-  reaper.SetExtState("Reagirl_Window_"..reagirl.Window_name.."-"..reagirl.Gui_ScriptInstance, "y", "", false)
-  reaper.SetExtState("Reagirl_Window_"..reagirl.Window_name.."-"..reagirl.Gui_ScriptInstance, "w", "", false)
-  reaper.SetExtState("Reagirl_Window_"..reagirl.Window_name.."-"..reagirl.Gui_ScriptInstance, "h", "", false)
-  reaper.SetExtState("Reagirl_Window_"..reagirl.Window_name.."-"..reagirl.Gui_ScriptInstance, "dock", "", false)
-  reaper.SetExtState("ReaGirl", "ProcessTime_"..reagirl.Gui_ScriptInstance, "", false)
+  reagirl.UnRegisterWindow()
+  reaper.DeleteExtState("Reagirl_Window_"..reagirl.Window_name, "open", false)
+  reaper.DeleteExtState("Reagirl_Window_"..reagirl.Window_name.."-"..reagirl.Gui_ScriptInstance, "stored", false)
+  reaper.DeleteExtState("Reagirl_Window_"..reagirl.Window_name.."-"..reagirl.Gui_ScriptInstance, "x", false)
+  reaper.DeleteExtState("Reagirl_Window_"..reagirl.Window_name.."-"..reagirl.Gui_ScriptInstance, "y", false)
+  reaper.DeleteExtState("Reagirl_Window_"..reagirl.Window_name.."-"..reagirl.Gui_ScriptInstance, "w", false)
+  reaper.DeleteExtState("Reagirl_Window_"..reagirl.Window_name.."-"..reagirl.Gui_ScriptInstance, "h", false)
+  reaper.DeleteExtState("Reagirl_Window_"..reagirl.Window_name.."-"..reagirl.Gui_ScriptInstance, "dock", false)
+  reaper.DeleteExtState("ReaGirl", "ProcessTime_"..reagirl.Gui_ScriptInstance, false)
   gfx.quit()
   reagirl.IsWindowOpen_attribute=false
 end
@@ -5687,6 +5950,7 @@ function reagirl.Ext_UpdateWindow(instance_toggle)
     end
   end
   --gfx.init("", w, h, dock, x, y)
+  
   reagirl.Window_Open("", w, h, dock, x, y)
   gfx.dock(dock)
   reaper.SetExtState("Reagirl_Window_"..reagirl.Window_name..instance, "newstate", "", true)
@@ -5764,6 +6028,7 @@ function reagirl.Ext_SendEvent(gui_name, ui_element_caption, event, send_string,
   --[[
   <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
     <slug>Ext_SendEvent</slug>
+    <title>Ext_SendEvent</title>
     <requires>
       ReaGirl=1.3
       Reaper=7.03
@@ -5920,6 +6185,7 @@ function reagirl.Ext_SendEventByID(gui_name, ui_element_caption, event, send_str
   --[[
   <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
     <slug>Ext_SendEventByID</slug>
+    <title>Ext_SendEventByID</title>
     <requires>
       ReaGirl=1.3
       Reaper=7.03
@@ -6016,6 +6282,7 @@ function reagirl.Ext_Window_Close(gui_name, gui_identifier)
   --[[
   <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
     <slug>Ext_Window_Close</slug>
+    <title>Ext_Window_Close</title>
     <requires>
       ReaGirl=1.3
       Reaper=7.03
@@ -6126,6 +6393,7 @@ function reagirl.Ext_IsAnyReaGirlGuiHovered(register)
   --[[
   <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
     <slug>Ext_IsAnyReaGirlGuiHovered</slug>
+    <title>Ext_IsAnyReaGirlGuiHovered</title>
     <requires>
       ReaGirl=1.1
       Reaper=7.03
@@ -6200,6 +6468,7 @@ function reagirl.Shortcut_GetChar(character, readable_characters)
 --[[
 <US_ DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>Shortcut_GetChar</slug>
+  <title>Shortcut_GetChar</title>
   <requires>
     Ultraschall=5.4
     Reaper=6.42
@@ -6870,7 +7139,7 @@ function reagirl.Gui_Manage(keep_running)
   end
   --]]
   if reaper.GetExtState("Reagirl_Window_"..reagirl.Window_name.."-"..reagirl.Gui_ScriptInstance, "stored")~="true" then
-    reaper.SetExtState("Reagirl_Window_"..reagirl.Window_name.."-"..reagirl.Gui_ScriptInstance, "stored", "true", true)
+    reaper.SetExtState("Reagirl_Window_"..reagirl.Window_name.."-"..reagirl.Gui_ScriptInstance, "stored", "true", false)
   end
   if reaper.GetExtState("Reagirl_Window_"..reagirl.Window_name.."-"..reagirl.Gui_ScriptInstance, "x")~=tostring(x) then
     reaper.SetExtState("Reagirl_Window_"..reagirl.Window_name.."-"..reagirl.Gui_ScriptInstance, "x", x, false)
@@ -6888,12 +7157,31 @@ function reagirl.Gui_Manage(keep_running)
     reaper.SetExtState("Reagirl_Window_"..reagirl.Window_name.."-"..reagirl.Gui_ScriptInstance, "dock", dock, false)
   end 
   --]]
+  
+  if reagirl.DarkModeOverride==nil then    
+    local darkmode=reaper.GetExtState ("ReaGirl", "DarkMode")
+    if reagirl.DarkMode_PrefsOld~=darkmode or reagirl.DarkMode_Old~=reaper.IsDarkMode() then 
+      if darkmode=="" or darkmode=="1" then
+        if reaper.IsDarkMode~=nil then 
+          reagirl.DarkMode_Toggle(reaper.IsDarkMode(), 1,1,1,1,1,1,1,1,1,1,1,1)
+        else
+          reagirl.DarkMode_Toggle(true, 1,1,1,1,1,1,1,1,1,1,1,1)
+        end
+      elseif darkmode=="2" then
+        reagirl.DarkMode_Toggle(true, 1,1,1,1,1,1,1,1,1,1,1,1)
+      elseif darkmode=="3" then
+        reagirl.DarkMode_Toggle(false, 1,1,1,1,1,1,1,1,1,1,1,1)
+      end
+    end
+    reagirl.DarkModePrefs_Old=darkmode
+    reagirl.DarkMode_Old=reaper.IsDarkMode()
+  end
 
   if reaper.GetExtState("ReaGirl", "Font_Face")=="" then
     if reagirl.Font_Face~=reaper.GetExtState("ReaGirl", "Font_Face") and reagirl.Font_Face~="Arial" and reagirl.Font_Face~="Liberation Sans" then
       reagirl.Gui_ForceRefresh(9855.1)
     end
-    if reaper.GetOS()=="Other" then
+    if reagirl.OS=="Linux" then
       reagirl.Font_Face="Liberation Sans"
     else
       reagirl.Font_Face="Arial"
@@ -7089,7 +7377,7 @@ function reagirl.Gui_Manage(keep_running)
   
   if reagirl.Gui_PreventEnterForOneCycle_State~=true then
     if Key==13 and gfx.mouse_cap==0 then 
-      if reagirl.AtEnter_RunFunc~=nil then reagirl.AtEnter_RunFunc() end
+      if reagirl.AtEnter_RunFunc~=nil then reagirl.AtEnter_RunFunc(reagirl.UI_Element_GetFocused()) end
     end -- esc closes window
   end 
   reagirl.Gui_PreventEnterForOneCycle_State=false
@@ -7913,7 +8201,7 @@ function reagirl.Gui_Manage(keep_running)
   local Gui_ForceRefreshState=reagirl.Gui_ForceRefreshState
   reagirl.Gui_PreventCloseViaEscForOneCycle_State=nil
   reagirl.Gui_Draw(Key, Key_utf, clickstate, specific_clickstate, mouse_cap, click_x, click_y, drag_x, drag_y, mouse_wheel, mouse_hwheel)
-  if Gui_ForceRefreshState~=true then
+  if #reagirl.ElementsRefreshMe>0 then --Gui_ForceRefreshState~=true then
     reagirl.Gui_DrawSingular(Key, Key_utf, clickstate, specific_clickstate, mouse_cap, click_x, click_y, drag_x, drag_y, mouse_wheel, mouse_hwheel)
   else
     reagirl.ElementsRefreshMe={}
@@ -8004,16 +8292,12 @@ function reagirl.Gui_Manage(keep_running)
 end
 
 function reagirl.Gui_DrawSingular(Key, Key_utf, clickstate, specific_clickstate, mouse_cap, click_x, click_y, drag_x, drag_y, mouse_wheel, mouse_hwheel)
-
+  -- draws individual ui-elements as added by Gui_ForceRefresh(id)
+  -- for quicker redraw of elements without having to redraw the entire gui
   local scale=reagirl.Window_GetCurrentScale()
   gfx.x=0
   gfx.y=0
-  
-  --gfx.drawstr("HURTZ")
   gfx.blit(reagirl.Refresh_Buffer, 1, 0)
-  --gfx.x=0
-  --gfx.y=0
-  --gfx.drawstr("HURTZ")
   
   for a=1, #reagirl.ElementsRefreshMe do
     local i=reagirl.ElementsRefreshMe[a]
@@ -8097,8 +8381,8 @@ function reagirl.Gui_Draw(Key, Key_utf, clickstate, specific_clickstate, mouse_c
     
     -- draw all ui-elements
     
+  --print(reaper.time_precise())
     for i=#reagirl.Elements-6, 1, -1 do
-
       if reagirl.Elements[i]["hidden"]~=true then
         local x2, y2, w2, h2
 
@@ -8390,7 +8674,7 @@ function reagirl.UI_Element_SetFocusRect(override, x, y, w, h)
     sets the rectangle for focused ui-element. Can be used for custom ui-element, who need to control the focus-rectangle due some of their own ui-elements incorporated, like options in radio-buttons, etc.
   </description>
   <parameters>
-    optional boolean override - I forgot...
+    optional boolean override - I forgot...; set to false
     integer x - the x-position of the focus-rectangle; negative, anchor to the right windowborder
     integer y - the y-position of the focus-rectangle; negative, anchor to the bottom windowborder
     integer w - the width of the focus-rectangle; negative, anchor to the right windowborder
@@ -8628,6 +8912,15 @@ function reagirl.UI_Element_GetNextXAndYPosition(x, y, functionname, placenext)
   if placenext==nil or placenext==false then placenext=0 else placenext=9 end
   local slot=reagirl.UI_Element_GetNextFreeSlot()
   local slot3=slot
+  
+  if reagirl.TempX~=nil then 
+    local x=reagirl.TempX
+    local y=reagirl.TempY
+    reagirl.TempX=nil
+    reagirl.TempY=nil
+    return x, y, slot3    
+  end
+  
   if reagirl.Next_Y~=nil then slot=reagirl.Next_Y+1 end
   local slot2
   if x==nil then
@@ -8694,6 +8987,38 @@ function reagirl.UI_Element_GetNextXAndYPosition(x, y, functionname, placenext)
   --print_alt(slot, y, reagirl.UI_Element_NextY_Default)
   return x, y, slot3
 end
+
+function reagirl.AutoPosition_SetNextUIElementAtPosition(x, y)
+  --[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>AutoPosition_SetNextUIElementAtPosition</slug>
+  <requires>
+    ReaGirl=1.4
+    Reaper=7.03
+    Lua=5.4
+  </requires>
+  <functioncall>reagirl.AutoPosition_SetNextUIElementAtPosition(integer x, integer y)</functioncall>
+  <description>
+    Sets the position of the next autopositioned UI-element at x and y position.
+  </description>
+  <parameters>
+    integer x - the x-position of the next autopositioned ui-element
+    integer y - the y-position of the next autopositioned ui-element
+  </parameters>
+  <chapter_context>
+    Autoposition
+  </chapter_context>
+  <target_document>ReaGirl_Functions</target_document>
+  <source_document>reagirl.lua</source_document>
+  <tags>functions, set, auto position, absolute</tags>
+</US_DocBloc>
+]]
+  if math.type(x)~="integer" then error("AutoPosition_SetNextUIElementAtPosition: param #1 - must be an integer", 2) end
+  if math.type(y)~="integer" then error("AutoPosition_SetNextUIElementAtPosition: param #2 - must be an integer", 2) end
+  reagirl.TempX=x
+  reagirl.TempY=y
+end
+
 
 function reagirl.UI_Element_GetSet_ContextMenu(element_id, is_set, menu, menu_function)
 --[[
@@ -9085,7 +9410,7 @@ function reagirl.UI_Element_IsElementAtMousePosition(element_id)
 </US_DocBloc>
 ]]
   local x, y, real_x, real_y = reagirl.UI_Element_GetSetPosition(element_id, false)
-  local w, h, real_w, real_h =reagirl.UI_Element_GetSetDimension(element_id, false)
+  local w, h, real_w, real_h = reagirl.UI_Element_GetDimension(element_id, false)
   return gfx.mouse_x>=real_x and gfx.mouse_x<=real_x+real_w and gfx.mouse_y>=real_y and gfx.mouse_y<=real_y+real_h
 end
 
@@ -9145,7 +9470,7 @@ function reagirl.UI_Element_GetSetPosition(element_id, is_set, x, y)
     if reagirl.osara_outputMessage~=nil then
       reagirl.UI_Element_ScrollToUIElement(elid, -cap_w)
       if reaper.GetExtState("ReaGirl", "osara_move_mouse")~="false" then
-        reaper.JS_Mouse_SetPosition(gfx.clienttoscreen(x2+cap_w+reagirl.MoveItAllRight+4,y2+reagirl.MoveItAllUp+4)) 
+        --reaper.JS_Mouse_SetPosition(gfx.clienttoscreen(x2+cap_w+reagirl.MoveItAllRight+4,y2+reagirl.MoveItAllUp+4)) 
       end
     end
   end
@@ -9153,15 +9478,41 @@ function reagirl.UI_Element_GetSetPosition(element_id, is_set, x, y)
   return reagirl.Elements[element_id]["x"], reagirl.Elements[element_id]["y"], x2+reagirl.MoveItAllRight, y2+reagirl.MoveItAllUp
 end
 
-function reagirl.UI_Element_GetSetDimension(element_id, is_set, w, h)
+function reagirl.UI_Element_GetDimension(element_id)
+  --[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>UI_Element_GetDimension</slug>
+  <requires>
+    ReaGirl=1.32
+    Reaper=7.03
+    Lua=5.4
+  </requires>
+  <functioncall>integer x, integer y, integer actual_x, integer actual_y = reagirl.UI_Element_GetDimension(string element_id)</functioncall>
+  <description>
+    gets the width and height of the ui-element
+  </description>
+  <retvals>
+    integer w - the width of the ui-element
+    integer h - the height of the ui-element
+    integer actual_w - the actual current width resolved to the anchor-position including scaling and scroll-offset
+    integer actual_h - the actual current height resolved to the anchor-position including scaling and scroll-offset
+  </retvals>
+  <parameters>
+    string element_id - the id of the element, whose dimensions you want to get
+  </parameters>
+  <chapter_context>
+    UI Elements
+  </chapter_context>
+  <target_document>ReaGirl_Functions</target_document>
+  <source_document>reagirl.lua</source_document>
+  <tags>ui-elements, get, position</tags>
+</US_DocBloc>
+]]
   -- maybe restrict this to certain ui-elements
-  if type(element_id)~="string" then error("UI_Element_GetSetDimension: param #1 - must be a guid as string", 2) end
+  if type(element_id)~="string" then error("UI_Element_GetDimension: param #1 - must be a guid as string", 2) end
   element_id=reagirl.UI_Element_GetIDFromGuid(element_id)
-  if element_id==nil then error("UI_Element_GetSetDimension: param #1 - no such ui-element", 2) end
-  if reagirl.Elements[element_id]==nil then error("UI_Element_GetSetDimension: param #1 - no such ui-element", 2) end
-  if type(is_set)~="boolean" then error("UI_Element_GetSetDimension: param #2 - must be a boolean", 2) end
-  if is_set==true and math.type(w)~="integer" then error("UI_Element_GetSetDimension: param #3 - must be an integer when is_set==true", 2) end
-  if is_set==true and math.type(h)~="integer" then error("UI_Element_GetSetDimension: param #4 - must be an integer when is_set==true", 2) end
+  if element_id==nil then error("UI_Element_GetDimension: param #1 - no such ui-element", 2) end
+  if reagirl.Elements[element_id]==nil then error("UI_Element_GetDimension: param #1 - no such ui-element", 2) end
   
   local w2, h2, x2, y2
   local scale=reagirl.Window_GetCurrentScale()
@@ -9170,10 +9521,12 @@ function reagirl.UI_Element_GetSetDimension(element_id, is_set, w, h)
   if reagirl.Elements[element_id]["w"]<0 then w2=gfx.w-x2+reagirl.Elements[element_id]["w"]*scale else w2=reagirl.Elements[element_id]["w"]*scale end
   if reagirl.Elements[element_id]["h"]<0 then h2=gfx.h-y2+reagirl.Elements[element_id]["h"]*scale else h2=reagirl.Elements[element_id]["h"]*scale end
   
+  --[[
   if is_set==true then
     reagirl.Elements[element_id]["w"]=w
     reagirl.Elements[element_id]["h"]=h
   end
+  --]]
           
   return reagirl.Elements[element_id]["w"], reagirl.Elements[element_id]["h"], w2, h2
 end
@@ -9397,6 +9750,9 @@ function reagirl.UI_Element_GetSetExtState(element_id, is_set, key, value)
   <target_document>ReaGirl_Functions</target_document>
   <source_document>reagirl.lua</source_document>
   <tags>functions, get, set, extstate, key, value, additional data, gui</tags>
+  <changelog>
+    ReaGirl 1.31 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 ]]
   if type(element_id)~="string" then error("UI_Element_GetSetExtState: #1 - must be a string", 2) end
@@ -9449,6 +9805,9 @@ function reagirl.UI_Element_GetSetIdentifier(element_id, is_set, unique_identifi
   <target_document>ReaGirl_Functions</target_document>
   <source_document>reagirl.lua</source_document>
   <tags>functions, get, set, unique identifieri</tags>
+  <changelog>
+    ReaGirl 1.31 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 ]]
   if type(element_id)~="string" then error("UI_Element_GetSetIdentifier: #1 - must be a string", 2) end
@@ -9471,6 +9830,7 @@ function reagirl.Checkbox_Add(x, y, caption, meaningOfUI_Element, default, run_f
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>Checkbox_Add</slug>
+  <title>Checkbox_Add</title>
   <requires>
     ReaGirl=1.3
     Reaper=7.03
@@ -11025,7 +11385,7 @@ function reagirl.DecorRectangle_Add(x, y, w, h, radius, r, g, b)
     Reaper=7.03
     Lua=5.4
   </requires>
-  <functioncall>string decor_rectangle_guid = reagirl.DecorRectangle_Add(optional integer x, optional integer y, integer w, integer h, integer radius, integer r, integer g, integer b)</functioncall>
+  <functioncall>string decor_rectangle_guid = reagirl.DecorRectangle_Add(integer x, integer y, integer w, integer h, integer radius, integer r, integer g, integer b)</functioncall>
   <description>
     Adds a decorative color-rectangle to a gui.
     
@@ -11040,8 +11400,8 @@ function reagirl.DecorRectangle_Add(x, y, w, h, radius, r, g, b)
     Note: if you want a clickable color-rectangle, use reagirl.ColorRectangle_Add()
   </description>
   <parameters>
-    optional integer x - the x position of the color-rectangle in pixels; negative anchors the color-rectangle to the right window-side; nil, autoposition after the last ui-element(see description)
-    optional integer y - the y position of the color-rectangle in pixels; negative anchors the color-rectangle to the bottom window-side; nil, autoposition after the last ui-element(see description)
+    integer x - the x position of the color-rectangle in pixels; negative anchors the color-rectangle to the right window-side
+    integer y - the y position of the color-rectangle in pixels; negative anchors the color-rectangle to the bottom window-side
     integer w - the width of the color-rectangle in pixels
     integer h - the height of the color-rectangle in pixels
     integer radius - the radius of the rectangle
@@ -11058,8 +11418,8 @@ function reagirl.DecorRectangle_Add(x, y, w, h, radius, r, g, b)
   <tags>decorative color rectangle, add</tags>
 </US_DocBloc>
 --]]
-  if x~=nil and math.type(x)~="integer" then error("DecorRectangle_Add: param #1 - must be either nil or an integer", 2) end
-  if y~=nil and math.type(y)~="integer" then error("DecorRectangle_Add: param #2 - must be either nil or an integer", 2) end
+  if math.type(x)~="integer" then error("DecorRectangle_Add: param #1 - must be either nil or an integer", 2) end
+  if math.type(y)~="integer" then error("DecorRectangle_Add: param #2 - must be either nil or an integer", 2) end
   if math.type(w)~="integer" then error("DecorRectangle_Add: param #3 - must be an integer", 2) end
   if math.type(h)~="integer" then error("DecorRectangle_Add: param #4 - must be an integer", 2) end
   if math.type(radius)~="integer" then error("DecorRectangle_Add: param #5 - must be an integer", 2) end
@@ -11068,7 +11428,7 @@ function reagirl.DecorRectangle_Add(x, y, w, h, radius, r, g, b)
   if math.type(b)~="integer" then error("DecorRectangle_Add: param #8 - must be an integer", 2) end
   
   
-  local x,y,slot=reagirl.UI_Element_GetNextXAndYPosition(x, y, "DecorRectangle_Add")
+  local _,_,slot=reagirl.UI_Element_GetNextXAndYPosition(x, y, "DecorRectangle_Add")
   --reagirl.UI_Element_NextX_Default=x
   
   --reagirl.SetFont(1, reagirl.Font_Face, reagirl.Font_Size, 0, 1)
@@ -11375,6 +11735,7 @@ function reagirl.ColorRectangle_Add(x, y, w, h, r, g, b, caption, meaningOfUI_El
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>ColorRectangle_Add</slug>
+  <title>ColorRectangle_Add</title>
   <requires>
     ReaGirl=1.3
     Reaper=7.03
@@ -11695,7 +12056,7 @@ function reagirl.ColorRectangle_SetRadius(element_id, radius)
   </description>
   <parameters>
     string element_id - the guid of the color-rectangle, whose radius you want to set
-    integer radius - 0 and higher(too high may lead to drawing issues, experiment with it
+    integer radius - between 0 and higher(too high may lead to drawing issues, experiment with it)
   </parameters>
   <chapter_context>
     Color Rectangle
@@ -13366,8 +13727,9 @@ function reagirl.Button_Add(x, y, w_margin, h_margin, caption, meaningOfUI_Eleme
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>Button_Add</slug>
+  <title>Button_Add</title>
   <requires>
-    ReaGirl=1.4
+    ReaGirl=1.32
     Reaper=7.03
     Lua=5.4
   </requires>
@@ -13402,7 +13764,7 @@ function reagirl.Button_Add(x, y, w_margin, h_margin, caption, meaningOfUI_Eleme
   </chapter_context>
   <tags>button, add</tags>
   <changelog>
-    ReaGirl 1.4 - added new parameters mode, width and height
+    ReaGirl 1.32 - added new parameters mode, width and height
     ReaGirl 1.3 - added new parameter unique_id for a unique identifier
     ReaGirl 1.0 - added to ReaGirl
   </changelog>
@@ -13625,6 +13987,7 @@ function reagirl.Button_SetEdgeStyle(element_id, top_left, top_right, bottom_lef
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>Button_SetEdgeStyle</slug>
+  <title>Button_SetEdgeStyle</title>
   <requires>
     ReaGirl=1.3
     Reaper=7.03
@@ -13673,6 +14036,7 @@ function reagirl.Button_GetEdgeStyle(element_id)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>Button_GetEdgeStyle</slug>
+  <title>Button_GetEdgeStyle</title>
   <requires>
     ReaGirl=1.3
     Reaper=7.03
@@ -13799,7 +14163,7 @@ function reagirl.Button_Draw(element_id, selected, hovered, clicked, mouse_cap, 
     reagirl.RoundRect(x+dpi_scale, y+dpi_scale, w-dpi_scale, h, (radius-1) * dpi_scale, 1, 1, element_storage["square_topleft"], element_storage["square_bottomleft"], element_storage["square_topright"], element_storage["square_bottomright"])
     
     if element_storage["IsDisabled"]==false then
-      if reaper.GetOS():match("OS")~=nil then offset=1 end
+      if reagirl.OS=="Mac" then offset=1 end
       gfx.x=x+(w-sw)/2+2+scale+dpi_scale
       gfx.y=y+dpi_scale+(h-sh)/2+scale+dpi_scale+dpi_scale
       gfx.set(reagirl.Colors.Buttons_TextBG_r, reagirl.Colors.Buttons_TextBG_g, reagirl.Colors.Buttons_TextBG_b)
@@ -13826,7 +14190,7 @@ function reagirl.Button_Draw(element_id, selected, hovered, clicked, mouse_cap, 
     
     local offset=0
     if element_storage["IsDisabled"]==false then
-      if reaper.GetOS():match("OS")~=nil then offset=1 end
+      if reagirl.OS=="Mac" then offset=1 end
       gfx.x=x+(w-sw)/2+1+dpi_scale
       gfx.y=y+dpi_scale+(h-sh)/2
       gfx.set(reagirl.Colors.Buttons_TextBG_r, reagirl.Colors.Buttons_TextBG_g, reagirl.Colors.Buttons_TextBG_b)
@@ -13837,7 +14201,7 @@ function reagirl.Button_Draw(element_id, selected, hovered, clicked, mouse_cap, 
       gfx.set(reagirl.Colors.Buttons_TextFG_r, reagirl.Colors.Buttons_TextFG_g, reagirl.Colors.Buttons_TextFG_b)
       gfx.drawstr(element_storage["Name"])
     else
-      if reaper.GetOS():match("OS")~=nil then offset=1 end
+      if reagirl.OS=="Mac" then offset=1 end
       
       gfx.x=x+(w-sw)/2+1+dpi_scale
       gfx.y=y+(h-sh)/2+1+offset-1
@@ -13868,6 +14232,8 @@ function reagirl.ToolbarButton_ReloadImage_Scaled(element_id)
   local scale=reagirl.Window_CurrentScale
   
   local path, filename = string.gsub(image_filename, "\\", "/"):match("(.*)(/.*)")
+  if path==nil then path="" filename=image_filename end
+
   reagirl.Elements[element_id]["toolbaricon_scale"]=1
   if reaper.file_exists(image_filename:match("(.*)%.").."-"..scale.."x"..image_filename:match(".*(%..*)"))==true then
     image_filename=image_filename:match("(.*)%.").."-"..scale.."x"..image_filename:match(".*(%..*)")
@@ -13905,6 +14271,7 @@ function reagirl.ToolbarButton_Add(x, y, toolbaricon, num_states, default_state,
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>ToolbarButton_Add</slug>
+  <title>ToolbarButton_Add</title>
   <requires>
     ReaGirl=1.3
     Reaper=7.03
@@ -13989,7 +14356,19 @@ function reagirl.ToolbarButton_Add(x, y, toolbaricon, num_states, default_state,
 --]]
   if x~=nil and math.type(x)~="integer" then error("ToolbarButton_Add: param #1 - must be either nil or an integer", 2) end
   if y~=nil and math.type(y)~="integer" then error("ToolbarButton_Add: param #2 - must be either nil or an integer", 2) end
-  if type(toolbaricon)~="string" then error("ToolbarButton_Add: param #3 - must be a string", 2) end
+  if type(toolbaricon)~="string" and toolbaricon~="" then 
+    error("ToolbarButton_Add: param #3 - must be a string with a filename", 2) 
+  elseif type(toolbaricon)=="string" then
+    local tempmode=mode
+    if tempmode&128==128 then tempmode=tempmode-128 end
+    if tempmode&256==256 then tempmode=tempmode-256 end
+    if tempmode&512==512 then tempmode=tempmode-512 end
+    if tempmode&1024==1024 then tempmode=tempmode-1024 end
+    if toolbaricon=="" and tempmode<3 and tempmode>4 then
+      error("ToolbarButton_Add: param #3 - must be a string with a filename, if mode is not set to text-button", 2) 
+    end
+  end
+
   if math.type(num_states)~="integer" then error("ToolbarButton_Add: param #4 - must be an integer", 2) end
   if num_states<1 or num_states>32 then error("ToolbarButton_Add: param #4 - must be between 1 and 32", 2) end
   if math.type(default_state)~="integer" then error("ToolbarButton_Add: param #5 - must be an integer", 2) end
@@ -14356,6 +14735,7 @@ function reagirl.ToolbarButton_LinkToExtstate(element_id, section, key, default,
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>ToolbarButton_LinkToExtstate</slug>
+  <title>ToolbarButton_LinkToExtstate</title>
   <requires>
     ReaGirl=1.3
     Reaper=7.03
@@ -14411,6 +14791,7 @@ function reagirl.ToolbarButton_SetDropShadow(element_id, has_drop_shadow)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>ToolbarButton_SetDropShadow</slug>
+  <title>ToolbarButton_SetDropShadow</title>
   <requires>
     ReaGirl=1.3
     Reaper=7.03
@@ -14450,6 +14831,7 @@ function reagirl.ToolbarButton_SetState(element_id, state)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>ToolbarButton_SetState</slug>
+  <title>ToolbarButton_SetState</title>
   <requires>
     ReaGirl=1.3
     Reaper=7.03
@@ -14498,6 +14880,7 @@ function reagirl.ToolbarButton_GetDropShadow(element_id, has_drop_shadow)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>ToolbarButton_GetDropShadow</slug>
+  <title>ToolbarButton_GetDropShadow</title>
   <requires>
     ReaGirl=1.3
     Reaper=7.03
@@ -14537,6 +14920,7 @@ function reagirl.ToolbarButton_LinkToIniValue(element_id, ini_file, section, key
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>ToolbarButton_LinkToIniValue</slug>
+  <title>ToolbarButton_LinkToIniValue</title>
   <requires>
     ReaGirl=1.3
     Reaper=7.03
@@ -14593,6 +14977,7 @@ function reagirl.ToolbarButton_LinkToIntConfigVarBit(element_id, configvar_name,
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>ToolbarButton_LinkToIntConfigVarBit</slug>
+  <title>ToolbarButton_LinkToIntConfigVarBit</title>
   <requires>
     ReaGirl=1.3
     Reaper=7.03
@@ -14652,6 +15037,7 @@ function reagirl.ToolbarButton_LinkToIntConfigVar(element_id, configvar_name, pe
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>ToolbarButton_LinkToIntConfigVar</slug>
+  <title>ToolbarButton_LinkToIntConfigVar</title>
   <requires>
     ReaGirl=1.3
     Reaper=7.03
@@ -14708,6 +15094,7 @@ function reagirl.ToolbarButton_LinkToToggleState(element_id, section, command_id
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>ToolbarButton_LinkToToggleState</slug>
+  <title>ToolbarButton_LinkToToggleState</title>
   <requires>
     ReaGirl=1.3
     Reaper=7.03
@@ -14776,6 +15163,7 @@ function reagirl.ToolbarButton_Unlink(element_id)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>ToolbarButton_Unlink</slug>
+  <title>ToolbarButton_Unlink</title>
   <requires>
     ReaGirl=1.3
     Reaper=7.03
@@ -15059,7 +15447,7 @@ function reagirl.ToolbarButton_Draw(element_id, selected, hovered, clicked, mous
     
     local offset=0
     gfx.x=x+(w-sw)/2+1
-    if reaper.GetOS():match("OS")~=nil then offset=1 end
+    if reagirl.OS=="Mac" then offset=1 end
     gfx.y=y+(h-sh)/2-dpi_scale
   end
 end
@@ -15068,6 +15456,7 @@ function reagirl.ToolbarButton_SetColor(element_id, r, g, b)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>ToolbarButton_SetColor</slug>
+  <title>ToolbarButton_SetColor</title>
   <requires>
     ReaGirl=1.3
     Reaper=7.03
@@ -15121,6 +15510,7 @@ function reagirl.ToolbarButton_GetColor(element_id)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>ToolbarButton_GetColor</slug>
+  <title>ToolbarButton_GetColor</title>
   <requires>
     ReaGirl=1.3
     Reaper=7.03
@@ -15168,6 +15558,7 @@ function reagirl.ToolbarButton_SetRadius(element_id, radius)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>ToolbarButton_SetRadius</slug>
+  <title>ToolbarButton_SetRadius</title>
   <requires>
     ReaGirl=1.3
     Reaper=7.03
@@ -15209,6 +15600,7 @@ function reagirl.ToolbarButton_GetRadius(element_id)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>ToolbarButton_GetRadius</slug>
+  <title>ToolbarButton_GetRadius</title>
   <requires>
     ReaGirl=1.3
     Reaper=7.03
@@ -15249,6 +15641,7 @@ function reagirl.ToolbarButton_GetState(element_id)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>ToolbarButton_GetState</slug>
+  <title>ToolbarButton_GetState</title>
   <requires>
     ReaGirl=1.3
     Reaper=7.03
@@ -15291,6 +15684,7 @@ function reagirl.ToolbarButton_SetEdgeStyle(element_id, top_left, top_right, bot
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>ToolbarButton_SetEdgeStyle</slug>
+  <title>ToolbarButton_SetEdgeStyle</title>
   <requires>
     ReaGirl=1.3
     Reaper=7.03
@@ -15339,6 +15733,7 @@ function reagirl.ToolbarButton_GetEdgeStyle(element_id)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>ToolbarButton_GetEdgeStyle</slug>
+  <title>ToolbarButton_GetEdgeStyle</title>
   <requires>
     ReaGirl=1.3
     Reaper=7.03
@@ -15382,12 +15777,13 @@ function reagirl.Color_GetSet(color_name, is_set, r, g, b)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>Color_GetSet</slug>
+  <title>Color_GetSet</title>
   <requires>
     ReaGirl=1.3
     Reaper=7.03
     Lua=5.4
   </requires>
-  <functioncall>integer r, integer g, integer b = reagirl.Color_GetSet(string color_name, booean is_set, integer r, integer g, integer b)</functioncall>
+  <functioncall>integer r, integer g, integer b = reagirl.Color_GetSet(string color_name, boolean is_set, integer r, integer g, integer b)</functioncall>
   <description>
     Get/set a new color-value for areas of the ui-elements. It will have an immediate effect on all ui-elements sharing that color. 
     Setting colors will affect only this ReaGirl-gui-instance.
@@ -15507,6 +15903,7 @@ function reagirl.Menu_GetEntryName(menu, entry_nr)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>Menu_GetEntryName</slug>
+  <title>Menu_GetEntryName</title>
   <requires>
     ReaGirl=1.2
     Reaper=7.03
@@ -15546,6 +15943,7 @@ function reagirl.Burgermenu_Add(x, y, caption, mode, meaningOfUI_Element, menu, 
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>Burgermenu_Add</slug>
+  <title>Burgermenu_Add</title>
   <requires>
     ReaGirl=1.3
     Reaper=7.03
@@ -15639,6 +16037,7 @@ function reagirl.Burgermenu_SetMenu(element_id, menu)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>Burgermenu_SetMenu</slug>
+  <title>Burgermenu_SetMenu</title>
   <requires>
     ReaGirl=1.2
     Reaper=7.03
@@ -16733,11 +17132,12 @@ function reagirl.Inputbox_Manage(element_id, selected, hovered, clicked, mouse_c
   end
   element_storage.dropdown_clicked=nil
   -- start here debug mespotine
-  
+  local override_enterkey=false
   if reagirl.osara_outputMessage~=nil and selected~="not selected" then
     reagirl.Gui_PreventEnterForOneCycle()
     if selected~="not selected" and (Key==13 or (mouse_cap&1==1 and gfx.mouse_x>=x and gfx.mouse_x<=x+w-element_storage.w_dropdownarea*dpi_scale and gfx.mouse_y>=y and gfx.mouse_y<=y+h)) then      
       local retval, text = reaper.GetUserInputs("Enter or edit the text", 1, name..","..element_storage["password"]..",extrawidth=150", element_storage.Text)
+      override_enterkey=true
       reagirl.Window_SetFocus_Trigger=true
       --element_storage.draw_offset=1
       --reagirl.Inputbox_Calculate_DrawOffset(true, element_storage)
@@ -16745,9 +17145,11 @@ function reagirl.Inputbox_Manage(element_id, selected, hovered, clicked, mouse_c
         refresh=true
         element_storage.Text=text
         reagirl.Inputbox_Calculate_DrawOffset(true, element_storage)
-        if element_storage["run_function"]~=nil then
-          element_storage["run_function"](element_storage["Guid"], element_storage.Text)
-        end
+        --if override_enterkey==false then 
+          if element_storage["run_function"]~=nil then
+            element_storage["run_function"](element_storage["Guid"], element_storage.Text)
+          end
+        --end
       end
     elseif selected~="not selected" and (Key==1685026670 or (clicked=="FirstCLK" and gfx.mouse_x>=x+w-element_storage.w_dropdownarea*dpi_scale and gfx.mouse_x<=x+w and gfx.mouse_y>=y and gfx.mouse_y<=y+h)) then      
       element_storage.dropdown_clicked=true
@@ -17364,7 +17766,7 @@ function reagirl.Inputbox_SetText(element_id, new_text, startoffset, replace_len
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>Inputbox_SetText</slug>
   <requires>
-    ReaGirl=1.4
+    ReaGirl=1.32
     Reaper=7.03
     Lua=5.4
   </requires>
@@ -17385,7 +17787,7 @@ function reagirl.Inputbox_SetText(element_id, new_text, startoffset, replace_len
   </chapter_context>
   <tags>inputbox, set, text</tags>
   <changelog>
-    ReaGirl 1.4 - added new parameters insert_at_offset and replace_until_offset
+    ReaGirl 1.32 - added new parameters insert_at_offset and replace_until_offset
     ReaGirl 1.0 - added to ReaGirl
   </changelog>
 </US_DocBloc>
@@ -17434,7 +17836,7 @@ function reagirl.Inputbox_SetSelectedText(element_id, start_offset, length)
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>Inputbox_SetSelectedText</slug>
   <requires>
-    ReaGirl=1.4
+    ReaGirl=1.32
     Reaper=7.03
     Lua=5.4
   </requires>
@@ -17458,7 +17860,7 @@ function reagirl.Inputbox_SetSelectedText(element_id, start_offset, length)
   </chapter_context>
   <tags>inputbox, set, text selection</tags>
   <changelog>
-    ReaGirl 1.4 - added to ReaGirl
+    ReaGirl 1.32 - added to ReaGirl
   </changelog>
 </US_DocBloc>
 --]]
@@ -17531,7 +17933,7 @@ function reagirl.Inputbox_GetTextLength(element_id)
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>Inputbox_GetTextLength</slug>
   <requires>
-    ReaGirl=1.4
+    ReaGirl=1.32
     Reaper=7.03
     Lua=5.4
   </requires>
@@ -17550,7 +17952,7 @@ function reagirl.Inputbox_GetTextLength(element_id)
   </chapter_context>
   <tags>inputbox, get, textlength</tags>
   <changelog>
-    ReaGirl 1.4 - added to ReaGirl
+    ReaGirl 1.32 - added to ReaGirl
   </changelog>
 </US_DocBloc>
 --]]
@@ -17607,7 +18009,7 @@ function reagirl.Inputbox_GetSelectedText(element_id)
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>Inputbox_GetSelectedText</slug>
   <requires>
-    ReaGirl=1.4
+    ReaGirl=1.32
     Reaper=7.03
     Lua=5.4
   </requires>
@@ -17629,7 +18031,7 @@ function reagirl.Inputbox_GetSelectedText(element_id)
   </chapter_context>
   <tags>inputbox, get, selected, text</tags>
   <changelog>
-    ReaGirl 1.4 - added new return-value selection_length; documented retvals selection_startoffset and selection_endoffset
+    ReaGirl 1.32 - added new return-value selection_length; documented retvals selection_startoffset and selection_endoffset
     ReaGirl 1.0 - added to ReaGirl
   </changelog>
 </US_DocBloc>
@@ -17690,7 +18092,7 @@ function reagirl.Inputbox_SetCursorOffset(element_id, cursor_offset)
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>Inputbox_SetCursorOffset</slug>
   <requires>
-    ReaGirl=1.4
+    ReaGirl=1.32
     Reaper=7.03
     Lua=5.4
   </requires>
@@ -17709,7 +18111,7 @@ function reagirl.Inputbox_SetCursorOffset(element_id, cursor_offset)
   </chapter_context>
   <tags>inputbox, set, cursor offset</tags>
   <changelog>
-    ReaGirl 1.4 - added to ReaGirl
+    ReaGirl 1.32 - added to ReaGirl
   </changelog>
 </US_DocBloc>
 --]]
@@ -18966,7 +19368,7 @@ function reagirl.Label_Add(x, y, label, meaningOfUI_Element, clickable, run_func
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>Label_Add</slug>
   <requires>
-    ReaGirl=1.4
+    ReaGirl=1.32
     Reaper=7.03
     Lua=5.4
   </requires>
@@ -19001,7 +19403,7 @@ function reagirl.Label_Add(x, y, label, meaningOfUI_Element, clickable, run_func
   </chapter_context>
   <tags>label, add</tags>
   <changelog>
-    ReaGirl 1.4 - added new parameter font_size
+    ReaGirl 1.32 - added new parameter font_size
     ReaGirl 1.3 - added new parameter unique_id for a unique identifier
     ReaGirl 1.0 - added to ReaGirl
   </changelog>
@@ -19626,7 +20028,7 @@ function reagirl.Label_SetColor(element_id, r, g, b, r_clickable, g_clickable, b
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>Label_SetColor</slug>
   <requires>
-    ReaGirl=1.4
+    ReaGirl=1.32
     Reaper=7.03
     Lua=5.4
   </requires>
@@ -19650,7 +20052,7 @@ function reagirl.Label_SetColor(element_id, r, g, b, r_clickable, g_clickable, b
   </chapter_context>
   <tags>label, set, color</tags>
   <changelog>
-    ReaGirl 1.4 - added to ReaGirl
+    ReaGirl 1.32 - added to ReaGirl
   </changelog>
 </US_DocBloc>
 --]]
@@ -19703,7 +20105,7 @@ function reagirl.Label_GetColor(element_id)
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>Label_SetColor</slug>
   <requires>
-    ReaGirl=1.4
+    ReaGirl=1.32
     Reaper=7.03
     Lua=5.4
   </requires>
@@ -19729,7 +20131,7 @@ function reagirl.Label_GetColor(element_id)
   </chapter_context>
   <tags>label, get, color</tags>
   <changelog>
-    ReaGirl 1.4 - added to ReaGirl
+    ReaGirl 1.32 - added to ReaGirl
   </changelog>
 </US_DocBloc>
 --]]
@@ -20676,8 +21078,12 @@ function reagirl.Image_Draw(element_id, selected, hovered, clicked, mouse_cap, m
   else    
     if element_storage["DropShadow"]==true then
       gfx.mode=1
-      gfx.a=-.5
+      gfx.a=-0.5
       gfx.blit(element_storage["Image_Storage"],1,0,0,0,imgw,imgh,x+scale,y+scale,w,h,0,0)
+      gfx.x=1
+      gfx.y=1
+      gfx.drawstr(reaper.time_precise())
+      --print(reaper.time_precise())
     end
     gfx.mode=0
     gfx.a=1
@@ -21854,11 +22260,13 @@ function reagirl.UI_Element_SetFocused(element_id)
   <tags>functions, set, focused, gui</tags>
 </US_DocBloc>
 ]]
-  if reagirl.Elements.FocusedElement>=#reagirl.Elements-5 then return end
+  if reagirl.Elements.FocusedElement~=nil and (reagirl.Elements.FocusedElement>=#reagirl.Elements-5) then return end
   if type(element_id)~="string" then error("UI_Element_SetFocused: param #1 - must be a string", 2) end
   local id=reagirl.UI_Element_GetIDFromGuid(element_id)
   if id==-1 then error("UI_Element_SetFocused: param #1 - no such ui-element", 2) end
 
+  reagirl.ui_element_selected=nil
+  
   reagirl.Elements.FocusedElement=id
   reagirl.Gui_ForceRefresh(52)
 end
@@ -21922,7 +22330,7 @@ function reagirl.AutoPosition_SetNextUIElementRelativeTo(element_id, offset)
   </chapter_context>
   <target_document>ReaGirl_Functions</target_document>
   <source_document>reagirl.lua</source_document>
-  <tags>functions, set, auto position, next line</tags>
+  <tags>functions, set, auto position, relative</tags>
 </US_DocBloc>
 ]]
   if type(element_id)~="string" then error("AutoPosition_SetNextUIElementRelativeTo: param #1: must be a string", 2) return end
@@ -22387,6 +22795,7 @@ function reagirl.Settings_Global_GetSet(setting, is_set, value)
     
     The following settings are valid:
       Show_Tooltips - 0, don't show tooltips; 1, show tooltips
+      DarkMode - 1, obey Reaper setting; 2, dark mode; 3, no dark mode 
       Debug_Message_Destination - the destination of error-messages; 1, IDE; 2, a messagebox; 3, ReaScript console window      
       Debug_Show_Gui_And_UI_Names - 0, don't show gui and ui-element-names in ReaScript-console; 1, show gui and ui-element-names in ReaScript-console
       Drag_Highlight_Destinations - 0, don't highlight drag destinations; 1, highlight drag destinations(default)
@@ -22419,7 +22828,8 @@ function reagirl.Settings_Global_GetSet(setting, is_set, value)
   </chapter_context>
   <tags>misc, get, set, options</tags>
   <changelog>
-    ReaGirl 1.4 - added new option Debug_Show_Gui_And_UI_Names, Window_Dragging; returns now nil in case of an error
+    ReaGirl 1.4 - added new option DarkMode
+    ReaGirl 1.32 - added new option Debug_Show_Gui_And_UI_Names, Window_Dragging; returns now nil in case of an error
     ReaGirl 1.3 - added to ReaGirl
   </changelog>
 </US_DocBloc>
@@ -22429,6 +22839,9 @@ function reagirl.Settings_Global_GetSet(setting, is_set, value)
     if setting=="Show_Tooltips" then 
       val=reaper.GetExtState("ReaGirl", "show_tooltips")
       if val=="" or val=="true" then val=1 else val=0 end
+    elseif setting=="DarkMode" then
+      val=reaper.GetExtState ("ReaGirl", "DarkMode")
+      if val=="" then val=1 end
     elseif setting=="FocusRectangle_BlinkSpeed" then
       val=reaper.GetExtState("ReaGirl", "FocusRectangle_BlinkSpeed")
       if val=="" then val=1 else val=tonumber(val)/33 end
@@ -22495,6 +22908,9 @@ function reagirl.Settings_Global_GetSet(setting, is_set, value)
     if setting=="Show_Tooltips" then 
       if value==1 then value="" else value="false" end
       reaper.SetExtState("ReaGirl", "show_tooltips", value, true)
+    elseif setting=="DarkMode" then
+      if value<1 or value>3 then value=0 end
+      reaper.SetExtState ("ReaGirl", "DarkMode", value, true)
     elseif setting=="FocusRectangle_BlinkSpeed" then
       if value<0.3 then value=0.3 end
       if value>3 then value=3 end

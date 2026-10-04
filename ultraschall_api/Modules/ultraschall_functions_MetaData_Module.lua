@@ -1949,7 +1949,7 @@ function ultraschall.Metadata_ExtractCover(media_filename, target_filename)
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>Metadata_ExtractCover</slug>
   <requires>
-    Ultraschall=5.4
+    Ultraschall=5.32
     Reaper=7.03
     Lua=5.3
   </requires>
@@ -2012,7 +2012,6 @@ function ultraschall.Metadata_ExtractCover(media_filename, target_filename)
   if A==0 then
     A,B,C=reaper.GetMediaFileMetadata(PCM_Source, "FLACPIC:APIC")
   end
-  AAA=B
   reaper.PCM_Source_Destroy(PCM_Source)
   if A==0 then ultraschall.AddErrorMessage("Metadata_ExtractCover", "media_filename", "no cover-image", -4) return false end
 

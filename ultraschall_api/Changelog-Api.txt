@@ -410,25 +410,103 @@ To Do:
  
 </TODO>
 
-## Ultraschall Framework - Changelog
-### 5.4 - " - " - 13th of June 2025
+TODO: speichere mal die mouse-states in Variablen. So dass man dragged Koordinaten beispielsweise nach dem Dragging noch abrufen kann um Dinge zu tun.
+Mal durchdenken, was für Implikationen das hat für Accessibility....
 
-Has now 1939 functions, with X new ones
+Podmeta:
+chap_next_chapter_numbers and chap_previous_chapter_numbers
+Make them numbered, like chap_previous_chapter_1 to chap_previous_chapter_X. Also include chap_previous_chapter_description_X that describes, what the next/previous chapter is all about.
+
+Add Contentmarkers, like 
+cntm_X_position - position of the content
+cntm_X_mimetype - the type of the content(mp3, mp4, gif, jpg, png are allowed)
+cntm_X_description - the description of the marker
+cntm_X_content - the binary content of the marker(Base64) 
+cntm_X_license - the license of the content
+cntm_X_author - the author of the content
+cntm_X_url - the url, where the content has been gotten from
+Contentmarkers allow embedding other content into a podcast, that can optionally be played. Chapterimages can be stored that way, but also other media types, which is more flexible than ID3-chapter-images.
+
+Chapter images aus chap_-Attributen rausnehmen. Das sollen Content Marker übernehmen.
+
+## Ultraschall Framework - Changelog
+
+### 5.4 - "Take That - Relight my Fire" - XX of XXXX XXXX
+
+Has now 1944 functions, with X new ones
 
 **new in this release:**  
 
-  - **Bla**  
-  Bla
+TODO: 
+- When rendering without importing audio, the audio is added and then removed, which seems to create undo-points. Fix this by undoing instead of removing the tracks after you got the filenames.
+- ReaGirl on Retina-Macs: 
+  - Fensterposition wird nicht korrekt gemerkt, wenn remember window-position auf true gestellt ist. Die Fenster wandern Stück für Stück nach oben.
+    Vermutung: beim Speichern der Fensterposition vergessen wir auf dem Mac die Höhe des Fensters von der Y-position abzuziehen, so dass es da zu nem Offset kommt.
+    Note: wird die X-Koordinate auch korrekt berechnet? Muss ich da auch was ändern, weil die Retina-Fenster in der Größe nochmal angepasst werden oder läuft das korrekt -> Testen und fixen evtl.
+  - Bei Window_Open x=nil und y=nil wird das Fenster nicht sauber positioniert in der Mitte auf der y-Position. Als ob da was falsch kalkuliert wird.
+    Vermutung: ich positioniere die y-Position korrekt VOR der Mac-Y-Koordinatenanpassung. Dadurch wandert das Fenster nach oben.
+    Was ich also vermutlich tun muss ist mir temporör zu merken, ob die Y-Koordinate=nil ist und dann in der Mac-Retina-Weiche die Y-Position nochmal neu kalkulieren NACH
+    der Rekalkulation des finalen Fensters. So dass die y-Position quasi nochmal nachaktualisiert werden muss.
+    ZUM GLÜCK: haut die X-Koordinate sauber hin, die wird korrekt positioniert.
+  - Script: ultraschall_developertool_Create_New_Script_With_Dialog.lua stoppt mit ner Nil-Fehlermeldung, wenn SWS&JS-Extensions nicht installiert sind, obwohl es nach "Kein SWS/JS-Extension" stoppen sollte.
+      - Füge noch die Option für ReaImGui-Shims hinzu.
+  - ReaImGui: drop down menü für Toobar-Buttons: sprich, am rechten Rand gibts noch ne Erweiterung mit nem DropDownMenü, das es ermöglich zusätzliche Optionen auszuwählen.
+              Brauchen wir für den Aufnahmebutton im Transportfeld, so dass man beim normalen Aufnahmebutton-Bereich klicken ne normale Aufnahme startet und wenn man am rechten
+              Rand klickt, bekommt man zur Auswahl normale Aufnahme, Ripple Insert, preview Recording als Aufnahmemodi.
+              Vielleicht sollten wir dann die Buttongrafik enstsprechend ändern, dass sie anzeigt, welcher Modus grad ausgewählt ist.
+              Das Tooltip muss dann erklären, welche Modi es gibt und wie man sie wechselt.
+              Wichtig! Der Dropdownbereich kommt zusätzlich an den rechten Rand, so dass der Button nicht mehr quadratisch ist sondern breiter, damit genug Klickfläche im Button bleibt.
   
 #### New features in 5.4  
+  - Actions: ShowActionList - shows the actionlist and allows setting the filter  
+  - Docs: API Changelog - added changelog for API-changes in extensions and ReaGirl
+  - ReaGirl: AutoPosition\_SetNextUIElementAtPosition - sets the next autopositioned ui-element at x,y-position
+  - ReaGirl: DarkMode\_Get - gets whether this current gui is currently in dark mode or bright mode
+  - ReaGirl: DarkMode\_Toggle - toggles ReaGirl between dark mode and bright mode and ReaGirl's preferences
+
+#### Changes from 5.32 to 5.4
+  - Developer Tool: Create\_New\_Script\_With\_Dialog - fixed various bugs, should work now much smoother
+  - HelperFunctions: CompareStringWithAsciiValues - crashed, when string was 0-bytes long -> fixed
+  - MediaItems: InsertMediaItemFromFile - length=-1 didn't set the edit-cursor to the end of the inserted item; retval endposition was only returning length of inserted item, added missing info to the docs; when edit-cursor=2 and offset was set, the position wasn't at the end of the item -> fixed
+  - MediaItem: RippleCut - didn't move markers that were at the exact endposition -> fixed
+  - MediaItem\_Takes: GetTakeSourcePosByProjectPos - created additional undo points -> fixed
+  - ReaGirl: General - stored debug-information into reaper-exstate.ini -> fixed  
+  - ReaGirl: General - fixed font-sizes and window sizes on Retina-Macs
+  - ReaGirl: Refresh - removed unneeded refreshes, which could cause flickering backshadow on images and toolbar-images
+  - ReaGirl: InputBoxes - doesn't run the run-function for enter, when using the inputbox with screenreader to avoid complications
+  - ReaGirl: Gui\_AtEnter - the run-function gets now the element-id of the currently focused ui-element as first parameter
+  - ReaGirl: Gui\Open - stored window dimensions even when storing it was disabled(though didn't restore it) -> fixed
+  - ReaGirl: UI\_Element\_SetFocused - crashed, when Gui\_Manage hasn't been used yet -> fixed
+  
+---
+
+### 5.32 - "Birth Control - No Drugs" - 21st of September 2025
+
+Has now 1944 functions, with 5 new ones
+
+**new in this release:**  
+
+  - **Labels**  
+  It's now possible to get/set the color of the label.
+  
+  - **Buttons**  
+  It's now optionally possible to set width and height of a button. For buttons spanning the entire width of a window.
+  
+  - **Metadata Extractor**
+  Supports now FLAC for cover images and optionally not saving the cover-image.  
+  
+#### New features in 5.32  
   - ReaGirl: Inputbox\_GetTextLength - gets the length of the currently entered text of an inputbox
   - ReaGirl: Inputbox\_SetCursorOffset - sets the cursor-offset of an inputbox
   - ReaGirl: Inputbox\_SetSelectedText - sets the text-selection of an inputbox
   - ReaGirl: Label\_GetColor - gets the color of a label
   - ReaGirl: Label\_SetColor - sets the color of a label
 
-#### Changes from 5.31 to 5.4
-  - Metadata: Metadata\_ExtractCover - allows now not saving the cover-file; returns now the file-type and the cover-image as binary string; supports now flac as well
+#### Changes from 5.31 to 5.32
+  - MarkerMenu: menus - don't show a title anymore in the menu
+  - Markers: AddShownoteMarker - solidified the shownote-marker-color
+  - Menu: ShowMenu - doesn't show helper window anymore on Windows; coordinates are now automatically close at the mouse-cursor
+  - Metadata: Metadata\_ExtractCover - allows now not saving the cover-file; returns now the file-type and the cover-image as binary string; supports now flac as well  
   - ReaGirl: Button\_Add - added new parameters mode, width and height; width and height can be anchored to the right and bottom edge of the window
   - ReaGirl: Inputbox\_GetSelectedText - corrected docs; added new retval for length of the selected text
   - ReaGirl: Inputbox\_SetText - allows now setting an offset and the length to insert/replace text of an inputbox
@@ -462,7 +540,7 @@ Has now 1939 functions, with X new ones
   - Rendering: CreateRenderCFG\_FLV\_Video - returns now the render-cfg-string as hex-string and unencoded render-string as well  
   - Rendering: CreateRenderCFG\_WMF - returns now the render-cfg-string as hex-string and unencoded render-string as well  
   - Rendering: CreateRenderCFG\_RAW - returns now the render-cfg-string as hex-string and unencoded render-string as well  
-  
+  - TrackStates: GetTrackState\_NumbersOnly - had problems with differen statechunk-attributes of the same name, like ID -> fixed
 
 ---
 

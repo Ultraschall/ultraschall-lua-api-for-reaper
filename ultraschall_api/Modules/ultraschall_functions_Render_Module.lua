@@ -1422,7 +1422,7 @@ function ultraschall.CreateRenderCFG_GIF(Width, Height, MaxFPS, AspectRatio, Ign
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>CreateRenderCFG_GIF</slug>
   <requires>
-    Ultraschall=5.4
+    Ultraschall=5.32
     Reaper=5.975
     Lua=5.3
   </requires>
@@ -1434,7 +1434,7 @@ function ultraschall.CreateRenderCFG_GIF(Width, Height, MaxFPS, AspectRatio, Ign
   </description>
   <retvals>
     string render_cfg_string_base64 - the render-cfg-string for the selected GIF-settings base64-encoded(use this for render-table-functions)
-    string render_cfg_string_hexstring - the render-cfg-string for the selected GIF-settings hex-string-encoded(used in reaper.ini)
+    string render_cfg_string_hexstring - the render-cfg-string for the selected GIF-settings hex-string-encoded
     string render_cfg_string_unencoded - the binary version of the render string, so you can reencode it into other means 
   </retvals>
   <parameters>
@@ -1485,7 +1485,7 @@ function ultraschall.CreateRenderCFG_LCF(Width, Height, MaxFPS, AspectRatio, LCF
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>CreateRenderCFG_LCF</slug>
   <requires>
-    Ultraschall=5.4
+    Ultraschall=5.32
     Reaper=5.975
     Lua=5.3
   </requires>
@@ -1497,7 +1497,7 @@ function ultraschall.CreateRenderCFG_LCF(Width, Height, MaxFPS, AspectRatio, LCF
   </description>
   <retvals>
     string render_cfg_string_base64 - the render-cfg-string for the selected LCF-settings base64-encoded(use this for render-table-functions)
-    string render_cfg_string_hexstring - the render-cfg-string for the selected LCF-settings hex-string-encoded(used in reaper.ini)
+    string render_cfg_string_hexstring - the render-cfg-string for the selected LCF-settings hex-string-encoded
     string render_cfg_string_unencoded - the binary version of the render string, so you can reencode it into other means 
   </retvals>
   <parameters>
@@ -1548,7 +1548,7 @@ function ultraschall.CreateRenderCFG_WebM_Video(VIDKBPS, AUDKBPS, WIDTH, HEIGHT,
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>CreateRenderCFG_WebM_Video</slug>
   <requires>
-    Ultraschall=5.4
+    Ultraschall=5.32
     Reaper=6.62
     Lua=5.3
   </requires>
@@ -1562,7 +1562,7 @@ function ultraschall.CreateRenderCFG_WebM_Video(VIDKBPS, AUDKBPS, WIDTH, HEIGHT,
   </description>
   <retvals>
     string render_cfg_string_base64 - the render-cfg-string for the selected WebM-settings base64-encoded(use this for render-table-functions)
-    string render_cfg_string_hexstring - the render-cfg-string for the selected WebM-settings hex-string-encoded(used in reaper.ini)
+    string render_cfg_string_hexstring - the render-cfg-string for the selected WebM-settings hex-string-encoded
     string render_cfg_string_unencoded - the binary version of the render string, so you can reencode it into other means 
   </retvals>
   <parameters>
@@ -1652,7 +1652,7 @@ function ultraschall.CreateRenderCFG_MKV_Video(VideoCodec, MJPEG_quality, AudioC
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>CreateRenderCFG_MKV_Video</slug>
   <requires>
-    Ultraschall=5.4
+    Ultraschall=5.32
     Reaper=6.62
     Lua=5.3
   </requires>
@@ -1666,7 +1666,7 @@ function ultraschall.CreateRenderCFG_MKV_Video(VideoCodec, MJPEG_quality, AudioC
   </description>
   <retvals>
     string render_cfg_string_base64 - the render-cfg-string for the selected MKV-settings base64-encoded(use this for render-table-functions)
-    string render_cfg_string_hexstring - the render-cfg-string for the selected MKV-settings hex-string-encoded(used in reaper.ini)
+    string render_cfg_string_hexstring - the render-cfg-string for the selected MKV-settings hex-string-encoded
     string render_cfg_string_unencoded - the binary version of the render string, so you can reencode it into other means 
   </retvals>
   <parameters>
@@ -1781,7 +1781,7 @@ function ultraschall.CreateRenderCFG_QTMOVMP4_Video(VideoCodec, MJPEG_quality, A
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>CreateRenderCFG_QTMOVMP4_Video</slug>
   <requires>
-    Ultraschall=5.4
+    Ultraschall=5.32
     Reaper=6.62
     Lua=5.3
   </requires>
@@ -1795,7 +1795,7 @@ function ultraschall.CreateRenderCFG_QTMOVMP4_Video(VideoCodec, MJPEG_quality, A
   </description>
   <retvals>
     string render_cfg_string_base64 - the render-cfg-string for the selected QT/MOV/MP4-settings base64-encoded(use this for render-table-functions)
-    string render_cfg_string_hexstring - the render-cfg-string for the selected QT/MOV/MP4-settings hex-string-encoded(used in reaper.ini)
+    string render_cfg_string_hexstring - the render-cfg-string for the selected QT/MOV/MP4-settings hex-string-encoded
     string render_cfg_string_unencoded - the binary version of the render string, so you can reencode it into other means 
   </retvals>
   <parameters>
@@ -1905,7 +1905,7 @@ function ultraschall.CreateRenderCFG_AVI_Video(VideoCodec, MJPEG_quality, AudioC
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>CreateRenderCFG_AVI_Video</slug>
   <requires>
-    Ultraschall=5.4
+    Ultraschall=5.32
     Reaper=6.62
     Lua=5.3
   </requires>
@@ -1919,7 +1919,7 @@ function ultraschall.CreateRenderCFG_AVI_Video(VideoCodec, MJPEG_quality, AudioC
   </description>
   <retvals>
     string render_cfg_string_base64 - the render-cfg-string for the selected GIF-settings base64-encoded(use this for render-table-functions)
-    string render_cfg_string_hexstring - the render-cfg-string for the selected GIF-settings hex-string-encoded(used in reaper.ini)
+    string render_cfg_string_hexstring - the render-cfg-string for the selected GIF-settings hex-string-encoded
     string render_cfg_string_unencoded - the binary version of the render string, so you can reencode it into other means 
   </retvals>
   <parameters>
@@ -2228,7 +2228,7 @@ function ultraschall.CreateRenderCFG_MP4MAC_Video(Stream, VIDKBPS, AUDKBPS, WIDT
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>CreateRenderCFG_MP4MAC_Video</slug>
   <requires>
-    Ultraschall=5.4
+    Ultraschall=5.32
     Reaper=5.975
     Lua=5.3
   </requires>
@@ -2241,7 +2241,7 @@ function ultraschall.CreateRenderCFG_MP4MAC_Video(Stream, VIDKBPS, AUDKBPS, WIDT
   </description>
   <retvals>
     string render_cfg_string_base64 - the render-cfg-string for the selected MP4-Mac-settings base64-encoded(use this for render-table-functions)
-    string render_cfg_string_hexstring - the render-cfg-string for the selected MP4-Mac-settings hex-string-encoded(used in reaper.ini)
+    string render_cfg_string_hexstring - the render-cfg-string for the selected MP4-Mac-settings hex-string-encoded
     string render_cfg_string_unencoded - the binary version of the render string, so you can reencode it into other means 
   </retvals>
   <parameters>
@@ -2304,7 +2304,7 @@ function ultraschall.CreateRenderCFG_M4AMAC(AUDKBPS, WIDTH, HEIGHT, FPS, AspectR
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>CreateRenderCFG_M4AMAC</slug>
   <requires>
-    Ultraschall=5.4
+    Ultraschall=5.32
     Reaper=5.975
     Lua=5.3
   </requires>
@@ -2317,7 +2317,7 @@ function ultraschall.CreateRenderCFG_M4AMAC(AUDKBPS, WIDTH, HEIGHT, FPS, AspectR
   </description>
   <retvals>
     string render_cfg_string_base64 - the render-cfg-string for the selected GIF-settings base64-encoded(use this for render-table-functions)
-    string render_cfg_string_hexstring - the render-cfg-string for the selected GIF-settings hex-string-encoded(used in reaper.ini)
+    string render_cfg_string_hexstring - the render-cfg-string for the selected GIF-settings hex-string-encoded
     string render_cfg_string_unencoded - the binary version of the render string, so you can reencode it into other means 
   </retvals>
   <parameters>
@@ -2375,7 +2375,7 @@ function ultraschall.CreateRenderCFG_MOVMAC_Video(VideoCodec, VIDKBPS, MJPEG_qua
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>CreateRenderCFG_MOVMAC_Video</slug>
   <requires>
-    Ultraschall=5.4
+    Ultraschall=5.32
     Reaper=5.975
     Lua=5.3
   </requires>
@@ -2388,7 +2388,7 @@ function ultraschall.CreateRenderCFG_MOVMAC_Video(VideoCodec, VIDKBPS, MJPEG_qua
   </description>
   <retvals>
     string render_cfg_string_base64 - the render-cfg-string for the selected Mov-Mac-settings base64-encoded(use this for render-table-functions)
-    string render_cfg_string_hexstring - the render-cfg-string for the selected Mov-Mac-settings hex-string-encoded(used in reaper.ini)
+    string render_cfg_string_hexstring - the render-cfg-string for the selected Mov-Mac-settings hex-string-encoded
     string render_cfg_string_unencoded - the binary version of the render string, so you can reencode it into other means 
   </retvals>
   <parameters>
@@ -3327,7 +3327,7 @@ function ultraschall.CreateRenderCFG_Opus(Mode, Kbps, Complexity, channel_audio,
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>CreateRenderCFG_Opus</slug>
   <requires>
-    Ultraschall=5.4
+    Ultraschall=5.32
     Reaper=5.975
     Lua=5.3
   </requires>
@@ -3341,7 +3341,7 @@ function ultraschall.CreateRenderCFG_Opus(Mode, Kbps, Complexity, channel_audio,
   </description>
   <retvals>
     string render_cfg_string_base64 - the render-cfg-string for the selected Opus-settings base64-encoded(use this for render-table-functions)
-    string render_cfg_string_hexstring - the render-cfg-string for the selected Opus-settings hex-string-encoded(used in reaper.ini)
+    string render_cfg_string_hexstring - the render-cfg-string for the selected Opus-settings hex-string-encoded
     string render_cfg_string_unencoded - the binary version of the render string, so you can reencode it into other means 
   </retvals>
   <parameters>
@@ -3396,7 +3396,7 @@ function ultraschall.CreateRenderCFG_OGG(Mode, VBR_Quality, CBR_KBPS, ABR_KBPS, 
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>CreateRenderCFG_OGG</slug>
   <requires>
-    Ultraschall=5.4
+    Ultraschall=5.32
     Reaper=5.77
     Lua=5.3
   </requires>
@@ -3411,7 +3411,7 @@ function ultraschall.CreateRenderCFG_OGG(Mode, VBR_Quality, CBR_KBPS, ABR_KBPS, 
   </description>
   <retvals>
     string render_cfg_string_base64 - the render-cfg-string for the selected OGG-settings base64-encoded(use this for render-table-functions)
-    string render_cfg_string_hexstring - the render-cfg-string for the selected OGG-settings hex-string-encoded(used in reaper.ini)
+    string render_cfg_string_hexstring - the render-cfg-string for the selected OGG-settings hex-string-encoded
     string render_cfg_string_unencoded - the binary version of the render string, so you can reencode it into other means 
   </retvals>
   <parameters>
@@ -3471,7 +3471,7 @@ function ultraschall.CreateRenderCFG_DDP()
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>CreateRenderCFG_DDP</slug>
   <requires>
-    Ultraschall=5.4
+    Ultraschall=5.32
     Reaper=5.77
     Lua=5.3
   </requires>
@@ -3481,7 +3481,7 @@ function ultraschall.CreateRenderCFG_DDP()
   </description>
   <retvals>
     string render_cfg_string_base64 - the render-cfg-string for the selected DDP-settings base64-encoded(use this for render-table-functions)
-    string render_cfg_string_hexstring - the render-cfg-string for the selected DDP-settings hex-string-encoded(used in reaper.ini)
+    string render_cfg_string_hexstring - the render-cfg-string for the selected DDP-settings hex-string-encoded
     string render_cfg_string_unencoded - the binary version of the render string, so you can reencode it into other means 
   </retvals>
   <chapter_context>
@@ -3505,7 +3505,7 @@ function ultraschall.CreateRenderCFG_FLAC(Bitrate, EncSpeed)
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>CreateRenderCFG_FLAC</slug>
   <requires>
-    Ultraschall=5.4
+    Ultraschall=5.32
     Reaper=5.77
     Lua=5.3
   </requires>
@@ -3519,7 +3519,7 @@ function ultraschall.CreateRenderCFG_FLAC(Bitrate, EncSpeed)
   </description>
   <retvals>
     string render_cfg_string_base64 - the render-cfg-string for the selected Flac-settings base64-encoded(use this for render-table-functions)
-    string render_cfg_string_hexstring - the render-cfg-string for the selected Flac-settings hex-string-encoded(used in reaper.ini)
+    string render_cfg_string_hexstring - the render-cfg-string for the selected Flac-settings hex-string-encoded
     string render_cfg_string_unencoded - the binary version of the render string, so you can reencode it into other means 
   </retvals>
   <parameters>
@@ -3584,7 +3584,7 @@ function ultraschall.CreateRenderCFG_WAVPACK(Mode, Bitdepth, Writemarkers, Write
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>CreateRenderCFG_WAVPACK</slug>
   <requires>
-    Ultraschall=5.4
+    Ultraschall=5.32
     Reaper=5.77
     Lua=5.3
   </requires>
@@ -3598,7 +3598,7 @@ function ultraschall.CreateRenderCFG_WAVPACK(Mode, Bitdepth, Writemarkers, Write
   </description>
   <retvals>
     string render_cfg_string_base64 - the render-cfg-string for the selected WAVPACK-settings base64-encoded(use this for render-table-functions)
-    string render_cfg_string_hexstring - the render-cfg-string for the selected WAVPACK-settings hex-string-encoded(used in reaper.ini)
+    string render_cfg_string_hexstring - the render-cfg-string for the selected WAVPACK-settings hex-string-encoded
     string render_cfg_string_unencoded - the binary version of the render string, so you can reencode it into other means 
   </retvals>
   <parameters>
@@ -4602,6 +4602,10 @@ PadStartWithSilence, PadStartWithSilenceSeconds, PadEndWithSilence, PadEndWithSi
   <description>
     Creates a new RenderTable.
     
+    IMPORTANT: 
+    you can create a RenderTable with all default factory settings by setting all parameters to nil with: RenderTable = ultraschall.CreateNewRenderTable()
+    Then alter all attributes, that you want to have set differently. This is the easiest way to use this function.    
+        
     Parameters set to nil will create a rendertable with all entries set to that of a vanilla factory-default Reaper installation:
 
     Factory-Default will be set to these settings:
@@ -7586,7 +7590,7 @@ function ultraschall.CreateRenderCFG_MP3MaxQuality()
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>CreateRenderCFG_MP3MaxQuality</slug>
   <requires>
-    Ultraschall=5.4
+    Ultraschall=5.32
     Reaper=5.975
     Lua=5.3
   </requires>
@@ -7598,7 +7602,7 @@ function ultraschall.CreateRenderCFG_MP3MaxQuality()
   </description>
   <retvals>
     string render_cfg_string_base64 - the render-cfg-string for the selected MP3-settings(for maximum quality) base64-encoded(use this for render-table-functions)
-    string render_cfg_string_hexstring - the render-cfg-string for the selected MP3-settings(for maximum quality) hex-string-encoded(used in reaper.ini)
+    string render_cfg_string_hexstring - the render-cfg-string for the selected MP3-settings(for maximum quality) hex-string-encoded
     string render_cfg_string_unencoded - the binary version of the render string, so you can reencode it into other means 
   </retvals>
   <parameters>
@@ -7624,7 +7628,7 @@ function ultraschall.CreateRenderCFG_MP3VBR(vbr_quality, quality, no_joint_stere
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>CreateRenderCFG_MP3VBR</slug>
   <requires>
-    Ultraschall=5.4
+    Ultraschall=5.32
     Reaper=5.975
     Lua=5.3
   </requires>
@@ -7638,7 +7642,7 @@ function ultraschall.CreateRenderCFG_MP3VBR(vbr_quality, quality, no_joint_stere
   </description>
   <retvals>
     string render_cfg_string_base64 - the render-cfg-string for the selected MP3(VBR)-settings base64-encoded(use this for render-table-functions)
-    string render_cfg_string_hexstring - the render-cfg-string for the selected MP3(VBR)-settings hex-string-encoded(used in reaper.ini)
+    string render_cfg_string_hexstring - the render-cfg-string for the selected MP3(VBR)-settings hex-string-encoded
     string render_cfg_string_unencoded - the binary version of the render string, so you can reencode it into other means 
   </retvals>
   <parameters>
@@ -7701,7 +7705,7 @@ function ultraschall.CreateRenderCFG_MP3ABR(bitrate, quality, no_joint_stereo, w
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>CreateRenderCFG_MP3ABR</slug>
   <requires>
-    Ultraschall=5.4
+    Ultraschall=5.32
     Reaper=5.975
     Lua=5.3
   </requires>
@@ -7715,7 +7719,7 @@ function ultraschall.CreateRenderCFG_MP3ABR(bitrate, quality, no_joint_stereo, w
   </description>
   <retvals>
     string render_cfg_string_base64 - the render-cfg-string for the selected MP3(ABR)-settings base64-encoded(use this for render-table-functions)
-    string render_cfg_string_hexstring - the render-cfg-string for the selected MP3(ABR)-settings hex-string-encoded(used in reaper.ini)
+    string render_cfg_string_hexstring - the render-cfg-string for the selected MP3(ABR)-settings hex-string-encoded
     string render_cfg_string_unencoded - the binary version of the render string, so you can reencode it into other means 
   </retvals>
   <parameters>
@@ -7794,7 +7798,7 @@ function ultraschall.CreateRenderCFG_MP3CBR(bitrate, quality, no_joint_stereo, w
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>CreateRenderCFG_MP3CBR</slug>
   <requires>
-    Ultraschall=5.4
+    Ultraschall=5.32
     Reaper=5.975
     Lua=5.3
   </requires>
@@ -7808,7 +7812,7 @@ function ultraschall.CreateRenderCFG_MP3CBR(bitrate, quality, no_joint_stereo, w
   </description>
   <retvals>
     string render_cfg_string_base64 - the render-cfg-string for the selected MP3(CBR)-settings base64-encoded(use this for render-table-functions)
-    string render_cfg_string_hexstring - the render-cfg-string for the selected MP3(CBR)-settings hex-string-encoded(used in reaper.ini)
+    string render_cfg_string_hexstring - the render-cfg-string for the selected MP3(CBR)-settings hex-string-encoded
     string render_cfg_string_unencoded - the binary version of the render string, so you can reencode it into other means 
   </retvals>
   <parameters>
@@ -7889,7 +7893,7 @@ function ultraschall.CreateRenderCFG_WAV(BitDepth, LargeFiles, BWFChunk, Include
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>CreateRenderCFG_WAV</slug>
   <requires>
-    Ultraschall=5.4
+    Ultraschall=5.32
     Reaper=6.13
     Lua=5.3
   </requires>
@@ -7903,7 +7907,7 @@ function ultraschall.CreateRenderCFG_WAV(BitDepth, LargeFiles, BWFChunk, Include
   </description>
   <retvals>
     string render_cfg_string_base64 - the render-cfg-string for the selected GIF-settings base64-encoded(use this for render-table-functions)
-    string render_cfg_string_hexstring - the render-cfg-string for the selected GIF-settings hex-string-encoded(used in reaper.ini)
+    string render_cfg_string_hexstring - the render-cfg-string for the selected GIF-settings hex-string-encoded
     string render_cfg_string_unencoded - the binary version of the render string, so you can reencode it into other means 
   </retvals>
   <parameters>
@@ -8137,7 +8141,7 @@ function ultraschall.CreateRenderCFG_AIFF(bits, EmbedBeatLength)
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>CreateRenderCFG_AIFF</slug>
   <requires>
-    Ultraschall=5.4
+    Ultraschall=5.32
     Reaper=5.77
     Lua=5.3
   </requires>
@@ -8151,7 +8155,7 @@ function ultraschall.CreateRenderCFG_AIFF(bits, EmbedBeatLength)
   </description>
   <retvals>
     string render_cfg_string_base64 - the render-cfg-string for the selected AIFF-settings base64-encoded(use this for render-table-functions)
-    string render_cfg_string_hexstring - the render-cfg-string for the selected AIFF-settings hex-string-encoded(used in reaper.ini)
+    string render_cfg_string_hexstring - the render-cfg-string for the selected AIFF-settings hex-string-encoded
     string render_cfg_string_unencoded - the binary version of the render string, so you can reencode it into other means 
   </retvals>
   <parameters>
@@ -8184,7 +8188,7 @@ function ultraschall.CreateRenderCFG_AudioCD(trackmode, only_markers_starting_wi
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>CreateRenderCFG_AudioCD</slug>
   <requires>
-    Ultraschall=5.4
+    Ultraschall=5.32
     Reaper=5.77
     Lua=5.3
   </requires>
@@ -8198,7 +8202,7 @@ function ultraschall.CreateRenderCFG_AudioCD(trackmode, only_markers_starting_wi
   </description>
   <retvals>
     string render_cfg_string_base64 - the render-cfg-string for the selected AudioCD-image-settings base64-encoded(use this for render-table-functions)
-    string render_cfg_string_hexstring - the render-cfg-string for the selected AudioCD-image-settings hex-string-encoded(used in reaper.ini)
+    string render_cfg_string_hexstring - the render-cfg-string for the selected AudioCD-image-settings hex-string-encoded
     string render_cfg_string_unencoded - the binary version of the render string, so you can reencode it into other means 
   </retvals>
   <parameters>
@@ -9153,7 +9157,7 @@ function ultraschall.CreateRenderCFG_CAF(bits, EmbedTempo, include_markers)
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>CreateRenderCFG_CAF</slug>
   <requires>
-    Ultraschall=5.4
+    Ultraschall=5.32
     Reaper=6.43
     Lua=5.3
   </requires>
@@ -9167,7 +9171,7 @@ function ultraschall.CreateRenderCFG_CAF(bits, EmbedTempo, include_markers)
   </description>
   <retvals>
     string render_cfg_string_base64 - the render-cfg-string for the selected CAF-settings base64-encoded(use this for render-table-functions)
-    string render_cfg_string_hexstring - the render-cfg-string for the selected CAF-settings hex-string-encoded(used in reaper.ini)
+    string render_cfg_string_hexstring - the render-cfg-string for the selected CAF-settings hex-string-encoded
     string render_cfg_string_unencoded - the binary version of the render string, so you can reencode it into other means 
   </retvals>
   <parameters>
@@ -9491,7 +9495,7 @@ function ultraschall.CreateRenderCFG_MPEG1_Video(VideoCodec, VIDKBPS, AudioCodec
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>CreateRenderCFG_MPEG1_Video</slug>
   <requires>
-    Ultraschall=5.4
+    Ultraschall=5.32
     Reaper=6.62
     Lua=5.3
   </requires>
@@ -9505,7 +9509,7 @@ function ultraschall.CreateRenderCFG_MPEG1_Video(VideoCodec, VIDKBPS, AudioCodec
   </description>
   <retvals>
     string render_cfg_string_base64 - the render-cfg-string for the selected MPEG1-settings base64-encoded(use this for render-table-functions)
-    string render_cfg_string_hexstring - the render-cfg-string for the selected MPEG1-settings hex-string-encoded(used in reaper.ini)
+    string render_cfg_string_hexstring - the render-cfg-string for the selected MPEG1-settings hex-string-encoded
     string render_cfg_string_unencoded - the binary version of the render string, so you can reencode it into other means 
   </retvals>
   <parameters>
@@ -9588,7 +9592,7 @@ function ultraschall.CreateRenderCFG_MPEG2_Video(VideoCodec, VIDKBPS, AudioCodec
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>CreateRenderCFG_MPEG2_Video</slug>
   <requires>
-    Ultraschall=5.4
+    Ultraschall=5.32
     Reaper=6.62
     Lua=5.3
   </requires>
@@ -9602,7 +9606,7 @@ function ultraschall.CreateRenderCFG_MPEG2_Video(VideoCodec, VIDKBPS, AudioCodec
   </description>
   <retvals>
     string render_cfg_string_base64 - the render-cfg-string for the selected MPEG2-settings base64-encoded(use this for render-table-functions)
-    string render_cfg_string_hexstring - the render-cfg-string for the selected MPEG2-settings hex-string-encoded(used in reaper.ini)
+    string render_cfg_string_hexstring - the render-cfg-string for the selected MPEG2-settings hex-string-encoded
     string render_cfg_string_unencoded - the binary version of the render string, so you can reencode it into other means 
   </retvals>
   <parameters>
@@ -9686,7 +9690,7 @@ function ultraschall.CreateRenderCFG_FLV_Video(VideoCodec, VIDKBPS, AudioCodec, 
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>CreateRenderCFG_FLV_Video</slug>
   <requires>
-    Ultraschall=5.4
+    Ultraschall=5.32
     Reaper=6.62
     Lua=5.3
   </requires>
@@ -9700,7 +9704,7 @@ function ultraschall.CreateRenderCFG_FLV_Video(VideoCodec, VIDKBPS, AudioCodec, 
   </description>
   <retvals>
     string render_cfg_string_base64 - the render-cfg-string for the selected MPEG-2-settings base64-encoded(use this for render-table-functions)
-    string render_cfg_string_hexstring - the render-cfg-string for the selected MPEG-2-settings hex-string-encoded(used in reaper.ini)
+    string render_cfg_string_hexstring - the render-cfg-string for the selected MPEG-2-settings hex-string-encoded
     string render_cfg_string_unencoded - the binary version of the render string, so you can reencode it into other means 
   </retvals>
   <parameters>
@@ -10300,7 +10304,7 @@ function ultraschall.CreateRenderCFG_WMF(OutputFormat, VideoCodec, VideoBitrate,
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>CreateRenderCFG_WMF</slug>
   <requires>
-    Ultraschall=5.4
+    Ultraschall=5.32
     Reaper=6.59
     Lua=5.3
   </requires>
@@ -10312,7 +10316,7 @@ function ultraschall.CreateRenderCFG_WMF(OutputFormat, VideoCodec, VideoBitrate,
   </description>
   <retvals>
     string render_cfg_string_base64 - the render-cfg-string for the selected WMF-settings base64-encoded(use this for render-table-functions)
-    string render_cfg_string_hexstring - the render-cfg-string for the selected WMF-settings hex-string-encoded(used in reaper.ini)
+    string render_cfg_string_hexstring - the render-cfg-string for the selected WMF-settings hex-string-encoded
     string render_cfg_string_unencoded - the binary version of the render string, so you can reencode it into other means 
   </retvals>
   <parameters>
@@ -10819,7 +10823,7 @@ function ultraschall.CreateRenderCFG_RAW(bitrate, write_sidecar_file)
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>CreateRenderCFG_RAW</slug>
   <requires>
-    Ultraschall=5.4
+    Ultraschall=5.32
     Reaper=7.0
     Lua=5.4
   </requires>
@@ -10831,7 +10835,7 @@ function ultraschall.CreateRenderCFG_RAW(bitrate, write_sidecar_file)
   </description>
   <retvals>
     string render_cfg_string_base64 - the render-cfg-string for the selected RAW-PCM-settings base64-encoded(use this for render-table-functions)
-    string render_cfg_string_hexstring - the render-cfg-string for the selected RAW-PCM-settings hex-string-encoded(used in reaper.ini)
+    string render_cfg_string_hexstring - the render-cfg-string for the selected RAW-PCM-settings hex-string-encoded
     string render_cfg_string_unencoded - the binary version of the render string, so you can reencode it into other means 
   </retvals>
   <parameters>
