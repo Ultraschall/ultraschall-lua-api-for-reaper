@@ -2691,6 +2691,15 @@ reagirl.Colors.Burgermenu_Area_b=0.274
 reagirl.Colors.Burgermenu_Stripes_r=0.55
 reagirl.Colors.Burgermenu_Stripes_g=0.55
 reagirl.Colors.Burgermenu_Stripes_b=0.55
+reagirl.Colors.Burgermenu_Border1_r=0.59607843137255
+reagirl.Colors.Burgermenu_Border1_g=0.59607843137255
+reagirl.Colors.Burgermenu_Border1_b=0.59607843137255
+reagirl.Colors.Burgermenu_Border2_r=0.59607843137255
+reagirl.Colors.Burgermenu_Border2_g=0.59607843137255
+reagirl.Colors.Burgermenu_Border2_b=0.59607843137255
+reagirl.Colors.Burgermenu_Area_b=0.8
+reagirl.Colors.Burgermenu_Area_g=0.8
+reagirl.Colors.Burgermenu_Area_r=0.8
 
 reagirl.Colors.Label_TextFG_r=0.8
 reagirl.Colors.Label_TextFG_g=0.8
@@ -2880,6 +2889,12 @@ reagirl.Bright_Colors.Burgermenu_Area_r=0.8
 reagirl.Bright_Colors.Burgermenu_Stripes_b=0.45
 reagirl.Bright_Colors.Burgermenu_Stripes_g=0.45
 reagirl.Bright_Colors.Burgermenu_Stripes_r=0.45
+reagirl.Bright_Colors.Burgermenu_Border1_r=0.59607843137255
+reagirl.Bright_Colors.Burgermenu_Border1_g=0.59607843137255
+reagirl.Bright_Colors.Burgermenu_Border1_b=0.59607843137255
+reagirl.Bright_Colors.Burgermenu_Border2_r=0.59607843137255
+reagirl.Bright_Colors.Burgermenu_Border2_g=0.59607843137255
+reagirl.Bright_Colors.Burgermenu_Border2_b=0.59607843137255
 reagirl.Bright_Colors.Buttons_Area_b=0.8
 reagirl.Bright_Colors.Buttons_Area_g=0.8
 reagirl.Bright_Colors.Buttons_Area_r=0.8
@@ -2907,12 +2922,12 @@ reagirl.Bright_Colors.Checkbox_CheckArea_r=0.315686274509804
 reagirl.Bright_Colors.Checkbox_CheckArea_disabled_b=1
 reagirl.Bright_Colors.Checkbox_CheckArea_disabled_g=0.4156862745098
 reagirl.Bright_Colors.Checkbox_CheckArea_disabled_r=0.4156862745098
-reagirl.Bright_Colors.Checkbox_background_b=0.766
-reagirl.Bright_Colors.Checkbox_background_g=0.766
-reagirl.Bright_Colors.Checkbox_background_r=0.766
-reagirl.Bright_Colors.Checkbox_rectangle_b=0.5
-reagirl.Bright_Colors.Checkbox_rectangle_g=0.5
-reagirl.Bright_Colors.Checkbox_rectangle_r=0.5
+reagirl.Bright_Colors.Checkbox_background_b=1
+reagirl.Bright_Colors.Checkbox_background_g=1
+reagirl.Bright_Colors.Checkbox_background_r=1
+reagirl.Bright_Colors.Checkbox_rectangle_b=0.59607843137255
+reagirl.Bright_Colors.Checkbox_rectangle_g=0.59607843137255
+reagirl.Bright_Colors.Checkbox_rectangle_r=0.59607843137255
 reagirl.Bright_Colors.ColorRectangle_Boundary2_b=1
 reagirl.Bright_Colors.ColorRectangle_Boundary2_g=1
 reagirl.Bright_Colors.ColorRectangle_Boundary2_r=1
@@ -2946,9 +2961,9 @@ reagirl.Bright_Colors.DropDownMenu_Circle_disabled_r=0.65
 reagirl.Bright_Colors.DropDownMenu_Circle_b=0.45
 reagirl.Bright_Colors.DropDownMenu_Circle_g=0.45
 reagirl.Bright_Colors.DropDownMenu_Circle_r=0.45
-reagirl.Bright_Colors.Gui_Background_Color_b=0.7843137254902
-reagirl.Bright_Colors.Gui_Background_Color_g=0.7843137254902
-reagirl.Bright_Colors.Gui_Background_Color_r=0.7843137254902
+reagirl.Bright_Colors.Gui_Background_Color_b=0.9
+reagirl.Bright_Colors.Gui_Background_Color_g=0.9
+reagirl.Bright_Colors.Gui_Background_Color_r=0.9
 reagirl.Bright_Colors.InputBox_CaptionBG_b=0.8
 reagirl.Bright_Colors.InputBox_CaptionBG_g=0.8
 reagirl.Bright_Colors.InputBox_CaptionBG_r=0.8
@@ -2982,16 +2997,15 @@ reagirl.Bright_Colors.Inputbox_DropdownArea_Circle_r=0.45
 reagirl.Bright_Colors.Inputbox_DropdownArea_b=0.8
 reagirl.Bright_Colors.Inputbox_DropdownArea_g=0.8
 reagirl.Bright_Colors.Inputbox_DropdownArea_r=0.8
-reagirl.Bright_Colors.Label_BackDrop_b=0.5
-reagirl.Bright_Colors.Label_BackDrop_g=0.5
-reagirl.Bright_Colors.Label_BackDrop_r=0.5
-reagirl.Bright_Colors.Label_TextBG_b=0.6
-reagirl.Bright_Colors.Label_TextBG_g=0.6
-reagirl.Bright_Colors.Label_TextBG_r=0.6
-reagirl.Bright_Colors.Label_TextFG_b=0.2
-reagirl.Bright_Colors.Label_TextFG_b=0.2
-reagirl.Bright_Colors.Label_TextFG_g=0.2
-reagirl.Bright_Colors.Label_TextFG_r=0.2
+reagirl.Bright_Colors.Label_BackDrop_b=0.59607843137255
+reagirl.Bright_Colors.Label_BackDrop_g=0.59607843137255
+reagirl.Bright_Colors.Label_BackDrop_r=0.59607843137255
+reagirl.Bright_Colors.Label_TextBG_b=0.59607843137255
+reagirl.Bright_Colors.Label_TextBG_g=0.59607843137255
+reagirl.Bright_Colors.Label_TextBG_r=0.59607843137255
+reagirl.Bright_Colors.Label_TextFG_b=0.4
+reagirl.Bright_Colors.Label_TextFG_g=0.4
+reagirl.Bright_Colors.Label_TextFG_r=0.4
 reagirl.Bright_Colors.Label_TextFGclickable_b=1
 reagirl.Bright_Colors.Label_TextFGclickable_g=0.4843137254902
 reagirl.Bright_Colors.Label_TextFGclickable_r=0.315686274509804
@@ -3070,12 +3084,12 @@ reagirl.Bright_Colors.Toolbar_TextBG_r=0.8
 reagirl.Bright_Colors.Toolbar_TextFG_b=0.2
 reagirl.Bright_Colors.Toolbar_TextFG_g=0.2
 reagirl.Bright_Colors.Toolbar_TextFG_r=0.2
-reagirl.Bright_Colors.Toolbar_Border1_r=0.06
-reagirl.Bright_Colors.Toolbar_Border1_g=0.06
-reagirl.Bright_Colors.Toolbar_Border1_b=0.06
-reagirl.Bright_Colors.Toolbar_Border2_r=0.45
-reagirl.Bright_Colors.Toolbar_Border2_g=0.45
-reagirl.Bright_Colors.Toolbar_Border2_b=0.45
+reagirl.Bright_Colors.Toolbar_Border1_r=0.59607843137255
+reagirl.Bright_Colors.Toolbar_Border1_g=0.59607843137255
+reagirl.Bright_Colors.Toolbar_Border1_b=0.59607843137255
+reagirl.Bright_Colors.Toolbar_Border2_r=0.59607843137255
+reagirl.Bright_Colors.Toolbar_Border2_g=0.59607843137255
+reagirl.Bright_Colors.Toolbar_Border2_b=0.59607843137255
 
 
 
@@ -16216,11 +16230,12 @@ function reagirl.Burgermenu_Draw(element_id, selected, hovered, clicked, mouse_c
     
     if offset==0 then offset=1 end
     
-    gfx.set(0.06) -- background 2
+    --gfx.set(0.06) -- background 2
+    gfx.set(reagirl.Colors.Burgermenu_Border1_r+add_color, reagirl.Colors.Burgermenu_Border1_g+add_color, reagirl.Colors.Burgermenu_Border1_b+add_color) -- button-area
     --reagirl.RoundRect(x, y, w+dpi_scale, h, (radius) * dpi_scale, 1, 1)
     reagirl.RoundRect((x)*scale, (y)*scale, w, h, radius * dpi_scale, 1, 1)
     
-    gfx.set(reagirl.Colors.Buttons_Area_r+add_color, reagirl.Colors.Buttons_Area_g+add_color, reagirl.Colors.Buttons_Area_b+add_color) -- button-area
+    gfx.set(reagirl.Colors.Burgermenu_Area_r+add_color, reagirl.Colors.Burgermenu_Area_g+add_color, reagirl.Colors.Burgermenu_Area_b+add_color) -- button-area
     --reagirl.RoundRect(x, y+dpi_scale, w, h, (radius-1) * dpi_scale, 1, 1)
     reagirl.RoundRect((x + dpi_scale), (y)+dpi_scale, w-dpi_scale, h-dpi_scale, (radius-1) * dpi_scale, 1, 1)
     
@@ -16243,10 +16258,12 @@ function reagirl.Burgermenu_Draw(element_id, selected, hovered, clicked, mouse_c
     local scale=1--reagirl.Window_CurrentScale
     state=0
     
-    gfx.set(0.06) -- background 1
+    --gfx.set(0.06) -- background 1
+    gfx.set(reagirl.Colors.Burgermenu_Border1_r+add_color, reagirl.Colors.Burgermenu_Border1_g+add_color, reagirl.Colors.Burgermenu_Border1_b+add_color) -- button-area
     reagirl.RoundRect((x)*scale, (y)*scale, w, h, radius * dpi_scale, 1, 1)
     
-    gfx.set(0.45) -- background 2
+    --gfx.set(0.45) -- background 2
+    gfx.set(reagirl.Colors.Burgermenu_Border2_r+add_color, reagirl.Colors.Burgermenu_Border2_g+add_color, reagirl.Colors.Burgermenu_Border2_b+add_color) -- button-area
     reagirl.RoundRect(x*scale, (y - dpi_scale) * scale, w-dpi_scale, h, radius * dpi_scale, 1, 1)
     
     gfx.set(reagirl.Colors.Buttons_Area_r+add_color, reagirl.Colors.Buttons_Area_g+add_color, reagirl.Colors.Buttons_Area_b+add_color) -- button-area
