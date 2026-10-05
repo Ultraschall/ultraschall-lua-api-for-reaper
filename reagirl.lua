@@ -3378,6 +3378,9 @@ function reagirl.DarkMode_Toggle(toggle, param2, param3, param4, param5, param6,
       Colors
     </chapter_context>
     <tags>colors, set, dark mode, bright mode</tags>
+  <changelog>
+    ReaGirl 1.4 - added to ReaGirl
+  </changelog>
   </US_DocBloc>
   --]]
   if toggle~=nil and type(toggle)~="boolean" then error("DarkMode_Toggle: param #1 - must be a boolean", 2) end  
@@ -3418,6 +3421,9 @@ function reagirl.DarkMode_Get()
       Colors
     </chapter_context>
     <tags>colors, get, dark mode, bright mode</tags>
+  <changelog>
+    ReaGirl 1.4 - added to ReaGirl
+  </changelog>
   </US_DocBloc>
   --]]
   return reagirl.DarkMode
