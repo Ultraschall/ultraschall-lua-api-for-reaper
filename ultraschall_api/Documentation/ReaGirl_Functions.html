@@ -2463,9 +2463,9 @@ Unlinks a drop down menu from extstate/ini-file/configvar. <br>
 <a class="anch" id="Ext_IsAnyReaGirlGuiHovered"></a>
 <a href="#Ext_IsAnyReaGirlGuiHovered"> ^</a> 
 <img width="3%" src="gfx/reaper7.03.png" alt="requires Reaper version 7.03">
-<img width="3%" src="gfx/reagirl1.1.png" alt="requires ReaGirl version 1.1"><u><b>Ext_IsAnyReaGirlGuiHovered</b></u><br>			<p>
+<img width="3%" src="gfx/reagirl1.4.png" alt="requires ReaGirl version 1.4"><u><b>Ext_IsAnyReaGirlGuiHovered</b></u><br>			<p>
 <div class="cc">
-<div class="l">Lua: <code> <i>boolean</i> retval = <em>reagirl.Ext_IsAnyReaGirlGuiHovered</em>()</code></div>
+<div class="l">Lua: <code> <i>boolean</i> retval, <i>string</i> hovered_gui_instance_guid = <em>reagirl.Ext_IsAnyReaGirlGuiHovered</em>()</code></div>
 </div><p>
 <div class="ch">
 Returns, if any ReaGirl-window is currently hovered by the mouse.<br>
@@ -2474,6 +2474,10 @@ Returns, if any ReaGirl-window is currently hovered by the mouse.<br>
 <table class="ch">
 <tr><td class="pr"><i>boolean</i> retval</td></tr>
 <tr><td class="ch2">true, a ReaGirl-window is currently hovered; false, no ReaGirl-window is currently hovered</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>string</i> hovered_gui_instance_guid</td></tr>
+<tr><td class="ch2">a guid of the ReaGirl-gui-script instance, that the mouse is hovering above; "", if not hovering</td></tr>
 </table>
 <br>
 </div>
@@ -7757,7 +7761,7 @@ Good for management of resizing window or scrollbars.<br>
 <div class="l">Lua: <code> <em>reagirl.Window_DragOnEmptyArea</em>(<i>boolean</i> toggle)</code></div>
 </div><p>
 <div class="ch">
-Sets, if it's possible to drag around the window by clicking in empty areay, means inbetween ui-elements.<br>
+Sets, if it's possible to drag around the window by clicking in empty area, means inbetween ui-elements.<br>
 <br>
 Helpful, when you have set the window to borderless.<br>
 <br>

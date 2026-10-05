@@ -261,6 +261,9 @@ function reagirl.GetVersion()
       Misc
     </chapter_context>
     <tags>misc, get, version</tags>
+    <changelog>
+      ReaGirl 1.0 - added to ReaGirl
+    </changelog>
   </US_DocBloc>
   --]]
   return 1.4
@@ -3424,7 +3427,7 @@ function reagirl.DarkMode_Get()
   <changelog>
     ReaGirl 1.4 - added to ReaGirl
   </changelog>
-  </US_DocBloc>
+</US_DocBloc>
   --]]
   return reagirl.DarkMode
 end
@@ -3612,6 +3615,9 @@ function reagirl.Window_ResizedFunc(run_function)
       Window
     </chapter_context>
     <tags>window, set, run function</tags>
+  <changelog>
+    ReaGirl 1.1 - added to ReaGirl
+  </changelog>
   </US_DocBloc>
   --]]
   if type(run_function)~="function" then error("Window_ResizedFunc: param #1 - must be a function", -1) return end
@@ -3641,6 +3647,9 @@ function reagirl.NextLine_SetDefaults(x, y)
     UI Elements
   </chapter_context>
   <tags>ui-elements, set, next line, defaults</tags>
+  <changelog>
+      ReaGirl 1.0 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 --]]
   if x~=nil and math.type(x)~="integer" then error("NextLine_SetDefaults: param #1 - must be either nil or an integer", -1) return end
@@ -3679,6 +3688,9 @@ function reagirl.NextLine_GetDefaults()
     UI Elements
   </chapter_context>
   <tags>ui-elements, get, next line, defaults</tags>
+  <changelog>
+    ReaGirl 1.0 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 --]]
   return reagirl.UI_Element_NextX_Default, reagirl.UI_Element_NextY_Default
@@ -3707,6 +3719,9 @@ function reagirl.Gui_ReserveImageBuffer()
     Misc
   </chapter_context>
   <tags>gui, reserve, image buffer</tags>
+  <changelog>
+    ReaGirl 1.0 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 --]]
   -- reserves an image buffer for custom UI elements
@@ -3750,6 +3765,9 @@ function reagirl.Gui_PreventScrollingForOneCycle(keyboard, mousewheel_swipe, scr
     Gui
   </chapter_context>
   <tags>gui, set, override, prevent, scrolling</tags>
+  <changelog>
+    ReaGirl 1.0 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 --]]
   if keyboard~=nil and type(keyboard)~="boolean" then error("Gui_PreventScrollingForOneCycle: param #1 - must be either nil or a boolean") end
@@ -3784,6 +3802,9 @@ function reagirl.Gui_PreventCloseViaEscForOneCycle()
     Gui
   </chapter_context>
   <tags>gui, set, override, prevent, close via esc, escape</tags>
+  <changelog>
+    ReaGirl 1.0 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 --]]
   reagirl.Gui_PreventCloseViaEscForOneCycle_State=true
@@ -3806,6 +3827,9 @@ function reagirl.Gui_PreventEnterForOneCycle()
     Gui
   </chapter_context>
   <tags>gui, set, override, prevent, enter key</tags>
+  <changelog>
+    ReaGirl 1.0 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 --]]
   reagirl.Gui_PreventEnterForOneCycle_State=true
@@ -3839,6 +3863,9 @@ function reagirl.IsValidGuid(guid, strict)
     Misc
   </chapter_context>
   <tags>helper functions, guid, check</tags>
+  <changelog>
+    ReaGirl 1.0 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 --]]
   if type(guid)~="string" then return false end
@@ -3879,6 +3906,9 @@ function reagirl.RoundRect(x, y, w, h, r, antialias, fill, square_top_left, squa
     Misc
   </chapter_context>
   <tags>gfx, functions, round rect, draw</tags>
+  <changelog>
+    ReaGirl 1.0 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 ]]
   if math.type(x)~="integer" then error("RoundRect: param #1 - must be an integer", 2) end
@@ -4025,6 +4055,9 @@ end
   <target_document>US_Api_GFX</target_document>
   <source_document>ultraschall_gfx_engine.lua</source_document>
   <tags>gfx, functions, blit, text, line breaks, adapt line length</tags>
+  <changelog>
+    ReaGirl 27.0 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 ]]
 --[[
@@ -4092,6 +4125,9 @@ function reagirl.BlitText_AdaptLineLength(text, x, y, width, height, align, sele
   <target_document>US_Api_GFX</target_document>
   <source_document>ultraschall_gfx_engine.lua</source_document>
   <tags>gfx, functions, blit, text, line breaks, adapt line length</tags>
+  <changelog>
+    ReaGirl 27.0 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 ]]
   if type(text)~="string" then error("GFX_BlitText_AdaptLineLength: param #1 - must be a string", 2) end
@@ -4183,6 +4219,9 @@ function reagirl.ResizeImageKeepAspectRatio(image, neww, newh, bg_r, bg_g, bg_b)
   <target_document>ReaGirl_Functions</target_document>
   <source_document>reagirl.lua</source_document>
   <tags>gfx, functions, resize, image</tags>
+  <changelog>
+    ReaGirl 1.0 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 ]]
   if math.type(image)~="integer" then error("ResizeImageKeepAspectRatio: param #1 - must be an integer", 2) end
@@ -4288,6 +4327,9 @@ function reagirl.Window_Open(...)
   <target_document>ReaGirl_Functions</target_document>
   <source_document>reagirl.lua</source_document>
   <tags>init, window, create, hwnd</tags>
+  <changelog>
+    ReaGirl 1.0 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 ]]
   --gfx.quit()
@@ -4460,6 +4502,9 @@ function reagirl.Window_GetHWND()
   <target_document>ReaGirl_Functions</target_document>
   <source_document>reagirl.lua</source_document>
   <tags>refocus, focus, window, hwnd</tags>
+  <changelog>
+    ReaGirl 1.2 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 ]]
   return reagirl.GFX_WindowHWND
@@ -4478,7 +4523,7 @@ function reagirl.Window_DragOnEmptyArea(toggle)
   </requires>
   <functioncall>reagirl.Window_DragOnEmptyArea(boolean toggle)</functioncall>
   <description>
-    Sets, if it's possible to drag around the window by clicking in empty areay, means inbetween ui-elements.
+    Sets, if it's possible to drag around the window by clicking in empty area, means inbetween ui-elements.
     
     Helpful, when you have set the window to borderless.
     
@@ -4644,6 +4689,9 @@ function reagirl.Window_SetFocus(accmessage)
   <target_document>ReaGirl_Functions</target_document>
   <source_document>reagirl.lua</source_document>
   <tags>refocus, focus, window, hwnd</tags>
+  <changelog>
+    ReaGirl 1.0 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 ]]
   local window_state=gfx.getchar(65536)
@@ -4773,6 +4821,9 @@ function reagirl.Mouse_GetCap(doubleclick_wait, drag_wait)
   <target_document>ReaGirl_Functions</target_document>
   <source_document>reagirl.lua</source_document>
   <tags>functions, mouse, mouse cap, leftclick, rightclick, doubleclick, drag, wheel, mousewheel, horizontal mousewheel</tags>
+  <changelog>
+    ReaGirl 1.0 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 ]]
   if doubleclick_wait~=nil and math.type(doubleclick_wait)~="integer" then error("Mouse_GetCap: param #1 - must be nil or an integer", 2) end
@@ -4905,6 +4956,9 @@ function reagirl.Gui_AtExit(run_func)
   <target_document>ReaGirl_Functions</target_document>
   <source_document>reagirl.lua</source_document>
   <tags>functions, atexit, gui, function</tags>
+  <changelog>
+    ReaGirl 1.0 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 ]]
   if run_func~=nil and type(run_func)~="function" then error("Gui_AtExit: param #1 - must be a function", 2) return end
@@ -4937,7 +4991,7 @@ function reagirl.Gui_AtEnter(run_func)
   <source_document>reagirl.lua</source_document>
   <tags>functions, atenter, gui, function</tags>
   <changelog>
-    ReaGirl 1.4 - RunFunction gets now the currently focused ui-element's element_id as first parameter
+    ReaGirl 1.4 - RunFunction gets now the currently focused ui-element's element_id as first parameter passed over
   </changelog>
 </US_DocBloc>
 ]]
@@ -4964,6 +5018,9 @@ function reagirl.Gui_New()
   <target_document>ReaGirl_Functions</target_document>
   <source_document>reagirl.lua</source_document>
   <tags>functions, new, gui</tags>
+  <changelog>
+    ReaGirl 1.0 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 ]]
   reagirl.SetFont(1, reagirl.Font_Face, reagirl.Font_Size, 0)
@@ -5247,6 +5304,9 @@ function reagirl.Window_GetCurrentScale()
   <target_document>ReaGirl_Functions</target_document>
   <source_document>reagirl.lua</source_document>
   <tags>window, get, current scale</tags>
+  <changelog>
+    ReaGirl 1.0 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 ]]
   local retval, dpi = reaper.ThemeLayout_GetLayout("tcp", -3)
@@ -5297,6 +5357,9 @@ function reagirl.Window_SetCurrentScale(newscale)
   <target_document>ReaGirl_Functions</target_document>
   <source_document>reagirl.lua</source_document>
   <tags>window, set, current scale</tags>
+  <changelog>
+    ReaGirl 1.0 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 ]]
   if newscale~=nil and math.type(newscale)~="integer" then error("Window_SetCurrentScale: param #1 - must be either nil or an integer", 2) end
@@ -5364,6 +5427,9 @@ function reagirl.SetFont(idx, fontface, size, flags, scale_override)
   <target_document>ReaGirl_Functions</target_document>
   <source_document>reagirl.lua</source_document>
   <tags>functions, set, font</tags>
+  <changelog>
+    ReaGirl 1.0 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 ]]
   if math.type(idx)~="integer" then error("SetFont: param #1 - must be an integer", 2) end
@@ -5423,6 +5489,9 @@ function reagirl.Gui_Open(name, restore_old_window_state, title, description, w,
   <target_document>ReaGirl_Functions</target_document>
   <source_document>reagirl.lua</source_document>
   <tags>functions, open, gui</tags>
+  <changelog>
+    ReaGirl 1.0 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 ]]
   if type(name)~="string" then error("Gui_Open: param #1 - must be a string", 2) end
@@ -5554,6 +5623,9 @@ function reagirl.Gui_IsOpen()
   <target_document>ReaGirl_Functions</target_document>
   <source_document>reagirl.lua</source_document>
   <tags>functions, is open, gui</tags>
+  <changelog>
+    ReaGirl 1.0 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 ]]
   return reagirl.IsWindowOpen_attribute==true
@@ -5578,6 +5650,9 @@ function reagirl.Gui_Close()
   <target_document>ReaGirl_Functions</target_document>
   <source_document>reagirl.lua</source_document>
   <tags>functions, close, gui</tags>
+  <changelog>
+    ReaGirl 1.0 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 ]]
   gfx.quit()  
@@ -5658,6 +5733,9 @@ function reagirl.Ext_UI_Element_GetHovered()
   <target_document>ReaGirl_Functions</target_document>
   <source_document>reagirl.lua</source_document>
   <tags>ext, get, hovered, ui element</tags>
+  <changelog>
+    ReaGirl 1.1 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 ]]
   if reagirl.Ext_IsAnyReaGirlGuiHovered()==false then return "", "", "", "", "", "" end
@@ -5703,6 +5781,9 @@ function reagirl.Ext_Window_GetInstances()
   <target_document>ReaGirl_Functions</target_document>
   <source_document>reagirl.lua</source_document>
   <tags>ext, get, window, opened, instances</tags>
+  <changelog>
+    ReaGirl 1.1 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 ]]
   local instances=reaper.GetExtState("ReaGirl", "WindowInstances", "", false).."\n"
@@ -5749,6 +5830,9 @@ function reagirl.Ext_Window_GetState(gui_name, gui_instance)
   <target_document>ReaGirl_Functions</target_document>
   <source_document>reagirl.lua</source_document>
   <tags>ext, get, window, state</tags>
+  <changelog>
+    ReaGirl 1.0 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 ]]
   if gui_name~=nil and type(gui_name)~="string" then error("Ext_Window_GetState: param #1 - must be a string", 2) end
@@ -5794,6 +5878,9 @@ function reagirl.Ext_Window_SetState(gui_name, width, height, dockstate, x_posit
   <target_document>ReaGirl_Functions</target_document>
   <source_document>reagirl.lua</source_document>
   <tags>ext, set, window, state</tags>
+  <changelog>
+    ReaGirl 1.1 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 ]]
   if type(gui_name)~="string" then error("Ext_Window_SetState: param #1 - must be a string", 2) end
@@ -5839,6 +5926,9 @@ function reagirl.Ext_Window_ResetToDefault(gui_name)
   <target_document>ReaGirl_Functions</target_document>
   <source_document>reagirl.lua</source_document>
   <tags>ext, set, reset, default, window, state</tags>
+  <changelog>
+    ReaGirl 1.0 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 ]]
   if type(gui_name)~="string" then error("Ext_Window_SetState: param #1 - must be a string", 2) end
@@ -5875,6 +5965,9 @@ function reagirl.Ext_Window_Focus(gui_name, gui_identifier)
   <target_document>ReaGirl_Functions</target_document>
   <source_document>reagirl.lua</source_document>
   <tags>ext, focus, window</tags>
+  <changelog>
+    ReaGirl 1.1 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 ]]
   if type(gui_name)~="string" then error("Ext_Window_Focus: param #1 - must be a string", 2) end
@@ -5912,6 +6005,9 @@ function reagirl.Ext_Window_IsOpen(gui_name)
   <target_document>ReaGirl_Functions</target_document>
   <source_document>reagirl.lua</source_document>
   <tags>ext, get, open, window</tags>
+  <changelog>
+    ReaGirl 1.0 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 ]]
   if type(gui_name)~="string" then error("Ext_Window_Focus: param #1 - must be a string", 2) end
@@ -5948,6 +6044,9 @@ function reagirl.Ext_Tab_SetSelected(gui_name, tabnumber)
   <target_document>ReaGirl_Functions</target_document>
   <source_document>reagirl.lua</source_document>
   <tags>ext, focus, tab, window</tags>
+  <changelog>
+    ReaGirl 1.0 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 ]]
   if type(gui_name)~="string" then error("Ext_Tab_SetSelected: param #1 - must be a string", 2) end
@@ -6038,6 +6137,9 @@ function reagirl.ScreenReader_SendMessage(message)
     <target_document>ReaGirl_Functions</target_document>
     <source_document>reagirl.lua</source_document>
     <tags>screen reader, send, message</tags>
+  <changelog>
+    ReaGirl 1.0 - added to ReaGirl
+  </changelog>
   </US_DocBloc>
   ]]
   if type(message)~="string" then error("ScreenReader_SendMessage: param #1 - must be a string", 2) end
@@ -6072,6 +6174,9 @@ function reagirl.Ext_Window_GetProcessTime(reagirl_instance_guid)
     <target_document>ReaGirl_Functions</target_document>
     <source_document>reagirl.lua</source_document>
     <tags>ext, get, process time, in last defer</tags>
+    <changelog>
+      ReaGirl 1.2 - added to ReaGirl
+    </changelog>
   </US_DocBloc>
   ]]
   local number=reaper.GetExtState("ReaGirl", "ProcessTime_"..reagirl_instance_guid)
@@ -6369,6 +6474,9 @@ function reagirl.Ext_Window_Close(gui_name, gui_identifier)
     <target_document>ReaGirl_Functions</target_document>
     <source_document>reagirl.lua</source_document>
     <tags>ext, close, window</tags>
+    <changelog>
+      ReaGirl 1.3 - added to ReaGirl
+    </changelog>
   </US_DocBloc>
   ]]
     if type(gui_name)~="string" then error("Ext_Window_Close: param #1 - must be a string", 2) end
@@ -6455,16 +6563,17 @@ function reagirl.Ext_IsAnyReaGirlGuiHovered(register)
     <slug>Ext_IsAnyReaGirlGuiHovered</slug>
     <title>Ext_IsAnyReaGirlGuiHovered</title>
     <requires>
-      ReaGirl=1.1
+      ReaGirl=1.4
       Reaper=7.03
       Lua=5.4
     </requires>
-    <functioncall>boolean retval = reagirl.Ext_IsAnyReaGirlGuiHovered()</functioncall>
+    <functioncall>boolean retval, string hovered_gui_instance_guid = reagirl.Ext_IsAnyReaGirlGuiHovered()</functioncall>
     <description>
       Returns, if any ReaGirl-window is currently hovered by the mouse.
     </description>
     <retvals>
       boolean retval - true, a ReaGirl-window is currently hovered; false, no ReaGirl-window is currently hovered
+      string hovered_gui_instance_guid - a guid of the ReaGirl-gui-script instance, that the mouse is hovering above; "", if not hovering
     </retvals>
     <chapter_context>
       Ext
@@ -6472,6 +6581,10 @@ function reagirl.Ext_IsAnyReaGirlGuiHovered(register)
     <target_document>ReaGirl_Functions</target_document>
     <source_document>reagirl.lua</source_document>
     <tags>ext, is any reagirl instance hovered</tags>
+    <changelog>
+      ReaGirl 1.4 - returns now the hovered gui-script-instance-guid as second return value
+      ReaGirl 1.1 - added to ReaGirl
+    </changelog>
   </US_DocBloc>
   ]]
   local chosen_one=false
@@ -6516,7 +6629,10 @@ function reagirl.Ext_IsAnyReaGirlGuiHovered(register)
     reaper.SetExtState("ReaGirl", "HoveredWindows", states, false)
   end
   reagirl.Window_Hovered=hovered
-  if states:match("true")~=nil then return true else return false end
+  --if print_update~=nil then print_update(states) end
+  states="\n"..states
+  local found=states:match(".*\n(.-:true)")
+  if found~=nil then return true, found:match("(.-):true") else return false, "" end
 end
 
 function reagirl.Shortcut_GetChar(character, readable_characters)
@@ -6553,6 +6669,9 @@ function reagirl.Shortcut_GetChar(character, readable_characters)
   <target_document>ReaGirl_Functions</target_document>
   <source_document>reagirl.lua</source_document>
   <tags>reagirl, get, gfx, getchar, character</tags>
+  <changelog>
+    ReaGirl 27.0 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 ]]
   if character~=nil and type(character)~="number" then return -3 end
@@ -6699,6 +6818,9 @@ function reagirl.Shortcut_Add(modifier, keycode, description, run_function)
     <target_document>ReaGirl_Functions</target_document>
     <source_document>reagirl.lua</source_document>
     <tags>reagirl, add, shortcut</tags>
+    <changelog>
+      ReaGirl 27.0 - added to ReaGirl
+    </changelog>
   </US_DocBloc>
   ]]
   if math.type(modifier)~="integer" then error("Shortcut_Add: param #1 - must be an integer", 2) end
@@ -6751,6 +6873,9 @@ function reagirl.Shortcut_Enumerate(index)
     <target_document>ReaGirl_Functions</target_document>
     <source_document>reagirl.lua</source_document>
     <tags>reagirl, enumerate, shortcut</tags>
+    <changelog>
+      ReaGirl 27.0 - added to ReaGirl
+    </changelog>
   </US_DocBloc>
   ]]
   if math.type(index)~="integer" then error("Shortcut_Enumerate: param #1 - must be an integer", 2) end
@@ -6789,6 +6914,9 @@ function reagirl.Shortcut_GetByID(shortcut_id)
     <target_document>ReaGirl_Functions</target_document>
     <source_document>reagirl.lua</source_document>
     <tags>reagirl, get, by id, shortcut</tags>
+    <changelog>
+      ReaGirl 27.0 - added to ReaGirl
+    </changelog>
   </US_DocBloc>
   ]]
   if type(shortcut_id)~="string" then error("Shortcut_GetByID: param #1 - must be a string", 2) end
@@ -6839,6 +6967,9 @@ function reagirl.Shortcut_SetByID(shortcut_id, modifier, keycode, description, r
     <target_document>ReaGirl_Functions</target_document>
     <source_document>reagirl.lua</source_document>
     <tags>reagirl, set, by id, shortcut</tags>
+    <changelog>
+      ReaGirl 27.0 - added to ReaGirl
+    </changelog>
   </US_DocBloc>
   ]]
   if type(shortcut_id)~="string" then error("Shortcut_SetByID: param #1 - must be a string", 2) end
@@ -6898,6 +7029,9 @@ function reagirl.Shortcut_Remove(index)
     <target_document>ReaGirl_Functions</target_document>
     <source_document>reagirl.lua</source_document>
     <tags>reagirl, remove, shortcut</tags>
+    <changelog>
+      ReaGirl 27.0 - added to ReaGirl
+    </changelog>
   </US_DocBloc>
   ]]
   if index<1 or index>#reagirl.Shortcut_List then return false end
@@ -6928,6 +7062,9 @@ function reagirl.Shortcut_Count()
     <target_document>ReaGirl_Functions</target_document>
     <source_document>reagirl.lua</source_document>
     <tags>reagirl, count, shortcut</tags>
+    <changelog>
+      ReaGirl 27.0 - added to ReaGirl
+    </changelog>
   </US_DocBloc>
   ]]
   return #reagirl.Shortcut_List
@@ -6959,6 +7096,9 @@ function reagirl.Shortcut_RemoveByID(shortcut_id)
     <target_document>ReaGirl_Functions</target_document>
     <source_document>reagirl.lua</source_document>
     <tags>reagirl, remove, by id, shortcut</tags>
+    <changelog>
+      ReaGirl 27.0 - added to ReaGirl
+    </changelog>
   </US_DocBloc>
   ]]
   local index=-1
@@ -7145,6 +7285,9 @@ function reagirl.Gui_Manage(keep_running)
   <target_document>ReaGirl_Functions</target_document>
   <source_document>reagirl.lua</source_document>
   <tags>gui, functions, manage</tags>
+  <changelog>
+    ReaGirl 1.1 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 ]]
   -- manages the gui, including tts, mouse and keyboard-management and ui-focused-management
@@ -8747,6 +8890,9 @@ function reagirl.UI_Element_SetFocusRect(override, x, y, w, h)
   <target_document>ReaGirl_Functions</target_document>
   <source_document>reagirl.lua</source_document>
   <tags>ui-elements, set, focus rectangle</tags>
+  <changelog>
+    ReaGirl 1.0 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 ]]
   if override==nil then override=false end
@@ -8808,6 +8954,9 @@ function reagirl.UI_Element_GetFocusRect()
   <target_document>ReaGirl_Functions</target_document>
   <source_document>reagirl.lua</source_document>
   <tags>ui-elements, get, focus rectangle</tags>
+  <changelog>
+    ReaGirl 1.0 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 ]]
   if reagirl.Elements["Focused_x"]==nil then 
@@ -8863,6 +9012,9 @@ function reagirl.UI_Elements_OutsideWindow()
   <target_document>ReaGirl_Functions</target_document>
   <source_document>reagirl.lua</source_document>
   <tags>ui-elements, is outside window</tags>
+  <changelog>
+    ReaGirl 1.0 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 ]]
   local vert=0
@@ -8957,6 +9109,9 @@ function reagirl.UI_Element_GetType(element_id)
   <target_document>ReaGirl_Functions</target_document>
   <source_document>reagirl.lua</source_document>
   <tags>ui-elements, get, type</tags>
+  <changelog>
+    ReaGirl 1.0 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 ]]
   if type(element_id)~="string" then error("UI_Element_GetType: param #1 - must be a guid as string", 2) end
@@ -9072,6 +9227,9 @@ function reagirl.AutoPosition_SetNextUIElementAtPosition(x, y)
   <target_document>ReaGirl_Functions</target_document>
   <source_document>reagirl.lua</source_document>
   <tags>functions, set, auto position, absolute</tags>
+  <changelog>
+    ReaGirl 1.4 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 ]]
   if math.type(x)~="integer" then error("AutoPosition_SetNextUIElementAtPosition: param #1 - must be an integer", 2) end
@@ -9130,6 +9288,9 @@ function reagirl.UI_Element_GetSet_ContextMenu(element_id, is_set, menu, menu_fu
   <target_document>ReaGirl_Functions</target_document>
   <source_document>reagirl.lua</source_document>
   <tags>ui-elements, set, get, context menu</tags>
+  <changelog>
+    ReaGirl 1.2 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 ]]
   if type(element_id)~="string" then error("UI_Element_GetSet_ContextMenu: param #1 - must be a guid as string", 2) end
@@ -9186,6 +9347,9 @@ function reagirl.UI_Element_GetSet_DropZoneFunction(element_id, is_set, dropzone
   <target_document>ReaGirl_Functions</target_document>
   <source_document>reagirl.lua</source_document>
   <tags>ui-elements, set, get, dropzone</tags>
+  <changelog>
+    ReaGirl 1.0 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 ]]
   if type(element_id)~="string" then error("UI_Element_GetSet_DropZoneFunction: param #1 - must be a guid as string", 2) end
@@ -9231,6 +9395,9 @@ function reagirl.UI_Element_GetSetCaption(element_id, is_set, caption)
   <target_document>ReaGirl_Functions</target_document>
   <source_document>reagirl.lua</source_document>
   <tags>ui-elements, set, get, caption</tags>
+  <changelog>
+    ReaGirl 1.0 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 ]]
   if type(element_id)~="string" then error("UI_Element_GetSetCaption: param #1 - must be a guid as string", 2) end
@@ -9274,6 +9441,9 @@ function reagirl.UI_Element_GetSetVisibility(element_id, is_set, visible)
   <target_document>ReaGirl_Functions</target_document>
   <source_document>reagirl.lua</source_document>
   <tags>ui-elements, set, get, hidden, visibility</tags>
+  <changelog>
+    ReaGirl 1.0 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 ]]
   if type(element_id)~="string" then error("UI_Element_GetSetVisibility: param #1 - must be a guid as string", 2) end
@@ -9334,6 +9504,9 @@ function reagirl.UI_Element_GetSetSticky(element_id, is_set, sticky_x, sticky_y)
   <target_document>ReaGirl_Functions</target_document>
   <source_document>reagirl.lua</source_document>
   <tags>ui-elements, set, get, sticky</tags>
+  <changelog>
+    ReaGirl 1.2 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 ]]
   if type(element_id)~="string" then error("UI_Element_GetSetSticky: param #1 - must be a guid as string", 2) end
@@ -9384,6 +9557,9 @@ function reagirl.Gui_GetSetStickyOffset(is_set, y_offset_top, y_offset_bottom)
   <target_document>ReaGirl_Functions</target_document>
   <source_document>reagirl.lua</source_document>
   <tags>gui, set, get, sticky</tags>
+  <changelog>
+    ReaGirl 1.2 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 ]]
   if type(is_set)~="boolean" then error("Gui_GetSetStickyOffset: param #1 - must be a boolean", 2) end
@@ -9428,6 +9604,9 @@ function reagirl.UI_Element_GetSetMeaningOfUIElement(element_id, is_set, meaning
   <target_document>ReaGirl_Functions</target_document>
   <source_document>reagirl.lua</source_document>
   <tags>ui-elements, set, get, accessibility_hint, meaningOfUI_Element</tags>
+  <changelog>
+    ReaGirl 1.0 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 ]]
   if type(element_id)~="string" then error("UI_Element_GetSetMeaningOfUIElement: param #1 - must be a guid as string", 2) end
@@ -9468,6 +9647,9 @@ function reagirl.UI_Element_IsElementAtMousePosition(element_id)
   <target_document>ReaGirl_Functions</target_document>
   <source_document>reagirl.lua</source_document>
   <tags>ui-elements, get, is at position</tags>
+  <changelog>
+    ReaGirl 1.0 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 ]]
   local x, y, real_x, real_y = reagirl.UI_Element_GetSetPosition(element_id, false)
@@ -9506,6 +9688,9 @@ function reagirl.UI_Element_GetSetPosition(element_id, is_set, x, y)
   <target_document>ReaGirl_Functions</target_document>
   <source_document>reagirl.lua</source_document>
   <tags>ui-elements, set, get, position</tags>
+  <changelog>
+    ReaGirl 1.0 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 ]]
   if type(element_id)~="string" then error("UI_Element_GetSetPosition: param #1 - must be a guid as string", 2) end
@@ -9567,6 +9752,9 @@ function reagirl.UI_Element_GetDimension(element_id)
   <target_document>ReaGirl_Functions</target_document>
   <source_document>reagirl.lua</source_document>
   <tags>ui-elements, get, position</tags>
+  <changelog>
+    ReaGirl 1.32 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 ]]
   -- maybe restrict this to certain ui-elements
@@ -9621,6 +9809,9 @@ function reagirl.UI_Element_GetSetAllHorizontalOffset(is_set, x_offset)
   <target_document>ReaGirl_Functions</target_document>
   <source_document>reagirl.lua</source_document>
   <tags>ui-elements, set, get, horizontal offset</tags>
+  <changelog>
+    ReaGirl 1.0 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 ]]
   if type(is_set)~="boolean" then error("UI_Element_GetSetAllHorizontalOffset: param #2 - must be a boolean", 2) end
@@ -9658,6 +9849,9 @@ function reagirl.UI_Element_GetSetAllVerticalOffset(is_set, y_offset)
   <target_document>ReaGirl_Functions</target_document>
   <source_document>reagirl.lua</source_document>
   <tags>ui-elements, set, get, vertical offset</tags>
+  <changelog>
+    ReaGirl 1.0 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 ]]
   if type(is_set)~="boolean" then error("UI_Element_GetSetAllVerticalOffset: param #2 - must be a boolean", 2) end
@@ -9696,6 +9890,9 @@ function reagirl.UI_Element_GetSetRunFunction(element_id, is_set, run_function, 
   <target_document>ReaGirl_Functions</target_document>
   <source_document>reagirl.lua</source_document>
   <tags>ui-elements, set, get, run function</tags>
+  <changelog>
+    ReaGirl 1.0 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 ]]
   if type(element_id)~="string" then error("UI_Element_GetSetRunFunction: param #1 - must be a guid as string", 2) end
@@ -9736,6 +9933,9 @@ function reagirl.UI_Element_Remove(element_id)
   <target_document>ReaGirl_Functions</target_document>
   <source_document>reagirl.lua</source_document>
   <tags>ui-elements, remove</tags>
+  <changelog>
+    ReaGirl 1.0 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 ]]
   if type(element_id)~="string" then error("UI_Element_Remove: param #1 - must be a guid as string", 2) end
@@ -10282,6 +10482,9 @@ function reagirl.Checkbox_SetWidth(element_id, width)
     Checkbox
   </chapter_context>
   <tags>checkbox, set, width</tags>
+  <changelog>
+    ReaGirl 1.0 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 --]]
   if type(element_id)~="string" then error("Checkbox_SetWidth: param #1 - must be a string", 2) end
@@ -10332,6 +10535,9 @@ function reagirl.Checkbox_LinkToExtstate(element_id, section, key, false_val, tr
     Checkbox
   </chapter_context>
   <tags>checkbox, link to, extstate</tags>
+  <changelog>
+    ReaGirl 1.1 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 --]]
   if type(element_id)~="string" then error("Checkbox_LinkToExtstate: param #1 - must be a string", 2) end
@@ -10392,6 +10598,9 @@ function reagirl.Checkbox_LinkToIniValue(element_id, ini_file, section, key, fal
     Checkbox
   </chapter_context>
   <tags>checkbox, link to, ini-file</tags>
+  <changelog>
+    ReaGirl 1.1 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 --]]
   if type(element_id)~="string" then error("Checkbox_LinkToIniValue: param #1 - must be a string", 2) end
@@ -10452,6 +10661,9 @@ function reagirl.Checkbox_LinkToConfigVar(element_id, configvar_name, bit, persi
     Checkbox
   </chapter_context>
   <tags>checkbox, link to, config variable</tags>
+  <changelog>
+    ReaGirl 1.1 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 --]]
   if type(element_id)~="string" then error("Checkbox_LinkToConfigVar: param #1 - must be a string", 2) end
@@ -10515,6 +10727,9 @@ function reagirl.Checkbox_LinkToToggleState(element_id, section, command_id, run
     Checkbox
   </chapter_context>
   <tags>checkbox, link to, toggle command state</tags>
+  <changelog>
+    ReaGirl 1.1 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 --]]
   if type(element_id)~="string" then error("Checkbox_LinkToExtstate: param #1 - must be a string", 2) end
@@ -10558,6 +10773,9 @@ function reagirl.Checkbox_Unlink(element_id)
     Checkbox
   </chapter_context>
   <tags>checkbox, link to, unlink</tags>
+  <changelog>
+    ReaGirl 1.1 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 --]]
   if type(element_id)~="string" then error("Checkbox_Unlink: param #1 - must be a string", 2) end
@@ -10594,6 +10812,9 @@ function reagirl.Checkbox_SetCheckState(element_id, check_state)
     Checkbox
   </chapter_context>
   <tags>checkbox, set, check-state</tags>
+  <changelog>
+    ReaGirl 1.0 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 --]]
   if type(element_id)~="string" then error("Checkbox_SetCheckState: param #1 - must be a string", 2) end
@@ -10633,6 +10854,9 @@ function reagirl.Checkbox_GetCheckState(element_id)
     Checkbox
   </chapter_context>
   <tags>checkbox, get, check-state</tags>
+  <changelog>
+    ReaGirl 1.0 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 --]]
   if type(element_id)~="string" then error("Checkbox_GetCheckState: param #1 - must be a string", 2) end
@@ -10667,6 +10891,9 @@ function reagirl.Checkbox_SetDisabled(element_id, state)
     Checkbox
   </chapter_context>
   <tags>checkbox, set, disabled</tags>
+  <changelog>
+    ReaGirl 1.0 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 --]]
   if type(element_id)~="string" then error("Checkbox_SetDisabled: param #1 - must be a string", 2) end
@@ -10706,6 +10933,9 @@ function reagirl.Checkbox_GetDisabled(element_id)
     Checkbox
   </chapter_context>
   <tags>checkbox, get, disabled</tags>
+  <changelog>
+    ReaGirl 1.0 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 --]]
   if type(element_id)~="string" then error("Checkbox_GetDisabled: param #1 - must be a string", 2) end
@@ -10796,6 +11026,9 @@ function reagirl.UI_Element_Last_Element_Current_Position()
     UI Elements
   </chapter_context>
   <tags>ui-elements, get, last ui-element, current position, width, height</tags>
+  <changelog>
+    ReaGirl 1.0 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 --]]
   local slot=reagirl.UI_Element_GetNextFreeSlot()
@@ -10841,6 +11074,9 @@ function reagirl.NextLine(y_offset)
     Autoposition
   </chapter_context>
   <tags>ui-elements, set, next line</tags>
+  <changelog>
+    ReaGirl 1.0 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 --]]
   if y_offset~=nil and math.type(y_offset)~="integer" then error("NextLine: param #1 - must be either nil or an integer", 2) end
@@ -11045,7 +11281,11 @@ function reagirl.Color_EnumerateNames(index)
     Colors and Themes
   </chapter_context>
   <tags>misc, color, enumerate, name</tags>
+  <changelog>
+    ReaGirl 1.1 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
+
 --]]
   -- verlinke html-color-liste
   if index<1 or index>=#reagirl.ColorName then return "" end
@@ -11223,6 +11463,9 @@ function reagirl.Color_GetName(r,g,b)
     Colors and Themes
   </chapter_context>
   <tags>misc, color, get, by color, name</tags>
+  <changelog>
+    ReaGirl 1.1 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 --]]
   local name=reagirl.ColorNames[r.."_"..g.."_"..b]
@@ -11397,6 +11640,9 @@ function reagirl.Color_GetColorValuesByName(name)
     Colors and Themes
   </chapter_context>
   <tags>misc, color, get, by name, color values</tags>
+  <changelog>
+    ReaGirl 1.1 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 --]]
   local r, g, b=reagirl.ColorNames_Values[name:lower()]:match("(.-)_(.-)_(.*)")
@@ -11430,6 +11676,9 @@ function reagirl.Gui_GetCurrentScriptInstance()
       Gui
     </chapter_context>
     <tags>gui, get, script instance, identifier</tags>
+    <changelog>
+      ReaGirl 1.1 - added to ReaGirl
+    </changelog>
   </US_DocBloc>
   --]]  
   local gui_name=reagirl.Window_name
@@ -11477,6 +11726,9 @@ function reagirl.DecorRectangle_Add(x, y, w, h, radius, r, g, b)
     Decorative Color Rectangle
   </chapter_context>
   <tags>decorative color rectangle, add</tags>
+  <changelog>
+    ReaGirl 1.2 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 --]]
   if math.type(x)~="integer" then error("DecorRectangle_Add: param #1 - must be either nil or an integer", 2) end
@@ -11574,6 +11826,9 @@ function reagirl.DecorRectangle_SetColor(element_id, r, g, b)
     Decorative Color Rectangle
   </chapter_context>
   <tags>decorative color rectangle, set, color</tags>
+  <changelog>
+    ReaGirl 1.2 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 --]]
   if type(element_id)~="string" then error("DecorRectangle_SetColor: param #1 - must be a string", 2) end
@@ -11622,6 +11877,9 @@ function reagirl.DecorRectangle_GetColor(element_id)
     Decorative Color Rectangle
   </chapter_context>
   <tags>decorative color rectangle, get, color</tags>
+  <changelog>
+    ReaGirl 1.2 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 --]]
   if type(element_id)~="string" then error("DecorRectangle_GetColor: param #1 - must be a string", 2) end
@@ -11660,6 +11918,9 @@ function reagirl.DecorRectangle_SetEdgeStyle(element_id, square_top_left, square
     Decorative Color Rectangle
   </chapter_context>
   <tags>decorative color rectangle, set, edges</tags>
+  <changelog>
+    ReaGirl 1.2 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 --]]
   if type(element_id)~="string" then error("DecorRectangle_SetEdgeStyle: param #1 - must be a string", 2) end
@@ -11707,6 +11968,9 @@ function reagirl.DecorRectangle_GetEdgeStyle(element_id)
     Decorative Color Rectangle
   </chapter_context>
   <tags>decorative color rectangle, get, edges</tags>
+  <changelog>
+    ReaGirl 1.2 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 --]]
   if type(element_id)~="string" then error("DecorRectangle_GetEdgeStyle: param #1 - must be a string", 2) end
@@ -11743,6 +12007,9 @@ function reagirl.DecorRectangle_GetRadius(element_id)
     Decorative Color Rectangle
   </chapter_context>
   <tags>decorative color rectangle, get, edges, radius</tags>
+  <changelog>
+    ReaGirl 1.2 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 --]]
   if type(element_id)~="string" then error("DecorRectangle_GetRadius: param #1 - must be a string", 2) end
@@ -11777,6 +12044,9 @@ function reagirl.DecorRectangle_SetRadius(element_id, radius)
     Decorative Color Rectangle
   </chapter_context>
   <tags>decorative color rectangle, set, edges, radius</tags>
+  <changelog>
+    ReaGirl 1.2 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 --]]
   if type(element_id)~="string" then error("DecorRectangle_SetRadius: param #1 - must be a string", 2) end
@@ -12006,6 +12276,9 @@ function reagirl.ColorRectangle_SetEdgeStyle(element_id, square_top_left, square
     Color Rectangle
   </chapter_context>
   <tags>color rectangle, set, edges</tags>
+  <changelog>
+    ReaGirl 1.2 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 --]]
   if type(element_id)~="string" then error("ColorRectangle_SetEdgeStyle: param #1 - must be a string", 2) end
@@ -12053,6 +12326,9 @@ function reagirl.ColorRectangle_GetEdgeStyle(element_id, square_top_left, square
     Color Rectangle
   </chapter_context>
   <tags>color rectangle, get, edges</tags>
+  <changelog>
+    ReaGirl 1.2 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 --]]
   if type(element_id)~="string" then error("ColorRectangle_GetEdgeStyle: param #1 - must be a string", 2) end
@@ -12089,6 +12365,9 @@ function reagirl.ColorRectangle_GetRadius(element_id)
     Color Rectangle
   </chapter_context>
   <tags>button, get, radius</tags>
+  <changelog>
+    ReaGirl 1.2 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 --]]
   if type(element_id)~="string" then error("ColorRectangle_GetRadius: param #1 - must be a string", 2) end
@@ -12123,6 +12402,9 @@ function reagirl.ColorRectangle_SetRadius(element_id, radius)
     Color Rectangle
   </chapter_context>
   <tags>color rectangle, set, radius</tags>
+  <changelog>
+    ReaGirl 1.2 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 --]]
   if type(element_id)~="string" then error("ColorRectangle_SetRadius: param #1 - must be a string", 2) end
@@ -12167,6 +12449,9 @@ function reagirl.ColorRectangle_GetColor(element_id)
     Color Rectangle
   </chapter_context>
   <tags>button, get, radius</tags>
+  <changelog>
+    ReaGirl 1.2 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 --]]
   if type(element_id)~="string" then error("ColorRectangle_GetColor: param #1 - must be a string", 2) end
@@ -12203,6 +12488,9 @@ function reagirl.ColorRectangle_SetColor(element_id, r, g, b)
     Color Rectangle
   </chapter_context>
   <tags>color rectangle, set, color</tags>
+  <changelog>
+    ReaGirl 1.2 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 --]]
   if type(element_id)~="string" then error("ColorRectangle_SetColor: param #1 - must be a string", 2) end
@@ -12275,6 +12563,9 @@ function reagirl.ListView_Add(x, y, w, h, caption, meaningOfUI_Element, enable_s
     ListView
   </chapter_context>
   <tags>listview, add</tags>
+  <changelog>
+    ReaGirl 27.0 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 --]]
   if x~=nil and math.type(x)~="integer" then error("ListView_Add: param #1 - must be either nil or an integer", 2) end
@@ -12394,6 +12685,9 @@ function reagirl.ListView_Filter(element_id, filter, case_sensitive)
     ListView
   </chapter_context>
   <tags>listview, set, filter</tags>
+  <changelog>
+    ReaGirl 27.0 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 --]]
 
@@ -12457,6 +12751,9 @@ function reagirl.ListView_SetAllDeselected(element_id)
     ListView
   </chapter_context>
   <tags>listview, set, deselected</tags>
+  <changelog>
+    ReaGirl 27.0 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 --]]
 
@@ -13120,6 +13417,9 @@ function reagirl.ListView_SetIndent(element_id, entry, indent)
     ListView
   </chapter_context>
   <tags>listview, set, indentation</tags>
+  <changelog>
+    ReaGirl 27.0 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 --]]
 
@@ -13168,6 +13468,9 @@ function reagirl.ListView_SetIndent_Table(element_id, indentation)
     ListView
   </chapter_context>
   <tags>listview, set, indentation, by table</tags>
+  <changelog>
+    ReaGirl 27.0 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 --]]
 
@@ -13235,6 +13538,9 @@ function reagirl.Textbox_Add(x, y, label, meaningOfUI_Element, run_function, uni
     Textbox
   </chapter_context>
   <tags>textbox, add</tags>
+  <changelog>
+    ReaGirl 27.0 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 --]]
   if x~=nil and math.type(x)~="integer" then error("Textbox_Add: param #1 - must be either nil or an integer", 2) end
@@ -13914,6 +14220,9 @@ function reagirl.Button_SetDisabled(element_id, state)
     Button
   </chapter_context>
   <tags>button, set, disabled</tags>
+  <changelog>
+    ReaGirl 1.0 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 --]]
   if type(element_id)~="string" then error("Button_SetDisabled: param #1 - must be a string", 2) end
@@ -13952,6 +14261,9 @@ function reagirl.Button_GetDisabled(element_id)
     Button
   </chapter_context>
   <tags>button, get, disabled</tags>
+  <changelog>
+    ReaGirl 1.0 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 --]]
   if type(element_id)~="string" then error("Button_GetDisabled: param #1 - must be a string", 2) end
@@ -13988,6 +14300,9 @@ function reagirl.Button_GetRadius(element_id)
     Button
   </chapter_context>
   <tags>button, get, radius</tags>
+  <changelog>
+    ReaGirl 1.0 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 --]]
   if type(element_id)~="string" then error("Button_GetRadius: param #1 - must be a string", 2) end
@@ -14025,6 +14340,9 @@ function reagirl.Button_SetRadius(element_id, radius)
     Button
   </chapter_context>
   <tags>button, set, radius</tags>
+  <changelog>
+    ReaGirl 1.0 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 --]]
   if type(element_id)~="string" then error("Button_SetRadius: param #1 - must be a string", 2) end
@@ -15991,6 +16309,9 @@ function reagirl.Menu_GetEntryName(menu, entry_nr)
     Misc
   </chapter_context>
   <tags>misc, get, menu, entry</tags>
+  <changelog>
+    ReaGirl 1.2 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 --]]
   local counter=0
@@ -16124,6 +16445,9 @@ function reagirl.Burgermenu_SetMenu(element_id, menu)
     Burgermenu
   </chapter_context>
   <tags>burgermenu, set, menu</tags>
+  <changelog>
+    ReaGirl 1.2 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 --]]
   if type(element_id)~="string" then error("Burgermenu_SetMenu: param #1 - must be a string", 2) end
@@ -16164,6 +16488,9 @@ function reagirl.Burgermenu_GetMenu(element_id)
     Burgermenu
   </chapter_context>
   <tags>burgermenu, set, menu</tags>
+  <changelog>
+    ReaGirl 1.2 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 --]]
   if type(element_id)~="string" then error("Burgermenu_GetMenu: param #1 - must be a string", 2) end
@@ -16556,6 +16883,9 @@ function reagirl.Inputbox_SetPassword(element_id, password)
     Inputbox
   </chapter_context>
   <tags>inputbox, set, password</tags>
+  <changelog>
+    ReaGirl 1.0 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 --]]
   if type(element_id)~="string" then error("Inputbox_SetPassword: param #1 - must be a string", 2) end
@@ -16598,6 +16928,9 @@ function reagirl.Inputbox_GetPassword(element_id)
     Inputbox
   </chapter_context>
   <tags>inputbox, get, password</tags>
+  <changelog>
+    ReaGirl 1.0 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 --]]
   if type(element_id)~="string" then error("Inputbox_GetPassword: param #1 - must be a string", 2) end
@@ -17547,6 +17880,9 @@ function reagirl.Inputbox_LinkToExtstate(element_id, section, key, default, pers
     Inputbox
   </chapter_context>
   <tags>inputbox, link to, extstate</tags>
+  <changelog>
+    ReaGirl 1.1 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 --]]
   if type(element_id)~="string" then error("Inputbox_LinkToExtstate: param #1 - must be a string", 2) end
@@ -17600,6 +17936,9 @@ function reagirl.Inputbox_LinkToIniValue(element_id, ini_file, section, key, def
     Inputbox
   </chapter_context>
   <tags>inputbox, link to, ini-file</tags>
+  <changelog>
+    ReaGirl 1.1 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 --]]
   if type(element_id)~="string" then error("Inputbox_LinkToIniValue: param #1 - must be a string", 2) end
@@ -17657,6 +17996,9 @@ function reagirl.Inputbox_LinkToConfigVar(element_id, configvar_name, persist)
     Inputbox
   </chapter_context>
   <tags>inputbox, link to, double, config variable</tags>
+  <changelog>
+    ReaGirl 1.1 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 --]]
   if type(element_id)~="string" then error("Inputbox_LinkToConfigVar: param #1 - must be a string", 2) end
@@ -17696,6 +18038,9 @@ function reagirl.Inputbox_Unlink(element_id, section, key, default, persist)
     Inputbox
   </chapter_context>
   <tags>inputbox, unlink</tags>
+  <changelog>
+    ReaGirl 1.1 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 --]]
   if type(element_id)~="string" then error("Inputbox_Unlink: param #1 - must be a string", 2) end
@@ -17779,6 +18124,9 @@ function reagirl.Inputbox_SetDisabled(element_id, state)
     Inputbox
   </chapter_context>
   <tags>inputbox, set, disabled</tags>
+  <changelog>
+    ReaGirl 1.0 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 --]]
   if type(element_id)~="string" then error("Inputbox_SetDisabled: param #1 - must be a string", 2) end
@@ -17817,6 +18165,9 @@ function reagirl.Inputbox_GetDisabled(element_id)
     Inputbox
   </chapter_context>
   <tags>inputbox, get, disabled</tags>
+  <changelog>
+    ReaGirl 1.0 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 --]]
   if type(element_id)~="string" then error("Inputbox_GetDisabled: param #1 - must be a string", 2) end
@@ -17984,6 +18335,9 @@ function reagirl.Inputbox_GetText(element_id)
     Inputbox
   </chapter_context>
   <tags>inputbox, get, text</tags>
+  <changelog>
+    ReaGirl 1.0 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 --]]
   if type(element_id)~="string" then error("Inputbox_GetText: param #1 - must be a string", 2) end
@@ -18059,6 +18413,9 @@ function reagirl.Inputbox_SetEmptyText(element_id, empty_text)
     Inputbox
   </chapter_context>
   <tags>inputbox, set, empty text</tags>
+  <changelog>
+    ReaGirl 1.0 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 --]]
   if type(element_id)~="string" then error("Inputbox_SetEmptyText: param #1 - must be a string", 2) end
@@ -18143,6 +18500,9 @@ function reagirl.Inputbox_GetCursorOffset(element_id)
     Inputbox
   </chapter_context>
   <tags>inputbox, get, cursor offset</tags>
+  <changelog>
+    ReaGirl 1.0 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 --]]
   if type(element_id)~="string" then error("Inputbox_GetCursorOffset: param #1 - must be a string", 2) end
@@ -18624,6 +18984,9 @@ function reagirl.DropDownMenu_LinkToExtstate(element_id, section, key, default, 
     DropDown Menu
   </chapter_context>
   <tags>dropdown menu, link to, extstate</tags>
+  <changelog>
+    ReaGirl 1.1 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 --]]
   if type(element_id)~="string" then error("DropDownMenu_LinkToExtstate: param #1 - must be a string", 2) end
@@ -18677,6 +19040,9 @@ function reagirl.DropDownMenu_LinkToIniValue(element_id, ini_file, section, key,
     DropDown Menu
   </chapter_context>
   <tags>dropdown menu, link to, ini-file</tags>
+  <changelog>
+    ReaGirl 1.1 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 --]]
   if type(element_id)~="string" then error("DropDownMenu_LinkToIniValue: param #1 - must be a string", 2) end
@@ -18721,6 +19087,9 @@ function reagirl.DropDownMenu_Unlink(element_id, section, key, default, persist)
     DropDown Menu
   </chapter_context>
   <tags>dropdown menu, unlink</tags>
+  <changelog>
+    ReaGirl 1.1 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 --]]
   if type(element_id)~="string" then error("DropDownMenu_Unlink: param #1 - must be a string", 2) end
@@ -18756,6 +19125,9 @@ function reagirl.DropDownMenu_SetDimensions(element_id, width)
     DropDown Menu
   </chapter_context>
   <tags>dropdown menu, set, width</tags>
+  <changelog>
+    ReaGirl 1.0 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 --]]
   if type(element_id)~="string" then error("DropDownMenu_SetDimensions: param #1 - must be a string", 2) end
@@ -18796,6 +19168,9 @@ function reagirl.DropDownMenu_GetDimensions(element_id)
     DropDown Menu
   </chapter_context>
   <tags>dropdown menu, get, width</tags>
+  <changelog>
+    ReaGirl 1.0 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 --]]
   if type(element_id)~="string" then error("DropDownMenu_GetDimensions: param #1 - must be a string", 2) end
@@ -18917,6 +19292,9 @@ function reagirl.DropDownMenu_SetDisabled(element_id, state)
     DropDown Menu
   </chapter_context>
   <tags>dropdown menu, set, disabled</tags>
+  <changelog>
+    ReaGirl 1.0 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 --]]
   if type(element_id)~="string" then error("DropDownMenu_SetDisabled: param #1 - must be a string", 2) end
@@ -18955,6 +19333,9 @@ function reagirl.DropDownMenu_GetDisabled(element_id)
     DropDown Menu
   </chapter_context>
   <tags>dropdown menu, get, disabled</tags>
+  <changelog>
+    ReaGirl 1.0 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 --]]
   if type(element_id)~="string" then error("DropDownMenu_GetDisabled: param #1 - must be a string", 2) end
@@ -18992,6 +19373,9 @@ function reagirl.DropDownMenu_GetMenuItems(element_id)
     DropDown Menu
   </chapter_context>
   <tags>dropdown menu, get, menuitem, menudefault</tags>
+  <changelog>
+    ReaGirl 1.0 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 --]]
   if type(element_id)~="string" then error("DropDownMenu_GetMenuItems: param #1 - must be a string", 2) end
@@ -19031,6 +19415,9 @@ function reagirl.DropDownMenu_SetMenuItems(element_id, menuItems, menuSelectedIt
     DropDown Menu
   </chapter_context>
   <tags>dropdown menu, set, menuitem, menudefault</tags>
+  <changelog>
+    ReaGirl 1.0 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 --]]
   if type(element_id)~="string" then error("DropDownMenu_SetMenuItems: param #1 - must be a string", 2) end
@@ -19075,6 +19462,9 @@ function reagirl.Label_GetLabelText(element_id, label)
     Label
   </chapter_context>
   <tags>label, get, text</tags>
+  <changelog>
+    ReaGirl 1.1 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 --]]
   if type(element_id)~="string" then error("Label_GetLabelText: param #1 - must be a string", 2) end
@@ -19109,6 +19499,9 @@ function reagirl.Label_SetLabelText(element_id, label)
     Label
   </chapter_context>
   <tags>label, set, text</tags>
+  <changelog>
+    ReaGirl 1.0 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 --]]
   if type(element_id)~="string" then error("Label_SetLabelText: param #1 - must be a string", 2) end
@@ -19151,6 +19544,9 @@ function reagirl.Label_GetFontSize(element_id)
     Label
   </chapter_context>
   <tags>label, get, font size</tags>
+  <changelog>
+    ReaGirl 1.0 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 --]]
   if type(element_id)~="string" then error("Label_GetFontSize: param #1 - must be a string", 2) end
@@ -19187,6 +19583,9 @@ function reagirl.Label_SetFontSize(element_id, font_size)
     Label
   </chapter_context>
   <tags>label, set, font size</tags>
+  <changelog>
+    ReaGirl 1.0 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 --]]
   if type(element_id)~="string" then error("Label_SetFontSize: param #1 - must be a string", 2) end
@@ -19249,6 +19648,9 @@ function reagirl.Label_GetAlignment(element_id)
     Label
   </chapter_context>
   <tags>label, get, alignment</tags>
+  <changelog>
+    ReaGirl 1.0 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 --]]
   if type(element_id)~="string" then error("Label_GetAlignement: param #1 - must be a string", 2) end
@@ -19288,6 +19690,9 @@ function reagirl.Label_SetAlignment(element_id, alignment)
     Label
   </chapter_context>
   <tags>label, set, alignment</tags>
+  <changelog>
+    ReaGirl 1.0 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 --]]
   if type(element_id)~="string" then error("Label_SetAlignment: param #1 - must be a string", 2) end
@@ -19339,6 +19744,9 @@ function reagirl.Label_SetStyle(element_id, style1, style2, style3)
     Label
   </chapter_context>
   <tags>label, set, text, style</tags>
+  <changelog>
+    ReaGirl 1.0 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 --]]
   if type(element_id)~="string" then error("Label_SetStyle: param #1 - must be a string", 2) end
@@ -19417,6 +19825,9 @@ function reagirl.Label_GetStyle(element_id)
     Label
   </chapter_context>
   <tags>label, get, style</tags>
+  <changelog>
+    ReaGirl 1.0 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 --]]
   if type(element_id)~="string" then error("Label_GetStyle: param #1 - must be a string", 2) end
@@ -20076,6 +20487,9 @@ function reagirl.Label_SetBackdrop(element_id, width, height)
     Label
   </chapter_context>
   <tags>label, set, backdrop</tags>
+  <changelog>
+    ReaGirl 1.0 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 --]]
   if type(element_id)~="string" then error("Label_SetBackdrop: param #1 - must be a string", 2) end
@@ -20253,6 +20667,9 @@ function reagirl.Label_AutoBackdrop(element_id, dest_element_id)
     Label
   </chapter_context>
   <tags>label, set, auto, backdrop</tags>
+  <changelog>
+    ReaGirl 1.0 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 --]]
   if type(element_id)~="string" then error("Label_AutoBackdrop: param #1 - must be a string", 2) end
@@ -20302,6 +20719,9 @@ function reagirl.Label_GetBackdrop(element_id, width, height)
     Label
   </chapter_context>
   <tags>label, get, backdrop</tags>
+  <changelog>
+    ReaGirl 1.0 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 --]]
   if type(element_id)~="string" then error("Label_GetBackdrop: param #1 - must be a string", 2) end
@@ -20347,6 +20767,9 @@ function reagirl.Label_GetDraggable(element_id)
     Label
   </chapter_context>
   <tags>label, get, draggable</tags>
+  <changelog>
+    ReaGirl 1.0 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 --]]
   if type(element_id)~="string" then error("Label_GetDraggable: param #1 - must be a string", 2) end
@@ -20391,6 +20814,9 @@ function reagirl.Label_SetDraggable(element_id, draggable, destination_element_i
     Label
   </chapter_context>
   <tags>label, set, draggable</tags>
+  <changelog>
+    ReaGirl 1.0 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 --]]
   if type(element_id)~="string" then error("Label_SetDraggable: param #1 - must be a string", 2) end
@@ -20591,6 +21017,9 @@ function reagirl.Image_GetDraggable(element_id)
     Image
   </chapter_context>
   <tags>image, get, draggable</tags>
+  <changelog>
+    ReaGirl 1.0 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 --]]
   if type(element_id)~="string" then error("Image_GetDraggable: param #1 - must be a string", 2) end
@@ -20635,6 +21064,9 @@ function reagirl.Image_SetDraggable(element_id, draggable, destination_element_i
     Image
   </chapter_context>
   <tags>image, set, draggable</tags>
+  <changelog>
+    ReaGirl 1.0 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 --]]
   if type(element_id)~="string" then error("Image_SetDraggable: param #1 - must be a string", 2) end
@@ -20687,6 +21119,9 @@ function reagirl.Image_SetDimensions(element_id, width, height)
     Image
   </chapter_context>
   <tags>image, set, width, height</tags>
+  <changelog>
+    ReaGirl 1.0 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 --]]
   if type(element_id)~="string" then error("Image_SetDimensions: param #1 - must be a string", 2) end
@@ -20732,6 +21167,9 @@ function reagirl.Image_GetDimensions(element_id)
     Image
   </chapter_context>
   <tags>image, get, width, height</tags>
+  <changelog>
+    ReaGirl 1.0 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 --]]
   if type(element_id)~="string" then error("Image_GetDimensions: param #1 - must be a string", 2) end
@@ -20768,6 +21206,9 @@ function reagirl.Image_ReloadImage_Scaled(element_id)
     Image
   </chapter_context>
   <tags>image, reload</tags>
+  <changelog>
+    ReaGirl 1.0 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 --]]
   if type(element_id)~="string" then error("Image_ReloadImage_Scaled: param #1 - must be a string", 2) end
@@ -20837,6 +21278,9 @@ function reagirl.Image_GetAutoUpdate(element_id)
     Image
   </chapter_context>
   <tags>image, reload, auto, update, get</tags>
+  <changelog>
+    ReaGirl 1.2 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 --]]
   if type(element_id)~="string" then error("Image_GetAutoUpdate: param #1 - must be a string", 2) end
@@ -20879,6 +21323,9 @@ function reagirl.Image_SetAutoUpdate(element_id, auto_update)
     Image
   </chapter_context>
   <tags>image, reload, auto, update, set</tags>
+  <changelog>
+    ReaGirl 1.2 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
   --]]
   if type(element_id)~="string" then error("Image_SetAutoUpdate: param #1 - must be a string", 2) end
@@ -21191,6 +21638,9 @@ function reagirl.Image_KeepAspectRatio(element_id, state)
     Image
   </chapter_context>
   <tags>image, set, keep, aspect ratio</tags>
+  <changelog>
+    ReaGirl 1.0 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 --]]  
   if type(element_id)~="string" then error("Image_KeepAspectRatio: param #1 - must be a string", 2) end
@@ -21230,6 +21680,9 @@ function reagirl.Image_GetImageFilename(element_id)
     Image
   </chapter_context>
   <tags>image, get, filename</tags>
+  <changelog>
+    ReaGirl 1.0 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 --]]  
   if type(element_id)~="string" then error("Image_GetImageFilename: param #1 - must be a string", 2) end
@@ -21267,6 +21720,9 @@ function reagirl.Image_ClearToColor(element_id, r, g, b)
     Image
   </chapter_context>
   <tags>image, clear, to color</tags>
+  <changelog>
+    ReaGirl 1.0 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 --]]  
   if type(element_id)~="string" then error("Image_ClearToColor: param #1 - must be a string", 2) end
@@ -21328,6 +21784,9 @@ function reagirl.Image_Load(element_id, image_filename)
     Image
   </chapter_context>
   <tags>image, load new image</tags>
+  <changelog>
+    ReaGirl 1.0 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 --]]  
   if type(element_id)~="string" then error("Image_Load: param #1 - must be a string", 2) end
@@ -21386,6 +21845,9 @@ function reagirl.Background_GetSetColor(is_set, r, g, b)
     Background
   </chapter_context>
   <tags>background, set, get, color, red, gree, blue</tags>
+  <changelog>
+    ReaGirl 1.0 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 --]]
   if type(is_set)~="boolean" then error("Background_GetSetColor: param #1 - must be a boolean", 2) end
@@ -21431,6 +21893,9 @@ function reagirl.Background_GetSetImage(filename, x, y, scaled, fixed_x, fixed_y
     Background
   </chapter_context>
   <tags>background, set, background image</tags>
+  <changelog>
+    ReaGirl 1.0 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 --]]
   if type(filename)~="string" then error("Background_GetSetImage: param #1 - must be a string", 2) end
@@ -21523,7 +21988,11 @@ function reagirl.Gui_ForceRefresh(place, id)
     Gui
   </chapter_context>
   <tags>gui, force, refresh</tags>
+  <changelog>
+    ReaGirl 1.0 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
+
 --]]
   if id==nil then
     reagirl.Gui_ForceRefreshState=true
@@ -21560,6 +22029,9 @@ function reagirl.Window_GetScrollOffset()
     Window
   </chapter_context>
   <tags>window, get, scrollposition, vertical, horizontal</tags>
+  <changelog>
+    ReaGirl 1.2 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 --]]
   return (-reagirl.MoveItAllRight/reagirl.Window_GetCurrentScale())//1|0, (-reagirl.MoveItAllUp/reagirl.Window_GetCurrentScale())//1|0
@@ -21586,6 +22058,9 @@ function reagirl.Window_ForceSize_Minimum(MinW, MinH)
     Window
   </chapter_context>
   <tags>window, set, force size, minimum</tags>
+  <changelog>
+    ReaGirl 1.0 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 --]]
   if math.type(MinW)~="integer" then error("Window_ForceSize_Minimum: MinW - must be an integer", 2) end
@@ -21616,6 +22091,9 @@ function reagirl.Window_ForceSize_Maximum(MaxW, MaxH)
     Window
   </chapter_context>
   <tags>window, set, force size, maximum</tags>
+  <changelog>
+    ReaGirl 1.0 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 --]]
   if math.type(MaxW)~="integer" then error("Window_ForceSize_Maximum: MinW - must be an integer", 2) end
@@ -21855,6 +22333,9 @@ function reagirl.Gui_GetBoundaries()
   <target_document>ReaGirl_Functions</target_document>
   <source_document>reagirl.lua</source_document>
   <tags>gui, functions, get, boundaries</tags>
+  <changelog>
+    ReaGirl 1.0 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 ]]
   local minx=0
@@ -22275,6 +22756,9 @@ function reagirl.UI_Element_GetHovered()
   <target_document>ReaGirl_Functions</target_document>
   <source_document>reagirl.lua</source_document>
   <tags>functions, get, hovered, hover, gui</tags>
+  <changelog>
+    ReaGirl 1.0 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 ]]
   if reagirl.UI_Elements_HoveredElement==-1 or reagirl.UI_Elements_HoveredElement==nil then return end
@@ -22303,6 +22787,9 @@ function reagirl.UI_Element_GetFocused()
   <target_document>ReaGirl_Functions</target_document>
   <source_document>reagirl.lua</source_document>
   <tags>functions, get, focused, gui</tags>
+  <changelog>
+    ReaGirl 1.0 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 ]]
   if reagirl.Elements.FocusedElement>=#reagirl.Elements-5 then return end
@@ -22331,6 +22818,9 @@ function reagirl.UI_Element_SetFocused(element_id)
   <target_document>ReaGirl_Functions</target_document>
   <source_document>reagirl.lua</source_document>
   <tags>functions, set, focused, gui</tags>
+  <changelog>
+    ReaGirl 1.0 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 ]]
   if reagirl.Elements.FocusedElement~=nil and (reagirl.Elements.FocusedElement>=#reagirl.Elements-5) then return end
@@ -22367,6 +22857,9 @@ function reagirl.UI_Element_SetHiddenFromTable(table_element_ids, visible)
   <target_document>ReaGirl_Functions</target_document>
   <source_document>reagirl.lua</source_document>
   <tags>functions, set, hidden, visible, from table, gui</tags>
+  <changelog>
+    ReaGirl 1.0 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 ]]
   if type(table_element_ids)~="table" then error("UI_Element_SetHiddenFromTable: param #1: must be a table", 2) return end
@@ -22404,6 +22897,9 @@ function reagirl.AutoPosition_SetNextUIElementRelativeTo(element_id, offset)
   <target_document>ReaGirl_Functions</target_document>
   <source_document>reagirl.lua</source_document>
   <tags>functions, set, auto position, relative</tags>
+  <changelog>
+    ReaGirl 1.0 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 ]]
   if type(element_id)~="string" then error("AutoPosition_SetNextUIElementRelativeTo: param #1: must be a string", 2) return end
@@ -23381,6 +23877,9 @@ function reagirl.Slider_SetDimensions(element_id, width)
     Slider
   </chapter_context>
   <tags>slider, set, width</tags>
+  <changelog>
+    ReaGirl 1.0 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 --]]
   if type(element_id)~="string" then error("Slider_SetDimensions: param #1 - must be a string", 2) end
@@ -23421,6 +23920,9 @@ function reagirl.Slider_GetDimensions(element_id)
     Slider
   </chapter_context>
   <tags>slider, get, width</tags>
+  <changelog>
+    ReaGirl 1.0 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 --]]
   if type(element_id)~="string" then error("Slider_GetDimensions: param #1 - must be a string", 2) end
@@ -23457,6 +23959,9 @@ function reagirl.Slider_SetValue(element_id, value)
     Slider
   </chapter_context>
   <tags>slider, set, value</tags>
+  <changelog>
+    ReaGirl 1.0 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 --]]
   if type(element_id)~="string" then error("Slider_SetValue: param #1 - must be a string", 2) end
@@ -23499,6 +24004,9 @@ function reagirl.Slider_GetValue(element_id)
     Slider
   </chapter_context>
   <tags>slider, get, value</tags>
+  <changelog>
+    ReaGirl 1.0 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 --]]
   if type(element_id)~="string" then error("Slider_GetValue: param #1 - must be a string", 2) end
@@ -23533,6 +24041,9 @@ function reagirl.Slider_SetDisabled(element_id, state)
     Slider
   </chapter_context>
   <tags>slider, set, disability</tags>
+  <changelog>
+    ReaGirl 1.0 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 --]]
   if type(element_id)~="string" then error("Slider_SetDisabled: param #1 - must be a string", 2) end
@@ -23571,6 +24082,9 @@ function reagirl.Slider_GetDisabled(element_id)
     Slider
   </chapter_context>
   <tags>slider, get, disability</tags>
+  <changelog>
+    ReaGirl 1.0 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 --]]
   if type(element_id)~="string" then error("Slider_GetDisabled: param #1 - must be a string", 2) end
@@ -23607,6 +24121,9 @@ function reagirl.Slider_SetDefaultValue(element_id, default_value)
     Slider
   </chapter_context>
   <tags>slider, set, default, value</tags>
+  <changelog>
+    ReaGirl 1.0 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 --]]
   if type(element_id)~="string" then error("Slider_SetDefaultValue: param #1 - must be a string", 2) end
@@ -23648,6 +24165,9 @@ function reagirl.Slider_GetDefaultValue(element_id)
     Slider
   </chapter_context>
   <tags>slider, get, default, value</tags>
+  <changelog>
+    ReaGirl 1.0 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 --]]
   if type(element_id)~="string" then error("Slider_GetDefaultValue: param #1 - must be a string", 2) end
@@ -23684,6 +24204,9 @@ function reagirl.Slider_SetStartValue(element_id, start_value)
     Slider
   </chapter_context>
   <tags>slider, set, minimum, value</tags>
+  <changelog>
+    ReaGirl 1.0 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 --]]
   if type(element_id)~="string" then error("Slider_SetStartValue: param #1 - must be a string", 2) end
@@ -23725,6 +24248,9 @@ function reagirl.Slider_GetStartValue(element_id)
     Slider
   </chapter_context>
   <tags>slider, get, minimum, value</tags>
+  <changelog>
+    ReaGirl 1.0 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 --]]
   if type(element_id)~="string" then error("Slider_GetStartValue: param #1 - must be a string", 2) end
@@ -23761,6 +24287,9 @@ function reagirl.Slider_SetEndValue(element_id, max_value)
     Slider
   </chapter_context>
   <tags>slider, set, maximum, value</tags>
+  <changelog>
+    ReaGirl 1.0 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 --]]
   if type(element_id)~="string" then error("Slider_SetEndValue: param #1 - must be a string", 2) end
@@ -23802,6 +24331,9 @@ function reagirl.Slider_GetEndValue(element_id)
     Slider
   </chapter_context>
   <tags>slider, get, maximum, value</tags>
+  <changelog>
+    ReaGirl 1.0 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 --]]
   if type(element_id)~="string" then error("Slider_GetEndValue: param #1 - must be a string", 2) end
@@ -23835,6 +24367,9 @@ function reagirl.Slider_ResetToDefaultValue(element_id)
     Slider
   </chapter_context>
   <tags>slider, reset, value, default</tags>
+  <changelog>
+    ReaGirl 1.0 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 --]]
   if type(element_id)~="string" then error("Slider_ResetToDefaultValue: param #1 - must be a string", 2) end
@@ -23873,6 +24408,9 @@ function reagirl.NextLine_SetMargin(x_margin, y_margin)
     UI Elements
   </chapter_context>
   <tags>ui-elements, set, next line, margin</tags>
+  <changelog>
+    ReaGirl 1.0 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 --]]
   if x_margin~=nil and math.type(x_margin)~="integer" then error("NextLine_SetMargin: param #1 - must be either nil or an integer", 2) end
@@ -23905,6 +24443,9 @@ function reagirl.NextLine_GetMargin()
     UI Elements
   </chapter_context>
   <tags>ui-elements, get, next line, margin</tags>
+  <changelog>
+    ReaGirl 1.0 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 --]]
   return reagirl.UI_Element_NextX_Margin, reagirl.UI_Element_NextY_Margin
@@ -24087,6 +24628,9 @@ function reagirl.Tabs_SetSelected(element_id, selected_tab)
     Tabs
   </chapter_context>
   <tags>tabs, set, selected tab</tags>
+  <changelog>
+    ReaGirl 1.0 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 --]]
   if type(element_id)~="string" then error("Tabs_SetSelected: param #1 - must be a string", 2) end
@@ -24127,6 +24671,9 @@ function reagirl.Tabs_SetUIElementsForTab(element_id, tab_number, element_ids_ta
     Tabs
   </chapter_context>
   <tags>tabs, set, ui-elements shown in selected tab</tags>
+  <changelog>
+    ReaGirl 1.0 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 --]]
   if type(element_id)~="string" then error("Tabs_SetUIElementsForTab: param #1 - must be a string", 2) end
@@ -24172,6 +24719,9 @@ function reagirl.Tabs_GetSelected(element_id)
     Tabs
   </chapter_context>
   <tags>tabs, get, selected tab</tags>
+  <changelog>
+    ReaGirl 1.0 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 --]]
   if type(element_id)~="string" then error("Tabs_GetSelected: param #1 - must be a string", 2) end
@@ -25476,6 +26026,9 @@ function reagirl.Meter_SetPeak(element_id, ...)
     Meter
   </chapter_context>
   <tags>meter, set, peak</tags>
+  <changelog>
+    ReaGirl 1.3 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 --]]
   local peaks={...}
@@ -25986,6 +26539,9 @@ function reagirl.Base64_Encoder(source_string, remove_newlines, remove_tabs)
     Misc
   </chapter_context>
   <tags>helper functions, convert, encode, base64, string</tags>
+  <changelog>
+    ReaGirl 1.0 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 ]]
   -- Not to myself:
@@ -26119,6 +26675,9 @@ function reagirl.Base64_Decoder(source_string)
     Misc
   </chapter_context>
   <tags>helper functions, convert, decode, base64, string</tags>
+  <changelog>
+    ReaGirl 1.0 - added to ReaGirl
+  </changelog>
 </US_DocBloc>
 ]]
   if type(source_string)~="string" then error("Base64_Decoder: param #1 - must be a string", 2) return nil end

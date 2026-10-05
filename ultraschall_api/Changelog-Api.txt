@@ -470,6 +470,7 @@ TODO:
   - MediaItems: InsertMediaItemFromFile - length=-1 didn't set the edit-cursor to the end of the inserted item; retval endposition was only returning length of inserted item, added missing info to the docs; when edit-cursor=2 and offset was set, the position wasn't at the end of the item -> fixed
   - MediaItem: RippleCut - didn't move markers that were at the exact endposition -> fixed
   - MediaItem\_Takes: GetTakeSourcePosByProjectPos - created additional undo points -> fixed
+  - ReaGirl: Ext\_IsAnyReaGirlGuiHovered - returns now the guid-script-instance of the hovered ReaGirl-gui-window
   - ReaGirl: General - stored debug-information into reaper-exstate.ini -> fixed  
   - ReaGirl: General - fixed font-sizes and window sizes on Retina-Macs
   - ReaGirl: Refresh - removed unneeded refreshes, which could cause flickering backshadow on images and toolbar-images

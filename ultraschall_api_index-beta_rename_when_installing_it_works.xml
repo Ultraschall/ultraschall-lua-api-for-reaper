@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API and ReaGirl">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API and ReaGirl package" type="extension">
-      <version name="56212.00" author="Meo-Ada Mespotine">
+      <version name="56216.00" author="Meo-Ada Mespotine">
 	<source file="reagirl.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5.4/reagirl.lua</source>
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5.4/ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-5.4/ultraschall_api_readme.txt</source>
@@ -858,6 +858,8 @@ Changes from 5.32 to 5.4
     endposition -> fixed
 -   MediaItem_Takes: GetTakeSourcePosByProjectPos - created additional
     undo points -> fixed
+-   ReaGirl: Ext_IsAnyReaGirlGuiHovered - returns now the
+    guid-script-instance of the hovered ReaGirl-gui-window
 -   ReaGirl: General - stored debug-information into reaper-exstate.ini
     -> fixed
 -   ReaGirl: General - fixed font-sizes and window sizes on Retina-Macs

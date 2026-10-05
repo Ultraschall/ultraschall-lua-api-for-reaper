@@ -266,8 +266,8 @@ end
 reagirl.Gui_AtEnter(button_apply_and_close)
 
 SetUpNewGui()
-color=40
-reagirl.Background_GetSetColor(true,color,color,color)
+--color=40
+--reagirl.Background_GetSetColor(true,color,color,color)
 reagirl.Gui_Open("ReaGirl_Settings", false, "ReaGirl Settings (v."..reagirl.GetVersion()..")", "various settings for ReaGirl-Accessible Guis.", 410, 588, nil, nil, nil)
   
 --reagirl.Window_ForceSize_Minimum(355, 470) -- set the minimum size of the window

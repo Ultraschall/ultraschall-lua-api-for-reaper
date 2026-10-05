@@ -727,12 +727,15 @@ The Reaper/Extension-version itself is also an anchor, that works as a link. So 
 	<table style="padding-left:4%; margin-top:-1.5%;" width="100%" border="0">
 		<tr><td width="25%" style="vertical-align:top;"><a href="ReaGirl_Functions.html#DarkMode_Toggle">DarkMode_Toggle</a></td><td> added to ReaGirl</td></tr>
 		<tr><td width="25%" style="vertical-align:top;"><a href="ReaGirl_Functions.html#DarkMode_Get">DarkMode_Get</a></td><td> added to ReaGirl</td></tr>
-		<tr><td width="25%" style="vertical-align:top;"><a href="ReaGirl_Functions.html#Gui_AtEnter">Gui_AtEnter</a></td><td> RunFunction gets now the currently focused ui-element's element_id as first parameter</td></tr>
+		<tr><td width="25%" style="vertical-align:top;"><a href="ReaGirl_Functions.html#Gui_AtEnter">Gui_AtEnter</a></td><td> RunFunction gets now the currently focused ui-element's element_id as first parameter passed over</td></tr>
+		<tr><td width="25%" style="vertical-align:top;"><a href="ReaGirl_Functions.html#Ext_IsAnyReaGirlGuiHovered">Ext_IsAnyReaGirlGuiHovered</a></td><td> returns now the hovered gui-script-instance-guid as second return value</td></tr>
+		<tr><td width="25%" style="vertical-align:top;"><a href="ReaGirl_Functions.html#AutoPosition_SetNextUIElementAtPosition">AutoPosition_SetNextUIElementAtPosition</a></td><td> added to ReaGirl</td></tr>
 		<tr><td width="25%" style="vertical-align:top;"><a href="ReaGirl_Functions.html#Settings_Global_GetSet">Settings_Global_GetSet</a></td><td> added new option DarkMode</td></tr>
 	</table>
 
 	<h4><a id="ReaGirl 1.32"></a><a href="#ReaGirl 1.32">^ ReaGirl 1.32:</a></h4>
 	<table style="padding-left:4%; margin-top:-1.5%;" width="100%" border="0">
+		<tr><td width="25%" style="vertical-align:top;"><a href="ReaGirl_Functions.html#UI_Element_GetDimension">UI_Element_GetDimension</a></td><td> added to ReaGirl</td></tr>
 		<tr><td width="25%" style="vertical-align:top;"><a href="ReaGirl_Functions.html#Button_Add">Button_Add</a></td><td> added new parameters mode, width and height</td></tr>
 		<tr><td width="25%" style="vertical-align:top;"><a href="ReaGirl_Functions.html#Inputbox_SetText">Inputbox_SetText</a></td><td> added new parameters insert_at_offset and replace_until_offset</td></tr>
 		<tr><td width="25%" style="vertical-align:top;"><a href="ReaGirl_Functions.html#Inputbox_SetSelectedText">Inputbox_SetSelectedText</a></td><td> added to ReaGirl</td></tr>
@@ -757,6 +760,7 @@ The Reaper/Extension-version itself is also an anchor, that works as a link. So 
 		<tr><td width="25%" style="vertical-align:top;"><a href="ReaGirl_Functions.html#Window_SetBorderless">Window_SetBorderless</a></td><td> added to ReaGirl</td></tr>
 		<tr><td width="25%" style="vertical-align:top;"><a href="ReaGirl_Functions.html#Ext_SendEvent">Ext_SendEvent</a></td><td> added to ReaGirl</td></tr>
 		<tr><td width="25%" style="vertical-align:top;"><a href="ReaGirl_Functions.html#Ext_SendEventByID">Ext_SendEventByID</a></td><td> added to ReaGirl</td></tr>
+		<tr><td width="25%" style="vertical-align:top;"><a href="ReaGirl_Functions.html#Ext_Window_Close">Ext_Window_Close</a></td><td> added to ReaGirl</td></tr>
 		<tr><td width="25%" style="vertical-align:top;"><a href="ReaGirl_Functions.html#Checkbox_Add">Checkbox_Add</a></td><td> added new parameter unique_id for a unique identifier</td></tr>
 		<tr><td width="25%" style="vertical-align:top;"><a href="ReaGirl_Functions.html#ColorRectangle_Add">ColorRectangle_Add</a></td><td> added new parameter unique_id for a unique identifier</td></tr>
 		<tr><td width="25%" style="vertical-align:top;"><a href="ReaGirl_Functions.html#Button_Add">Button_Add</a></td><td> added new parameter unique_id for a unique identifier</td></tr>
@@ -800,6 +804,7 @@ The Reaper/Extension-version itself is also an anchor, that works as a link. So 
 		<tr><td width="25%" style="vertical-align:top;"><a href="ReaGirl_Functions.html#Tabs_Add">Tabs_Add</a></td><td> added new parameter unique_id for a unique identifier</td></tr>
 		<tr><td width="25%" style="vertical-align:top;"><a href="ReaGirl_Functions.html#Meter_Add">Meter_Add</a></td><td> added to ReaGirl</td></tr>
 		<tr><td width="25%" style="vertical-align:top;"><a href="ReaGirl_Functions.html#Meter_GetPeak">Meter_GetPeak</a></td><td> added to ReaGirl</td></tr>
+		<tr><td width="25%" style="vertical-align:top;"><a href="ReaGirl_Functions.html#Meter_SetPeak">Meter_SetPeak</a></td><td> added to ReaGirl</td></tr>
 		<tr><td width="25%" style="vertical-align:top;"><a href="ReaGirl_Functions.html#Meter_GetLink">Meter_GetLink</a></td><td> added to ReaGirl</td></tr>
 		<tr><td width="25%" style="vertical-align:top;"><a href="ReaGirl_Functions.html#Meter_GetMode">Meter_GetMode</a></td><td> added to ReaGirl</td></tr>
 		<tr><td width="25%" style="vertical-align:top;"><a href="ReaGirl_Functions.html#Meter_SetOptions">Meter_SetOptions</a></td><td> added to ReaGirl</td></tr>
@@ -814,12 +819,60 @@ The Reaper/Extension-version itself is also an anchor, that works as a link. So 
 
 	<h4><a id="ReaGirl 1.2"></a><a href="#ReaGirl 1.2">^ ReaGirl 1.2:</a></h4>
 	<table style="padding-left:4%; margin-top:-1.5%;" width="100%" border="0">
+		<tr><td width="25%" style="vertical-align:top;"><a href="ReaGirl_Functions.html#Window_GetHWND">Window_GetHWND</a></td><td> added to ReaGirl</td></tr>
+		<tr><td width="25%" style="vertical-align:top;"><a href="ReaGirl_Functions.html#Ext_Window_GetProcessTime">Ext_Window_GetProcessTime</a></td><td> added to ReaGirl</td></tr>
+		<tr><td width="25%" style="vertical-align:top;"><a href="ReaGirl_Functions.html#UI_Element_GetSet_ContextMenu">UI_Element_GetSet_ContextMenu</a></td><td> added to ReaGirl</td></tr>
+		<tr><td width="25%" style="vertical-align:top;"><a href="ReaGirl_Functions.html#UI_Element_GetSetSticky">UI_Element_GetSetSticky</a></td><td> added to ReaGirl</td></tr>
+		<tr><td width="25%" style="vertical-align:top;"><a href="ReaGirl_Functions.html#Gui_GetSetStickyOffset">Gui_GetSetStickyOffset</a></td><td> added to ReaGirl</td></tr>
+		<tr><td width="25%" style="vertical-align:top;"><a href="ReaGirl_Functions.html#DecorRectangle_Add">DecorRectangle_Add</a></td><td> added to ReaGirl</td></tr>
+		<tr><td width="25%" style="vertical-align:top;"><a href="ReaGirl_Functions.html#DecorRectangle_SetColor">DecorRectangle_SetColor</a></td><td> added to ReaGirl</td></tr>
+		<tr><td width="25%" style="vertical-align:top;"><a href="ReaGirl_Functions.html#DecorRectangle_GetColor">DecorRectangle_GetColor</a></td><td> added to ReaGirl</td></tr>
+		<tr><td width="25%" style="vertical-align:top;"><a href="ReaGirl_Functions.html#DecorRectangle_SetEdgeStyle">DecorRectangle_SetEdgeStyle</a></td><td> added to ReaGirl</td></tr>
+		<tr><td width="25%" style="vertical-align:top;"><a href="ReaGirl_Functions.html#DecorRectangle_GetEdgeStyle">DecorRectangle_GetEdgeStyle</a></td><td> added to ReaGirl</td></tr>
+		<tr><td width="25%" style="vertical-align:top;"><a href="ReaGirl_Functions.html#DecorRectangle_GetRadius">DecorRectangle_GetRadius</a></td><td> added to ReaGirl</td></tr>
+		<tr><td width="25%" style="vertical-align:top;"><a href="ReaGirl_Functions.html#DecorRectangle_SetRadius">DecorRectangle_SetRadius</a></td><td> added to ReaGirl</td></tr>
 		<tr><td width="25%" style="vertical-align:top;"><a href="ReaGirl_Functions.html#ColorRectangle_Add">ColorRectangle_Add</a></td><td> added to ReaGirl</td></tr>
+		<tr><td width="25%" style="vertical-align:top;"><a href="ReaGirl_Functions.html#ColorRectangle_SetEdgeStyle">ColorRectangle_SetEdgeStyle</a></td><td> added to ReaGirl</td></tr>
+		<tr><td width="25%" style="vertical-align:top;"><a href="ReaGirl_Functions.html#ColorRectangle_GetEdgeStyle">ColorRectangle_GetEdgeStyle</a></td><td> added to ReaGirl</td></tr>
+		<tr><td width="25%" style="vertical-align:top;"><a href="ReaGirl_Functions.html#ColorRectangle_GetRadius">ColorRectangle_GetRadius</a></td><td> added to ReaGirl</td></tr>
+		<tr><td width="25%" style="vertical-align:top;"><a href="ReaGirl_Functions.html#ColorRectangle_SetRadius">ColorRectangle_SetRadius</a></td><td> added to ReaGirl</td></tr>
+		<tr><td width="25%" style="vertical-align:top;"><a href="ReaGirl_Functions.html#ColorRectangle_GetColor">ColorRectangle_GetColor</a></td><td> added to ReaGirl</td></tr>
+		<tr><td width="25%" style="vertical-align:top;"><a href="ReaGirl_Functions.html#ColorRectangle_SetColor">ColorRectangle_SetColor</a></td><td> added to ReaGirl</td></tr>
+		<tr><td width="25%" style="vertical-align:top;"><a href="ReaGirl_Functions.html#Menu_GetEntryName">Menu_GetEntryName</a></td><td> added to ReaGirl</td></tr>
 		<tr><td width="25%" style="vertical-align:top;"><a href="ReaGirl_Functions.html#Burgermenu_Add">Burgermenu_Add</a></td><td> added to ReaGirl</td></tr>
+		<tr><td width="25%" style="vertical-align:top;"><a href="ReaGirl_Functions.html#Burgermenu_SetMenu">Burgermenu_SetMenu</a></td><td> added to ReaGirl</td></tr>
+		<tr><td width="25%" style="vertical-align:top;"><a href="ReaGirl_Functions.html#Burgermenu_GetMenu">Burgermenu_GetMenu</a></td><td> added to ReaGirl</td></tr>
+		<tr><td width="25%" style="vertical-align:top;"><a href="ReaGirl_Functions.html#Image_GetAutoUpdate">Image_GetAutoUpdate</a></td><td> added to ReaGirl</td></tr>
+		<tr><td width="25%" style="vertical-align:top;"><a href="ReaGirl_Functions.html#Image_SetAutoUpdate">Image_SetAutoUpdate</a></td><td> added to ReaGirl</td></tr>
+		<tr><td width="25%" style="vertical-align:top;"><a href="ReaGirl_Functions.html#Window_GetScrollOffset">Window_GetScrollOffset</a></td><td> added to ReaGirl</td></tr>
 	</table>
 
 	<h4><a id="ReaGirl 1.1"></a><a href="#ReaGirl 1.1">^ ReaGirl 1.1:</a></h4>
 	<table style="padding-left:4%; margin-top:-1.5%;" width="100%" border="0">
+		<tr><td width="25%" style="vertical-align:top;"><a href="ReaGirl_Functions.html#Window_ResizedFunc">Window_ResizedFunc</a></td><td> added to ReaGirl</td></tr>
+		<tr><td width="25%" style="vertical-align:top;"><a href="ReaGirl_Functions.html#Ext_UI_Element_GetHovered">Ext_UI_Element_GetHovered</a></td><td> added to ReaGirl</td></tr>
+		<tr><td width="25%" style="vertical-align:top;"><a href="ReaGirl_Functions.html#Ext_Window_GetInstances">Ext_Window_GetInstances</a></td><td> added to ReaGirl</td></tr>
+		<tr><td width="25%" style="vertical-align:top;"><a href="ReaGirl_Functions.html#Ext_Window_SetState">Ext_Window_SetState</a></td><td> added to ReaGirl</td></tr>
+		<tr><td width="25%" style="vertical-align:top;"><a href="ReaGirl_Functions.html#Ext_Window_Focus">Ext_Window_Focus</a></td><td> added to ReaGirl</td></tr>
+		<tr><td width="25%" style="vertical-align:top;"><a href="ReaGirl_Functions.html#Ext_IsAnyReaGirlGuiHovered">Ext_IsAnyReaGirlGuiHovered</a></td><td> added to ReaGirl</td></tr>
+		<tr><td width="25%" style="vertical-align:top;"><a href="ReaGirl_Functions.html#Gui_Manage">Gui_Manage</a></td><td> added to ReaGirl</td></tr>
+		<tr><td width="25%" style="vertical-align:top;"><a href="ReaGirl_Functions.html#Checkbox_LinkToExtstate">Checkbox_LinkToExtstate</a></td><td> added to ReaGirl</td></tr>
+		<tr><td width="25%" style="vertical-align:top;"><a href="ReaGirl_Functions.html#Checkbox_LinkToIniValue">Checkbox_LinkToIniValue</a></td><td> added to ReaGirl</td></tr>
+		<tr><td width="25%" style="vertical-align:top;"><a href="ReaGirl_Functions.html#Checkbox_LinkToConfigVar">Checkbox_LinkToConfigVar</a></td><td> added to ReaGirl</td></tr>
+		<tr><td width="25%" style="vertical-align:top;"><a href="ReaGirl_Functions.html#Checkbox_LinkToToggleState">Checkbox_LinkToToggleState</a></td><td> added to ReaGirl</td></tr>
+		<tr><td width="25%" style="vertical-align:top;"><a href="ReaGirl_Functions.html#Checkbox_Unlink">Checkbox_Unlink</a></td><td> added to ReaGirl</td></tr>
+		<tr><td width="25%" style="vertical-align:top;"><a href="ReaGirl_Functions.html#Color_EnumerateNames">Color_EnumerateNames</a></td><td> added to ReaGirl</td></tr>
+		<tr><td width="25%" style="vertical-align:top;"><a href="ReaGirl_Functions.html#Color_GetName">Color_GetName</a></td><td> added to ReaGirl</td></tr>
+		<tr><td width="25%" style="vertical-align:top;"><a href="ReaGirl_Functions.html#Color_GetColorValuesByName">Color_GetColorValuesByName</a></td><td> added to ReaGirl</td></tr>
+		<tr><td width="25%" style="vertical-align:top;"><a href="ReaGirl_Functions.html#Gui_GetCurrentScriptInstance">Gui_GetCurrentScriptInstance</a></td><td> added to ReaGirl</td></tr>
+		<tr><td width="25%" style="vertical-align:top;"><a href="ReaGirl_Functions.html#Inputbox_LinkToExtstate">Inputbox_LinkToExtstate</a></td><td> added to ReaGirl</td></tr>
+		<tr><td width="25%" style="vertical-align:top;"><a href="ReaGirl_Functions.html#Inputbox_LinkToIniValue">Inputbox_LinkToIniValue</a></td><td> added to ReaGirl</td></tr>
+		<tr><td width="25%" style="vertical-align:top;"><a href="ReaGirl_Functions.html#Inputbox_LinkToConfigVar">Inputbox_LinkToConfigVar</a></td><td> added to ReaGirl</td></tr>
+		<tr><td width="25%" style="vertical-align:top;"><a href="ReaGirl_Functions.html#Inputbox_Unlink">Inputbox_Unlink</a></td><td> added to ReaGirl</td></tr>
+		<tr><td width="25%" style="vertical-align:top;"><a href="ReaGirl_Functions.html#DropDownMenu_LinkToExtstate">DropDownMenu_LinkToExtstate</a></td><td> added to ReaGirl</td></tr>
+		<tr><td width="25%" style="vertical-align:top;"><a href="ReaGirl_Functions.html#DropDownMenu_LinkToIniValue">DropDownMenu_LinkToIniValue</a></td><td> added to ReaGirl</td></tr>
+		<tr><td width="25%" style="vertical-align:top;"><a href="ReaGirl_Functions.html#DropDownMenu_Unlink">DropDownMenu_Unlink</a></td><td> added to ReaGirl</td></tr>
+		<tr><td width="25%" style="vertical-align:top;"><a href="ReaGirl_Functions.html#Label_GetLabelText">Label_GetLabelText</a></td><td> added to ReaGirl</td></tr>
 		<tr><td width="25%" style="vertical-align:top;"><a href="ReaGirl_Functions.html#Slider_LinkToExtstate">Slider_LinkToExtstate</a></td><td> added to ReaGirl</td></tr>
 		<tr><td width="25%" style="vertical-align:top;"><a href="ReaGirl_Functions.html#Slider_LinkToIniValue">Slider_LinkToIniValue</a></td><td> added to ReaGirl</td></tr>
 		<tr><td width="25%" style="vertical-align:top;"><a href="ReaGirl_Functions.html#Slider_LinkToDoubleConfigVar">Slider_LinkToDoubleConfigVar</a></td><td> added to ReaGirl</td></tr>
@@ -829,15 +882,120 @@ The Reaper/Extension-version itself is also an anchor, that works as a link. So 
 
 	<h4><a id="ReaGirl 1.0"></a><a href="#ReaGirl 1.0">^ ReaGirl 1.0:</a></h4>
 	<table style="padding-left:4%; margin-top:-1.5%;" width="100%" border="0">
+		<tr><td width="25%" style="vertical-align:top;"><a href="ReaGirl_Functions.html#GetVersion">GetVersion</a></td><td> added to ReaGirl</td></tr>
+		<tr><td width="25%" style="vertical-align:top;"><a href="ReaGirl_Functions.html#ReserveImageBuffer">ReserveImageBuffer</a></td><td> added to ReaGirl</td></tr>
+		<tr><td width="25%" style="vertical-align:top;"><a href="ReaGirl_Functions.html#Gui_PreventScrollingForOneCycle">Gui_PreventScrollingForOneCycle</a></td><td> added to ReaGirl</td></tr>
+		<tr><td width="25%" style="vertical-align:top;"><a href="ReaGirl_Functions.html#Gui_PreventCloseViaEscForOneCycle">Gui_PreventCloseViaEscForOneCycle</a></td><td> added to ReaGirl</td></tr>
+		<tr><td width="25%" style="vertical-align:top;"><a href="ReaGirl_Functions.html#Gui_PreventEnterForOneCycle">Gui_PreventEnterForOneCycle</a></td><td> added to ReaGirl</td></tr>
+		<tr><td width="25%" style="vertical-align:top;"><a href="ReaGirl_Functions.html#IsValidGuid">IsValidGuid</a></td><td> added to ReaGirl</td></tr>
+		<tr><td width="25%" style="vertical-align:top;"><a href="ReaGirl_Functions.html#ResizeImageKeepAspectRatio">ResizeImageKeepAspectRatio</a></td><td> added to ReaGirl</td></tr>
+		<tr><td width="25%" style="vertical-align:top;"><a href="ReaGirl_Functions.html#Window_SetFocus">Window_SetFocus</a></td><td> added to ReaGirl</td></tr>
+		<tr><td width="25%" style="vertical-align:top;"><a href="ReaGirl_Functions.html#Mouse_GetCap">Mouse_GetCap</a></td><td> added to ReaGirl</td></tr>
+		<tr><td width="25%" style="vertical-align:top;"><a href="ReaGirl_Functions.html#Gui_AtExit">Gui_AtExit</a></td><td> added to ReaGirl</td></tr>
+		<tr><td width="25%" style="vertical-align:top;"><a href="ReaGirl_Functions.html#Gui_New">Gui_New</a></td><td> added to ReaGirl</td></tr>
+		<tr><td width="25%" style="vertical-align:top;"><a href="ReaGirl_Functions.html#Window_GetCurrentScale">Window_GetCurrentScale</a></td><td> added to ReaGirl</td></tr>
+		<tr><td width="25%" style="vertical-align:top;"><a href="ReaGirl_Functions.html#Window_SetCurrentScale">Window_SetCurrentScale</a></td><td> added to ReaGirl</td></tr>
+		<tr><td width="25%" style="vertical-align:top;"><a href="ReaGirl_Functions.html#Gui_Open">Gui_Open</a></td><td> added to ReaGirl</td></tr>
+		<tr><td width="25%" style="vertical-align:top;"><a href="ReaGirl_Functions.html#Gui_IsOpen">Gui_IsOpen</a></td><td> added to ReaGirl</td></tr>
+		<tr><td width="25%" style="vertical-align:top;"><a href="ReaGirl_Functions.html#Gui_Close">Gui_Close</a></td><td> added to ReaGirl</td></tr>
+		<tr><td width="25%" style="vertical-align:top;"><a href="ReaGirl_Functions.html#Ext_Window_GetState">Ext_Window_GetState</a></td><td> added to ReaGirl</td></tr>
+		<tr><td width="25%" style="vertical-align:top;"><a href="ReaGirl_Functions.html#Ext_Window_ResetToDefault">Ext_Window_ResetToDefault</a></td><td> added to ReaGirl</td></tr>
+		<tr><td width="25%" style="vertical-align:top;"><a href="ReaGirl_Functions.html#Ext_Window_IsOpen">Ext_Window_IsOpen</a></td><td> added to ReaGirl</td></tr>
+		<tr><td width="25%" style="vertical-align:top;"><a href="ReaGirl_Functions.html#Ext_Tab_SetSelected">Ext_Tab_SetSelected</a></td><td> added to ReaGirl</td></tr>
+		<tr><td width="25%" style="vertical-align:top;"><a href="ReaGirl_Functions.html#ScreenReader_SendMessage">ScreenReader_SendMessage</a></td><td> added to ReaGirl</td></tr>
+		<tr><td width="25%" style="vertical-align:top;"><a href="ReaGirl_Functions.html#UI_Element_SetFocusRect">UI_Element_SetFocusRect</a></td><td> added to ReaGirl</td></tr>
+		<tr><td width="25%" style="vertical-align:top;"><a href="ReaGirl_Functions.html#UI_Element_GetFocusRect">UI_Element_GetFocusRect</a></td><td> added to ReaGirl</td></tr>
+		<tr><td width="25%" style="vertical-align:top;"><a href="ReaGirl_Functions.html#UI_Elements_OutsideWindow">UI_Elements_OutsideWindow</a></td><td> added to ReaGirl</td></tr>
+		<tr><td width="25%" style="vertical-align:top;"><a href="ReaGirl_Functions.html#UI_Element_GetType">UI_Element_GetType</a></td><td> added to ReaGirl</td></tr>
+		<tr><td width="25%" style="vertical-align:top;"><a href="ReaGirl_Functions.html#UI_Element_GetSet_DropZoneFunction">UI_Element_GetSet_DropZoneFunction</a></td><td> added to ReaGirl</td></tr>
+		<tr><td width="25%" style="vertical-align:top;"><a href="ReaGirl_Functions.html#UI_Element_GetSetCaption">UI_Element_GetSetCaption</a></td><td> added to ReaGirl</td></tr>
+		<tr><td width="25%" style="vertical-align:top;"><a href="ReaGirl_Functions.html#UI_Element_GetSetVisibility">UI_Element_GetSetVisibility</a></td><td> added to ReaGirl</td></tr>
+		<tr><td width="25%" style="vertical-align:top;"><a href="ReaGirl_Functions.html#UI_Element_GetSetMeaningOfUIElement">UI_Element_GetSetMeaningOfUIElement</a></td><td> added to ReaGirl</td></tr>
+		<tr><td width="25%" style="vertical-align:top;"><a href="ReaGirl_Functions.html#UI_Element_IsElementAtMousePosition">UI_Element_IsElementAtMousePosition</a></td><td> added to ReaGirl</td></tr>
+		<tr><td width="25%" style="vertical-align:top;"><a href="ReaGirl_Functions.html#UI_Element_GetSetPosition">UI_Element_GetSetPosition</a></td><td> added to ReaGirl</td></tr>
+		<tr><td width="25%" style="vertical-align:top;"><a href="ReaGirl_Functions.html#UI_Element_GetSetRunFunction">UI_Element_GetSetRunFunction</a></td><td> added to ReaGirl</td></tr>
+		<tr><td width="25%" style="vertical-align:top;"><a href="ReaGirl_Functions.html#UI_Element_Remove">UI_Element_Remove</a></td><td> added to ReaGirl</td></tr>
 		<tr><td width="25%" style="vertical-align:top;"><a href="ReaGirl_Functions.html#Checkbox_Add">Checkbox_Add</a></td><td> added to ReaGirl</td></tr>
+		<tr><td width="25%" style="vertical-align:top;"><a href="ReaGirl_Functions.html#Checkbox_SetCheckState">Checkbox_SetCheckState</a></td><td> added to ReaGirl</td></tr>
+		<tr><td width="25%" style="vertical-align:top;"><a href="ReaGirl_Functions.html#Checkbox_GetCheckState">Checkbox_GetCheckState</a></td><td> added to ReaGirl</td></tr>
+		<tr><td width="25%" style="vertical-align:top;"><a href="ReaGirl_Functions.html#Checkbox_SetDisabled">Checkbox_SetDisabled</a></td><td> added to ReaGirl</td></tr>
+		<tr><td width="25%" style="vertical-align:top;"><a href="ReaGirl_Functions.html#Checkbox_GetDisabled">Checkbox_GetDisabled</a></td><td> added to ReaGirl</td></tr>
+		<tr><td width="25%" style="vertical-align:top;"><a href="ReaGirl_Functions.html#UI_Element_Last_Element_Current_Position">UI_Element_Last_Element_Current_Position</a></td><td> added to ReaGirl</td></tr>
+		<tr><td width="25%" style="vertical-align:top;"><a href="ReaGirl_Functions.html#NextLine">NextLine</a></td><td> added to ReaGirl</td></tr>
 		<tr><td width="25%" style="vertical-align:top;"><a href="ReaGirl_Functions.html#Button_Add">Button_Add</a></td><td> added to ReaGirl</td></tr>
+		<tr><td width="25%" style="vertical-align:top;"><a href="ReaGirl_Functions.html#Button_SetDisabled">Button_SetDisabled</a></td><td> added to ReaGirl</td></tr>
+		<tr><td width="25%" style="vertical-align:top;"><a href="ReaGirl_Functions.html#Button_GetDisabled">Button_GetDisabled</a></td><td> added to ReaGirl</td></tr>
+		<tr><td width="25%" style="vertical-align:top;"><a href="ReaGirl_Functions.html#Button_GetRadius">Button_GetRadius</a></td><td> added to ReaGirl</td></tr>
+		<tr><td width="25%" style="vertical-align:top;"><a href="ReaGirl_Functions.html#Button_SetRadius">Button_SetRadius</a></td><td> added to ReaGirl</td></tr>
 		<tr><td width="25%" style="vertical-align:top;"><a href="ReaGirl_Functions.html#Inputbox_Add">Inputbox_Add</a></td><td> added to ReaGirl</td></tr>
+		<tr><td width="25%" style="vertical-align:top;"><a href="ReaGirl_Functions.html#Inputbox_SetPassword">Inputbox_SetPassword</a></td><td> added to ReaGirl</td></tr>
+		<tr><td width="25%" style="vertical-align:top;"><a href="ReaGirl_Functions.html#Inputbox_GetPassword">Inputbox_GetPassword</a></td><td> added to ReaGirl</td></tr>
+		<tr><td width="25%" style="vertical-align:top;"><a href="ReaGirl_Functions.html#Inputbox_SetDisabled">Inputbox_SetDisabled</a></td><td> added to ReaGirl</td></tr>
+		<tr><td width="25%" style="vertical-align:top;"><a href="ReaGirl_Functions.html#Inputbox_GetDisabled">Inputbox_GetDisabled</a></td><td> added to ReaGirl</td></tr>
 		<tr><td width="25%" style="vertical-align:top;"><a href="ReaGirl_Functions.html#Inputbox_SetText">Inputbox_SetText</a></td><td> added to ReaGirl</td></tr>
+		<tr><td width="25%" style="vertical-align:top;"><a href="ReaGirl_Functions.html#Inputbox_GetText">Inputbox_GetText</a></td><td> added to ReaGirl</td></tr>
+		<tr><td width="25%" style="vertical-align:top;"><a href="ReaGirl_Functions.html#Inputbox_SetEmptyText">Inputbox_SetEmptyText</a></td><td> added to ReaGirl</td></tr>
 		<tr><td width="25%" style="vertical-align:top;"><a href="ReaGirl_Functions.html#Inputbox_GetSelectedText">Inputbox_GetSelectedText</a></td><td> added to ReaGirl</td></tr>
+		<tr><td width="25%" style="vertical-align:top;"><a href="ReaGirl_Functions.html#Inputbox_GetCursorOffset">Inputbox_GetCursorOffset</a></td><td> added to ReaGirl</td></tr>
 		<tr><td width="25%" style="vertical-align:top;"><a href="ReaGirl_Functions.html#DropDownMenu_Add">DropDownMenu_Add</a></td><td> added to ReaGirl</td></tr>
+		<tr><td width="25%" style="vertical-align:top;"><a href="ReaGirl_Functions.html#DropDownMenu_SetDimensions">DropDownMenu_SetDimensions</a></td><td> added to ReaGirl</td></tr>
+		<tr><td width="25%" style="vertical-align:top;"><a href="ReaGirl_Functions.html#DropDownMenu_GetDimensions">DropDownMenu_GetDimensions</a></td><td> added to ReaGirl</td></tr>
+		<tr><td width="25%" style="vertical-align:top;"><a href="ReaGirl_Functions.html#DropDownMenu_SetDisabled">DropDownMenu_SetDisabled</a></td><td> added to ReaGirl</td></tr>
+		<tr><td width="25%" style="vertical-align:top;"><a href="ReaGirl_Functions.html#DropDownMenu_GetDisabled">DropDownMenu_GetDisabled</a></td><td> added to ReaGirl</td></tr>
+		<tr><td width="25%" style="vertical-align:top;"><a href="ReaGirl_Functions.html#DropDownMenu_GetMenuItems">DropDownMenu_GetMenuItems</a></td><td> added to ReaGirl</td></tr>
+		<tr><td width="25%" style="vertical-align:top;"><a href="ReaGirl_Functions.html#DropDownMenu_SetMenuItems">DropDownMenu_SetMenuItems</a></td><td> added to ReaGirl</td></tr>
+		<tr><td width="25%" style="vertical-align:top;"><a href="ReaGirl_Functions.html#Label_SetLabelText">Label_SetLabelText</a></td><td> added to ReaGirl</td></tr>
+		<tr><td width="25%" style="vertical-align:top;"><a href="ReaGirl_Functions.html#Label_GetFontSize">Label_GetFontSize</a></td><td> added to ReaGirl</td></tr>
+		<tr><td width="25%" style="vertical-align:top;"><a href="ReaGirl_Functions.html#Label_SetFontSize">Label_SetFontSize</a></td><td> added to ReaGirl</td></tr>
+		<tr><td width="25%" style="vertical-align:top;"><a href="ReaGirl_Functions.html#Label_GetAlignement">Label_GetAlignement</a></td><td> added to ReaGirl</td></tr>
+		<tr><td width="25%" style="vertical-align:top;"><a href="ReaGirl_Functions.html#Label_SetAlignment">Label_SetAlignment</a></td><td> added to ReaGirl</td></tr>
+		<tr><td width="25%" style="vertical-align:top;"><a href="ReaGirl_Functions.html#Label_SetStyle">Label_SetStyle</a></td><td> added to ReaGirl</td></tr>
+		<tr><td width="25%" style="vertical-align:top;"><a href="ReaGirl_Functions.html#Label_GetStyle">Label_GetStyle</a></td><td> added to ReaGirl</td></tr>
 		<tr><td width="25%" style="vertical-align:top;"><a href="ReaGirl_Functions.html#Label_Add">Label_Add</a></td><td> added to ReaGirl</td></tr>
+		<tr><td width="25%" style="vertical-align:top;"><a href="ReaGirl_Functions.html#Label_SetBackdrop">Label_SetBackdrop</a></td><td> added to ReaGirl</td></tr>
+		<tr><td width="25%" style="vertical-align:top;"><a href="ReaGirl_Functions.html#Label_AutoBackdrop">Label_AutoBackdrop</a></td><td> added to ReaGirl</td></tr>
+		<tr><td width="25%" style="vertical-align:top;"><a href="ReaGirl_Functions.html#Label_GetBackdrop">Label_GetBackdrop</a></td><td> added to ReaGirl</td></tr>
+		<tr><td width="25%" style="vertical-align:top;"><a href="ReaGirl_Functions.html#Label_GetDraggable">Label_GetDraggable</a></td><td> added to ReaGirl</td></tr>
+		<tr><td width="25%" style="vertical-align:top;"><a href="ReaGirl_Functions.html#Label_SetDraggable">Label_SetDraggable</a></td><td> added to ReaGirl</td></tr>
 		<tr><td width="25%" style="vertical-align:top;"><a href="ReaGirl_Functions.html#Image_Add">Image_Add</a></td><td> added to ReaGirl</td></tr>
+		<tr><td width="25%" style="vertical-align:top;"><a href="ReaGirl_Functions.html#Image_GetDraggable">Image_GetDraggable</a></td><td> added to ReaGirl</td></tr>
+		<tr><td width="25%" style="vertical-align:top;"><a href="ReaGirl_Functions.html#Image_SetDraggable">Image_SetDraggable</a></td><td> added to ReaGirl</td></tr>
+		<tr><td width="25%" style="vertical-align:top;"><a href="ReaGirl_Functions.html#Image_SetDimensions">Image_SetDimensions</a></td><td> added to ReaGirl</td></tr>
+		<tr><td width="25%" style="vertical-align:top;"><a href="ReaGirl_Functions.html#Image_GetDimensions">Image_GetDimensions</a></td><td> added to ReaGirl</td></tr>
+		<tr><td width="25%" style="vertical-align:top;"><a href="ReaGirl_Functions.html#Image_ReloadImage_Scaled">Image_ReloadImage_Scaled</a></td><td> added to ReaGirl</td></tr>
+		<tr><td width="25%" style="vertical-align:top;"><a href="ReaGirl_Functions.html#Image_KeepAspectRatio">Image_KeepAspectRatio</a></td><td> added to ReaGirl</td></tr>
+		<tr><td width="25%" style="vertical-align:top;"><a href="ReaGirl_Functions.html#Image_GetImageFilename">Image_GetImageFilename</a></td><td> added to ReaGirl</td></tr>
+		<tr><td width="25%" style="vertical-align:top;"><a href="ReaGirl_Functions.html#Image_ClearToColor">Image_ClearToColor</a></td><td> added to ReaGirl</td></tr>
+		<tr><td width="25%" style="vertical-align:top;"><a href="ReaGirl_Functions.html#Image_Load">Image_Load</a></td><td> added to ReaGirl</td></tr>
+		<tr><td width="25%" style="vertical-align:top;"><a href="ReaGirl_Functions.html#Background_GetSetColor">Background_GetSetColor</a></td><td> added to ReaGirl</td></tr>
+		<tr><td width="25%" style="vertical-align:top;"><a href="ReaGirl_Functions.html#Gui_ForceRefresh">Gui_ForceRefresh</a></td><td> added to ReaGirl</td></tr>
+		<tr><td width="25%" style="vertical-align:top;"><a href="ReaGirl_Functions.html#Window_ForceSize_Minimum">Window_ForceSize_Minimum</a></td><td> added to ReaGirl</td></tr>
+		<tr><td width="25%" style="vertical-align:top;"><a href="ReaGirl_Functions.html#Window_ForceSize_Maximum">Window_ForceSize_Maximum</a></td><td> added to ReaGirl</td></tr>
+		<tr><td width="25%" style="vertical-align:top;"><a href="ReaGirl_Functions.html#Gui_GetBoundaries">Gui_GetBoundaries</a></td><td> added to ReaGirl</td></tr>
+		<tr><td width="25%" style="vertical-align:top;"><a href="ReaGirl_Functions.html#UI_Element_GetHovered">UI_Element_GetHovered</a></td><td> added to ReaGirl</td></tr>
+		<tr><td width="25%" style="vertical-align:top;"><a href="ReaGirl_Functions.html#UI_Element_GetFocused">UI_Element_GetFocused</a></td><td> added to ReaGirl</td></tr>
+		<tr><td width="25%" style="vertical-align:top;"><a href="ReaGirl_Functions.html#UI_Element_SetFocused">UI_Element_SetFocused</a></td><td> added to ReaGirl</td></tr>
+		<tr><td width="25%" style="vertical-align:top;"><a href="ReaGirl_Functions.html#UI_Element_SetHiddenFromTable">UI_Element_SetHiddenFromTable</a></td><td> added to ReaGirl</td></tr>
+		<tr><td width="25%" style="vertical-align:top;"><a href="ReaGirl_Functions.html#AutoPosition_SetNextUIElementRelativeTo">AutoPosition_SetNextUIElementRelativeTo</a></td><td> added to ReaGirl</td></tr>
 		<tr><td width="25%" style="vertical-align:top;"><a href="ReaGirl_Functions.html#Slider_Add">Slider_Add</a></td><td> added to ReaGirl</td></tr>
+		<tr><td width="25%" style="vertical-align:top;"><a href="ReaGirl_Functions.html#Slider_SetDimensions">Slider_SetDimensions</a></td><td> added to ReaGirl</td></tr>
+		<tr><td width="25%" style="vertical-align:top;"><a href="ReaGirl_Functions.html#Slider_GetDimensions">Slider_GetDimensions</a></td><td> added to ReaGirl</td></tr>
+		<tr><td width="25%" style="vertical-align:top;"><a href="ReaGirl_Functions.html#Slider_SetValue">Slider_SetValue</a></td><td> added to ReaGirl</td></tr>
+		<tr><td width="25%" style="vertical-align:top;"><a href="ReaGirl_Functions.html#Slider_GetValue">Slider_GetValue</a></td><td> added to ReaGirl</td></tr>
+		<tr><td width="25%" style="vertical-align:top;"><a href="ReaGirl_Functions.html#Slider_SetDisabled">Slider_SetDisabled</a></td><td> added to ReaGirl</td></tr>
+		<tr><td width="25%" style="vertical-align:top;"><a href="ReaGirl_Functions.html#Slider_GetDisabled">Slider_GetDisabled</a></td><td> added to ReaGirl</td></tr>
+		<tr><td width="25%" style="vertical-align:top;"><a href="ReaGirl_Functions.html#Slider_SetDefaultValue">Slider_SetDefaultValue</a></td><td> added to ReaGirl</td></tr>
+		<tr><td width="25%" style="vertical-align:top;"><a href="ReaGirl_Functions.html#Slider_GetDefaultValue">Slider_GetDefaultValue</a></td><td> added to ReaGirl</td></tr>
+		<tr><td width="25%" style="vertical-align:top;"><a href="ReaGirl_Functions.html#Slider_SetStartValue">Slider_SetStartValue</a></td><td> added to ReaGirl</td></tr>
+		<tr><td width="25%" style="vertical-align:top;"><a href="ReaGirl_Functions.html#Slider_GetStartValue">Slider_GetStartValue</a></td><td> added to ReaGirl</td></tr>
+		<tr><td width="25%" style="vertical-align:top;"><a href="ReaGirl_Functions.html#Slider_SetEndValue">Slider_SetEndValue</a></td><td> added to ReaGirl</td></tr>
+		<tr><td width="25%" style="vertical-align:top;"><a href="ReaGirl_Functions.html#Slider_GetEndValue">Slider_GetEndValue</a></td><td> added to ReaGirl</td></tr>
+		<tr><td width="25%" style="vertical-align:top;"><a href="ReaGirl_Functions.html#Slider_ResetToDefaultValue">Slider_ResetToDefaultValue</a></td><td> added to ReaGirl</td></tr>
 		<tr><td width="25%" style="vertical-align:top;"><a href="ReaGirl_Functions.html#Tabs_Add">Tabs_Add</a></td><td> added to ReaGirl</td></tr>
+		<tr><td width="25%" style="vertical-align:top;"><a href="ReaGirl_Functions.html#Tabs_SetSelected">Tabs_SetSelected</a></td><td> added to ReaGirl</td></tr>
+		<tr><td width="25%" style="vertical-align:top;"><a href="ReaGirl_Functions.html#Tabs_SetUIElementsForTab">Tabs_SetUIElementsForTab</a></td><td> added to ReaGirl</td></tr>
+		<tr><td width="25%" style="vertical-align:top;"><a href="ReaGirl_Functions.html#Tabs_GetSelected">Tabs_GetSelected</a></td><td> added to ReaGirl</td></tr>
+		<tr><td width="25%" style="vertical-align:top;"><a href="ReaGirl_Functions.html#Base64_Encoder">Base64_Encoder</a></td><td> added to ReaGirl</td></tr>
+		<tr><td width="25%" style="vertical-align:top;"><a href="ReaGirl_Functions.html#Base64_Decoder">Base64_Decoder</a></td><td> added to ReaGirl</td></tr>
 	</table></div>
 <hr width="80%"></body></html>
