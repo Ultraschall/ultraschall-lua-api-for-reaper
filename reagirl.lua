@@ -2661,6 +2661,11 @@ reagirl.ColorName[#reagirl.ColorName+1]="Zombie Green"
 reagirl.DarkMode=true
 
 reagirl.Colors={}
+reagirl.Colors.Gui_FocusRectangle_Color_r=0.7
+reagirl.Colors.Gui_FocusRectangle_Color_g=0.7
+reagirl.Colors.Gui_FocusRectangle_Color_b=0.7
+reagirl.Colors.Gui_FocusRectangle_Color_a=0.8
+
 reagirl.Colors.Gui_Background_Color_r=0.2156862745098
 reagirl.Colors.Gui_Background_Color_g=0.2156862745098
 reagirl.Colors.Gui_Background_Color_b=0.2156862745098
@@ -2964,6 +2969,10 @@ reagirl.Bright_Colors.DropDownMenu_Circle_r=0.45
 reagirl.Bright_Colors.Gui_Background_Color_b=0.9
 reagirl.Bright_Colors.Gui_Background_Color_g=0.9
 reagirl.Bright_Colors.Gui_Background_Color_r=0.9
+reagirl.Bright_Colors.Gui_FocusRectangle_Color_r=0.5
+reagirl.Bright_Colors.Gui_FocusRectangle_Color_g=0.5
+reagirl.Bright_Colors.Gui_FocusRectangle_Color_b=0.5
+reagirl.Bright_Colors.Gui_FocusRectangle_Color_a=0.8
 reagirl.Bright_Colors.InputBox_CaptionBG_b=0.8
 reagirl.Bright_Colors.InputBox_CaptionBG_g=0.8
 reagirl.Bright_Colors.InputBox_CaptionBG_r=0.8
@@ -3111,6 +3120,12 @@ reagirl.Dark_Colors.Burgermenu_Area_r=0.274
 reagirl.Dark_Colors.Burgermenu_Stripes_b=0.55
 reagirl.Dark_Colors.Burgermenu_Stripes_g=0.55
 reagirl.Dark_Colors.Burgermenu_Stripes_r=0.55
+reagirl.Dark_Colors.Burgermenu_Border1_r=0.59607843137255
+reagirl.Dark_Colors.Burgermenu_Border1_g=0.59607843137255
+reagirl.Dark_Colors.Burgermenu_Border1_b=0.59607843137255
+reagirl.Dark_Colors.Burgermenu_Border2_r=0.59607843137255
+reagirl.Dark_Colors.Burgermenu_Border2_g=0.59607843137255
+reagirl.Dark_Colors.Burgermenu_Border2_b=0.59607843137255
 reagirl.Dark_Colors.Buttons_Area_b=0.274
 reagirl.Dark_Colors.Buttons_Area_g=0.274
 reagirl.Dark_Colors.Buttons_Area_r=0.274
@@ -3180,6 +3195,10 @@ reagirl.Dark_Colors.DropDownMenu_Circle_r=0.45
 reagirl.Dark_Colors.Gui_Background_Color_b=0.2156862745098
 reagirl.Dark_Colors.Gui_Background_Color_g=0.2156862745098
 reagirl.Dark_Colors.Gui_Background_Color_r=0.2156862745098
+reagirl.Dark_Colors.Gui_FocusRectangle_Color_r=0.7
+reagirl.Dark_Colors.Gui_FocusRectangle_Color_g=0.7
+reagirl.Dark_Colors.Gui_FocusRectangle_Color_b=0.7
+reagirl.Dark_Colors.Gui_FocusRectangle_Color_a=0.8
 reagirl.Dark_Colors.InputBox_CaptionBG_b=0.2
 reagirl.Dark_Colors.InputBox_CaptionBG_g=0.2
 reagirl.Dark_Colors.InputBox_CaptionBG_r=0.2
@@ -8482,7 +8501,8 @@ function reagirl.Gui_Draw(Key, Key_utf, clickstate, specific_clickstate, mouse_c
           local r,g,b,a=gfx.r,gfx.g,gfx.b,gfx.a
           local dest=gfx.dest
           gfx.dest=-1
-          gfx.set(0.7,0.7,0.7,0.8)
+          --gfx.set(0.7,0.7,0.7,0.8)
+          gfx.set(reagirl.Colors.Gui_FocusRectangle_Color_r, reagirl.Colors.Gui_FocusRectangle_Color_g, reagirl.Colors.Gui_FocusRectangle_Color_b, reagirl.Colors.Gui_FocusRectangle_Color_a)
           local _,_,_,_,x,y,w,h=reagirl.UI_Element_GetFocusRect()
           --print_update(scale, x, y, w, h, reagirl.Font_Size)
           if reagirl.Focused_Rect_Override==nil then

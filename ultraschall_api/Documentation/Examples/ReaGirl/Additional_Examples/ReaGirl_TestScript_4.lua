@@ -59,7 +59,7 @@
   
   tab1.label_styled=reagirl.Label_Add(nil, nil, "Styled label", "A styled label.", false, nil)
   reagirl.Label_SetStyle(tab1.label_styled, 7, 2, 0) -- set to inverted and italic
-
+  
   reagirl.NextLine()
   tab1.label_small=reagirl.Label_Add(nil, nil, "different", "Label with small font-size.", false, nil)
   reagirl.Label_SetFontSize(tab1.label_small, 10) -- set to small font-size
