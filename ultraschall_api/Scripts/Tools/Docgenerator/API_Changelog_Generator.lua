@@ -6,13 +6,14 @@ found_usdocblocs, all_found_usdocblocs = ultraschall.Docs_GetAllUSDocBlocsFromSt
 
 --ultraschall.Docs_LoadUltraschallAPIDocBlocs()
 
-function ChangelogDoer(tellme, where)
+function ChangelogDoer(tellme, where, what)
   if where==nil then where="Reaper_Api_Documentation.html" end
   CHANGELOG_FINAL=CHANGELOG_FINAL..[[<hr width="80%">
   
   <div style="width:80%; padding-left:14%;">
-  <h3><a id="]]..tellme..[[_API_Changes">]]..tellme..[[ API Changes</a><br></h3>
+  <h3><a id="]]..string.gsub(what, " ", "_")..[[_Changes">]]..what..[[ Changes</a><br></h3>
   ]]
+  
   REAPER_CHLOGS2={}
   
   for k, v in pairs(REAPER_CHLOGS) do
@@ -96,6 +97,7 @@ This page lists all changes made in the API of Reaper and various extensions ava
 The Reaper/Extension-version itself is also an anchor, that works as a link. So forum's-linking to the specific changelog of a Reaper/Extension-version is possible as well.<p>
 
   <a href="#Reaper_API_Changes">Reaper API Changes</a><br>
+  <a href="#Reaper_Config_Variables_Changes">Reaper Config Variables Changes</a><br>
   <br>
   <a href="#SWS_API_Changes">SWS API Changes</a><br>
   <a href="#JS_Extension_API_Changes">JS Extension API Changes</a><br>
@@ -113,18 +115,75 @@ The Reaper/Extension-version itself is also an anchor, that works as a link. So 
 ]]
 --]]
 
-ChangelogDoer("Reaper")
-ChangelogDoer("SWS")
-ChangelogDoer("JS")
-ChangelogDoer("ReaPack")
-ChangelogDoer("ReaImGui")
-ChangelogDoer("Osara")
-ChangelogDoer("ReaBlink")
-ChangelogDoer("ReaLLM")
-ChangelogDoer("ReaFab")
-ChangelogDoer("ReaMCULive")
-ChangelogDoer("PeloReaper")
+ChangelogDoer("Reaper", nil, "Reaper_API")
+
+USDOCBLOCS = ultraschall.ReadFullFile(reaper.GetResourcePath().."/UserPlugins/ultraschall_api/DocsSourcefiles/Reaper_Config_Variables.USDocML")
+found_usdocblocs, all_found_usdocblocs = ultraschall.Docs_GetAllUSDocBlocsFromString(USDOCBLOCS)
+
+REAPER_CHLOGS={}
+
+for i=1, found_usdocblocs do
+  print(all_found_usdocblocs[i])
+  changelogscount, changelogs = ultraschall.Docs_GetUSDocBloc_Changelog(all_found_usdocblocs[i], true, 1)
+  title = ultraschall.Docs_GetUSDocBloc_Title(all_found_usdocblocs[i], 1)
+  slug = ultraschall.Docs_GetUSDocBloc_Slug(all_found_usdocblocs[i])
+  if changelogscount>0 then 
+    for a=1, changelogscount do
+      --print_alt("AAA",slug, changelogs[a][1], changelogs[a][2])
+      if REAPER_CHLOGS[changelogs[a][1]]==nil then
+        REAPER_CHLOGS[changelogs[a][1]]={}
+      end
+      REAPER_CHLOGS[changelogs[a][1]][#REAPER_CHLOGS[changelogs[a][1]]+1]=slug..":"..title..": "..changelogs[a][2]
+    end
+  end
+end
+
+ChangelogDoer("Reaper", "Reaper_Config_Variables.html", "Reaper Config Variables")
+
+for k, v in pairs(REAPER_CHLOGS) do
+  table.sort(v)
+end
+
+USDOCBLOCS = ultraschall.ReadFullFile(reaper.GetResourcePath().."/UserPlugins/ultraschall_api/DocsSourcefiles/Reaper_Api_Documentation.USDocML")
+found_usdocblocs, all_found_usdocblocs = ultraschall.Docs_GetAllUSDocBlocsFromString(USDOCBLOCS)
+
+REAPER_CHLOGS={}
+
+for i=1, found_usdocblocs do
+  print(all_found_usdocblocs[i])
+  changelogscount, changelogs = ultraschall.Docs_GetUSDocBloc_Changelog(all_found_usdocblocs[i], true, 1)
+  title = ultraschall.Docs_GetUSDocBloc_Title(all_found_usdocblocs[i], 1)
+  slug = ultraschall.Docs_GetUSDocBloc_Slug(all_found_usdocblocs[i])
+  if changelogscount>0 then 
+    for a=1, changelogscount do
+      --print_alt("AAA",slug, changelogs[a][1], changelogs[a][2])
+      if REAPER_CHLOGS[changelogs[a][1]]==nil then
+        REAPER_CHLOGS[changelogs[a][1]]={}
+      end
+      REAPER_CHLOGS[changelogs[a][1]][#REAPER_CHLOGS[changelogs[a][1]]+1]=slug..":"..title..": "..changelogs[a][2]
+    end
+  end
+end
+
+
+for k, v in pairs(REAPER_CHLOGS) do
+  table.sort(v)
+end
+
+
+
+ChangelogDoer("SWS", nil, "SWS API")
+ChangelogDoer("JS", nil, "JS Extension API")
+ChangelogDoer("ReaPack", nil, "ReaPack API")
+ChangelogDoer("ReaImGui", nil, "ReaImGui API")
+ChangelogDoer("Osara", nil, "Osara API")
+ChangelogDoer("ReaBlink", nil, "ReaBlink API")
+ChangelogDoer("ReaLLM", nil, "ReaLLM API")
+ChangelogDoer("ReaFab", nil, "ReaFab API")
+ChangelogDoer("ReaMCULive", nil, "ReaMCULive API")
+ChangelogDoer("PeloReaper", nil, "PeloReaper API")
 --]]
+
 USDOCBLOCS = ultraschall.ReadFullFile(reaper.GetResourcePath().."/UserPlugins/reagirl.lua")
 found_usdocblocs, all_found_usdocblocs = ultraschall.Docs_GetAllUSDocBlocsFromString(USDOCBLOCS)
 REAPER_CHLOGS={}
@@ -145,7 +204,8 @@ for i=1, found_usdocblocs do
     end
   end
 end
-ChangelogDoer("ReaGirl", "ReaGirl_Functions.html")
+
+ChangelogDoer("ReaGirl", "ReaGirl_Functions.html", "ReaGirl API")
 
 
 CHANGELOG_FINAL=CHANGELOG_FINAL.."<hr width=\"80%\"></body></html>"
@@ -153,4 +213,3 @@ CHANGELOG_FINAL=CHANGELOG_FINAL.."<hr width=\"80%\"></body></html>"
 ultraschall.WriteValueToFile(reaper.GetResourcePath().."/UserPlugins/ultraschall_api/Documentation/API_Changelog.html", CHANGELOG_FINAL)
 
 --reaper.CF_ShellExecute(reaper.GetResourcePath().."/UserPlugins/ultraschall_api/Documentation/API_Changelog.html")
-

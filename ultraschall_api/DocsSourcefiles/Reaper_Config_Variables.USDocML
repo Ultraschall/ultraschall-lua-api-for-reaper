@@ -91,6 +91,10 @@
       </chapter_context>
       <source_document>Reaper_Config_Variables.USDocML</source_document>
       <target_document>Reaper_Config_Variables</target_document>  
+        <changelog>
+          Reaper 7.99 - Bla
+          Reaper 7.98 - Blub
+        </changelog>
     </US_DocBloc>  
   
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">  

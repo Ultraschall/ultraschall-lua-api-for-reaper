@@ -36,6 +36,7 @@ This page lists all changes made in the API of Reaper and various extensions ava
 The Reaper/Extension-version itself is also an anchor, that works as a link. So forum's-linking to the specific changelog of a Reaper/Extension-version is possible as well.<p>
 
   <a href="#Reaper_API_Changes">Reaper API Changes</a><br>
+  <a href="#Reaper_Config_Variables_Changes">Reaper Config Variables Changes</a><br>
   <br>
   <a href="#SWS_API_Changes">SWS API Changes</a><br>
   <a href="#JS_Extension_API_Changes">JS Extension API Changes</a><br>
@@ -53,13 +54,21 @@ The Reaper/Extension-version itself is also an anchor, that works as a link. So 
 <hr width="80%">
   
   <div style="width:80%; padding-left:14%;">
-  <h3><a id="Reaper_API_Changes">Reaper API Changes</a><br></h3>
+  <h3><a id="Reaper_API_Changes">Reaper_API Changes</a><br></h3>
   
 
 	<h4><a id="Reaper 7.70"></a><a href="#Reaper 7.70">^ Reaper 7.70:</a></h4>
 	<table style="padding-left:4%; margin-top:-1.5%;" width="100%" border="0">
 		<tr><td width="25%" style="vertical-align:top;"><a href="Reaper_Api_Documentation.html#eel_gfx_setfont">gfx_setfont</a></td><td> font-sizes are now identical on all platforms(used to need font_size*.8 on Mac)</td></tr>
 		<tr><td width="25%" style="vertical-align:top;"><a href="Reaper_Api_Documentation.html#lua_gfx.setfont">gfx.setfont</a></td><td> font-sizes are now identical on all platforms(used to need font_size*.8 on Mac)</td></tr>
+	</table>
+
+	<h4><a id="Reaper 7.40"></a><a href="#Reaper 7.40">^ Reaper 7.40:</a></h4>
+	<table style="padding-left:4%; margin-top:-1.5%;" width="100%" border="0">
+		<tr><td width="25%" style="vertical-align:top;"><a href="Reaper_Api_Documentation.html#CrossfadeEditor_OnCommand">CrossfadeEditor_OnCommand</a></td><td> added to API</td></tr>
+		<tr><td width="25%" style="vertical-align:top;"><a href="Reaper_Api_Documentation.html#CrossfadeEditor_Show">CrossfadeEditor_Show</a></td><td> added to API</td></tr>
+		<tr><td width="25%" style="vertical-align:top;"><a href="Reaper_Api_Documentation.html#GetSetProjectInfo">GetSetProjectInfo</a></td><td> RENDER_FORMAT got new settings &4096=render razor edits, &8192=pre-fader stems (not if via master), &16384=only stem channels sent to parent, &32768=preserve source metadata if possible, &(1&lt;&lt;16)=preserve source start offset if possible, &(2&lt;&lt;16)=preserve source media sample rate if possible, &(4&lt;&lt;16)=if rendering selected items or razor edits, render as a single file, &(8&lt;&lt;16)=parallel render via master</td></tr>
+		<tr><td width="25%" style="vertical-align:top;"><a href="Reaper_Api_Documentation.html#TrackFX_GetNamedConfigParm">TrackFX_GetNamedConfigParm</a></td><td> added support for is_instrument</td></tr>
 	</table>
 
 	<h4><a id="Reaper 7.39"></a><a href="#Reaper 7.39">^ Reaper 7.39:</a></h4>
@@ -585,8 +594,29 @@ The Reaper/Extension-version itself is also an anchor, that works as a link. So 
 <hr width="80%">
   
   <div style="width:80%; padding-left:14%;">
+  <h3><a id="Reaper_Config_Variables_Changes">Reaper Config Variables Changes</a><br></h3>
+  
+
+	<h4><a id="Reaper 7.99"></a><a href="#Reaper 7.99">^ Reaper 7.99:</a></h4>
+	<table style="padding-left:4%; margin-top:-1.5%;" width="100%" border="0">
+		<tr><td width="25%" style="vertical-align:top;"><a href="Reaper_Config_Variables.html#Introduction">Introduction to Config Variables</a></td><td> Bla</td></tr>
+	</table>
+
+	<h4><a id="Reaper 7.98"></a><a href="#Reaper 7.98">^ Reaper 7.98:</a></h4>
+	<table style="padding-left:4%; margin-top:-1.5%;" width="100%" border="0">
+		<tr><td width="25%" style="vertical-align:top;"><a href="Reaper_Config_Variables.html#Introduction">Introduction to Config Variables</a></td><td> Blub</td></tr>
+	</table></div>
+<hr width="80%">
+  
+  <div style="width:80%; padding-left:14%;">
   <h3><a id="SWS_API_Changes">SWS API Changes</a><br></h3>
   
+
+	<h4><a id="SWS 2.14.0.4"></a><a href="#SWS 2.14.0.4">^ SWS 2.14.0.4:</a></h4>
+	<table style="padding-left:4%; margin-top:-1.5%;" width="100%" border="0">
+		<tr><td width="25%" style="vertical-align:top;"><a href="Reaper_Api_Documentation.html#BR_GetMouseCursorContext_EnvelopeEx">BR_GetMouseCursorContext_EnvelopeEx</a></td><td> added to API</td></tr>
+		<tr><td width="25%" style="vertical-align:top;"><a href="Reaper_Api_Documentation.html#CF_SetTcpScroll">CF_SetTcpScroll</a></td><td> added to API</td></tr>
+	</table>
 
 	<h4><a id="SWS 2.14.0.3"></a><a href="#SWS 2.14.0.3">^ SWS 2.14.0.3:</a></h4>
 	<table style="padding-left:4%; margin-top:-1.5%;" width="100%" border="0">
@@ -650,7 +680,7 @@ The Reaper/Extension-version itself is also an anchor, that works as a link. So 
 <hr width="80%">
   
   <div style="width:80%; padding-left:14%;">
-  <h3><a id="JS_API_Changes">JS API Changes</a><br></h3>
+  <h3><a id="JS_Extension_API_Changes">JS Extension API Changes</a><br></h3>
   
 
 	<h4><a id="JS 1.301"></a><a href="#JS 1.301">^ JS 1.301:</a></h4>
@@ -677,12 +707,22 @@ The Reaper/Extension-version itself is also an anchor, that works as a link. So 
   
   <div style="width:80%; padding-left:14%;">
   <h3><a id="Osara_API_Changes">Osara API Changes</a><br></h3>
-  </div>
+  
+
+	<h4><a id="Osara 2024"></a><a href="#Osara 2024">^ Osara 2024:</a></h4>
+	<table style="padding-left:4%; margin-top:-1.5%;" width="100%" border="0">
+		<tr><td width="25%" style="vertical-align:top;"><a href="Reaper_Api_Documentation.html#osara_getVersion">osara_getVersion</a></td><td> added to API</td></tr>
+	</table></div>
 <hr width="80%">
   
   <div style="width:80%; padding-left:14%;">
   <h3><a id="ReaBlink_API_Changes">ReaBlink API Changes</a><br></h3>
   
+
+	<h4><a id="ReaBlink 0.5.0"></a><a href="#ReaBlink 0.5.0">^ ReaBlink 0.5.0:</a></h4>
+	<table style="padding-left:4%; margin-top:-1.5%;" width="100%" border="0">
+		<tr><td width="25%" style="vertical-align:top;"><a href="Reaper_Api_Documentation.html#Blink_SetPuppet">Blink_SetPuppet(Blink)</a></td><td> added to API</td></tr>
+	</table>
 
 	<h4><a id="ReaBlink 0.4.4"></a><a href="#ReaBlink 0.4.4">^ ReaBlink 0.4.4:</a></h4>
 	<table style="padding-left:4%; margin-top:-1.5%;" width="100%" border="0">
